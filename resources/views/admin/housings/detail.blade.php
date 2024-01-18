@@ -131,14 +131,6 @@
                           </div>
                       </div>
                     </div>
-                    <div class="col-12 col-sm-6 col-xl-12">
-                        <div class="mb-4">
-                          <div class="d-flex flex-wrap mb-2">
-                            <h5 class="mb-0 text-1000 me-2">Adresini Yazınız</h5>
-                          </div>
-                          <p>{{$housing->address}}</p>
-                        </div>
-                    </div>
                   </div>
                 </div>
               </div>

@@ -756,6 +756,8 @@ class HomeController extends Controller
                     $query->orWhereHas('county', function ($countyQuery) use ($term) {
                         $countyQuery->where('title', 'LIKE', "%{$term}%");
                     });
+                    $query->orWhere('id', '=', (int)$term - 2000000);
+                    
                 })
                 ->get() 
                 ->map(function ($item) {
@@ -766,13 +768,15 @@ class HomeController extends Controller
                     ];
                 }),
             
+                
 
                     'projects' => Project::where('status', 1)
                     ->where(function ($query) use ($term) {
                         $query->where('project_title', 'LIKE', "%{$term}%")
                             ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                             ->orWhere('step2_slug', 'LIKE', "%{$term}%")
-                            ->orWhere('description', 'LIKE', "%{$term}%");
+                            ->orWhere('description', 'LIKE', "%{$term}%")
+                            ->orWhere('id', '=', (int)$term - 10000000);
                     })
                     ->orWhereHas('city', function ($query) use ($term) {
                         $query->where('title', 'LIKE', "%{$term}%");
@@ -853,6 +857,7 @@ class HomeController extends Controller
             $query->orWhereHas('county', function ($countyQuery) use ($term) {
                 $countyQuery->where('title', 'LIKE', "%{$term}%");
             });
+            $query->orWhere('housings.id', '=', (int)$term - 2000000);
         })
         ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
@@ -870,7 +875,9 @@ class HomeController extends Controller
                     $query->where('project_title', 'LIKE', "%{$term}%")
                         ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                         ->orWhere('step2_slug', 'LIKE', "%{$term}%")
-                        ->orWhere('description', 'LIKE', "%{$term}%");
+                        ->orWhere('description', 'LIKE', "%{$term}%")
+                        ->orWhere('id', '=', (int)$term - 10000000);
+
                 })
                 ->orWhereHas('city', function ($query) use ($term) {
                     $query->where('title', 'LIKE', "%{$term}%");

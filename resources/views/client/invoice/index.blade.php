@@ -112,7 +112,7 @@
                                             </tr>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end fw-bold">%1 Kapora Tutarı</td>
+                                                <td colspan="3" class="text-end fw-bold">%2 Kapora Tutarı</td>
                                                 <td class="text-right fw-bold">
                                                     <strong style="font-weight: 600 !important">{{ $data['invoice']['order']['amount'] }} ₺</strong>
                                                 </td>

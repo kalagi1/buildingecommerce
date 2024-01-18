@@ -103,7 +103,7 @@
                                     <th scope="col">Sipariş</th>
 
                                     <th>Ara Tutar</th>
-                                    <th scope="col">%1 Kapora Tutarı</th>
+                                    <th scope="col">%2 Kapora Tutarı</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>

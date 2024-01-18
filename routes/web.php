@@ -211,8 +211,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
     Route::post('/upload-endpoint', [UserController::class, "upload"])->name("ckeditor.upload");
-
+    
     Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
+    Route::get('/accounting', [InfoController::class, 'accounting'])->name('accounting');
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
@@ -267,6 +268,13 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
         Route::get('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
         Route::get('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
+
+        Route::get('/share/approve/{share}', [AdminHomeController::class, 'approveShare'])->name('approve-share');
+        Route::get('/share/unapprove/{share}', [AdminHomeController::class, 'unapproveShare'])->name('unapprove-share');
+
+
+        Route::get('/price/approve/{price}', [AdminHomeController::class, 'approvePrice'])->name('approve-price');
+        Route::get('/price/unapprove/{price}', [AdminHomeController::class, 'unapprovePrice'])->name('unapprove-price');
 
 
         Route::get('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
@@ -694,8 +702,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
     Route::get('/coupon_destroy/{user_id}', [EstateClubController::class,"destroy"])->name('estate.coupon.destroy');
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
-    Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
-    Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
+    Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
+Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
 
     Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
     Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');

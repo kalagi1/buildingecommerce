@@ -2,15 +2,209 @@
 
 @section('content')
     <div class="content">
-        <div class="card border mb-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
-            <div class="card-header border-bottom bg-body">
-                <div class="row flex-between-center g-2">
-                    <div class="col-auto">
-                        <h4 class="mb-0">{{ $collection->name }}</h4>
+        <div class="card border mb-3 mt-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
+
+            <div class="card-body">
+                <div class="row project-filter-reverse blog-pots" style="width: 100%">
+                    <div class="table-responsive">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%">İlan No</th>
+                                    <th style="width: 10%">Kapak Fotoğrafı</th>
+                                    <th style="width: 35%">İlan Başlığı</th>
+                                    <th style="width: 10%">Fiyat</th>
+                                    <th style="width: 15%">Kazanç</th>
+
+                                    <th style="width: 5%"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="collection-title">
+                                @foreach ($mergedItems as $item)
+                                    <tr>
+                                        <td>
+                                            {{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+
+                                        </td>
+
+                                        <td>
+                                            <a
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
+                                                    alt="home-1" class="img-responsive"
+                                                    style="height: 70px !important; object-fit: cover;width:100px">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
+                                            <br>
+                                            @if ($item['item_type'] == 1)
+                                                {!! $item['room_order'] . " No'lu Daire <br>" !!}
+                                            @endif <span style="font-size: 12px;font-weight:700">
+                                                {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
+                                                <br>
+                                            </span>
+                                        </td>
+                                        <td>
+
+
+                                            @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                @if (
+                                                    $item['item_type'] == 2 &&
+                                                        isset(json_decode($item['housing']['housing_type_data'])->{'discount_rate'}[0]) &&
+                                                        json_decode($item['housing']['housing_type_data'])->{'discount_rate'}[0]
+                                                )
+                                                    @php
+                                                        $discountRate = json_decode($item['housing']['housing_type_data'])->{'discount_rate'}[0];
+                                                        $discountedPrice = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'] - ((json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount']) * $discountRate) / 100;
+                                                    @endphp
+                                                @elseif (
+                                                    $item['item_type'] == 1 &&
+                                                        isset($item['project_values']['discount_rate[]']) &&
+                                                        $item['project_values']['discount_rate[]']
+                                                )
+                                                    @php
+                                                        $discountRate = $item['project_values']['discount_rate[]'];
+                                                        $discountedPrice = $item['project_values']['price[]'] - $item['discount_amount'] - (($item['project_values']['price[]'] - $item['discount_amount']) * $discountRate) / 100;
+                                                    @endphp
+                                                @endif
+
+                                                @if (isset($discountedPrice))
+                                                    <span style="color: green;">
+                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                    </span><br>
+                                                    <del style="color: red;">
+                                                        {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                        ₺
+                                                    </del>
+                                                @else
+                                                    <span style="color: green; font-size:15px !important">
+                                                        {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                        ₺
+                                                    </span>
+                                                @endif
+                                            @else
+                                                @if ($item['action'] == 'payment_await')
+                                                    <span style="color:orange;font-weight:600">Rezerve Edildi</span>
+                                                @else
+                                                    <span tyle="color:red;font-weight:600">Satıldı</span>
+                                                @endif
+                                            @endif
+
+
+                                        </td>
+                                        <td>
+                                            @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                @if ($item['item_type'] == 2)
+                                                    @php
+                                                        $sharePercent = 0.5;
+                                                        $discountedPrice = isset($discountedPrice) ? $discountedPrice : json_decode($item['housing']['housing_type_data'])->price[0];
+                                                        $earningAmount = number_format($discountedPrice * 0.02, 0, ',', '.') * $sharePercent;
+                                                    @endphp
+                                                    <strong style="color: #e54242">
+
+                                                        {{ $earningAmount }} ₺
+                                                    </strong>
+                                                @elseif ($item['item_type'] == 1)
+                                                    @php
+                                                        $sharePercent = 0.5;
+                                                        $discountedPrice = isset($discountedPrice) ? $discountedPrice : $item['project_values']['price[]'];
+                                                        $earningAmount = number_format($discountedPrice * 0.02, 0, ',', '.') * $sharePercent;
+                                                    @endphp
+                                                    <strong style="color: #e54242">
+                                                        {{ $earningAmount }} ₺
+                                                    </strong>
+                                                @endif
+                                            @else
+                                                @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
+                                                    <strong style="color: orange">
+                                                        <span>Komisyon Onayınız Bekleniyor:</span><br>
+                                                        {{ $item['share_price']['balance'] }} ₺
+                                                    </strong>
+                                                @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
+                                                    <strong style="color: green">
+                                                        <span>Komisyon Kazancınız:</span><br>
+                                                        {{ $item['share_price']['balance'] }} ₺
+                                                    </strong>
+                                                @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
+                                                    <strong style="color: red">
+                                                        <span>Komisyon Kazancınız Reddedildi:</span><br>
+                                                        {{ $item['share_price']['balance'] }} ₺
+                                                    </strong>
+                                                @else
+                                                    -
+                                                @endif
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            <button class="btn btn-info remove-from-collection" style="float: right"
+                                                data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
+                                                data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
+                                                @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
+                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                    stroke-width="2" fill="none" stroke-linecap="round"
+                                                    stroke-linejoin="round" class="css-i6dzq1">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path
+                                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                        @if ($item['item_type'] == 2)
+                                            <tr style="background-color: #8080802e">
+                                                <td colspan="6">
+                                                    <span style="color: #e54242">
+                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+                                                        Numaralı İlan İçin:
+                                                        Bu satıştan kaporanın
+                                                        %50'si
+                                                        oranında kazanç elde edeceksiniz.
+                                                        <strong>Link aracılığıyla satın alan emlak sepette üyelerine
+
+                                                            %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
+                                                            indirim uygulanacaktır.</strong>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @elseif (
+                                            ($item['item_type'] == 1 &&
+                                                isset($item['project_values']['share-percent[]']) &&
+                                                $item['project_values']['share-percent[]'] != 0) ||
+                                                null)
+                                            <tr style="background-color: #8080802e">
+                                                <td colspan="6">
+                                                    <span style="color: #e54242">
+                                                        #{{ $item['project']->id + 10000000 }}
+                                                        Numaralı İlan İçin:
+                                                        Bu satıştan kaporanın
+                                                        %50'si
+                                                        oranında kazanç elde edeceksiniz.
+                                                        <strong>Link aracılığıyla satın alan emlak sepette üyelerine
+                                                            %{{ $item['project_values']['discount_rate[]'] }}
+                                                            indirim uygulanacaktır.</strong>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endif
+                                @endforeach
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
+
             </div>
-            <div class="card-body">
+        </div>
+        <div class="card border mb-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
+
+            {{-- <div class="card-body">
                 <div class="row project-filter-reverse blog-pots mt-3">
                     
                     <table class="table">
@@ -27,29 +221,29 @@
                                 <tr>
                                     <td>
                                         <a
-                                            href="{{ $items[$i]->item_type == 1 ? route('project.housings.detail', [$items[$i]->project->slug, $items[$i]->room_order]) : route('housing.show', [$items[$i]->housing->id]) }}">
-                                            <img src="{{ $items[$i]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items[$i]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items[$i]->housing->housing_type_data)->image }}"
+                                            href="{{ $items["item_type"]->item_type == 1 ? route('project.housings.detail', [$items["item_type"]->project->slug, $items["item_type"]->room_order]) : route('housing.show', [$items["item_type"]->housing->id]) }}">
+                                            <img src="{{ $items["item_type"]->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $items["item_type"]->project_values['image[]'] : URL::to('/') . '/housing_images/' . json_decode($items["item_type"]->housing->housing_type_data)->image }}"
                                                 alt="home-1" class="img-responsive"
                                                 style="height: 70px !important; object-fit: cover;width:150px">
                                         </a>
                                     </td>
                                     <td>
-                                        {{ $items[$i]->item_type == 1 ? $items[$i]->project_values['advertise_title[]'] : $items[$i]->housing->title }}
+                                        {{ $items["item_type"]->item_type == 1 ? $items["item_type"]->project_values['advertise_title[]'] : $items["item_type"]->housing->title }}
                                         <br>
                                         <span style="font-size: 12px;font-weight:700">
-                                            {{ $items[$i]->item_type == 1 ? $items[$i]->project->city->title . ' / ' . $items[$i]->project->county->ilce_title . ' / ' . $items[$i]->project->neighbourhood->mahalle_title  : $items[$i]->housing->city->title . ' / ' . $items[$i]->housing->county->title . ' / ' . $items[$i]->housing->neighborhood->mahalle_title }}
+                                            {{ $items["item_type"]->item_type == 1 ? $items["item_type"]->project->city->title . ' / ' . $items["item_type"]->project->county->ilce_title . ' / ' . $items["item_type"]->project->neighbourhood->mahalle_title  : $items["item_type"]->housing->city->title . ' / ' . $items["item_type"]->housing->county->title . ' / ' . $items["item_type"]->housing->neighborhood->mahalle_title }}
                                             <br>
                                         </span>
                                     </td>
                                     <td>
-                                        {{ number_format($items[$i]->item_type == 1 ? $items[$i]->project_values['price[]'] : json_decode($items[$i]->housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                        {{ number_format($items["item_type"]->item_type == 1 ? $items["item_type"]->project_values['price[]'] : json_decode($items["item_type"]->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                         ₺
                                     </td>
                                     <td>
                                         <button class="btn btn-info remove-from-collection"
-                                            data-type="{{ $items[$i]->item_type == 1 ? 'project' : 'housing' }}"
-                                            data-id="{{ $items[$i]->item_type == 1 ? $items[$i]->room_order : $items[$i]->housing->id }}"
-                                            @if ($items[$i]->item_type == 1) data-project="{{ $items[$i]->project->id }}" @endif>
+                                            data-type="{{ $items["item_type"]->item_type == 1 ? 'project' : 'housing' }}"
+                                            data-id="{{ $items["item_type"]->item_type == 1 ? $items["item_type"]->room_order : $items["item_type"]->housing->id }}"
+                                            @if ($items['item_type']->item_type == 1) data-project="{{ $items["item_type"]->project->id }}" @endif>
                                             Koleksiyondan Kaldır
                                         </button>
 
@@ -63,7 +257,7 @@
 
 
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

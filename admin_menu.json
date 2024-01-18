@@ -8,6 +8,15 @@
         "url": "admin.index",
         "activePath": "admin/"
     },
+    {
+        "id": "home",
+        "label": "EMLAK SEPETTE",
+        "icon": "dollar-sign",
+        "text": "Muhasabe",
+        "key": "ViewAccounting",
+        "url": "admin.accounting",
+        "activePath": "admin/accounting"
+    },
     
     {
         "id": "projects",
@@ -22,7 +31,7 @@
         "id": "housing",
         "label": "EMLAK SEPETTE",
         "icon": "plus",
-        "text": "Konut İlanları",
+        "text": "Emlak İlanları",
         "key": "Housings",
         "url": "admin.housings.index",
         "activePath": "admin/housing"

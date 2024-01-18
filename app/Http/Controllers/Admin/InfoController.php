@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartPrice;
 use App\Models\ContactInfo;
 use App\Models\DocumentNotification;
+use App\Models\SharerPrice;
 use Illuminate\Http\Request;
 
 class InfoController extends Controller
@@ -27,6 +29,23 @@ class InfoController extends Controller
         $dn->update(['readed' => 1]);
         return redirect()->route('admin.user.show-corporate-account', ['user' => $dn->user_id]);
     }
+
+    public function accounting()
+    {
+        $cartPrices = CartPrice::with("cart.user")->where("status","1")->get();
+        $sharerPrices = SharerPrice::with("cart.user","user")->where("status","1")->get();
+        
+        $mergedArray = $cartPrices->merge($sharerPrices)->sortByDesc('cart.created_at');
+        
+        $totalEarn = $mergedArray->sum(function ($item) {
+            $cleanedEarn = str_replace(['.', ','], '', $item->earn);
+            return floatval($cleanedEarn);
+        });
+    
+        return view('admin.accounting.index', ['mergedArray' => $mergedArray, 'totalEarn' => $totalEarn]);
+    }
+    
+
 
     public function notificationHistory()
     {

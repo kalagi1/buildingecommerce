@@ -29,6 +29,15 @@
     {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
+        "icon": "gift",
+        "text": "EMLAK KULÜP",
+        "key": "GetMyEarnings",
+        "url": "institutional.sharer.earnings",
+        "activePath": "institutional/my-earnings*"
+    },
+    {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
         "icon": "bookmark",
         "text": "Koleksiyonlarım",
         "key": "GetMyCollection",

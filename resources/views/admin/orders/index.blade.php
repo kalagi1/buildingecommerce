@@ -54,9 +54,7 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_status">Durum</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_user">Alıcı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_seller">Satıcı</th>
+                                        data-sort="order_user">Alıcı / Satıcı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_details">Onay</th>
                                 </tr>
@@ -79,7 +77,7 @@
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
                                             </td>
-                                            <td class="order_project">
+                                            <td class="order_project" style="width:350px">
                                                 @if ($o->type == 'project')
                                                     <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                                         {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
@@ -89,23 +87,85 @@
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
                                             </td>
-                                            <td class="order_amount">{{ $order->amount }}</td>
+                                            <td class="order_amount">{{ $order->amount }} <br>
+                                                @if (isset($order->share))
+                                                    @if ($order->share->status == 0)
+                                                        <strong style="color: orange">
+                                                            <span>Komisyon: </span><br>
+                                                            {{ $order->share->balance }} ₺
+                                                        </strong>
+                                                    @elseif ($order->share->status == 2)
+                                                        <strong style="color: red">
+                                                            <span>Komisyon Reddedildi: </span><br>
+                                                            {{ $order->share->balance }} ₺
+                                                        </strong>
+                                                    @else
+                                                        <strong style="color: green">
+                                                            <span>Komisyon: </span><br>
+                                                            {{ $order->share->balance }} ₺
+                                                        </strong>
+                                                    @endif
+                                                @endif
+                                            </td>
                                             <td class="order_date">{{ $order->created_at }}</td>
                                             <td class="order_status">{!! [
                                                 '0' => '<span class="text-warning">Rezerve Edildi</span>',
-                                                '1' => '<span class="text-success">Ödeme Onaylandı</span>',
-                                                '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
-                                            ][$order->status] !!}</td>
-                                            <td class="order_user">{{ $order->user->email }}</td>
-                                            <td class="order_seller">{{ $project->user->email ?? $housing->user->email }}
+                                                '1' => '<span class="text-success">Satış Onaylandı</span>',
+                                                '2' => '<span class="text-danger">Satış Reddedildi</span>',
+                                            ][$order->status] !!} <br>
+                                                @if (isset($order->share))
+                                                    <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
+                                                        satılmıştır.
+                                                        @if ($order->share->status == 1)
+                                                            <br>
+                                                            Hakedişler Onaylandı.
+                                                        @endif
+                                                    </span>
+                                                @endif
+                                                @if (isset($order->price))
+                                                    <span class="text-warning">Hakedişler Onaylandı.</span>
+                                                @endif
+                                            </td>
+                                            <td class="order_user">
+                                                <span>Alıcı: {{ $order->user->email }}</span> <br>
+                                                <span>Satıcı: {{ $project->user->email ?? $housing->user->email }}</span>
                                             </td>
                                             <td class="order_details">
                                                 @if ($order->status == 0 || $order->status == 2)
                                                     <a href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                                        class="btn btn-success">Onayla</a>
+                                                        class="badge badge-phoenix fs--2 badge-phoenix-success">İlan
+                                                        Satışını Onayla</a>
                                                 @else
                                                     <a href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                                        class="btn btn-danger">Reddet</a>
+                                                        class="badge badge-phoenix fs--2 badge-phoenix-danger">İlan Satışını
+                                                        Reddet</a>
+                                                @endif
+
+                                                @if (isset($order->share))
+                                                    <br>
+                                                    @if ($order->share->status == 0 || $order->share->status == 2)
+                                                        <a href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}"
+                                                            class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri
+                                                            Onayla</a>
+                                                    @else
+                                                        <a href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}"
+                                                            class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri
+                                                            Reddet</a>
+                                                    @endif
+                                                    <br>
+                                                @endif
+
+                                                @if (isset($order->price))
+                                                    <br>
+                                                    @if ($order->price->status == 0 || $order->price->status == 2)
+                                                        <a href="{{ route('admin.approve-price', ['price' => $order->price->id]) }}"
+                                                            class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri
+                                                            Onayla</a>
+                                                    @else
+                                                        <a href="{{ route('admin.unapprove-price', ['price' => $order->price->id]) }}"
+                                                            class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri
+                                                            Reddet</a>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr>

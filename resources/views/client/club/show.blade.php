@@ -87,7 +87,7 @@
                                             <th>İlan No</th>
                                             <th>Kapak Fotoğrafı</th>
                                             <th>İlan Başlığı</th>
-                                            <th>Fiyat</th>
+                                            <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -119,18 +119,20 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    @if ($item['discount_amount'])
-                                                        @php
-                                                            $discountedPrice = $item['item_type'] == 1 ? $item['project_values']['price[]'] - $item['discount_amount'] : json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
-                                                        @endphp
-                                                    @elseif (
+
+
+                                                    @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                    @if (
                                                         $item['item_type'] == 2 &&
                                                             isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
                                                             json_decode($item['housing']['housing_type_data'])->discount_rate[0]
                                                     )
                                                         @php
                                                             $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
-                                                            $discountedPrice = ($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) - (($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) * $discountRate) / 100;
+                                                            $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
+
+                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+
                                                         @endphp
                                                     @elseif (
                                                         $item['item_type'] == 1 &&
@@ -139,30 +141,30 @@
                                                     )
                                                         @php
                                                             $discountRate = $item['project_values']['discount_rate[]'];
-                                                            $discountedPrice = $item['project_values']['price[]'] - ($item['project_values']['price[]'] * $discountRate) / 100;
+                                                            $price = $item['project_values']['price[]'] - $item['discount_amount'];
+
+                                                            $discountedPrice = $price - (($price * $discountRate) / 100);
                                                         @endphp
                                                     @endif
 
-                                                    @if (isset($discountRate) && $item['discount_amount'])
-                                                        @php
-                                                            $discountedPrice -= $item['discount_amount'];
-                                                        @endphp
+
+                                                        @if (isset($discountedPrice))
+                                                            <span style="color: green;">
+                                                                {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                            </span><br>
+                                                            <del style="color: red;">
+                                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                ₺
+                                                            </del>
+                                                        @else
+                                                            <span style="color: green; font-size:15px !important">
+                                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                ₺
+                                                            </span>
+                                                        @endif
                                                     @endif
 
-                                                    @if (isset($discountedPrice))
-                                                        <span style="color: green;">
-                                                            {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                        </span><br>
-                                                        <del style="color: red;">
-                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                            ₺
-                                                        </del>
-                                                    @else
-                                                        <span style="color: green; font-size:15px !important">
-                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                            ₺
-                                                        </span>
-                                                    @endif
+
                                                 </td>
 
 
@@ -260,40 +262,42 @@
 
                                                 </td>
                                             </tr>
-                                            @if (
-                                                ($item['item_type'] == 2 &&
-                                                    isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                                    json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
-                                                    null)
-                                                <tr style="background-color: #8080802e">
-                                                    <td colspan="5">
-                                                        <span style="color: #e54242">
-                                                            #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
-                                                            Numaralı İlan İçin:
-                                                            Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
-                                                            tarafından paylaşılan link aracılığıyla
-                                                            %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
-                                                            indirim uygulanacaktır.
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @elseif (
-                                                ($item['item_type'] == 1 &&
-                                                    isset($item['project_values']['discount_rate[]']) &&
-                                                    $item['project_values']['discount_rate[]'] != 0) ||
-                                                    null)
-                                                <tr style="background-color: #8080802e">
-                                                    <td colspan="5">
-                                                        <span style="color: #e54242">
-                                                            #{{ $item['project']->id + 10000000 }}
-                                                            Numaralı İlan İçin:
-                                                            Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
-                                                            tarafından paylaşılan link aracılığıyla
-                                                            %{{ $item['project_values']['discount_rate[]'] }}
-                                                            indirim uygulanacaktır.
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                            @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                @if (
+                                                    ($item['item_type'] == 2 &&
+                                                        isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
+                                                        json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
+                                                        null)
+                                                    <tr style="background-color: #8080802e">
+                                                        <td colspan="5">
+                                                            <span style="color: #e54242">
+                                                                #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+                                                                Numaralı İlan İçin:
+                                                                Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
+                                                                tarafından paylaşılan link aracılığıyla
+                                                                %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
+                                                                indirim uygulanacaktır.
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @elseif (
+                                                    ($item['item_type'] == 1 &&
+                                                        isset($item['project_values']['discount_rate[]']) &&
+                                                        $item['project_values']['discount_rate[]'] != 0) ||
+                                                        null)
+                                                    <tr style="background-color: #8080802e">
+                                                        <td colspan="5">
+                                                            <span style="color: #e54242">
+                                                                #{{ $item['project']->id + 10000000 }}
+                                                                Numaralı İlan İçin:
+                                                                Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
+                                                                tarafından paylaşılan link aracılığıyla
+                                                                %{{ $item['project_values']['discount_rate[]'] }}
+                                                                indirim uygulanacaktır.
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             @endif
                                         @endforeach
 
@@ -438,50 +442,50 @@
                                                     @endif
                                                 </div>
                                                 <span class="ml-auto text-primary priceFont">
-                                                    @if ($item['discount_amount'])
-                                                        @php
-                                                            $discountedPrice = $item['item_type'] == 1 ? $item['project_values']['price[]'] - $item['discount_amount'] : json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
-                                                        @endphp
-                                                    @elseif (
-                                                        $item['item_type'] == 2 &&
-                                                            isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                                            json_decode($item['housing']['housing_type_data'])->discount_rate[0]
-                                                    )
-                                                        @php
-                                                            $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
-                                                            $discountedPrice = ($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) - (($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0]) * $discountRate) / 100;
-                                                        @endphp
-                                                    @elseif (
-                                                        $item['item_type'] == 1 &&
-                                                            isset($item['project_values']['discount_rate[]']) &&
-                                                            $item['project_values']['discount_rate[]']
-                                                    )
-                                                        @php
-                                                            $discountRate = $item['project_values']['discount_rate[]'];
-                                                            $discountedPrice = $item['project_values']['price[]'] - ($item['project_values']['price[]'] * $discountRate) / 100;
-                                                        @endphp
+                                                    @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                        @if (
+                                                            $item['item_type'] == 2 &&
+                                                                isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
+                                                                json_decode($item['housing']['housing_type_data'])->discount_rate[0]
+                                                        )
+                                                            @php
+                                                                $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                                                                $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
+
+                                                                $discountedPrice = $price - ($price * $discountRate) / 100;
+
+                                                            @endphp
+                                                        @elseif (
+                                                            $item['item_type'] == 1 &&
+                                                                isset($item['project_values']['discount_rate[]']) &&
+                                                                $item['project_values']['discount_rate[]']
+                                                        )
+                                                            @php
+                                                                $discountRate = $item['project_values']['discount_rate[]'];
+                                                                $price = $item['project_values']['price[]'] - $item['discount_amount'];
+
+                                                                $discountedPrice = $price - (($price * $discountRate) / 100);
+                                                            @endphp
+                                                        @endif
+
+
+
+                                                        @if (isset($discountedPrice))
+                                                            <span style="color: green;">
+                                                                {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                            </span><br>
+                                                            <del style="color: red;">
+                                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                ₺
+                                                            </del>
+                                                        @else
+                                                            <span style="color: green; font-size:15px !important">
+                                                                {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                ₺
+                                                            </span>
+                                                        @endif
                                                     @endif
 
-                                                    @if (isset($discountRate) && $item['discount_amount'])
-                                                        @php
-                                                            $discountedPrice -= $item['discount_amount'];
-                                                        @endphp
-                                                    @endif
-
-                                                    @if (isset($discountedPrice))
-                                                        <span style="color: green;">
-                                                            {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                        </span><br>
-                                                        <del style="color: red;">
-                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                            ₺
-                                                        </del>
-                                                    @else
-                                                        <span style="color: green; font-size:15px !important">
-                                                            {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                            ₺
-                                                        </span>
-                                                    @endif
 
                                                 </span>
                                             </div>
@@ -489,45 +493,50 @@
                                     </div>
                                 </div>
 
-                                @if (
-                                    ($item['item_type'] == 2 &&
-                                        isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                        json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
-                                        null)
-                                    <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
-                                        <div class="d-flex justify-content-between align-items-center"
-                                            style="height: 100%;padding: 10px">
-                                            <span style="color: #e54242;font-size:9px !important">
-                                                #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
-                                                Numaralı İlan İçin:
-                                                Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
-                                                tarafından paylaşılan link aracılığıyla
-                                                %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
-                                                indirim uygulanacaktır.
-                                            </span>
-                                        </div>
+                                @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                    @if (
+                                        ($item['item_type'] == 2 &&
+                                            isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
+                                            json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
+                                            null)
+                                        <div class="w-100"
+                                            style="height:50px;background-color:#8080802e;margin-top:20px">
+                                            <div class="d-flex justify-content-between align-items-center"
+                                                style="height: 100%;padding: 10px">
+                                                <span style="color: #e54242;font-size:9px !important">
+                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+                                                    Numaralı İlan İçin:
+                                                    Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
+                                                    tarafından paylaşılan link aracılığıyla
+                                                    %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
+                                                    indirim uygulanacaktır.
+                                                </span>
+                                            </div>
 
-                                    </div>
-                                @elseif (
-                                    ($item['item_type'] == 1 &&
-                                        isset($item['project_values']['discount_rate[]']) &&
-                                        $item['project_values']['discount_rate[]'] != 0) ||
-                                        null)
-                                    <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
-                                        <div class="d-flex justify-content-between align-items-center"
-                                            style="height: 100%;padding: 10px">
-                                            <span style="color: #e54242;font-size:9px !important">
-                                                #{{ $item['project']->id + 10000000 }}
-                                                Numaralı İlan İçin:
-                                                Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
-                                                tarafından paylaşılan link aracılığıyla
-                                                %{{ $item['project_values']['discount_rate[]'] }}
-                                                indirim uygulanacaktır.
-                                            </span>
                                         </div>
+                                    @elseif (
+                                        ($item['item_type'] == 1 &&
+                                            isset($item['project_values']['discount_rate[]']) &&
+                                            $item['project_values']['discount_rate[]'] != 0) ||
+                                            null)
+                                        <div class="w-100"
+                                            style="height:50px;background-color:#8080802e;margin-top:20px">
+                                            <div class="d-flex justify-content-between align-items-center"
+                                                style="height: 100%;padding: 10px">
+                                                <span style="color: #e54242;font-size:9px !important">
+                                                    #{{ $item['project']->id + 10000000 }}
+                                                    Numaralı İlan İçin:
+                                                    Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
+                                                    tarafından paylaşılan link aracılığıyla
+                                                    %{{ $item['project_values']['discount_rate[]'] }}
+                                                    indirim uygulanacaktır.
+                                                </span>
+                                            </div>
 
-                                    </div>
+                                        </div>
+                                    @endif
                                 @endif
+
 
                                 <hr>
                             @endforeach

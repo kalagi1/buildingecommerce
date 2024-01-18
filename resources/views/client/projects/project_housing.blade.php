@@ -145,6 +145,9 @@
 
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar">
+                                        <strong>İlan No: {{ $housingOrder + $project->id + 1000000 }}
+                                        </strong>
+
                                         <h3>
                                             @if ($status && $status != '0' && $status != '1')
                                                 @include('client.layouts.partials.project_title', [
@@ -183,15 +186,15 @@
                                             <div class="listing-title-bar">
                                                 <h4 style="white-space: nowrap">
                                                     @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="#e54242" stroke-width="2" fill="#e54242"
                                                             stroke-linecap="round" stroke-linejoin="round"
                                                             class="css-i6dzq1">
                                                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
                                                         <h6
-                                                            style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                             {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
                                                             ₺
                                                         </h6>
@@ -211,15 +214,15 @@
                                         <div class="listing-title-bar">
                                             <h4 style="white-space: nowrap">
                                                 @if ($discountAmount)
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
+                                                        stroke="#e54242" stroke-width="2" fill="#e54242"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"
                                                         style="margin-right: 5px">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
                                                     <span
-                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                        style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                         {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
                                                         ₺
                                                     </span>
@@ -399,9 +402,9 @@
                     <div class="moveCollection">
                         @if (Auth::check() && Auth::user()->type == 21)
                             <div
-                                @if (isset($projectHousingsList[$housingOrder]['share-open[]'])) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
+                                @if (isset($projectHousingsList[$housingOrder]['share-open[]'])) class="add-to-collections-wrapper addCollectionMobile addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
                                         @else
-                                        class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
+                                        class="add-to-collections-wrapper disabledShareButton addCollection addCollectionMobile" @endif>
                                 <div class="add-to-collection-button-wrapper">
                                     <div class="add-to-collection-button">
 
@@ -470,7 +473,7 @@
                                                 <td>
                                                     İlan No:
                                                     <span class="det">
-                                                        #{{ $housingOrder + $project->id + 1000000 }}
+                                                        {{ $housingOrder + $project->id + 1000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -582,66 +585,64 @@
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: black;">
-                                                        #{{ $housingOrder + $project->id + 1000000 }}
+                                                        {{ $housingOrder + $project->id + 1000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
 
                                             @foreach ($projectHousingSetting as $key => $housingSetting)
                                                 @php
-                                                                                        if (isset($projectHousing[$housingSetting->column_name . '[]'])){
+                                                    if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                                        $isArrayCheck = $housingSetting->is_array;
+                                                        $onProject = false;
+                                                        $valueArray = [];
 
-                                                    $isArrayCheck = $housingSetting->is_array;
-                                                    $onProject = false;
-                                                    $valueArray = [];
-
-                                                    if ($isArrayCheck) {
-                                                        $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                        if (isset($valueArray)) {
-                                                            $value = '';
-                                                        }
-                                                    } elseif ($housingSetting->is_parent_table) {
-                                                        $value = $project[$housingSetting->column_name];
-                                                        $onProject = true;
-                                                    } else {
-                                                        foreach ($project->roomInfo as $roomInfo) {
-                                                            if ($roomInfo->room_order == $housingOrder) {
-                                                                if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                    if ($roomInfo['value'] == '["on"]') {
-                                                                        $value = 'Evet';
-                                                                    } elseif ($roomInfo['value'] == '["off"]') {
-                                                                        $value = 'Hayır';
-                                                                    } else {
-                                                                        $value = $roomInfo['value'];
+                                                        if ($isArrayCheck) {
+                                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
+                                                            if (isset($valueArray)) {
+                                                                $value = '';
+                                                            }
+                                                        } elseif ($housingSetting->is_parent_table) {
+                                                            $value = $project[$housingSetting->column_name];
+                                                            $onProject = true;
+                                                        } else {
+                                                            foreach ($project->roomInfo as $roomInfo) {
+                                                                if ($roomInfo->room_order == $housingOrder) {
+                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                        if ($roomInfo['value'] == '["on"]') {
+                                                                            $value = 'Evet';
+                                                                        } elseif ($roomInfo['value'] == '["off"]') {
+                                                                            $value = 'Hayır';
+                                                                        } else {
+                                                                            $value = $roomInfo['value'];
+                                                                        }
+                                                                        $onProject = true;
                                                                     }
-                                                                    $onProject = true;
                                                                 }
                                                             }
                                                         }
                                                     }
-                                                }
                                                 @endphp
-                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']))
-
-                                                @if (!$isArrayCheck && (isset($value) && $value !== ''))
-                                                    <tr>
-                                                        @if ($housingSetting->label == 'Fiyat')
-                                                            <td>
-                                                                <span class="mr-1">{{ $housingSetting->label }}:</span>
-                                                                <span class="det" style="color: black; ">
-                                                                    {{ number_format($value, 0, ',', '.') }} ₺
-                                                                </span>
-                                                            </td>
-                                                        @else
-                                                            <td>
-                                                                <span
-                                                                    class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}
-                                                            </td>
-                                                        @endif
-                                                    </tr>
+                                                @if (isset($projectHousing[$housingSetting->column_name . '[]']))
+                                                    @if (!$isArrayCheck && (isset($value) && $value !== ''))
+                                                        <tr>
+                                                            @if ($housingSetting->label == 'Fiyat')
+                                                                <td>
+                                                                    <span
+                                                                        class="mr-1">{{ $housingSetting->label }}:</span>
+                                                                    <span class="det" style="color: black; ">
+                                                                        {{ number_format($value, 0, ',', '.') }} ₺
+                                                                    </span>
+                                                                </td>
+                                                            @else
+                                                                <td>
+                                                                    <span
+                                                                        class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                    @endif
                                                 @endif
-                                                @endif
-
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -680,31 +681,30 @@
                                             }
                                         @endphp
                                         @if (isset($projectHousing[$housingSetting->column_name . '[]']))
-
-                                        @if ($isArrayCheck)
-                                            @if (isset($valueArray))
-                                                <div class="mt-5">
-                                                    <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
-                                                    </h5>
-                                                    <ul class="homes-list clearfix checkSquareIcon">
-                                                        @foreach ($valueArray as $ozellik)
-                                                            <li>
-                                                                <i class="fa fa-check-square"
-                                                                    aria-hidden="true"></i><span>{{ $ozellik }}</span>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
+                                            @if ($isArrayCheck)
+                                                @if (isset($valueArray))
+                                                    <div class="mt-5">
+                                                        <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
+                                                        </h5>
+                                                        <ul class="homes-list clearfix checkSquareIcon">
+                                                            @foreach ($valueArray as $ozellik)
+                                                                <li>
+                                                                    <i class="fa fa-check-square"
+                                                                        aria-hidden="true"></i><span>{{ $ozellik }}</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
                                             @endif
-                                            @endif
-
                                         @endif
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade  blog-info details housingsListTab mb-30" id="contact"
+                        <div class="tab-pane fade  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
+
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="container">
@@ -756,6 +756,14 @@
                                                                                     } else {
                                                                                         $sold = null;
                                                                                     }
+
+                                                                                    $projectOffer = App\Models\Offer::where('type', 'project')
+                                                                                        ->where('project_id', $project->id)
+                                                                                        ->where('housing_id', $i + 1)
+                                                                                        ->where('start_date', '<=', now())
+                                                                                        ->where('end_date', '>=', now())
+                                                                                        ->first();
+                                                                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                                                 @endphp
 
                                                                                 <div class="col-md-12 col-12">
@@ -777,71 +785,69 @@
                                                                                                                     No
                                                                                                                     <br>{{ $i + 1 - $lastHousingCount }}
                                                                                                                 @endif
+
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <div class="project-single mb-0 bb-0 aos-init aos-animate"
                                                                                                             data-aos="fade-up">
                                                                                                             <div
-                                                                                                                class="project-inner project-head">
+                                                                                                                class="button-effect-div">
 
-
-                                                                                                                <div
-                                                                                                                    class="button-effect-div">
-                                                                                                                    @if (Auth::check() && Auth::user()->type == 21)
-                                                                                                                        <span
-                                                                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                                              data-type='project'
-                                                                                              data-project='{{ $project->id }}'
-                                                                                              data-id='{{ $i + 1 }}'
-                                                                                @else
-                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                                                                            <i
-                                                                                                                                class="fa fa-bookmark"></i>
-                                                                                                                        </span>
-                                                                                                                    @endif
-                                                                                                                    <div href="javascript:void()"
-                                                                                                                        class="btn toggle-project-favorite bg-white"
-                                                                                                                        data-project-housing-id="{{ $i + 1 }}"
-                                                                                                                        data-project-id={{ $project->id }}>
+                                                                                                                @if (Auth::check() && Auth::user()->type == 21)
+                                                                                                                    <span
+                                                                                                                        @if (isset($projectHousingsList[$i + 1]['share-open[]']) &&
+                                                                                                                                $projectHousingsList[$i + 1]['share-open[]'] != '[]' &&
+                                                                                                                                $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                                                    data-type='project'
+                                                                                                                                    data-project='{{ $project->id }}'
+                                                                                                                                    data-id='{{ $i + 1 }}'
+                                                                                                                        @else
+                                                                                                                        class="btn mobileAddCollection disabledShareButton" @endif>
                                                                                                                         <i
-                                                                                                                            class="fa fa-heart-o"></i>
-                                                                                                                    </div>
+                                                                                                                            class="fa fa-bookmark"></i>
+                                                                                                                    </span>
+                                                                                                                @endif
+                                                                                                                <div href="javascript:void()"
+                                                                                                                    class="btn toggle-project-favorite bg-white"
+                                                                                                                    data-project-housing-id="{{ $i + 1 }}"
+                                                                                                                    data-project-id={{ $project->id }}>
+                                                                                                                    <i
+                                                                                                                        class="fa fa-heart-o"></i>
                                                                                                                 </div>
-                                                                                                                <div
-                                                                                                                    class="homes position-relative">
-                                                                                                                    <!-- homes img -->
-                                                                                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
-                                                                                                                        alt="home-1"
-                                                                                                                        class="img-responsive"
-                                                                                                                        style="height: 120px !important;object-fit:cover">
-                                                                                                                    @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                                class="homes position-relative">
+                                                                                                                <!-- homes img -->
+                                                                                                                <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
+                                                                                                                    alt="home-1"
+                                                                                                                    class="img-responsive"
+                                                                                                                    style="height: 120px !important;object-fit:cover">
+                                                                                                                @if ($projectDiscountAmount)
+                                                                                                                    <div
+                                                                                                                        style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                                                                         <div
-                                                                                                                            style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                                                                            <div
-                                                                                                                                style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                                                                                {{ '%' . round(($discountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
-                                                                                                                                <svg viewBox="0 0 24 24"
-                                                                                                                                    width="16"
-                                                                                                                                    height="16"
-                                                                                                                                    stroke="currentColor"
-                                                                                                                                    stroke-width="2"
-                                                                                                                                    fill="none"
-                                                                                                                                    stroke-linecap="round"
-                                                                                                                                    stroke-linejoin="round"
-                                                                                                                                    class="css-i6dzq1"
-                                                                                                                                    style="transform: rotate(45deg);">
-                                                                                                                                    <polyline
-                                                                                                                                        points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                                                                    </polyline>
-                                                                                                                                    <polyline
-                                                                                                                                        points="17 18 23 18 23 12">
-                                                                                                                                    </polyline>
-                                                                                                                                </svg>
-                                                                                                                            </div>
-
+                                                                                                                            style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
+                                                                                                                            {{ '%' . round(($projectDiscountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
+                                                                                                                            <svg viewBox="0 0 24 24"
+                                                                                                                                width="16"
+                                                                                                                                height="16"
+                                                                                                                                stroke="currentColor"
+                                                                                                                                stroke-width="2"
+                                                                                                                                fill="none"
+                                                                                                                                stroke-linecap="round"
+                                                                                                                                stroke-linejoin="round"
+                                                                                                                                class="css-i6dzq1"
+                                                                                                                                style="transform: rotate(45deg);">
+                                                                                                                                <polyline
+                                                                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                                                                                </polyline>
+                                                                                                                                <polyline
+                                                                                                                                    points="17 18 23 18 23 12">
+                                                                                                                                </polyline>
+                                                                                                                            </svg>
                                                                                                                         </div>
-                                                                                                                    @endif
-                                                                                                                </div>
+                                                                                                                    </div>
+                                                                                                                @endif
 
                                                                                                             </div>
                                                                                                         </div>
@@ -926,14 +932,14 @@
                                                                                                                         @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                                                             @if ($sold)
                                                                                                                                 @if ($sold->status != '1' && $sold->status != '0')
-                                                                                                                                    @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                                                    @if ($projectDiscountAmount)
                                                                                                                                         <h6
                                                                                                                                             style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                                                             ₺
                                                                                                                                         </h6>
                                                                                                                                         <h6
-                                                                                                                                            style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                                            style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                                             ₺
 
@@ -947,14 +953,14 @@
                                                                                                                                     @endif
                                                                                                                                 @endif
                                                                                                                             @else
-                                                                                                                                @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                                                @if ($projectDiscountAmount)
                                                                                                                                     <h6
                                                                                                                                         style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                                                         ₺
                                                                                                                                     </h6>
                                                                                                                                     <h6
-                                                                                                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                                        style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                                         ₺
 
@@ -991,7 +997,7 @@
                                                                                                                 @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                                                     @if ($sold)
                                                                                                                         @if ($sold->status != '1' && $sold->status != '0')
-                                                                                                                            @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                                            @if ($projectDiscountAmount)
                                                                                                                                 <h6
                                                                                                                                     style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
@@ -999,7 +1005,7 @@
                                                                                                                                 </h6>
                                                                                                                                 <h6
                                                                                                                                     style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                                                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
 
                                                                                                                                     ₺
                                                                                                                                 </h6>
@@ -1011,7 +1017,7 @@
                                                                                                                             @endif
                                                                                                                         @endif
                                                                                                                     @else
-                                                                                                                        @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                                        @if ($projectDiscountAmount)
                                                                                                                             <h6
                                                                                                                                 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
@@ -1019,7 +1025,7 @@
                                                                                                                             </h6>
                                                                                                                             <h6
                                                                                                                                 style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                                                                                {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                                                {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
 
                                                                                                                                 ₺
                                                                                                                             </h6>
@@ -1124,16 +1130,31 @@
 
                                                             @endphp
                                                             <div class="mobile-show">
-                                                                @for ($i; $i < $blockHousingCount; $i++)
+                                                                @for ($i = $startIndex; $i < $endIndex; $i++)
                                                                     @php
+                                                                        $j++;
+                                                                        if (isset($projectCartOrders[$i + 1])) {
+                                                                            $sold = $projectCartOrders[$i + 1];
+                                                                        } else {
+                                                                            $sold = null;
+                                                                        }
                                                                         $room_order = $i + 1;
+
+                                                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                                                            ->where('project_id', $project->id)
+                                                                            ->where('housing_id', $i + 1)
+                                                                            ->where('start_date', '<=', now())
+                                                                            ->where('end_date', '>=', now())
+                                                                            ->first();
+                                                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+
                                                                     @endphp
                                                                     <div class="d-flex" style="flex-wrap: nowrap">
                                                                         <div class="align-items-center d-flex"
                                                                             style="padding-right:0; width: 110px;">
                                                                             <div class="project-inner project-head">
                                                                                 <a
-                                                                                    href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                                                                    href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}">
                                                                                     <div class="homes">
                                                                                         <!-- homes img -->
                                                                                         <div class="homes-img h-100 d-flex align-items-center"
@@ -1152,7 +1173,7 @@
                                                                                 class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                                                                 <a style="text-decoration: none; height: 100%"
                                                                                     href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
-                                                                                    <div class="d-flex justify-content-between"
+                                                                                    <div class="d-flex  justify-content-between"
                                                                                         style="gap: 8px">
                                                                                         <h3>
                                                                                             @if (isset($projectHousingsList[$i + 1]['advertise_title[]']))
@@ -1167,12 +1188,12 @@
                                                                                         </h3>
                                                                                         @if (Auth::check() && Auth::user()->type == 21)
                                                                                             <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                                              data-type='project'
-                                                                                              data-project='{{ $project->id }}'
-                                                                                              data-id='{{ $i + 1 }}'
-                                                                                @else
-                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                          data-type='project'
+                                                                                          data-project='{{ $project->id }}'
+                                                                                          data-id='{{ $i + 1 }}'
+                                                                            @else
+                                                                            class="btn mobileAddCollection disabledShareButton" @endif>
                                                                                                 <i
                                                                                                     class="fa fa-bookmark"></i>
                                                                                             </span>
@@ -1189,7 +1210,7 @@
                                                                                 <div class="d-flex align-items-center">
                                                                                     <div class="d-flex"
                                                                                         style="gap: 8px;width: 100%;
-                                                                                                                align-items: center;">
+                                                                                                            align-items: center;">
                                                                                         @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                                                                             <button
                                                                                                 class="btn second-btn  mobileCBtn"
@@ -1237,10 +1258,10 @@
                                                                                         @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                             @if ($sold)
                                                                                                 @if ($sold->status != '1' && $sold->status != '0')
-                                                                                                    @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                    @if ($projectDiscountAmount)
                                                                                                         <h6
                                                                                                             style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                             ₺</h6>
                                                                                                         <h6
                                                                                                             style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
@@ -1257,10 +1278,10 @@
                                                                                                     @endif
                                                                                                 @endif
                                                                                             @else
-                                                                                                @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                @if ($projectDiscountAmount)
                                                                                                     <h6
                                                                                                         style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                         ₺</h6>
                                                                                                     <h6
                                                                                                         style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
@@ -1288,21 +1309,14 @@
                                                                             style="height: 100%">
                                                                             <span
                                                                                 style="    height: 100%;
-                                                                                                        font-size: 11px !important;
-                                                                                                        width: 15% !important;
-                                                                                                        padding: 3px 10px;
-                                                                                                        background: #EA2B2E !important;
-                                                                                                        color: white;
-                                                                                                        text-align: center;">
-                                                                                @if (isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != '[]')
-                                                                                    {{ $room_order - $lastHousingCount }}.
-                                                                                    Hisse
-                                                                                @else
-                                                                                    No
-                                                                                    <br>
-                                                                                    {{ $room_order - $lastHousingCount }}
-                                                                                @endif
-                                                                            </span>
+                                                                                                    font-size: 11px !important;
+                                                                                                    width: 15% !important;
+                                                                                                    padding: 3px 10px;
+                                                                                                    background: #EA2B2E !important;
+                                                                                                    color: white;
+                                                                                                    text-align: center;">No
+                                                                                <br>
+                                                                                {{ $room_order - $lastHousingCount }}</span>
                                                                             <ul class="d-flex justify-content-start align-items-center h-100 w-100"
                                                                                 style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
 
@@ -1361,9 +1375,9 @@
 
                                                                             <span
                                                                                 style="    font-size: 9px !important;
-                                                                                                            width: 50% !important;
-                                                                                                            text-align: right;
-                                                                                                            margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+                                                                                                        width: 50% !important;
+                                                                                                        text-align: right;
+                                                                                                        margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                                         </div>
                                                                     </div>
                                                                     <hr>
@@ -1392,6 +1406,13 @@
                                                         } else {
                                                             $sold = null;
                                                         }
+                                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                                            ->where('project_id', $project->id)
+                                                            ->where('housing_id', $i + 1)
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
+                                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                     @endphp
 
                                                     <div class="col-md-12 col-12">
@@ -1416,16 +1437,15 @@
                                                                                 data-aos="fade-up">
                                                                                 <div class="project-inner project-head">
 
-
                                                                                     <div class="button-effect-div">
                                                                                         @if (Auth::check() && Auth::user()->type == 21)
                                                                                             <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                                              data-type='project'
-                                                                                              data-project='{{ $project->id }}'
-                                                                                              data-id='{{ $i + 1 }}'
-                                                                                @else
-                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                          data-type='project'
+                                                                                          data-project='{{ $project->id }}'
+                                                                                          data-id='{{ $i + 1 }}'
+                                                                                            @else
+                                                                                            class="btn mobileAddCollection disabledShareButton" @endif>
                                                                                                 <i
                                                                                                     class="fa fa-bookmark"></i>
                                                                                             </span>
@@ -1443,12 +1463,12 @@
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
                                                                                             style="height: 120px !important;object-fit:cover">
-                                                                                        @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                        @if ($projectDiscountAmount)
                                                                                             <div
                                                                                                 style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                                                 <div
                                                                                                     style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                                                    {{ '%' . round(($discountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
+                                                                                                    {{ '%' . round(($projectDiscountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
                                                                                                     <svg viewBox="0 0 24 24"
                                                                                                         width="16"
                                                                                                         height="16"
@@ -1553,13 +1573,13 @@
                                                                                             @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                                 @if ($sold)
                                                                                                     @if ($sold->status != '1' && $sold->status != '0')
-                                                                                                        @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                        @if ($projectDiscountAmount)
                                                                                                             <h6
                                                                                                                 style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                                {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                                {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                                 ₺</h6>
                                                                                                             <h6
-                                                                                                                style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                 ₺
 
@@ -1573,13 +1593,13 @@
                                                                                                         @endif
                                                                                                     @endif
                                                                                                 @else
-                                                                                                    @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                    @if ($projectDiscountAmount)
                                                                                                         <h6
                                                                                                             style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                             ₺</h6>
                                                                                                         <h6
-                                                                                                            style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                             ₺
 
@@ -1613,15 +1633,15 @@
                                                                                     @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                         @if ($sold)
                                                                                             @if ($sold->status != '1' && $sold->status != '0')
-                                                                                                @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                                @if ($projectDiscountAmount)
                                                                                                     <h6
                                                                                                         style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                         ₺
                                                                                                     </h6>
                                                                                                     <h6
-                                                                                                        style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                        style="color: #e54242 ;position: relative;top:4px;font-weight:600;font-size:20px;">
+                                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
 
                                                                                                         ₺</h6>
                                                                                                 @else
@@ -1632,15 +1652,15 @@
                                                                                                 @endif
                                                                                             @endif
                                                                                         @else
-                                                                                            @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                            @if ($projectDiscountAmount)
                                                                                                 <h6
                                                                                                     style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
                                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                     ₺
                                                                                                 </h6>
                                                                                                 <h6
-                                                                                                    style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:20px;">
-                                                                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                                    style="color: #e54242 ;position: relative;top:4px;font-weight:600;font-size:20px;">
+                                                                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
 
                                                                                                     ₺</h6>
                                                                                             @else
@@ -1680,8 +1700,8 @@
                                                                                     @if ($sold && $sold->status != '2')
                                                                                         <button class="btn second-btn "
                                                                                             @if ($sold->status == '0') style="background: orange !important;color:White;height: auto !important"
-                                                                                                                        @else 
-                                                                                                                        style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
+                                                                                                                    @else 
+                                                                                                                    style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                                                             @if ($sold->status == '0')
                                                                                                 <span class="text">Onay
                                                                                                     Bekleniyor</span>
@@ -1723,11 +1743,18 @@
                                     </div>
                                     <div class="mobile-show">
                                         <div class="container">
-                                            <h5 class="mb-4">Projedeki Konutlar </h5>
 
                                             @for ($i = 0; $i < $project->room_count; $i++)
                                                 @php
                                                     $room_order = $i + 1;
+
+                                                    $projectOffer = App\Models\Offer::where('type', 'project')
+                                                        ->where('project_id', $project->id)
+                                                        ->where('housing_id', $i + 1)
+                                                        ->where('start_date', '<=', now())
+                                                        ->where('end_date', '>=', now())
+                                                        ->first();
+                                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
                                                 <div class="d-flex" style="flex-wrap: nowrap">
                                                     <div class="align-items-center d-flex"
@@ -1754,7 +1781,7 @@
                                                             <a style="text-decoration: none; height: 100%"
                                                                 href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
                                                                 <div class="d-flex justify-content-between"
-                                                                    style="gap: 8px;">
+                                                                    style="gap:8px;">
                                                                     <h3>
                                                                         @if (isset($projectHousingsList[$i + 1]['advertise_title[]']))
                                                                             {{ $projectHousingsList[$i + 1]['advertise_title[]'] }}
@@ -1767,12 +1794,12 @@
                                                                     </h3>
                                                                     @if (Auth::check() && Auth::user()->type == 21)
                                                                         <span
-                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != "[]") class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                          data-type='project'
-                                                                          data-project='{{ $project->id }}'
-                                                                          data-id='{{ $i + 1 }}'
-                                                            @else
-                                                            class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                      data-type='project'
+                                                                      data-project='{{ $project->id }}'
+                                                                      data-id='{{ $i + 1 }}'
+                                                        @else
+                                                        class="btn mobileAddCollection disabledShareButton" @endif>
                                                                             <i class="fa fa-bookmark"></i>
                                                                         </span>
                                                                     @endif
@@ -1787,7 +1814,7 @@
                                                             <div class="d-flex align-items-center">
                                                                 <div class="d-flex"
                                                                     style="gap: 8px;width: 100%;
-                                                                                            align-items: center;">
+                                                                                        align-items: center;">
                                                                     @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                                                         <button class="btn second-btn  mobileCBtn"
                                                                             style="background: #EA2B2E !important;width:100%;color:White">
@@ -1827,13 +1854,13 @@
                                                                     @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                         @if ($sold)
                                                                             @if ($sold->status != '1' && $sold->status != '0')
-                                                                                @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                                @if ($projectDiscountAmount)
                                                                                     <h6
                                                                                         style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                         ₺</h6>
                                                                                     <h6
-                                                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                        style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                         ₺
 
@@ -1847,13 +1874,13 @@
                                                                                 @endif
                                                                             @endif
                                                                         @else
-                                                                            @if ($offer && in_array($i + 1, $projectHousingsList))
+                                                                            @if ($projectDiscountAmount)
                                                                                 <h6
                                                                                     style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                     ₺</h6>
                                                                                 <h6
-                                                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                    style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                     ₺
 
@@ -1877,18 +1904,18 @@
                                                     <div class="d-flex justify-content-between align-items-center"
                                                         style="height: 100%">
                                                         <span
-                                                            style="height: 100%;
-                                                                                    font-size: 11px !important;
-                                                                                    width: 15% !important;
-                                                                                    padding: 3px 10px;
-                                                                                    background: #EA2B2E !important;
-                                                                                    color: white;
-                                                                                    text-align: center;">
+                                                            style="    height: 100%;
+                                                                                font-size: 11px !important;
+                                                                                width: 15% !important;
+                                                                                padding: 3px 10px;
+                                                                                background: #EA2B2E !important;
+                                                                                color: white;
+                                                                                text-align: center;">
                                                             @if (isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != '[]')
-                                                                {{ $room_order }}. Hisse
+                                                                {{ $i + 1 - $lastHousingCount }}. Hisse
                                                             @else
                                                                 No
-                                                                <br> {{ $room_order }}
+                                                                <br>{{ $i + 1 - $lastHousingCount }}
                                                             @endif
                                                         </span>
                                                         <ul class="d-flex justify-content-start align-items-center h-100 w-100"
@@ -1946,9 +1973,9 @@
 
                                                         <span
                                                             style="    font-size: 9px !important;
-                                                                                        width: 50% !important;
-                                                                                        text-align: right;
-                                                                                        margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
+                                                                                    width: 50% !important;
+                                                                                    text-align: right;
+                                                                                    margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -1961,6 +1988,7 @@
 
                                 </div>
                             @endif
+
                         </div>
                         <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
                             aria-labelledby="payment">
@@ -3023,7 +3051,7 @@ out center;`;
 
 
         @media (max-width:768px) {
-            .addCollection {
+            .addCollectionMobile {
                 margin-bottom: 30px !important
             }
 

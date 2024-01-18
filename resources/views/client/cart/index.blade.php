@@ -13,7 +13,7 @@
                         <table class="table-responsive">
                             <thead class="mobile-hidden">
                                 <tr>
-                                    <th class="pl-2">Emlak</th>
+                                    <th class="pl-2">İlan</th>
                                     <th class="p-0" style="width: 300px !important"></th>
                                     <th class="pl-2">Fiyat</th>
                                     <th>Kaldır</th>
@@ -26,20 +26,29 @@
                                     </tr>
                                 @else
                                     @php
-                                        $offer = App\Models\Offer::where('type', 'housing')
+                                        $housingOffer = App\Models\Offer::where('type', 'housing')
                                             ->where('housing_id', $cart['item']['id'])
                                             ->where('start_date', '<=', now())
                                             ->where('end_date', '>=', now())
                                             ->first();
-                                        $discount_amount = $offer ? $offer->discount_amount : 0;
+                                        $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
+
+                                        // Project için indirim kontrolü
+                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                            ->where('project_id', $cart['item']['id'])
+                                            ->where('start_date', '<=', now())
+                                            ->where('end_date', '>=', now())
+                                            ->first();
+                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                     @endphp
+
 
                                     <tr>
                                         <td class="image myelist">
                                             <a
                                                 href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
                                                 <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                    class="img-fluid">
+                                                    style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
                                             </a>
                                         </td>
                                         <td>
@@ -48,8 +57,8 @@
                                                     href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
                                                     <h2 style="font-weight: 600;text-align: left !important">
                                                         {{ $cart['type'] == 'housing'
-                                                            ? 'İlan No: #' . $cart['item']['id'] + 2000000
-                                                            : 'İlan No: #' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                                                            ? 'İlan No: ' . $cart['item']['id'] + 2000000
+                                                            : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                                         <br>
 
                                                         {{ $cart['item']['title'] }}
@@ -59,23 +68,61 @@
                                         </td>
                                         <td>
                                             <span style="color:#e54242; font-weight:600">
-                                                @if ($discount_amount)
-                                                    <svg viewBox="0 0 24 24" width="24" height="24"
-                                                        stroke="currentColor" stroke-width="2" fill="none"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
+                                                @if ($cart['hasCounter'])
+                                                    @if ($cart['type'] == 'housing')
+                                                        @php
+                                                            $housing = App\Models\Housing::find($cart['item']['id']);
+                                                            $housingData = json_decode($housing->housing_type_data);
+                                                            $discountRate = $housingData->discount_rate[0] ?? 0;
+
+                                                            $housingAmount = $cart['item']['price'] - $housingDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
+
+                                                            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $project = App\Models\Project::find($cart['item']['id']);
+                                                            $roomOrder = $cart['item']['housing'];
+                                                            $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                                                ->where('room_order', $roomOrder)
+                                                                ->get()
+                                                                ->keyBy('name');
+
+                                                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                                                            $projectAmount = $cart['item']['price'] - $projectDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
+                                                            $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+
+                                                        @endphp
+                                                    @endif
+
+                                                    <del style="color: red;">
+                                                        {{ number_format($cart['item']['price']) }} ₺
+                                                    </del><br>
+                                                    <span style="color: green; font-size:14px !important">
+                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                    </span>
+                                                @else
+                                                    @php
+                                                        $discountedPrice = $cart['item']['price'];
+
+                                                    @endphp
+                                                    <span style="color: green; font-size:14px !important">
+                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                    </span>
                                                 @endif
-                                                {{ number_format($cart['item']['price'] - $cart['item']['discount_amount'], 0, ',', '.') }}
-                                                ₺
+
                                             </span>
                                         </td>
+
                                         <td class="actions">
                                             <a href="#" class="remove-from-cart" style="float: left"><i
                                                     class="far fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
+
+
+
                                 @endif
                             </tbody>
                         </table>
@@ -85,7 +132,7 @@
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
                         <div class="tr-single-body">
-                            <div class="tr-single-header pb-3">
+                            <div class="tr-single-header pb-2" style="margin-bottom:10px !important;">
                                 <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                             </div>
                             <div class="booking-price-detail side-list no-border mb-3">
@@ -96,22 +143,63 @@
                                     </ul>
                                 @else
                                     <ul>
-                                        <li>Toplam Fiyat<strong class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])), 0, ',', '.') }} TL</strong></li>
-                                        <li>Toplam Fiyatın %1 Kaporası :<strong class="pull-right">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }} TL</strong></li>
+                                        <li>İlan Fiyatı<strong class="pull-right">
+                                                {{ number_format($cart['item']['price'], 0, ',', '.') }}
+                                                TL</strong></li>
+
+                                        @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
+                                            <li style="color:red">Mağaza İndirimi :<strong class="pull-right">
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                    <span
+                                                        style="margin-left: 2px">{{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
+                                                        ₺ </span></strong></li>
+                                        @endif
+
+
+                                        @if (isset($discountRate) || $cart['hasCounter'])
+                                            <li style="color:red">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
+                                                        stroke="currentColor" stroke-width="2" fill="none"
+                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                    <span style="margin-left: 2px">{{ $discountRate }}
+                                                        % </span></strong></li>
+                                        @endif
+                                        <li>Toplam Fiyat<strong class="pull-right">
+                                                {{ number_format($discountedPrice, 0, ',', '.') }}
+
+                                                TL</strong></li>
+
+
+
+
+
+                                        <li>Toplam Fiyatın %2 Kaporası :<strong
+                                                class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                TL</strong></li>
+
                                     </ul>
                                 @endif
                             </div>
                             @if (!$cart || empty($cart['item']))
                                 <button type="button" class="btn btn-primary btn-lg btn-block"
-                                    style="    height: 50px !important;
-                                font-size: 12px;
-                                margin: 0 auto;"
+                                    style="height: 50px !important;font-size: 12px;margin: 0 auto;"
                                     onclick="window.location.href='{{ route('index') }}'">
                                     Alışverişe Devam Et
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-lg btn-block " data-toggle="modal" data-target="#paymentModal" style=" height: 50px !important; font-size: 12px; margin: 0 auto;">
-                                    <span class="capora-button-price">{{ number_format(floatval(str_replace('.', '', $cart['item']['price'] - $cart['item']['discount_amount'])) * 0.01, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
+                                <button type="button" class="btn btn-primary btn-lg btn-block paymentButton " data-toggle="modal"
+                                    data-target="#paymentModal"
+                                    style="height: 50px !important;font-size: 12px;margin: 0 auto;">
+                                    {{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                    TL <br> KAPORA ÖDE
                                 </button>
                             @endif
 
@@ -123,7 +211,6 @@
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
 
@@ -155,22 +242,25 @@
                                                 <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
                                                     data-iban="{{ $bankAccount->iban }}"
                                                     data-title="{{ $bankAccount->receipent_full_name }}">
-                                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
+                                                        alt=""
                                                         style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
                                                 </div>
                                             @endforeach
                                         </div>
                                         <div id="ibanInfo"></div>
                                         <strong>Ödeme işlemini tamamlamak için, lütfen bu
-                                            <span style="color:red;font-size:15px !important;font-weight:bold" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                            <span style="color:red;font-size:15px !important;font-weight:bold"
+                                                id="uniqueCode"></span> kodu kullanarak ödemenizi
                                             yapın. IBAN açıklama
                                             alanına
-                                            bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                            bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak
+                                            işlemi
                                             bitirin.</strong>
-    
+
                                     </div>
                                 </div>
-                             
+
                             </div>
                             <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
                                 class="btn btn-primary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
@@ -188,43 +278,48 @@
                         <div class="modal-header">
                             <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true" class="closeTimes">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                           <div class="container">
-                            <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
-                            <span>1. <strong style="color:red;font-size:15px;font-weight:bold" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                                alanına yazdığınızdan emin olun.</span>
-                           
-                                <form action="{{ route('pay.cart') }}" method="POST">   
+                            <div class="container">
+                                <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
+                                <span>1. <strong style="color:red;font-size:15px;font-weight:bold"
+                                        id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                    alanına yazdığınızdan emin olun.</span>
+
+                                <form action="{{ route('pay.cart') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="key" id="orderKey">
                                     <input type="hidden" name="banka_id" id="bankaID">
-                                
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fullName">Ad Soyad:</label>
-                                                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                                <input type="text" class="form-control" id="fullName"
+                                                    name="fullName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="email">E-posta:</label>
-                                                <input type="email" class="form-control" id="email" name="email" required>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tc">TC:</label>
-                                                <input type="number" class="form-control" id="tc" name="tc" required>
+                                                <input type="number" class="form-control" id="tc" name="tc"
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="phone">Telefon:</label>
-                                                <input type="tel" class="form-control" id="phone" name="phone" required>
+                                                <input type="tel" class="form-control" id="phone" name="phone"
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -240,8 +335,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
-                                    <button type="submit" class="btn btn-primary paySuccess" style="float:right">Ödemeyi Tamamla
+
+                                    <button type="submit" class="btn btn-primary paySuccess" style="float:right">Ödemeyi
+                                        Tamamla
                                         <svg viewBox="0 0 576 512" class="svgIcon">
                                             <path
                                                 d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
@@ -249,8 +345,8 @@
                                         </svg>
                                     </button>
                                 </form>
-                                
-                           </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -268,6 +364,34 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <!-- lightbox2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- lightbox2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
         $(document).ready(function() {
@@ -297,7 +421,9 @@
                     toastr.error('Lütfen banka seçimi yapınız.')
 
                 } else {
-                    $('#paymentModal').modal('hide');
+                    $('#paymentModal').removeClass('show').hide();
+                    $('.modal-backdrop').removeClass('show');
+                    $('.modal-backdrop').remove();
                     $('#finalConfirmationModal').modal('show');
                 }
             });
@@ -349,7 +475,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#paymentModal').on('show.bs.modal', function(e) {
+            $(".paymentButton").on("click", function() {
                 var uniqueCode = generateUniqueCode();
                 $('#uniqueCode').text(uniqueCode);
                 $('#uniqueCodeRetry').text(uniqueCode);
