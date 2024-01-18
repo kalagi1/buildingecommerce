@@ -51,7 +51,7 @@
                                             <div
                                                 class="avatar avatar-xl status-online position-relative me-2 me-sm-0 me-xl-2">
                                                 <img class="rounded-circle border border-2 border-white"
-                                                    src="{{ asset('storage/profile_images/' . $chat->user->profile_image) }}"
+                                                src="{{ asset('storage/profile_images/' . ($chat->user->profile_image ?? 'default.jpg')) }}"
                                                     alt="">
                                             </div>
                                             <div class="flex-1 d-sm-none d-xl-block">
@@ -122,7 +122,7 @@
                                                     <div class="d-flex hover-actions-trigger">
                                                         <div class="avatar avatar-m me-3 flex-shrink-0">
                                                             <img class="rounded-circle"
-                                                                src="{{ asset('storage/profile_images/' . $chat->user->profile_image) }}"
+                                                            src="{{ asset('storage/profile_images/' . ($chat->user->profile_image ?? 'default.jpg')) }}"
                                                                 alt="">
                                                         </div>
                                                         <div class="chat-message-content received me-2">
