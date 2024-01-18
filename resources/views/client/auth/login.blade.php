@@ -197,10 +197,12 @@
 
                                             <!-- Firma Adı -->
                                             <div class="mt-3">
-                                                <label class="q-label">Firma Adı 
-                                                    <i class="info-icon fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Firma adını kısaltmadan aynen yazınız."></i>
+                                                <label class="q-label">Firma Adı
+                                                    <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Firma adını kısaltmadan aynen yazınız."></i>
                                                 </label>
-                                            
+
                                                 <input type="text" name="name"
                                                     class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
                                                     value="{{ old('name') }}">
@@ -414,10 +416,10 @@
                                         <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
                                         <div class="fl-wrap filter-tags clearfix mt-3 mb-3">
                                             <fieldset>
-                                    
+
                                                 <div class="checkboxes float-left">
-                                                    <div class="filter-tags-wrap">
-                                                        <input id="check-a" type="checkbox" name="check-a" required>
+                                                    <div class="filter-tags-wrap  {{ old('type') == 1 ? 'd-show' : '' }}" id="individualFormCheck" >
+                                                        <input id="check-a" type="checkbox" name="check-a">
                                                         <label for="check-a" style="font-size: 12px;">
                                                             <a href="/sayfa/bireysel-uyelik-sozlesmesi" target="_blank">
                                                                 Bireysel üyelik sözleşmesini
@@ -425,8 +427,8 @@
                                                             okudum onaylıyorum.
                                                         </label>
                                                     </div>
-                                                    <div class="filter-tags-wrap">
-                                                        <input id="check-d" type="checkbox" name="check-d" required>
+                                                    <div class="filter-tags-wrap  {{ old('type') == 2 ? 'd-show' : '' }}" id="corporateFormCheck" >
+                                                        <input id="check-d" type="checkbox" name="check-d">
                                                         <label for="check-d" style="font-size: 12px;">
                                                             <a href="/sayfa/kurumsal-uyelik-sozlesmesi" target="_blank">
                                                                 Kurumsal üyelik sözleşmesini
@@ -435,35 +437,36 @@
                                                         </label>
                                                     </div>
                                                     <div class="filter-tags-wrap">
-                                                        <input id="check-b" type="checkbox" name="check-b" required>
+                                                        <input id="check-b" type="checkbox" name="check-b">
                                                         <label for="check-b" style="font-size: 12px;">
-                                                            <a href="/sayfa/kvkk-politikasi"  target="_blank">
-                                                                KVKK metnini
+                                                            <a href="/sayfa/kvkk-politikasi" target="_blank">
+                                                                Kvkk metnini
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
                                                     </div>
                                                     <div class="filter-tags-wrap">
-                                                        <input id="check-c" type="checkbox" name="check-c" required>
+                                                        <input id="check-c" type="checkbox" name="check-c">
                                                         <label for="check-c" style="font-size: 12px;">
-                                                            <a href="/sayfa/gizlilik-sozlesmesi-ve-aydinlatma-metni"  target="_blank">
+                                                            <a href="/sayfa/gizlilik-sozlesmesi-ve-aydinlatma-metni"
+                                                                target="_blank">
                                                                 Gizlilik sözleşmesi ve aydınlatma metnini
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
                                                     </div>
                                                     <div class="filter-tags-wrap">
-                                                        <input id="check-e" type="checkbox" name="check-a" required>
+                                                        <input id="check-e" type="checkbox" name="check-a">
                                                         <label for="check-e" style="font-size: 12px;">
-                                                          Tarafıma elektronik ileti gönderilmesini kabul ediyorum.
+                                                            Tarafıma elektronik ileti gönderilmesini kabul ediyorum.
                                                         </label>
                                                     </div>
                                                 </div>
                                             </fieldset>
-                                    
+
                                             <!-- Diğer form alanları burada bulunabilir -->
                                         </div>
-                                    
+
                                         <button class="btn btn-primary q-button mb-5" type="submit"> Üye OL</button>
                                     </form>
                                 </div>
@@ -478,7 +481,6 @@
 
         </div>
     </section>
-
 @endsection
 
 
@@ -495,12 +497,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         const individualForm = document.getElementById('individualForm');
+        const individualFormCheck = document.getElementById('individualFormCheck');
         const corporateForm = document.getElementById('corporateForm');
+        const corporateFormCheck = document.getElementById('corporateFormCheck');
         const userTypeButtons = document.querySelectorAll('.user-type-button');
         const userTypeInput = document.getElementById('user-type-input');
 
         individualForm.style.display = 'block';
+        individualFormCheck.style.display = 'block';
         corporateForm.style.display = 'none';
+        corporateFormCheck.style.display = 'none';
 
         userTypeButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -511,14 +517,24 @@
                 userTypeInput.value = userType;
 
                 individualForm.style.display = 'none';
+                individualFormCheck.style.display = 'none';
                 corporateForm.style.display = 'none';
+                corporateFormCheck.style.display = 'none';
+
 
                 if (userType === '1' || userType === '21') {
                     individualForm.style.display = 'block';
+                    individualFormCheck.style.display = 'block';
                     corporateForm.classList.remove('d-show');
+                    corporateFormCheck.classList.remove('d-show');
+
                 } else if (userType === '2') {
                     corporateForm.style.display = 'block';
+                    corporateFormCheck.style.display = 'block';
                     individualForm.classList.remove('hide');
+                    individualFormCheck.classList.remove('hide');
+
+
 
                 }
             });
@@ -661,14 +677,14 @@
             $(`.sub-plan-tab.${data[value]}`).removeClass('d-none');
         });
     </script>
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-      <script>
-        $(document).ready(function(){
-          $('[data-toggle="tooltip"]').tooltip();
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
         });
-      </script>
+    </script>
 @endsection
 
 @section('styles')
@@ -689,8 +705,5 @@
             color: red;
             font-size: 12px;
         }
-      
-
-
     </style>
 @endsection
