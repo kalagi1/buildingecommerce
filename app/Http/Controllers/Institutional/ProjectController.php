@@ -1126,13 +1126,8 @@ class ProjectController extends Controller
 
     public function destroy($id)
     {
-        // Silinecek markayı bulun
         $project = Project::findOrFail($id);
-
-        // Markayı veritabanından sil
         $project->delete();
-
-        return redirect()->route('institutional.projects.index')->with('success', 'Proje başarıyla silindi.');
     }
 
     public function newProjectImage(Request $request, $projectId)

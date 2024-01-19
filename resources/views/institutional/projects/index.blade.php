@@ -29,7 +29,6 @@
         </div>
 
     </div>
- 
 @endsection
 
 @section('css')
@@ -54,12 +53,16 @@
         .badge-info {
             background-color: #e54242
         }
-        .nav-tabs .nav-link{
-            color:black !important;
+
+        .nav-tabs .nav-link {
+            color: black !important;
         }
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
-            color:red !important;
+
+        .nav-tabs .nav-link.active,
+        .nav-tabs .nav-item.show .nav-link {
+            color: red !important;
         }
+
         .ml-2 {
             margin-left: 20px;
         }
@@ -71,6 +74,8 @@
 @endsection
 
 @section('scripts')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
@@ -104,9 +109,11 @@
                 var denemeCell = document.createElement("td");
                 denemeCell.className = "align-middle";
                 denemeCell.innerHTML = project.project_title +
-    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + project.city.title + " / " +
-    project.county.ilce_title + (project.neighbourhood ? " / " + project.neighbourhood.mahalle_title : "") +
-    "</span>";
+                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + project.city
+                    .title + " / " +
+                    project.county.ilce_title + (project.neighbourhood ? " / " + project.neighbourhood
+                        .mahalle_title : "") +
+                    "</span>";
 
 
                 var titleCCell = document.createElement("td");
@@ -160,14 +167,14 @@
                 var activeCell = document.createElement("td");
                 activeCell.className = "align-middle status";
                 activeCell.innerHTML = project.status == 1 ?
-                    '<span class="badge badge-phoenix badge-phoenix-success">Yayında</span>' :
+                    '<span class="text-success">Yayında</span>' :
                     project.status == 2 ?
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Admin Onayı Bekliyor</span>' :
+                    '<span class="text-danger">Admin Onayı Bekliyor</span>' :
                     project.status == 3 ?
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
+                    '<span class="text-danger">Admin Tarafından Reddedildi</span>' :
                     project.status == 7 ?
-                    '<span class="badge badge-phoenix badge-phoenix-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Yayında Değil</span>';
+                    '<span class="text-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
+                    '<span class="text-danger">Yayında Değil</span>';
 
                 var actionsCell = document.createElement("td");
                 actionsCell.className = "align-middle white-space-nowrap pe-0";
@@ -196,6 +203,50 @@
                 var divider = document.createElement("div");
                 divider.className = "dropdown-divider";
 
+                var deleteCell = document.createElement("td");
+                deleteCell.className = "align-middle";
+                var deleteButton = document.createElement("button");
+                deleteButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                deleteButton.textContent = "Sil";
+                deleteButton.addEventListener("click", function() {
+                    // Kullanıcıdan onay al
+                    var confirmDelete = confirm("Bu projeyi silmek istediğinizden emin misiniz?");
+                    if (confirmDelete) {
+                        var csrfToken = "{{ csrf_token() }}";
+                        // Laravel route ismi
+                        var routeName = "{{ route('institutional.projects.destroy', ['id' => ':id']) }}";
+                        // API Endpoint'i oluştur
+                        var apiUrl = routeName.replace(':id', project.id);
+
+                        fetch(apiUrl, {
+                                method: "DELETE", // Silme işlemi için DELETE metodu
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
+                                },
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Network response was not ok");
+                                }
+                                location.reload();
+                            })
+                            .then(data => {
+                                // Silme işlemi başarılı
+                                toastr.success("Proje başarıyla silindi.");
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error("There was a problem with the fetch operation:", error);
+                                // Silme işlemi başarısız
+                                toastr.error("Proje silinirken bir hata oluştu.");
+                            });
+                    }
+                });
+
+                deleteCell.appendChild(deleteButton);
+
+
                 actionsDiv.appendChild(viewLink);
                 actionsDiv.appendChild(exportLink);
                 actionsCell.appendChild(actionsDiv);
@@ -208,11 +259,12 @@
                 row.appendChild(applyCell);
                 row.appendChild(offSaleCell);
                 row.appendChild(totalCell);
+                row.appendChild(activeCell);
 
                 row.appendChild(houseCount);
                 // row.appendChild(standOutCell);
-                row.appendChild(activeCell);
                 row.appendChild(actionsCell);
+                row.appendChild(deleteCell);
 
                 tbody.appendChild(row);
             });

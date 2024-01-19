@@ -8,10 +8,12 @@
             <th>Onaydaki Siparişler</th>
             <th>Satışa Kapalı Adet</th>
             <th>Satışa Açık Adet</th>
+            <th>Yayın Durumu</th>
+
             <th>İlanları Düzenle</th>
             {{-- <th>Sponsorlu</th> --}}
-            <th>Yayın Durumu</th>
             <th>İşlem Kayıtları & Proje Düzenle</th>
+            <th>Sil</th>
         </tr>
     </thead>
     <tbody class="list" id="{{ $tableId }}"></tbody>

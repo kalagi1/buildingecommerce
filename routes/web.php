@@ -704,8 +704,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
     Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
-Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
-Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
+    Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
+    Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
 
     Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
     Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');
@@ -851,6 +851,7 @@ Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])
     Route::get('/projects/{project_id}/housings/edit/{room_order}', [InstitutionalProjectController::class, 'editHousing'])->name('projects.edit.housing');
     Route::post('/projects/{project_id}/housings/edit/{room_order}', [InstitutionalProjectController::class, 'editHousingPost'])->name('projects.edit.housing.post');
     Route::get('/projects/{project_id}/housings/edit/{room_order}/delete', [InstitutionalProjectController::class, 'deleteHousingPost'])->name('projects.delete.housing');
+    Route::delete('/projects/{id}', [InstitutionalProjectController::class, 'destroy'])->name('projects.destroy');
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');

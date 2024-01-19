@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupon_items', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger("item_id");
-            $table->integer("item_type");
-            $table->unsignedBigInteger("coupon_id");
-            $table->timestamps();
+        Schema::table('housings', function (Blueprint $table) {
+            $table->softDeletes();
+
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coupon_items');
+        Schema::table('housings', function (Blueprint $table) {
+            //
+        });
     }
 };
