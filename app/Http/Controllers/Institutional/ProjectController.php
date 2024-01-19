@@ -216,14 +216,14 @@ class ProjectController extends Controller
         $pendingProjects = [];
 
     
-        $projects = $projects->map(function ($project) use (&$offSaleCount, &$activeProjects, &$inactiveProjects) {
+        $projects = $projects->map(function ($project) use (&$offSaleCount, &$activeProjects, &$inactiveProjects,&$pendingProjects) {
             $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
             $project->offSale = $salesCloseProjectHousingCount;
                 if ($project->status == 1) {
                 $activeProjects[] = $project;
             } elseif($project->status == 0){
                 $inactiveProjects[] = $project;
-            }else{
+            }elseif($project->status == 2){
                 $pendingProjects[] = $project;
 
             }

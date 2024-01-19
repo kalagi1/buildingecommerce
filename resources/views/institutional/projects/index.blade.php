@@ -9,7 +9,8 @@
                     <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pendingProjects-tab" data-bs-toggle="tab" href="#pendingProjects">Onay Bekleyen İlanlar</a>
+                    <a class="nav-link" id="pendingProjects-tab" data-bs-toggle="tab" href="#pendingProjects">Onay Bekleyen
+                        İlanlar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
@@ -83,8 +84,8 @@
 @endsection
 
 @section('scripts')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
@@ -180,12 +181,11 @@
                 activeCell.innerHTML = project.status == 1 ?
                     '<span class="text-success">Yayında</span>' :
                     project.status == 2 ?
-                    '<span class="text-danger">Admin Onayı Bekliyor</span>' :
-                    project.status == 3 ?
-                    '<span class="text-danger">Admin Tarafından Reddedildi</span>' :
-                    project.status == 7 ?
-                    '<span class="text-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
-                    '<span class="text-danger">Yayında Değil</span>';
+                    '<span class="text-warning">Admin Onayı Bekliyor</span>' :
+                    project.status == 0 ?
+                    '<span class="text-danger">Pasif</span>' :
+                    ''; // Opsiyonel: Diğer durumlar için boş string, isteğe bağlı olarak ekleyebilirsiniz.
+
 
                 var actionsCell = document.createElement("td");
                 actionsCell.className = "align-middle white-space-nowrap pe-0";
