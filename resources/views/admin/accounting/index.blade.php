@@ -46,6 +46,10 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_project">İlan :</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                    data-sort="order_amount">Kuponlu alışveriş:</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                    data-sort="order_amount">Kupon Detayı:</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_amount">Emlak Kulüp Üyesi & Hakediş :</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_date">Emlak Sepette Hakediş :</th>
@@ -90,7 +94,8 @@
                                                 {{ App\Models\Housing::find(json_decode($item->cart->cart)->item->id ?? 0)->title ?? null }}
                                             @endif
                                         </td>
-
+                                        <td>{{isset($item->cart->coupon) ? "Evet" : "Hayır"}}</td>
+                                        <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺ @endif @endif)</td>
                                         <td>
                                             @if (isset($item->balance))
                                                 <strong>{{ optional($item->user)->name ?? '-' }}</strong>

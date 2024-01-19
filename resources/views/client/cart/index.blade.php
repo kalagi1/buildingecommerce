@@ -292,7 +292,8 @@
                                     @csrf
                                     <input type="hidden" name="key" id="orderKey">
                                     <input type="hidden" name="banka_id" id="bankaID">
-
+                                    <input type="hidden" name="have_discount" class="have_discount" >
+                                    <input type="hidden" name="discount" class="discount" >
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -436,6 +437,20 @@
                             $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
                             $('.button-price-inner').html(formatPrice(newCapora))
                             $('.capora-button-price').html((formatPrice(newCapora)))
+                            $('.have_discount').val(1);
+                            $('.discount').val($('.coupon-code').val());
+                        }else{
+                            var newPrice = parseFloat(response.cart.item.price) - parseFloat( response.discount_amount);
+
+                            var newCapora = newPrice * 2 / 100;
+
+                            $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(response.discount_amount))+' TL</strong></li>')
+                            $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
+                            $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                            $('.button-price-inner').html(formatPrice(newCapora))
+                            $('.capora-button-price').html((formatPrice(newCapora)))
+                            $('.have_discount').val(1);
+                            $('.discount').val($('.coupon-code').val());
                         }
                     }else{
                         toastr.error(response.message)

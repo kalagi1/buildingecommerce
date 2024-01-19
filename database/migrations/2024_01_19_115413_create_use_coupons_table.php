@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cart_prices', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('use_coupons', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger("coupon_id");
+            $table->unsignedBigInteger("order_id");
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cart_prices', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('use_coupons');
     }
 };

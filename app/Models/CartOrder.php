@@ -37,5 +37,7 @@ class CartOrder extends Model
         return $this->belongsTo(Invoice::class, "id", "order_id");
     }
 
-    
+    public function coupon(){
+        return $this->hasOne(UseCoupon::class,"order_id","id");
+    }
 }

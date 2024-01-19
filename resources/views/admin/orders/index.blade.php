@@ -88,24 +88,7 @@
                                                 @endif
                                             </td>
                                             <td class="order_amount">{{ $order->amount }} <br>
-                                                @if (isset($order->share))
-                                                    @if ($order->share->status == 0)
-                                                        <strong style="color: orange">
-                                                            <span>Komisyon: </span><br>
-                                                            {{ $order->share->balance }} ₺
-                                                        </strong>
-                                                    @elseif ($order->share->status == 2)
-                                                        <strong style="color: red">
-                                                            <span>Komisyon Reddedildi: </span><br>
-                                                            {{ $order->share->balance }} ₺
-                                                        </strong>
-                                                    @else
-                                                        <strong style="color: green">
-                                                            <span>Komisyon: </span><br>
-                                                            {{ $order->share->balance }} ₺
-                                                        </strong>
-                                                    @endif
-                                                @endif
+                                                
                                             </td>
                                             <td class="order_date">{{ $order->created_at }}</td>
                                             <td class="order_status">{!! [
