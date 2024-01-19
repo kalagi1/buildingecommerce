@@ -65,6 +65,7 @@ class CartController extends Controller
                 $cart = $request->session()->get('cart', []);
                 if ($cart['type'] == "housing") {
                     if($coupon->select_housings_type == 1){
+                        $haveDiscount = true;
                         if($coupon->discount_type == 1){
                             $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
                             $amount = number_format($amount * 0.02, 2, ',', '.');
@@ -97,6 +98,7 @@ class CartController extends Controller
                 }else{
                     if($coupon->select_projects_type == 1){
                         if($coupon->discount_type == 1){
+                            $haveDiscount = true;
                             $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
                             $amount = number_format($amount * 0.02, 2, ',', '.');
                         }else{
