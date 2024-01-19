@@ -18,4 +18,8 @@ class Coupon extends Model
     public function housings(){
         return $this->hasMany(CouponItem::class,"coupon_id","id")->where('item_type',2);
     }
+
+    public function projects(){
+        return $this->hasMany(CouponItem::class,"coupon_id","id")->where('item_type',1);
+    }
 }
