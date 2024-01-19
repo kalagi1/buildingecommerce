@@ -2,56 +2,47 @@
 
 @section('content')
     <div class="content">
-        <div id="tableExample"
-        data-list='{"valueNames":["name","email","age"],"page":20,"pagination":true}'>
-        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
-
-            <div class="table-responsive scrollbar mx-n1 px-1">
-                <table class="table fs--1 mb-0">
-                    <tr>
-                        <th>ID</th>
-                        <th>Başlık</th>
-                        <th>Daire Türü</th>
-                        <th>Statü</th>
-                        <th>Oluşturulma Tarihi</th>
-                        <th>İşlemler</th>
-                    </tr>
-                    </thead>
-                    <tbody class="list" id="bulk-select-body"></tbody>
-                </table>
+        <h2 class="mb-2 lh-sm">Emlak İlanları</h2>
+        <div class="card shadow-none border border-300 my-4">
+            <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
+                </li>
+            </ul>
+            <div class="tab-content px-4 pb-4">
+                <div class="tab-pane fade show active" id="active">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-active',
+                        'housingTypes' => $activeHousingTypes,
+                    ])
+                </div>
+                <div class="tab-pane fade" id="inactive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-inactive',
+                        'housingTypes' => $inactiveHousingTypes,
+                    ])
+                </div>
             </div>
         </div>
-
-        <div
-            class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
-            <div class="d-flex">
-                <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
-                    data-list-info="data-list-info"></p>
-            </div>
-            <div class="d-flex"><button class="page-link" data-list-pagination="prev"><span
-                        class="fas fa-chevron-left"></span></button>
-                <ul class="mb-0 pagination"></ul><button class="page-link pe-0"
-                    data-list-pagination="next"><span
-                        class="fas fa-chevron-right"></span></button>
-            </div>
-        </div>
-
-    </div>
 
     </div>
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        var housingTypes = @json($housing);
-        var tbody = document.getElementById("bulk-select-body");
-        housingTypes.forEach(function(housingType) {
+        var activeHousingTypes = @json($activeHousingTypes);
+        var inactiveHousingTypes = @json($inactiveHousingTypes);
+
+        function createTable(tbody, housingTypes) {
+            housingTypes.forEach(function(housingType) {
             var row = document.createElement("tr");
 
             var idCell = document.createElement("td");
             idCell.className = "align-middle id";
-            idCell.textContent = housingType.id;
+            idCell.textContent = housingType.id + 2000000;
 
             var housingTitleCell = document.createElement("td");
             housingTitleCell.className = "align-middle ps-3 housing_title";
@@ -63,10 +54,10 @@
 
             var statusCell = document.createElement("td");
             statusCell.className = "align-middle status";
-            statusCell.innerHTML = housingType.status == 1 ? '<span class="btn btn-success">Aktif</span>' :
-                housingType.status == 2 ? '<span class="btn btn-warning">Admin Onayı Bekliyor</span>' : housingType
-                .status == 3 ? '<span class="btn btn-danger">Admin Tarafından Reddedildi</span>' :
-                '<span class="btn btn-danger">Pasif</span>';
+            statusCell.innerHTML = housingType.status == 1 ? '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
+                housingType.status == 2 ? '<span class="badge badge-phoenix badge-phoenix-warning">Admin Onayı Bekliyor</span>' : housingType
+                .status == 3 ? '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
+                '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
 
             var createdAtCell = document.createElement("td");
             createdAtCell.className = "align-middle created_at";
@@ -74,49 +65,17 @@
 
             var actionsCell = document.createElement("td");
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
-            var actionsDiv = document.createElement("div");
-            actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-            var actionsButton = document.createElement("button");
-            actionsButton.className =
-                "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
-            actionsButton.type = "button";
-            actionsButton.setAttribute("data-bs-toggle", "dropdown");
-            actionsButton.setAttribute("data-bs-boundary", "window");
-            actionsButton.setAttribute("aria-haspopup", "true");
-            actionsButton.setAttribute("aria-expanded", "false");
-            actionsButton.setAttribute("data-bs-reference", "parent");
-            var actionsIcon = document.createElement("span");
-            actionsIcon.className = "fas fa-ellipsis-h fs--2";
-            actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
-            var dropdownMenu = document.createElement("div");
-            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
-            var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
-            viewLink.href = "{{ URL::to('/') }}/institutional/housings/" + housingType.id + '/logs';
-            viewLink.textContent = "Loglar";
             var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
-            exportLink.href = "{{ URL::to('/') }}/institutional/edit_housing/" + housingType.id;
-            exportLink.textContent = "Düzenle";
-            var imageLinks = document.createElement("a");
-            imageLinks.className = "dropdown-item";
-            imageLinks.href = "{{ URL::to('/') }}/institutional/edit_images/" + housingType.id;
-            imageLinks.textContent = "Resimler";
-            var divider = document.createElement("div");
-            divider.className = "dropdown-divider";
-            var removeLink = document.createElement("a");
-            removeLink.className = "dropdown-item text-danger remove-item";
-            removeLink.href = "{{ URL::to('/') }}/institutional/remove_housing/" + housingType.id;
-            removeLink.textContent = "Sil";
-            removeLink.setAttribute("data-project-id", housingType.id);
-            dropdownMenu.appendChild(viewLink);
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(imageLinks);
-            dropdownMenu.appendChild(divider);
-            dropdownMenu.appendChild(removeLink);
-            actionsDiv.appendChild(dropdownMenu);
-            actionsCell.appendChild(actionsDiv);
+            exportLink.className = "badge badge-phoenix badge-phoenix-primary";
+            exportLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/detail';
+            exportLink.textContent = "Görüntüle";
+            var viewLink = document.createElement("a");
+            viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
+            viewLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/logs';
+            viewLink.textContent = "Loglar";
+            actionsCell.appendChild(exportLink);
+            actionsCell.appendChild(viewLink);
+
 
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
@@ -128,20 +87,30 @@
 
             tbody.appendChild(row);
         });
+        }
 
-        $('.remove-item').click(function(e){
-            e.preventDefault();
-            Swal.fire({
-                title: 'Silmek istediğine emin misin?',
-                showCancelButton: true,
-                confirmButtonText: 'Evet',
-                denyButtonText: `İptal`,
-                }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    window.location.href= $(this).attr('href');
-                }
-            })
-        })
+        createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
+        createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
+
+        // Handle tab switching
+        var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
+        housingTabs.show();
     </script>
+
+    <style>
+        .nav-tabs .nav-link{
+            color:black !important;
+        }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+            color:red !important;
+        }
+        .ml-2 {
+            margin-left: 20px;
+        }
+
+        .mr-2 {
+            margin-right: 20px;
+        }
+    </style>
 @endsection
+

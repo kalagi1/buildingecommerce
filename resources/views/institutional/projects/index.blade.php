@@ -2,115 +2,34 @@
 
 @section('content')
     <div class="content">
-
-        <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":10,"pagination":true}'>
-            @if (session()->has('success'))
-                <div class="alert alert-success text-white">
-                    {{ session()->get('success') }}
+        <h2 class="mb-2 lh-sm">Proje İlanları</h2>
+        <div class="card shadow-none border border-300 my-4">
+            <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
+                </li>
+            </ul>
+            <div class="tab-content px-4 pb-4">
+                <div class="tab-pane fade show active" id="active">
+                    @include('institutional.projects.project_table', [
+                        'tableId' => 'bulk-select-body-active',
+                        'projectTypes' => $activeProjects,
+                    ])
                 </div>
-            @endif
-            <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
-                <div class="table-responsive scrollbar mx-n1 px-1">
-                    <table class="table fs--1 mb-0">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Kapak Görseli</th>
-                                <th>Proje Adı</th>
-                                <th>Toplam Gayrimenkul Sayısı</th>
-                                <th>Satış Adeti</th>
-                                <th>Toplam Kazanç</th>
-                                <th>Onaydaki Siparişler</th>
-                                <th>Satışa Kapalı Adet</th>
-                                <th>Satışa Açık Adet</th>
-                                <th>İlan Düzenle</th>
-                                <th>Sponsorlu</th>
-                                <th>Yayında/Yayında Değil</th>
-                                <th>İşlem Kayıtları & Proje Düzenle</th>
-                            </tr>
-                        </thead>
-                        <tbody class="list" id="bulk-select-body"></tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="pop-up-v2 d-none">
-        <div class="pop-back"></div>
-        <div class="pop-content">
-            <div class="pop-content-inner">
-                <div class="back_icon d-none"><i class="fa fa-chevron-left"></i></div>
-                <div class="close-pop-icon"><i class="fa fa-times"></i></div>
-                <div class="step1">
-                    <h2>Süresini Uzat</h2>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="">Kaç ay uzatmak istiyorsun?</label>
-                            <input type="text" class="form-control extend_time_month">
-                        </div>
-                        <div class="col-md-6 mt-3">
-                            <button class="btn btn-success extend_time_button">Fiyatı Görüntüle</button>
-                        </div>
-                        <div class="col-md-12 price-list-on-extend d-none">
-                            <table class="w-full price-table-extend-time mt-2">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label for="">Mevcut Bitiş Tarihi</label>
-                                            <p>12-10-2022</p>
-                                        </td>
-                                        <td>
-                                            <label for="">Yeni Bitiş Tarihi</label>
-                                            <p>12-10-2022</p>
-                                        </td>
-                                        <td>
-                                            <label for="">Fiyat</label>
-                                            <p>1000₺</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <button class="btn btn-success step1_end_button mt-2">Süreyi Uzat</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="step2 d-none">
-                    <h2>Banka Hesaplarımız</h2>
-                    <span>EFT/Havale yapacağınız bankayı seçiniz</span>
-                    <div>
-                        <div class="row">
-                            @foreach ($bankAccounts as $bankAccount)
-                                <div class="col-md-3 bank-account" bank_id="{{ $bankAccount->id }}">
-                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt="">
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="step3 d-none">
-                    <div class="back_icon"><i class="fa fa-chevron-left"></i></div>
-                    <h2>Banka Bilgileri</h2>
-                    <div class="item receipent_full_name">
-                        <label for="">Alıcı Adı</label>
-                        <span>Abdurrahman İslamoğlu</span>
-                    </div>
-                    <div class="item iban">
-                        <label for="">Iban</label>
-                        <span>TR24 2444 2444 2444 2444 2444 22</span>
-                    </div>
-                    <div class="item">
-                        <label for="">Açıklamaya yazılması gereken metin</label>
-                        <span class="bank_description_text"></span>
-                    </div>
-                    <div>
-                        <button class="btn btn-success finish-extend-time">Ödemeyi yaptım ve bitiriyorum</button>
-                    </div>
+                <div class="tab-pane fade" id="inactive">
+                    @include('institutional.projects.project_table', [
+                        'tableId' => 'bulk-select-body-inactive',
+                        'projectTypes' => $inactiveProjects,
+                    ])
                 </div>
             </div>
         </div>
+
     </div>
+ 
 @endsection
 
 @section('css')
@@ -118,6 +37,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
         integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .ml-3 {
+            margin-left: 20px
+        }
+
+        .badge-success {
+            background-color: green
+        }
+
+        .badge-danger {
+            background-color: red
+        }
+
+        .badge-info {
+            background-color: #e54242
+        }
+        .nav-tabs .nav-link{
+            color:black !important;
+        }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+            color:red !important;
+        }
+        .ml-2 {
+            margin-left: 20px;
+        }
+
+        .mr-2 {
+            margin-right: 20px;
+        }
+    </style>
 @endsection
 
 @section('scripts')
@@ -126,7 +76,8 @@
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        var projects = @json($projects);
+        var activeProjects = @json($activeProjects);
+        var inactiveProjects = @json($inactiveProjects);
         var selectedProjectId = 0;
         var selectedBankId = 0;
         var selectedMonthValue = 0;
@@ -143,151 +94,134 @@
             })
         @endif
 
-        console.log(projects);
-        var tbody = document.getElementById("bulk-select-body");
-        projects.forEach(function(project) {
-            var row = document.createElement("tr");
+        function createTable(tbody, projectTypes) {
+            projectTypes.forEach(function(project) {
+                var row = document.createElement("tr");
+                var numberCell = document.createElement("td");
+                numberCell.className = "align-middle title";
+                numberCell.textContent = project.id + 1000000;
 
-            var checkboxCell = document.createElement("td");
-            var checkboxDiv = document.createElement("div");
-            checkboxDiv.className = "form-check mb-0 fs-0";
-            var checkboxInput = document.createElement("input");
-            checkboxInput.className = "form-check-input";
-            checkboxInput.type = "checkbox";
-            checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(project));
-            checkboxDiv.appendChild(checkboxInput);
-            checkboxCell.appendChild(checkboxDiv);
-
-            var numberCell = document.createElement("td");
-            numberCell.className = "align-middle title";
-            numberCell.textContent = project.id;
+                var denemeCell = document.createElement("td");
+                denemeCell.className = "align-middle";
+                denemeCell.innerHTML = project.project_title +
+    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + project.city.title + " / " +
+    project.county.ilce_title + (project.neighbourhood ? " / " + project.neighbourhood.mahalle_title : "") +
+    "</span>";
 
 
-            var slugCell = document.createElement("td");
-            slugCell.className = "align-middle logo";
-            slugCell.innerHTML = "<img style='width:100%;max-height:70px;' src='{{ URL::to('/') }}/" + project
-                .image.replace("public", "storage") + "'  />";
+                var titleCCell = document.createElement("td");
+                titleCCell.className = "align-middle title";
+                titleCCell.textContent = project.room_count;
 
-                     var denemeCell = document.createElement("td");
-                     denemeCell.className = "align-middle";
-                     denemeCell.innerHTML = project.project_title;
+                var titleCell = document.createElement("td");
+                titleCell.className = "align-middle title";
+                titleCell.textContent = project.cartOrders;
 
-            var titleCCell = document.createElement("td");
-            titleCCell.className = "align-middle title";
-            titleCCell.textContent = project.room_count;
+                var applyCell = document.createElement("td");
+                applyCell.className = "align-middle title";
+                applyCell.textContent = project.paymentPending;
 
-            var titleCell = document.createElement("td");
-            titleCell.className = "align-middle title";
-            titleCell.textContent = project.cartOrders;
+                var offSaleCell = document.createElement("td");
+                offSaleCell.className = "align-middle title";
+                offSaleCell.textContent = project.offSale;
 
-            var applyCell = document.createElement("td");
-            applyCell.className = "align-middle title";
-            applyCell.textContent = project.paymentPending;
+                var totalCell = document.createElement("td");
+                totalCell.className = "align-middle title";
+                totalCell.textContent = project.room_count - project.cartOrders - project.offSale;
 
-            var offSaleCell = document.createElement("td");
-            offSaleCell.className = "align-middle title";
-            offSaleCell.textContent = project.offSale;
+                var houseCount = document.createElement("td");
+                houseCount.className = "align-middle status";
+                houseCount.innerHTML = "<a href='{{ URL::to('/') }}/institutional/projects/" + project.id +
+                    "/housings' class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a>";
 
+                // var standOutCell = document.createElement("td");
+                // standOutCell.className = "align-middle status";
+                // console.log(project);
+                // if (project.stand_out) {
+                //     if (project.stand_out.doping_price_payment_wait) {
+                //         standOutCell.innerHTML =
+                //             "<a href='#' class='badge badge-phoenix badge-phoenix-warning'>Ödeme Bekleniyor</a>";
+                //     } else {
+                //         if (project.stand_out.doping_price_payment_cancel) {
+                //             standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" +
+                //                 project.id +
+                //                 "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
+                //         } else {
+                //             standOutCell.innerHTML =
+                //                 "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
+                //         }
+                //     }
+                // } else {
+                //     standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project
+                //         .id +
+                //         "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
+                // }
 
-       
+                var activeCell = document.createElement("td");
+                activeCell.className = "align-middle status";
+                activeCell.innerHTML = project.status == 1 ?
+                    '<span class="badge badge-phoenix badge-phoenix-success">Yayında</span>' :
+                    project.status == 2 ?
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Admin Onayı Bekliyor</span>' :
+                    project.status == 3 ?
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
+                    project.status == 7 ?
+                    '<span class="badge badge-phoenix badge-phoenix-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Yayında Değil</span>';
 
-            var totalAmountCell = document.createElement("td");
-            totalAmountCell.className = "align-middle title";
-            totalAmountCell.textContent = project.totalAmount + "₺";
+                var actionsCell = document.createElement("td");
+                actionsCell.className = "align-middle white-space-nowrap pe-0";
+                var actionsDiv = document.createElement("div");
+                actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
+                var actionsButton = document.createElement("button");
+                actionsButton.className =
+                    "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
+                actionsButton.type = "button";
+                actionsButton.setAttribute("data-bs-toggle", "dropdown");
+                actionsButton.setAttribute("data-bs-boundary", "window");
+                actionsButton.setAttribute("aria-haspopup", "true");
+                actionsButton.setAttribute("aria-expanded", "false");
+                actionsButton.setAttribute("data-bs-reference", "parent");
 
-            var totalCell = document.createElement("td");
-            totalCell.className = "align-middle title";
-            totalCell.textContent = project.room_count - project.cartOrders - project.offSale;
+                var dropdownMenu = document.createElement("div");
+                dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
+                var viewLink = document.createElement("a");
+                viewLink.className = "badge badge-phoenix badge-phoenix-warning";
+                viewLink.href = "{{ URL::to('/') }}/institutional/projects/" + project.id + '/logs';
+                viewLink.textContent = "İşlem Kayıtları";
+                var exportLink = document.createElement("a");
+                exportLink.className = "badge badge-phoenix badge-phoenix-success ml-3";
+                exportLink.href = "{{ URL::to('/') }}/institutional/edit_project_v2/" + project.slug;
+                exportLink.textContent = "Proje Düzenle";
+                var divider = document.createElement("div");
+                divider.className = "dropdown-divider";
 
-            var houseCount = document.createElement("td");
-            houseCount.className = "align-middle status";
-            houseCount.innerHTML = "<a href='{{ URL::to('/') }}/institutional/projects/" + project.id +
-                "/housings' class='badge badge-phoenix badge-phoenix-success'>İlan Düzenle</a>";
+                actionsDiv.appendChild(viewLink);
+                actionsDiv.appendChild(exportLink);
+                actionsCell.appendChild(actionsDiv);
 
-            var standOutCell = document.createElement("td");
-            standOutCell.className = "align-middle status";
-            console.log(project);
-            if(project.stand_out){
-                if(project.stand_out.doping_price_payment_wait){
-                    standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-warning'>Ödeme Bekleniyor</a>";
-                }else{
-                    if(project.stand_out.doping_price_payment_cancel){
-                        standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
-                        "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
-                    }else{
-                        standOutCell.innerHTML = "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
-                    }
-                }
-            }else{
-                standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project.id +
-                "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
-            }
+                row.appendChild(numberCell);
+                row.appendChild(denemeCell);
+                row.appendChild(titleCCell);
+                row.appendChild(titleCell);
 
-            var activeCell = document.createElement("td");
-            activeCell.className = "align-middle status";
-            activeCell.innerHTML = project.status == 1 ? 
-            '<span class="badge badge-phoenix badge-phoenix-success">Yayında</span>' 
-            : project.status == 2 ? 
-            '<span class="badge badge-phoenix badge-phoenix-danger">Admin Onayı Bekliyor</span>' 
-            : project.status == 3 ? 
-            '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' 
-            : project.status == 6 ?
-            '<span class="badge badge-phoenix badge-phoenix-danger"><i class="fa fa-clock"></i> Süresi Bitti</span><span class="badge badge-phoenix badge-phoenix-primary c-pointer extend-time" style="margin-left:5px;" project_id="' +
-                project.id + '"><i class="fa fa-plus"></i> Süresini Uzat</span>' 
-            : project.status == 7 ?
-            '<span class="badge badge-phoenix badge-phoenix-warning"><i class="fa fa-clock"></i> Ödeme onayı bekliyor</span>' :
-            '<span class="badge badge-phoenix badge-phoenix-danger">Yayında Değil</span>';
+                row.appendChild(applyCell);
+                row.appendChild(offSaleCell);
+                row.appendChild(totalCell);
 
-            var actionsCell = document.createElement("td");
-            actionsCell.className = "align-middle white-space-nowrap pe-0";
-            var actionsDiv = document.createElement("div");
-            actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-            var actionsButton = document.createElement("button");
-            actionsButton.className =
-                "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
-            actionsButton.type = "button";
-            actionsButton.setAttribute("data-bs-toggle", "dropdown");
-            actionsButton.setAttribute("data-bs-boundary", "window");
-            actionsButton.setAttribute("aria-haspopup", "true");
-            actionsButton.setAttribute("aria-expanded", "false");
-            actionsButton.setAttribute("data-bs-reference", "parent");
+                row.appendChild(houseCount);
+                // row.appendChild(standOutCell);
+                row.appendChild(activeCell);
+                row.appendChild(actionsCell);
 
-            var dropdownMenu = document.createElement("div");
-            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
-            var viewLink = document.createElement("a");
-            viewLink.className = "badge badge-phoenix badge-phoenix-warning";
-            viewLink.href = "{{ URL::to('/') }}/institutional/projects/" + project.id + '/logs';
-            viewLink.textContent = "İşlem Kayıtları";
-            var exportLink = document.createElement("a");
-            exportLink.className = "badge badge-phoenix badge-phoenix-success ml-3";
-            exportLink.href = "{{ URL::to('/') }}/institutional/edit_project_v2/" + project.slug;
-            exportLink.textContent = "Proje Düzenle";
-            var divider = document.createElement("div");
-            divider.className = "dropdown-divider";
+                tbody.appendChild(row);
+            });
+        };
+        createTable(document.getElementById("bulk-select-body-active"), activeProjects);
+        createTable(document.getElementById("bulk-select-body-inactive"), inactiveProjects);
 
-            actionsDiv.appendChild(viewLink);
-            actionsDiv.appendChild(exportLink);
-            actionsCell.appendChild(actionsDiv);
-
-            row.appendChild(numberCell);
-            row.appendChild(slugCell);
-            row.appendChild(denemeCell);
-            row.appendChild(titleCCell);
-            row.appendChild(titleCell);
-
-            row.appendChild(totalAmountCell);
-
-            row.appendChild(applyCell);
-            row.appendChild(offSaleCell);
-            row.appendChild(totalCell);
-
-            row.appendChild(houseCount);
-            row.appendChild(standOutCell);
-            row.appendChild(activeCell);
-            row.appendChild(actionsCell);
-
-            tbody.appendChild(row);
-        });
+        var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
+        housingTabs.show();
 
         $('.extend-time').click(function() {
             $('.pop-up-v2').removeClass('d-none')
@@ -451,22 +385,4 @@
             });
         })
     </script>
-
-    <style>
-        .ml-3 {
-            margin-left: 20px
-        }
-
-        .badge-success {
-            background-color: green
-        }
-
-        .badge-danger {
-            background-color: red
-        }
-
-        .badge-info {
-            background-color: #e54242
-        }
-    </style>
 @endsection

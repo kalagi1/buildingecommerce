@@ -201,26 +201,36 @@ class ProjectController extends Controller
         $userId = auth()->user()->parent_id ?? auth()->user()->id;
     
         $projects = Project::where('user_id', $userId)
-            ->with("roomInfo", "housingType", "county", "city","standOut","standOut.dopingPricePaymentWait",'standOut.dopingPricePaymentCancel')
+            ->with("roomInfo", "housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel')
             ->orderByDesc('created_at')
             ->get();
         $userProjectIds = $projects->pluck('id');
-
     
         $projectCounts = $this->getProjectCounts($userProjectIds, '1');
         $paymentPendingCounts = $this->getProjectCounts($userProjectIds, '0');
         $offSaleCount = 0;
     
-        $projects = $projects->map(function ($project) use (&$offSaleCount) {
-            $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
+        $activeProjects = [];
+        $inactiveProjects = [];
+    
+        $projects = $projects->map(function ($project) use (&$offSaleCount, &$activeProjects, &$inactiveProjects) {
+            $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
             $project->offSale = $salesCloseProjectHousingCount;
+                if ($project->status == 1) {
+                $activeProjects[] = $project;
+            } else {
+                $inactiveProjects[] = $project;
+            }
+    
             return $project;
         });
     
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
-        return view('institutional.projects.index', compact('projects', 'bankAccounts'));
+    
+        return view('institutional.projects.index', compact('activeProjects', 'inactiveProjects', 'bankAccounts'));
     }
+    
     
     protected function getProjectCounts($userProjectIds, $status)
     {
