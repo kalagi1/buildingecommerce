@@ -672,7 +672,6 @@ class CartController extends Controller
                             "message" => "İndirim kuponu bu ürün için geçerli değil."
                         ]);
                     }
-                }
                 }else{
                     return json_encode([
                         "status" => false,
