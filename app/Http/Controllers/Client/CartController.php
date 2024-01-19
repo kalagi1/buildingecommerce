@@ -504,7 +504,6 @@ class CartController extends Controller
     public function checkCoupon(Request $request)
     {
         $coupon = Coupon::where("start_date", "<=", date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->where('coupon_code', $request->input('coupon_code'))->first();
-
         if ($coupon) {
 
             $cart = $request->session()->get('cart', []);
