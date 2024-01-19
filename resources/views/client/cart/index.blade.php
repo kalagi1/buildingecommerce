@@ -160,6 +160,7 @@
                                                         ₺ </span></strong></li>
                                         @endif
 
+                                        {{ $cart['hasCounter']}}
 
                                         @if (isset($discountRate) || $cart['hasCounter'])
                                             <li style="color:red">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
