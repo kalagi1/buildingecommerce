@@ -32,8 +32,8 @@
 @endsection
 
 @section('scripts')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
@@ -76,17 +76,41 @@
                 createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
 
                 var actionsCell = document.createElement("td");
-                actionsCell.className = "align-middle white-space-nowrap     pe-0";
-                var exportLink = document.createElement("a");
-                exportLink.className = "badge badge-phoenix badge-phoenix-primary";
-                exportLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/detail';
-                exportLink.textContent = "Görüntüle";
-                var viewLink = document.createElement("a");
-                viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
-                viewLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/logs';
-                viewLink.textContent = "Loglar";
-                actionsCell.appendChild(exportLink);
-                actionsCell.appendChild(viewLink);
+            actionsCell.className = "align-middle white-space-nowrap     pe-0";
+            var actionsDiv = document.createElement("div");
+            actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
+            var actionsButton = document.createElement("button");
+            actionsButton.className =
+                "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
+            actionsButton.type = "button";
+            actionsButton.setAttribute("data-bs-toggle", "dropdown");
+            actionsButton.setAttribute("data-bs-boundary", "window");
+            actionsButton.setAttribute("aria-haspopup", "true");
+            actionsButton.setAttribute("aria-expanded", "false");
+            actionsButton.setAttribute("data-bs-reference", "parent");
+            var actionsIcon = document.createElement("span");
+            actionsIcon.className = "fas fa-ellipsis-h fs--2";
+            actionsButton.appendChild(actionsIcon);
+            actionsDiv.appendChild(actionsButton);
+            var dropdownMenu = document.createElement("div");
+            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
+            var viewLink = document.createElement("a");
+            viewLink.className = "dropdown-item";
+            viewLink.href = "{{ URL::to('/') }}/institutional/housings/" + housingType.id + '/logs';
+            viewLink.textContent = "Loglar";
+            var exportLink = document.createElement("a");
+            exportLink.className = "dropdown-item";
+            exportLink.href = "{{ URL::to('/') }}/institutional/edit_housing/" + housingType.id;
+            exportLink.textContent = "Düzenle";
+            var imageLinks = document.createElement("a");
+            imageLinks.className = "dropdown-item";
+            imageLinks.href = "{{ URL::to('/') }}/institutional/edit_images/" + housingType.id;
+            imageLinks.textContent = "Resimler";
+            dropdownMenu.appendChild(viewLink);
+            dropdownMenu.appendChild(exportLink);
+            dropdownMenu.appendChild(imageLinks);
+            actionsDiv.appendChild(dropdownMenu);
+            actionsCell.appendChild(actionsDiv);
 
 
                 var deleteCell = document.createElement("td");
