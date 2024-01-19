@@ -9,8 +9,12 @@
                     <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
+              
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
@@ -25,6 +29,12 @@
                         'housingTypes' => $inactiveHousingTypes,
                     ])
                 </div>
+                <div class="tab-pane fade" id="pendingHousingTypes">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-pendingHousingTypes',
+                        'housingTypes' => $pendingHousingTypes,
+                    ])
+                </div>
             </div>
         </div>
 
@@ -37,6 +47,8 @@
     <script>
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
+        var pendingHousingTypes = @json($pendingHousingTypes);
+
 
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
@@ -172,6 +184,8 @@
 
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
+        createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
+
 
         // Handle tab switching
         var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));

@@ -250,7 +250,7 @@ class HousingController extends Controller {
         ->get();
 
         $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', '<>', 1 )
+        ->where( 'status', 0 )
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -269,7 +269,28 @@ class HousingController extends Controller {
         ->orderByDesc( 'housings.updated_at' )
         ->get();
 
-        return view( 'institutional.housings.index', compact( 'activeHousingTypes', 'inactiveHousingTypes' ) );
+        $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', '<>', 1 )
+        ->where( 'status', '<>', 0)
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        return view( 'institutional.housings.index', compact( 'activeHousingTypes', "pendingHousingTypes",'inactiveHousingTypes' ) );
     }
 
     public function edit( $housingId ) {

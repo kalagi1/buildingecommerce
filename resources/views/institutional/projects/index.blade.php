@@ -9,6 +9,9 @@
                     <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="pendingProjects-tab" data-bs-toggle="tab" href="#pendingProjects">Onay Bekleyen İlanlar</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
             </ul>
@@ -17,6 +20,12 @@
                     @include('institutional.projects.project_table', [
                         'tableId' => 'bulk-select-body-active',
                         'projectTypes' => $activeProjects,
+                    ])
+                </div>
+                <div class="tab-pane fade" id="pendingProjects">
+                    @include('institutional.projects.project_table', [
+                        'tableId' => 'bulk-select-body-pendingProjects',
+                        'projectTypes' => $pendingProjects,
                     ])
                 </div>
                 <div class="tab-pane fade" id="inactive">
@@ -83,6 +92,8 @@
     <script>
         var activeProjects = @json($activeProjects);
         var inactiveProjects = @json($inactiveProjects);
+        var pendingProjects = @json($pendingProjects);
+
         var selectedProjectId = 0;
         var selectedBankId = 0;
         var selectedMonthValue = 0;
@@ -271,6 +282,7 @@
         };
         createTable(document.getElementById("bulk-select-body-active"), activeProjects);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveProjects);
+        createTable(document.getElementById("bulk-select-body-pendingProjects"), pendingProjects);
 
         var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
         housingTabs.show();
