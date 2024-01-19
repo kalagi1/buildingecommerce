@@ -90,6 +90,113 @@
     </div>
 </div>
 
+<div class="button-container">
+
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('client.login')))) : route('client.login') }}"
+        class="button">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
+                stroke-width="0" fill="currentColor" stroke="currentColor" class="icon">
+                <path
+                    d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
+                </path>
+            </svg>
+            @if (Auth::check())
+                <span>Hesabım</span>
+            @else
+                <span>Giriş Yap</span>
+            @endif
+        </button>
+    </a>
+
+    <a href="{{ Auth::check() ? route('favorites') : route('client.login') }}" class="button">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" aria-hidden="true" viewBox="0 0 24 24"
+                stroke-width="2" fill="none" stroke="currentColor" class="icon">
+                <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                </path>
+            </svg>
+            <span>Favorilerim</span>
+        </button>
+    </a>
+
+
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'javascript:void(0)' : 'javascript:void(0)'))) : route('client.login') }}"
+        class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
+        <button class="button">
+            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            @if (Auth::check() && Auth::user()->type == 2)
+                <span>İlan Ver</span>
+            @else
+                <span>Sat Kirala</span>
+            @endif
+        </button>
+    </a>
+
+    <a href="{{ route('cart') }}" class="button"
+        class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
+        <button class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
+                stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"
+                class="icon">
+                <circle r="1" cy="21" cx="9"></circle>
+                <circle r="1" cy="21" cx="20"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span>Sepetim</span>
+        </button>
+    </a>
+
+</div>
+
+<div class="payment-plan-pop-up d-none">
+    <div class="payment-plan-pop-back">
+
+    </div>
+    <div class="payment-plan-pop-content">
+        <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
+
+        <div class="my-properties">
+            <table class="payment-plan table">
+                <thead>
+                    <tr>
+                        <th>Ödeme Türü</th>
+                        <th>Fiyat</th>
+                        <th>Peşin Ödenecek Tutar</th>
+                        <th>Aylık Ödenecek Tutar</th>
+                        <th>Taksit Sayısı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Peşin</td>
+                        <td>1.000.000,00₺</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Taksitli</td>
+                        <td>1.400.000,00₺</td>
+                        <td>14</td>
+                        <td>300.000,00₺</td>
+                        <td>78.571,42₺</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -97,20 +204,39 @@
 
 
 
+
+<!-- ARCHIVES JS -->
+<script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
+<script src="{{ URL::to('/') }}/js/tether.min.js"></script>
+<script src="{{ URL::to('/') }}/js/moment.js"></script>
+<script src="{{ URL::to('/') }}/js/bootstrap.min.js"></script>
+<script src="{{ URL::to('/') }}/js/mmenu.min.js"></script>
+<script src="{{ URL::to('/') }}/js/mmenu.js"></script>
+<script src="{{ URL::to('/') }}/js/aos.js"></script>
+<script src="{{ URL::to('/') }}/js/aos2.js"></script>
+<script src="{{ URL::to('/') }}/js/slick.min.js"></script>
+<script src="{{ URL::to('/') }}/js/fitvids.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.waypoints.min.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.counterup.min.js"></script>
+<script src="{{ URL::to('/') }}/js/imagesloaded.pkgd.min.js"></script>
+<script src="{{ URL::to('/') }}/js/isotope.pkgd.min.js"></script>
+<script src="{{ URL::to('/') }}/js/smooth-scroll.min.js"></script>
+<script src="{{ URL::to('/') }}/js/lightcase.js"></script>
+<script src="{{ URL::to('/') }}/js/search.js"></script>
+<script src="{{ URL::to('/') }}/js/owl.carousel.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.magnific-popup.min.js"></script>
+<script src="{{ URL::to('/') }}/js/ajaxchimp.min.js"></script>
+<script src="{{ URL::to('/') }}/js/newsletter.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.form.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.validate.min.js"></script>
+<script src="{{ URL::to('/') }}/js/searched.js"></script>
+<script src="{{ URL::to('/') }}/js/forms-2.js"></script>
+<script src="{{ URL::to('/') }}/js/range.js"></script>
+<script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
+
+
+
 <script>
-    // @if (Auth::check())
-    //     function isProductInCollection(productId, product) {
-    //         var links = @json($sharerLinks);
-    //         if (links != null && links.length != 0) {
-    //             if (links.includes(parseInt(productId))) {
-    //                 return true; // Ürün sepette bulundu
-    //             }
-
-    //         }
-    //         return false;
-    //     }
-    // @endif
-
     $('body').on('click', '.addCollection', function(event) {
         event.preventDefault();
         $(".modal-backdrop").show();
@@ -265,9 +391,7 @@
         $('#addCollectionModal').modal('hide');
         $('#newCollectionModal').modal('hide');
     }
-</script>
 
-<script>
     $(document).ready(function() {
         $(".box").hide();
 
@@ -319,402 +443,6 @@
             });
         });
     });
-</script>
-
-<style>
-    .notification-card.unread {
-        background-color: #eff2f6;
-    }
-
-    .notification-card {
-        cursor: pointer;
-    }
-
-    .box::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: #F5F5F5;
-        border-radius: 5px
-    }
-
-    .box::-webkit-scrollbar {
-        width: 7px;
-        background-color: #F5F5F5;
-        border-radius: 5px
-    }
-
-    .box::-webkit-scrollbar-thumb {
-        background-color: #787373;
-        border: 1px solid rgba(0, 0, 0, .03);
-        border-radius: 5px
-    }
-
-
-    .icons {
-        display: inline;
-        float: right
-    }
-
-    .notification {
-        padding-top: 10px;
-        position: relative;
-        display: inline-block;
-    }
-
-    .number {
-        height: 22px;
-        width: 22px;
-        background-color: #d63031;
-        border-radius: 20px;
-        color: white;
-        text-align: center;
-        position: absolute;
-        top: 1px;
-        left: 27px;
-        display: flex;
-        padding: 0;
-        font-size: 10px;
-        border-style: solid;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .number:empty {
-        display: none;
-    }
-
-    .notBtn {
-        transition: 0.5s;
-        cursor: pointer
-    }
-
-    .fa-bell {
-        font-size: 18px;
-        padding-bottom: 10px;
-        color: black;
-        margin-left: 20px;
-        margin-right: 20px;
-
-    }
-
-    .fs--1 {
-        text-align: left;
-        font-size: 11px !important;
-        line-height: 11px;
-        margin-bottom: 0 !important;
-    }
-
-    .box {
-        width: 300px;
-        z-index: 9999;
-        height: 300px !important;
-        height: 200px;
-        border-radius: 10px;
-        transition: 0.5s;
-        position: absolute;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        padding: 0px;
-        left: -74px;
-        margin-top: 5px;
-        background-color: #F4F4F4;
-        -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-        box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-        cursor: context-menu;
-    }
-
-    .fas:hover {
-        color: #d63031;
-    }
-
-
-    .gry {
-        background-color: #F4F4F4;
-    }
-
-    .top {
-        color: black;
-        padding: 10px
-    }
-
-
-    .cont {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #F4F4F4;
-    }
-
-    .cont:empty {
-        display: none;
-    }
-
-    .stick {
-        text-align: center;
-        display: block;
-        font-size: 50pt;
-        padding-top: 70px;
-        padding-left: 80px
-    }
-
-    .stick:hover {
-        color: black;
-    }
-
-    .cent {
-        text-align: center;
-        display: block;
-    }
-
-    .sec {
-        padding: 25px 10px;
-        background-color: #F4F4F4;
-        transition: 0.5s;
-    }
-
-    .profCont {
-        padding-left: 15px;
-    }
-
-    .profile {
-        -webkit-clip-path: circle(50% at 50% 50%);
-        clip-path: circle(50% at 50% 50%);
-        width: 75px;
-        float: left;
-    }
-
-    .txt {
-        vertical-align: top;
-        font-size: 1.25rem;
-        padding: 5px 10px 0px 115px;
-    }
-
-    .sub {
-        font-size: 1rem;
-        color: grey;
-    }
-
-    .new {
-        border-style: none none solid none;
-        border-color: red;
-    }
-
-    .sec:hover {
-        background-color: #BFBFBF;
-    }
-
-    .filter-date {
-        display: flex;
-        align-items: center;
-        justify-content: start;
-    }
-
-    .collectionTitle {
-        width: 100%;
-        display: block;
-        color: black;
-        font-size: 13px !important;
-    }
-
-    .circleIcon {
-        font-size: 5px !important;
-        color: #e54242 !important;
-        padding-right: 5px
-    }
-
-    .button-container {
-        display: none;
-    }
-
-    @media (max-width: 768px) {
-        .pro-wrapper {
-            text-align: center
-        }
-
-        .button-container {
-            z-index: 9999999;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            display: flex;
-            background-color: #F7F7F7;
-            height: 70px;
-            align-items: center;
-            justify-content: space-around;
-            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
-                rgba(245, 73, 144, 0.5) 5px 10px 15px;
-        }
-
-        .button-container .button {
-            outline: 0 !important;
-            border: 0 !important;
-            padding: 0 !important;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: black;
-            transition: all ease-in-out 0.3s;
-            cursor: pointer;
-            flex-direction: column;
-
-        }
-
-        .button-container .button span {
-            margin-top: 5px;
-            font-size: 13px
-        }
-
-        .button-container .button:hover {
-            transform: translateY(-3px);
-        }
-
-        .button-container .icon {
-            font-size: 20px;
-        }
-    }
-</style>
-
-<div class="button-container">
-
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('client.login')))) : route('client.login') }}"
-        class="button">
-        <button class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
-                stroke-width="0" fill="currentColor" stroke="currentColor" class="icon">
-                <path
-                    d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z">
-                </path>
-            </svg>
-            @if (Auth::check())
-                <span>Hesabım</span>
-            @else
-                <span>Giriş Yap</span>
-            @endif
-        </button>
-    </a>
-
-    <a href="{{ Auth::check() ? route('favorites') : route('client.login') }}" class="button">
-        <button class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" aria-hidden="true" viewBox="0 0 24 24"
-                stroke-width="2" fill="none" stroke="currentColor" class="icon">
-                <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                </path>
-            </svg>
-            <span>Favorilerim</span>
-        </button>
-    </a>
-
-
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('client.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'javascript:void(0)' : 'javascript:void(0)'))) : route('client.login') }}"
-        class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
-        <button class="button">
-            <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none"
-                stroke-linecap="round" stroke-linejoin="round" class="icon">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            @if (Auth::check() && Auth::user()->type == 2)
-                <span>İlan Ver</span>
-            @else
-                <span>Sat Kirala</span>
-            @endif
-        </button>
-    </a>
-
-    <a href="{{ route('cart') }}" class="button"
-        class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
-        <button class="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" stroke-linejoin="round"
-                stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"
-                class="icon">
-                <circle r="1" cy="21" cx="9"></circle>
-                <circle r="1" cy="21" cx="20"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            <span>Sepetim</span>
-        </button>
-    </a>
-
-</div>
-
-<div class="payment-plan-pop-up d-none">
-    <div class="payment-plan-pop-back">
-
-    </div>
-    <div class="payment-plan-pop-content">
-        <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
-
-        <div class="my-properties">
-            <table class="payment-plan table">
-                <thead>
-                    <tr>
-                        <th>Ödeme Türü</th>
-                        <th>Fiyat</th>
-                        <th>Peşin Ödenecek Tutar</th>
-                        <th>Aylık Ödenecek Tutar</th>
-                        <th>Taksit Sayısı</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Peşin</td>
-                        <td>1.000.000,00₺</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Taksitli</td>
-                        <td>1.400.000,00₺</td>
-                        <td>14</td>
-                        <td>300.000,00₺</td>
-                        <td>78.571,42₺</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-</div>
-
-
-
-<!-- ARCHIVES JS -->
-<script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
-<script src="{{ URL::to('/') }}/js/tether.min.js"></script>
-<script src="{{ URL::to('/') }}/js/moment.js"></script>
-<script src="{{ URL::to('/') }}/js/bootstrap.min.js"></script>
-<script src="{{ URL::to('/') }}/js/mmenu.min.js"></script>
-<script src="{{ URL::to('/') }}/js/mmenu.js"></script>
-<script src="{{ URL::to('/') }}/js/aos.js"></script>
-<script src="{{ URL::to('/') }}/js/aos2.js"></script>
-<script src="{{ URL::to('/') }}/js/slick.min.js"></script>
-<script src="{{ URL::to('/') }}/js/fitvids.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.waypoints.min.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.counterup.min.js"></script>
-<script src="{{ URL::to('/') }}/js/imagesloaded.pkgd.min.js"></script>
-<script src="{{ URL::to('/') }}/js/isotope.pkgd.min.js"></script>
-<script src="{{ URL::to('/') }}/js/smooth-scroll.min.js"></script>
-<script src="{{ URL::to('/') }}/js/lightcase.js"></script>
-<script src="{{ URL::to('/') }}/js/search.js"></script>
-<script src="{{ URL::to('/') }}/js/owl.carousel.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.magnific-popup.min.js"></script>
-<script src="{{ URL::to('/') }}/js/ajaxchimp.min.js"></script>
-<script src="{{ URL::to('/') }}/js/newsletter.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.form.js"></script>
-<script src="{{ URL::to('/') }}/js/jquery.validate.min.js"></script>
-<script src="{{ URL::to('/') }}/js/searched.js"></script>
-<script src="{{ URL::to('/') }}/js/forms-2.js"></script>
-<script src="{{ URL::to('/') }}/js/range.js"></script>
-<script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
-
-<script>
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
         var soldStatus = $(this).data('sold');
@@ -1001,8 +729,6 @@
             }
         }]
     });
-</script>
-<script>
     $('.slick-lancers').slick({
         infinite: false,
         slidesToShow: 12.5,
@@ -1036,8 +762,6 @@
             }
         }]
     });
-</script>
-<script>
     $('.home5-right-slider').owlCarousel({
         loop: true,
         margin: 30,
@@ -1094,8 +818,6 @@
             }
         }
     });
-</script>
-<script>
     $(".dropdown-filter").on('click', function() {
 
         $(".explore__form-checkbox-list").toggleClass("filter-block");
@@ -1114,8 +836,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <!-- MAIN JS -->
 <script src="{{ URL::to('/') }}/js/script.js"></script>
-
-
 
 <!-- SweetAlert2 CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
@@ -1318,9 +1038,6 @@
                         }
                     });
                 },
-                error: function(error) {
-                    console.error(error);
-                },
             });
 
 
@@ -1453,9 +1170,6 @@
         });
 
     });
-</script>
-
-<script>
     const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
@@ -1518,15 +1232,15 @@
                                 `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
-// Assuming you have a JavaScript variable like this:
-var baseRoute = "{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}";
+                                        // Assuming you have a JavaScript variable like this:
+                                        var baseRoute = "{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}";
 
-// Now, you can use it in your append statement:
-$('.header-search-box').append(`
-    <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
+                                        // Now, you can use it in your append statement:
+                                        $('.header-search-box').append(`
+                                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                                <span>${formattedName}</span>
+                                            </a>
+                                        `);
 
 
 
@@ -1597,10 +1311,6 @@ $('.header-search-box').append(`
             $('.toggle > input').prop('checked', false);
         }
     })
-</script>
-
-
-<script>
     'use strict';
     $(function() {
         const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
@@ -1673,10 +1383,10 @@ $('.header-search-box').append(`
 
                                 // Now, you can use it in your append statement:
                                 $('.header-search-box-mobile').append(`
-    <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
+                                <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
+                            `);
 
 
 
@@ -1760,9 +1470,6 @@ $('.header-search-box').append(`
 @yield('scripts')
 
 
-
-</div>
-<!-- Wrapper / End -->
 
 </body>
 

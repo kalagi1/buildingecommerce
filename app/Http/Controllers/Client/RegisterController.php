@@ -38,9 +38,7 @@ class RegisterController extends Controller
             ],
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3',
-            'phone' => [
-                'required_if:type,2&regex:/^05[0-9]{9}$/',
-            ],
+            'phone' =>  'required|regex:/^05[0-9]{9}$/',
             'type' => 'required|in:1,2,21',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2',
@@ -61,7 +59,7 @@ class RegisterController extends Controller
 
         $msgs = [
             'email.required' => 'E-posta adresi alanı zorunludur.',
-            'phone.required_if' => 'Telefon numarası zorunludur.',
+            'phone.required' => 'Telefon numarası zorunludur.',
             'check-a.required_if' => "Hesap açmak için Bireysel Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
             'check-d.required_if' => "Hesap açmak için Kurumsal Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
             'check-b.required' => 'Hesap açmak için Kvkk metinini okuyup onaylamanız gerekmektedir.',

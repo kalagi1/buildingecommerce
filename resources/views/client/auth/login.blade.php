@@ -174,6 +174,16 @@
                                         </div>
 
                                         <div class="mt-3">
+                                            <label class="q-label">Sabit Telefon</label>
+                                            <input type="number" name="phone"
+                                                class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
+                                                value="{{ old('phone') }}">
+                                            @if ($errors->has('phone'))
+                                                <span class="error-message">{{ $errors->first('phone') }}</span>
+                                            @endif
+                                        </div>
+                                        
+                                        <div class="mt-3">
                                             <label class="q-label">Şifre</label>
                                             <input type="password" name="password"
                                                 class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
@@ -211,14 +221,14 @@
                                                 @endif
                                             </div>
 
-                                            <!-- Sabit Telefon -->
+                                           
                                             <div class="mt-3">
-                                                <label class="q-label">Sabit Telefon</label>
-                                                <input type="number" name="phone"
-                                                    class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
-                                                    value="{{ old('phone') }}">
-                                                @if ($errors->has('phone'))
-                                                    <span class="error-message">{{ $errors->first('phone') }}</span>
+                                                <label class="q-label">Iban</label>
+                                                <input type="number" name="iban"
+                                                    class="form-control {{ $errors->has('iban') ? 'error-border' : '' }}"
+                                                    value="{{ old('iban') }}">
+                                                @if ($errors->has('iban'))
+                                                    <span class="error-message">{{ $errors->first('iban') }}</span>
                                                 @endif
                                             </div>
 
@@ -418,8 +428,9 @@
                                             <fieldset>
 
                                                 <div class="checkboxes float-left">
-                                                    <div class="filter-tags-wrap   {{ old('type') == "1" ? 'd-show ' : '' }} {{ $errors->has('check-a') ? 'error-check' : '' }}" id="individualFormCheck" >
-                                                        <input id="check-a" type="checkbox" name="check-a"  >
+                                                    <div class="filter-tags-wrap   {{ old('type') == '1' ? 'd-show ' : '' }}  {{ old('type') == '2' ? 'hidden' : '' }}  {{ $errors->has('check-a') ? 'error-check' : '' }}"
+                                                        id="individualFormCheck">
+                                                        <input id="check-a" type="checkbox" name="check-a">
                                                         <label for="check-a" style="font-size: 12px;">
                                                             <a href="/sayfa/bireysel-uyelik-sozlesmesi" target="_blank">
                                                                 Bireysel üyelik sözleşmesini
@@ -427,11 +438,13 @@
                                                             okudum onaylıyorum.
                                                         </label> <br>
                                                         @if ($errors->has('check-a'))
-                                                        <span class="error-message">{{ $errors->first('check-a') }}</span>
-                                                    @endif
+                                                            <span
+                                                                class="error-message">{{ $errors->first('check-a') }}</span>
+                                                        @endif
                                                     </div>
-                                                    <div class="filter-tags-wrap {{ old('type') == "2" ? 'd-show ' : '' }}{{ $errors->has('check-d') ? 'error-check' : '' }}" id="corporateFormCheck" >
-                                                        <input id="check-d" type="checkbox" name="check-d" >
+                                                    <div class="filter-tags-wrap {{ old('type') == '2' ? 'd-show ' : '' }}{{ old('type') == '1' ? 'hidden' : '' }} {{ $errors->has('check-d') ? 'error-check' : '' }}"
+                                                        id="corporateFormCheck">
+                                                        <input id="check-d" type="checkbox" name="check-d">
                                                         <label for="check-d" style="font-size: 12px;">
                                                             <a href="/sayfa/kurumsal-uyelik-sozlesmesi" target="_blank">
                                                                 Kurumsal üyelik sözleşmesini
@@ -440,11 +453,13 @@
                                                         </label>
                                                         <br>
                                                         @if ($errors->has('check-d'))
-                                                        <span class="error-message">{{ $errors->first('check-d') }}</span>
-                                                    @endif
+                                                            <span
+                                                                class="error-message">{{ $errors->first('check-d') }}</span>
+                                                        @endif
                                                     </div>
-                                                    <div class="filter-tags-wrap {{ $errors->has('check-b') ? 'error-check' : '' }}">
-                                                        <input id="check-b" type="checkbox" name="check-b" >
+                                                    <div
+                                                        class="filter-tags-wrap {{ $errors->has('check-b') ? 'error-check' : '' }}">
+                                                        <input id="check-b" type="checkbox" name="check-b">
                                                         <label for="check-b" style="font-size: 12px;">
                                                             <a href="/sayfa/kvkk-politikasi" target="_blank">
                                                                 Kvkk metnini
@@ -453,11 +468,13 @@
                                                         </label>
                                                         <br>
                                                         @if ($errors->has('check-b'))
-                                                        <span class="error-message">{{ $errors->first('check-b') }}</span>
-                                                    @endif
+                                                            <span
+                                                                class="error-message">{{ $errors->first('check-b') }}</span>
+                                                        @endif
                                                     </div>
-                                                    <div class="filter-tags-wrap {{ $errors->has('check-c') ? 'error-check' : '' }}">
-                                                        <input id="check-c" type="checkbox" name="check-c" >
+                                                    <div
+                                                        class="filter-tags-wrap {{ $errors->has('check-c') ? 'error-check' : '' }}">
+                                                        <input id="check-c" type="checkbox" name="check-c">
                                                         <label for="check-c" style="font-size: 12px;">
                                                             <a href="/sayfa/gizlilik-sozlesmesi-ve-aydinlatma-metni"
                                                                 target="_blank">
@@ -467,8 +484,9 @@
                                                         </label>
                                                         <br>
                                                         @if ($errors->has('check-c'))
-                                                        <span class="error-message">{{ $errors->first('check-c') }}</span>
-                                                    @endif
+                                                            <span
+                                                                class="error-message">{{ $errors->first('check-c') }}</span>
+                                                        @endif
                                                     </div>
                                                     <div class="filter-tags-wrap">
                                                         <input id="check-e" type="checkbox" name="check-e">
@@ -529,24 +547,32 @@
                 const userType = this.getAttribute('data-user-type');
                 userTypeInput.value = userType;
 
-                individualForm.style.display = 'none';
-                individualFormCheck.style.display = 'none';
-                corporateForm.style.display = 'none';
-                corporateFormCheck.style.display = 'none';
+                // individualForm.style.display = 'none';
+                // individualFormCheck.style.display = 'none';
+                // corporateForm.style.display = 'none';
+                // corporateFormCheck.style.display = 'none';
 
 
                 if (userType === '1' || userType === '21') {
                     individualForm.style.display = 'block';
                     individualFormCheck.style.display = 'block';
+                    individualFormCheck.classList.remove('hidden');
+
                     corporateForm.classList.remove('d-show');
                     corporateFormCheck.classList.remove('d-show');
+                    corporateForm.classList.add('hidden');
+                    corporateFormCheck.classList.add('hidden');
 
                 } else if (userType === '2') {
                     corporateForm.style.display = 'block';
                     corporateFormCheck.style.display = 'block';
-                    individualForm.classList.remove('hide');
-                    individualFormCheck.classList.remove('hide');
-                    individualFormCheck.style.display = 'none';
+                    corporateFormCheck.classList.remove('hidden');
+
+
+                    individualForm.classList.remove('d-show');
+                    individualFormCheck.classList.remove('d-show');
+                    individualForm.classList.add('hidden');
+                    individualFormCheck.classList.add('hidden');
 
 
 
