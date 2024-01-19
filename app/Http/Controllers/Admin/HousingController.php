@@ -11,7 +11,7 @@ use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Log;
 use App\Models\HousingComment;
-
+use App\Models\HousingTypeParent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -143,7 +143,9 @@ class HousingController extends Controller {
         $housingData = json_decode( $housing->housing_type_data );
         $housingTypeData = HousingType::where( 'id', $housing->housing_type_id )->first();
         $housingTypeData = json_decode( $housingTypeData->form_json );
-        return vieW( 'admin.housings.detail', compact( 'housing', 'defaultMessages', 'housingData', 'housingTypeData' ) );
+        $parent = HousingTypeParent::where("slug", $housing->step1_slug)->first();        
+
+        return vieW( 'admin.housings.detail', compact( 'housing', 'parent','defaultMessages', 'housingData', 'housingTypeData' ) );
     }
 
     public function setStatus( $housingId, Request $request ) {
