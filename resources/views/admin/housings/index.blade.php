@@ -10,6 +10,9 @@
                     <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
                 <li class="nav-item">
@@ -19,6 +22,9 @@
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
                     @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-active', 'housingTypes' => $activeHousingTypes])
+                </div>
+                <div class="tab-pane fade" id="pendingHousingTypes">
+                    @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-pendingHousingTypes', 'housingTypes' => $pendingHousingTypes])
                 </div>
                 <div class="tab-pane fade" id="inactive">
                     @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-inactive', 'housingTypes' => $inactiveHousingTypes])
@@ -36,6 +42,7 @@
     <script>
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
+        var pendingHousingTypes = @json($pendingHousingTypes);
         var deletedHousings = @json($deletedHousings);
 
         function createTable(tbody, housingTypes) {
@@ -107,6 +114,8 @@
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
         createTable(document.getElementById("bulk-select-body-deletedHousings"), deletedHousings);
+        createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
+
 
 
         // Handle tab switching

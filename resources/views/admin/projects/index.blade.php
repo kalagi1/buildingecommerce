@@ -12,6 +12,11 @@
                         aria-selected="true">Yayında Olanlar</button>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pendingProjects-tab" data-bs-toggle="tab"
+                        data-bs-target="#pendingProjects" type="button" role="tab" aria-controls="pendingProjects"
+                        aria-selected="false">Onay Bekleyen İlanlar</button>
+                </li>
+                <li class="nav-item" role="presentation">
                     <button class="nav-link" id="inactiveProjects-tab" data-bs-toggle="tab"
                         data-bs-target="#inactiveProjects" type="button" role="tab" aria-controls="inactiveProjects"
                         aria-selected="false">Yayında Olmayanlar</button>
@@ -27,6 +32,9 @@
                 <div class="tab-pane fade show active" id="activeProjects" role="tabpanel"
                     aria-labelledby="activeProjects-tab">
                     @include('admin.projects.tab-content', ['projects' => $activeProjects])
+                </div>
+                <div class="tab-pane fade" id="pendingProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
+                    @include('admin.projects.tab-content', ['projects' => $pendingProjects])
                 </div>
                 <div class="tab-pane fade" id="inactiveProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
                     @include('admin.projects.tab-content', ['projects' => $inactiveProjects])
