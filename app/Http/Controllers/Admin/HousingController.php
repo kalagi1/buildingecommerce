@@ -23,7 +23,8 @@ class HousingController extends Controller {
 
     public function index()
     {
-        $activeHousingTypes = Housing::where('status', 1)
+        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', 1 )
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->select(
                 'housings.id',
@@ -33,12 +34,16 @@ class HousingController extends Controller {
                 'housings.created_at',
                 'housing_types.title as housing_type',
                 'housing_types.slug',
+                'housings.city_id',
+                'housings.county_id',
+                'housings.neighborhood_id',
                 'housing_types.form_json'
             )
             ->orderByDesc('housings.updated_at')
             ->get();
     
-        $inactiveHousingTypes = Housing::where('status', '<>', 1)
+        $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', '<>', 1 )
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->select(
                 'housings.id',
@@ -48,6 +53,9 @@ class HousingController extends Controller {
                 'housings.created_at',
                 'housing_types.title as housing_type',
                 'housing_types.slug',
+                'housings.city_id',
+                'housings.county_id',
+                'housings.neighborhood_id',
                 'housing_types.form_json'
             )
             ->orderByDesc('housings.updated_at')

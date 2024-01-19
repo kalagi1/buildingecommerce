@@ -2,96 +2,69 @@
 
 @section('content')
     <div class="content">
-        <div class="mt-4">
-            <div class="row g-4">
-                <div class="col-12 col-xl-12  order-1 order-xl-0">
-                    <h2 class=" lh-sm">Projeler</h2>
+        <h2 class="mb-2 lh-sm">Proje İlanları</h2>
 
-                    <div class="mb-9">
-                        <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
-                            <div class="card-body p-0">
-                                <div class="p-4 code-to-copy">
-                                    <div id="tableExample"
-                                        data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
-                                        <div class="table-responsive mx-n1 px-1">
-                                            <table class="table table-sm border-top border-200 fs--1 mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Resim</th>
-                                                        <th>Başlık</th>
-                                                        <th>Eklenen Marka</th>
-                                                        <th>Emlak Sayısı</th>
-                                                        <th>Emlak Tipi</th>
-                                                        <th>Şehir</th>
-                                                        <th>İlçe</th>
-                                                        <th>Statü</th>
-                                                        <th>İşlemler</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($projects as $key => $project)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>
-                                                                @php
-                                                                    $imagePath = str_replace('public/', 'storage/', $project->image);
-                                                                @endphp
-                                                                <img src="{{ asset($imagePath) }}" alt="Resim"
-                                                                    style="width:100px">
-                                                            </td>
-                                                            <td>{{ $project->project_title }}</td>
-                                                            <td>{{ $project->user->name }}</td>
-                                                            <td>{{ $project->room_count }}</td>
-                                                            <td>{{ $project->housingType->title }}</td>
-                                                            <td>{{ $project->city->title }}</td>
-                                                            <td>{{ isset($project->county->ilce_title) ? $project->county->ilce_title  : '' }}</td>
-                                                            <td>
-                                                                @if ($project->status == 1)
-                                                                <span class="badge badge-phoenix badge-phoenix-success">Aktif</span>
-                                                                @elseif($project->status == 2)
-                                                                    <span class="badge badge-phoenix badge-phoenix-warning">Onay Bekliyor</span>
-                                                                @elseif($project->status == 3)
-                                                                    <span class="badge badge-phoenix badge-phoenix-danger">
-                                                                        Reddedildi</span>
-                                                                @else
-                                                                    <span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>
-                                                                @endif
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{ route('admin.projects.detail', $project->id) }}"
-                                                                    class="badge badge-phoenix badge-phoenix-primary"><i
-                                                                        class="fa fa-eye"></i></a>
-                                                                <a href="{{ route('admin.projects.logs', $project->id) }}"
-                                                                    class="badge badge-phoenix badge-phoenix-info">Log</a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+        <div class="card shadow-none border border-300 my-4">
+            <ul class="nav nav-tabs px-4 mt-3 mb-3" id="projectTabs">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="activeProjects-tab" data-bs-toggle="tab"
+                        data-bs-target="#activeProjects" type="button" role="tab" aria-controls="activeProjects"
+                        aria-selected="true">Yayında Olanlar</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="inactiveProjects-tab" data-bs-toggle="tab"
+                        data-bs-target="#inactiveProjects" type="button" role="tab" aria-controls="inactiveProjects"
+                        aria-selected="false">Yayında Olmayanlar</button>
+                </li>
+            </ul>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="tab-content px-4 pb-4">
+                <div class="tab-pane fade show active" id="activeProjects" role="tabpanel"
+                    aria-labelledby="activeProjects-tab">
+                    @include('admin.projects.tab-content', ['projects' => $activeProjects])
                 </div>
-
-            </div>
-        </div>
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-            <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert"
-                aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto" type="button"
-                        data-bs-dismiss="toast" aria-label="Close"></button>
+                <div class="tab-pane fade" id="inactiveProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
+                    @include('admin.projects.tab-content', ['projects' => $inactiveProjects])
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 
-@section('scripts')
+@section('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+        integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .ml-3 {
+            margin-left: 20px
+        }
+
+        .badge-success {
+            background-color: green
+        }
+
+        .badge-danger {
+            background-color: red
+        }
+
+        .badge-info {
+            background-color: #e54242
+        }
+        .nav-tabs .nav-link{
+            color:black !important;
+        }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+            color:red !important;
+        }
+        .ml-2 {
+            margin-left: 20px;
+        }
+
+        .mr-2 {
+            margin-right: 20px;
+        }
+    </style>
 @endsection

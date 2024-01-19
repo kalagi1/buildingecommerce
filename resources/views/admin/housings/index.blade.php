@@ -40,8 +40,13 @@
             idCell.textContent = housingType.id + 2000000;
 
             var housingTitleCell = document.createElement("td");
-            housingTitleCell.className = "align-middle ps-3 housing_title";
-            housingTitleCell.textContent = housingType.housing_title;
+            housingTitleCell.className = "align-middle housing_title";
+            housingTitleCell.innerHTML = housingType.housing_title +
+                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
+                    .title + " / " +
+                    housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                        .mahalle_title : "") +
+                    "</span>";
 
             var housingTypeCell = document.createElement("td");
             housingTypeCell.className = "align-middle housing_type";

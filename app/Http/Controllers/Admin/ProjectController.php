@@ -29,10 +29,13 @@ class ProjectController extends Controller {
             2 => 'Admin Onayı Bekliyor',
             3 => 'Admin Tarafından Reddedildi',
         ];
-        $projects = Project::orderByDesc( 'updated_at' )->get();
-        return view( 'admin.projects.index', compact( 'projects', 'projectStatuses' ) );
+    
+        $activeProjects = Project::where('status', 1)->orderByDesc('updated_at')->get();
+        $inactiveProjects = Project::where('status', "<>",1)->orderByDesc('updated_at')->get();
+    
+        return view('admin.projects.index', compact('activeProjects', 'inactiveProjects', 'projectStatuses'));
     }
-
+    
     /**
     * Show the form for creating a new resource.
     */

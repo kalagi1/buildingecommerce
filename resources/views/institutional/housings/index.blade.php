@@ -38,55 +38,65 @@
 
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
-            var row = document.createElement("tr");
+                var row = document.createElement("tr");
 
-            var idCell = document.createElement("td");
-            idCell.className = "align-middle id";
-            idCell.textContent = housingType.id + 2000000;
+                var idCell = document.createElement("td");
+                idCell.className = "align-middle id";
+                idCell.textContent = housingType.id + 2000000;
+                console.log(housingType);
 
-            var housingTitleCell = document.createElement("td");
-            housingTitleCell.className = "align-middle ps-3 housing_title";
-            housingTitleCell.textContent = housingType.housing_title;
+                var housingTitleCell = document.createElement("td");
+                housingTitleCell.className = "align-middle housing_title";
+                housingTitleCell.innerHTML = housingType.housing_title +
+                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
+                    .title + " / " +
+                    housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
+                        .mahalle_title : "") +
+                    "</span>";
 
-            var housingTypeCell = document.createElement("td");
-            housingTypeCell.className = "align-middle housing_type";
-            housingTypeCell.textContent = housingType.housing_type;
+                var housingTypeCell = document.createElement("td");
+                housingTypeCell.className = "align-middle housing_type";
+                housingTypeCell.textContent = housingType.housing_type;
 
-            var statusCell = document.createElement("td");
-            statusCell.className = "align-middle status";
-            statusCell.innerHTML = housingType.status == 1 ? '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
-                housingType.status == 2 ? '<span class="badge badge-phoenix badge-phoenix-warning">Admin Onayı Bekliyor</span>' : housingType
-                .status == 3 ? '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
-                '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+                var statusCell = document.createElement("td");
+                statusCell.className = "align-middle status";
+                statusCell.innerHTML = housingType.status == 1 ?
+                    '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
+                    housingType.status == 2 ?
+                    '<span class="badge badge-phoenix badge-phoenix-warning">Admin Onayı Bekliyor</span>' :
+                    housingType
+                    .status == 3 ?
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
 
-            var createdAtCell = document.createElement("td");
-            createdAtCell.className = "align-middle created_at";
-            createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
+                var createdAtCell = document.createElement("td");
+                createdAtCell.className = "align-middle created_at";
+                createdAtCell.textContent = new Date(housingType.created_at).toLocaleDateString();
 
-            var actionsCell = document.createElement("td");
-            actionsCell.className = "align-middle white-space-nowrap     pe-0";
-            var exportLink = document.createElement("a");
-            exportLink.className = "badge badge-phoenix badge-phoenix-primary";
-            exportLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/detail';
-            exportLink.textContent = "Görüntüle";
-            var viewLink = document.createElement("a");
-            viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
-            viewLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/logs';
-            viewLink.textContent = "Loglar";
-            actionsCell.appendChild(exportLink);
-            actionsCell.appendChild(viewLink);
-
-
-            row.appendChild(idCell);
-            row.appendChild(housingTitleCell);
-            row.appendChild(housingTypeCell);
-            row.appendChild(statusCell);
-            row.appendChild(createdAtCell);
-            row.appendChild(actionsCell);
+                var actionsCell = document.createElement("td");
+                actionsCell.className = "align-middle white-space-nowrap     pe-0";
+                var exportLink = document.createElement("a");
+                exportLink.className = "badge badge-phoenix badge-phoenix-primary";
+                exportLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/detail';
+                exportLink.textContent = "Görüntüle";
+                var viewLink = document.createElement("a");
+                viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
+                viewLink.href = "{{ URL::to('/') }}/admin/housings/" + housingType.id + '/logs';
+                viewLink.textContent = "Loglar";
+                actionsCell.appendChild(exportLink);
+                actionsCell.appendChild(viewLink);
 
 
-            tbody.appendChild(row);
-        });
+                row.appendChild(idCell);
+                row.appendChild(housingTitleCell);
+                row.appendChild(housingTypeCell);
+                row.appendChild(statusCell);
+                row.appendChild(createdAtCell);
+                row.appendChild(actionsCell);
+
+
+                tbody.appendChild(row);
+            });
         }
 
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
@@ -98,12 +108,15 @@
     </script>
 
     <style>
-        .nav-tabs .nav-link{
-            color:black !important;
+        .nav-tabs .nav-link {
+            color: black !important;
         }
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
-            color:red !important;
+
+        .nav-tabs .nav-link.active,
+        .nav-tabs .nav-item.show .nav-link {
+            color: red !important;
         }
+
         .ml-2 {
             margin-left: 20px;
         }
@@ -113,4 +126,3 @@
         }
     </style>
 @endsection
-
