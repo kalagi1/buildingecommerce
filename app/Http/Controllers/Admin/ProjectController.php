@@ -82,7 +82,12 @@ class ProjectController extends Controller {
         $housingTypeData = HousingType::where( 'id', $project->housing_type_id )->first();
         $housingTypeData = json_decode( $housingTypeData->form_json );
         $housingData = $project->roomInfo;
-        return view( 'admin.projects.detail', compact( 'startTime','project','projectHousingsList', 'housingTypeData', 'housingData', 'defaultMessages' ) );
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+        $status = HousingStatus::find($statusID);
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+      
+        $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
+        return view( 'admin.projects.detail', compact( 'startTime',"projectHousingsList","status","salesCloseProjectHousingCount",'project','projectHousingsList', 'housingTypeData', 'housingData', 'defaultMessages' ) );
     }
 
     public function setStatus( $projectId, Request $request ) {

@@ -78,7 +78,11 @@ class ProjectController extends Controller
         }
         $endIndex = 20 + $startIndex;
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
-        $status = HousingStatus::where("id", $project->status_id)->first();
+     
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+        $status = HousingStatus::find($statusID);
+        
+        
         return view('client.projects.index', compact('projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
@@ -128,6 +132,8 @@ class ProjectController extends Controller
         }
         $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+
+        
         return view('client.projects.index', compact('salesCloseProjectHousingCount','currentBlockHouseCount','lastHousingCount','menu', "offer", 'project','projectCartOrders','endIndex','blockIndex','startIndex'))->render();
     }
 
