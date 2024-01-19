@@ -151,7 +151,8 @@
                                 @endphp
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar pb-3">
-                                        <strong>İlan No: <span style="color:#274abb;font-size: 14px !important;">{{ $housing->id + 2000000 }}</span>
+                                        <strong style="color:black">İlan No: <span
+                                                style="color:#274abb;font-size: 14px !important;">{{ $housing->id + 2000000 }}</span>
                                         </strong>
                                         <h3>
                                             @if ($status && $status != '0' && $status != '1')
@@ -770,21 +771,28 @@
                                             <tr>
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
-                                                    <span class="det" style="color: #274abb;" >
+                                                    <span class="det" style="color: #274abb;">
                                                         {{ $housing->id + 2000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $label != 'Taksitli Satış' && isset($val[0]) && $val[0] != 0 && $val != '[]')
+                                                @if ($label != 'Kapak Resmi' && $label != 'Taksitli Satış' && isset($val[0]) && $val[0] != 0 && $val[0] != null)
                                                     <tr>
                                                         <td>
                                                             @if ($label == 'Fiyat')
                                                                 <span class="mr-1">{{ $label }}:</span>
                                                                 <span class="det"
                                                                     style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
+                                                                    
                                                                     ₺</span>
+                                                                    @elseif ($label == 'Peşin Fiyat')
+                                                                    <span class="mr-1">{{ $label }}:</span>
+                                                                    <span class="det"
+                                                                        style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
+                                                                        
+                                                                        ₺</span>
                                                             @else
                                                                 <span class="mr-1">{{ $label }}:</span>
                                                                 @if ($label == 'm² (Net)<br>')
@@ -798,7 +806,9 @@
                                                                     </ul>
                                                                 @else
                                                                     <span
-                                                                        class="det">{{ isset($val[0]) && $val[0] ? $val[0] : '' }}</span>
+                                                                        class="det">
+                                                                        {{ isset($val[0]) && $val[0] ? ($val[0] == "yes" ? "Evet" : ($val[0] == "no" ? "Hayır" : $val[0])) : '' }}
+</span>
                                                                 @endif
                                                             @endif
                                                         </td>
