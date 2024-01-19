@@ -650,7 +650,14 @@ class CartController extends Controller
         if ($coupon) {
             $cart = $request->session()->get('cart', []);
             if ($cart['type'] == "housing") {
-                if($coupon->select_housings_type == 1 || $coupon->select_housings_type == 2){
+                if($coupon->select_housings_type == 1){
+                    return json_encode([
+                        "status" => true,
+                        "cart" => $cart,
+                        "discount_type" => $coupon->discount_type,
+                        "discount_amount" => $coupon->amount,
+                    ]);
+                }elseif($coupon->select_housings_type == 2){
                     $couponHousings = array_keys($coupon->housings->keyBy('item_id')->toArray());
                     if (in_array($cart['item']['id'], $couponHousings)) {
                         return json_encode([
@@ -665,6 +672,7 @@ class CartController extends Controller
                             "message" => "İndirim kuponu bu ürün için geçerli değil."
                         ]);
                     }
+                }
                 }else{
                     return json_encode([
                         "status" => false,

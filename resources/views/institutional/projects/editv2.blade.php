@@ -324,6 +324,202 @@
             }
         }
 
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+
+            var files = event.dataTransfer.files;
+            console.log(event);
+            if (files.length > 0) {
+                handleDroppedFiles(files);
+            }
+        }
+
+        function handleDroppedFiles(files) {
+            var input = this;
+
+            if (files.length > 0) {
+                $('.cover-photo-area').removeClass('error-border')
+                var reader = new FileReader();
+
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('image',files[0]);
+                formData.append('item_type',3);
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.single.file.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Dosya yükleme başarılı ise sunucudan gelen yanıtı görüntüle
+                        $("#sonuc").html(response);
+                    },
+                    error: function() {
+                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                        alert("Dosya yüklenemedi.");
+                    }
+                });
+                reader.onload = function(e) {
+                    // Resmi görüntülemek için bir div oluşturun
+                    var imageDiv = $('<div class="project_imagex"></div>');
+
+                    // Resmi oluşturun ve div içine ekleyin
+                    var image = $('<img>').attr('src', e.target.result);
+                    imageDiv.append(image);
+                    // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
+                    $('.cover-photo').html(imageDiv);
+
+                    $('.cover-photo').on('click', '.fa-trash', function() {
+                        var imageDiv = $(this).parent(); // Tıklanan resmin üst öğesini al
+
+                        // Kullanıcıdan resmi silmek istediğine emin misiniz diye sorabilirsiniz
+                        var confirmation = confirm("Bu resmi silmek istediğinizden emin misiniz?");
+                        
+                        if (confirmation) {
+                            imageDiv.remove(); // Resmi kaldır
+                        }
+                    });
+                    
+                };
+
+                // Resmi okuyun
+                reader.readAsDataURL(files[0]);
+            }
+            
+        }
+
+        function allowDrop2(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop2(event) {
+            event.preventDefault();
+
+            var files = event.dataTransfer.files;
+            console.log(event);
+            if (files.length > 0) {
+                handleDroppedFiles2(files);
+            }
+        }
+
+        function handleDroppedFiles2(files) {
+            console.log(files)
+            if (files && files[0]) {
+                $('.photo-area').removeClass('error-border')
+
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('item_type',3);
+                for (let i = 0; i < files.length; i++) {
+                    console.log(files[i]);
+                    formData.append(`file${i}`, files[i]);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.image.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        
+                        for (let i = 0; i < response.length; i++) {
+                            var imageDiv = $('<div class="project_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/project_images/'+response[i]);
+                            var imageButtons = $('<div>').attr('class','image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                            imageButtons.append(imageButtonsIcon)
+                            imageDiv.append(image);
+                            imageDiv.append(imageButtons);
+                            $('.photos').append(imageDiv);
+
+                            $('.project_imagex .image-buttons').click(function(){
+                                var thisx = $(this);
+                                $.ajax({
+                                    url: '{{route("institutional.delete.image.order.temp.update")}}',
+                                    type: 'POST',
+                                    data: { 
+                                        image: $(this).closest('.project_imagex').attr('order') ,
+                                        item_type : 1,
+                                        _token : csrfToken
+                                    },
+                                    success: function(response) {
+                                        thisx.closest('.project_imagex').remove()
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                    }
+                                });
+                            })
+                        }
+                    },
+                    error: function() {
+                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                        alert("Dosya yüklenemedi.");
+                    }
+                });
+                
+
+            }
+            
+        }
+
+        function allowDrop3(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop3(event) {
+            event.preventDefault();
+
+            var files = event.dataTransfer.files;
+            console.log(event);
+            if (files.length > 0) {
+                handleDroppedFiles3(files);
+            }
+        }
+
+        function handleDroppedFiles3(files) {
+            if (files && files[0]) {
+                $('.cover-document-area').removeClass('error-border')
+                var reader = new FileReader();
+
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('document',files[0]);
+                formData.append('item_type',3);
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.document.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        response = JSON.parse(response);
+
+                        if(response.status){
+                            var html = '<div class="has_file">'+
+                                '<span class="d-block">Dosya Eklediniz</span>'+
+                                '<a class="btn btn-info" href="{{URL::to("/")}}/housing_documents/'+response.document_name+'" download="">Mevcut Dosyayı İndir</a>'+
+                            '</div>';
+
+                            $('.cover-document').html(html);
+                        }
+                    },
+                    error: function() {
+                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                        alert("Dosya yüklenemedi.");
+                    }
+                });
+                
+            }
+        }
         
         window.initMap = initMap;
 
