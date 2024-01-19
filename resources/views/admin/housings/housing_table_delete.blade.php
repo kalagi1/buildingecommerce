@@ -4,7 +4,6 @@
             <th>ID</th>
             <th>Başlık</th>
             <th>Daire Türü</th>
-            <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
         </tr>
     </thead>

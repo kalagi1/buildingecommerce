@@ -65,6 +65,7 @@
                 housingType.status == 2 ? '<span class="badge badge-phoenix badge-phoenix-warning">Admin Onayı Bekliyor</span>' : housingType
                 .status == 3 ? '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
                 '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
+                
 
             var createdAtCell = document.createElement("td");
             createdAtCell.className = "align-middle created_at";
@@ -87,7 +88,11 @@
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
             row.appendChild(housingTypeCell);
-            row.appendChild(statusCell);
+
+            if (housingType.deleted_at == null) {
+                row.appendChild(statusCell);
+
+            }
             row.appendChild(createdAtCell);
             if (housingType.deleted_at == null) {
                 row.appendChild(actionsCell);
