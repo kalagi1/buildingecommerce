@@ -32,6 +32,8 @@
 @endsection
 
 @section('scripts')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
@@ -87,12 +89,57 @@
                 actionsCell.appendChild(viewLink);
 
 
+                var deleteCell = document.createElement("td");
+                deleteCell.className = "align-middle";
+                var deleteButton = document.createElement("button");
+                deleteButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                deleteButton.textContent = "Sil";
+                deleteButton.addEventListener("click", function() {
+                    // Kullanıcıdan onay al
+                    var confirmDelete = confirm("Bu ianı silmek istediğinizden emin misiniz?");
+                    if (confirmDelete) {
+                        var csrfToken = "{{ csrf_token() }}";
+                        // Laravel route ismi
+                        var routeName = "{{ route('institutional.housings.destroy', ['id' => ':id']) }}";
+                        // API Endpoint'i oluştur
+                        var apiUrl = routeName.replace(':id', housingType.id);
+
+                        fetch(apiUrl, {
+                                method: "DELETE", // Silme işlemi için DELETE metodu
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
+                                },
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Network response was not ok");
+                                }
+                                location.reload();
+                            })
+                            .then(data => {
+                                // Silme işlemi başarılı
+                                toastr.success("İlan başarıyla silindi.");
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error("There was a problem with the fetch operation:", error);
+                                // Silme işlemi başarısız
+                                toastr.error("İlan silinirken bir hata oluştu.");
+                            });
+                    }
+                });
+
+                deleteCell.appendChild(deleteButton);
+
                 row.appendChild(idCell);
                 row.appendChild(housingTitleCell);
                 row.appendChild(housingTypeCell);
                 row.appendChild(statusCell);
                 row.appendChild(createdAtCell);
                 row.appendChild(actionsCell);
+                row.appendChild(deleteCell);
+
 
 
                 tbody.appendChild(row);

@@ -12,6 +12,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="deletedHousings-tab" data-bs-toggle="tab" href="#deletedHousings">Silinen İlanlar</a>
+                </li>
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
@@ -19,6 +22,9 @@
                 </div>
                 <div class="tab-pane fade" id="inactive">
                     @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-inactive', 'housingTypes' => $inactiveHousingTypes])
+                </div>
+                <div class="tab-pane fade" id="deletedHousings">
+                    @include('admin.housings.housing_table_delete', ['tableId' => 'bulk-select-body-deletedHousings', 'housingTypes' => $deletedHousings])
                 </div>
             </div>
         </div>
@@ -30,6 +36,7 @@
     <script>
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
+        var deletedHousings = @json($deletedHousings);
 
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
@@ -82,7 +89,10 @@
             row.appendChild(housingTypeCell);
             row.appendChild(statusCell);
             row.appendChild(createdAtCell);
-            row.appendChild(actionsCell);
+            if (housingType.deleted_at == null) {
+                row.appendChild(actionsCell);
+
+            }
 
 
             tbody.appendChild(row);
@@ -91,6 +101,8 @@
 
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
+        createTable(document.getElementById("bulk-select-body-deletedHousings"), deletedHousings);
+
 
         // Handle tab switching
         var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));

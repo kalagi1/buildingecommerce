@@ -14,6 +14,7 @@ use App\Models\District;
 use App\Models\DocumentNotification;
 use App\Models\DopingOrder;
 use App\Models\DopingPricing;
+use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
@@ -1128,6 +1129,12 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->delete();
+    }
+
+    public function housingDestroy($id)
+    {
+        $housing = Housing::findOrFail($id);
+        $housing->delete();
     }
 
     public function newProjectImage(Request $request, $projectId)

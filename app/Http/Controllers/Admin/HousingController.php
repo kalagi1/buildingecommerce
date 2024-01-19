@@ -21,49 +21,68 @@ class HousingController extends Controller {
     * Display a listing of the resource.
     */
 
-    public function index()
-    {
+    public function index() {
         $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 1 )
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json'
-            )
-            ->orderByDesc('housings.updated_at')
-            ->get();
-    
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.deleted_at',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
         $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', '<>', 1 )
-            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-            ->select(
-                'housings.id',
-                'housings.title AS housing_title',
-                'housings.status AS status',
-                'housings.address',
-                'housings.created_at',
-                'housing_types.title as housing_type',
-                'housing_types.slug',
-                'housings.city_id',
-                'housings.county_id',
-                'housings.neighborhood_id',
-                'housing_types.form_json'
-            )
-            ->orderByDesc('housings.updated_at')
-            ->get();
-    
-        return view('admin.housings.index', compact('activeHousingTypes', 'inactiveHousingTypes'));
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.deleted_at',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        $deletedHousings = Housing::with( 'city', 'county', 'neighborhood' )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.deleted_at',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->onlyTrashed()
+        ->get();
+
+        return view( 'admin.housings.index', compact( 'activeHousingTypes', 'deletedHousings', 'inactiveHousingTypes' ) );
     }
-    
 
     /**
     * Display a listing of the comments.
@@ -125,7 +144,7 @@ class HousingController extends Controller {
 
         Log::create( [
             'item_type' => 2,
-            'item_id' => $housingId,    
+            'item_id' => $housingId,
             'reason' => $reason,
             'user_id' => auth()->user()->id,
             'is_rejected' => $isRejected
@@ -155,7 +174,7 @@ class HousingController extends Controller {
                 'item_type' => 2,
                 'item_id' => $housingId,
                 'user_id' => auth()->user()->id,
-                'reason' => "#".$code." No'lu emlak ilanınız admin tarafından pasife alındı.",
+                'reason' => '#'.$code." No'lu emlak ilanınız admin tarafından pasife alındı.",
                 'is_rejected' => 0
             ] );
         } else {
@@ -163,7 +182,7 @@ class HousingController extends Controller {
                 'item_type' => 2,
                 'item_id' => $housingId,
                 'user_id' => auth()->user()->id,
-                'reason' => "#".$code." No'lu emlak ilanınız admin tarafından aktif edildi.",
+                'reason' => '#'.$code." No'lu emlak ilanınız admin tarafından aktif edildi.",
                 'is_rejected' => 0
             ] );
         }
