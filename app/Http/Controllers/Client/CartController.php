@@ -61,81 +61,180 @@ class CartController extends Controller
                     $query->where("start_date", "<=", date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'));
                 })->orWhere('time_type',1); 
             })->where('coupon_code', $request->input('discount'))->where('use_count','>=',1)->first();
-            if ($coupon) {
-                $cart = $request->session()->get('cart', []);
-                if ($cart['type'] == "housing") {
-                    if($coupon->select_housings_type == 1){
-                        $haveDiscount = true;
-                        if($coupon->discount_type == 1){
-                            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                            $amount = number_format($amount * 0.02, 2, ',', '.');
-                        }else{
-                            $amount = $amountWithoutDiscount - $coupon->amount;
-                            $amount = number_format($amount * 0.02, 2, ',', '.');
-                        }
-                    }else if($coupon->select_housings_type == 2){
-                        $couponHousings = array_keys($coupon->housings->keyBy('item_id')->toArray());
-                        if (in_array($cart['item']['id'], $couponHousings)) {
+
+            $cart = $request->session()->get('cart', []);
+            if($cart['type'] == "housing"){
+                $housing = Housing::where('id',$cart['item']['id'])->first();
+                $saleType = $housing->step2_slug;
+            }else{
+                $project = Project::where('id',$cart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+            }
+
+            if($saleType == "kiralik"){
+                if ($coupon) {
+                    if ($cart['type'] == "housing") {
+                        if($coupon->select_housings_type == 1){
                             $haveDiscount = true;
                             if($coupon->discount_type == 1){
                                 $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                                $amount = number_format($amount, 2, ',', '.');
                             }else{
                                 $amount = $amountWithoutDiscount - $coupon->amount;
-                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                                $amount = number_format($amount, 2, ',', '.');
                             }
-                        } else {
-                            $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                            $amount = number_format($amount * 0.02, 2, ',', '.');
-                        }
-                    }else{
-                        $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                        $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                        $amount = number_format($amount * 0.02, 2, ',', '.');
-                    }
-                    
-                }else{
-                    if($coupon->select_projects_type == 1){
-                        if($coupon->discount_type == 1){
-                            $haveDiscount = true;
-                            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                            $amount = number_format($amount * 0.02, 2, ',', '.');
+                        }else if($coupon->select_housings_type == 2){
+                            $couponHousings = array_keys($coupon->housings->keyBy('item_id')->toArray());
+                            if (in_array($cart['item']['id'], $couponHousings)) {
+                                $haveDiscount = true;
+                                if($coupon->discount_type == 1){
+                                    $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                    $amount = number_format($amount, 2, ',', '.');
+                                }else{
+                                    $amount = $amountWithoutDiscount - $coupon->amount;
+                                    $amount = number_format($amount, 2, ',', '.');
+                                }
+                            } else {
+                                $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                                $amount = number_format($amount, 2, ',', '.');
+                            }
                         }else{
-                            $amount = $amountWithoutDiscount - $coupon->amount;
-                            $amount = number_format($amount * 0.02, 2, ',', '.');
-                        }
-                    }else if($coupon->select_projects_type == 2){
-                        $couponProjects = array_keys($coupon->projects->keyBy('item_id')->toArray());
-                        if (in_array($cart['item']['id'], $couponProjects)) {
-                            $haveDiscount = true;
-                            if($coupon->discount_type == 1){
-                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                                $amount = number_format($amount * 0.02, 2, ',', '.');
-                            }else{
-                                $amount = $amountWithoutDiscount - $coupon->amount;
-                                $amount = number_format($amount * 0.02, 2, ',', '.');
-                            }
-                        } else {
                             $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                             $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                            $amount = number_format($amount * 0.02, 2, ',', '.');
+                            $amount = number_format($amount, 2, ',', '.');
                         }
+                        
                     }else{
-                        $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                        $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                        $amount = number_format($amount * 0.02, 2, ',', '.');
+                        if($coupon->select_projects_type == 1){
+                            if($coupon->discount_type == 1){
+                                $haveDiscount = true;
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                $amount = number_format($amount, 2, ',', '.');
+                            }else{
+                                $amount = $amountWithoutDiscount - $coupon->amount;
+                                $amount = number_format($amount, 2, ',', '.');
+                            }
+                        }else if($coupon->select_projects_type == 2){
+                            $couponProjects = array_keys($coupon->projects->keyBy('item_id')->toArray());
+                            if (in_array($cart['item']['id'], $couponProjects)) {
+                                $haveDiscount = true;
+                                if($coupon->discount_type == 1){
+                                    $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                    $amount = number_format($amount, 2, ',', '.');
+                                }else{
+                                    $amount = $amountWithoutDiscount - $coupon->amount;
+                                    $amount = number_format($amount, 2, ',', '.');
+                                }
+                            } else {
+                                $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                                $amount = number_format($amount, 2, ',', '.');
+                            }
+                        }else{
+                            $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                            $amount = number_format($amount, 2, ',', '.');
+                        }
                     }
+                } else {
+                    $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                    $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                    dd($amount);
+                    $amount = number_format($amount, 2, ',', '.');
                 }
-            } else {
+            }else{
+                if ($coupon) {
+                    if ($cart['type'] == "housing") {
+                        if($coupon->select_housings_type == 1){
+                            $haveDiscount = true;
+                            if($coupon->discount_type == 1){
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                            }else{
+                                $amount = $amountWithoutDiscount - $coupon->amount;
+                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                            }
+                        }else if($coupon->select_housings_type == 2){
+                            $couponHousings = array_keys($coupon->housings->keyBy('item_id')->toArray());
+                            if (in_array($cart['item']['id'], $couponHousings)) {
+                                $haveDiscount = true;
+                                if($coupon->discount_type == 1){
+                                    $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                    $amount = number_format($amount * 0.02, 2, ',', '.');
+                                }else{
+                                    $amount = $amountWithoutDiscount - $coupon->amount;
+                                    $amount = number_format($amount * 0.02, 2, ',', '.');
+                                }
+                            } else {
+                                $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                            }
+                        }else{
+                            $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                            $amount = number_format($amount * 0.02, 2, ',', '.');
+                        }
+                        
+                    }else{
+                        if($coupon->select_projects_type == 1){
+                            if($coupon->discount_type == 1){
+                                $haveDiscount = true;
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                            }else{
+                                $amount = $amountWithoutDiscount - $coupon->amount;
+                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                            }
+                        }else if($coupon->select_projects_type == 2){
+                            $couponProjects = array_keys($coupon->projects->keyBy('item_id')->toArray());
+                            if (in_array($cart['item']['id'], $couponProjects)) {
+                                $haveDiscount = true;
+                                if($coupon->discount_type == 1){
+                                    $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
+                                    $amount = number_format($amount * 0.02, 2, ',', '.');
+                                }else{
+                                    $amount = $amountWithoutDiscount - $coupon->amount;
+                                    $amount = number_format($amount * 0.02, 2, ',', '.');
+                                }
+                            } else {
+                                $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                                $amount = number_format($amount * 0.02, 2, ',', '.');
+                            }
+                        }else{
+                            $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                            $amount = number_format($amount * 0.02, 2, ',', '.');
+                        }
+                    }
+                } else {
+                    $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                    $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                    $amount = number_format($amount * 0.02, 2, ',', '.');
+                }
+            }
+            
+        }else{
+            $cart = $request->session()->get('cart', []);
+            if($cart['type'] == "housing"){
+                $housing = Housing::where('id',$cart['item']['id'])->first();
+                $saleType = $housing->step2_slug;
+            }else{
+                $project = Project::where('id',$cart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+            }
+
+            if($saleType == "kiralik"){
+                $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
+                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                $amount = number_format($amount, 2, ',', '.');
+            }else{
                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                 $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                 $amount = number_format($amount * 0.02, 2, ',', '.');
             }
-        }else{
-            $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-            $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-            $amount = number_format($amount * 0.02, 2, ',', '.');
         }
         $order->amount = $amount;
         $order->cart = json_encode($cartJson);
@@ -206,8 +305,22 @@ class CartController extends Controller
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
     
-                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
-                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                    $cart = $request->session()->get('cart', []);
+                    if($cart['type'] == "housing"){
+                        $housing = Housing::where('id',$cart['item']['id'])->first();
+                        $saleType = $housing->step2_slug;
+                    }else{
+                        $project = Project::where('id',$cart['item']['id'])->first();
+                        $saleType = $project->step2_slug;
+                    }
+
+                    if($saleType == "kiralik"){
+                        $sharedAmount_balance = $newAmount * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * $share_percent_earn;
+                    }else{
+                        $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                    }
     
                     SharerPrice::create([
                         'collection_id' => $lastClick->collection_id,
@@ -222,9 +335,23 @@ class CartController extends Controller
                     $newAmount = $amountWithoutDiscount;
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
-    
-                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
-                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+
+                    $cart = $request->session()->get('cart', []);
+                    if($cart['type'] == "housing"){
+                        $housing = Housing::where('id',$cart['item']['id'])->first();
+                        $saleType = $housing->step2_slug;
+                    }else{
+                        $project = Project::where('id',$cart['item']['id'])->first();
+                        $saleType = $project->step2_slug;
+                    }
+
+                    if($saleType == "kiralik"){
+                        $sharedAmount_balance = $newAmount * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * $share_percent_earn;
+                    }else{
+                        $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                    }
     
                     CartPrice::create([
                         'user_id' => $order->user_id,
@@ -237,9 +364,23 @@ class CartController extends Controller
                     $newAmount = $amountWithoutDiscount;
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
-    
-                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
-                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+
+                    $cart = $request->session()->get('cart', []);
+                    if($cart['type'] == "housing"){
+                        $housing = Housing::where('id',$cart['item']['id'])->first();
+                        $saleType = $housing->step2_slug;
+                    }else{
+                        $project = Project::where('id',$cart['item']['id'])->first();
+                        $saleType = $project->step2_slug;
+                    }
+
+                    if($saleType == "kiralik"){
+                        $sharedAmount_balance = $newAmount * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * $share_percent_earn;
+                    }else{
+                        $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                    }
     
                     CartPrice::create([
                         'user_id' => $order->user_id,
@@ -273,7 +414,20 @@ class CartController extends Controller
                 }
                 $share_percent =  0.5;
 
-                $sharedAmount_balance = $newAmount * 0.02 * $share_percent;
+                $cart = $request->session()->get('cart', []);
+                if($cart['type'] == "housing"){
+                    $housing = Housing::where('id',$cart['item']['id'])->first();
+                    $saleType = $housing->step2_slug;
+                }else{
+                    $project = Project::where('id',$cart['item']['id'])->first();
+                    $saleType = $project->step2_slug;
+                }
+
+                if($saleType == "kiralik"){
+                    $sharedAmount_balance = $newAmount * $share_percent;
+                }else{
+                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent;
+                }
                 
                 UseCoupon::create([
                     "order_id" => $order->id,
@@ -297,8 +451,20 @@ class CartController extends Controller
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     $share_percent =  0.5;
-
-                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent;
+                    $cart = $request->session()->get('cart', []);
+                    if($cart['type'] == "housing"){
+                        $housing = Housing::where('id',$cart['item']['id'])->first();
+                        $saleType = $housing->step2_slug;
+                    }else{
+                        $project = Project::where('id',$cart['item']['id'])->first();
+                        $saleType = $project->step2_slug;
+                    }
+    
+                    if($saleType == "kiralik"){
+                        $sharedAmount_balance = $newAmount * $share_percent;
+                    }else{
+                        $sharedAmount_balance = $newAmount * 0.02 * $share_percent;
+                    }
                     SharerPrice::create([
                         'collection_id' => $lastClick->collection_id,
                         'user_id' => $collection->user_id,
@@ -606,7 +772,15 @@ class CartController extends Controller
     {
         $bankAccounts = BankAccount::all();
         $cart = $request->session()->get('cart', []);
-        return view('client.cart.index', compact('cart', 'bankAccounts'));
+        if($cart['type'] == "housing"){
+            $housing = Housing::where('id',$cart['item']['id'])->first();
+            $saleType = $housing->step2_slug;
+        }else{
+            $project = Project::where('id',$cart['item']['id'])->first();
+            $saleType = $project->step2_slug;
+        }
+
+        return view('client.cart.index', compact('cart', 'bankAccounts','saleType'));
     }
 
     public function removeFromCart(Request $request)
