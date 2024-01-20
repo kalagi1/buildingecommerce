@@ -179,11 +179,11 @@
 
 
 
-
-
-                                        <li>Toplam Fiyatın %2 Kaporası :<strong
-                                                class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
-                                                TL</strong></li>
+                                        @if($saleType == "kiralik")
+                                            <li>Bir Kira Kapora :<strong class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }} TL</strong></li>
+                                        @else
+                                            <li>Toplam Fiyatın %2 Kaporası :<strong class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }} TL</strong></li>
+                                        @endif
 
                                     </ul>
                                 @endif
@@ -195,12 +195,21 @@
                                     Alışverişe Devam Et
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
-                                    data-target="#paymentModal"
-                                    style="height: 50px !important;font-size: 12px;margin: 0 auto;">
-                                    <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
-                                    TL <br> KAPORA ÖDE
-                                </button>
+                                @if($saleType == "kiralik")
+                                    <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
+                                        data-target="#paymentModal"
+                                        style="height: 50px !important;font-size: 12px;margin: 0 auto;">
+                                        <span class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
+                                        TL <br> KAPORA ÖDE
+                                    </button>
+                                @else
+                                    <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
+                                        data-target="#paymentModal"
+                                        style="height: 50px !important;font-size: 12px;margin: 0 auto;">
+                                        <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
+                                        TL <br> KAPORA ÖDE
+                                    </button>
+                                @endif
                             @endif
 
                             <div class="coupon-cart-area mt-3">
