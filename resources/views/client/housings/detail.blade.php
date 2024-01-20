@@ -343,8 +343,8 @@
                                 </div>
                             </div>
                         @else
-                            <div class="mobileMove">
-                                <div class="schedule widget-boxed mt-33 mt-0">
+                        <div class="mobileHour mobileHourDiv">
+                            <div class="schedule widget-boxed mt-33 mt-0">
 
 
                                     <div class="row buttonDetail" style="align-items: center">
