@@ -21583,7 +21583,7 @@ header.payment-card-header .pull-right img {
 .side-list ul li {
     font-size: 12px;
     list-style: none;
-    padding: 10px 5px;
+    padding: 10px 0;
     display: inline-block;
     width: 100%;
     border-bottom: 1px dashed #eaeff5;

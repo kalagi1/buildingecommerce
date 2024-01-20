@@ -785,14 +785,14 @@
                                                                 <span class="mr-1">{{ $label }}:</span>
                                                                 <span class="det"
                                                                     style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-                                                                    
+
                                                                     ₺</span>
-                                                                    @elseif ($label == 'Peşin Fiyat')
-                                                                    <span class="mr-1">{{ $label }}:</span>
-                                                                    <span class="det"
-                                                                        style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-                                                                        
-                                                                        ₺</span>
+                                                            @elseif ($label == 'Peşin Fiyat')
+                                                                <span class="mr-1">{{ $label }}:</span>
+                                                                <span class="det"
+                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
+
+                                                                    ₺</span>
                                                             @else
                                                                 <span class="mr-1">{{ $label }}:</span>
                                                                 @if ($label == 'm² (Net)<br>')
@@ -805,10 +805,9 @@
                                                                         @endforeach
                                                                     </ul>
                                                                 @else
-                                                                    <span
-                                                                        class="det">
-                                                                        {{ isset($val[0]) && $val[0] ? ($val[0] == "yes" ? "Evet" : ($val[0] == "no" ? "Hayır" : $val[0])) : '' }}
-</span>
+                                                                    <span class="det">
+                                                                        {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
+                                                                    </span>
                                                                 @endif
                                                             @endif
                                                         </td>
@@ -989,25 +988,35 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Rezervasyon Adımı</h5>
-                    <button type="button" class="closeTimes" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="closeTimes">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
-                    <div class="invoice">
-                        <div class="invoice-header mb-3">
-                            <strong>Rezervasyon Tarihi: {{ date('d.m.Y') }}</strong>
-                        </div>
+                    <input type="hidden" name="key" id="orderKey">
+                    <div class="tr-single-box mb-0">
+                        <div class="tr-single-body">
+                            <div class="booking-price-detail side-list no-border mb-3">
+                                <h5 style="color:black;font-size:15px !important">Rezervasyon Detayları</h5>
+                                <ul>
+                                    <li>İlan: <strong class="pull-right">{{ $housing->title }} </strong></li>
+                                    <li>İlan No: <strong class="pull-right"
+                                            style="color:#007bff">{{ $housing->id + 1000000 }} </strong></li>
 
-                        <div class="invoice-body">
-
-                        </div>
-                        <div class="invoice-total mt-3">
-                            <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
-                            <input type="hidden" name="key" id="orderKey">
-                            <div class="row mb-3 px-5 mt-3">
+                                    <li>Rezervasyon Tarihi:<strong class="pull-right">{{ date('d.m.Y') }}</strong>
+                                    </li>
+                                    <li>Kişi Sayısı:<strong class="pull-right userCount">9pm 10pm</strong></li>
+                                    <li>Giriş Tarihi:<strong class="pull-right inDate">9pm 10pm</strong></li>
+                                    <li>Çıkış Tarihi:<strong class="pull-right outDate">10 jan 2019</strong></li>
+                                </ul>
+                            </div>
+                            <div class="booking-price-detail side-list no-border">
+                                <h5 style="color:black;font-size:15px !important">Ödeme Detayları</h5>
+                                <ul>
+                                    <li>Toplam Tutar<strong class="pull-right totalPrice">$150</strong></li>
+                                    <li>EFT/Havale Kodu<strong class="pull-right totalPriceCode">$60</strong></li>
+                                    <li class="red pb-0">Ödenecek Tutar %50<strong
+                                            class="pull-right newTotalPrice">$263</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="booking-price-detail side-list no-border">
                                 @foreach ($bankAccounts as $bankAccount)
                                     <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
                                         data-iban="{{ $bankAccount->iban }}"
@@ -1017,21 +1026,33 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="ibanInfo"></div>
-                            <strong>Ödeme işlemini tamamlamak için, lütfen bu
-                                <span style="color:red;font-size:15px !important;font-weight:bold" id="uniqueCode"></span>
-                                kodu kullanarak ödemenizi
-                                yapın. IBAN açıklama
-                                alanına
-                                bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
-                                bitirin.</strong>
+                            <div class="booking-price-detail side-list no-border">
+                                <span id="ibanInfo"></span>
+                                <span>Ödeme işlemini tamamlamak için, lütfen bu
+                                    <span style="color:red;font-size:15px !important;font-weight:bold"
+                                        id="uniqueCode"></span>
+                                    kodu kullanarak ödemenizi
+                                    yapın. IBAN açıklama
+                                    alanına
+                                    bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                    bitirin.</span>
+
+
+                                <div class="d-flex"> <button type="button"
+                                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                                        class="btn btn-secondary btn-lg btn-block mt-3" id="completePaymentButton"
+                                        style="width:150px">Satın Al
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
+                                        style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                </div>
+
+                            </div>
 
                         </div>
                     </div>
-                    <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
-                        class="btn btn-primary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
-                        style="width:150px;float:right">Satın Al
-                    </button>
+
+
                 </div>
             </div>
         </div>
@@ -1041,20 +1062,16 @@
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
-                    <button type="button" class="closeTimes" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="closeTimes"> &times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
                     <div class="container">
+                        <h5 style="color:black;font-size:15px !important">Ödeme Onayı</h5>
+
                         <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
                         <span>1. <strong style="color:red;font-size:15px;font-weight:bold" id="uniqueCodeRetry"></strong>
                             kodunu EFT/Havale açıklama
                             alanına yazdığınızdan emin olun.</span>
 
-                        <div class="row">
+                        <div class="row mt-3 mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fullName">Ad Soyad *</label>
@@ -1092,7 +1109,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="submitBtn" class="btn btn-primary paySuccess mt-3">Ödemeyi Tamamla
+                        <button type="button" id="submitBtn" class="btn btn-secondary paySuccess mb-3">Ödemeyi Tamamla
                             <svg viewBox="0 0 576 512" class="svgIcon">
                                 <path
                                     d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
@@ -1316,6 +1333,8 @@
                     }
                 }
                 $(".reservation").on("click", function() {
+                    $('.modal-backdrop').show();
+
                     if ($(".showPrice").hasClass("d-none")) {
                         $(".reservationBtn").removeAttr("data-toggle data-target");
                         Swal.fire({
@@ -1324,10 +1343,31 @@
                             text: 'Lütfen geçerli bir tarih seçiniz!',
                         });
                     } else {
+                        // Assuming dateCheckin and dateCheckout are in the format "DD-MM-YYYY"
+                        var dateCheckin = $("#date-checkin").val();
+                        var dateCheckout = $("#date-checkout").val();
+
+                        // Parse the input dates
+                        var checkinDate = new Date(dateCheckin);
+                        var checkoutDate = new Date(dateCheckout);
+
+                        // Format the dates as "DD.MM.YYYY" in Turkish locale
+                        var formattedCheckinDate = checkinDate.toLocaleDateString('tr-TR');
+                        var formattedCheckoutDate = checkoutDate.toLocaleDateString('tr-TR');
+
+                        // Update the HTML content of elements with classes inDate and outDate
+                        $(".inDate").html(formattedCheckinDate);
+                        $(".outDate").html(formattedCheckoutDate);
+
+                        var inputNumber = $(".input-number").val();
+                        $(".userCount").html(inputNumber + " Kişi");
+
+
                         var uniqueCode = generateUniqueCode();
                         $('#uniqueCode').text(uniqueCode);
                         $('#uniqueCodeRetry').text(uniqueCode);
                         $("#orderKey").val(uniqueCode);
+                        $(".totalPriceCode").html(uniqueCode);
                         $(".reservationBtn").attr({
                             "data-toggle": "modal",
                             "data-target": "#paymentModal"
@@ -1370,6 +1410,12 @@
                         } else {
                             $(".showPrice").removeClass("d-none");
                             $("#totalPrice").html(price * diffDays + " ₺");
+                            $(".totalPrice").html(price * diffDays + " ₺");
+                            $("#completePaymentButton").html((price * diffDays / 2) + " ₺" + " Öde");
+                            $(".paySuccess ").html((price * diffDays / 2) + " ₺" + " Ödemeyi Tamamla");
+
+                            $(".newTotalPrice").html((price * diffDays / 2) + " ₺");
+
                             $('.reservationBtn').prop('disabled', false);
 
                         }
@@ -1400,14 +1446,19 @@
 
                     // Gerekli alanları kontrol et
                     if (!fullName || !email || !tc || !phone || !address) {
-                        // Eksik bilgi varsa kullanıcıyı uyar
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Hata!',
-                            text: 'Lütfen tüm zorunlu alanları doldurun.',
-                        });
+                        toastr.error("Lütfen tüm zorunlu alanları doldurun.")
                         return; // Fonksiyonu burada sonlandır
                     }
+
+                    // TC Kimlik Numarası için regular expression
+                    var tcRegex = /^[1-9]{1}[0-9]{9}[02468]{1}$/;
+
+                    // Check if the provided tc matches the expected format
+                    if (!tcRegex.test(tc)) {
+                        toastr.error("Lütfen geçerli bir TC Kimlik Numarası giriniz.");
+                        return;
+                    }
+
 
                     // Diğer bilgileri burada alabilir ve kullanabilirsiniz
                     var personCount = $('input[name="person_count"]').val();
@@ -1432,15 +1483,10 @@
                             address: address,
                         },
                         success: function(response) {
-                            // Başarılı durumunda yapılacaklar
                             $('#finalConfirmationModal').modal('hide');
-                            $('.modal-backdrop').removeClass('show');
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Başarılı!',
-                                text: response.message,
-                            });
+                            $('.modal-backdrop').remove();
+                            toastr.success(response.message);
+                            location.reload();
                         },
                         error: function(error) {
                             // Hata durumunda burada gerekli işlemleri yapabilirsiniz
@@ -1525,10 +1571,20 @@
                         });
 
                         if (booking) {
+                            var bookingFromDate = new Date(booking.from);
+                            var targetDateWithoutTime = new Date(targetDate.getFullYear(), targetDate.getMonth(),
+                                targetDate.getDate());
+
                             if (booking.status === 0) {
+                                day.classList.add("flatpickr-disabled");
                                 day.classList.add("yellow-bg");
                                 addWarningTooltip(day, booking);
-                                if (targetDate == new Date(booking.from) || targetDate > new Date(booking.from)) {
+
+                                var bookingFromOneDayBefore = new Date(bookingFromDate);
+                                bookingFromOneDayBefore.setDate(bookingFromDate.getDate() - 1);
+
+                                if (targetDateWithoutTime >= bookingFromOneDayBefore || targetDateWithoutTime >
+                                    bookingFromDate) {
                                     day.classList.add("flatpickr-disabled");
                                     day.addEventListener("click", function(event) {
                                         event.preventDefault();
@@ -1553,17 +1609,29 @@
                             }
                         }
 
+
                         bookedDates.forEach(function(reservation) {
-                            if (targetDate >= new Date(reservation.from) && targetDate == new Date(reservation
-                                    .from) &&
-                                targetDate <= new Date(reservation.to)) {
+                            var reservationFromDate = new Date(reservation.from);
+                            var reservationToDate = new Date(reservation.to);
+                            var targetDateWithoutTime = new Date(targetDate.getFullYear(), targetDate
+                                .getMonth(), targetDate.getDate());
+
+                            // Subtract one day from the reservation.from date
+                            var reservationFromOneDayBefore = new Date(reservationFromDate);
+                            reservationFromOneDayBefore.setDate(reservationFromDate.getDate() - 1);
+
+                            if (targetDateWithoutTime >= reservationFromOneDayBefore && targetDateWithoutTime <=
+                                reservationToDate) {
                                 if (reservation.status === 0) {
-                                    day.classList.add("bg-yellow");
+                                    day.classList.add("flatpickr-disabled");
+                                    day.classList.add("yellow-bg");
                                 } else if (reservation.status === 1) {
-                                    day.classList.add("bg-red");
+                                    day.classList.add("red-bg");
                                 }
                             }
                         });
+
+
                     }
                 });
             }
@@ -1580,6 +1648,7 @@
                 }
 
                 function onSelectDates(selectedDates, dateStr, instance) {
+
                     var reservations = {!! json_encode($housing->reservations) !!};
                     var bookedDates = reservations.map(function(reservation) {
                         return {
@@ -1588,6 +1657,8 @@
                             status: reservation.status
                         };
                     });
+
+
 
                     var container = instance.calendarContainer;
 
@@ -1598,12 +1669,21 @@
                                 return targetDate >= new Date(reservation.from) && targetDate <= new Date(
                                     reservation.to);
                             });
-
                             if (booking) {
+                                var bookingFromDate = new Date(booking.from);
+                                var targetDateWithoutTime = new Date(targetDate.getFullYear(), targetDate.getMonth(),
+                                    targetDate.getDate());
+
                                 if (booking.status === 0) {
+                                    day.classList.add("flatpickr-disabled");
                                     day.classList.add("yellow-bg");
                                     addWarningTooltip(day, booking);
-                                    if (targetDate == new Date(booking.from) || targetDate > new Date(booking.from)) {
+
+                                    var bookingFromOneDayBefore = new Date(bookingFromDate);
+                                    bookingFromOneDayBefore.setDate(bookingFromDate.getDate() - 1);
+
+                                    if (targetDateWithoutTime >= bookingFromOneDayBefore || targetDateWithoutTime >
+                                        bookingFromDate) {
                                         day.classList.add("flatpickr-disabled");
                                         day.addEventListener("click", function(event) {
                                             event.preventDefault();
@@ -1628,15 +1708,25 @@
                                 }
                             }
 
+
                             bookedDates.forEach(function(reservation) {
-                                if (targetDate >= new Date(reservation.from) && targetDate == new Date(
-                                        reservation
-                                        .from) &&
-                                    targetDate <= new Date(reservation.to)) {
+                                var reservationFromDate = new Date(reservation.from);
+                                var reservationToDate = new Date(reservation.to);
+                                var targetDateWithoutTime = new Date(targetDate.getFullYear(), targetDate
+                                    .getMonth(), targetDate.getDate());
+
+                                // Subtract one day from the reservation.from date
+                                var reservationFromOneDayBefore = new Date(reservationFromDate);
+                                reservationFromOneDayBefore.setDate(reservationFromDate.getDate() - 1);
+
+                                if (targetDateWithoutTime >= reservationFromOneDayBefore &&
+                                    targetDateWithoutTime <=
+                                    reservationToDate) {
                                     if (reservation.status === 0) {
-                                        day.classList.add("bg-yellow");
+                                        day.classList.add("flatpickr-disabled");
+                                        day.classList.add("yellow-bg");
                                     } else if (reservation.status === 1) {
-                                        day.classList.add("bg-red");
+                                        day.classList.add("red-bg");
                                     }
                                 }
                             });
@@ -1648,12 +1738,12 @@
                     if (checkinDate && checkoutDate) {
                         document.getElementById('date-checkin').value = formatDate(checkinDate);
                         document.getElementById('date-checkout').value = formatDate(checkoutDate);
+                        
 
                         var price = parseInt("{{ getData($housing, 'daily_rent') }}");
                         var startDate = new Date(checkinDate);
                         var endDate = new Date(checkoutDate);
 
-                        // Eğer seçilen tarihler aynı değilse, işlemleri yap
                         if (endDate.getTime() !== startDate.getTime()) {
                             var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -1672,6 +1762,11 @@
                             } else {
                                 $(".showPrice").removeClass("d-none");
                                 $("#totalPrice").html(price * diffDays + " ₺");
+                                $(".totalPrice").html(price * diffDays + " ₺");
+                                $(".newTotalPrice").html((price * diffDays / 2) + " ₺");
+                                $("#completePaymentButton").html((price * diffDays / 2) + " ₺" + " Öde");
+                                $(".paySuccess ").html((price * diffDays / 2) + " ₺" + " Ödemeyi Tamamla");
+
                                 var totalPriceElement = document.getElementById('mobileMoveID');
                                 totalPriceElement.scrollIntoView({
                                     behavior: 'smooth'
@@ -1680,6 +1775,8 @@
                             }
                         }
                     }
+
+
                 }
 
                 function formatDate(date) {
@@ -1737,6 +1834,10 @@
 
 @section('styles')
     <style>
+        .totalPriceCode {
+            color: #007bff;
+        }
+
         .trStyle,
         .trStyle tr {
             display: flex;
