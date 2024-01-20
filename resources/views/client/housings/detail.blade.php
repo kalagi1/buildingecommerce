@@ -1037,7 +1037,20 @@
                                     bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
                                     bitirin.</span>
 
+                                <fieldset>
 
+                                    <div class="checkboxes float-left mt-3 mb-3">
+                                        <div class="filter-tags-wrap" id="individualFormCheck" style="display: block;">
+                                            <input id="check-a" type="checkbox" name="check-a">
+                                            <label for="check-a" style="font-size: 12px;">
+                                                <a href="/sayfa/mesafeli-kiralama-sozlesmesi" target="_blank">
+                                                    Mesafeli Kiralama Sözleşmesini
+                                                </a>
+                                                okudum onaylıyorum.
+                                            </label>
+                                        </div>
+                                    </div>
+                                </fieldset>
                                 <div class="d-flex"> <button type="button"
                                         @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
                                         class="btn btn-secondary btn-lg btn-block mt-3" id="completePaymentButton"
@@ -1109,12 +1122,17 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="submitBtn" class="btn btn-secondary paySuccess mb-3">Ödemeyi Tamamla
-                            <svg viewBox="0 0 576 512" class="svgIcon">
-                                <path
-                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                </path>
-                            </svg></button>
+                        <div class="d-flex"> 
+                            <button type="button" id="submitBtn" class="btn btn-secondary paySuccess">Ödemeyi Tamamla
+                                <svg viewBox="0 0 576 512" class="svgIcon">
+                                    <path
+                                        d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                    </path>
+                                </svg></button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block"
+                            style="width:150px" data-bs-dismiss="modal">İptal</button>
+                    </div>
+                    
 
 
 
@@ -1522,17 +1540,23 @@
                 });
 
                 $('#completePaymentButton').on('click', function() {
-                    if ($('.bank-account.selected').length === 0) {
-                        toastr.error('Lütfen banka seçimi yapınız.')
+                    var checkAInput = $('#check-a');
 
+                    if (!checkAInput.prop('checked')) {
+                        toastr.error('Lütfen sözleşmeyi onaylayınız.');
                     } else {
-                        $('#paymentModal').removeClass('show').hide();
-                        $('.modal-backdrop').removeClass('show');
-                        $('#finalConfirmationModal').modal('show');
-
+                        // Diğer işlemleri yap
+                        if ($('.bank-account.selected').length === 0) {
+                            toastr.error('Lütfen banka seçimi yapınız.');
+                        } else {
+                            $('#paymentModal').removeClass('show').hide();
+                            $('.modal-backdrop').removeClass('show');
+                            $(".modal-backdrop").remove();
+                            $('#finalConfirmationModal').modal('show');
+                        }
                     }
-
                 });
+
             });
 
 
@@ -1738,7 +1762,7 @@
                     if (checkinDate && checkoutDate) {
                         document.getElementById('date-checkin').value = formatDate(checkinDate);
                         document.getElementById('date-checkout').value = formatDate(checkoutDate);
-                        
+
 
                         var price = parseInt("{{ getData($housing, 'daily_rent') }}");
                         var startDate = new Date(checkinDate);
