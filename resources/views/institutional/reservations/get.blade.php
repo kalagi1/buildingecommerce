@@ -38,21 +38,20 @@
                                     </th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order"
                                         style="width:5%;">No.</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
-                                        style="width:5%;">KAPORA</th>
-                                    <th class="sort align-middle " scope="col" data-sort="customer"
-                                        style="width:35%">İLAN</th>
+                                    <th class="sort align-middle " scope="col" data-sort="customer" style="width:20%">
+                                        İLAN</th>
                                     <th class="sort align-middle text-start" scope="col" data-sort="customer"
                                         style="width:10%">KİŞİ SAYISI</th>
+                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
+                                        style="width:10%;">TOPLAM FİYAT</th>
                                     <th class="sort align-middle text-start " scope="col" data-sort="customer"
                                         style="width:10%">GİRİŞ TARİHİ</th>
                                     <th class="sort align-middle text-start " scope="col" data-sort="customer"
                                         style="width:10%">ÇIKIŞ TARİHİ</th>
-                                    {{-- <th class="sort align-middle text-start pe-3" scope="col"
-                                        data-sort="fulfilment_status" style="width:10%">BANKA</th> --}}
                                     <th class="sort align-middle text-start pe-3" scope="col"
                                         data-sort="fulfilment_status" style="width:10%">FATURA</th>
-
+                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
+                                        style="width:10%;">KAPORA</th>
                                     <th class="sort align-middle pe-3" scope="col" data-sort="payment_status"
                                         style="width:10%;">SİPARİŞ DURUMU</th>
                                     <th class="sort align-middle text-end pe-0" scope="col" data-sort="date"
@@ -76,11 +75,10 @@
                                                     data-bulk-select-row="{&quot;order&quot;:2453,&quot;total&quot;:87,&quot;customer&quot;:{&quot;avatar&quot;:&quot;/team/32.webp&quot;,&quot;name&quot;:&quot;Carry Anna&quot;},&quot;payment_status&quot;:{&quot;label&quot;:&quot;Complete&quot;,&quot;type&quot;:&quot;badge-phoenix-success&quot;,&quot;icon&quot;:&quot;check&quot;},&quot;fulfilment_status&quot;:{&quot;label&quot;:&quot;Cancelled&quot;,&quot;type&quot;:&quot;badge-phoenix-secondary&quot;,&quot;icon&quot;:&quot;x&quot;},&quot;delivery_type&quot;:&quot;Cash on delivery&quot;,&quot;date&quot;:&quot;Dec 12, 12:56 PM&quot;}">
                                             </div>
                                         </td>
+
                                         <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold"
                                                 href="#!">{{ 1000000 + $order->id }}</a></td>
-                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                            {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }}
-                                            ₺</td>
+
                                         <td class="customer align-middle white-space-nowrap  text-start">
                                             {{ App\Models\Housing::find($order->housing_id ?? 0)->title ?? null }}
 
@@ -89,6 +87,12 @@
                                             {{ $order->person_count }}
 
                                         </td>
+                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
+                                            {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }}
+                                            ₺</td>
+
+
+
                                         <td class="customer align-middle white-space-nowrap  text-start">
                                             {{ $check_in_date }}
 
@@ -97,10 +101,6 @@
                                             {{ $check_out_date }}
 
                                         </td>
-                                        {{-- <td
-                                            class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-                                            {{ $order->bank->receipent_full_name }}
-                                        </td> --}}
 
                                         <td
                                             class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
@@ -117,33 +117,36 @@
                                                 -
                                             @endif
                                         </td>
+                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
+                                            {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2), 0, ',', '.') }}
+                                            ₺</td>
                                         <td
                                             class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
                                             {!! [
                                                 '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
-                                                                                                                                                                                                                                                                                class="badge-label">Rezerve Edildi</span><svg
-                                                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                            </svg>',
+                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Rezerve Edildi</span><svg
+                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                    </svg>',
                                                 '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                            </svg>',
+                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                    </svg>',
                                                 '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                class="badge-label">Ödeme Reddedildi</span><svg
-                                                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                            </svg>',
+                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Ödeme Reddedildi</span><svg
+                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                    </svg>',
                                             ][$order->status] !!}
                                             </span>
                                         </td>
@@ -159,108 +162,6 @@
             </div>
         </div>
     </div>
-    <div class="content">
-        <section class="ps-section--account">
-            <div class="container">
-                <div class="col-lg-12">
-                    <div class="my-properties">
-
-                        <div id="orders-container">
-                            @if ($housingReservations->count() > 0)
-                                @foreach ($housingReservations as $order)
-                                    <div class="order">
-                                        <div class="order-header">
-                                            <?php
-                                            $tarih = date('d F Y', strtotime($order->created_at));
-                                            $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
-                                            ?>
-
-                                            <div class="order-header-info" style="flex-direction: column;">
-                                                <b>Sipariş Tarihi: {{ $tarih }}</b>
-                                                <b>Sipariş Durumu: {!! [
-                                                    '0' => '<span class="text-warning">Rezerve Edildi</span>',
-                                                    '1' => '<span class="text-success">Ödeme Onaylandı</span>',
-                                                    '2' => '<span class="text-danger">Ödeme Reddedildi</span>',
-                                                ][$order->status] !!}</b>
-                                                <span>
-                                                    Fiyat:
-                                                    <b class="text-red">
-                                                        {{ number_format($order->total_price, 0, ',', '.') }}
-                                                        ₺
-                                                    </b>
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="order-list">
-                                            <div class="order-item">
-
-                                                <div class="order-item-images">
-                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find($order->housing_id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                        style="object-fit: contain;width:100px" alt="Görsel">
-                                                </div>
-                                                <div class="order-item-status">
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Giriş Tarihi</th>
-                                                                <th>Çıkış Tarihi</th>
-                                                                <th style="width:220px">Toplam Konaklama</th>
-                                                                <th>Kişi Sayısı</th>
-                                                                <th>Satıcı</th>
-
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td class="order_date">
-                                                                    {{ \Carbon\Carbon::parse($order->check_in_date)->format('d.m.Y') }}
-                                                                </td>
-                                                                <td class="order_date">
-                                                                    {{ \Carbon\Carbon::parse($order->check_out_date)->format('d.m.Y') }}
-                                                                </td>
-                                                                <td class="order_date">
-                                                                    <span
-                                                                        style="color:#EA2B2E; font-weight:600;font-size:16px"><i
-                                                                            class="fas fa-calendar"></i>
-                                                                        {{ \Carbon\Carbon::parse($order->check_in_date)->diffInDays(\Carbon\Carbon::parse($order->check_out_date)) }}
-                                                                        gün</span>
-                                                                </td>
-                                                                <td class="order_date">{{ $order->person_count }}</td>
-                                                                <td class="order_date">
-                                                                    {{ $order->owner->name }}<br>
-                                                                    {{ $order->owner->email }}
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-
-
-                                                    </table>
-
-
-
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @else
-                                <span class="text-center">Sipariş Bulunamadı</span>
-                            @endif
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
-    </div>
-    </section>
-    </div>
-
 @endsection
 
 @section('scripts')

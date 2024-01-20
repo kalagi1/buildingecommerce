@@ -329,292 +329,25 @@
                 </div>
                 <aside class="col-md-4  car">
                     <div class="single widget">
-
                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                            <div class="mobileMove" id="mobileMoveID">
-                                <div class="homes-content details-2 mb-4">
-                                    <ul class="homes-list reservation-list clearfix">
-                                        <li>
-                                            <span>Giriş: {{ getData($housing, 'start_time') }}</span>
-                                        </li>
-                                        <li>
-                                            <span>Çıkış: {{ getData($housing, 'end_time') }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="schedule widget-boxed mt-33 mt-0">
-                                    <div class="widget-boxed-header">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon Yap</h4>
-                                            <div class="d-flex align-items-center justify-content-around">
-                                                <div class="buttons" style="margin-right: 5px">
-                                                    <button class="main-button">
-                                                        <svg width="20" height="30" fill="currentColor"
-                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                            <path
-                                                                d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
-                                                            </path>
-                                                        </svg>
-                                                    </button>
-                                                    <button class="twitter-button button"
-                                                        style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
-
-                                                        <a
-                                                            href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                            <svg viewBox="0 0 24 24" width="24" height="24"
-                                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <path
-                                                                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                                </path>
-                                                            </svg></a>
-                                                    </button>
-
-                                                    <button class="reddit-button button"
-                                                        style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
-                                                        <a href="whatsapp://send?text={{ $shareUrl }}">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                                fill="currentColor" height="24" width="24">
-                                                                <path
-                                                                    d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
-                                                                </path>
-                                                            </svg>
-                                                        </a>
-
-                                                    </button>
-                                                    <button class="messenger-button button"
-                                                        style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
-                                                        <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                            <svg viewBox="0 0 24 24" width="24" height="24"
-                                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <line x1="22" y1="2" x2="11"
-                                                                    y2="13"></line>
-                                                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                                            </svg></a>
-                                                    </button>
-                                                </div>
-                                                <div class="button-effect toggle-favorite"
-                                                    data-housing-id={{ $housing->id }}>
-                                                    <i class="fa fa-heart-o"></i>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="widget-boxed-body">
-                                        <form id="rezervasyonForm">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-12 col-6 book">
-                                                    <input type="date" id="date-checkin" placeholder="Giriş Tarihi"
-                                                        name="check_in_date" class="date-field form-control">
-                                                </div>
-                                                <div class="col-lg-6 col-md-12 col-6 book2">
-                                                    <input type="date" id="date-checkout" placeholder="Çıkış Tarihi"
-                                                        name="check_out_date" class="date-field form-control">
-                                                </div>
-                                            </div>
-                                            <div class="row mrg-top-15 mb-3">
-                                                <div class="col-lg-6 col-md-12 mt-2">
-                                                    <label>Kişi Sayısı</label>
-                                                    <div class="input-group">
-                                                        <span class="input-group-btn">
-                                                            <button type="button"
-                                                                class="btn counter-btn theme-cl btn-number"
-                                                                disabled="disabled" data-type="minus"
-                                                                data-field="quant[1]">
-                                                                <i class="fa fa-minus"></i>
-                                                            </button>
-                                                        </span>
-                                                        <input type="number" name="person_count"
-                                                            class="border-0 text-center form-control input-number"
-                                                            data-min="1" data-max="10" value="1">
-                                                        <span class="input-group-btn">
-                                                            <button type="button"
-                                                                class="btn counter-btn theme-cl btn-number"
-                                                                data-type="plus" data-field="quant[1]">
-                                                                <i class="fa fa-plus"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-12 mt-4 showPrice d-none">
-                                                    <label>Toplam Tutar</label>
-                                                    <div class="input-group">
-                                                        <span id="totalPrice">₺</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <button type="button"
-                                                @if (!Auth::check()) onclick="redirectToPage()" @endif
-                                                class="reservationBtn reservation btn-radius full-width mrg-top-10 text-white">Rezervasyon
-                                                Yap</button>
-                                        </form>
-                                    </div>
-                                </div>
+                        <div class="mobileHour mobileHourDiv">
+                            <div class="homes-content details-2 mb-4">
+                                <ul class="homes-list reservation-list clearfix">
+                                    <li>
+                                        <span>Giriş: {{ getData($housing, 'start_time') }}</span>
+                                    </li>
+                                    <li>
+                                        <span>Çıkış: {{ getData($housing, 'end_time') }}</span>
+                                    </li>
+                                </ul>
                             </div>
-                        @else
-                            <div class="mobileMove">
-                                <div class="schedule widget-boxed mt-33 mt-0">
-
-
-                                    <div class="row buttonDetail" style="align-items: center">
-                                        <div class="col-md-2 col-2">
-                                            <div class="button-effect toggle-favorite"
-                                                data-housing-id={{ $housing->id }}>
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-2">
-                                            <div class="buttons">
-                                                <button class="main-button">
-                                                    <svg width="20" height="30" fill="currentColor"
-                                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                                <button class="twitter-button button"
-                                                    style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
-
-                                                    <a
-                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <path
-                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                            </path>
-                                                        </svg></a>
-                                                </button>
-
-                                                <button class="reddit-button button"
-                                                    style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
-                                                    <a href="whatsapp://send?text={{ $shareUrl }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                            fill="currentColor" height="24" width="24">
-                                                            <path
-                                                                d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
-                                                            </path>
-                                                        </svg>
-                                                    </a>
-
-                                                </button>
-                                                <button class="messenger-button button"
-                                                    style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
-                                                    <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <line x1="22" y1="2" x2="11"
-                                                                y2="13"></line>
-                                                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                                        </svg></a>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-8">
-                                            @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                <button class="btn second-btn "
-                                                    style="background: #EA2B2E !important;width:100%;color:White">
-
-                                                    <span class="text">Satışa Kapatıldı</span>
-                                                </button>
-                                            @else
-                                                @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
-                                                    @php
-                                                        $buttonStyle = '';
-                                                        $buttonText = '';
-                                                        if ($sold[0]->status == '0') {
-                                                            $buttonStyle = 'background: orange !important; width: 100%; color: white;';
-                                                            $buttonText = 'Rezerve Edildi';
-                                                        } else {
-                                                            $buttonStyle = 'background: #EA2B2E !important; width: 100%; color: white;';
-                                                            $buttonText = 'Satıldı';
-                                                        }
-                                                    @endphp
-
-                                                    <button class="btn second-btn soldBtn" style="{{ $buttonStyle }}">
-                                                        <span class="text">{{ $buttonText }}</span>
-                                                    </button>
-                                                @else
-                                                    <button class="CartBtn" data-type='housing'
-                                                        data-id='{{ $housing->id }}'>
-                                                        <span class="IconContainer">
-                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                        </span>
-                                                        <span class="text">Sepete Ekle</span>
-                                                    </button>
-                                                @endif
-                                            @endif
-
-
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                @if (Auth::check() && Auth::user()->type == 21)
-                                    <div
-                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
-                                                json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                        ) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
-                                                    @else
-                                                    class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
-                                        <div class="add-to-collection-button-wrapper">
-                                            <div class="add-to-collection-button">
-
-                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="32" height="32" fill="#e54242" />
-                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                        <rect width="1440" height="1577"
-                                                            transform="translate(-1100 -1183)" fill="white" />
-                                                        <g id="Group 6131">
-                                                            <g id="Frame 21409">
-                                                                <g id="Group 6385">
-                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                        height="48" rx="8" fill="#e54242 " />
-                                                                    <g id="Group 2664">
-                                                                        <rect id="Rectangle 316" width="32"
-                                                                            height="32" rx="4"
-                                                                            fill="#e54242 " />
-                                                                        <g id="Group 72">
-                                                                            <path id="Rectangle 12"
-                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                                fill="white" stroke="white"
-                                                                                stroke-width="2" />
-                                                                        </g>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1750_971">
-                                                            <rect width="1440" height="1577" fill="white"
-                                                                transform="translate(-1100 -1183)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
-                                            </div>
-                                            <span class="fa fa-plus"></span>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
+                        </div>
+                      
                         @endif
 
+
                         <div class="moveStore">
-                            <div class="widget-boxed removeClass mt-5">
+                            <div class="widget-boxed removeClass">
                                 <div class="widget-boxed-header">
                                     <h4>Mağaza Bilgileri</h4>
                                 </div>
@@ -751,7 +484,311 @@
                         @if ($housing->step2_slug == 'gunluk-kiralik')
                             <div class="tab-pane fade show active blog-info details mb-30" id="rez" role="tabpanel"
                                 aria-labelledby="rez-tab">
-                                <div id="reservation-calendar"></div>
+                                <div class="row">
+                                    <div class="col-md-8 col-12">
+                                        <div id="reservation-calendar"></div>
+                                    </div>
+                                  <div class="col-md-4 col-12">
+                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                        <div class="mobileMove" id="mobileMoveID">
+                                          
+                                            <div class="schedule widget-boxed mt-33 mt-0">
+                                                <div class="widget-boxed-header">
+                                                 
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon Yap
+                                                        </h4>
+                                                        <div class="d-flex align-items-center justify-content-around">
+                                                            <div class="buttons" style="margin-right: 5px">
+                                                                <button class="main-button">
+                                                                    <svg width="20" height="30"
+                                                                        fill="currentColor" viewBox="0 0 24 24"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path
+                                                                            d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
+                                                                        </path>
+                                                                    </svg>
+                                                                </button>
+                                                                <button class="twitter-button button"
+                                                                    style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
+
+                                                                    <a
+                                                                        href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                                        <svg viewBox="0 0 24 24" width="24"
+                                                                            height="24" stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <path
+                                                                                d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                                                            </path>
+                                                                        </svg></a>
+                                                                </button>
+
+                                                                <button class="reddit-button button"
+                                                                    style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
+                                                                    <a href="whatsapp://send?text={{ $shareUrl }}">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 24 24" fill="currentColor"
+                                                                            height="24" width="24">
+                                                                            <path
+                                                                                d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </a>
+
+                                                                </button>
+                                                                <button class="messenger-button button"
+                                                                    style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
+                                                                    <a
+                                                                        href="https://telegram.me/share/url?url={{ $shareUrl }}">
+                                                                        <svg viewBox="0 0 24 24" width="24"
+                                                                            height="24" stroke="currentColor"
+                                                                            stroke-width="2" fill="none"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                                            class="css-i6dzq1">
+                                                                            <line x1="22" y1="2"
+                                                                                x2="11" y2="13"></line>
+                                                                            <polygon points="22 2 15 22 11 13 2 9 22 2">
+                                                                            </polygon>
+                                                                        </svg></a>
+                                                                </button>
+                                                            </div>
+                                                            <div class="button-effect toggle-favorite"
+                                                                data-housing-id={{ $housing->id }}>
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-boxed-body">
+                                                    <form id="rezervasyonForm">
+                                                        @csrf
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-12 col-6 book">
+                                                                <input type="date" id="date-checkin"
+                                                                    placeholder="Giriş Tarihi" name="check_in_date"
+                                                                    class="date-field form-control">
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-12 col-6 book2">
+                                                                <input type="date" id="date-checkout"
+                                                                    placeholder="Çıkış Tarihi" name="check_out_date"
+                                                                    class="date-field form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mrg-top-15 mb-3">
+                                                            <div class="col-lg-6 col-md-12 mt-3 mb-2">
+                                                                <label>Kişi Sayısı</label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button"
+                                                                            class="btn counter-btn theme-cl btn-number"
+                                                                            disabled="disabled" data-type="minus"
+                                                                            data-field="quant[1]">
+                                                                            <i class="fa fa-minus"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="number" name="person_count"
+                                                                        class="border-0 text-center form-control input-number"
+                                                                        data-min="1" data-max="10" value="1">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button"
+                                                                            class="btn counter-btn theme-cl btn-number"
+                                                                            data-type="plus" data-field="quant[1]">
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-12 mt-3 showPrice d-none">
+                                                                <label>Toplam Tutar</label>
+                                                                <div class="input-group">
+                                                                    <span id="totalPrice">₺</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button type="button"
+                                                            @if (!Auth::check()) onclick="redirectToPage()" @endif
+                                                            class="reservationBtn reservation btn-radius full-width mt-2 text-white">Rezervasyon
+                                                            Yap</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="mobileMove">
+                                            <div class="schedule widget-boxed mt-33 mt-0">
+
+
+                                                <div class="row buttonDetail" style="align-items: center">
+                                                    <div class="col-md-2 col-2">
+                                                        <div class="button-effect toggle-favorite"
+                                                            data-housing-id={{ $housing->id }}>
+                                                            <i class="fa fa-heart-o"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-2">
+                                                        <div class="buttons">
+                                                            <button class="main-button">
+                                                                <svg width="20" height="30" fill="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M15.75 5.125a3.125 3.125 0 1 1 .754 2.035l-8.397 3.9a3.124 3.124 0 0 1 0 1.88l8.397 3.9a3.125 3.125 0 1 1-.61 1.095l-8.397-3.9a3.125 3.125 0 1 1 0-4.07l8.397-3.9a3.125 3.125 0 0 1-.144-.94Z">
+                                                                    </path>
+                                                                </svg>
+                                                            </button>
+                                                            <button class="twitter-button button"
+                                                                style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
+
+                                                                <a
+                                                                    href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
+                                                                    <svg viewBox="0 0 24 24" width="24"
+                                                                        height="24" stroke="currentColor"
+                                                                        stroke-width="2" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="css-i6dzq1">
+                                                                        <path
+                                                                            d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
+                                                                        </path>
+                                                                    </svg></a>
+                                                            </button>
+
+                                                            <button class="reddit-button button"
+                                                                style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
+                                                                <a href="whatsapp://send?text={{ $shareUrl }}">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                                        height="24" width="24">
+                                                                        <path
+                                                                            d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
+                                                                        </path>
+                                                                    </svg>
+                                                                </a>
+
+                                                            </button>
+                                                            <button class="messenger-button button"
+                                                                style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
+                                                                <a
+                                                                    href="https://telegram.me/share/url?url={{ $shareUrl }}">
+                                                                    <svg viewBox="0 0 24 24" width="24"
+                                                                        height="24" stroke="currentColor"
+                                                                        stroke-width="2" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="css-i6dzq1">
+                                                                        <line x1="22" y1="2"
+                                                                            x2="11" y2="13"></line>
+                                                                        <polygon points="22 2 15 22 11 13 2 9 22 2">
+                                                                        </polygon>
+                                                                    </svg></a>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8 col-8">
+                                                        @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                            <button class="btn second-btn "
+                                                                style="background: #EA2B2E !important;width:100%;color:White">
+
+                                                                <span class="text">Satışa Kapatıldı</span>
+                                                            </button>
+                                                        @else
+                                                            @if ($sold && isset($sold[0]) && $sold[0]->status != '2')
+                                                                @php
+                                                                    $buttonStyle = '';
+                                                                    $buttonText = '';
+                                                                    if ($sold[0]->status == '0') {
+                                                                        $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                                                        $buttonText = 'Rezerve Edildi';
+                                                                    } else {
+                                                                        $buttonStyle = 'background: #EA2B2E !important; width: 100%; color: white;';
+                                                                        $buttonText = 'Satıldı';
+                                                                    }
+                                                                @endphp
+
+                                                                <button class="btn second-btn soldBtn"
+                                                                    style="{{ $buttonStyle }}">
+                                                                    <span class="text">{{ $buttonText }}</span>
+                                                                </button>
+                                                            @else
+                                                                <button class="CartBtn" data-type='housing'
+                                                                    data-id='{{ $housing->id }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                    </span>
+                                                                    <span class="text">Sepete Ekle</span>
+                                                                </button>
+                                                            @endif
+                                                        @endif
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (Auth::check() && Auth::user()->type == 21)
+                                                <div
+                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
+                                                            json_decode($housing->housing_type_data)->{"share-open1"}[0]
+                                                    ) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                                            @else
+                                                            class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
+                                                    <div class="add-to-collection-button-wrapper">
+                                                        <div class="add-to-collection-button">
+
+                                                            <svg width="32" height="32" viewBox="0 0 32 32"
+                                                                fill="e54242" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect width="32" height="32" fill="#e54242" />
+                                                                <g id="Add Collections-00 (Default)"
+                                                                    clip-path="url(#clip0_1750_971)">
+                                                                    <rect width="1440" height="1577"
+                                                                        transform="translate(-1100 -1183)"
+                                                                        fill="white" />
+                                                                    <g id="Group 6131">
+                                                                        <g id="Frame 21409">
+                                                                            <g id="Group 6385">
+                                                                                <rect id="Rectangle 4168" x="-8" y="-8"
+                                                                                    width="228" height="48"
+                                                                                    rx="8" fill="#e54242 " />
+                                                                                <g id="Group 2664">
+                                                                                    <rect id="Rectangle 316"
+                                                                                        width="32" height="32"
+                                                                                        rx="4" fill="#e54242 " />
+                                                                                    <g id="Group 72">
+                                                                                        <path id="Rectangle 12"
+                                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                                            fill="white" stroke="white"
+                                                                                            stroke-width="2" />
+                                                                                    </g>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </g>
+                                                                <defs>
+                                                                    <clipPath id="clip0_1750_971">
+                                                                        <rect width="1440" height="1577"
+                                                                            fill="white"
+                                                                            transform="translate(-1100 -1183)" />
+                                                                    </clipPath>
+                                                                </defs>
+                                                            </svg><span class="add-to-collection-button-text">Koleksiyona
+                                                                Ekle</span>
+                                                        </div>
+                                                        <span class="fa fa-plus"></span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endif
+                                  </div>
+
+                                    
+                                </div>
+
                             </div>
                         @endif
 
@@ -1001,16 +1038,16 @@
 
                                     <li>Rezervasyon Tarihi:<strong class="pull-right">{{ date('d.m.Y') }}</strong>
                                     </li>
-                                    <li>Kişi Sayısı:<strong class="pull-right userCount">9pm 10pm</strong></li>
                                     <li>Giriş Tarihi:<strong class="pull-right inDate">9pm 10pm</strong></li>
                                     <li>Çıkış Tarihi:<strong class="pull-right outDate">10 jan 2019</strong></li>
+                                    <li>Kişi Sayısı:<strong class="pull-right userCount">9pm 10pm</strong></li>
                                 </ul>
                             </div>
                             <div class="booking-price-detail side-list no-border">
                                 <h5 style="color:black;font-size:15px !important">Ödeme Detayları</h5>
                                 <ul>
-                                    <li>Toplam Tutar<strong class="pull-right totalPrice">$150</strong></li>
                                     <li>EFT/Havale Kodu<strong class="pull-right totalPriceCode">$60</strong></li>
+                                    <li>Toplam Tutar<strong class="pull-right totalPrice">$150</strong></li>
                                     <li class="red pb-0">Ödenecek Tutar %50<strong
                                             class="pull-right newTotalPrice">$263</strong>
                                     </li>
@@ -1122,17 +1159,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex"> 
+                        <div class="d-flex">
                             <button type="button" id="submitBtn" class="btn btn-secondary paySuccess">Ödemeyi Tamamla
                                 <svg viewBox="0 0 576 512" class="svgIcon">
                                     <path
                                         d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
                                     </path>
                                 </svg></button>
-                        <button type="button" class="btn btn-secondary btn-lg btn-block"
-                            style="width:150px" data-bs-dismiss="modal">İptal</button>
-                    </div>
-                    
+                            <button type="button" class="btn btn-secondary btn-lg btn-block" style="width:150px"
+                                data-bs-dismiss="modal">İptal</button>
+                        </div>
+
 
 
 
@@ -1176,8 +1213,15 @@
     <script>
         if (window.innerWidth <= 768) {
             var mobileMove = $(".mobileMove").html();
-            $("#listingDetailsSlider").after(mobileMove);
+            var mobileHour = $(".mobileHour").html();
+
+            $("#listingDetailsSlider").after(mobileHour);
+            $(".mobileHourDiv").after(mobileMove);
+
+            
             $(".mobileMove").remove();
+            $(".mobileHour").remove();
+
             var store = $(".moveStore").html();
             $("#myTabContent").after(store);
             $(".moveStore").addClass("mb-30");
