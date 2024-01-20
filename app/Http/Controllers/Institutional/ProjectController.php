@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\AdvertTimeJob;
 use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\Brand;
@@ -36,7 +35,6 @@ use App\Models\UserPlan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
@@ -670,7 +668,7 @@ class ProjectController extends Controller
 
             TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->delete();
             UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
-            dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
+            
             return json_encode([
                 "status" => true,
             ]);
@@ -690,7 +688,7 @@ class ProjectController extends Controller
 
             TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->delete();
             UserPlan::where('user_id', $instUser->parent_id ? $instUser->parent_id : $instUser->id)->decrement('project_limit');
-            dispatch(new AdvertTimeJob($project))->delay(now()->addMonths($month));
+            
             return json_encode([
                 "status" => true,
             ]);

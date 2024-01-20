@@ -99,7 +99,7 @@
                                                     <del style="color: red;">
                                                         {{ number_format($cart['item']['price']) }} ₺
                                                     </del><br>
-                                                    <span style="color: green; font-size:14px !important">
+                                                    <span class="discounted-price-x" style="color: green; font-size:14px !important">
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                     </span>
                                                 @else
@@ -359,7 +359,6 @@
             </div>
         </div>
 
-
     </section>
 @endsection
 @section('scripts')
@@ -416,53 +415,132 @@
         });
 
         $('.coupon-apply').click(function(){
-            $.ajax({
-                url: "{{ route('check.coupon') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    coupon_code : $('.coupon-code').val()
-                }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                success: function(response) {
-                    // İşlem başarılı olduğunda buraya gelir
-                    response = JSON.parse(response)
-                    if(response.status){
-                        if(response.discount_type == 1){
-                            var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+            @if(isset($discountRate))
+                Swal.fire({
+                    title: "Kupon indirimini uygularsanız emlak kulüp üyesi indirimi kalkacaktır. Uygulamak istediğinize emin misiniz?",
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    cancelButtonText: "İptal",
+                    confirmButtonText: "Evet",
+                    denyButtonText: `Hayır`
+                    }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('check.coupon') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                coupon_code : $('.coupon-code').val()
+                            }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                            success: function(response) {
+                                // İşlem başarılı olduğunda buraya gelir
+                                response = JSON.parse(response)
+                                if(response.status){
+                                    if(response.discount_type == 1){
+                                        @if (isset($housingOffer))
+                                            var newPrice = parseFloat(response.cart.item.price) - {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                        @else 
+                                            var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                        @endif
+                                        var newCapora = newPrice * 2 / 100;
 
-                            var newCapora = newPrice * 2 / 100;
+                                        @if (isset($housingOffer))
+                                            $('.booking-price-detail>ul>li').eq(2).css('color','red').html('İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(3).css('color','green').html('Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                        @else
+                                            $('.booking-price-detail>ul>li').eq(1).css('color','red').html('İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(2).css('color','green').html('Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(3).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                            $('.discounted-price-x').html((formatPrice(newPrice))+' ₺')
+                                        @endif
+                                        
+                                        $('.button-price-inner').html(formatPrice(newCapora))
+                                        $('.capora-button-price').html((formatPrice(newCapora)))
+                                        $('.have_discount').val(1);
+                                        $('.discount').val($('.coupon-code').val());
+                                        $('.discounted-price-x').html((formatPrice(newPrice))+' ₺')
+                                    }else{
+                                        var newPrice = parseFloat(response.cart.item.price) - parseFloat( response.discount_amount);
 
-                            $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong></li>')
-                            $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
-                            $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
-                            $('.button-price-inner').html(formatPrice(newCapora))
-                            $('.capora-button-price').html((formatPrice(newCapora)))
-                            $('.have_discount').val(1);
-                            $('.discount').val($('.coupon-code').val());
-                        }else{
-                            var newPrice = parseFloat(response.cart.item.price) - parseFloat( response.discount_amount);
+                                        var newCapora = newPrice * 2 / 100;
 
-                            var newCapora = newPrice * 2 / 100;
+                                        $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(response.discount_amount))+' TL</strong></li>')
+                                        $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
+                                        $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                        $('.button-price-inner').html(formatPrice(newCapora))
+                                        $('.capora-button-price').html((formatPrice(newCapora)))
+                                        $('.have_discount').val(1);
+                                        $('.discount').val($('.coupon-code').val());
+                                    }
+                                }else{
+                                    toastr.error(response.message)
+                                }
 
-                            $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(response.discount_amount))+' TL</strong></li>')
-                            $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
-                            $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
-                            $('.button-price-inner').html(formatPrice(newCapora))
-                            $('.capora-button-price').html((formatPrice(newCapora)))
-                            $('.have_discount').val(1);
-                            $('.discount').val($('.coupon-code').val());
-                        }
-                    }else{
-                        toastr.error(response.message)
+                            },
+                            error: function(error) {
+                                // Hata durumunda buraya gelir
+                                toast.error(error)
+                                console.error("Hata oluştu: " + error);
+                            }
+                        });
                     }
+                });
+            @else
+                $.ajax({
+                    url: "{{ route('check.coupon') }}", // Sepete veri eklemek için uygun URL'yi belirtin
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        coupon_code : $('.coupon-code').val()
+                    }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
+                    success: function(response) {
+                        // İşlem başarılı olduğunda buraya gelir
+                        response = JSON.parse(response)
+                        if(response.status){
+                            if(response.discount_type == 1){
+                                @if (isset($housingOffer))
+                                    var newPrice = parseFloat(response.cart.item.price) - {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                @else 
+                                    var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                @endif
 
-                },
-                error: function(error) {
-                    // Hata durumunda buraya gelir
-                    toast.error(error)
-                    console.error("Hata oluştu: " + error);
-                }
-            });
+                                var newCapora = newPrice * 2 / 100;
+
+                                $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                $('.button-price-inner').html(formatPrice(newCapora))
+                                $('.capora-button-price').html((formatPrice(newCapora)))
+                                $('.have_discount').val(1);
+                                $('.discount').val($('.coupon-code').val());
+                            }else{
+                                var newPrice = parseFloat(response.cart.item.price) - parseFloat( response.discount_amount);
+
+                                var newCapora = newPrice * 2 / 100;
+
+                                $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(response.discount_amount))+' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                $('.button-price-inner').html(formatPrice(newCapora))
+                                $('.capora-button-price').html((formatPrice(newCapora)))
+                                $('.have_discount').val(1);
+                                $('.discount').val($('.coupon-code').val());
+                            }
+                        }else{
+                            toastr.error(response.message)
+                        }
+
+                    },
+                    error: function(error) {
+                        // Hata durumunda buraya gelir
+                        toast.error(error)
+                        console.error("Hata oluştu: " + error);
+                    }
+                });
+            @endif
+            
         })
 
         function formatPrice(price) {

@@ -168,6 +168,18 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            "name" => "required",
+            "phone" => "required",
+            "iban" => "required",
+            "banner_hex_code" => "required",
+        ],[
+            "name.required" => "İsim alanı zorunludur",
+            "phone.required" => "Telefon alanı zorunludur",
+            "iban.required" => "Iban alanı zorunludur",
+            "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
+        ]);
+
         $user = User::where("id", Auth::user()->id)->first();
 
         // Vergi Dairesi İli'nin şehir kimliğini alın
