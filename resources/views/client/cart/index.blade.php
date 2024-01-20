@@ -439,7 +439,7 @@
                                 if(response.status){
                                     if(response.discount_type == 1){
                                         @if (isset($housingOffer))
-                                            var newPrice = parseFloat(response.cart.item.price) - {{$housingOffer->discount_amount}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                            var newPrice = parseFloat(response.cart.item.price) - {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
                                         @else 
                                             var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
                                         @endif
@@ -500,7 +500,11 @@
                         response = JSON.parse(response)
                         if(response.status){
                             if(response.discount_type == 1){
-                                var newPrice = parseFloat(response.cart.item.price) - {{$housingOffer->discount_amount}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                @if (isset($housingOffer))
+                                    var newPrice = parseFloat(response.cart.item.price) - {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                @else 
+                                    var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                @endif
 
                                 var newCapora = newPrice * 2 / 100;
 

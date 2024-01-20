@@ -29,8 +29,6 @@ class AdvertTimeJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Project::where('id',$this->data->id)->update([
-            "status" => 6
-        ]);
+        
     }
 }

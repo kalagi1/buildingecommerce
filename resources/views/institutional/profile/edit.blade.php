@@ -51,12 +51,13 @@
                                     <input type="number" name="phone" class="form-control"
                                         value="{{ old('phone', $user->phone) }}">
                                 </div>
+                                <div class="mt-3">
+                                    <label class="q-label">Iban Numarası</label>
+                                    <input type="text" name="iban" class="form-control"
+                                        value="{{ old('iban', $user->iban) }}">
+                                </div>
                                 @if ( Auth::check() && Auth::user()->type == 21)
-                                    <div class="mt-3">
-                                        <label class="q-label">Iban</label>
-                                        <input type="number" name="iban" class="form-control"
-                                            value="{{ old('iban', $user->iban) }}">
-                                    </div>
+                                    
                                     <div class="mt-3">
                                         <label class="q-label">İnstagram Kullanıcı Adı</label>
                                         <input type="text" name="instagramusername" class="form-control"
@@ -66,7 +67,7 @@
 
                                 <!-- Banner Rengi -->
                                 <div class="mt-3">
-                                    <label class="q-label">Banner Rengi</label><br>
+                                    <label class="q-label">Mağaza arka plan rengi</label><br>
                                     <input type="color" name="banner_hex_code" class="form-control"
                                         value="{{ old('banner_hex_code', $user->banner_hex_code) }}">
                                 </div>
