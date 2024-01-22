@@ -82,7 +82,9 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                İl-İlçe-Mahalle :
+                                                {!! 'İl-İlçe' .
+                                                optional($housing->neighborhood)->mahalle_title ?
+                                                '-Mahalle:' : ":"!!}
                                                 <span class="det">
                                                     {!! optional($housing->city)->title .
                                                         ' / ' .

@@ -65,6 +65,7 @@
                                             fill: #FFFFFF;
                                         }
                                     </style>
+                                    @if ($project->user->corporate_account_status )
                                     <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
                                         width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -86,6 +87,7 @@
                                                 d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
                                         </g>
                                     </svg>
+                                @endif
                                 </a>
                             </p>
                             <div class="mobile-hidden">
@@ -479,7 +481,12 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    İl-İlçe-Mahalle :
+                                                    {!! 'İl-İlçe' !!}
+                                                    @if ($project->neighbourhood)
+                                                        {!! '-Mahalle: ' !!}
+                                                    @else
+                                                        {!! ': ' !!}
+                                                    @endif
                                                     <span class="det">
                                                         {!! optional($project->city)->title .
                                                             ' / ' .

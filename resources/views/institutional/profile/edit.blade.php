@@ -56,8 +56,7 @@
                                     <input type="text" name="iban" class="form-control"
                                         value="{{ old('iban', $user->iban) }}">
                                 </div>
-                                @if ( Auth::check() && Auth::user()->type == 21)
-                                    
+                                @if (Auth::check() && Auth::user()->type == 21)
                                     <div class="mt-3">
                                         <label class="q-label">İnstagram Kullanıcı Adı</label>
                                         <input type="text" name="instagramusername" class="form-control"
@@ -65,7 +64,17 @@
                                     </div>
                                 @endif
 
-                                <!-- Banner Rengi -->
+
+                                @if (Auth::check() && Auth::user()->type == 2)
+                                    <div class="mt-3">
+                                        <label class="q-label">Kaç yıldır sektördesiniz ?</label>
+                                        <input type="text" name="year" class="form-control"
+                                            value="{{ old('year', $user->year) }}">
+                                    </div>
+                                @endif
+
+
+
                                 <div class="mt-3">
                                     <label class="q-label">Mağaza arka plan rengi</label><br>
                                     <input type="color" name="banner_hex_code" class="form-control"

@@ -185,6 +185,7 @@ class ProfileController extends Controller
         // Vergi Dairesi İli'nin şehir kimliğini alın
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
         $taxOfficeCityId = $city ? $city->id : null;
+        $year = $request->input("year");
         $data = $request->all();
 
         if ($request->hasFile('profile_image')) {
@@ -202,6 +203,8 @@ class ProfileController extends Controller
 
         $data['taxOfficeCity'] = $taxOfficeCityId; // Vergi Dairesi İli güncellendi
         $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
+        $data['year'] = $year; // Vergi Dairesi İli güncellendi
+
 
         // Kullanıcının bilgilerini güncelle
         $user->update($data);
