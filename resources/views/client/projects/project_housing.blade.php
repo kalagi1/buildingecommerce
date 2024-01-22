@@ -265,7 +265,7 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
-                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                        <div class="item carousel-item" data-slide-number="{{ $key  }}">
                                             <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 data-lightbox="image-gallery">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
