@@ -45,7 +45,7 @@
                                             <td class="order_no">{{count($user->collections)}}</td>
                                             <td class="order_no">{{$user->name}}</td>
 
-                                            <td class="order_no">{{date('d-m-Y',strtotime($user->created_at))}}</td>
+                                            <td class="order_no">{{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
                                             <td class="order_no"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="btn btn-sm btn-primary">Kupon Tanımla</a></td>
                                         </tr>
                                     @endforeach
