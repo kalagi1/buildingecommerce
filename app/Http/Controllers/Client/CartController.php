@@ -772,6 +772,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             public function index( Request $request ) {
                 $bankAccounts = BankAccount::all();
                 $cart = $request->session()->get( 'cart', [] );
+                $saleType =null;
                 if ( isset( $cart[ 'type' ] ) ) {
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
