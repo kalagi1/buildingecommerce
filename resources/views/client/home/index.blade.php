@@ -85,7 +85,7 @@
         }
     @endphp
 
-    <section class="recently portfolio bg-white homepage-5" style="padding: 1.2rem 0 !important;">
+    <section class="recently portfolio bg-white homepage-5" style="padding-top: 1.5rem 0 !important;">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
