@@ -4,8 +4,8 @@
     "icon": "users",
     "text": "Üyelere Kupon Tanımla",
     "key": "EmlakClubUsers",
-    "url": "institutional.estate.club.users",
-    "activePath": "institutional/estate_club_users"
+    "url": "admin.estate.club.users",
+    "activePath": "admin/estate_club_users"
 },
 {
     "id": "EmlakClubGift",
@@ -13,8 +13,8 @@
     "icon": "gift",
     "text": "Kuponlarım",
     "key": "EmlakClubGift",
-    "url": "institutional.estate.coupons",
-    "activePath": "institutional/coupons"
+    "url": "admin.estate.coupons",
+    "activePath": "admin/coupons"
 },
     {
         "id": "home",
