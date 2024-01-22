@@ -27658,6 +27658,7 @@ input[type="checkbox"]::before {
     transition-duration: .5s;
     overflow: hidden;
     position: relative;
+    margin-top: 12px;
 }
 
 @media (max-width: 768px) {
