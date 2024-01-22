@@ -48,7 +48,11 @@ class ReservationController extends Controller
     $reservation->person_count = $request->input('person_count');
     $reservation->owner_id = $request->input('owner_id');
     $reservation->status = 0; 
-    $reservation->total_price = $request->input('price');
+    if($request->input('money_trusted')){
+        $reservation->total_price = intval($request->input('price')) + 1000;
+    }else{
+        $reservation->total_price = $request->input('price');
+    }
     $reservation->key = $request->input('key');
     $reservation->full_name = $request->input('fullName');
     $reservation->email = $request->input('email');

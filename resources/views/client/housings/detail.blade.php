@@ -775,6 +775,15 @@
                                                                 </div>
                                                             </div>
 
+                                                            <div class="col-lg-12 col-md-12 mt-3 ">
+                                                                <div class="row">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <input id="money-trusted" type="checkbox">
+                                                                        <i class="fa fa-info-circle ml-2" title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır." style="font-size: 18px;"></i>
+                                                                        <label for="money-trusted" class="m-0 ml-1"> Param güvende (+1.000₺)</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <button type="button"
                                                                 @if (!Auth::check()) onclick="redirectToPage()" @endif
                                                                 class="reservationBtn reservation btn-radius full-width mt-2 text-white">Rezervasyon
@@ -1181,6 +1190,7 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
@@ -1196,10 +1206,6 @@
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
-
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
@@ -1211,6 +1217,9 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
+        $(function () {
+            $('.fa-info-circle').tooltip()
+        })
         if (window.innerWidth <= 768) {
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
@@ -1497,6 +1506,7 @@
                     var checkInDate = $('#date-checkin').val();
                     var checkOutDate = $('#date-checkout').val();
                     var key = $("#orderKey").val();
+                    var moneyTrusted = $("#money-trusted").is(':checked');
 
                     // Giriş ve çıkış tarihlerini Date objesine çevir
                     var startDate = new Date(checkInDate);
@@ -1543,6 +1553,7 @@
                             tc: tc,
                             phone: phone,
                             address: address,
+                            money_trusted : moneyTrusted
                         },
                         success: function(response) {
                             $('#finalConfirmationModal').modal('hide');
