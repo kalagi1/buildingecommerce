@@ -48,7 +48,9 @@ use App\Http\Controllers\Client\PageController as ClientPageController;
 use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RealEstateController;
 use App\Http\Controllers\Admin\RealEstateController as AdminRealEstateController;
+use App\Http\Controllers\Client\ForgotPasswordController;
 use App\Http\Controllers\Client\RegisterController;
+use App\Http\Controllers\Client\ResetPasswordController;
 use App\Http\Controllers\Client\SharerController;
 use App\Http\Controllers\Client\SupportChatController;
 use App\Http\Controllers\Client\TaxOfficeController;
@@ -188,16 +190,16 @@ Route::get('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebo
 Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
 
 // Şifre sıfırlama linkini gösterme ve isteme sayfası
-Route::get('password/reset', 'App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::get('sifre-sifirla', [ForgotPasswordController::class,"showLinkRequestForm"])->name('password.request');
 
 // Şifre sıfırlama linkini e-posta ile gönderme işlemi
-Route::post('password/email', 'App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::post('password/email', [ForgotPasswordController::class,"sendResetLinkEmail"])->name('password.email');
 
 // Yeni şifre belirleme sayfası
-Route::get('password/reset/{token}', 'App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::get('sifre-sifirla/{token}',[ResetPasswordController::class,"showResetForm"])->name('password.reset');
 
 // Yeni şifreyi kaydetme işlemi
-Route::post('password/reset', 'App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.update');
+Route::post('password/reset', [ResetPasswordController::class,"reset"])->name('password.update');
 
 Route::get('/institutional/login', [LoginController::class, 'index'])->name('institutional.login');
 Route::post('/institutional/login', [LoginController::class, 'login'])->name('institutional.login.post');
