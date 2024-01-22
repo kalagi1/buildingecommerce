@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class EstateClubController extends Controller
 {
     public function index(){
-        $estateClubUsers = User::with("collections")->where('type','21')->where('status',1)->get();
+        $estateClubUsers = User::with("collections","shares")->where('type','21')->where('status',1)->get();
 
         return view('admin.estate_club.index',compact('estateClubUsers'));
     }

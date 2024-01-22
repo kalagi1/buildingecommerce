@@ -31,6 +31,7 @@
                                 <tr>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Üye numarası</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Koleksiyon Sayısı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Satış Sayısı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İsim Soyisim</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Katılma Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
@@ -43,6 +44,8 @@
                                         <tr>
                                             <td class="order_no">{{1000000 + $user->id}}</td>
                                             <td class="order_no">{{count($user->collections)}}</td>
+                                            <td class="order_no">{{count($user->shares)}}</td>
+                                            
                                             <td class="order_no">{{$user->name}}</td>
 
                                             <td class="order_no">{{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
