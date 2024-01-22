@@ -1236,7 +1236,7 @@ img {
 }
 
 ul.the-agents-details li {
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: 500 !important;
 }
 
@@ -5987,7 +5987,7 @@ element.style {
 .add-to-collection-button-wrapper .add-to-collection-button .add-to-collection-button-text {
     line-height: 16px;
     color: #333;
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: 600;
 }
 .add-to-collections-wrapper .add-to-collection-button-wrapper .fa-plus {
@@ -8455,7 +8455,7 @@ html input[disabled] {
 }
 
 p {
-    font-size: 12px !important;
+    font-size: 11px !important;
 }
 
 @media (max-width: 768px) {
@@ -10528,7 +10528,7 @@ a.int_btn,
 
 @media (max-width: 1024px) {
     .swiper_imgbox .swipper_img>h4 {
-        font-size: 12px !important;
+        font-size: 11px !important;
         line-height: 27px;
     }
 
@@ -14433,7 +14433,7 @@ form label.error {
 }
 
 .form-control {
-    font-size: 12px !important;
+    font-size: 11px !important;
 
 }
 
@@ -17831,7 +17831,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .author__meta {
-    font-size: 12px !important;
+    font-size: 11px !important;
 }
 
 .sidebar .sidebar-widget .author__meta {
@@ -20774,7 +20774,7 @@ body.dashboard-bd {
 }
 
 .my-properties table thead tr th {
-    font-size: 12px !important;
+    font-size: 11px !important;
     text-align: center !important;
     color: #222;
     background-color: #f5f6ff;
@@ -24824,7 +24824,7 @@ form label.error {
 }
 
 h6 {
-    font-size: 12px !important;
+    font-size: 11px !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -26881,7 +26881,7 @@ section.ui-element {
 }
 
 .rightNavText {
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: 600 !important;
 }
 

@@ -342,7 +342,7 @@
                                         <td class="image">
                                             <div class="d-flex" style="align-items: center">
                                                 <div class="input d-none d-flex" style="align-items: flex-start;">
-                                                    <textarea class="form-control" style="height: 60px;width:350px;font-size:12px !important;" type="text"
+                                                    <textarea class="form-control" style="height: 60px;width:350px;font-size:11px !important;" type="text"
                                                         name="advertise_title[]">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</textarea>
                                                     <span
                                                         class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex"
