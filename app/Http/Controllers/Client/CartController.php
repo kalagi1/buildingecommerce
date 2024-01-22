@@ -62,7 +62,7 @@ class CartController extends Controller {
     )->where( 'coupon_code', $request->input( 'discount' ) )->where( 'use_count', '>=', 1 )->first();
 
     $cart = $request->session()->get( 'cart', [] );
-    if ( isset( $cart[ 'type' ] ) && $cart[ 'type' ] == 'housing' ) {
+    if ( $cart[ 'type' ] == 'housing' ) {
         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
         $saleType = $housing->step2_slug;
     } else {
@@ -217,7 +217,7 @@ class CartController extends Controller {
 
 } else {
     $cart = $request->session()->get( 'cart', [] );
-    if ( isset( $cart[ 'type' ] ) && $cart[ 'type' ] == 'housing' ) {
+    if ( $cart[ 'type' ] == 'housing' ) {
         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
         $saleType = $housing->step2_slug;
     } else {
@@ -277,21 +277,21 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     $newAmount = $amountWithoutDiscount - $coupon->amount;
                 }
 
-                $housing = Housing::where('id',$cart['item']['id'])->first();
-                $user = User::where('id',$housing->user_id)->first();
+                $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                $user = User::where( 'id', $housing->user_id )->first();
 
-                if($user->corporate_type == "Emlakçı"){
+                if ( $user->corporate_type == 'Emlakçı' ) {
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
-                }else{
+                } else {
                     $share_percent_balance = 1;
                     $share_percent_earn = 0;
                 }
 
-                if($saleType == "kiralik"){
+                if ( $saleType == 'kiralik' ) {
                     $sharedAmount_balance = $newAmount * $share_percent_balance;
                     $sharedAmount_earn = $newAmount * $share_percent_earn;
-                }else{
+                } else {
                     $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
                     $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
                 }
@@ -309,27 +309,27 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     'user_id' => $coupon->user_id,
                     'cart_id' => $order->id,
                     'status' => '0',
-                    'balance' => number_format($sharedAmount_balance / 2, 0, ',', '.'),
-                    'earn' => number_format($sharedAmount_balance / 2, 0, ',', '.'),
-                    'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
-                ]);
-            }else{
-                $housing = Housing::where('id',$cart['item']['id'])->first();
-                $user = User::where('id',$housing->user_id)->first();
-                if ($shareOpen && $lastClick) {
-                    $collection = Collection::where('id', $lastClick->collection_id)->first();
-                    $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    if($user->corporate_type == "Emlakçı"){
+                    'balance' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
+                    'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
+                    'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                ] );
+            } else {
+                $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                $user = User::where( 'id', $housing->user_id )->first();
+                if ( $shareOpen && $lastClick ) {
+                    $collection = Collection::where( 'id', $lastClick->collection_id )->first();
+                    $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
+                    if ( $user->corporate_type == 'Emlakçı' ) {
                         $share_percent_balance = 0.25;
                         $share_percent_earn = 0.75;
-                    }else{
+                    } else {
                         $share_percent_balance = 1;
                         $share_percent_earn = 0;
                     }
-    
-                    $cart = $request->session()->get('cart', []);
-                    if($cart['type'] == "housing"){
-                        $housing = Housing::where('id',$cart['item']['id'])->first();
+
+                    $cart = $request->session()->get( 'cart', [] );
+                    if ( $cart[ 'type' ] == 'housing' ) {
+                        $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
                     } else {
                         $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
@@ -355,16 +355,16 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     ] );
                 } elseif ( !$lastClick ) {
                     $newAmount = $amountWithoutDiscount;
-                    if($user->corporate_type == "Emlakçı"){
+                    if ( $user->corporate_type == 'Emlakçı' ) {
                         $share_percent_balance = 0.25;
                         $share_percent_earn = 0.75;
-                    }else{
+                    } else {
                         $share_percent_balance = 1;
                         $share_percent_earn = 0;
                     }
 
                     $cart = $request->session()->get( 'cart', [] );
-                    if ( isset( $cart[ 'type' ] ) && $cart[ 'type' ] == 'housing' ) {
+                    if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
                     } else {
@@ -389,16 +389,16 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     ] );
                 } else {
                     $newAmount = $amountWithoutDiscount;
-                    if($user->corporate_type == "Emlakçı"){
+                    if ( $user->corporate_type == 'Emlakçı' ) {
                         $share_percent_balance = 0.25;
                         $share_percent_earn = 0.75;
-                    }else{
+                    } else {
                         $share_percent_balance = 1;
                         $share_percent_earn = 0;
                     }
 
                     $cart = $request->session()->get( 'cart', [] );
-                    if ( isset( $cart[ 'type' ] ) && $cart[ 'type' ] == 'housing' ) {
+                    if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
                     } else {
@@ -425,8 +425,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             }
 
         } else {
-            $project = Project::where('id', $productDetails->id)->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
-
+            $project = Project::where( 'id', $productDetails->id )->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )->first();
             $city = $project->city->title;
             $county = $project->county->ilce_title;
             $neighborhood = $project->neighbourhood ? $project->neighbourhood->mahalle_title : null;
@@ -446,7 +445,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                 $share_percent =  0.5;
 
                 $cart = $request->session()->get( 'cart', [] );
-                if ( isset( $cart[ 'type' ] ) && $cart[ 'type' ] == 'housing' ) {
+                if ( $cart[ 'type' ] == 'housing' ) {
                     $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                     $saleType = $housing->step2_slug;
                 } else {
@@ -483,7 +482,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     $share_percent =  0.5;
                     $cart = $request->session()->get( 'cart', [] );
-                    if ( isset( $cart[ 'type' ] ) && $cart[ 'type' ] == 'housing' ) {
+                    if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
                     } else {
@@ -802,16 +801,12 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             public function index( Request $request ) {
                 $bankAccounts = BankAccount::all();
                 $cart = $request->session()->get( 'cart', [] );
-                $saleType =null;
-                if ( isset( $cart[ 'type' ] ) ) {
-                    if ( $cart[ 'type' ] == 'housing' ) {
-                        $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                        $saleType = $housing->step2_slug;
-                    } else {
-                        $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                        $saleType = $project->step2_slug;
-                    }
-
+                if ( $cart[ 'type' ] == 'housing' ) {
+                    $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                    $saleType = $housing->step2_slug;
+                } else {
+                    $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                    $saleType = $project->step2_slug;
                 }
 
                 return view( 'client.cart.index', compact( 'cart', 'bankAccounts', 'saleType' ) );
@@ -854,40 +849,35 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     }
                 )->orWhere( 'time_type', 1 );
 
-    public function checkCoupon(Request $request)
-    {
-        $coupon = Coupon::where(function($query) {
-            $query->where(function($query) {
-                $query->where("start_date", "<=", date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'));
-            })->orWhere('time_type',1); 
-        })->where('coupon_code', $request->input('coupon_code'))->where('use_count','>=',1)->first();
-        $saleItemType = "";
-        if ($coupon) {
-            $cart = $request->session()->get('cart', []);
-            if ($cart['type'] == "housing") {
-                $housing = Housing::where('id',$cart['item']['id'])->first();
-                if($housing->step2_slug == "kiralik"){
-                    $saleItemType = "kiralik";
-                }else{
-                    $saleItemType = "satilik";
+            }
+        )->where( 'coupon_code', $request->input( 'coupon_code' ) )->where( 'use_count', '>=', 1 )->first();
+        $saleItemType = '';
+        if ( $coupon ) {
+            $cart = $request->session()->get( 'cart', [] );
+            if ( $cart[ 'type' ] == 'housing' ) {
+                $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                if ( $housing->step2_slug == 'kiralik' ) {
+                    $saleItemType = 'kiralik';
+                } else {
+                    $saleItemType = 'satilik';
                 }
-                if($coupon->select_housings_type == 1){
-                    return json_encode([
-                        "status" => true,
-                        "cart" => $cart,
-                        "discount_type" => $coupon->discount_type,
-                        "discount_amount" => $coupon->amount,
-                    ]);
-                }elseif($coupon->select_housings_type == 2){
-                    $couponHousings = array_keys($coupon->housings->keyBy('item_id')->toArray());
-                    if (in_array($cart['item']['id'], $couponHousings)) {
-                        return json_encode([
-                            "status" => true,
-                            "cart" => $cart,
-                            "discount_type" => $coupon->discount_type,
-                            "discount_amount" => $coupon->amount,
-                            "sale_item_type" => $saleItemType
-                        ]);
+                if ( $coupon->select_housings_type == 1 ) {
+                    return json_encode( [
+                        'status' => true,
+                        'cart' => $cart,
+                        'discount_type' => $coupon->discount_type,
+                        'discount_amount' => $coupon->amount,
+                    ] );
+                } elseif ( $coupon->select_housings_type == 2 ) {
+                    $couponHousings = array_keys( $coupon->housings->keyBy( 'item_id' )->toArray() );
+                    if ( in_array( $cart[ 'item' ][ 'id' ], $couponHousings ) ) {
+                        return json_encode( [
+                            'status' => true,
+                            'cart' => $cart,
+                            'discount_type' => $coupon->discount_type,
+                            'discount_amount' => $coupon->amount,
+                            'sale_item_type' => $saleItemType
+                        ] );
                     } else {
                         return json_encode( [
                             'status' => false,
@@ -900,33 +890,33 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'message' => 'İndirim kuponu bu ürün için geçerli değil.'
                     ] );
                 }
-                
-            }else{
-                $project = Project::where('id',$cart['item']['id'])->first();
-                if($project->step2_slug == "kiralik"){
-                    $saleItemType = "kiralik";
-                }else{
-                    $saleItemType = "satilik";
+
+            } else {
+                $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                if ( $project->step2_slug == 'kiralik' ) {
+                    $saleItemType = 'kiralik';
+                } else {
+                    $saleItemType = 'satilik';
                 }
-                if($coupon->select_projects_type == 1 || $coupon->select_projects_type == 2){
-                    if($coupon->select_projects_type == 1){
-                        return json_encode([
-                            "status" => true,
-                            "cart" => $cart,
-                            "discount_type" => $coupon->discount_type,
-                            "discount_amount" => $coupon->amount,
-                            "sale_item_type" => $saleItemType
-                        ]);
-                    }else{
-                        $couponProjects = array_keys($coupon->projects->keyBy('item_id')->toArray());
-                        if (in_array($cart['item']['id'], $couponProjects)) {
-                            return json_encode([
-                                "status" => true,
-                                "cart" => $cart,
-                                "discount_type" => $coupon->discount_type,
-                                "discount_amount" => $coupon->amount,
-                                "sale_item_type" => $saleItemType
-                            ]);
+                if ( $coupon->select_projects_type == 1 || $coupon->select_projects_type == 2 ) {
+                    if ( $coupon->select_projects_type == 1 ) {
+                        return json_encode( [
+                            'status' => true,
+                            'cart' => $cart,
+                            'discount_type' => $coupon->discount_type,
+                            'discount_amount' => $coupon->amount,
+                            'sale_item_type' => $saleItemType
+                        ] );
+                    } else {
+                        $couponProjects = array_keys( $coupon->projects->keyBy( 'item_id' )->toArray() );
+                        if ( in_array( $cart[ 'item' ][ 'id' ], $couponProjects ) ) {
+                            return json_encode( [
+                                'status' => true,
+                                'cart' => $cart,
+                                'discount_type' => $coupon->discount_type,
+                                'discount_amount' => $coupon->amount,
+                                'sale_item_type' => $saleItemType
+                            ] );
                         } else {
                             return json_encode( [
                                 'status' => false,
