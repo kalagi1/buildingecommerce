@@ -263,7 +263,7 @@ button {
 }
 
 .section-title h2 {
-    font-size: 18px;
+    font-size: 12px !important; 
     color: #274abb;
     margin-bottom: 0 !important;
     text-transform: uppercase;
