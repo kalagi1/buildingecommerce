@@ -30,6 +30,7 @@
                             <thead>
                                 <tr>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Üye numarası</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Koleksiyon Sayısı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İsim Soyisim</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Katılma Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
@@ -41,7 +42,9 @@
                                     @foreach ($estateClubUsers as $user)
                                         <tr>
                                             <td class="order_no">{{1000000 + $user->id}}</td>
+                                            <td class="order_no">{{count($user->collections)}}</td>
                                             <td class="order_no">{{$user->name}}</td>
+
                                             <td class="order_no">{{date('d-m-Y',strtotime($user->created_at))}}</td>
                                             <td class="order_no"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="btn btn-sm btn-primary">Kupon Tanımla</a></td>
                                         </tr>
