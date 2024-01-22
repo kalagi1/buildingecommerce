@@ -16289,7 +16289,7 @@ a.button {
 }
 
 .slick-initialized .slick-slide {
-    padding: 10px;
+    padding: 0 10px;
 }
 
 .homes-button .second-btn {
@@ -26907,7 +26907,6 @@ section.ui-element {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
 }
 
 .special-button-content button {
