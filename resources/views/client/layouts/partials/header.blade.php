@@ -680,13 +680,13 @@
                                     </a>
                                 </li>
                             @endforeach
-                            <li>
+                            {{-- <li>
                                 <a href="https://emlakkulup.emlaksepette.com/" target="_blank">
                                         <img class="EMLAK KULÜP"
                                             src="{{ url('emlakkulüp.png') }}" alt="Yeniler"
                                             data-ll-status="loading">
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
                 </div>
