@@ -304,17 +304,16 @@
                                         <a id="carousel-selector-0" data-slide-to="0"
                                             data-target="#listingDetailsSlider">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
-                                                class="img-fluid altSlider" alt="listing-small">
+                                                class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
                                     </div>
-
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
                                         <div class="item" style="margin: 10px; cursor: pointer">
                                             <a id="carousel-selector-{{ $imageKey + 1 }}"
                                                 data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ asset('housing_images/' . $image) }}"
-                                                    class="img-fluid altSlider" alt="listing-small">
+                                                    class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
