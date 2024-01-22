@@ -329,7 +329,7 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">

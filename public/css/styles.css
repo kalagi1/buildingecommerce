@@ -8773,8 +8773,8 @@ a.button {
 }
 
 #search-icon {
-    height: 40px !important;
-    width: 40px !important;
+    height: 36px !important;
+    width: 36px !important;
 }
 
 .input-group.search {
@@ -8785,7 +8785,6 @@ a.button {
     flex-wrap: nowrap;
     justify-content: space-between;
     width: 400px;
-    align-items: center !important;
 }
 
 @media screen and (max-width: 991px) {
@@ -8809,6 +8808,7 @@ a.button {
     background-color: transparent !important;
     padding: 10px 30px;
     outline: 0;
+    height:36px !important;
 }
 
 .input-group.search i {

@@ -9,14 +9,10 @@
     margin-top: 1px;
 }
 
-.searchInput{
-    margin-top: 12px !important;
-}
 
 #logo img {
     width: 200px;
     height: auto;
-    margin-top: 12px !important;
     transform: translate3d(0, 0, 0);
 }
 
