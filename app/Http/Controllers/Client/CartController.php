@@ -63,7 +63,7 @@ class CartController extends Controller
             })->where('coupon_code', $request->input('discount'))->where('use_count','>=',1)->first();
 
             $cart = $request->session()->get('cart', []);
-            if($cart['type'] == "housing"){
+            if(isset($cart['type']) && $cart['type'] == "housing"){
                 $housing = Housing::where('id',$cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
             }else{
@@ -218,7 +218,7 @@ class CartController extends Controller
             
         }else{
             $cart = $request->session()->get('cart', []);
-            if($cart['type'] == "housing"){
+            if(isset($cart['type']) && $cart['type'] == "housing"){
                 $housing = Housing::where('id',$cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
             }else{
@@ -306,7 +306,7 @@ class CartController extends Controller
                     $share_percent_earn = 0.75;
     
                     $cart = $request->session()->get('cart', []);
-                    if($cart['type'] == "housing"){
+                    if(isset($cart['type']) && $cart['type'] == "housing"){
                         $housing = Housing::where('id',$cart['item']['id'])->first();
                         $saleType = $housing->step2_slug;
                     }else{
@@ -337,7 +337,7 @@ class CartController extends Controller
                     $share_percent_earn = 0.75;
 
                     $cart = $request->session()->get('cart', []);
-                    if($cart['type'] == "housing"){
+                    if(isset($cart['type']) && $cart['type'] == "housing"){
                         $housing = Housing::where('id',$cart['item']['id'])->first();
                         $saleType = $housing->step2_slug;
                     }else{
@@ -366,7 +366,7 @@ class CartController extends Controller
                     $share_percent_earn = 0.75;
 
                     $cart = $request->session()->get('cart', []);
-                    if($cart['type'] == "housing"){
+                    if(isset($cart['type']) && $cart['type'] == "housing"){
                         $housing = Housing::where('id',$cart['item']['id'])->first();
                         $saleType = $housing->step2_slug;
                     }else{
@@ -415,7 +415,7 @@ class CartController extends Controller
                 $share_percent =  0.5;
 
                 $cart = $request->session()->get('cart', []);
-                if($cart['type'] == "housing"){
+                if(isset($cart['type']) && $cart['type'] == "housing"){
                     $housing = Housing::where('id',$cart['item']['id'])->first();
                     $saleType = $housing->step2_slug;
                 }else{
@@ -452,7 +452,7 @@ class CartController extends Controller
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
                     $share_percent =  0.5;
                     $cart = $request->session()->get('cart', []);
-                    if($cart['type'] == "housing"){
+                    if(isset($cart['type']) && $cart['type'] == "housing"){
                         $housing = Housing::where('id',$cart['item']['id'])->first();
                         $saleType = $housing->step2_slug;
                     }else{
@@ -772,7 +772,7 @@ class CartController extends Controller
     {
         $bankAccounts = BankAccount::all();
         $cart = $request->session()->get('cart', []);
-        if($cart['type'] == "housing"){
+        if(isset($cart['type']) && $cart['type'] == "housing"){
             $housing = Housing::where('id',$cart['item']['id'])->first();
             $saleType = $housing->step2_slug;
         }else{
