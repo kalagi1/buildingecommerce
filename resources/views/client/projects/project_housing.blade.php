@@ -265,7 +265,7 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
-                                        <div class="item carousel-item" data-slide-number="{{ $key  }}">
+                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                             <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 data-lightbox="image-gallery">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -285,7 +285,7 @@
                                 {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector--1" data-slide-to="-1"
+                                        <a id="carousel-selector-0" data-slide-to="0"
                                             data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
@@ -295,8 +295,8 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item" style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $key }}"
-                                                data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                            <a id="carousel-selector-{{ $key + 1 }}"
+                                                data-slide-to="{{ $key + 1}}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
