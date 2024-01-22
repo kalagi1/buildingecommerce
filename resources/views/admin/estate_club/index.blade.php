@@ -30,11 +30,11 @@
                             <thead>
                                 <tr>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Üye numarası</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Koleksiyon Sayısı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Satış Sayısı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İsim Soyisim</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Katılma Tarihi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_name">İsim Soyisim</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_collection_count">Koleksiyon Sayısı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_sales_count">Satış Sayısı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">Katılma Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_ok">İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
@@ -43,13 +43,12 @@
                                     @foreach ($estateClubUsers as $user)
                                         <tr>
                                             <td class="order_no">{{1000000 + $user->id}}</td>
-                                            <td class="order_no">{{count($user->collections)}}</td>
-                                            <td class="order_no">{{count($user->shares)}}</td>
-                                            
-                                            <td class="order_no">{{$user->name}}</td>
-
-                                            <td class="order_no">{{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
-                                            <td class="order_no"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="btn btn-sm btn-primary">Kupon Tanımla</a></td>
+                                            <td class="order_name">{{$user->name}}</td>
+                                            <td class="order_collection_count">{{count($user->collections)}}</td>
+                                            <td class="order_sales_count">{{count($user->shares)}}</td>
+                                        
+                                            <td class="order_date">{{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
+                                            <td class="order_ok"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="btn btn-sm btn-primary">Kupon Tanımla</a></td>
                                         </tr>
                                     @endforeach
                                 @else
