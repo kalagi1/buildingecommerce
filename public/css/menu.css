@@ -470,7 +470,7 @@ a.button {
 #navigation ul#responsive {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-start;
 }
 
@@ -499,7 +499,7 @@ a.button {
 
 #navigation ul ul li {
     float: none;
-    width: 150px;
+    width: 130px;
 }
 
 #navigation ul ul ul {
@@ -508,9 +508,6 @@ a.button {
     margin: 0 0 0 10px;
 }
 
-#navigation ul ul {
-    margin: 10px 0 0 0;
-}
 
 #navigation ul ul ul:after {
     content: "";

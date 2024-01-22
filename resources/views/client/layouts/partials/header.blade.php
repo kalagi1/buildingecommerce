@@ -650,7 +650,7 @@
 
                     </div>
                 </div>
-                <div class="header-bottom d-xl-block d-none d-lg-block">
+                <div class="header-bottom d-xl-block d-none d-lg-block mb-0">
                     <nav id="navigation" class="style-1">
                         <ul id="responsive">
                             @foreach ($menu as $menuItem)
