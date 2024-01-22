@@ -344,7 +344,7 @@
                             </div>
 
                         </div>
-                        <div class="center position-relative">
+                        <div class="center position-relative searchInput">
                             <form action="{{ route('search.results') }}" method="GET" id="search-form">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
