@@ -20,8 +20,8 @@ class EstateClubController extends Controller
     }
 
     public function createCoupon($userId){
-        $projects = Project::where('user_id',auth()->guard()->user()->id)->where('status',1)->get();
-        $housings = Housing::where('user_id',auth()->guard()->user()->id)->where('status',1)->get();
+        $projects = Project::where('status',1)->get();
+        $housings = Housing::where('status',1)->get();
         $estateClubUser = User::wherE('type',21)->where('status',1)->where('id',$userId)->first();
         return view('admin.estate_club.create_coupon',compact('estateClubUser','projects','housings'));
     }
@@ -69,14 +69,13 @@ class EstateClubController extends Controller
 
     public function coupons(){
         $coupons = Coupon::where('estate_id',auth()->guard()->user()->id)->get();
-
         return view('admin.estate_club.coupons',compact('coupons'));
     }
 
     public function editCoupon($id){
         $coupon = Coupon::where('id',$id)->first();
-        $projects = Project::where('user_id',auth()->guard()->user()->id)->where('status',1)->get();
-        $housings = Housing::where('user_id',auth()->guard()->user()->id)->where('status',1)->get();
+        $projects = Project::where('status',1)->get();
+        $housings = Housing::where('status',1)->get();
         $estateClubUser = User::wherE('type',21)->where('status',1)->where('id',$coupon->user_id)->first();
 
         return view('admin.estate_club.edit_coupon',compact('coupon','estateClubUser','projects','housings'));
