@@ -190,7 +190,7 @@
                             </div>
                             @if (!$cart || empty($cart['item']))
                                 <button type="button" class="btn btn-primary btn-lg btn-block"
-                                    style="height: 50px !important;font-size: 12px;margin: 0 auto;"
+                                    style="height: 50px !important;font-size: 11px;margin: 0 auto;"
                                     onclick="window.location.href='{{ route('index') }}'">
                                     Alışverişe Devam Et
                                 </button>
@@ -198,14 +198,14 @@
                                 @if($saleType == "kiralik")
                                     <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
                                         data-target="#paymentModal"
-                                        style="height: 50px !important;font-size: 12px;margin: 0 auto;">
+                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </button>
                                 @else
                                     <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
                                         data-target="#paymentModal"
-                                        style="height: 50px !important;font-size: 12px;margin: 0 auto;">
+                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </button>

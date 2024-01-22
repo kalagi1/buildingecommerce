@@ -346,7 +346,7 @@
                                                                         {{ number_format($projectHousingsList[$i+1]['price[]'] - $offer->discount_amount, 0, ',', '.') }}
                                                                         ₺</h6>
                                                                     <h6
-                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                        style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                         {{ number_format($projectHousingsList[$i+1]['price[]'], 0, ',', '.') }}
                                                                         ₺
 
@@ -374,7 +374,7 @@
                                                     <span class="price-mobile">
                                                         @if ($offer && in_array($i + 1, json_decode($offer->project_housings)))
                                                             <h6
-                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                style="color: #EA2B2E !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
                                                                 {{ number_format($projectHousingsList[$i+1]['price[]'] , 0, ',', '.') }}
                                                                 ₺
                                                             </h6>

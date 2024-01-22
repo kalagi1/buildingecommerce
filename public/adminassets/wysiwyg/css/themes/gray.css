@@ -30,7 +30,7 @@
   .gray-theme.fr-box.fr-basic .fr-element {
     font-family: sans-serif;
     color: #414141;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.6;
     padding: 20px;
     -webkit-box-sizing: border-box;
@@ -91,7 +91,7 @@
     -o-transition: transform 0.2s ease 0s;
     fill: #0097A7; }
   .gray-theme.fr-box a.fr-floating-btn i, .gray-theme.fr-box a.fr-floating-btn svg {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 40px; }
   .gray-theme.fr-box a.fr-floating-btn:hover {
     background: #e8e8e8; }
@@ -112,7 +112,7 @@
   content: "";
   height: 0; }
 .gray-theme .fr-wrapper .fr-placeholder {
-  font-size: 12px;
+  font-size: 11px;
   color: #AAA;
   font-family: sans-serif;
   top: 0;
@@ -175,7 +175,7 @@
 .gray-theme.fr-box .fr-counter {
   padding: 10px;
   color: #999999;
-  font-size: 12px;
+  font-size: 11px;
   font-family: sans-serif;
   border-radius: 2px 0 0 0;
   -moz-border-radius: 2px 0 0 0;
@@ -1365,7 +1365,7 @@
 .gray-theme .tui-editor-save-btn {
   color: #FFF; }
 .gray-theme .examples-variante > a {
-  font-size: 12px;
+  font-size: 11px;
   font-family: Arial, Helvetica, sans-serif; }
 .gray-theme .sc-cm-holder > .sc-cm {
   border-top: 5px solid #222222 !important; }
@@ -1475,7 +1475,7 @@
     clip: rect(0, 0, 0, 0);
     border: 0; }
   .gray-theme.fr-toolbar .fr-command.fr-btn span, .gray-theme.fr-popup .fr-command.fr-btn span, .gray-theme.fr-modal .fr-command.fr-btn span {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 17px;
     min-width: 30px;
     height: 17px;
@@ -1827,7 +1827,7 @@
       background-clip: padding-box;
       border: solid 1px #999999;
       color: #37474F;
-      font-size: 12px;
+      font-size: 11px;
       background: #F5F5F5;
       padding: 4px 12px;
       -webkit-box-sizing: border-box;
@@ -1847,7 +1847,7 @@
     .gray-theme.fr-popup .fr-input-line input + label, .gray-theme.fr-popup .fr-input-line textarea + label {
       top: 29px;
       left: 12px;
-      font-size: 12px;
+      font-size: 11px;
       -webkit-transition: all 0.5s ease;
       -moz-transition: all 0.5s ease;
       -ms-transition: all 0.5s ease;
@@ -1986,7 +1986,7 @@
         opacity: 0.8;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; }
   .gray-theme.fr-popup .fr-checkbox-line {
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.4px;
     margin-top: 10px; }
     .gray-theme.fr-popup .fr-checkbox-line label {
@@ -2161,7 +2161,7 @@
     height: 0; }
 .gray-theme #fr-logo > span {
   padding: 11px 5px 10px 15px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   color: #b1b2b7;
   -webkit-transition: color 0.3s;

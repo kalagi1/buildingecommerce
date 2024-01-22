@@ -40,7 +40,7 @@
                                 <td
                                     style="padding-left: calc(0px + (88 - 0) * ((100vw - 320px) / (1920 - 320))); padding-right: calc(0px + (88 - 0) * ((100vw - 320px) / (1920 - 320)))">
                                     <div
-                                        style="margin-bottom: -3px; font-weight: 600; font-size: 12px; line-height: calc(21px + (23 - 21) * ((100vw - 320px) / (1920 - 320))); text-align: center; color: #939393;">
+                                        style="margin-bottom: -3px; font-weight: 600; font-size: 11px; line-height: calc(21px + (23 - 21) * ((100vw - 320px) / (1920 - 320))); text-align: center; color: #939393;">
                                         {!! $content !!}
                                     </div>
                                 </td>

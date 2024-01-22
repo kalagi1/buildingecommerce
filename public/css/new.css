@@ -35,7 +35,7 @@ Version:    1.1.0
 .invoice-content {
     font-family: 'Poppins', sans-serif;
     color: #535353;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .container {
@@ -267,7 +267,7 @@ table th{
 }
 
 .invoice-1 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -348,7 +348,7 @@ table th{
 }
 
 .invoice-1 p{
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-1 .invoice-info-buttom .table .invoice-1 .invoice-info-buttom .table tr, .table tr {
@@ -387,7 +387,7 @@ table th{
 .invoice-1 .contact-info a {
     margin-right: 20px;
     color: #535353;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-1 .contact-info .mr-0{
@@ -528,7 +528,7 @@ table th{
 }
 
 .invoice-2 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -824,7 +824,7 @@ table th{
 
 .invoice-3 .invoice-name p {
     margin-bottom: 5px;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-3 .informeshon{
@@ -861,7 +861,7 @@ table th{
 .invoice-3 .table td {
     vertical-align: middle;
     border: none !important;
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
 }
 
@@ -883,7 +883,7 @@ table th{
 }
 
 .invoice-3 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -1045,7 +1045,7 @@ table th{
 }
 
 .invoice-4 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -1152,7 +1152,7 @@ table th{
 }
 
 .invoice-4 p{
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-4 .invoice-info-buttom .table .invoice-4 .invoice-info-buttom .table tr, .table tr {
@@ -1190,7 +1190,7 @@ table th{
 .invoice-4 .contact-info a {
     margin:0 30px 10px 0;
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
     float: left;
     line-height: 50px;
 }
@@ -1416,7 +1416,7 @@ table th{
 }
 
 .invoice-5 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -1464,11 +1464,11 @@ table th{
 }
 
 .item-desc-1 small {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
 }
 
@@ -1635,7 +1635,7 @@ table th{
 }
 
 .invoice-6 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -1699,7 +1699,7 @@ table th{
 }
 
 .invoice-6 .table tr, .invoice-6 .table tr strong {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-6 .bg-active {
@@ -1723,7 +1723,7 @@ table th{
 }
 
 .invoice-6 .invoice-informeshon p {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-6 .inv-title-1{
@@ -1750,7 +1750,7 @@ table th{
 .invoice-6 .invoice-contact a {
     margin-right: 20px;
     color: #535353;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-6 .invoice-contact a i{
@@ -1923,7 +1923,7 @@ table th{
 }
 
 .invoice-7 .invoice-contact-us ul li{
-    font-size: 12px;
+    font-size: 11px;
     line-height: 25px;
     color: #535353;
 }
@@ -1987,7 +1987,7 @@ table th{
 .invoice-7 .default-table tr td {
     position: relative;
     padding: 21px 30px;
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
     font-weight: 400;
 }
@@ -2234,7 +2234,7 @@ table th{
 }
 
 .invoice-8 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -2377,7 +2377,7 @@ table th{
 }
 
 .invoice-9 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -2499,7 +2499,7 @@ table th{
 }
 
 .invoice-9 .invoice-informeshon p {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-9 .inv-title-1{
@@ -2525,7 +2525,7 @@ table th{
 .invoice-9 .invoice-contact a {
     margin-right: 20px;
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .invoice-9 .mr-0{
@@ -2637,7 +2637,7 @@ table th{
 }
 
 .invoice-10 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -3007,7 +3007,7 @@ table th{
 }
 
 .invoice-11 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
     font-weight: 500;
 }
@@ -3214,7 +3214,7 @@ table th{
 }
 
 .invoice-12 .invoice-contact-us ul li{
-    font-size: 12px;
+    font-size: 11px;
     line-height: 25px;
 }
 
@@ -3263,7 +3263,7 @@ table th{
 .invoice-12 .default-table tr td {
     position: relative;
     padding: 21px 30px;
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
     font-weight: 400;
 }
@@ -3410,7 +3410,7 @@ table th{
 }
 
 .invoice-13 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -3728,7 +3728,7 @@ table th{
 .invoice-14 .order-summary .default-table tr td {
     position: relative;
     padding: 21px 30px;
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
     font-weight: 400;
 }
@@ -3864,7 +3864,7 @@ table th{
 }
 
 .invoice-15 .item-desc-1 span {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #535353;
 }
@@ -4236,7 +4236,7 @@ table th{
 .invoice-16 .default-table tr td {
     position: relative;
     padding: 21px 30px;
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
     font-weight: 400;
 }
@@ -4514,7 +4514,7 @@ table th{
 }
 
 .invoice-17 .invoice-contact-us ul li{
-    font-size: 12px;
+    font-size: 11px;
     line-height: 25px;
 }
 
@@ -4584,7 +4584,7 @@ table th{
 .invoice-17 .default-table tr td {
     position: relative;
     padding: 21px 30px;
-    font-size: 12px;
+    font-size: 11px;
     color: #535353;
     font-weight: 400;
 }

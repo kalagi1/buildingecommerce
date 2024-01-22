@@ -238,7 +238,7 @@
                 <div class="section-title">
                     <h2>Tamamlanan Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -340,7 +340,7 @@
                 <div class="section-title">
                     <h2>Devam Eden Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -428,7 +428,7 @@
                 <div class="section-title">
                     <h2>Topraktan Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -516,7 +516,7 @@
                 <div class="section-title">
                     <h2>Emlak İlanları</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>

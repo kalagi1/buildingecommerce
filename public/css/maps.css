@@ -366,7 +366,7 @@
 
 .map-box ul.listing-details {
     padding: 0;
-    font-size: 12px;
+    font-size: 11px;
     display: none
 }
 
@@ -804,7 +804,7 @@
     position: absolute;
     transform: translate(0, 0);
     z-index: 999;
-    font-size: 12px;
+    font-size: 11px;
     display: inline-block;
     bottom: 20px;
     right: 20px;
@@ -1211,7 +1211,7 @@
 }
 
 .dropzone .dz-preview .dz-remove {
-    font-size: 12px;
+    font-size: 11px;
     text-align: center;
     display: block;
     cursor: pointer;
@@ -2067,7 +2067,7 @@ screen and (max-height:300px) {
 
 .numerical-rating {
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     margin-bottom: 8px;
     text-align: center;
@@ -2242,7 +2242,7 @@ screen and (max-height:300px) {
     color: #757575;
     font-family: 'Quicksand', sans-serif;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .search-2 .form-group .nice-select:hover {
@@ -2340,7 +2340,7 @@ screen and (max-height:300px) {
     height: 50px;
     line-height: 50px;
     padding: 0;
-    font-size: 12px;
+    font-size: 11px;
     border: none;
     border-radius: 50px;
 }
@@ -2401,7 +2401,7 @@ screen and (max-height:300px) {
 
 @media only screen and (max-width: 450px) {
     .search-2 .welcome-text p {
-        font-size: 12px;
+        font-size: 11px;
     }
     .hero-inner2 {
         margin-top: 400px;

@@ -2892,7 +2892,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
     list-style: none;
 }
@@ -2936,7 +2936,7 @@
 
 .finish-text p{
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     margin: 20px 0;
 }
@@ -3178,7 +3178,7 @@
 }
 
 .photo-area label span{
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
     display: block;
     cursor: pointer;
@@ -3213,7 +3213,7 @@
 }
 
 .cover-photo-area label span{
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
     display: block;
     cursor: pointer;
@@ -3252,7 +3252,7 @@
 }
 
 .cover-document-area label span{
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
     display: block;
     cursor: pointer;

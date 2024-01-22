@@ -40428,7 +40428,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
     list-style: none;
 }
@@ -40472,7 +40472,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .finish-text p {
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     margin: 20px 0;
 }
@@ -41227,7 +41227,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     border-radius: 3px;
     background: green;
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
     z-index: 999;
 }
@@ -41361,7 +41361,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
     list-style: none;
 }
@@ -41580,7 +41580,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .doping-square span{
-    font-size: 12px;
+    font-size: 11px;
     line-height: 13px;
 }
 
@@ -41792,7 +41792,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         float: left;
         color: white;
         width: 100%;
-        font-size: 12px;
+        font-size: 11px;
     }
 
 
@@ -42245,7 +42245,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .remove-block{
     background: #ea2a28;
-    font-size: 12px;
+    font-size: 11px;
     position: absolute;
     left: 0px;
     top: 30px;

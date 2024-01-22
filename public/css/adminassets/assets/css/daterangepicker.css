@@ -5,7 +5,7 @@
   border: 0;
   line-height: 25px;
   padding-left: 10px;
-  font-size: 12px;
+  font-size: 11px;
   font-family: Arial, sans-serif;
   font-weight: bold;
   cursor: pointer;
@@ -20,7 +20,7 @@
   border: 1px solid #bfbfbf;
   background-color: #efefef;
   padding: 5px 12px;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 20px;
   color: #aaa;
   font-family: Arial, sans-serif;
@@ -144,7 +144,7 @@
 .date-picker-wrapper .month-wrapper table .day {
   padding: 5px 0;
   line-height: 1;
-  font-size: 12px;
+  font-size: 11px;
   margin-bottom: 1px;
   color: #ccc;
   cursor: default;
@@ -336,7 +336,7 @@
   top: 6px;
   padding: 3px 5px;
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
   border-radius: 4px;
   cursor: pointer;
   color: #d9eef7;
@@ -421,7 +421,7 @@
   background-color: yellow;
   padding: 0 6px;
   border-radius: 2px;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 16px;
   -webkit-filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
   -moz-filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
@@ -448,7 +448,7 @@
 .date-picker-wrapper .week-number {
   padding: 5px 0;
   line-height: 1;
-  font-size: 12px;
+  font-size: 11px;
   margin-bottom: 1px;
   color: #999;
   cursor: pointer;

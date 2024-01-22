@@ -169,7 +169,7 @@
 
                             <div>
                                 <a id="clear-filters"
-                                    style="font-size: 12px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
+                                    style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
                                 <div class="trip-search">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header"
                                         style="margin-bottom: 0 !important">
@@ -358,7 +358,7 @@
 
                             <button type="button" class="btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="    border: 1px solid #CCC;
-                            font-size: 12px;
+                            font-size: 11px;
                             position: fixed;
                             bottom: 10px;
                             width: 255px;
@@ -1129,7 +1129,7 @@
     <style>
         #submit-filters {
             border: 1px solid #CCC;
-            font-size: 12px;
+            font-size: 11px;
             position: fixed;
             bottom: 10px;
             width: 255px;
@@ -1285,7 +1285,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 12px;
+                font-size: 11px;
             }
         }
 

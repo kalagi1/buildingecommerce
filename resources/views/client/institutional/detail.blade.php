@@ -348,7 +348,7 @@
         .product-review-container__redirect__span-wrapper p {
             font-family: source_sans_proregular, sans-serif;
             font-style: normal;
-            font-size: 12px;
+            font-size: 11px;
             overflow: hidden;
             text-overflow: ellipsis;
             margin: 0;
@@ -408,7 +408,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .product-rating-count-container__count {
@@ -420,7 +420,7 @@
             font-family: source_sans_proregular, sans-serif;
             font-style: normal;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 15px;
             color: #999;
             margin-left: 20px;

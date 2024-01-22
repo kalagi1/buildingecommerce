@@ -1087,7 +1087,7 @@
                                     <div class="checkboxes float-left mt-3 mb-3">
                                         <div class="filter-tags-wrap" id="individualFormCheck" style="display: block;">
                                             <input id="check-a" type="checkbox" name="check-a">
-                                            <label for="check-a" style="font-size: 12px;">
+                                            <label for="check-a" style="font-size: 11px;">
                                                 <a href="/sayfa/mesafeli-kiralama-sozlesmesi" target="_blank">
                                                     Mesafeli Kiralama Sözleşmesini
                                                 </a>
