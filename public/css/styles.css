@@ -25289,11 +25289,12 @@ section.ui-element {
 
 .seller-profile .seller-info-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 3fr);
     grid-row-gap: 20px;
     grid-column-gap: 18px;
     margin-bottom: 20px
 }
+
 
 .seller-profile .seller-info-container__wrapper {
     background: #fff;
