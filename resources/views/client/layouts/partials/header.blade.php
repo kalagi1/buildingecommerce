@@ -682,10 +682,14 @@
                             @endforeach
                             <li>
                                 <a href="https://emlakkulup.emlaksepette.com/" target="_blank">
-                                        <img class="EMLAK KULÜP"
-                                        style="height: 30px"
-                                            src="{{ url('emlakkulüpnav.png') }}" alt="Yeniler"
+                                    <b style="font-weight:800 !important;display:flex">
+                                        <img style="height: 32px;
+                                        position: absolute;
+                                        left: -9px;
+                                        top: -3px;" class="lazy entered loading"
+                                            src="{{ url('emlakkulüplogo.png') }}" alt="Yeniler"
                                             data-ll-status="loading">
+                                        EMLAK KULÜP</b>
                                 </a>
                             </li>
                         </ul>
