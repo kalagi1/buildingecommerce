@@ -275,11 +275,25 @@ class CartController extends Controller
                 }else{
                     $newAmount = $amountWithoutDiscount - $coupon->amount;
                 }
-                $share_percent_balance = 0.25;
-                $share_percent_earn = 0.75;
 
-                $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
-                $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                $housing = Housing::where('id',$cart['item']['id'])->first();
+                $user = User::where('id',$housing->user_id)->first();
+
+                if($user->corporate_type == "Emlakçı"){
+                    $share_percent_balance = 0.25;
+                    $share_percent_earn = 0.75;
+                }else{
+                    $share_percent_balance = 1;
+                    $share_percent_earn = 0;
+                }
+
+                if($saleType == "kiralik"){
+                    $sharedAmount_balance = $newAmount * $share_percent_balance;
+                    $sharedAmount_earn = $newAmount * $share_percent_earn;
+                }else{
+                    $sharedAmount_balance = $newAmount * 0.02 * $share_percent_balance;
+                    $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
+                }
 
                 UseCoupon::create([
                     "order_id" => $order->id,
@@ -299,11 +313,18 @@ class CartController extends Controller
                     'earn2' => number_format($sharedAmount_earn, 0, ',', '.'),
                 ]);
             }else{
+                $housing = Housing::where('id',$cart['item']['id'])->first();
+                $user = User::where('id',$housing->user_id)->first();
                 if ($shareOpen && $lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    $share_percent_balance = 0.25;
-                    $share_percent_earn = 0.75;
+                    if($user->corporate_type == "Emlakçı"){
+                        $share_percent_balance = 0.25;
+                        $share_percent_earn = 0.75;
+                    }else{
+                        $share_percent_balance = 1;
+                        $share_percent_earn = 0;
+                    }
     
                     $cart = $request->session()->get('cart', []);
                     if($cart['type'] == "housing"){
@@ -333,8 +354,13 @@ class CartController extends Controller
                     ]);
                 } elseif (!$lastClick) {
                     $newAmount = $amountWithoutDiscount;
-                    $share_percent_balance = 0.25;
-                    $share_percent_earn = 0.75;
+                    if($user->corporate_type == "Emlakçı"){
+                        $share_percent_balance = 0.25;
+                        $share_percent_earn = 0.75;
+                    }else{
+                        $share_percent_balance = 1;
+                        $share_percent_earn = 0;
+                    }
 
                     $cart = $request->session()->get('cart', []);
                     if($cart['type'] == "housing"){
@@ -362,8 +388,13 @@ class CartController extends Controller
                     ]);
                 } else {
                     $newAmount = $amountWithoutDiscount;
-                    $share_percent_balance = 0.25;
-                    $share_percent_earn = 0.75;
+                    if($user->corporate_type == "Emlakçı"){
+                        $share_percent_balance = 0.25;
+                        $share_percent_earn = 0.75;
+                    }else{
+                        $share_percent_balance = 1;
+                        $share_percent_earn = 0;
+                    }
 
                     $cart = $request->session()->get('cart', []);
                     if($cart['type'] == "housing"){
@@ -393,9 +424,7 @@ class CartController extends Controller
             }
             
         } else {
-            $project = Project::where('id', $productDetails->id)
-                ->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')
-                ->first();
+            $project = Project::where('id', $productDetails->id)->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
             $city = $project->city->title;
             $county = $project->county->ilce_title;
             $neighborhood = $project->neighbourhood ? $project->neighbourhood->mahalle_title : null;
@@ -822,10 +851,16 @@ class CartController extends Controller
                 $query->where("start_date", "<=", date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'));
             })->orWhere('time_type',1); 
         })->where('coupon_code', $request->input('coupon_code'))->where('use_count','>=',1)->first();
-
+        $saleItemType = "";
         if ($coupon) {
             $cart = $request->session()->get('cart', []);
             if ($cart['type'] == "housing") {
+                $housing = Housing::where('id',$cart['item']['id'])->first();
+                if($housing->step2_slug == "kiralik"){
+                    $saleItemType = "kiralik";
+                }else{
+                    $saleItemType = "satilik";
+                }
                 if($coupon->select_housings_type == 1){
                     return json_encode([
                         "status" => true,
@@ -841,6 +876,7 @@ class CartController extends Controller
                             "cart" => $cart,
                             "discount_type" => $coupon->discount_type,
                             "discount_amount" => $coupon->amount,
+                            "sale_item_type" => $saleItemType
                         ]);
                     } else {
                         return json_encode([
@@ -856,6 +892,12 @@ class CartController extends Controller
                 }
                 
             }else{
+                $project = Project::where('id',$cart['item']['id'])->first();
+                if($project->step2_slug == "kiralik"){
+                    $saleItemType = "kiralik";
+                }else{
+                    $saleItemType = "satilik";
+                }
                 if($coupon->select_projects_type == 1 || $coupon->select_projects_type == 2){
                     if($coupon->select_projects_type == 1){
                         return json_encode([
@@ -863,6 +905,7 @@ class CartController extends Controller
                             "cart" => $cart,
                             "discount_type" => $coupon->discount_type,
                             "discount_amount" => $coupon->amount,
+                            "sale_item_type" => $saleItemType
                         ]);
                     }else{
                         $couponProjects = array_keys($coupon->projects->keyBy('item_id')->toArray());
@@ -872,6 +915,7 @@ class CartController extends Controller
                                 "cart" => $cart,
                                 "discount_type" => $coupon->discount_type,
                                 "discount_amount" => $coupon->amount,
+                                "sale_item_type" => $saleItemType
                             ]);
                         } else {
                             return json_encode([

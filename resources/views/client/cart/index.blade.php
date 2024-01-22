@@ -515,7 +515,11 @@
                                     var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
                                 @endif
 
-                                var newCapora = newPrice * 2 / 100;
+                                if(response.sale_item_type == "kiralik"){
+                                    var newCapora = newPrice ;
+                                }else{
+                                    var newCapora = newPrice * 2 / 100;
+                                }
 
                                 $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong></li>')
                                 $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
