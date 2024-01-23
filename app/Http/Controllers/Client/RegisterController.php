@@ -64,7 +64,6 @@ class RegisterController extends Controller
             'check-d.required_if' => "Hesap açmak için Kurumsal Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
             'check-b.required' => 'Hesap açmak için Kvkk metinini okuyup onaylamanız gerekmektedir.',
             'check-c.required' => 'Hesap açmak için Gizlilik sözleşmesi ve aydınlatma metnini okuyup onaylamanız gerekmektedir.',
-            'phone.regex' => 'Geçerli bir telefon numarası giriniz',
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
             'email.unique' => 'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.',
             'password.required' => 'Şifre alanı zorunludur.',
