@@ -1,69 +1,164 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    @php 
-        $months = [
-            "Ocak",
-            "Şubat",
-            "Mart",
-            "Nisan",
-            "Mayıs",
-            "Haziran",
-            "Temmuz",
-            "Ağustos",
-            "Eylül",
-            "Ekim",
-            "Kasım",
-            "Aralık",
-        ];
+    @php
+        $months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
     @endphp
 
-<div class="content">
-    <div class="mb-9">
-        <ul class="nav nav-tabs" id="couponTabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="activeTab" data-toggle="tab" href="#activeCoupons">Aktif Kuponlar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="expiredTab" data-toggle="tab" href="#expiredCoupons">Süresi Geçmiş Kuponlar</a>
-            </li>
-        </ul>
+    <div class="content">
+        <div class="mb-9">
+            <div class="row g-3 mb-4">
+                <div class="col-auto">
+                    <h3 class="mb-0">Tanımlı Kuponlarım</h3>
+                    <span><b><small>Emlak Kulüp Üyelerine Tanımlı Kuponlarım</small></b></span>
+                </div>
+            </div>
+            <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                <div class="table-responsive scrollbar mx-n1 px-1">
+                    <ul class="nav nav-tabs" id="couponTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="activeTab" data-toggle="tab" href="#activeCoupons">Aktif
+                                Kuponlar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="expiredTab" data-toggle="tab" href="#expiredCoupons">Süresi Geçmiş
+                                Kuponlar</a>
+                        </li>
+                    </ul>
 
-        <div class="tab-content mt-2">
-            <div class="tab-pane fade show active" id="activeCoupons">
-                <!-- Aktif Kuponlar Tablosu -->
-                <div id="orderTableActive" data-list='{"valueNames":["order_no",...], "page":10, "pagination":true}'>
-                    <!-- ... -->
-                    <table class="table table-sm fs--1 mb-0">
-                        <!-- ... -->
-                        <tbody class="list" id="order-table-body">
-                            @foreach ($activeCoupons as $coupon)
+                    <div class="tab-content mt-2">
+                        <div class="tab-pane fade show active" id="activeCoupons">
+
+                            <div id="orderTableActive"
+                                data-list='{"valueNames":["order_no",...], "page":10, "pagination":true}'>
+
+                                <table class="table table-sm fs--1 mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">No</th>
+
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Kodu</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tipi</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tutarı</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi <br> Kazanç Tipi</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi <br> Kazanç Tutarı</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kalan Kullanım Sayısı</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Geçerlilik Tarihleri</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Tanımlanan Emlak <br> Kulüp Üyesi</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list" id="order-table-body">
+                                        @foreach ($activeCoupons as $key => $coupon)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td class="order_no">{{ $coupon->coupon_code }}</td>
+                                                <td class="order_no">
+                                                    {{ $coupon->discount_type == 1 ? 'Yüzdesel' : 'Miktar' }}</td>
+                                                <td class="order_no">
+                                                    {{ number_format($coupon->amount, 0, ',', '.') }}{{ $coupon->discount_type == 1 ? '%' : '₺' }}
+                                                </td>
+                                                <td class="order_no">
+                                                    {{ $coupon->estate_club_user_amount_type == 1 ? 'Satıştan Yüzde' : 'Miktar' }}
+                                                </td>
+                                                <td class="order_no">
+                                                    {{ number_format($coupon->estate_club_user_amount, 0, ',', '.') }}{{ $coupon->estate_club_user_amount_type == 1 ? '%' : '₺' }}
+                                                </td>
+                                                <td class="order_no">{{ $coupon->use_count }}</td>
+                                                @if ($coupon->time_type == 1)
+                                                    <td>Sınırsız</td>
+                                                @else
+                                                    <td class="order_no">
+                                                        {{ $months[date('m', strtotime($coupon->start_date)) - 1] . ', ' . date('d Y', strtotime($coupon->start_date)) . ' - ' . $months[date('m', strtotime($coupon->end_date)) - 1] . ', ' . date('d Y', strtotime($coupon->end_date)) }}
+                                                    </td>
+                                                @endif
+                                                <td class="order_no">{{ $coupon->user->name }}</td>
+                                                <td class="order_no">
+                                                    <a href="{{ route('admin.estate.create.coupon', $user->id) }}"
+                                                        class="badge badge-phoenix badge-phoenix-primary">Satışları
+                                                        Listele</a>
+                                                    <a href="{{ route('admin.estate.edit.coupon', $coupon->id) }}"
+                                                        class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
+                                                    <a href="{{ route('admin.estate.coupon.destroy', $coupon->id) }}"
+                                                        class="badge badge-phoenix badge-phoenix-danger">Sil</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="expiredCoupons">
+                            <!-- Süresi Geçmiş Kuponlar Tablosu -->
+                            <div id="orderTableExpired"
+                                data-list='{"valueNames":["order_no",...], "page":10, "pagination":true}'>
                                 <!-- ... -->
-                            @endforeach
-                        </tbody>
-                    </table>
+                                <table class="table table-sm fs--1 mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">No</th>
+
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Kodu</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tipi</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tutarı</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi <br> Kazanç Tipi</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi <br> Kazanç Tutarı</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kalan Kullanım Sayısı</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Geçerlilik Tarihleri</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Tanımlanan Emlak <br> Kulüp Üyesi</th>
+                                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list" id="order-table-body">
+                                        @foreach ($expiredCoupons as $key => $coupon)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+
+                                                <td class="order_no">{{ $coupon->coupon_code }}</td>
+                                                <td class="order_no">
+                                                    {{ $coupon->discount_type == 1 ? 'Yüzdesel' : 'Miktar' }}</td>
+                                                <td class="order_no">
+                                                    {{ number_format($coupon->amount, 0, ',', '.') }}{{ $coupon->discount_type == 1 ? '%' : '₺' }}
+                                                </td>
+                                                <td class="order_no">
+                                                    {{ $coupon->estate_club_user_amount_type == 1 ? 'Satıştan Yüzde' : 'Miktar' }}
+                                                </td>
+                                                <td class="order_no">
+                                                    {{ number_format($coupon->estate_club_user_amount, 0, ',', '.') }}{{ $coupon->estate_club_user_amount_type == 1 ? '%' : '₺' }}
+                                                </td>
+                                                <td class="order_no">{{ $coupon->use_count }}</td>
+                                                @if ($coupon->time_type == 1)
+                                                    <td>Sınırsız</td>
+                                                @else
+                                                    <td class="order_no">
+                                                        {{ $months[date('m', strtotime($coupon->start_date)) - 1] . ', ' . date('d Y', strtotime($coupon->start_date)) . ' - ' . $months[date('m', strtotime($coupon->end_date)) - 1] . ', ' . date('d Y', strtotime($coupon->end_date)) }}
+                                                    </td>
+                                                @endif
+                                                <td class="order_no">{{ $coupon->user->name }}</td>
+                                                <td class="order_no">
+                                                    <a href="{{ route('admin.estate.create.coupon', $user->id) }}"
+                                                        class="badge badge-phoenix badge-phoenix-primary">Satışları
+                                                        Listele</a>
+                                                    <a href="{{ route('admin.estate.edit.coupon', $coupon->id) }}"
+                                                        class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
+                                                    <a href="{{ route('admin.estate.coupon.destroy', $coupon->id) }}"
+                                                        class="badge badge-phoenix badge-phoenix-danger">Sil</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="expiredCoupons">
-                <!-- Süresi Geçmiş Kuponlar Tablosu -->
-                <div id="orderTableExpired" data-list='{"valueNames":["order_no",...], "page":10, "pagination":true}'>
-                    <!-- ... -->
-                    <table class="table table-sm fs--1 mb-0">
-                        <!-- ... -->
-                        <tbody class="list" id="order-table-body">
-                            @foreach ($expiredCoupons as $coupon)
-                                <!-- ... -->
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
     </div>
-</div>
 
-    <div class="content">
+    {{-- <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
@@ -89,7 +184,7 @@
                 <div
                     class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                     <div class="table-responsive scrollbar mx-n1 px-1">
-                        @if(session('success'))
+                        @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
                             </div>
@@ -100,11 +195,11 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Kodu</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tipi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tutarı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi Kazanç Tipi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi Kazanç Tutarı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi <br> Kazanç Tipi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi <br> Kazanç Tutarı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kalan Kullanım Sayısı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Geçerlilik Tarihleri</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Tanımlanan Emlak Kulüp Üyesi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Tanımlanan Emlak <br> Kulüp Üyesi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
                                 </tr>
                             </thead>
@@ -119,7 +214,7 @@
                                             <td class="order_no">{{$coupon->estate_club_user_amount_type == 1 ? "Satıştan Yüzde" : "Miktar"}}</td>
                                             <td class="order_no">{{number_format($coupon->estate_club_user_amount, 0, ',', '.')}}{{$coupon->estate_club_user_amount_type == 1 ? "%" : "₺"}}</td>
                                             <td class="order_no">{{$coupon->use_count}}</td>
-                                            @if($coupon->time_type == 1)
+                                            @if ($coupon->time_type == 1)
                                                 <td>Sınırsız</td>
                                             @else 
                                                 <td class="order_no">{{$months[date('m',strtotime($coupon->start_date)) - 1].', '.date('d Y',strtotime($coupon->start_date)).' - '.$months[date('m',strtotime($coupon->end_date)) - 1].', '.date('d Y',strtotime($coupon->end_date))}}</td>
@@ -143,54 +238,36 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script>
-        let table = new DataTable('#table', {
-            language: {
-                url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json',
-            },
-        });
-        $('#filterButton').click(function() {
-            $('#filterModal').modal('show');
-        });
-
-        $(document).ready(function() {
-            $('#filterForm').on('submit', function(e) {
-                e.preventDefault();
-
-                var formData = $(this).serialize();
-                console.log(formData);
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{ route('admin.users.index') }}", // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
-                    data: formData,
-                    success: function(data) {
-                        // Filtrelenmiş verileri tabloya ekleme işlemi
-                        $('.table-responsive').html(data);
-                        console.log(data);
-
-                        // DataTable yeniden yükleme (verileri güncellemek için)
-                        table.ajax.reload();
-
-                        $('#filterModal').modal('hide');
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
 
 @section('css')
     <style>
+        .nav-tabs .nav-link {
+            color: black !important;
+        }
+
+        .nav-tabs .nav-link.active,
+        .nav-tabs .nav-item.show .nav-link {
+            color: red !important;
+        }
+
+        .ml-2 {
+            margin-left: 20px;
+        }
+
+        .mr-2 {
+            margin-right: 20px;
+        }
+
         .order_status span {
             font-weight: 800
         }

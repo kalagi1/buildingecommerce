@@ -130,9 +130,26 @@ class EstateClubController extends Controller {
     }
 
     public function coupons() {
-        $coupons = Coupon::where( 'estate_id', auth()->guard()->user()->id )->get();
-        return view( 'admin.estate_club.coupons', compact( 'coupons' ) );
+        $activeCoupons = Coupon::where('estate_id', auth()->guard()->user()->id)
+            ->where(function ($query) {
+                $query->where('end_date', '>=', now())
+                    ->orWhere(function ($query) {
+                        $query->whereNull('end_date')
+                            ->whereNull('start_date')
+                            ->where('time_type', 1);
+                    });
+            })
+            ->get();
+    
+        $expiredCoupons = Coupon::where('estate_id', auth()->guard()->user()->id)
+            ->where('end_date', '<', now()) 
+            ->get();
+
+    
+        return view('admin.estate_club.coupons', compact('activeCoupons', 'expiredCoupons'));
     }
+    
+    
 
     public function editCoupon( $id ) {
         $coupon = Coupon::where( 'id', $id )->first();
