@@ -277,7 +277,7 @@
                     <div class="section-title">
                         <h2>Tüm Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
                             class="w-100">
                             Tümünü Gör
@@ -366,7 +366,7 @@
                     <div class="section-title">
                         <h2>Tamamlanan Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
                             class="w-100">
                             Tümünü Gör
@@ -456,7 +456,7 @@
                     <div class="section-title">
                         <h2>Devam Eden Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
                             class="w-100">
                             Tümünü Gör
@@ -545,7 +545,7 @@
                     <div class="section-title">
                         <h2>Topraktan Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
                             class="w-100">
                             Tümünü Gör
@@ -1441,7 +1441,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 12px;
+                font-size: 11px;
             }
         }
     </style>

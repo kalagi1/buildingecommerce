@@ -31,7 +31,7 @@
                                         @endif
                                     @endforeach
                                     @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        @if ($p->slug != 'bireysel-uyelik-sozlesmesi' && $p->slug != 'kurumsal-uyelik-sozlesmesi')
+                                        @if ($p->slug != 'bireysel-uyelik-sozlesmesi' && $p->slug != 'kurumsal-uyelik-sozlesmesi' && $p->slug != 'mesafeli-kiralama-sozlesmesi')
                                             <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
                                         @endif
                                     @endforeach

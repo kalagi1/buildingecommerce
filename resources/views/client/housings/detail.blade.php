@@ -145,7 +145,6 @@
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
-                    <div class="container">
                         <div class="headings-2 pt-0">
                             <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                                 @php
@@ -153,8 +152,8 @@
                                 @endphp
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar pb-3">
-                                        <strong style="color:black">İlan No: <span
-                                                style="color:#274abb;font-size: 14px !important;">{{ $housing->id + 2000000 }}</span>
+                                        <strong style="color: black;font-size: 11px !important;">İlan No: <span
+                                                style="color:#274abb;font-size: 11px !important;">{{ $housing->id + 2000000 }}</span>
                                         </strong>
                                         <h3>
                                             @if ($status && $status != '0' && $status != '1')
@@ -170,7 +169,6 @@
                                     </div>
                                 </div>
 
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -271,7 +269,7 @@
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
-                                    <div class="item carousel-item active" data-slide-number="0">
+                                    <div class="item carousel-item active" data-slide-number="1">
                                         <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
@@ -281,7 +279,7 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
-                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                        <div class="item carousel-item" data-slide-number="{{ $key  }}">
                                             <a href="{{ asset('housing_images/' . $image) }}"
                                                 data-lightbox="image-gallery">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
@@ -301,20 +299,19 @@
                                 <div class="listingDetailsSliderNav mt-3">
                                     {{-- Kapak Görseli --}}
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-0" data-slide-to="0"
+                                        <a id="carousel-selector-1" data-slide-to="1"
                                             data-target="#listingDetailsSlider">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
-                                                class="img-fluid altSlider" alt="listing-small">
+                                                class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
                                     </div>
-
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
                                         <div class="item" style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $imageKey + 1 }}"
-                                                data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
+                                            <a id="carousel-selector-{{ $imageKey }}"
+                                                data-slide-to="{{ $imageKey }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ asset('housing_images/' . $image) }}"
-                                                    class="img-fluid altSlider" alt="listing-small">
+                                                    class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
@@ -1086,7 +1083,7 @@
                                     <div class="checkboxes float-left mt-3 mb-3">
                                         <div class="filter-tags-wrap" id="individualFormCheck" style="display: block;">
                                             <input id="check-a" type="checkbox" name="check-a">
-                                            <label for="check-a" style="font-size: 12px;">
+                                            <label for="check-a" style="font-size: 11px;">
                                                 <a href="/sayfa/mesafeli-kiralama-sozlesmesi" target="_blank">
                                                     Mesafeli Kiralama Sözleşmesini
                                                 </a>

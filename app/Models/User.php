@@ -128,6 +128,16 @@ class User extends Authenticatable
         return $this->hasMany(Brand::class, 'user_id');
     }
 
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'user_id');
+    }
+
+    public function shares()
+    {
+        return $this->hasMany(SharerPrice::class, 'user_id');
+    }
+
     public function banners()
     {
         return $this->hasMany(StoreBanner::class, 'user_id')->orderBy('order', 'asc');

@@ -40405,7 +40405,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
     list-style: none;
 }
@@ -40449,7 +40449,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .finish-text p{
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     margin: 20px 0;
 }
@@ -40691,7 +40691,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .photo-area label span{
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
     display: block;
     cursor: pointer;
@@ -40726,7 +40726,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .cover-photo-area label span{
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
     display: block;
     cursor: pointer;
@@ -40761,7 +40761,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .cover-document-area label span{
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
     display: block;
     cursor: pointer;

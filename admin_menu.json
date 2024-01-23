@@ -1,4 +1,21 @@
-[
+[ {
+    "id": "EmlakClubUsers",
+    "label": "Emlak Kulüp",
+    "icon": "users",
+    "text": "Üyelere Kupon Tanımla",
+    "key": "EmlakClubUsers",
+    "url": "admin.estate.club.users",
+    "activePath": "admin/estate_club_users"
+},
+{
+    "id": "EmlakClubGift",
+    "label": "Emlak Kulüp",
+    "icon": "gift",
+    "text": "Kuponlarım",
+    "key": "EmlakClubGift",
+    "url": "admin.estate.coupons",
+    "activePath": "admin/coupons"
+},
     {
         "id": "home",
         "label": "EMLAK SEPETTE",

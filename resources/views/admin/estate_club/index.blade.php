@@ -1,35 +1,17 @@
-@extends('institutional.layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
-    @php 
-        $months = [
-            "Ocak",
-            "Şubat",
-            "Mart",
-            "Nisan",
-            "Mayıs",
-            "Haziran",
-            "Temmuz",
-            "Ağustos",
-            "Eylül",
-            "Ekim",
-            "Kasım",
-            "Aralık",
-        ];
-    @endphp
-
     <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h3 class="mb-0">Tanımlı Kuponlarım</h3>
-                    <span><b><small>Emlak Kulüp Üyelerine Tanımlı Kuponlarım</small></b></span>
+                    <h2 class="mb-0">Emlak Kulüp Üyeleri</h2>
                 </div>
             </div>
             <div id="orderTable"
                 data-list='{"valueNames":["order_no","order_image","order_project","order_amount","order_date","order_status","order_user","order_seller","order_details"],"page":10,"pagination":true}'>
                 <div class="mb-4">
-                    <div class="row g-3">
+                    <div class="row g-3" style="justify-content: space-between">
                         <div class="col-auto">
                             <div class="search-box">
                                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
@@ -39,57 +21,50 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="col-auto">
+                            <a href="{{route('admin.estate.create.coupon.all.users')}}"
+                            style="height: 100%;
+                            margin: 0 auto;
+                            text-align: center;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;" class="badge badge-phoenix fs-10 badge-phoenix-info">Çoklu Kupon Tanımla</a>
+
+                        </div>
+                        
                     </div>
                 </div>
                 <div
                     class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                     <div class="table-responsive scrollbar mx-n1 px-1">
-                        @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         <table class="table table-sm fs--1 mb-0">
                             <thead>
                                 <tr>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Kodu</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tipi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak İndirim Tutarı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi Kazanç Tipi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Emlak Kulüp Üyesi Kazanç Tutarı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kalan Kullanım Sayısı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Kupon Geçerlilik Tarihleri</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Tanımlanan Emlak Kulüp Üyesi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">İşlemler</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">Üye numarası</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_name">İsim Soyisim</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_collection_count">Koleksiyon Sayısı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_sales_count">Satış Sayısı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">Katılma Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_ok">İşlemler</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
 
-                                @if ($coupons->count() > 0)
-                                    @foreach ($coupons as $coupon)
+                                @if ($estateClubUsers->count() > 0)
+                                    @foreach ($estateClubUsers as $user)
                                         <tr>
-                                            <td class="order_no">{{$coupon->coupon_code}}</td>
-                                            <td class="order_no">{{$coupon->discount_type == 1 ? "Yüzdesel" : "Miktar"}}</td>
-                                            <td class="order_no">{{number_format($coupon->amount, 0, ',', '.')}}{{$coupon->discount_type == 1 ? "%" : "₺"}}</td>
-                                            <td class="order_no">{{$coupon->estate_club_user_amount_type == 1 ? "Satıştan Yüzde" : "Miktar"}}</td>
-                                            <td class="order_no">{{number_format($coupon->estate_club_user_amount, 0, ',', '.')}}{{$coupon->estate_club_user_amount_type == 1 ? "%" : "₺"}}</td>
-                                            <td class="order_no">{{$coupon->use_count}}</td>
-                                            @if($coupon->time_type == 1)
-                                                <td>Sınırsız</td>
-                                            @else 
-                                                <td class="order_no">{{$months[date('m',strtotime($coupon->start_date)) - 1].', '.date('d Y',strtotime($coupon->start_date)).' - '.$months[date('m',strtotime($coupon->end_date)) - 1].', '.date('d Y',strtotime($coupon->end_date))}}</td>
-                                            @endif
-                                            <td class="order_no">{{$coupon->user->name}}</td>
-                                            <td class="order_no">
-                                                <a href="{{route('institutional.estate.create.coupon',$user->id)}}" class="badge badge-phoenix badge-phoenix-primary">Satışları Listele</a>
-                                                <a href="{{route('institutional.estate.edit.coupon',$coupon->id)}}" class="badge badge-phoenix badge-phoenix-primary">Düzenle</a>
-                                                <a href="{{route('institutional.estate.coupon.destroy',$coupon->id)}}" class="badge badge-phoenix badge-phoenix-danger">Sil</a>
-                                            </td>
+                                            <td class="order_no">{{1000000 + $user->id}}</td>
+                                            <td class="order_name">{{$user->name}}</td>
+                                            <td class="order_collection_count">{{count($user->collections)}}</td>
+                                            <td class="order_sales_count">{{count($user->shares)}}</td>
+                                        
+                                            <td class="order_date">{{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
+                                            <td class="order_ok"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="badge badge-phoenix fs-10 badge-phoenix-success">Üyeye Kupon Tanımla</a></td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="9" class="text-center">Kupon Bulunamadı</td>
+                                        <td colspan="9" class="text-center">Sipariş Bulunamadı</td>
                                     </tr>
                                 @endif
                             </tbody>

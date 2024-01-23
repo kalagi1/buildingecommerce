@@ -169,7 +169,7 @@
 
                             <div>
                                 <a id="clear-filters"
-                                    style="font-size: 12px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
+                                    style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
                                 <div class="trip-search">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header"
                                         style="margin-bottom: 0 !important">
@@ -358,7 +358,7 @@
 
                             <button type="button" class="btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="    border: 1px solid #CCC;
-                            font-size: 12px;
+                            font-size: 11px;
                             position: fixed;
                             bottom: 10px;
                             width: 255px;
@@ -792,8 +792,8 @@
                                                             ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
                                                                                                                     </ul>
 
-                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between">
-                                                            <li style="font-size: 15px; font-weight: 700; flex: 1;height:35px" class="priceFont">
+                                                        <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: space-between;margin-top:20px !important">
+                                                            <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap" class="priceFont">
                                                                 ${res.step2_slug !== "gunluk-kiralik" ?
                                                                     res.offSale || (res.action === 'payment_await' || res.action === 'sold') ? " "
                                                                     : numberFormat(res.housing_type.price) + " ₺"
@@ -812,13 +812,13 @@
                                                                     res.action === 'payment_await' ?
                                                                         `<button
                                                                                                                                                                 class="btn second-btn " 
-                                                                                                                                                                style="background: orange !important;width:100%;color:White">Rezerve Edildi
+                                                                                                                                                                style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
                                                                                                                                                             </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
                                                                                                                                                                     class="btn second-btn " 
-                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
                                                                                                                                                                 </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
@@ -1129,7 +1129,7 @@
     <style>
         #submit-filters {
             border: 1px solid #CCC;
-            font-size: 12px;
+            font-size: 11px;
             position: fixed;
             bottom: 10px;
             width: 255px;
@@ -1285,7 +1285,7 @@
 
             .priceFont {
                 font-weight: 600;
-                font-size: 12px;
+                font-size: 11px;
             }
         }
 

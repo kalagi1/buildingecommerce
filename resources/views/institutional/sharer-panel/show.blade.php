@@ -41,7 +41,7 @@
                                             <br>
                                             @if ($item['item_type'] == 1)
                                                 {!! $item['room_order'] . " No'lu Daire <br>" !!}
-                                            @endif <span style="font-size: 12px;font-weight:700">
+                                            @endif <span style="font-size: 11px;font-weight:700">
                                                 {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
                                                 <br>
                                             </span>
@@ -230,7 +230,7 @@
                                     <td>
                                         {{ $items["item_type"]->item_type == 1 ? $items["item_type"]->project_values['advertise_title[]'] : $items["item_type"]->housing->title }}
                                         <br>
-                                        <span style="font-size: 12px;font-weight:700">
+                                        <span style="font-size: 11px;font-weight:700">
                                             {{ $items["item_type"]->item_type == 1 ? $items["item_type"]->project->city->title . ' / ' . $items["item_type"]->project->county->ilce_title . ' / ' . $items["item_type"]->project->neighbourhood->mahalle_title  : $items["item_type"]->housing->city->title . ' / ' . $items["item_type"]->housing->county->title . ' / ' . $items["item_type"]->housing->neighborhood->mahalle_title }}
                                             <br>
                                         </span>

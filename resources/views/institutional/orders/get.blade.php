@@ -198,7 +198,7 @@
             padding: 8px;
             margin-bottom: 20px;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             transition: all .15s ease;
         }
 
@@ -313,14 +313,14 @@
             padding: 15px 20px;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 11px;
             color: #2a2a2a;
             font-weight: bold;
             margin-bottom: 20px;
         }
 
         #orders-container .header-bar .order-search-box-warn {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #d21313;
             margin: 5px;
@@ -352,7 +352,7 @@
 
         #orders-container .header-bar .order-search-box-container .osb-give-up span {
             position: absolute;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #333333;
             left: 15px;
@@ -378,7 +378,7 @@
             right: 9px;
             top: 9px;
             color: #f27a1a;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
         }
 
@@ -508,7 +508,7 @@
             flex-direction: column;
             width: 80%;
             color: #333;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         #orders-container .order .order-item .order-item-status .title {
@@ -527,7 +527,7 @@
 
         #orders-container .order .order-item .order-item-status .title .shipment-info {
             color: #666;
-            font-size: 12px;
+            font-size: 11px;
             margin-left: 10px;
             line-height: 18px;
             text-decoration: underline;
@@ -553,7 +553,7 @@
 
         #orders-container .order .order-item .order-item-status .description {
             margin-top: 5px;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         #orders-container .order .order-item .order-item-status .description .cargo-info {
@@ -671,7 +671,7 @@
             color: #666;
             width: 25px;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         #orders-container .order .order-item .order-item-easy-return,
@@ -786,7 +786,7 @@
         }
 
         #orders-container .orders-error {
-            font-size: 12px;
+            font-size: 11px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -957,7 +957,7 @@
             margin: 20px;
             border-radius: 6px;
             background-color: #f27a1a;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
 
@@ -992,7 +992,7 @@
 
         #orders-container .order-search-info {
             margin: 0 0 15px 20px;
-            font-size: 12px;
+            font-size: 11px;
             color: #2a2a2a;
         }
 
@@ -1072,7 +1072,7 @@
         }
 
         #orders-container .orders-collection-point-description .delivery-point-desc {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 400;
             letter-spacing: -0.1px;
             color: #333333;
@@ -1087,7 +1087,7 @@
             height: 24px;
             background-color: #FEF4EC;
             color: #F27A1A;
-            font-size: 12px;
+            font-size: 11px;
             font-family: source_sans_prosemibold, sans-serif;
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
@@ -1129,7 +1129,7 @@
         }
 
         #orders-container .collection-point-information-banner .collection-point-information {
-            font-size: 12px;
+            font-size: 11px;
             color: #333333;
         }
 
@@ -1164,7 +1164,7 @@
             height: 44px;
             margin: 20px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
 
@@ -1228,7 +1228,7 @@
             color: #333333;
             font-family: source_sans_prosemibold, sans-serif;
             -webkit-font-smoothing: antialiased;
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
             transition: all 0.4s ease;
             margin-right: 10px;
@@ -1326,7 +1326,7 @@
         }
 
         #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details {
-            font-size: 12px;
+            font-size: 11px;
         }
 
         #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details span {
@@ -1395,7 +1395,7 @@
 
         #orders-container .gd-share-description-item .gd-sdi-description-container p {
             margin-top: 6px;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         #orders-container .gd-copy-link-box {
@@ -1422,7 +1422,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 12px;
+            font-size: 11px;
             flex-shrink: 0;
         }
 
@@ -1442,7 +1442,7 @@
         }
 
         #orders-container .gd-copy-link-box .gd-cp-lb-container button span {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             margin-left: 5px;
         }
@@ -1539,7 +1539,7 @@
         }
 
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>i {
-            font-size: 12px;
+            font-size: 11px;
             margin-right: 6px;
         }
 
@@ -1550,7 +1550,7 @@
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>p {
             font-family: source_sans_proregular, sans-serif;
             font-style: normal;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 16px;
             color: #1C1C1C;
         }
@@ -1578,7 +1578,7 @@
             font-family: source_sans_proregular, sans-serif;
             font-weight: 600;
             -webkit-font-smoothing: antialiased;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 16px;
             color: #ffffff;
         }

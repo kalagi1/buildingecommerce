@@ -20,7 +20,7 @@
                         <td>{{ 1000000 + $project->id }}</td>
                         <td>
                             {{ $project->project_title }}<br>
-                            <span style="color: black; font-size: 12px !important; font-weight: 700">
+                            <span style="color: black; font-size: 11px !important; font-weight: 700">
                                 {{ $project->city->title }} / 
                                 {{ $project->county->ilce_title ?? '' }} / 
                                 {{ $project->neighbourhood->mahalle_title ?? '' }}

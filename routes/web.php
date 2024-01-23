@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\DopingOrderController;
 use App\Http\Controllers\Admin\EmailTemplateController;
+use App\Http\Controllers\Admin\EstateClubController as AdminEstateClubController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\HousingController;
@@ -207,6 +208,16 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::get('/estate_club_users', [AdminEstateClubController::class,"index"])->name('estate.club.users');
+    Route::get('/coupons', [AdminEstateClubController::class,"coupons"])->name('estate.coupons');
+    Route::get('/create_coupon/{user_id}', [AdminEstateClubController::class,"createCoupon"])->name('estate.create.coupon');
+    Route::get('/create_coupon', [AdminEstateClubController::class,"createCouponAllUsers"])->name('estate.create.coupon.all.users');
+    Route::post('/create_coupon/{user_id}', [AdminEstateClubController::class,"createCouponStore"])->name('estate.create.coupon.store');
+    Route::post('/create_coupon', [AdminEstateClubController::class,"createCouponStoreAllUsers"])->name('estate.create.coupon.store.all.users');
+    Route::get('/edit_coupon/{coupon_id}', [AdminEstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
+    Route::get('/coupon_destroy/{user_id}', [AdminEstateClubController::class,"destroy"])->name('estate.coupon.destroy');
+    Route::put('/edit_coupon/{coupon_id}', [AdminEstateClubController::class,"createCouponEdit"])->name('estate.create.coupon.edit');
+
     Route::get('/real_estates',[AdminRealEstateController::class,"index"])->name('real.estates');
     Route::get('/real_estate/{id}',[AdminRealEstateController::class,"detail"])->name('real.estate.detail');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');

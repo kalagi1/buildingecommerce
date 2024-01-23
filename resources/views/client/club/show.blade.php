@@ -62,7 +62,7 @@
                         <nav class="navbar" style="padding: 0 !important">
                             <div class="navbar-items">
                                 <a class="navbar-item active" href="{{ route('club.dashboard', Str::slug($store->name)) }}">
-                                    <b style="font-weight:700 !important;display:flex;align-items:baseline">
+                                    <b style=";display:flex;align-items:baseline">
                                         <img style="height: 21px;" class="lazy entered loading"
                                             src="http://127.0.0.1:8000/yeniler_2.svg" alt="Yeniler"
                                             data-ll-status="loading">
@@ -113,7 +113,7 @@
                                                     @if ($item['item_type'] == 1)
                                                         {!! $item['room_order'] . " No'lu Daire <br>" !!}
                                                     @endif <span
-                                                        style="font-size: 12px;font-weight:700">
+                                                        style="font-size: 11px;font-weight:700">
                                                         {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
                                                         <br>
                                                     </span>

@@ -819,7 +819,7 @@ return $a;
 
         .priceFont {
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
         }
     }
 </style>

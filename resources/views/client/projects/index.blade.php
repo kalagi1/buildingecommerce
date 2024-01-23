@@ -141,8 +141,8 @@
 
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar">
-                                    <strong style="color: black">İlan No: <span
-                                            style="color: #274abb;font-size: 14px !important;">{{ $project->id + 10000000 }}</span></strong>
+                                    <strong style="color: black;font-size: 11px !important;">İlan No: <span
+                                            style="color: #274abb;">{{ $project->id + 10000000 }}</span></strong>
                                     <h3>{{ $project->project_title }}</h3>
                                 </div>
                             </div>
@@ -156,13 +156,12 @@
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                             <div class="homes-tag button alt featured mobileTagProject">
-                                <a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
-                                    style="color:White;">{{ $project->user->name }}</a>
+                                <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
                             </div>
                             <div class="carousel-inner">
 
                                 {{-- Kapak Görseli --}}
-                                <div class="item carousel-item active" data-slide-number="-1">
+                                <div class="item carousel-item active" data-slide-number="0">
                                     <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                         data-lightbox="image-gallery">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
@@ -172,7 +171,7 @@
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -180,6 +179,7 @@
                                         </a>
                                     </div>
                                 @endforeach
+
 
                                 {{-- Carousel Kontrolleri --}}
                                 <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
@@ -190,9 +190,9 @@
 
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
-                                {{-- Kapak Görseli --}}
                                 <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector--1" data-slide-to="-1" data-target="#listingDetailsSlider">
+                                    <a id="carousel-selector-0" data-slide-to="0"
+                                        data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
@@ -201,8 +201,8 @@
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}"
-                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key + 1 }}"
+                                            data-slide-to="{{ $key + 1}}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -795,7 +795,7 @@
                                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
-                                                                                                                    style="height: 120px !important;object-fit:cover">
+                                                                                                                    style="height: 100px !important;object-fit:cover">
                                                                                                                 @if ($projectDiscountAmount)
                                                                                                                     <div
                                                                                                                         style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
@@ -913,7 +913,7 @@
                                                                                                                                             ₺
                                                                                                                                         </h6>
                                                                                                                                         <h6
-                                                                                                                                            style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                                            style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                                             ₺
 
@@ -934,7 +934,7 @@
                                                                                                                                         ₺
                                                                                                                                     </h6>
                                                                                                                                     <h6
-                                                                                                                                        style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                                        style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                                         ₺
 
@@ -973,7 +973,7 @@
                                                                                                                         @if ($sold->status != '1' && $sold->status != '0')
                                                                                                                             @if ($projectDiscountAmount)
                                                                                                                                 <h6
-                                                                                                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
                                                                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                                     ₺
                                                                                                                                 </h6>
@@ -993,7 +993,7 @@
                                                                                                                     @else
                                                                                                                         @if ($projectDiscountAmount)
                                                                                                                             <h6
-                                                                                                                                style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                                                style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
                                                                                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                                 ₺
                                                                                                                             </h6>
@@ -1018,7 +1018,7 @@
                                                                                                     </div>
 
                                                                                                     <div class="col-md-3 mobile-hidden"
-                                                                                                        style="height: 120px;padding:0">
+                                                                                                        style="height: 100px;padding:0">
                                                                                                         <div class="homes-button"
                                                                                                             style="width:100%;height:100%">
                                                                                                             <button
@@ -1238,7 +1238,7 @@
                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                             ₺</h6>
                                                                                                         <h6
-                                                                                                            style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                            style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                             ₺
 
@@ -1258,7 +1258,7 @@
                                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                         ₺</h6>
                                                                                                     <h6
-                                                                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                         ₺
 
@@ -1436,7 +1436,7 @@
                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
-                                                                                            style="height: 120px !important;object-fit:cover">
+                                                                                            style="height: 100px !important;object-fit:cover">
                                                                                         @if ($projectDiscountAmount)
                                                                                             <div
                                                                                                 style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
@@ -1553,7 +1553,7 @@
                                                                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                                 ₺</h6>
                                                                                                             <h6
-                                                                                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                                 ₺
 
@@ -1573,7 +1573,7 @@
                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                                             ₺</h6>
                                                                                                         <h6
-                                                                                                            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                                            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                                             {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                             ₺
 
@@ -1609,7 +1609,7 @@
                                                                                             @if ($sold->status != '1' && $sold->status != '0')
                                                                                                 @if ($projectDiscountAmount)
                                                                                                     <h6
-                                                                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
                                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                         ₺
                                                                                                     </h6>
@@ -1628,7 +1628,7 @@
                                                                                         @else
                                                                                             @if ($projectDiscountAmount)
                                                                                                 <h6
-                                                                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;margin-right:5px">
+                                                                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
                                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                                     ₺
                                                                                                 </h6>
@@ -1652,7 +1652,7 @@
                                                                         </div>
 
                                                                         <div class="col-md-3 mobile-hidden"
-                                                                            style="height: 120px;padding:0">
+                                                                            style="height: 100px;padding:0">
                                                                             <div class="homes-button"
                                                                                 style="width:100%;height:100%">
                                                                                 <button
@@ -1834,7 +1834,7 @@
                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                         ₺</h6>
                                                                                     <h6
-                                                                                        style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                        style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                         {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                         ₺
 
@@ -1854,7 +1854,7 @@
                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount, 0, ',', '.') }}
                                                                                     ₺</h6>
                                                                                 <h6
-                                                                                    style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                    style="color: #e54242  !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                     {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                                                     ₺
 
@@ -2061,7 +2061,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 120px !important;object-fit:cover">`
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
                             var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
                                 lastBlockHousingCount);
                             if (checkOfferX) {
@@ -2166,7 +2166,7 @@
                                             var newPrice = res[i]["price[]"] - checkOfferX[
                                                 'discount_amount'];
                                             html += `
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                         ${priceFormat(res[i]["price[]"])} ₺
                                                                                     </h6>
                                                                                     <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
@@ -2189,7 +2189,7 @@
                                     if (checkOfferX) {
                                         var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
                                         html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                     ${priceFormat(res[i]["price[]"])} ₺
                                                                                 </h6>
                                                                                 <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
@@ -2221,7 +2221,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                                <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
                                                         <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
@@ -2481,7 +2481,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 120px !important;object-fit:cover">`
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
                         var checkOfferX = checkOffer(response.offers, startIndex + 1 + i + lastBlockHousingCount);
                         if (checkOfferX) {
                             var newPercent = Math.round((checkOfferX['discount_amount'] / res[i]["price[]"]) * 100);
@@ -2582,7 +2582,7 @@
                                     if (checkOfferX) {
                                         var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
                                         html += `
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                         ${priceFormat(res[i]["price[]"])} ₺
                                                                                     </h6>
                                                                                     <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
@@ -2605,7 +2605,7 @@
                                 if (checkOfferX) {
                                     var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
                                     html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 12px;text-decoration:line-through;">
+                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                     ${priceFormat(res[i]["price[]"])} ₺
                                                                                 </h6>
                                                                                 <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
@@ -2637,7 +2637,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                                <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
                                                         <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
@@ -2707,7 +2707,6 @@
     <style>
         .trStyle tr {
             width: 33%;
-            border: 1px solid #dee2e6;
         }
 
         .trStyle,
@@ -3001,7 +3000,7 @@
         }
 
         .classifiedInfo {
-            font-size: 12px;
+            font-size: 11px;
             color: #039;
             padding: 3px 10px 10px 0;
         }

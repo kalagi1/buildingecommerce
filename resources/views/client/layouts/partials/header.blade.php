@@ -329,7 +329,7 @@
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -344,7 +344,7 @@
                             </div>
 
                         </div>
-                        <div class="center position-relative">
+                        <div class="center position-relative searchInput">
                             <form action="{{ route('search.results') }}" method="GET" id="search-form">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
@@ -650,7 +650,7 @@
 
                     </div>
                 </div>
-                <div class="header-bottom d-xl-block d-none d-lg-block">
+                <div class="header-bottom d-xl-block d-none d-lg-block mb-0">
                     <nav id="navigation" class="style-1">
                         <ul id="responsive">
                             @foreach ($menu as $menuItem)
@@ -682,9 +682,12 @@
                             @endforeach
                             <li>
                                 <a href="https://emlakkulup.emlaksepette.com/" target="_blank">
-                                    <b style="font-weight:700 !important;display:flex">
-                                        <img style="height: 21px;" class="lazy entered loading"
-                                            src="{{ url('yeniler_2.svg') }}" alt="Yeniler"
+                                    <b style="font-weight:800 !important;display:flex">
+                                        <img style="height: 32px;
+                                        position: absolute;
+                                        left: -9px;
+                                        top: -3px;" class="lazy entered loading"
+                                            src="{{ url('emlakkulüplogo.png') }}" alt="Yeniler"
                                             data-ll-status="loading">
                                         EMLAK KULÜP</b>
                                 </a>

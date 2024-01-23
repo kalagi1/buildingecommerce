@@ -85,7 +85,7 @@
         }
     @endphp
 
-    <section class="recently portfolio bg-white homepage-5">
+    <section class="recently portfolio bg-white homepage-5" style="padding-top: 1.5rem 0 !important;">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
@@ -104,7 +104,7 @@
     </section>
   
 
-    <section class="featured  home18 bg-white">
+    <section class="featured  home18 bg-white" style="height: 100px">
         <div class="container">
             <div class="portfolio ">
                 <div class="slick-lancers">
@@ -238,7 +238,7 @@
                 <div class="section-title">
                     <h2>Tamamlanan Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -340,7 +340,7 @@
                 <div class="section-title">
                     <h2>Devam Eden Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -428,7 +428,7 @@
                 <div class="section-title">
                     <h2>Topraktan Projeler</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
@@ -516,7 +516,7 @@
                 <div class="section-title">
                     <h2>Emlak İlanları</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 12px;">
+                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
                     <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;" class="w-100">
                         Tümünü Gör
                     </button>
