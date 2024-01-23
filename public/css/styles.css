@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     font-weight: 400;
     color: #666;
@@ -24,7 +24,7 @@ p {
 }
 
 h1 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1.2rem;
@@ -32,7 +32,7 @@ h1 {
 }
 
 h2 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #222;
     font-size: 2rem;
     font-weight: 800;
@@ -45,7 +45,7 @@ h2 span {
 }
 
 h3 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     color: #333;
     font-weight: 600;
@@ -54,7 +54,7 @@ h3 {
     font-size:11px !important;
 }
 h4 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 10px;
     color: #333;
     font-weight: 600;
@@ -1049,7 +1049,7 @@ img {
 }
 
 .tp-caption.font-p {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 400;
 }
@@ -5018,7 +5018,7 @@ section.counterup {
 }
 
 .counterup .count-me h3 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-transform: capitalize;
     color: #121B22;
     font-size: 11px;
@@ -5819,7 +5819,7 @@ element.style {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 11px;
 }
@@ -6145,7 +6145,7 @@ element.style {
     font-size: 11px;
     color: #121B22;
     text-transform: uppercase;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .login-and-register-form .main-register {
@@ -8178,7 +8178,7 @@ html input[disabled] {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 11px;
 }
@@ -9126,7 +9126,7 @@ a.button {
     padding-left: 28px;
     margin-right: 20px;
     margin-bottom: 0;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #666;
     font-size: 14.5px;
 }
@@ -11848,7 +11848,7 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 11px;
 }
@@ -13287,7 +13287,7 @@ section.visited-cities {
     color: #fff;
     font-size: 45px;
     line-height: 66px;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     margin-bottom: 30px;
     text-transform: capitalize;
@@ -14287,7 +14287,7 @@ form label.error {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 11px;
 }
@@ -14336,7 +14336,7 @@ form label.error {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 11px;
 }
@@ -14449,7 +14449,7 @@ select {
     border-radius: 3px;
     font-weight: 400;
     color: #717171;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: #f8f8f8;
 }
 
@@ -16562,7 +16562,7 @@ a.button {
 .inner-pages .blog .main-search-field h5,
 .inner-pages .blog .main-search-field-2 h5,
 .inner-pages .blog .section-heading .media .media-body h5 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     text-transform: capitalize;
 }
@@ -16808,7 +16808,7 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 11px;
 }
@@ -16842,7 +16842,7 @@ a.button {
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #757575;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 15px;
 }
@@ -17012,7 +17012,7 @@ a.button {
     padding-left: 28px;
     margin-right: 20px;
     margin-bottom: 0;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #666;
     font-size: 14.5px;
 }
@@ -18170,7 +18170,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .nav-tabs .nav-link {
     font-size: 11px;
     width: auto;
-    font-weight: 700;
     white-space: nowrap;
 }
 
@@ -18180,7 +18179,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .wprt-image-video.w50.pro h5 {
     color: #000;
     font-size: 14px;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -18472,14 +18471,14 @@ span {
 
 .inner-pages .blog .sorting-options span {
     color: #121B22;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 .inner-pages .blog .sorting-options h5 {
     color: black;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     margin-top: 0px;
 }
@@ -18502,7 +18501,7 @@ span {
 .inner-pages .carousel h5 {
     color: #000;
     font-size: 11px;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -21792,7 +21791,7 @@ header.payment-card-header .pull-right img {
     color: #666;
     background: #fff;
     font-weight: 400;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .inner-pages .services .top-headings-section.se h2 {
@@ -21982,7 +21981,7 @@ section.pricing-table {
 }
 
 .plan-name {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
     display: block;
     font-size: 24px;
@@ -22036,7 +22035,7 @@ section.pricing-table {
 }
 
 .plan-name small {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: block;
     font-size: 11px;
     font-weight: 600;
@@ -23159,7 +23158,7 @@ a.btn_1 {
 
 .inner-pages .info-img h6 {
     color: #333;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 400;
 }
@@ -23556,7 +23555,7 @@ a.btn_1 {
 }
 
 .inner-pages .info-img h6 {
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: #222;
     font-weight: 400;
@@ -24983,7 +24982,7 @@ h6 {
     border: none;
     font-weight: 400;
     color: #000;
-    font-family: "SHBGroteskLegacy",Roboto,sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: white;
 }
 
