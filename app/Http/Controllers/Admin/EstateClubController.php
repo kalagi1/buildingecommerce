@@ -136,7 +136,50 @@ class EstateClubController extends Controller {
 
         return redirect()->route( 'admin.estate.coupons' );
     }
+    public function createCouponEdit( Request $request , $coupon_id) {
+        $coupon = Coupon::findOrFail($coupon_id);
 
+         $coupon->update([
+            'coupon_code' => $request->input( 'code' ),
+            'use_count' => $request->input( 'use_count' ),
+            'discount_type' => $request->input( 'discount_type' ),
+            'amount' => str_replace( '.', '', $request->input( 'buyer_amount' ) ),
+            'estate_club_user_amount_type' => $request->input( 'estate_club_user_amount_type' ),
+            'estate_club_user_amount' => str_replace( '.', '', $request->input( 'estate_club_user_amount' ) ),
+            'time_type' => $request->input( 'date_fix' ),
+            'start_date' => $request->input( 'start_date' ),
+            'end_date' => $request->input( 'end_date' ),
+            'select_projects_type' => $request->input( 'select_project_check' ),
+            'select_housings_type' => $request->input( 'select_housing_check' ),
+            'user_id' => $coupon->user_id,
+            'estate_id' => auth()->guard()->user()->id,
+         ]);
+
+          CouponItem::where("coupon_id", $coupon->id)->delete();
+
+
+            if ($request->input('select_project_check') == 2) {
+                for ($i = 0; $i < count($request->input('projects')); $i++) {
+                    CouponItem::create([
+                        'item_id' => $request->input('projects')[$i],
+                        'item_type' => 1,
+                        'coupon_id' => $coupon->id,
+                    ]);
+                }
+            }
+
+            if ($request->input('select_housing_check') == 2) {
+                for ($i = 0; $i < count($request->input('housings')); $i++) {
+                    CouponItem::create([
+                        'item_id' => $request->input('housings')[$i],
+                        'item_type' => 2,
+                        'coupon_id' => $coupon->id,
+                    ]);
+                }
+            }
+
+            return redirect()->back();
+    }
     
     public function createCouponStoreAllUsers( Request $request ) {
         $userIds = $request->input('users');
@@ -262,13 +305,13 @@ class EstateClubController extends Controller {
         return view('admin.estate_club.coupons', compact('activeCoupons', 'expiredCoupons'));
     }
     
-    
+  
 
     public function editCoupon( $id ) {
         $coupon = Coupon::where( 'id', $id )->with("housings","projects")->first();
         $projects = Project::where( 'status', 1 )->get();
         $housings = Housing::where( 'status', 1 )->get();
-        $estateClubUser = User::wherE( 'type', 21 )->where( 'status', 1 )->where( 'id', $coupon->user_id )->first();
+        $estateClubUser = User::where( 'type', 21 )->where( 'status', 1 )->where( 'id', $coupon->user_id )->first();
 
         return view( 'admin.estate_club.edit_coupon', compact( 'coupon', 'estateClubUser', 'projects', 'housings' ) );
     }

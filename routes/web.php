@@ -216,7 +216,8 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::post('/create_coupon', [AdminEstateClubController::class,"createCouponStoreAllUsers"])->name('estate.create.coupon.store.all.users');
     Route::get('/edit_coupon/{coupon_id}', [AdminEstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
     Route::get('/coupon_destroy/{user_id}', [AdminEstateClubController::class,"destroy"])->name('estate.coupon.destroy');
-    
+    Route::put('/edit_coupon/{coupon_id}', [AdminEstateClubController::class,"createCouponEdit"])->name('estate.create.coupon.edit');
+
     Route::get('/real_estates',[AdminRealEstateController::class,"index"])->name('real.estates');
     Route::get('/real_estate/{id}',[AdminRealEstateController::class,"detail"])->name('real.estate.detail');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');

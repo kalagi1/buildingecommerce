@@ -28,9 +28,10 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('admin.estate.create.coupon.store', $estateClubUser->id) }}"
+                                        action="{{ route('admin.estate.create.coupon.edit', $coupon->id) }}"
                                         enctype="multipart/form-data">
                                         @csrf
+                                        @method('PUT')
                                         <div class="col-md-6">
                                             <label class="form-label" for="code">Kupon Kodu</label>
                                             <input name="code" class="form-control" id="code" type="text"
@@ -159,11 +160,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="@if ($coupon->select_projects_type != 2) d-none @endif select_projects_area mt-3">
+                                            <div
+                                                class="@if ($coupon->select_projects_type != 2) d-none @endif select_projects_area mt-3">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <select name="projects[]" id="organizerSingle" data-choices="data-choices"
-                                                            data-options='{"removeItemButton":true,"placeholder":true}' class="form-control" multiple id="">
+                                                        <select name="projects[]" id="organizerSingle"
+                                                            data-choices="data-choices"
+                                                            data-options='{"removeItemButton":true,"placeholder":true}'
+                                                            class="form-control" multiple id="">
                                                             <option value="">Projeleri Seçiniz</option>
                                                             @foreach ($projects as $project)
                                                                 <option value="{{ $project->id }}"
@@ -175,7 +179,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-md-6">
                                             <div class="col-md-12">
@@ -208,11 +212,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="@if ($coupon->select_housings_type != 2) d-none @endif select_housings_area mt-3">
+                                            <div
+                                                class="@if ($coupon->select_housings_type != 2) d-none @endif select_housings_area mt-3">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <select name="housings[]" id="organizerSingle" data-choices="data-choices"
-                                                            data-options='{"removeItemButton":true,"placeholder":true}' class="form-control" multiple id="">
+                                                        <select name="housings[]" id="organizerSingle"
+                                                            data-choices="data-choices"
+                                                            data-options='{"removeItemButton":true,"placeholder":true}'
+                                                            class="form-control" multiple id="">
                                                             <option value="">Emlakları Seçiniz</option>
                                                             @foreach ($housings as $housing)
                                                                 <option value="{{ $housing->id }}"
@@ -224,7 +231,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-primary" type="submit">Kaydet</button>
