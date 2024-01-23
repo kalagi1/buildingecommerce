@@ -18,6 +18,51 @@
         ];
     @endphp
 
+<div class="content">
+    <div class="mb-9">
+        <ul class="nav nav-tabs" id="couponTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="activeTab" data-toggle="tab" href="#activeCoupons">Aktif Kuponlar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="expiredTab" data-toggle="tab" href="#expiredCoupons">Süresi Geçmiş Kuponlar</a>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-2">
+            <div class="tab-pane fade show active" id="activeCoupons">
+                <!-- Aktif Kuponlar Tablosu -->
+                <div id="orderTableActive" data-list='{"valueNames":["order_no",...], "page":10, "pagination":true}'>
+                    <!-- ... -->
+                    <table class="table table-sm fs--1 mb-0">
+                        <!-- ... -->
+                        <tbody class="list" id="order-table-body">
+                            @foreach ($activeCoupons as $coupon)
+                                <!-- ... -->
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="expiredCoupons">
+                <!-- Süresi Geçmiş Kuponlar Tablosu -->
+                <div id="orderTableExpired" data-list='{"valueNames":["order_no",...], "page":10, "pagination":true}'>
+                    <!-- ... -->
+                    <table class="table table-sm fs--1 mb-0">
+                        <!-- ... -->
+                        <tbody class="list" id="order-table-body">
+                            @foreach ($expiredCoupons as $coupon)
+                                <!-- ... -->
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">

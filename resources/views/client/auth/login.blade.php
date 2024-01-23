@@ -224,7 +224,7 @@
                                            
                                             <div class="mt-3">
                                                 <label class="q-label">Iban</label>
-                                                <input type="number" name="iban"
+                                                <input type="text" name="iban"
                                                     class="form-control {{ $errors->has('iban') ? 'error-border' : '' }}"
                                                     value="{{ old('iban') }}">
                                                 @if ($errors->has('iban'))
