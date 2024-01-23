@@ -2707,7 +2707,6 @@
     <style>
         .trStyle tr {
             width: 33%;
-            border: 1px solid #dee2e6;
         }
 
         .trStyle,
