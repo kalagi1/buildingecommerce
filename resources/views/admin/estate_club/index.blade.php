@@ -11,7 +11,7 @@
             <div id="orderTable"
                 data-list='{"valueNames":["order_no","order_image","order_project","order_amount","order_date","order_status","order_user","order_seller","order_details"],"page":10,"pagination":true}'>
                 <div class="mb-4">
-                    <div class="row g-3">
+                    <div class="row g-3" style="justify-content: space-between">
                         <div class="col-auto">
                             <div class="search-box">
                                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
@@ -21,6 +21,17 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="col-auto">
+                            <a href="{{route('admin.estate.create.coupon.all.users')}}"
+                            style="height: 100%;
+                            margin: 0 auto;
+                            text-align: center;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;" class="badge badge-phoenix fs-10 badge-phoenix-info">Çoklu Kupon Tanımla</a>
+
+                        </div>
+                        
                     </div>
                 </div>
                 <div
@@ -48,7 +59,7 @@
                                             <td class="order_sales_count">{{count($user->shares)}}</td>
                                         
                                             <td class="order_date">{{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
-                                            <td class="order_ok"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="btn btn-sm btn-primary">Kupon Tanımla</a></td>
+                                            <td class="order_ok"><a href="{{route('admin.estate.create.coupon',$user->id)}}" class="badge badge-phoenix fs-10 badge-phoenix-success">Üyeye Kupon Tanımla</a></td>
                                         </tr>
                                     @endforeach
                                 @else

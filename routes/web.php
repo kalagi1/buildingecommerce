@@ -211,7 +211,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::get('/estate_club_users', [AdminEstateClubController::class,"index"])->name('estate.club.users');
     Route::get('/coupons', [AdminEstateClubController::class,"coupons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [AdminEstateClubController::class,"createCoupon"])->name('estate.create.coupon');
+    Route::get('/create_coupon', [AdminEstateClubController::class,"createCouponAllUsers"])->name('estate.create.coupon.all.users');
     Route::post('/create_coupon/{user_id}', [AdminEstateClubController::class,"createCouponStore"])->name('estate.create.coupon.store');
+    Route::post('/create_coupon', [AdminEstateClubController::class,"createCouponStoreAllUsers"])->name('estate.create.coupon.store.all.users');
     Route::get('/edit_coupon/{coupon_id}', [AdminEstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
     Route::get('/coupon_destroy/{user_id}', [AdminEstateClubController::class,"destroy"])->name('estate.coupon.destroy');
     
