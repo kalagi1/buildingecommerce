@@ -1,18 +1,6 @@
 @extends('institutional.layouts.master')
 
 @section('content')
-    @php
-
-        function getHouse($project, $key, $roomOrder)
-        {
-            foreach ($project->roomInfo as $room) {
-                if ($room->room_order == $roomOrder && $room->name == $key) {
-                    return $room;
-                }
-            }
-        }
-
-    @endphp
     <div class="content">
         <nav class="mb-3 mt-3" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
@@ -23,151 +11,351 @@
         <div class="mb-9">
             <div id="orderTable"
                 data-list="{&quot;valueNames&quot;:[&quot;order&quot;,&quot;total&quot;,&quot;customer&quot;,&quot;payment_status&quot;,&quot;fulfilment_status&quot;,&quot;delivery_type&quot;,&quot;date&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
-
-
-                <div
-                    class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
-                    <div class="table-responsive scrollbar mx-n1 px-1">
-                        <table class="table table-sm fs-9 mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="white-space-nowrap fs-9 align-middle ps-0" style="width:26px;">
-                                        <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                id="checkbox-bulk-order-select" type="checkbox"
-                                                data-bulk-select="{&quot;body&quot;:&quot;order-table-body&quot;}"></div>
-                                    </th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order"
-                                        style="width:5%;">No.</th>
-                                    <th class="sort align-middle " scope="col" data-sort="customer" style="width:20%">
-                                        İLAN</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="customer"
-                                        style="width:10%">KİŞİ SAYISI</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
-                                        style="width:10%;">TOPLAM FİYAT</th>
-                                    <th class="sort align-middle text-start " scope="col" data-sort="customer"
-                                        style="width:10%">GİRİŞ TARİHİ</th>
-                                    <th class="sort align-middle text-start " scope="col" data-sort="customer"
-                                        style="width:10%">ÇIKIŞ TARİHİ</th>
-                                    <th class="sort align-middle text-start pe-3" scope="col"
-                                        data-sort="fulfilment_status" style="width:10%">FATURA</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
-                                        style="width:10%;">KAPORA</th>
-                                    <th class="sort align-middle pe-3" scope="col" data-sort="payment_status"
-                                        style="width:10%;">SİPARİŞ DURUMU</th>
-                                    <th class="sort align-middle text-end pe-0" scope="col" data-sort="date"
-                                        style="width:5%;">TARİH</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list" id="order-table-body">
-                                @foreach ($housingReservations as $order)
-                                    @php
-                                        $tarih = date('d F Y', strtotime($order->created_at));
-                                        $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
-                                        $check_in_date = date('d F Y', strtotime($order->check_in_date));
-                                        $check_in_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_in_date);
-                                        $check_out_date = date('d F Y', strtotime($order->check_out_date));
-                                        $check_out_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_out_date);
-                                    @endphp
-                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                        <td class="fs-9 align-middle px-0 py-3">
+                <div class="card p-4">
+                    <div class="bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
+                        <div class="table-responsive scrollbar mx-n1 px-1">
+                            <table class="table table-sm fs-9 mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="white-space-nowrap fs-9 align-middle ps-0" style="width:26px;">
                                             <div class="form-check mb-0 fs-8"><input class="form-check-input"
-                                                    type="checkbox"
-                                                    data-bulk-select-row="{&quot;order&quot;:2453,&quot;total&quot;:87,&quot;customer&quot;:{&quot;avatar&quot;:&quot;/team/32.webp&quot;,&quot;name&quot;:&quot;Carry Anna&quot;},&quot;payment_status&quot;:{&quot;label&quot;:&quot;Complete&quot;,&quot;type&quot;:&quot;badge-phoenix-success&quot;,&quot;icon&quot;:&quot;check&quot;},&quot;fulfilment_status&quot;:{&quot;label&quot;:&quot;Cancelled&quot;,&quot;type&quot;:&quot;badge-phoenix-secondary&quot;,&quot;icon&quot;:&quot;x&quot;},&quot;delivery_type&quot;:&quot;Cash on delivery&quot;,&quot;date&quot;:&quot;Dec 12, 12:56 PM&quot;}">
-                                            </div>
-                                        </td>
-
-                                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold"
-                                                href="#!">{{ 1000000 + $order->id }}</a></td>
-
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ App\Models\Housing::find($order->housing_id ?? 0)->title ?? null }}
-
-                                        </td>
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ $order->person_count }}
-
-                                        </td>
-                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                            {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }}
-                                            ₺</td>
-
-
-
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ $check_in_date }}
-
-                                        </td>
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ $check_out_date }}
-
-                                        </td>
-
-                                        <td
-                                            class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-                                            @if ($order->invoice && $order->status == 1)
-                                                <a href="{{ route('institutional.invoice.show', $order->id) }}">
-                                                    <button class="invoiceBtn">
-                                                        <span class="button_lg">
-                                                            <span class="button_sl"></span>
-                                                            <span class="button_text">Faturayı Görüntüle</span>
-                                                        </span>
-                                                    </button>
-                                                </a>
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                            {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2), 0, ',', '.') }}
-                                            ₺</td>
-                                        <td
-                                            class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-                                            {!! [
-                                                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
-                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Rezerve Edildi</span><svg
-                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                    </svg>',
-                                                '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                    </svg>',
-                                                '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                                                                                                        class="badge-label">Ödeme Reddedildi</span><svg
-                                                                                                                                                                                                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                    </svg>',
-                                            ][$order->status] !!}
-                                            </span>
-                                        </td>
-                                        <td
-                                            class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end">
-                                            {{ $tarih }}</td>
+                                                    id="checkbox-bulk-order-select" type="checkbox"
+                                                    data-bulk-select="{&quot;body&quot;:&quot;order-table-body&quot;}"></div>
+                                        </th>
+                                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order"
+                                            style="width:5%;">No.</th>
+                                        <th class="sort align-middle " scope="col" data-sort="customer" style="width:20%">
+                                            İLAN</th>
+                                        <th class="sort align-middle text-start" scope="col" data-sort="customer"
+                                            style="width:10%">KİŞİ SAYISI</th>
+                                        <th class="sort align-middle text-start" scope="col" data-sort="total"
+                                            style="width:10%;">TOPLAM FİYAT</th>
+                                        <th class="sort align-middle text-start " scope="col" data-sort="customer"
+                                            style="width:10%">GİRİŞ TARİHİ</th>
+                                        <th class="sort align-middle text-start " scope="col" data-sort="customer"
+                                            style="width:10%">ÇIKIŞ TARİHİ</th>
+                                        <th class="sort align-middle text-start pe-3" scope="col"
+                                            data-sort="fulfilment_status" style="width:10%">FATURA</th>
+                                        <th class="sort align-middle text-start" scope="col" data-sort="total"
+                                            style="width:10%;">KAPORA</th>
+                                        <th class="sort align-middle pe-3" scope="col" data-sort="payment_status"
+                                            style="width:10%;">SİPARİŞ DURUMU</th>
+                                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="date" style="width:5%;">TARİH</th>
+                                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="date" style="width:5%;">İŞLEMLER</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="list" id="order-table-body">
+                                    @foreach ($housingReservations as $order)
+                                        @php
+                                            $tarih = date('d F Y', strtotime($order->created_at));
+                                            $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
+                                            $check_in_date = date('d F Y', strtotime($order->check_in_date));
+                                            $check_in_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_in_date);
+                                            $check_out_date = date('d F Y', strtotime($order->check_out_date));
+                                            $check_out_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_out_date);
+                                        @endphp
+                                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                            <td class="fs-9 align-middle px-0 py-3">
+                                                <div class="form-check mb-0 fs-8"><input class="form-check-input"
+                                                        type="checkbox"
+                                                        data-bulk-select-row="{&quot;order&quot;:2453,&quot;total&quot;:87,&quot;customer&quot;:{&quot;avatar&quot;:&quot;/team/32.webp&quot;,&quot;name&quot;:&quot;Carry Anna&quot;},&quot;payment_status&quot;:{&quot;label&quot;:&quot;Complete&quot;,&quot;type&quot;:&quot;badge-phoenix-success&quot;,&quot;icon&quot;:&quot;check&quot;},&quot;fulfilment_status&quot;:{&quot;label&quot;:&quot;Cancelled&quot;,&quot;type&quot;:&quot;badge-phoenix-secondary&quot;,&quot;icon&quot;:&quot;x&quot;},&quot;delivery_type&quot;:&quot;Cash on delivery&quot;,&quot;date&quot;:&quot;Dec 12, 12:56 PM&quot;}">
+                                                </div>
+                                            </td>
+
+                                            <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold"
+                                                    href="#!">{{ 1000000 + $order->id }}</a></td>
+
+                                            <td class="customer align-middle white-space-nowrap  text-start">
+                                                {{ App\Models\Housing::find($order->housing_id ?? 0)->title ?? null }}
+
+                                            </td>
+                                            <td class="customer align-middle white-space-nowrap  text-start">
+                                                {{ $order->person_count }}
+
+                                            </td>
+                                            <td class="total align-middle text-start fw-semibold text-body-highlight">
+                                                {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }}
+                                                ₺</td>
+
+
+
+                                            <td class="customer align-middle white-space-nowrap  text-start">
+                                                {{ $check_in_date }}
+
+                                            </td>
+                                            <td class="customer align-middle white-space-nowrap  text-start">
+                                                {{ $check_out_date }}
+
+                                            </td>
+
+                                            <td
+                                                class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
+                                                @if ($order->invoice && $order->status == 1)
+                                                    <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        <button class="invoiceBtn">
+                                                            <span class="button_lg">
+                                                                <span class="button_sl"></span>
+                                                                <span class="button_text">Faturayı Görüntüle</span>
+                                                            </span>
+                                                        </button>
+                                                    </a>
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td class="total align-middle text-start fw-semibold text-body-highlight">
+                                                {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2), 0, ',', '.') }}
+                                                ₺</td>
+                                            <td
+                                                class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
+                                                {!! [
+                                                    '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
+                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Rezerve Edildi</span><svg
+                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                        </svg>',
+                                                    '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
+                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                        </svg>',
+                                                    '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
+                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Reddedildi</span><svg
+                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                        </svg>',
+                                                ][$order->status] !!}
+                                                </span>
+                                            </td>
+                                            <td class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end"> {{ $tarih }}</td>
+                                            <td class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end reservation-actions-area">
+                                                @if(!isset($order->cancelRequest))
+                                                    <button class="badge badge-phoenix badge-phoenix-warning reservation-cancel" reservation_id="{{$order->id}}">İptal talebi oluştur</button>
+                                                @else
+                                                    <button class="badge badge-phoenix badge-phoenix-warning cancel_request_cancel" cancel_request_id="{{$order->cancelRequest->id}}" reservation_id="{{$order->id}}">İptal talebini geri çek</button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-reservation-cancel d-none">
+        <div class="modal-reservation-bg"></div>
+        <div class="modal-reservation-cancel-content">
+            <div class="title-top">
+                <h3>Rezervasyon İptal Talebi</h3>
+            </div>
+            <div class="reservation-cancel-table mt-2">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rezervasyon Numarası</th>
+                            <th>Rezervasyon Ücreti</th>
+                            <th>Giriş Tarihi</th>
+                            <th>Çıkış Tarihi</th>
+                            <th>Rezervasyon Yapan Kişi</th>
+                            <th>Param Güvende</th>
+                            <th>Geri Ödenecek Tutar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="reservation-number"></td>
+                            <td class="reservation-price"></td>
+                            <td class="reservation-open-date"></td>
+                            <td class="reservation-close-date"></td>
+                            <td class="reservation-user"></td>
+                            <td class="reservation-money-trusted"></td>
+                            <td class="reservation-back-money"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <form action="" method="post" class="reservation_cancel_form">
+                    @csrf
+                    <input type="hidden" name="reservation_cancel_id" class="reservation_cancel_id">
+                    <div class="info mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">İban Numarası</label>
+                                    <input type="text" name="iban" required class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">İban alıcı adı</label>
+                                    <input type="text" name="iban_name" required class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">İptal talebinin nedeni</label>
+                            <textarea name="reservation_cancel_text" required class="form-control" cols="30" rows="15"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-sm btn-success mt-3">İptal talebini oluştur</button>
+                    </div>
+                </form>
+
+
+
             </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var months = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
+
+        @if(request('status') == "cancel_reservation_request")
+            $.toast({
+                heading: 'Başarılı',
+                text: "Başarıyla rezervasyon iptal talebinizi oluşturdunuz. En kısa sürede geri dönüş yapacağız",
+                position: 'top-right',
+                stack: false
+            })
+        @endif
+
+        $(document).ready(function(){
+            $(document).on('click',".reservation-cancel",function(e){
+                e.preventDefault();
+                console.log($(this));
+                $('.modal-reservation-cancel').removeClass('d-none')
+                var itemId = $(this).attr('reservation_id')
+                $('.reservation_cancel_id').val(itemId);
+                
+                $('.reservation_cancel_form').attr('action','{{URL::to("/")}}/institutional/cancel_reservation/'+itemId)
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ URL::to('/') }}/institutional/reservation_info/"+itemId, // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        var reservation = data.reservation;
+                        console.log(reservation);
+                        // Sadece sayı karakterlerine izin ver
+                        var inputValue = reservation.total_price.toFixed(0);
+                        inputValue = inputValue.replace(/\D/g, '');
+                        // Her üç basamakta bir nokta ekleyin
+                        inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                        var checkInDate = new Date(reservation.check_in_date);
+                        var checkOutDate = new Date(reservation.check_out_date);
+
+                        $('.reservation-number').html(1000000+reservation.id)
+                        $('.reservation-price').html(inputValue+'₺')
+                        $('.reservation-open-date').html(months[checkInDate.getMonth()]+', '+checkInDate.getDate()+' '+checkInDate.getFullYear())
+                        $('.reservation-close-date').html(months[checkOutDate.getMonth()]+', '+checkOutDate.getDate()+' '+checkOutDate.getFullYear())
+                        $('.reservation-user').html(reservation.user.name)
+                        if(reservation.money_trusted){
+                            $('.reservation-money-trusted').html("<span class='badge badge-phoenix badge-phoenix-success'><i class='fa fa-check'></span></span>")
+                            $('.reservation-money-trusted').addClass('text-center')
+                        }else{
+                            $('.reservation-money-trusted').html("<span class='badge badge-phoenix badge-phoenix-danger'><i class='fa fa-times'></span></span>")
+                            $('.reservation-money-trusted').addClass('text-center')
+                        }
+                        console.log(reservation.money_trusted);
+                        if(reservation.money_trusted){
+                            var backPrice = reservation.total_price.toFixed(0);
+                            backPrice = backPrice.replace(/\D/g, '');
+                            backPrice = backPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            $('.reservation-back-money').html(backPrice+'₺')
+                            $('.reservation-estate-shopping-money').html('1000₺ (Param güvende ücreti)')
+                            $('.reservation-tourism-money').html('0₺')
+                        }else{
+                            var price = reservation.total_price;
+                            var backPrice = (price / 2).toFixed(0);
+                            backPrice = backPrice.replace(/\D/g, '');
+                            backPrice = backPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            var estateBagPrice = ((price / 2) / 10 * 2).toFixed(0);
+                            estateBagPrice = estateBagPrice.replace(/\D/g, '');
+                            estateBagPrice = estateBagPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            var institutionalPrice = ((price / 2) / 10 * 8).toFixed(0);
+                            institutionalPrice = institutionalPrice.replace(/\D/g, '');
+                            institutionalPrice = institutionalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            $('.reservation-back-money').html(backPrice+'₺')
+                            $('.reservation-estate-shopping-money').html(estateBagPrice+'₺')
+                            $('.reservation-tourism-money').html(institutionalPrice+'₺')
+                        }
+
+
+                        if(reservation.owner.iban){
+                            $('.tourism-iban').html(reservation.owner.iban)
+                        }else{
+                            $('.tourism-iban').addClass('badge badge-phoenix badge-phoenix-danger d-inline-block')
+                            $('.tourism-iban').css('text-align','left')
+                            $('.tourism-iban').html("Acenteye ait iban bilgisi sistemde kayıtlı değil")
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            })
+
+            $('.cancel_request_cancel').click(function(e){
+                e.preventDefault();
+                var thisx = $(this);
+                Swal.fire({
+                    title: "İptal etme isteğini geri çekmek istediğine emin misin? ",
+                    showCancelButton: true,
+                    confirmButtonText: "Evet",
+                    cancelButtonText : "İptal"
+                    }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{URL::to('/')}}/institutional/cancel_reservation_cancel/"+$(this).attr('cancel_request_id'), // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                if(response.status){
+                                    $.toast({
+                                        heading: 'Başarılı',
+                                        text: "Başarıyla rezervasyon iptal talebinizi geri çektiniz",
+                                        position: 'top-right',
+                                        stack: false
+                                    })
+
+                                    $('.reservation-actions-area').html('<button class="badge badge-phoenix badge-phoenix-warning reservation-cancel" reservation_id="'+thisx.attr('reservation_id')+'">İptal talebi oluştur</button>')
+                                }
+                            },
+                        });
+                    }
+                });
+            })
+        })
+    </script>
 @endsection
 
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+        integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         @media(max-width: 768px) {
             .mobile-shadow {

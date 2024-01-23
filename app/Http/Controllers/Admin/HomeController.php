@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\CancelRequest;
 use App\Models\CartOrder;
 use App\Models\CartPrice;
 use App\Models\DocumentNotification;
@@ -16,6 +17,7 @@ use App\Models\Reservation;
 use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\UserPlan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller {
@@ -41,11 +43,25 @@ class HomeController extends Controller {
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
+   
+
     public function getReservations() {
-        $housingReservations = Reservation::with( 'user', 'housing', 'owner' )
+        $housingReservations = Reservation::with( 'user', 'housing', 'owner' )->where('status','!=',3)
         ->get();
 
-        return view( 'admin.reservations.index', compact( 'housingReservations' ) );
+        $cancelReservations = Reservation::with( 'user', 'housing', 'owner' )->where('status','!=',3)
+        ->get();
+
+
+        return view( 'admin.reservations.index', compact( 'housingReservations','cancelReservations' ) );
+    }
+
+    public function reservationInfo($id){
+        $reservation = Reservation::with("user","owner","cancelRequest")->where('id',$id)->first();
+
+        return json_encode([
+            "reservation" => $reservation
+        ]);
     }
 
     public function approveShare( $share ) {
@@ -191,7 +207,8 @@ class HomeController extends Controller {
     }
 
     public function unapproveReservation( Reservation $reservation ) {
-        $reservation->update( [ 'status' => '2' ] );
+        $reservation->update( [ 'status' => '3' ] );
+        CancelRequest::where('reservation_id',$reservation->id)->delete();
         return redirect()->back();
     }
 

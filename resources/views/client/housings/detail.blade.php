@@ -1048,14 +1048,12 @@
                                     <li>Kişi Sayısı:<strong class="pull-right userCount">9pm 10pm</strong></li>
                                 </ul>
                             </div>
-                            <div class="booking-price-detail side-list no-border">
+                            <div class="booking-price-detail side-list no-border reservation-form-add-area">
                                 <h5 style="color:black;font-size:15px !important">Ödeme Detayları</h5>
                                 <ul>
                                     <li>EFT/Havale Kodu<strong class="pull-right totalPriceCode">$60</strong></li>
                                     <li>Toplam Tutar<strong class="pull-right totalPrice">$150</strong></li>
-                                    <li class="red pb-0">Ödenecek Tutar %50<strong
-                                            class="pull-right newTotalPrice">$263</strong>
-                                    </li>
+                                    <li class="red pb-0">Ödenecek Tutar %50<strong class="pull-right newTotalPrice">$263</strong> </li>
                                 </ul>
                             </div>
                             <div class="booking-price-detail side-list no-border">
@@ -1488,6 +1486,18 @@
                         }
                     }
                 }
+
+                $('#money-trusted').change(function(){
+                    if($(this).is(':checked')){
+                        $('.reservation-form-add-area ul').append("<li class='pb-0'>Param Güvende <strong class='pull-right money-trusted-price'>1000 ₺</strong></li>")
+                        $('.reservation-form-add-area ul').append("<li >Yeni toplam fiyat <strong class='pull-right money-trusted-add-total-price'>"+(parseInt($('.newTotalPrice').html()) + 1000)+" ₺</strong></li>")
+                        $('#completePaymentButton').html((parseInt($('.newTotalPrice').html()) + 1000)+" ₺ Öde")
+                    }else{
+                        $('.money-trusted-price').closest('li').remove();
+                        $('.money-trusted-add-total-price').closest('li').remove();
+                        $('#completePaymentButton').html((parseInt($('.newTotalPrice').html()))+" ₺ Öde")
+                    }
+                })
 
                 $('#submitBtn').click(function() {
                     // Kullanıcı bilgileri

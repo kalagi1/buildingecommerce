@@ -1,18 +1,6 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    @php
-
-        function getHouse($project, $key, $roomOrder)
-        {
-            foreach ($project->roomInfo as $room) {
-                if ($room->room_order == $roomOrder && $room->name == $key) {
-                    return $room;
-                }
-            }
-        }
-
-    @endphp
     <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">
@@ -109,11 +97,30 @@
                                                     {{ $order->owner->email }}</td>
                                                     <td class="order_details">
                                                         @if ($order->status == 0 || $order->status == 2)
-                                                            <a href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}"
-                                                                class="btn btn-success">Onayla</a>
+                                                            <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
                                                         @else
-                                                            <a href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}"
-                                                                class="btn btn-danger">Reddet</a>
+                                                            <a onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger" >Rezervasyonu reddet</a>
+                                                        @endif
+
+                                                        <br>
+                                                        @if(isset($order->cartPrice))
+                                                            @if($order->cartPrice->status == 0 || $order->cartPrice->status == 2)
+                                                                <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-price', ['price' => $order->cartPrice->id]) }}" class="badge badge-phoenix badge-phoenix-success">Hakedişleri onayla</a>
+                                                            @else
+                                                                <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-price', ['price' => $order->cartPrice->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Hakedişleri reddet</a>
+                                                            @endif
+                                                        @endif
+
+                                                        @if(isset($order->sharer))
+                                                            @if($order->sharer->status == 0 || $order->sharer->status == 2)
+                                                                <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-share', ['share' => $order->sharer->id]) }}" class="badge badge-phoenix badge-phoenix-success">Hakedişleri onayla</a>
+                                                            @else
+                                                                <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-share', ['share' => $order->sharer->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Hakedişleri reddet</a>
+                                                            @endif
+                                                        @endif
+                                                        <br>
+                                                        @if(isset($order->cancelRequest))
+                                                            <a href="" reservation_id="{{$order->id}}" cancel_request_id="{{$order->cancelRequest->id}}" class="badge badge-phoenix badge-phoenix-secondary reservation-cancel">İptal Talebini Görüntüle</a>
                                                         @endif
                                                     </td>
                                         </tr>
@@ -130,12 +137,159 @@
             </div>
         </div>
     </div>
+    <div class="modal-reservation-cancel d-none">
+        <div class="modal-reservation-bg"></div>
+        <div class="modal-reservation-cancel-content">
+            <div class="close">
+                <i class="fa fa-times"></i>
+            </div>
+            <div class="title-top">
+                <h3>Rezervasyon İptali</h3>
+            </div>
+            <div class="reservation-cancel-table mt-2">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rezervasyon Numarası</th>
+                            <th>Rezervasyon Ücreti</th>
+                            <th>Giriş Tarihi</th>
+                            <th>Çıkış Tarihi</th>
+                            <th>Rezervasyon Yapan Kişi</th>
+                            <th>Param Güvende</th>
+                            <th>Geri Ödenecek Tutar</th>
+                            <th>Emlak Sepette Kazancı</th>
+                            <th>Turizm Acentesi Kazancı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="reservation-number"></td>
+                            <td class="reservation-price"></td>
+                            <td class="reservation-open-date"></td>
+                            <td class="reservation-close-date"></td>
+                            <td class="reservation-user"></td>
+                            <td class="reservation-money-trusted"></td>
+                            <td class="reservation-back-money"></td>
+                            <td class="reservation-estate-shopping-money"></td>
+                            <td class="reservation-tourism-money"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info mt-3">
+                    <span><strong>Turizm Acentesi Iban Numarası</strong></span>
+                    <br>
+                    <span class="tourism-iban">Tr52</span>
+                </div>
+
+                <div class="info mt-3">
+                    <span><strong>Rezervasyon Yapan Kişinin Iban Numarası</strong></span>
+                    <br>
+                    <span class="customer-iban">Tr52</span>
+                    <br>
+                    <span><strong>Rezervasyon Yapan Kişinin Alıcı Adı</strong></span>
+                    <br>
+                    <span class="customer-name"></span>
+                </div>
+
+                <div>
+                    <a class="btn btn-sm btn-secondary mt-3 cancel-rezervation-admin">Rezervasyonu iptal et</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
+        var months = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
+        $(document).ready(function(){
+            $('.modal-reservation-cancel-content .close').click(function(){
+                $('.modal-reservation-cancel').addClass('d-none')
+            })
+            $('.modal-reservation-bg').click(function(){
+                $('.modal-reservation-cancel').addClass('d-none')
+            })
+            $('.reservation-cancel').click(function(e){
+                e.preventDefault();
+                $('.modal-reservation-cancel').removeClass('d-none')
+                var itemId = $(this).attr('reservation_id')
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ URL::to('/') }}/admin/reservation_info/"+itemId, // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
+                    success: function(data) {
+                        data = JSON.parse(data);
+                        var reservation = data.reservation;
+                        console.log(reservation);
+                        // Sadece sayı karakterlerine izin ver
+                        var inputValue = reservation.total_price.toFixed(0);
+                        inputValue = inputValue.replace(/\D/g, '');
+                        // Her üç basamakta bir nokta ekleyin
+                        inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                        var checkInDate = new Date(reservation.check_in_date);
+                        var checkOutDate = new Date(reservation.check_out_date);
+
+                        $('.reservation-number').html(1000000+reservation.id)
+                        $('.reservation-price').html(inputValue+'₺')
+                        $('.reservation-open-date').html(months[checkInDate.getMonth()]+', '+checkInDate.getDate()+' '+checkInDate.getFullYear())
+                        $('.reservation-close-date').html(months[checkOutDate.getMonth()]+', '+checkOutDate.getDate()+' '+checkOutDate.getFullYear())
+                        $('.reservation-user').html(reservation.user.name)
+                        if(reservation.money_trusted){
+                            $('.reservation-money-trusted').html("<span class='badge badge-phoenix badge-phoenix-success'><i class='fa fa-check'></span></span>")
+                            $('.reservation-money-trusted').addClass('text-center')
+                        }else{
+                            $('.reservation-money-trusted').html("<span class='badge badge-phoenix badge-phoenix-danger'><i class='fa fa-times'></span></span>")
+                            $('.reservation-money-trusted').addClass('text-center')
+                        }
+                        console.log(reservation.money_trusted);
+                        if(reservation.money_trusted){
+                            var backPrice = reservation.total_price.toFixed(0);
+                            backPrice = backPrice.replace(/\D/g, '');
+                            backPrice = backPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            $('.reservation-back-money').html(backPrice+'₺')
+                            $('.reservation-estate-shopping-money').html('1000₺ (Param güvende ücreti)')
+                            $('.reservation-tourism-money').html('0₺')
+                        }else{
+                            var price = reservation.total_price;
+                            var backPrice = (price / 2).toFixed(0);
+                            backPrice = backPrice.replace(/\D/g, '');
+                            backPrice = backPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            var estateBagPrice = ((price / 2) / 10 * 2).toFixed(0);
+                            estateBagPrice = estateBagPrice.replace(/\D/g, '');
+                            estateBagPrice = estateBagPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            var institutionalPrice = ((price / 2) / 10 * 8).toFixed(0);
+                            institutionalPrice = institutionalPrice.replace(/\D/g, '');
+                            institutionalPrice = institutionalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                            $('.reservation-back-money').html(backPrice+'₺')
+                            $('.reservation-estate-shopping-money').html(estateBagPrice+'₺')
+                            $('.reservation-tourism-money').html(institutionalPrice+'₺')
+                        }
+
+                        if(reservation.owner.iban){
+                            $('.tourism-iban').html(reservation.owner.iban)
+                        }else{
+                            $('.tourism-iban').addClass('badge badge-phoenix badge-phoenix-danger d-inline-block')
+                            $('.tourism-iban').css('text-align','left')
+                            $('.tourism-iban').html("Acenteye ait iban bilgisi sistemde kayıtlı değil")
+                        }
+
+                        if(reservation.cancel_request){
+                            $('.customer-iban').html(reservation.cancel_request.iban)
+                            $('.customer-name').html(reservation.cancel_request.iban_name)
+                        }
+
+                        $('.cancel-rezervation-admin').attr('href','{{URL::to("/")}}/admin/reservation/unapprove/'+itemId)
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            })
+        })
+
         let table = new DataTable('#table', {
             language: {
                 url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json',
@@ -172,6 +326,7 @@
                 });
             });
         });
+        
     </script>
 @endsection
 

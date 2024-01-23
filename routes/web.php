@@ -265,6 +265,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
     Route::middleware(['checkPermission:GetOrders'])->group(function () {
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
+        Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
 
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
@@ -697,6 +698,9 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+    Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
+    Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
+    Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
     Route::get('/estate_club_users', [EstateClubController::class,"index"])->name('estate.club.users');
     Route::get('/coupons', [EstateClubController::class,"coupons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [EstateClubController::class,"createCoupon"])->name('estate.create.coupon');

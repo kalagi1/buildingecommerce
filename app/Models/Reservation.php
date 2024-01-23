@@ -26,4 +26,16 @@ class Reservation extends Model
     {
         return $this->hasOne(User::class, "id", "owner_id");
     }
+
+    public function sharer(){
+        return $this->hasOne(SharerPrice::class,"reservation_id","id");
+    }
+
+    public function cartPrice(){
+        return $this->hasOne(CartPrice::class,"reservation_id","id");
+    }
+
+    public function cancelRequest(){
+        return $this->hasOne(CancelRequest::class,"reservation_id","id")->where('item_type',1);
+    }
 }
