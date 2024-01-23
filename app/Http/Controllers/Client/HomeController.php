@@ -665,14 +665,11 @@ class HomeController extends Controller
             $obj = $obj->orderBy('doping_time', 'desc');
         }
 
-        $itemPerPage = 12;
+        $itemPerPage = 9;
         $obj = $obj->paginate($itemPerPage);
 
        
-
         return response()->json($obj->through(function ($item) use ($request) {
-            // if ($request->input('loc') && HousingType::find($request->input('loc'))->id !== $item->housing_type_id)
-            //     return true;
 
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
             $isFavorite = 0;
@@ -686,9 +683,8 @@ class HomeController extends Controller
 
             $action = $cartStatus != null ? ( ($cartStatus == 0) ? 'payment_await' : (($cartStatus == 1) ? 'sold' : (($cartStatus == 2) ? 'tryBuy' : ''))) : "noCart";
             $housingTypeData = json_decode($item->housing_type_data, true);
-
             $offSale = isset($housingTypeData['off_sale1']);
-            $share = isset($housingTypeData['share-open']);
+            $share = isset($housingTypeData['share-open1']);
 
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
@@ -723,7 +719,7 @@ class HomeController extends Controller
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     // 'squaremeters' => getData($item, 'squaremeters') ? getData($item, 'squaremeters') : null,
                     'price' => $item->step2_slug != "gunluk-kiralik" ? getData($item, 'price') - $discount_amount : null ,
-                    'share_open' => getData($item, 'share-open') ? getData($item, 'share-open') : 0,
+                    'share_open' => $share ? true : 0,
                     'housing_date' => date('j', strtotime($item->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($item->created_at))),
                 ]
 
