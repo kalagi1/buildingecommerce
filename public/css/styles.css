@@ -16235,7 +16235,9 @@ a.button {
     line-height: 40px;
     padding: 0 !important;
 }
-
+.mr-1{
+    font-weight: 700;
+}
 .inner-pages .portfolio .homes-content .homes-list-div {
     display: flex;
     height: 100px;
