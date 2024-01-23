@@ -1,5 +1,5 @@
 
 <h3 class="mobile-hidden">{{$title}}</h3>
-<p class="title-fsp pb-3" style="margin-top: 5px">{{ $advertiseTitle ? $advertiseTitle : " " }} <br>  {{ $housingOrder }} {{ "No'lu" }} {{ $step1Slug }}</p>
+<span class="title-fsp" style="margin-top: 5px">{{ $advertiseTitle ? $advertiseTitle : " " }}  {{ $housingOrder }} {{ "No'lu" }} {{ $step1Slug }}</span>
 
 

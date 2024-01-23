@@ -137,8 +137,7 @@
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
-                    <div class="container">
-                        <section class="headings-2 pt-0 pb-0">
+                        <div class="headings-2 pt-0 pb-0">
                             <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                                 @php
                                     $advertiseTitle = $projectHousingsList[$housingOrder]['advertise_title[]'] ?? null;
@@ -147,7 +146,8 @@
 
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar">
-                                        <strong>İlan No:  <span style="color: #274abb;font-size: 14px !important;">{{ $housingOrder + $project->id + 1000000 }}</span>
+                                        <strong style="color: black;font-size: 11px !important;font-weight:700 !important">İlan No:  
+                                            <span style="color: #274abb;">{{ $housingOrder + $project->id + 1000000 }}</span>
                                         </strong>
 
                                         <h3>
@@ -171,7 +171,6 @@
                                 </div>
 
                             </div>
-                        </section>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -829,7 +828,7 @@
                                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
-                                                                                                                    style="height: 120px !important;object-fit:cover">
+                                                                                                                    style="height: 100px !important;object-fit:cover">
                                                                                                                 @if ($projectDiscountAmount)
                                                                                                                     <div
                                                                                                                         style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
@@ -1052,7 +1051,7 @@
                                                                                                     </div>
 
                                                                                                     <div class="col-md-3 mobile-hidden"
-                                                                                                        style="height: 120px;padding:0">
+                                                                                                        style="height: 100px;padding:0">
                                                                                                         <div class="homes-button"
                                                                                                             style="width:100%;height:100%">
                                                                                                             <button
@@ -1470,7 +1469,7 @@
                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
-                                                                                            style="height: 120px !important;object-fit:cover">
+                                                                                            style="height: 100px !important;object-fit:cover">
                                                                                         @if ($projectDiscountAmount)
                                                                                             <div
                                                                                                 style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
@@ -1686,7 +1685,7 @@
                                                                         </div>
 
                                                                         <div class="col-md-3 mobile-hidden"
-                                                                            style="height: 120px;padding:0">
+                                                                            style="height: 100px;padding:0">
                                                                             <div class="homes-button"
                                                                                 style="width:100%;height:100%">
                                                                                 <button
@@ -2525,7 +2524,7 @@ out center;`;
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 120px !important;object-fit:cover">`
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
                         var checkOfferX = checkOffer(response.offers, startIndex + 1 + i + lastBlockHousingCount);
                         if (checkOfferX) {
                             var newPercent = Math.round((checkOfferX['discount_amount'] / res[i]["price[]"]) * 100);
@@ -2681,7 +2680,7 @@ out center;`;
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                                <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
                                                         <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
@@ -2803,7 +2802,7 @@ out center;`;
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 120px !important;object-fit:cover">`
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
                             var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
                                 lastBlockHousingCount);
                             if (checkOfferX) {
@@ -2963,7 +2962,7 @@ out center;`;
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
+                                                <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
                                                         <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları

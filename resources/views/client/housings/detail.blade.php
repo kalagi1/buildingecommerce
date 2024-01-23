@@ -145,7 +145,6 @@
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
-                    <div class="container">
                         <div class="headings-2 pt-0">
                             <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                                 @php
@@ -153,8 +152,8 @@
                                 @endphp
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar pb-3">
-                                        <strong style="color:black">İlan No: <span
-                                                style="color:#274abb;font-size: 14px !important;">{{ $housing->id + 2000000 }}</span>
+                                        <strong style="color: black;font-size: 11px !important;font-weight:700 !important">İlan No: <span
+                                                style="color:#274abb;font-size: 11px !important;">{{ $housing->id + 2000000 }}</span>
                                         </strong>
                                         <h3>
                                             @if ($status && $status != '0' && $status != '1')
@@ -170,7 +169,6 @@
                                     </div>
                                 </div>
 
-                            </div>
                         </div>
                     </div>
                 </div>
