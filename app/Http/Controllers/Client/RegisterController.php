@@ -38,7 +38,7 @@ class RegisterController extends Controller
             ],
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3',
-            'phone' =>  'required|regex:/^05[0-9]{9}$/',
+            'phone' =>  'required',
             'type' => 'required|in:1,2,21',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2',

@@ -812,13 +812,13 @@
                                                                     res.action === 'payment_await' ?
                                                                         `<button
                                                                                                                                                                 class="btn second-btn " 
-                                                                                                                                                                style="background: orange !important;width:100%;color:White">Rezerve Edildi
+                                                                                                                                                                style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
                                                                                                                                                             </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
                                                                                                                                                                     class="btn second-btn " 
-                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
                                                                                                                                                                 </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
