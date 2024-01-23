@@ -265,7 +265,7 @@ class EstateClubController extends Controller {
     
 
     public function editCoupon( $id ) {
-        $coupon = Coupon::where( 'id', $id )->first();
+        $coupon = Coupon::where( 'id', $id )->with("housings","projects")->first();
         $projects = Project::where( 'status', 1 )->get();
         $housings = Housing::where( 'status', 1 )->get();
         $estateClubUser = User::wherE( 'type', 21 )->where( 'status', 1 )->where( 'id', $coupon->user_id )->first();
