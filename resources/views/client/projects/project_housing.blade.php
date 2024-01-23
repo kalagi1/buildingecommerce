@@ -146,7 +146,7 @@
 
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar">
-                                        <strong style="color: black;font-size: 11px !important;font-weight:700 !important">İlan No:  
+                                        <strong style="color: black;font-size: 11px !important;">İlan No:  
                                             <span style="color: #274abb;">{{ $housingOrder + $project->id + 1000000 }}</span>
                                         </strong>
 

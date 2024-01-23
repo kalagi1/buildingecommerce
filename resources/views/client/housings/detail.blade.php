@@ -152,7 +152,7 @@
                                 @endphp
                                 <div class="detail-wrapper-body">
                                     <div class="listing-title-bar pb-3">
-                                        <strong style="color: black;font-size: 11px !important;font-weight:700 !important">İlan No: <span
+                                        <strong style="color: black;font-size: 11px !important;">İlan No: <span
                                                 style="color:#274abb;font-size: 11px !important;">{{ $housing->id + 2000000 }}</span>
                                         </strong>
                                         <h3>
