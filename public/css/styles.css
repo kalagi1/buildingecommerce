@@ -28054,10 +28054,12 @@ color:Black}
 
 #orders-container .order .order-item .order-item-status {
     display: flex;
-    flex-direction: column;
-    width: 80%;
+    /* flex-direction: column; */
+    width: 50%;
     color: #333;
+    align-items: center;
     font-size: 11px;
+    justify-content: start;
 }
 
 #orders-container .order .order-item .order-item-status .title {

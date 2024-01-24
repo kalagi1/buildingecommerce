@@ -410,7 +410,40 @@ class ProjectController extends Controller
                 $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
+
+                if (isset($housingTypeData)) {
+                    foreach ($housingTypeData as $data) {
+                        if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
+                            $filterItem = [
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]', '', $data->name),
+                            ];
+            
+                            if ($data->type == "select" || $data->type == "checkbox-group") {
+                                $filterItem["values"] = $data->values;
+                            } else if ($data->type == "text") {
+                                $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
+                            }
+            
+                            // Eğer toggle varsa, toggle değerini ekleyin
+                            if (isset($data->toggle)) {
+                                $filterItem['toggle'] = $data->toggle;
+                            }
+            
+                            array_push($filters, $filterItem);
+                        }
+                    }
+                }
         
+              
+            }
+        } else {
+            if ($housingTypeSlug && $newHousingType) {
+                $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                $filtersDbx = array_keys($filtersDb);
+                $housingTypeData = json_decode($newHousingType->form_json);
+                if (isset($housingTypeData)) {
                 foreach ($housingTypeData as $data) {
                     if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
                         $filterItem = [
@@ -434,34 +467,6 @@ class ProjectController extends Controller
                     }
                 }
             }
-        } else {
-            if ($housingTypeSlug && $newHousingType) {
-                $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
-                $filtersDbx = array_keys($filtersDb);
-                $housingTypeData = json_decode($newHousingType->form_json);
-        
-                foreach ($housingTypeData as $data) {
-                    if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
-                        $filterItem = [
-                            "label" => $data->label,
-                            "type" => $data->type,
-                            "name" => str_replace('[]', '', $data->name),
-                        ];
-        
-                        if ($data->type == "select" || $data->type == "checkbox-group") {
-                            $filterItem["values"] = $data->values;
-                        } else if ($data->type == "text") {
-                            $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
-                        }
-        
-                        // Eğer toggle varsa, toggle değerini ekleyin
-                        if (isset($data->toggle)) {
-                            $filterItem['toggle'] = $data->toggle;
-                        }
-        
-                        array_push($filters, $filterItem);
-                    }
-                }
             }
         }
         

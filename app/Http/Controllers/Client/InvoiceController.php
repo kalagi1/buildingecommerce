@@ -30,6 +30,7 @@ class InvoiceController extends Controller
             'invoice' => $invoice,
             'project' => $project,
         ];
+
         
 
         return view('client.invoice.index', compact("data"));
