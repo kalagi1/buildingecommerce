@@ -195,7 +195,7 @@
                             </div>
                             @if (!$cart || empty($cart['item']))
                                 <button type="button" class="btn btn-primary btn-lg btn-block"
-                                    style="height: 50px !important;font-size: 11px;margin: 0 auto;"
+                                    style="font-size: 11px;margin: 0 auto;"
                                     onclick="window.location.href='{{ route('index') }}'">
                                     Alışverişe Devam Et
                                 </button>
