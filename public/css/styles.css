@@ -16303,7 +16303,7 @@ a.button {
 .slick-initialized .slick-slide {
     padding: 0 10px;
 }
-.second-btn{
+.homes-content .second-btn{
     margin-top: 30px !important;
 }
 .homes-button .second-btn {
@@ -27661,6 +27661,10 @@ input[type="checkbox"]::before {
     overflow: hidden;
 }
 
+.CartBtn,.reservationBtn {
+    margin-top: 12px;
+}
+
 .CartBtn,
 .reservationBtn,
 .soldBtn {
@@ -27676,7 +27680,7 @@ input[type="checkbox"]::before {
     transition-duration: .5s;
     overflow: hidden;
     position: relative;
-    margin-top: 12px;
+   
 }
 
 @media (max-width: 768px) {
