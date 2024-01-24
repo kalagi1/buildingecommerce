@@ -83,7 +83,7 @@
                                             <td class="order_image">
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                        width="100px" height="120px" style="object-fit: contain;" />
+                                                        width="100px" height="75px" style="object-fit: contain;" />
                                                 @else
                                                     <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
@@ -99,6 +99,9 @@
                                                     </span>
                                                 @else
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
+                                                @endif <br>
+                                                @if (isset($order->reference))
+                                                    <span style="font-weight:700 !important">Prim Kazanan Üye: {{$order->reference->name}}</span>
                                                 @endif
                                             </td>
                                             <td class="order_amount">{{ $order->amount }}</td>

@@ -99,7 +99,8 @@
                                                     <del style="color: red;">
                                                         {{ number_format($cart['item']['price']) }} ₺
                                                     </del><br>
-                                                    <span class="discounted-price-x" style="color: green; font-size:14px !important">
+                                                    <span class="discounted-price-x"
+                                                        style="color: green; font-size:14px !important">
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                     </span>
                                                 @else
@@ -179,10 +180,14 @@
 
 
 
-                                        @if($saleType == "kiralik")
-                                            <li>Bir Kira Kapora :<strong class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }} TL</strong></li>
+                                        @if ($saleType == 'kiralik')
+                                            <li>Bir Kira Kapora :<strong
+                                                    class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }}
+                                                    TL</strong></li>
                                         @else
-                                            <li>Toplam Fiyatın %2 Kaporası :<strong class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }} TL</strong></li>
+                                            <li>Toplam Fiyatın %2 Kaporası :<strong
+                                                    class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                    TL</strong></li>
                                         @endif
 
                                     </ul>
@@ -195,18 +200,22 @@
                                     Alışverişe Devam Et
                                 </button>
                             @else
-                                @if($saleType == "kiralik")
-                                    <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
-                                        data-target="#paymentModal"
+                                @if ($saleType == 'kiralik')
+                                    <button type="button"
+                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                        data-toggle="modal" data-target="#paymentModal"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
+                                        <span
+                                            class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </button>
                                 @else
-                                    <button type="button" class="btn btn-primary btn-lg btn-block paymentButton button-price" data-toggle="modal"
-                                        data-target="#paymentModal"
+                                    <button type="button"
+                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                        data-toggle="modal" data-target="#paymentModal"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
+                                        <span
+                                            class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </button>
                                 @endif
@@ -214,10 +223,12 @@
 
                             <div class="coupon-cart-area mt-3">
                                 <div class="d-flex">
-                                    <input type="text" placeholder="Kupon Kodu" style="height: 40px;" class="form-control coupon-code">
+                                    <input type="text" placeholder="Kupon Kodu" style="height: 40px;"
+                                        class="form-control coupon-code">
                                     <button class="btn btn-primary coupon-apply">Uygula</button>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -231,22 +242,16 @@
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" class="closeTimes">&times;</span>
-                            </button>
-                        </div>
                         <div class="modal-body">
                             <div class="invoice">
                                 <div class="invoice-header mb-3">
-                                    <strong>Fatura Tarihi: {{ date('d.m.Y') }}</strong>
+                                    <span>Fatura Tarihi: {{ date('d.m.Y') }}</span>
                                 </div>
 
                                 <div class="invoice-body">
                                     <div class="invoice-total mt-3">
-                                        <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
-                                        <div class="row mb-3 px-5 mt-3">
+                                        <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
+                                        <div class="container row mb-3 mt-3">
                                             @foreach ($bankAccounts as $bankAccount)
                                                 <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
                                                     data-iban="{{ $bankAccount->iban }}"
@@ -257,24 +262,30 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                        <div id="ibanInfo"></div>
-                                        <strong>Ödeme işlemini tamamlamak için, lütfen bu
-                                            <span style="color:red;font-size:15px !important;font-weight:bold"
+                                        <div id="ibanInfo" style="font-size: 12px !important"></div>
+                                        <span>Ödeme işlemini tamamlamak için, lütfen bu
+                                            <span style="color:red;font-weight:bold"
                                                 id="uniqueCode"></span> kodu kullanarak ödemenizi
                                             yapın. IBAN açıklama
                                             alanına
                                             bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak
                                             işlemi
-                                            bitirin.</strong>
+                                            bitirin.</span>
 
                                     </div>
                                 </div>
 
                             </div>
-                            <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
-                                class="btn btn-primary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
-                                style="width:150px;float:right">Satın Al
-                            </button>
+
+                            <div class="d-flex">
+                                <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                                    class="btn btn-secondary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
+                                    style="width:150px;float:right">Satın Al
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block mt-3" style="width:150px" data-bs-dismiss="modal">İptal</button>
+                            </div>
+                            
+
                         </div>
                     </div>
                 </div>
@@ -284,12 +295,7 @@
                 aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true" class="closeTimes">&times;</span>
-                            </button>
-                        </div>
+
                         <div class="modal-body">
                             <div class="container">
                                 <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
@@ -301,8 +307,8 @@
                                     @csrf
                                     <input type="hidden" name="key" id="orderKey">
                                     <input type="hidden" name="banka_id" id="bankaID">
-                                    <input type="hidden" name="have_discount" class="have_discount" >
-                                    <input type="hidden" name="discount" class="discount" >
+                                    <input type="hidden" name="have_discount" class="have_discount">
+                                    <input type="hidden" name="discount" class="discount">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -338,22 +344,35 @@
                                                 <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
                                             </div>
                                         </div>
+                                      
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="notes">Notlar:</label>
                                                 <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="notes">Referans Kodu (Opsiyonel):</label>
+                                                <input type="text" class="form-control"
+                                                    name="reference_code">
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary paySuccess" style="float:right">Ödemeyi
-                                        Tamamla
-                                        <svg viewBox="0 0 576 512" class="svgIcon">
-                                            <path
-                                                d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                            </path>
-                                        </svg>
-                                    </button>
+                                    <div class="d-flex">
+                                        <button type="submit" class="btn btn-secondary paySuccess" style="float:right">Ödemeyi
+                                            Tamamla
+                                            <svg viewBox="0 0 576 512" class="svgIcon">
+                                                <path
+                                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-lg btn-block" style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                    </div>
+                                    
+                                 
                                 </form>
 
                             </div>
@@ -381,11 +400,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
-    
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZwT" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
         $(document).ready(function() {
@@ -423,8 +445,8 @@
             });
         });
 
-        $('.coupon-apply').click(function(){
-            @if(isset($discountRate))
+        $('.coupon-apply').click(function() {
+            @if (isset($discountRate))
                 Swal.fire({
                     title: "Kupon indirimini uygularsanız emlak kulüp üyesi indirimi kalkacaktır. Uygulamak istediğinize emin misiniz?",
                     showDenyButton: false,
@@ -432,7 +454,7 @@
                     cancelButtonText: "İptal",
                     confirmButtonText: "Evet",
                     denyButtonText: `Hayır`
-                    }).then((result) => {
+                }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         $.ajax({
@@ -440,50 +462,88 @@
                             type: "POST",
                             data: {
                                 _token: "{{ csrf_token() }}",
-                                coupon_code : $('.coupon-code').val()
+                                coupon_code: $('.coupon-code').val()
                             }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
                             success: function(response) {
                                 // İşlem başarılı olduğunda buraya gelir
                                 response = JSON.parse(response)
-                                if(response.status){
-                                    if(response.discount_type == 1){
+                                if (response.status) {
+                                    if (response.discount_type == 1) {
                                         @if (isset($housingOffer))
-                                            var newPrice = parseFloat(response.cart.item.price) - {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
-                                        @else 
-                                            var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                            var newPrice = parseFloat(response.cart.item
+                                                .price) -
+                                                {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0 }} -
+                                                (parseFloat(response.cart.item.price) * response
+                                                    .discount_amount / 100);
+                                        @else
+                                            var newPrice = parseFloat(response.cart.item
+                                                .price) - (parseFloat(response.cart.item
+                                                    .price) * response.discount_amount / 100);
                                         @endif
                                         var newCapora = newPrice * 2 / 100;
 
                                         @if (isset($housingOffer))
-                                            $('.booking-price-detail>ul>li').eq(2).css('color','red').html('İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(3).css('color','green').html('Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(2).css('color',
+                                                'red').html(
+                                                'İndirim Tutarı<strong class="pull-right">' +
+                                                (formatPrice(parseFloat(response.cart.item
+                                                        .price) * response
+                                                    .discount_amount / 100)) +
+                                                ' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(3).css('color',
+                                                'green').html(
+                                                'Yeni Fiyat<strong class="pull-right">' + (
+                                                    formatPrice(newPrice)) + ' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(4).html(
+                                                'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' +
+                                                (formatPrice(newCapora)) + ' TL</strong>')
                                         @else
-                                            $('.booking-price-detail>ul>li').eq(1).css('color','red').html('İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(2).css('color','green').html('Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(3).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
-                                            $('.discounted-price-x').html((formatPrice(newPrice))+' ₺')
+                                            $('.booking-price-detail>ul>li').eq(1).css('color',
+                                                'red').html(
+                                                'İndirim Tutarı<strong class="pull-right">' +
+                                                (formatPrice(parseFloat(response.cart.item
+                                                        .price) * response
+                                                    .discount_amount / 100)) +
+                                                ' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(2).css('color',
+                                                'green').html(
+                                                'Yeni Fiyat<strong class="pull-right">' + (
+                                                    formatPrice(newPrice)) + ' TL</strong>')
+                                            $('.booking-price-detail>ul>li').eq(3).html(
+                                                'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' +
+                                                (formatPrice(newCapora)) + ' TL</strong>')
+                                            $('.discounted-price-x').html((formatPrice(
+                                                newPrice)) + ' ₺')
                                         @endif
-                                        
+
                                         $('.button-price-inner').html(formatPrice(newCapora))
                                         $('.capora-button-price').html((formatPrice(newCapora)))
                                         $('.have_discount').val(1);
                                         $('.discount').val($('.coupon-code').val());
-                                        $('.discounted-price-x').html((formatPrice(newPrice))+' ₺')
-                                    }else{
-                                        var newPrice = parseFloat(response.cart.item.price) - parseFloat( response.discount_amount);
+                                        $('.discounted-price-x').html((formatPrice(newPrice)) +
+                                            ' ₺')
+                                    } else {
+                                        var newPrice = parseFloat(response.cart.item.price) -
+                                            parseFloat(response.discount_amount);
 
                                         var newCapora = newPrice * 2 / 100;
 
-                                        $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(response.discount_amount))+' TL</strong></li>')
-                                        $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
-                                        $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                        $('.booking-price-detail ul li').eq(1).after(
+                                            '<li style="color:red;">İndirim Tutarı<strong class="pull-right">' +
+                                            (formatPrice(response.discount_amount)) +
+                                            ' TL</strong></li>')
+                                        $('.booking-price-detail ul li').eq(2).after(
+                                            '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
+                                            (formatPrice(newPrice)) + ' TL</strong></li>')
+                                        $('.booking-price-detail ul li').eq(4).html(
+                                            'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' +
+                                            (formatPrice(newCapora)) + ' TL</strong>')
                                         $('.button-price-inner').html(formatPrice(newCapora))
                                         $('.capora-button-price').html((formatPrice(newCapora)))
                                         $('.have_discount').val(1);
                                         $('.discount').val($('.coupon-code').val());
                                     }
-                                }else{
+                                } else {
                                     toastr.error(response.message)
                                 }
 
@@ -502,46 +562,65 @@
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        coupon_code : $('.coupon-code').val()
+                        coupon_code: $('.coupon-code').val()
                     }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
                     success: function(response) {
                         // İşlem başarılı olduğunda buraya gelir
                         response = JSON.parse(response)
-                        if(response.status){
-                            if(response.discount_type == 1){
+                        if (response.status) {
+                            if (response.discount_type == 1) {
                                 @if (isset($housingOffer))
-                                    var newPrice = parseFloat(response.cart.item.price) - {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0}} - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
-                                @else 
-                                    var newPrice = parseFloat(response.cart.item.price) - (parseFloat(response.cart.item.price) * response.discount_amount / 100);
+                                    var newPrice = parseFloat(response.cart.item.price) -
+                                        {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0 }} -
+                                        (parseFloat(response.cart.item.price) * response
+                                            .discount_amount / 100);
+                                @else
+                                    var newPrice = parseFloat(response.cart.item.price) - (parseFloat(
+                                            response.cart.item.price) * response.discount_amount /
+                                        100);
                                 @endif
 
-                                if(response.sale_item_type == "kiralik"){
-                                    var newCapora = newPrice ;
-                                }else{
+                                if (response.sale_item_type == "kiralik") {
+                                    var newCapora = newPrice;
+                                } else {
                                     var newCapora = newPrice * 2 / 100;
                                 }
 
-                                $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(parseFloat(response.cart.item.price) * response.discount_amount / 100))+' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                $('.booking-price-detail ul li').eq(1).after(
+                                    '<li style="color:red;">İndirim Tutarı<strong class="pull-right">' +
+                                    (formatPrice(parseFloat(response.cart.item.price) * response
+                                        .discount_amount / 100)) + ' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(2).after(
+                                    '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
+                                    (formatPrice(newPrice)) + ' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(4).html(
+                                    'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' + (
+                                        formatPrice(newCapora)) + ' TL</strong>')
                                 $('.button-price-inner').html(formatPrice(newCapora))
                                 $('.capora-button-price').html((formatPrice(newCapora)))
                                 $('.have_discount').val(1);
                                 $('.discount').val($('.coupon-code').val());
-                            }else{
-                                var newPrice = parseFloat(response.cart.item.price) - parseFloat( response.discount_amount);
+                            } else {
+                                var newPrice = parseFloat(response.cart.item.price) - parseFloat(
+                                    response.discount_amount);
 
                                 var newCapora = newPrice * 2 / 100;
 
-                                $('.booking-price-detail ul li').eq(1).after('<li style="color:red;">İndirim Tutarı<strong class="pull-right">'+(formatPrice(response.discount_amount))+' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(2).after('<li style="color:green;">Yeni Fiyat<strong class="pull-right">'+(formatPrice(newPrice))+' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(4).html('Toplam Fiyatın %2 Kaporası :<strong class="pull-right">'+(formatPrice(newCapora))+' TL</strong>')
+                                $('.booking-price-detail ul li').eq(1).after(
+                                    '<li style="color:red;">İndirim Tutarı<strong class="pull-right">' +
+                                    (formatPrice(response.discount_amount)) + ' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(2).after(
+                                    '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
+                                    (formatPrice(newPrice)) + ' TL</strong></li>')
+                                $('.booking-price-detail ul li').eq(4).html(
+                                    'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' + (
+                                        formatPrice(newCapora)) + ' TL</strong>')
                                 $('.button-price-inner').html(formatPrice(newCapora))
                                 $('.capora-button-price').html((formatPrice(newCapora)))
                                 $('.have_discount').val(1);
                                 $('.discount').val($('.coupon-code').val());
                             }
-                        }else{
+                        } else {
                             toastr.error(response.message)
                         }
 
@@ -553,7 +632,7 @@
                     }
                 });
             @endif
-            
+
         })
 
         function formatPrice(price) {

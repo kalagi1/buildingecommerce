@@ -39,12 +39,12 @@ class DashboardController extends Controller
 
     public function getOrders()
     {
-        $user = Auth::user();
+        $user = User::where("id", Auth::user()->id)->with("projects","housings")->first();
         $userProjectIds = $user->projects->pluck('id')->toArray();
     
         // Projects için sorgu
         $projectOrders = CartOrder::select('cart_orders.*')
-            ->with("user", "invoice")
+            ->with("user", "invoice","reference")
             ->where(function ($query) use ($userProjectIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
@@ -52,25 +52,20 @@ class DashboardController extends Controller
                 )->where('cart_orders.status', '1');
             })
             ->get();
+
     
-        // Housings için sorgu
+            $userHousingIds = $user->housings->pluck('id')->toArray();
         $housingOrders = CartOrder::select('cart_orders.*')
-            ->with("user", "invoice")
-            ->where(function ($query) use ($userProjectIds) {
+            ->with("user", "invoice","reference")
+            ->where(function ($query) use ($userHousingIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
-                    $userProjectIds
-                )->where('cart_orders.status', '1');
-            })
-            ->orWhereIn('cart_orders.cart', function($subQuery) use ($user) {
-                $subQuery->select('cart')
-                    ->from('housings')
-                    ->where('user_id', $user->id);
+                    $userHousingIds
+                );
             })
             ->get();
     
         $cartOrders = $projectOrders->merge($housingOrders);
-
     
         return view('institutional.orders.index', compact('cartOrders'));
     }

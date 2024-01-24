@@ -15,6 +15,10 @@ class CartOrder extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function reference()
+    {
+        return $this->belongsTo(User::class, 'reference_id');
+    }
 
     public function share()
     {

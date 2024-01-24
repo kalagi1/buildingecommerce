@@ -45,6 +45,14 @@ class CartController extends Controller {
             }
         }
 
+        $hasReference= null;
+
+        if ($request->input( 'reference_code' )) {
+            $hasReference = User::where( 'code',  $request->input( 'reference_code' ) )->first();
+
+        }
+
+
         $cartJson = $request->session()->get( 'cart' );
         $order = new CartOrder;
         $order->user_id = auth()->user()->id;
@@ -245,6 +253,7 @@ $order->phone = $request->input( 'phone' );
 $order->address = $request->input( 'address' );
 $order->tc = $request->input( 'tc' );
 $order->notes = $request->input( 'notes' );
+$order->reference_id = $hasReference ? $hasReference->id : null;
 $order->save();
 
 $lastClick = Click::where( 'user_id', auth()->user()->id )
@@ -801,13 +810,17 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             public function index( Request $request ) {
                 $bankAccounts = BankAccount::all();
                 $cart = $request->session()->get( 'cart', [] );
-                if ( $cart[ 'type' ] == 'housing' ) {
-                    $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                    $saleType = $housing->step2_slug;
-                } else {
-                    $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                    $saleType = $project->step2_slug;
+                $saleType = null;
+                if (isset($cart) && !empty($cart)) {
+                    if ( $cart[ 'type' ] == 'housing' ) {
+                        $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                        $saleType = $housing->step2_slug;
+                    } else {
+                        $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                        $saleType = $project->step2_slug;
+                    }
                 }
+               
 
                 return view( 'client.cart.index', compact( 'cart', 'bankAccounts', 'saleType' ) );
             }

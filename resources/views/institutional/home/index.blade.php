@@ -4,37 +4,24 @@
 @section('content')
     <div class="content">
         @if (isset($userLog->parent))
-            <div class="row gy-3 mb-6 justify-content-between">
+            <div class="row gy-3 mb-5 justify-content-between">
                 <div class="col-md-12 col-auto">
                     <span class="badge bg-info "> Kurumsal Hesap:
                         {{ $userLog->parent->name }}</span>
+                    <span class="badge bg-info "> Referans Kodu:
+                        {{ $userLog->code }}</span>
 
                 </div>
+
             </div>
         @endif
         @if ($userLog->type != 21)
-            <div class="d-flex mb-5 " id="scrollspyStats"><span class="fa-stack me-2 ms-n1"><svg
-                        class="svg-inline--fa fa-circle fa-stack-2x text-primary" aria-hidden="true" focusable="false"
-                        data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512 512" data-fa-i2svg="">
-                        <path fill="currentColor"
-                            d="M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z">
-                        </path>
-                    </svg><!-- <i class="fas fa-circle fa-stack-2x text-primary"></i> Font Awesome fontawesome.com --><svg
-                        class="svg-inline--fa fa-percent fa-inverse fa-stack-1x text-primary-soft" aria-hidden="true"
-                        focusable="false" data-prefix="fas" data-icon="percent" role="img"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                        <path fill="currentColor"
-                            d="M374.6 73.39c-12.5-12.5-32.75-12.5-45.25 0l-320 320c-12.5 12.5-12.5 32.75 0 45.25C15.63 444.9 23.81 448 32 448s16.38-3.125 22.62-9.375l320-320C387.1 106.1 387.1 85.89 374.6 73.39zM64 192c35.3 0 64-28.72 64-64S99.3 64.01 64 64.01S0 92.73 0 128S28.7 192 64 192zM320 320c-35.3 0-64 28.72-64 64s28.7 64 64 64s64-28.72 64-64S355.3 320 320 320z">
-                        </path>
-                    </svg><!-- <i class="fa-inverse fa-stack-1x text-primary-soft fas fa-percentage"></i> Font Awesome fontawesome.com --></span>
+            <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
-
-
-
-                    <h3 class="mb-0 text-primary position-relative fw-bold">
+                    <h3 class="mb-0 text-primary position-relative fw-bold"
+                    style="margin-bottom: 10px !important">
                         <span class="bg-soft pe-2">
-                            {{ $userLog->name }} Hoş Geldiniz.
+                            Sayın {{ $userLog->name }}, Emlak Sepette'ye Hoş Geldiniz.
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
@@ -49,10 +36,10 @@
 
                 </div>
             </div>
-            @else
+        @else
             <h2 class="mb-2 text-body-emphasis">EMLAK KULÜP</h2>
         @endif
-        @if ($userLog->type != 21)
+        {{-- @if ($userLog->type != 21)
             <div class="row">
                 <div class="col-md-6">
                     <div class="bg-white p-3 border rounded-md">
@@ -67,7 +54,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endif --}}
 
     </div>
 

@@ -425,7 +425,7 @@
                                             'mainLink' => 'Mağazam',
                                             'links' => [
                                                 [
-                                                    'url' => route('institutional.projects.index'),
+                                                    'url' => route('institutional.index'),
                                                     'icon' => 'fa-user',
                                                     'text' => 'Hesabım',
                                                 ],
