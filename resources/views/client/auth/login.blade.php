@@ -182,7 +182,7 @@
                                                 <span class="error-message">{{ $errors->first('phone') }}</span>
                                             @endif
                                         </div>
-                                        
+
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
                                             <input type="password" name="password"
@@ -221,7 +221,7 @@
                                                 @endif
                                             </div>
 
-                                           
+
                                             <div class="mt-3">
                                                 <label class="q-label">Iban</label>
                                                 <input type="text" name="iban"
@@ -592,6 +592,81 @@
                 } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
                     taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
                     idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            var cityId = "{{ old('city_id') }}";
+            var countyId = "{{ old('county_id') }}";
+            var taxOfficeCity = "{{ old('taxOfficeCity') }}";
+            var neighborhoodId = "{{ old('neighborhood_id') }}";
+            var taxOffice = "{{ old('taxOffice') }}";
+
+            if (cityId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-counties/' + cityId,
+                    success: function(data) {
+                        var countySelect = $('#countySelect');
+                        countySelect.empty();
+                        countySelect.append('<option value="">İlçe Seçiniz</option>');
+                        $.each(data, function(index, county) {
+                            var selectedAttribute = (county.ilce_key == countyId) ?
+                                'selected' : '';
+
+                            countySelect.append(
+                                '<option value="' + county.ilce_key + '" ' +
+                                selectedAttribute + '>' +
+                                county.ilce_title +
+                                '</option>'
+                            );
+                        });
+                    }
+                });
+            }
+
+
+            if (countyId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-neighborhoods/' + countyId,
+                    success: function(data) {
+                        var neighborhoodSelect = $('#neighborhoodSelect');
+                        neighborhoodSelect.empty();
+                        neighborhoodSelect.append('<option value="">Mahalle Seçiniz</option>');
+
+                        $.each(data, function(index, county) {
+                            var selectedAttribute = (county.mahalle_key == neighborhoodId) ?
+                                'selected' : '';
+                            neighborhoodSelect.append(
+                                '<option value="' + county.mahalle_key + '" ' +
+                                selectedAttribute + '>' +
+                                county.mahalle_title +
+                                '</option>'
+                            );
+                        });
+                    }
+                });
+            }
+
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-tax-office/' + taxOfficeCity,
+                success: function(data) {
+                    var taxOffice = $('#taxOffice');
+                    taxOffice.empty();
+                    $.each(data, function(index, office) {
+                        var selectedAttribute = (office.id == taxOffice) ?
+                            'selected' : '';
+                        taxOffice.append(
+                            '<option value="' + office.id + '" ' +
+                            selectedAttribute + '>' +
+                            office.daire +
+                            '</option>'
+                        );
+                    });
                 }
             });
         });
