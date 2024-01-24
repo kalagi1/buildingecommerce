@@ -102,7 +102,7 @@
             </div>
         </div>
     </section>
-  
+
 
     <section class="featured  home18 bg-white" style="height: 100px">
         <div class="container">
@@ -814,8 +814,8 @@
                                                                             @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
                                                                                     json_decode($housing->housing_type_data)->{"share-open1"}[0]
                                                                             ) class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
-                    @else
-                    class="btn addCollection disabledShareButton" @endif>
+                                                                                            @else
+                                                                                            class="btn addCollection disabledShareButton" @endif>
                                                                             <i class="fa fa-bookmark"></i>
                                                                         </span>
                                                                     @endif
@@ -917,7 +917,7 @@
 
 
                                                                         @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                            @if ($sold)
+                                                                            @if ($sold != null)
                                                                                 @if ($sold != '1' && $sold != '0')
                                                                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                                                                         @if ($housing->discount_amount)
@@ -989,12 +989,26 @@
 
 
                                                                     </li>
-                                                                    @if (!$housing->discount_amount)
-                                                                        <li
-                                                                            style="display: flex; justify-content: right;width:100%">
-                                                                            {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
-                                                                        </li>
+                                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                        @if ($sold != null)
+                                                                            @if ($sold != '1' && $sold != '0')
+                                                                                @if (!$housing->discount_amount)
+                                                                                    <li
+                                                                                        style="display: flex; justify-content: right;width:100%">
+                                                                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                                                    </li>
+                                                                                @endif
+                                                                            @endif
+                                                                            @else
+                                                                            @if (!$housing->discount_amount)
+                                                                            <li
+                                                                                style="display: flex; justify-content: right;width:100%">
+                                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                                            </li>
+                                                                        @endif
+                                                                        @endif
                                                                     @endif
+
                                                                 </ul>
 
 

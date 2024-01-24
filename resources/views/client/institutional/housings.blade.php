@@ -262,7 +262,7 @@ return $a;
 
 
                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                        @if ($sold)
+                                    @if ($sold != null)
                                             @if ($sold != '1' && $sold != '0')
                                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                                     @if ($housing->discount_amount)
@@ -523,103 +523,120 @@ return $a;
                                                             @endif
                                                         </ul>
                                                         <ul class="homes-list clearfix pb-0"
-                                                            style="display: flex; justify-content: space-between;margin-top:20px !important;">
-                                                            <li
-                                                                style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
-                                                                @if ($housing->discount_amount)
-                                                                    <svg viewBox="0 0 24 24" width="18"
-                                                                        height="18" stroke="#EA2B2E"
-                                                                        stroke-width="2" fill="#EA2B2E"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="css-i6dzq1">
-                                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                        </polyline>
-                                                                        <polyline points="17 18 23 18 23 12">
-                                                                        </polyline>
-                                                                    </svg>
-                                                                @endif
+                                                                    style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                                    <li
+                                                                        style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
+                                                                        @if ($housing->discount_amount)
+                                                                            <svg viewBox="0 0 24 24" width="18"
+                                                                                height="18" stroke="#EA2B2E"
+                                                                                stroke-width="2" fill="#EA2B2E"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="css-i6dzq1">
+                                                                                <polyline
+                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                                </polyline>
+                                                                                <polyline points="17 18 23 18 23 12">
+                                                                                </polyline>
+                                                                            </svg>
+                                                                        @endif
 
 
-                                                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                                    @if ($sold)
-                                                                        @if ($sold != '1' && $sold != '0')
-                                                                            @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                                @if ($housing->discount_amount)
-                                                                                    <del>
+                                                                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                            @if ($sold != null)
+                                                                                @if ($sold != '1' && $sold != '0')
+                                                                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                                        @if ($housing->discount_amount)
+                                                                                            <del>
+                                                                                                <span
+                                                                                                    style="font-size:11px; color:#EA2B2E">
+                                                                                                    {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                                                                                </span>
+                                                                                            </del>
+                                                                                            {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
+                                                                                            ₺
+                                                                                        @else
+                                                                                            {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                                                                            ₺
+                                                                                        @endif
                                                                                         <span
                                                                                             style="font-size:11px; color:#EA2B2E">
-                                                                                            {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                                                        </span>
-                                                                                    </del>
-                                                                                    {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
-                                                                                    ₺
-                                                                                @else
-                                                                                    {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                                                    ₺
-                                                                                @endif
-                                                                                <span
-                                                                                    style="font-size:11px; color:#EA2B2E">
-                                                                                    1 Gece</span>
-                                                                            @else
-                                                                                @if ($housing->discount_amount)
-                                                                                    <del
-                                                                                        style="font-size:11px; color:#EA2B2E">
+                                                                                            1 Gece</span>
+                                                                                    @else
+                                                                                        @if ($housing->discount_amount)
+                                                                                            <del
+                                                                                                style="font-size:11px; color:#EA2B2E">
 
-                                                                                        {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                                    </del>
-                                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
-                                                                                    ₺
+                                                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                                            </del>
+                                                                                            {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
+                                                                                            ₺
+                                                                                        @else
+                                                                                            {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                                            ₺
+                                                                                        @endif
+                                                                                    @endif
+                                                                                @endif
+                                                                            @else
+                                                                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                                                    @if ($housing->discount_amount)
+                                                                                        <del
+                                                                                            style="font-size:11px; color:#EA2B2E">
+                                                                                            {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                                                                        </del>
+                                                                                        {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
+                                                                                        ₺
+                                                                                        <span
+                                                                                            style="font-size:11px; color:#EA2B2E">
+                                                                                            1 Gece</span>
+                                                                                    @else
+                                                                                        {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
+                                                                                        ₺
+                                                                                        <span
+                                                                                            style="font-size:11px; color:#EA2B2E">
+                                                                                            1 Gece</span>
+                                                                                    @endif
                                                                                 @else
-                                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                                    ₺
+                                                                                    @if ($housing->discount_amount)
+                                                                                        <del
+                                                                                            style="font-size:11px; color:#EA2B2E">
+                                                                                            {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                                        </del>
+                                                                                        {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
+                                                                                        ₺
+                                                                                    @else
+                                                                                        {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
+                                                                                        ₺
+                                                                                    @endif
                                                                                 @endif
                                                                             @endif
                                                                         @endif
-                                                                    @else
-                                                                        @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                                            @if ($housing->discount_amount)
-                                                                                <del
-                                                                                    style="font-size:11px; color:#EA2B2E">
-                                                                                    {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                                                </del>
-                                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
-                                                                                ₺
-                                                                                <span
-                                                                                    style="font-size:11px; color:#EA2B2E">
-                                                                                    1 Gece</span>
-                                                                            @else
-                                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                                                ₺
-                                                                                <span
-                                                                                    style="font-size:11px; color:#EA2B2E">
-                                                                                    1 Gece</span>
+
+
+
+                                                                    </li>
+                                                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                                        @if ($sold != null)
+                                                                            @if ($sold != '1' && $sold != '0')
+                                                                                @if (!$housing->discount_amount)
+                                                                                    <li
+                                                                                        style="display: flex; justify-content: right;width:100%">
+                                                                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                                                    </li>
+                                                                                @endif
                                                                             @endif
-                                                                        @else
-                                                                            @if ($housing->discount_amount)
-                                                                                <del
-                                                                                    style="font-size:11px; color:#EA2B2E">
-                                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                                </del>
-                                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
-                                                                                ₺
                                                                             @else
-                                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                                ₺
-                                                                            @endif
+                                                                            @if (!$housing->discount_amount)
+                                                                            <li
+                                                                                style="display: flex; justify-content: right;width:100%">
+                                                                                {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                                            </li>
+                                                                        @endif
                                                                         @endif
                                                                     @endif
-                                                                @endif
 
+                                                                </ul>
 
-
-                                                            </li>
-                                                            @if (!$housing->discount_amount)
-                                                                <li
-                                                                    style="display: flex; justify-content: right;width:100%">
-                                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
-                                                                </li>
-                                                            @endif
-                                                        </ul>
 
                                                         @if ($housing->step2_slug != 'gunluk-kiralik')
                                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
