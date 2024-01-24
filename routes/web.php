@@ -277,6 +277,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
         Route::get('/orders', [AdminHomeController::class, 'getOrders'])->name('orders');
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
+        Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info');
 
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 

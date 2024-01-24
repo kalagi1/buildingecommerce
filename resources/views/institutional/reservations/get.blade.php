@@ -11,7 +11,6 @@
         <div class="mb-9">
             <div id="orderTable"
                 data-list="{&quot;valueNames&quot;:[&quot;order&quot;,&quot;total&quot;,&quot;customer&quot;,&quot;payment_status&quot;,&quot;fulfilment_status&quot;,&quot;delivery_type&quot;,&quot;date&quot;],&quot;page&quot;:10,&quot;pagination&quot;:true}">
-<<<<<<< HEAD
                 <div class="card p-4">
                     <div class="bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
                         <div class="table-responsive scrollbar mx-n1 px-1">
@@ -31,142 +30,18 @@
                                             style="width:10%">KİŞİ SAYISI</th>
                                         <th class="sort align-middle text-start" scope="col" data-sort="total"
                                             style="width:10%;">TOPLAM FİYAT</th>
+                                        <th class="sort align-middle text-start" scope="col" data-sort="total"
+                                            style="width:10%;">ÖDENEN KAPORA</th>
                                         <th class="sort align-middle text-start " scope="col" data-sort="customer"
                                             style="width:10%">GİRİŞ TARİHİ</th>
                                         <th class="sort align-middle text-start " scope="col" data-sort="customer"
                                             style="width:10%">ÇIKIŞ TARİHİ</th>
                                         <th class="sort align-middle text-start pe-3" scope="col"
                                             data-sort="fulfilment_status" style="width:10%">FATURA</th>
-                                        <th class="sort align-middle text-start" scope="col" data-sort="total"
-                                            style="width:10%;">KAPORA</th>
                                         <th class="sort align-middle pe-3" scope="col" data-sort="payment_status"
                                             style="width:10%;">SİPARİŞ DURUMU</th>
                                         <th class="sort align-middle text-end pe-0" scope="col" data-sort="date" style="width:5%;">TARİH</th>
                                         <th class="sort align-middle text-end pe-0" scope="col" data-sort="date" style="width:5%;">İŞLEMLER</th>
-=======
-
-
-                <div
-                    class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
-                    <div class="table-responsive scrollbar mx-n1 px-1">
-                        <table class="table table-sm fs-9 mb-0">
-                            <thead>
-                                <tr>
-
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order"
-                                        style="width:5%;">No.</th>
-                                    <th class="sort align-middle " scope="col" data-sort="customer" style="width:20%">
-                                        İLAN</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="customer"
-                                        style="width:10%">KİŞİ SAYISI</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
-                                        style="width:10%;">TOPLAM FİYAT</th>
-                                    <th class="sort align-middle text-start " scope="col" data-sort="customer"
-                                        style="width:10%">GİRİŞ TARİHİ</th>
-                                    <th class="sort align-middle text-start " scope="col" data-sort="customer"
-                                        style="width:10%">ÇIKIŞ TARİHİ</th>
-                                    <th class="sort align-middle text-start pe-3" scope="col"
-                                        data-sort="fulfilment_status" style="width:10%">FATURA</th>
-                                    <th class="sort align-middle text-start" scope="col" data-sort="total"
-                                        style="width:10%;">KAPORA</th>
-                                    <th class="sort align-middle pe-3" scope="col" data-sort="payment_status"
-                                        style="width:10%;">SİPARİŞ DURUMU</th>
-                                    <th class="sort align-middle text-end pe-0" scope="col" data-sort="date"
-                                        style="width:5%;">TARİH</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list" id="order-table-body">
-                                @foreach ($housingReservations as $order)
-                                    @php
-                                        $tarih = date('d F Y', strtotime($order->created_at));
-                                        $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
-                                        $check_in_date = date('d F Y', strtotime($order->check_in_date));
-                                        $check_in_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_in_date);
-                                        $check_out_date = date('d F Y', strtotime($order->check_out_date));
-                                        $check_out_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_out_date);
-                                    @endphp
-                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-
-
-                                        <td class="order align-middle white-space-nowrap py-0"><a class="fw-semibold"
-                                                href="#!">{{ 1000000 + $order->id }}</a></td>
-
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ App\Models\Housing::find($order->housing_id ?? 0)->title ?? null }}
-
-                                        </td>
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ $order->person_count }}
-
-                                        </td>
-                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                            {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }}
-                                            ₺</td>
-
-
-
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ $check_in_date }}
-
-                                        </td>
-                                        <td class="customer align-middle white-space-nowrap  text-start">
-                                            {{ $check_out_date }}
-
-                                        </td>
-
-                                        <td
-                                            class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-                                        
-                                            @if ($order->invoice || $order->status== 1)
-                                                <a href="{{ route('institutional.invoice.show', $order->id) }}">
-                                                    <button class="invoiceBtn">
-                                                        <span class="button_lg">
-                                                            <span class="button_sl"></span>
-                                                            <span class="button_text">Faturayı Görüntüle</span>
-                                                        </span>
-                                                    </button>
-                                                </a>
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                            {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2), 0, ',', '.') }}
-                                            ₺</td>
-                                        <td
-                                            class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-                                            {!! [
-                                                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Rezerve Edildi</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                </svg>',
-                                                '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                </svg>',
-                                                '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                </svg>',
-                                            ][$order->status] !!}
-                                            </span>
-                                        </td>
-                                        <td
-                                            class="date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4 text-end">
-                                            {{ $tarih }}</td>
->>>>>>> 66d3d897d30a0ade78aace8008f82357d1fe1417
                                     </tr>
                                 </thead>
                                 <tbody class="list" id="order-table-body">
@@ -178,6 +53,9 @@
                                             $check_in_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_in_date);
                                             $check_out_date = date('d F Y', strtotime($order->check_out_date));
                                             $check_out_date = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $check_out_date);
+                                        @endphp
+                                        @php
+                                            $estateSecured = $order->money_trusted == 1 ? 1000 : 0;
                                         @endphp
                                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                                             <td class="fs-9 align-middle px-0 py-3">
@@ -198,11 +76,9 @@
                                                 {{ $order->person_count }}
 
                                             </td>
-                                            <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                                {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }}
-                                                ₺</td>
+                                            <td class="total align-middle text-start fw-semibold text-body-highlight"> {{ number_format(floatval(str_replace('.', '', $order->total_price)), 0, ',', '.') }} ₺</td>
 
-
+                                            <td class="total align-middle text-start fw-semibold text-body-highlight"> {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2) + $estateSecured, 0, ',', '.') }} ₺ @if($order->money_trusted == 1) (+1000₺ Param Güvende Ödemesi) @endif </td>
 
                                             <td class="customer align-middle white-space-nowrap  text-start">
                                                 {{ $check_in_date }}
@@ -228,9 +104,6 @@
                                                     -
                                                 @endif
                                             </td>
-                                            <td class="total align-middle text-start fw-semibold text-body-highlight">
-                                                {{ number_format(floatval(str_replace('.', '', $order->total_price) / 2), 0, ',', '.') }}
-                                                ₺</td>
                                             <td
                                                 class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
                                                 {!! [
@@ -284,6 +157,7 @@
         <div class="modal-reservation-cancel-content">
             <div class="title-top">
                 <h3>Rezervasyon İptal Talebi</h3>
+                <span class="badge badge-phoenix badge-phoenix-warning">Rezervasyon iptalinde param güvende ödemeniz EmlakSepette yönetimi tarafından geri ödenmeyecektir.</span>
             </div>
             <div class="reservation-cancel-table mt-2">
                 <table>
@@ -400,21 +274,22 @@
                         }
                         console.log(reservation.money_trusted);
                         if(reservation.money_trusted){
-                            var backPrice = reservation.total_price.toFixed(0);
+                            var backPrice = reservation.total_price / 2;
+                            backPrice = backPrice.toFixed(0);
                             backPrice = backPrice.replace(/\D/g, '');
                             backPrice = backPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            $('.reservation-back-money').html(backPrice+'₺')
+                            $('.reservation-back-money').html((backPrice)+'₺')
                             $('.reservation-estate-shopping-money').html('1000₺ (Param güvende ücreti)')
                             $('.reservation-tourism-money').html('0₺')
                         }else{
                             var price = reservation.total_price;
-                            var backPrice = (price / 2).toFixed(0);
+                            var backPrice = (price / 4).toFixed(0);
                             backPrice = backPrice.replace(/\D/g, '');
                             backPrice = backPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            var estateBagPrice = ((price / 2) / 10 * 2).toFixed(0);
+                            var estateBagPrice = ((price / 4) / 10 * 2).toFixed(0);
                             estateBagPrice = estateBagPrice.replace(/\D/g, '');
                             estateBagPrice = estateBagPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                            var institutionalPrice = ((price / 2) / 10 * 8).toFixed(0);
+                            var institutionalPrice = ((price / 4) / 10 * 8).toFixed(0);
                             institutionalPrice = institutionalPrice.replace(/\D/g, '');
                             institutionalPrice = institutionalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                             $('.reservation-back-money').html(backPrice+'₺')
@@ -521,7 +396,7 @@
             padding: 8px;
             margin-bottom: 20px;
             font-weight: 600;
-            font-size: 11px;
+            font-size: 12px;
             transition: all .15s ease;
         }
 
@@ -636,14 +511,14 @@
             padding: 15px 20px;
             justify-content: space-between;
             align-items: center;
-            font-size: 11px;
+            font-size: 12px;
             color: #2a2a2a;
             font-weight: bold;
             margin-bottom: 20px;
         }
 
         #orders-container .header-bar .order-search-box-warn {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #d21313;
             margin: 5px;
@@ -675,7 +550,7 @@
 
         #orders-container .header-bar .order-search-box-container .osb-give-up span {
             position: absolute;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #333333;
             left: 15px;
@@ -701,7 +576,7 @@
             right: 9px;
             top: 9px;
             color: #f27a1a;
-            font-size: 11px;
+            font-size: 12px;
             cursor: pointer;
         }
 
@@ -831,7 +706,7 @@
             flex-direction: column;
             width: 80%;
             color: #333;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         #orders-container .order .order-item .order-item-status .title {
@@ -850,7 +725,7 @@
 
         #orders-container .order .order-item .order-item-status .title .shipment-info {
             color: #666;
-            font-size: 11px;
+            font-size: 12px;
             margin-left: 10px;
             line-height: 18px;
             text-decoration: underline;
@@ -876,7 +751,7 @@
 
         #orders-container .order .order-item .order-item-status .description {
             margin-top: 5px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         #orders-container .order .order-item .order-item-status .description .cargo-info {
@@ -994,7 +869,7 @@
             color: #666;
             width: 25px;
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         #orders-container .order .order-item .order-item-easy-return,
@@ -1109,7 +984,7 @@
         }
 
         #orders-container .orders-error {
-            font-size: 11px;
+            font-size: 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -1280,7 +1155,7 @@
             margin: 20px;
             border-radius: 6px;
             background-color: #f27a1a;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
         }
 
@@ -1315,7 +1190,7 @@
 
         #orders-container .order-search-info {
             margin: 0 0 15px 20px;
-            font-size: 11px;
+            font-size: 12px;
             color: #2a2a2a;
         }
 
@@ -1395,7 +1270,7 @@
         }
 
         #orders-container .orders-collection-point-description .delivery-point-desc {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 400;
             letter-spacing: -0.1px;
             color: #333333;
@@ -1410,7 +1285,7 @@
             height: 24px;
             background-color: #FEF4EC;
             color: #F27A1A;
-            font-size: 11px;
+            font-size: 12px;
             font-family: source_sans_prosemibold, sans-serif;
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
@@ -1452,7 +1327,7 @@
         }
 
         #orders-container .collection-point-information-banner .collection-point-information {
-            font-size: 11px;
+            font-size: 12px;
             color: #333333;
         }
 
@@ -1487,7 +1362,7 @@
             height: 44px;
             margin: 20px;
             border-radius: 6px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
         }
 
@@ -1551,7 +1426,7 @@
             color: #333333;
             font-family: source_sans_prosemibold, sans-serif;
             -webkit-font-smoothing: antialiased;
-            font-size: 11px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.4s ease;
             margin-right: 10px;
@@ -1649,7 +1524,7 @@
         }
 
         #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details {
-            font-size: 11px;
+            font-size: 12px;
         }
 
         #orders-container .group-deal-info .gdi-details .gdi-d-content div.gdi-d-c-details span {
@@ -1718,7 +1593,7 @@
 
         #orders-container .gd-share-description-item .gd-sdi-description-container p {
             margin-top: 6px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         #orders-container .gd-copy-link-box {
@@ -1745,7 +1620,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 11px;
+            font-size: 12px;
             flex-shrink: 0;
         }
 
@@ -1765,7 +1640,7 @@
         }
 
         #orders-container .gd-copy-link-box .gd-cp-lb-container button span {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             margin-left: 5px;
         }
@@ -1862,7 +1737,7 @@
         }
 
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>i {
-            font-size: 11px;
+            font-size: 12px;
             margin-right: 6px;
         }
 
@@ -1873,7 +1748,7 @@
         #orders-container .cobranded-card-offer-information .offer-information-text-wrapper .information-bullets li>p {
             font-family: source_sans_proregular, sans-serif;
             font-style: normal;
-            font-size: 11px;
+            font-size: 12px;
             line-height: 16px;
             color: #1C1C1C;
         }
@@ -1901,7 +1776,7 @@
             font-family: source_sans_proregular, sans-serif;
             font-weight: 600;
             -webkit-font-smoothing: antialiased;
-            font-size: 11px;
+            font-size: 12px;
             line-height: 16px;
             color: #ffffff;
         }

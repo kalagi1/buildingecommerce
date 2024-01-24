@@ -46,14 +46,29 @@ class HomeController extends Controller {
    
 
     public function getReservations() {
-        $housingReservations = Reservation::with( 'user', 'housing', 'owner' )->where('status','!=',3)
+        $housingReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','=',1)->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->whereNull('cancel_requests.id')
+        ->get();
+        $confirmReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','!=',3)->where('status','!=',1)->where('check_in_date','>=',date('Y-m-d'))->where('status','!=',3)->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->whereNull('cancel_requests.id')
         ->get();
 
-        $cancelReservations = Reservation::with( 'user', 'housing', 'owner' )->where('status','!=',3)
+        $expiredReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('check_in_date','<=',date('Y-m-d'))->where('status','!=',3)
         ->get();
 
+        $cancelReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','=',3)
+        ->get();
 
-        return view( 'admin.reservations.index', compact( 'housingReservations','cancelReservations' ) );
+        $cancelRequestReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->where('status','!=',3)->whereNotNull('cancel_requests.id')
+        ->get();
+
+        return view( 'admin.reservations.index', compact( 'housingReservations','cancelReservations',"expiredReservations","confirmReservations","cancelRequestReservations" ) );
+    }
+
+    public function deleteCancelRequest($id){
+        $reservation = Reservation::where('id',$id)->first();
+        $cancelRequest = $reservation->cancelRequest;
+        $cancelRequest->delete();
+
+        return redirect()->route('admin.reservations',["status" => "cancel_cancel_request"]);
     }
 
     public function reservationInfo($id){
