@@ -4,8 +4,7 @@
     <style>
         /* css */
         .trip-search select {
-            border: 1px solid #CCC;
-            border-radius: 8px;
+            border: 1px solid #eee;
         }
 
         input[type=radio] {
