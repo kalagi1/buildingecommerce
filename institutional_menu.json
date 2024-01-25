@@ -30,7 +30,7 @@
         "id": "account",
         "label": "Hesabım & Yardım",
         "icon": "home",
-        "text": "Hesabım",
+        "text": "Panelim",
         "key": "ViewDashboard",
         "url": "institutional.index",
         "activePath": "institutional/"

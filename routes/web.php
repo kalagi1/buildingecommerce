@@ -962,71 +962,71 @@ Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('chec
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
-// Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
-//     Route::get('/reservations', [ClientPanelProfileController::class, 'getReservations'])->name('reservations');
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+    Route::get('/reservations', [ClientPanelProfileController::class, 'getReservations'])->name('reservations');
 
-//     Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
-//     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
-//     Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
+    Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
+    Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
+    Route::get('/get-document', [ClientPanelProfileController::class, 'getIdentityDocument'])->name('get.identity-document');
 
-//     // Profile Controller Rotasının İzinleri
-//     Route::middleware(['checkPermission:EditProfile'])->group(function () {
-//         Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
-//         Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
-//     });
+    // Profile Controller Rotasının İzinleri
+    Route::middleware(['checkPermission:EditProfile'])->group(function () {
+        Route::get('/profili-guncelle', [ClientPanelProfileController::class, "edit"])->name('profile.edit');
+        Route::put('/profile/update', [ClientPanelProfileController::class, "update"])->name('profile.update');
+    });
 
-//     Route::middleware(['checkPermission:UpgradeProfile'])->group(function () {
-//         Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
-//         Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
-//     });
+    Route::middleware(['checkPermission:UpgradeProfile'])->group(function () {
+        Route::get('/profili-yukselt', [ClientPanelProfileController::class, "upgrade"])->name('profile.upgrade');
+        Route::post('/profili-yukselt/{id}', [ClientPanelProfileController::class, "upgradeProfile"])->name('profile.upgrade.action');
+    });
 
-//     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
+    Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
 
-//     Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
-//     Route::get('/get_busy_housing_statuses/{id}', [InstitutionalProjectController::class, 'getBusyDatesByStatusType'])->name('get.busy.housing.statuses');
-//     Route::post('/change_step_order', [TempOrderController::class, 'changeStepOrder'])->name('change.step.order');
-//     Route::get('/get_housing_type_id/{slug}', [TempOrderController::class, 'getHousingTypeId'])->name('get.housing.type.id');
-//     Route::post('/temp_order_image_add', [TempOrderController::class, 'addTempImage'])->name('temp.order.image.add');
-//     Route::post('/temp_order_single_file_add', [TempOrderController::class, 'singleFile'])->name('temp.order.single.file.add');
-//     Route::post('/temp_order_document_add', [TempOrderController::class, 'documentFile'])->name('temp.order.document.add');
-//     Route::post('/temp_order_change_data', [TempOrderController::class, 'dataChange'])->name('temp.order.data.change');
-//     Route::post('/temp_order_project_housing_data_change', [TempOrderController::class, 'projectHousingDataChange'])->name('temp.order.project.housing.change');
-//     Route::post('/add_project_image', [TempOrderController::class, 'addProjectImage'])->name('temp.order.project.add.image');
-//     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
-//     Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
-//     Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
+    Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
+    Route::get('/get_busy_housing_statuses/{id}', [InstitutionalProjectController::class, 'getBusyDatesByStatusType'])->name('get.busy.housing.statuses');
+    Route::post('/change_step_order', [TempOrderController::class, 'changeStepOrder'])->name('change.step.order');
+    Route::get('/get_housing_type_id/{slug}', [TempOrderController::class, 'getHousingTypeId'])->name('get.housing.type.id');
+    Route::post('/temp_order_image_add', [TempOrderController::class, 'addTempImage'])->name('temp.order.image.add');
+    Route::post('/temp_order_single_file_add', [TempOrderController::class, 'singleFile'])->name('temp.order.single.file.add');
+    Route::post('/temp_order_document_add', [TempOrderController::class, 'documentFile'])->name('temp.order.document.add');
+    Route::post('/temp_order_change_data', [TempOrderController::class, 'dataChange'])->name('temp.order.data.change');
+    Route::post('/temp_order_project_housing_data_change', [TempOrderController::class, 'projectHousingDataChange'])->name('temp.order.project.housing.change');
+    Route::post('/add_project_image', [TempOrderController::class, 'addProjectImage'])->name('temp.order.project.add.image');
+    Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
+    Route::get('/housing_types/getForm/', [HousingTypeController::class, 'getHousingTypeForm'])->name('ht.getform');
+    Route::get('/get_counties', [InstitutionalProjectController::class, "getCounties"])->name('get.counties');
 
-//     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
+    Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
 
-//     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
-//         Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
-//         Route::get('/siparislerim/{order}', [ClientPanelProfileController::class, "cartOrderDetail"])->name('profile.cart-orders.detail');
-//         Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
-//         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
+    Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
+        Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/siparislerim/{order}', [ClientPanelProfileController::class, "cartOrderDetail"])->name('profile.cart-orders.detail');
+        Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
+        Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
 
-//     });
+    });
 
-//     // ChangePassword Controller Rotasının İzinleri
-//     Route::middleware(['checkPermission:ChangePassword'])->group(function () {
-//         Route::get('/sifreyi-degistir', [ClientPanelChangePasswordController::class, "edit"])->name('password.edit');
-//         Route::post('/password/update', [ClientPanelChangePasswordController::class, "update"])->name('password.update');
-//     });
+    // ChangePassword Controller Rotasının İzinleri
+    Route::middleware(['checkPermission:ChangePassword'])->group(function () {
+        Route::get('/sifreyi-degistir', [ClientPanelChangePasswordController::class, "edit"])->name('password.edit');
+        Route::post('/password/update', [ClientPanelChangePasswordController::class, "update"])->name('password.update');
+    });
 
-//     // AdminHomeController Rotalarının İzinleri
-//     Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
-//         Route::get('/', [ClientPanelDashboardController::class, "index"])->name("index");
-//         Route::get('/konut_olustur', [OrderController::class, "createHousing"])->name("create.housing");
-//         Route::post('/order', [OrderController::class, 'createOrder'])->name('create.order');
-//         Route::get('/getOrders', [OrderController::class, 'getOrders']);
-//     });
+    // AdminHomeController Rotalarının İzinleri
+    Route::middleware(['checkPermission:ViewDashboard'])->group(function () {
+        Route::get('/', [ClientPanelDashboardController::class, "index"])->name("index");
+        Route::get('/konut_olustur', [OrderController::class, "createHousing"])->name("create.housing");
+        Route::post('/order', [OrderController::class, 'createOrder'])->name('create.order');
+        Route::get('/getOrders', [OrderController::class, 'getOrders']);
+    });
 
-//     // User Controller İzin Kontrolleri
-//     Route::middleware(['checkPermission:CreateUser'])->group(function () {
-//         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-//         Route::post('/users', [UserController::class, 'store'])->name('users.store');
-//     });
+    // User Controller İzin Kontrolleri
+    Route::middleware(['checkPermission:CreateUser'])->group(function () {
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    });
 
-// });
+});
 
 // Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
 //     ->name('all.project.list');
