@@ -762,7 +762,7 @@
                                                         </div>
                                                         <div class="button-effect-div">
                                                            
-                                                                    <span ${res.share ? `class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type="housing" data-id="${res.id}"` :
+                                                                    <span ${res.share ? `class="btn addCollection"  data-type="housing" data-id="${res.id}"` :
                                                                                                 `class="btn disabledShareButton"`}>
                                                                                     <i class="fa fa-bookmark"></i>
                                                                                 </span>
@@ -866,7 +866,7 @@
                                                     <h4>
                                                     ${res.title}
                                                 </h4>
-                                                <span ${res.share ? `class="btn addCollection mobileAddCollection " data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type="housing" data-id="${res.id}"` :
+                                                <span ${res.share ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
                                                                                         `class="btn  mobileAddCollection  disabledShareButton"`}>
                                                                             <i class="fa fa-bookmark"></i>
                                                                         </span>

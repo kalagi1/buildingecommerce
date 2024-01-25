@@ -403,7 +403,7 @@
                     </div>
                     <div class="moveCollection">
                             <div
-                                @if (isset($projectHousingsList[$housingOrder]['share-open[]'])) class="add-to-collections-wrapper addCollectionMobile addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
+                                @if (isset($projectHousingsList[$housingOrder]['share-open[]'])) class="add-to-collections-wrapper addCollectionMobile addCollection"  data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
                                         @else
                                         class="add-to-collections-wrapper disabledShareButton addCollection addCollectionMobile" @endif>
                                 <div class="add-to-collection-button-wrapper">
@@ -802,7 +802,7 @@
                                                                                                                     <span
                                                                                                                         @if (isset($projectHousingsList[$i + 1]['share-open[]']) &&
                                                                                                                                 $projectHousingsList[$i + 1]['share-open[]'] != '[]' &&
-                                                                                                                                $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                                                $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
                                                                                                                                     data-type='project'
                                                                                                                                     data-project='{{ $project->id }}'
                                                                                                                                     data-id='{{ $i + 1 }}'
@@ -1191,7 +1191,7 @@
                                                                                             @endif
                                                                                         </h3>
                                                                                             <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
                                                                                           data-type='project'
                                                                                           data-project='{{ $project->id }}'
                                                                                           data-id='{{ $i + 1 }}'
@@ -1441,7 +1441,7 @@
 
                                                                                     <div class="button-effect-div">
                                                                                             <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
                                                                                           data-type='project'
                                                                                           data-project='{{ $project->id }}'
                                                                                           data-id='{{ $i + 1 }}'
@@ -1793,7 +1793,7 @@
                                                                         @endif
                                                                     </h3>
                                                                         <span
-                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
+                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
                                                                       data-type='project'
                                                                       data-project='{{ $project->id }}'
                                                                       data-id='{{ $i + 1 }}'

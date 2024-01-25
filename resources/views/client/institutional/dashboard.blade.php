@@ -669,7 +669,7 @@
                                                 <span
                                                         @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
                                                                 json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                                        ) class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                                        ) class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" 
                                 @else
                                 class="btn addCollection mobileAddCollection disabledShareButton" @endif>
                                                         <i class="fa fa-bookmark"></i>
@@ -918,7 +918,7 @@
                                                                     <span
                                                                     @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
                                                                             json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                                                    ) class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                                                    ) class="btn addCollection"  data-type='housing' data-id="{{ $housing->id }}" 
                                                     @else
                                                     class="btn addCollection disabledShareButton" @endif>
                                                                     <i class="fa fa-bookmark"></i>

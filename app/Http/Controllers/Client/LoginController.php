@@ -101,18 +101,17 @@ class LoginController extends Controller {
                         ] );
 
                     }
+                    $cart = session( 'cart', [] );
+                    if ( count( $cart ) != 0 ) {
+                        session( [ 'cart' => $cart ] );
+                    }
 
                     if ( $user->type == 3 ) {
                         return redirect()->intended( '/admin' );
-                    } elseif ( $user->type != 1 && $user->type != '3' ) {
+                    } elseif ( $user->type != '3' ) {
                         return redirect()->intended( route( 'index' ) );
-                    } else {
-                        $cart = session( 'cart', [] );
-                        if ( count( $cart ) != 0 ) {
-                            session( [ 'cart' => $cart ] );
-                        }
-                        return redirect()->intended( '/hesabim' );
                     }
+
                 } else {
                     session()->flash( 'warning', 'Giriş Başarısız. Lütfen bilgilerinizi kontrol ediniz.' );
 

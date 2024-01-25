@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Institutional;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\CartOrder;
+use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Reservation;
+use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
@@ -228,6 +230,34 @@ class DashboardController extends Controller
 
         }
         DB::commit();
-        return view('institutional.home.index', compact("userLog", "remainingPackage", "stats1_data", "stats2_data","hasPlan"));
+
+        $user_id = Auth::user()->id;
+    
+        $balanceStatus0Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "0")->get();
+
+        $balanceStatus0 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "0")
+            ->sum('balance');
+    
+        $balanceStatus1Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "1")->get();
+
+        $balanceStatus1 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "1")
+            ->sum('balance');
+    
+        $balanceStatus2Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "2")->get();
+
+        $balanceStatus2 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "2")
+            ->sum('balance');
+
+            $collections = Collection::with("links")->where("user_id",Auth::user()->id)->get();
+            $totalStatus1Count = $balanceStatus1Lists->count();
+            $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+    
+        return view('institutional.home.index', compact("userLog", "balanceStatus0","successPercentage", "collections","balanceStatus1", "balanceStatus2", "balanceStatus0Lists","balanceStatus1Lists","balanceStatus2Lists","remainingPackage", "stats1_data", "stats2_data","hasPlan"));
     }
 }

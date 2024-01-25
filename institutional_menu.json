@@ -27,15 +27,6 @@
         "activePath": "institutional/projects"
     },
     {
-        "id": "projects",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "plus",
-        "text": "Emlak İlanlarım",
-        "key": "Housings",
-        "url": "institutional.housing.list",
-        "activePath": "institutional/housings"
-    },
-    {
         "id": "account",
         "label": "Hesabım & Yardım",
         "icon": "home",
@@ -44,6 +35,16 @@
         "url": "institutional.index",
         "activePath": "institutional/"
     },
+    {
+        "id": "projects",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "plus",
+        "text": "Emlak İlanlarım",
+        "key": "Housings",
+        "url": "institutional.housing.list",
+        "activePath": "institutional/housings"
+    },
+   
     {
         "id": "shopping-bag",
         "label": "Emlak Kulüp",

@@ -449,7 +449,7 @@
                                     <div
                                         @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
                                                 json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                        ) class="add-to-collections-wrapper addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='housing' data-id="{{ $housing->id }}" 
+                                        ) class="add-to-collections-wrapper addCollection"  data-type='housing' data-id="{{ $housing->id }}" 
                                             @else
                                             class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
                                         <div class="add-to-collection-button-wrapper">

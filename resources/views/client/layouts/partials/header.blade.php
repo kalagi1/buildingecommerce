@@ -388,25 +388,30 @@
                                         'mainLink' => 'Hesabım',
                                         'links' => [
                                             [
-                                                'url' => route('client.index'),
-                                                'icon' => 'fa-user',
-                                                'text' => 'Hesabım',
-                                            ],
-                                            [
-                                                'url' => route('client.profile.cart-orders'),
-                                                'icon' => 'fa-shopping-cart',
-                                                'text' => 'Siparişlerim',
-                                            ],
-                                            [
-                                                'url' => route('favorites'),
-                                                'icon' => 'fa-heart',
-                                                'text' => 'Favorilerim',
-                                            ],
-                                            [
-                                                'url' => route('client.logout'),
-                                                'icon' => 'fa-sign-out',
-                                                'text' => 'Çıkış Yap',
-                                            ],
+                                                    'url' => route('institutional.index'),
+                                                    'icon' => 'fa-user',
+                                                    'text' => 'Hesabım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.sharer.index'),
+                                                    'icon' => 'fa-bookmark',
+                                                    'text' => 'Koleksiyonlarım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.profile.cart-orders'),
+                                                    'icon' => 'fa-shopping-cart',
+                                                    'text' => 'Siparişlerim',
+                                                ],
+                                                [
+                                                    'url' => route('favorites'),
+                                                    'icon' => 'fa-heart',
+                                                    'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('client.logout'),
+                                                    'icon' => 'fa-sign-out',
+                                                    'text' => 'Çıkış Yap',
+                                                ],
                                         ],
                                     ])
 

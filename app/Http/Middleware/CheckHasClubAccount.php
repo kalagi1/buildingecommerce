@@ -26,10 +26,10 @@ class CheckHasClubAccount {
         if ( auth()->user()->parent_id != NULL && \App\Models\User::find( auth()->user()->parent_id )->has_club == '0' ) {
             dd( 'asa2' );
             die( 'Bağlı olduğunuz ana kurum hesabı onaylanmamış.' );
-        } elseif ( auth()->user()->parent_id == NULL && auth()->user()->has_club == '0' && auth()->user()->type == 2 && in_array( request()->route()->getName(), $this->whiteRoutelist ) ) {
+        } elseif ( auth()->user()->parent_id == NULL && auth()->user()->has_club == '0' && auth()->user()->type != 3 && in_array( request()->route()->getName(), $this->whiteRoutelist ) ) {
 
             return redirect()->route( 'institutional.corporate-has-club-verification' );
-        } elseif ( auth()->user()->parent_id == NULL && auth()->user()->has_club == '2' && auth()->user()->type == 2 && in_array( request()->route()->getName(), $this->whiteRoutelist ) ) {
+        } elseif ( auth()->user()->parent_id == NULL && auth()->user()->has_club == '2' && auth()->user()->type != 3 && in_array( request()->route()->getName(), $this->whiteRoutelist ) ) {
 
             return redirect()->route( 'institutional.corporate-has-club-status' );
         } elseif ( auth()->user()->has_club == '1' && request()->route()->getName() == 'institutional.corporate-has-club-verification' ) {
