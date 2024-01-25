@@ -65,7 +65,7 @@ class SharerController extends Controller {
     
     public function showClientLinks($slug, $id, Request $request)
     {
-        $users = User::get();
+        $users = User::all();
         $collection = Collection::where("id",$id)->first();
 
         $clickData = [
