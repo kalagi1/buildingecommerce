@@ -30,10 +30,8 @@ class CheckHasClubAccount {
 
             return redirect()->route( 'institutional.corporate-has-club-verification' );
         } elseif ( auth()->user()->parent_id == NULL && auth()->user()->has_club == '2' && auth()->user()->type != 3 && in_array( request()->route()->getName(), $this->whiteRoutelist ) ) {
-
             return redirect()->route( 'institutional.corporate-has-club-status' );
         } elseif ( auth()->user()->has_club == '1' && request()->route()->getName() == 'institutional.corporate-has-club-verification' ) {
-            dd( 'asa' );
             return redirect()->route( 'institutional.index' );
         }
         return $next( $request );
