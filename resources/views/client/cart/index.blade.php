@@ -3,10 +3,13 @@
 @section('content')
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
-            <button type="button" class="btn btn-close-cart" style="background: black;color:white;font-size:12px"
-                onclick="window.location.href='{{ route('index') }}'">
-                <i class="fa fa-times"></i> Kapat
-            </button>
+            <div style="text-align: right;">
+                <button type="button" class="btn btn-close-cart" style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
+                        onclick="window.location.href='{{ route('index') }}'">
+                        <i class="fa fa-times"></i> Kapat
+                    </button>
+            </div>
+            
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
                     <div class="my-properties">
@@ -62,6 +65,8 @@
                                                         <br>
 
                                                         {{ $cart['item']['title'] }}
+                                                        <br>
+                                                        {{ $cart['type'] == 'project' ?   $cart['item']['housing'] . " No'lu İlan" : null  }}
                                                     </h2>
                                                 </a>
                                             </div>

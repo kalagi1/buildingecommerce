@@ -419,9 +419,13 @@
                 <div class="col-md-12">
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                                type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki
+                                Konutlar</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
                                 type="button" role="tab" aria-controls="home"
                                 aria-selected="true">Açıklama</button>
                         </li>
@@ -436,11 +440,7 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                                type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki
-                                Konutlar</button>
-                        </li>
+                       
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
                                 type="button" role="tab" aria-controls="contact"
@@ -670,13 +670,13 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade show active blog-info details mb-30" id="home" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
                             <h5 class="mb-4">Açıklama</h5>
 
                             {!! $project->description !!}
                         </div>
-                        <div class="tab-pane fade  blog-info details housingsListTab mb-30 " id="contact"
+                        <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
                             @if ($project->have_blocks == 1)
