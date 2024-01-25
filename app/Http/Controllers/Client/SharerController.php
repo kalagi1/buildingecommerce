@@ -79,9 +79,7 @@ class SharerController extends Controller {
         foreach ($users as $institutional) {          
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
-                if (!$institutional || $institutional->type != 21) {
-                    abort(404);
-                }
+                
 
                 $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
                     ->findOrFail($institutional->id);
