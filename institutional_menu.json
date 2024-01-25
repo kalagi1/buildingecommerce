@@ -46,7 +46,7 @@
     },
     {
         "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
+        "label": "Emlak Kulüp",
         "icon": "gift",
         "text": "EMLAK KULÜP",
         "key": "GetMyEarnings",
@@ -55,7 +55,7 @@
     },
     {
         "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
+        "label": "Emlak Kulüp",
         "icon": "bookmark",
         "text": "Koleksiyonlarım",
         "key": "GetMyCollection",
