@@ -707,7 +707,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
 });
 
-Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
     Route::get('/estate_club_users', [EstateClubController::class,"index"])->name('estate.club.users');
     Route::get('/coupons', [EstateClubController::class,"coupons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [EstateClubController::class,"createCoupon"])->name('estate.create.coupon');
@@ -732,6 +732,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
+    Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
+
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
 
     Route::get('get/tax-document', [InstitutionalUserController::class, 'getTaxDocument'])->name('get.tax-document');
@@ -844,6 +847,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
+        Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
+
         Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
         Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
     });

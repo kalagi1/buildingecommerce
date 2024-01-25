@@ -80,6 +80,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkPermission' => \App\Http\Middleware\CheckPermission::class,
         'checkCorporateAccount' => \App\Http\Middleware\CheckCorporateAccount::class,
+        'checkHasClubAccount' => \App\Http\Middleware\CheckHasClubAccount::class,
         'checkAccountStatus' => \App\Http\Middleware\CheckAccountStatus::class,
     ];
 }

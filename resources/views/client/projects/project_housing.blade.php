@@ -402,7 +402,6 @@
                         </div>
                     </div>
                     <div class="moveCollection">
-                        @if (Auth::check() && Auth::user()->type == 21)
                             <div
                                 @if (isset($projectHousingsList[$housingOrder]['share-open[]'])) class="add-to-collections-wrapper addCollectionMobile addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
                                         @else
@@ -445,7 +444,6 @@
                                     <span class="fa fa-plus"></span>
                                 </div>
                             </div>
-                        @endif
                     </div>
 
 
@@ -801,7 +799,6 @@
                                                                                                             <div
                                                                                                                 class="button-effect-div">
 
-                                                                                                                @if (Auth::check() && Auth::user()->type == 21)
                                                                                                                     <span
                                                                                                                         @if (isset($projectHousingsList[$i + 1]['share-open[]']) &&
                                                                                                                                 $projectHousingsList[$i + 1]['share-open[]'] != '[]' &&
@@ -814,7 +811,6 @@
                                                                                                                         <i
                                                                                                                             class="fa fa-bookmark"></i>
                                                                                                                     </span>
-                                                                                                                @endif
                                                                                                                 <div href="javascript:void()"
                                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                                     data-project-housing-id="{{ $i + 1 }}"
@@ -1194,7 +1190,6 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
-                                                                                        @if (Auth::check() && Auth::user()->type == 21)
                                                                                             <span
                                                                                                 @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                                           data-type='project'
@@ -1205,7 +1200,6 @@
                                                                                                 <i
                                                                                                     class="fa fa-bookmark"></i>
                                                                                             </span>
-                                                                                        @endif
                                                                                         <span
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1446,7 +1440,6 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                        @if (Auth::check() && Auth::user()->type == 21)
                                                                                             <span
                                                                                                 @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                                           data-type='project'
@@ -1457,7 +1450,6 @@
                                                                                                 <i
                                                                                                     class="fa fa-bookmark"></i>
                                                                                             </span>
-                                                                                        @endif
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1800,7 +1792,6 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
-                                                                    @if (Auth::check() && Auth::user()->type == 21)
                                                                         <span
                                                                             @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
                                                                       data-type='project'
@@ -1810,7 +1801,6 @@
                                                         class="btn mobileAddCollection disabledShareButton" @endif>
                                                                             <i class="fa fa-bookmark"></i>
                                                                         </span>
-                                                                    @endif
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cart_orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('reference_id')->nullable();
-            $table->foreign('reference_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum("has_club", [0,1])->default(0);
+
         });
     }
 
@@ -22,8 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cart_orders', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
         });
     }
 };

@@ -75,6 +75,15 @@ class DashboardController extends Controller
         return view('institutional.home.verification');
     }
 
+    public function corporateHasClubAccountVerification()
+    {
+        return view('institutional.home.has-club-verification');
+    }
+    public function corporateHasClubAccountVerificationStatus()
+    {
+        return view('institutional.home.has-club-status');
+    }
+
     public function verifyAccount(Request $request)
     {
         $request->validate(

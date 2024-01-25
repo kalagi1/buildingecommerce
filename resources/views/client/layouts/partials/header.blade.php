@@ -435,44 +435,14 @@
                                                     'text' => 'İlanlarım',
                                                 ],
                                                 [
-                                                    'url' => url('institutional/ilan-tipi-sec'),
-                                                    'icon' => 'fa-plus',
-                                                    'text' => 'İlan Ekle',
-                                                ],
-                                                [
-                                                    'url' => route('institutional.profile.cart-orders'),
-                                                    'icon' => 'fa-shopping-cart',
-                                                    'text' => 'Siparişlerim',
-                                                ],
-                                                [
-                                                    'url' => route('favorites'),
-                                                    'icon' => 'fa-heart',
-                                                    'text' => 'Favorilerim',
-                                                ],
-                                                [
-                                                    'url' => route('client.logout'),
-                                                    'icon' => 'fa-sign-out',
-                                                    'text' => 'Çıkış Yap',
-                                                ],
-                                            ],
-                                        ])
-                                        <a href="{{ route('cart') }}"
-                                            style="border-left: 1px solid #666;
-                                         padding-left: 15px;
-                                         border-right: 1px solid #666;
-                                         padding-right: 15px;">
-                                            @include('client.layouts.partials.cart_icon', [
-                                                'text' => 'Sepetim',
-                                            ])
-                                        </a>
-                                    @elseif (auth()->user()->type == 21)
-                                        @include('client.layouts.partials.dropdown_user_icon', [
-                                            'mainLink' => 'Mağazam',
-                                            'links' => [
-                                                [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa-bookmark',
                                                     'text' => 'Koleksiyonlarım',
+                                                ],
+                                                [
+                                                    'url' => url('institutional/ilan-tipi-sec'),
+                                                    'icon' => 'fa-plus',
+                                                    'text' => 'İlan Ekle',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),

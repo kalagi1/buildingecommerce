@@ -136,17 +136,14 @@
                                                 <button
                                                     class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
                                                     data-user-type="2" type="button">Kurumsal</button>
-                                                {{-- <button
-                                                    class="user-type-button sharer {{ old('type') == 21 ? 'active' : '' }}"
-                                                    data-user-type="21" type="button"
-                                                    style="color:#e54242">Emlak Sepette İle Para Kazan </button> --}}
+                                                
                                             </div>
                                             <input type="hidden" name="type" id="user-type-input"
                                                 value="{{ old('type', 1) }}">
                                         </div>
 
 
-                                        <div class="individual-form {{ old('type') == 1 || old('type') == 21 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
+                                        <div class="individual-form {{ old('type') == 1  ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
                                             id="individualForm">
 
                                             <!-- İsim -->
