@@ -134,7 +134,7 @@
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Kiralık",
-        "key": "GetReservations",
+        "key": "Reservations",
         "url": "#nv-shopping",
         "activePath": ["institutional/my-reservations*","institutional/reservations"],
         "subMenu": [
@@ -146,7 +146,7 @@
             },
             {
                 "text": "Kiraladıklarım",
-                "key": "GetReservations",
+                "key": "MyReservations",
                 "url": "institutional.myreservations",
                 "activePath": "institutional/my-reservations"
             }
