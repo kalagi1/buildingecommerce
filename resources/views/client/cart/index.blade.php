@@ -331,11 +331,20 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="tc">TC:</label>
-                                                <input type="number" class="form-control" id="tc" name="tc"
-                                                    required>
+                                                <label for="tc">TC * </label>
+                                                <input type="number" class="form-control" id="tc" name="tc" required oninput="validateTCLength(this)">
                                             </div>
                                         </div>
+                                        
+                                        <script>
+                                            function validateTCLength(input) {
+                                                var maxLength = 11;
+                                                if (input.value.length > maxLength) {
+                                                    input.value = input.value.slice(0, maxLength);
+                                                    alert("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                }
+                                            }
+                                        </script>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="phone">Telefon:</label>

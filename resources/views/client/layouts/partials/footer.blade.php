@@ -205,33 +205,37 @@
 
 <!-- Bu kodu sayfanın uygun bir yerine ekleyin -->
 
-<div class="modal fade" id="membershipPopup" tabindex="-1" aria-labelledby="membershipPopupLabel" aria-hidden="true">
+<div class="modal fade" id="membershipPopup" tabindex="-1" aria-labelledby="membershipPopupLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <span  class="modal-title" id="membershipPopupLabel"
-                style="color:black;">Emlak Kulüp Başvurunuz</span>
+                <span class="modal-title" id="membershipPopupLabel" style="color:black;">Emlak Kulüp
+                    Başvurunuz</span>
             </div>
             <div class="modal-body">
 
                 @if (Auth::check() && Auth::user()->has_club == 2)
-                <p class="text-success">
-                    Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz şu anda Emlak Sepette yöneticileri tarafından incelenmektedir.
-                    Başvurunuzun durumu hakkında size en kısa sürede bilgi verilecektir. Lütfen bekleyiniz.
-                </p>
-            @elseif (Auth::check() && Auth::user()->has_club == 3)
-                <p class="text-danger">
-                    Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz maalesef reddedilmiştir. 
-                    Başvurunuzun reddedilme sebepleri ile ilgili detaylı bilgi almak için lütfen Emlak Sepette ile iletişime geçiniz.
-                </p>
-            @else
-                <p class="text-black">
-                    Emlak Kulüp başvurunuz bulunmamaktadır. Emlak Kulüp ayrıcalıklarından faydalanmak için başvuru yapabilirsiniz.
-                </p>
-                <a href="{{ route('institutional.sharer.index') }}" class="btn btn-primary" style="height: auto !important">Başvuru Yap</a>
+                    <p class="text-success">
+                        Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz şu anda Emlak Sepette yöneticileri
+                        tarafından incelenmektedir.
+                        Başvurunuzun durumu hakkında size en kısa sürede bilgi verilecektir. Lütfen bekleyiniz.
+                    </p>
+                @elseif (Auth::check() && Auth::user()->has_club == 3)
+                    <p class="text-danger">
+                        Sayın {{ Auth::user()->name }}, Emlak Kulüp başvurunuz maalesef reddedilmiştir.
+                        Başvurunuzun reddedilme sebepleri ile ilgili detaylı bilgi almak için lütfen Emlak Sepette ile
+                        iletişime geçiniz.
+                    </p>
+                @else
+                    <p class="text-black">
+                        Emlak Kulüp başvurunuz bulunmamaktadır. Emlak Kulüp ayrıcalıklarından faydalanmak için başvuru
+                        yapabilirsiniz.
+                    </p>
+                    <a href="{{ route('institutional.sharer.index') }}" class="btn btn-primary"
+                        style="height: auto !important">Başvuru Yap</a>
+                @endif
 
-            @endif
-              
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
@@ -283,11 +287,11 @@
 
 
 <script>
- var isLoggedIn = {!! json_encode(auth()->check()) !!};
-var hasClub = isLoggedIn == true ? {{json_encode(auth()->check() && auth()->user()->has_club)}} : null;
+    var isLoggedIn = {!! json_encode(auth()->check()) !!};
+    var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
 
     $('body').on('click', '.addCollection', function(event) {
-        
+
         event.preventDefault();
 
         $(".modal-backdrop").show();
@@ -303,109 +307,113 @@ var hasClub = isLoggedIn == true ? {{json_encode(auth()->check() && auth()->user
         if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
             $('#membershipPopup').modal('show');
         } else if (!isLoggedIn) {
-            redirectToLogin(); 
-        }else if(isLoggedIn && hasClub == 1) {
+            toastr.error('Lütfen Giriş yapınız', 'Hata');
+            redirectToLogin();
+        } else if (isLoggedIn && hasClub == 1) {
             $('#addCollectionModal').modal('show');
 
             $(".addCollection").data('cart-info', {
-            id: productId,
-            type: type,
-            project: project,
-            _token: "{{ csrf_token() }}",
-            clear_cart: "no",
-            selectedCollectionId: null
-        });
-
-        fetch('/getCollections')
-            .then(response => response.json())
-            .then(data => {
-                let modalContent =
-                    '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body">';
-
-                if (data.collections.length > 0) {
-                    modalContent +=
-                        '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
-                    modalContent += '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
-                    modalContent +=
-                        '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
-                    data.collections.forEach(collection => {
-                        modalContent +=
-                            `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">${collection.name}</li>`;
-                    });
-                    modalContent +=
-                        '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
-                    modalContent += '</ul>';
-                    modalContent += '</div>';
-                } else {
-                    modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
-                    modalContent += '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
-                    modalContent +=
-                        '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
-                    modalContent +=
-                        '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
-                    modalContent += '</ul>';
-                    modalContent += '</div>';
-                }
-
-                modalContent +=
-                    '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
-                let modal = document.getElementById('addCollectionModal');
-                let modalBody = modal.querySelector('.modal-content');
-                modalBody.innerHTML = modalContent;
-
-                document.querySelectorAll('#collectionList li').forEach(item => {
-                    item.addEventListener('click', function() {
-
-                        let selectedCollectionId = this.getAttribute('data-collection-id');
-                        if (!this.isEqualNode(document.querySelector(
-                                '#collectionList li:last-child'))) {
-
-                            var cart = {
-                                id: productId, // productId nereden alındığını kontrol etmelisiniz
-                                type: type,
-                                project: project, // project nereden alındığını kontrol etmelisiniz
-                                _token: "{{ csrf_token() }}",
-                                clear_cart: "no",
-                                selectedCollectionId: parseInt(selectedCollectionId,
-                                    10) // Convert to number using parseInt
-                            };
-
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ route('add.to.link') }}",
-                                data: JSON.stringify(cart),
-                                contentType: "application/json;charset=UTF-8",
-                                success: function(response) {
-
-                                    if (response.failed) {
-                                        toastr.warning(
-                                            "Ürün bu koleksiyonda zaten mevcut."
-                                        );
-                                    } else {
-                                        toastr.success(
-                                            "Ürün Koleksiyonunuza Eklendi"
-                                        );
-                                    }
-
-
-                                },
-                                error: function(error) {
-                                    console.error(error);
-                                }
-                            });
-                            closeModal();
-                        }
-                    });
-                });
-
-
-                document.querySelector('#collectionList li:last-child').addEventListener('click',
-                    function() {
-                        $('#addCollectionModal').modal('hide');
-                        $('#newCollectionModal').modal('show');
-
-                    });
+                id: productId,
+                type: type,
+                project: project,
+                _token: "{{ csrf_token() }}",
+                clear_cart: "no",
+                selectedCollectionId: null
             });
+
+            fetch('/getCollections')
+                .then(response => response.json())
+                .then(data => {
+                    let modalContent =
+                        '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body">';
+
+                    if (data.collections.length > 0) {
+                        modalContent +=
+                            '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
+                        modalContent +=
+                            '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
+                        modalContent +=
+                            '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                        data.collections.forEach(collection => {
+                            modalContent +=
+                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">${collection.name}</li>`;
+                        });
+                        modalContent +=
+                            '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
+                        modalContent += '</ul>';
+                        modalContent += '</div>';
+                    } else {
+                        modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
+                        modalContent +=
+                            '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
+                        modalContent +=
+                            '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                        modalContent +=
+                            '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
+                        modalContent += '</ul>';
+                        modalContent += '</div>';
+                    }
+
+                    modalContent +=
+                        '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
+                    let modal = document.getElementById('addCollectionModal');
+                    let modalBody = modal.querySelector('.modal-content');
+                    modalBody.innerHTML = modalContent;
+
+                    document.querySelectorAll('#collectionList li').forEach(item => {
+                        item.addEventListener('click', function() {
+
+                            let selectedCollectionId = this.getAttribute(
+                                'data-collection-id');
+                            if (!this.isEqualNode(document.querySelector(
+                                    '#collectionList li:last-child'))) {
+
+                                var cart = {
+                                    id: productId, // productId nereden alındığını kontrol etmelisiniz
+                                    type: type,
+                                    project: project, // project nereden alındığını kontrol etmelisiniz
+                                    _token: "{{ csrf_token() }}",
+                                    clear_cart: "no",
+                                    selectedCollectionId: parseInt(selectedCollectionId,
+                                        10) // Convert to number using parseInt
+                                };
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('add.to.link') }}",
+                                    data: JSON.stringify(cart),
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function(response) {
+
+                                        if (response.failed) {
+                                            toastr.warning(
+                                                "Ürün bu koleksiyonda zaten mevcut."
+                                            );
+                                        } else {
+                                            toastr.success(
+                                                "Ürün Koleksiyonunuza Eklendi"
+                                            );
+                                        }
+
+
+                                    },
+                                    error: function(error) {
+                                        console.error(error);
+                                    }
+                                });
+                                closeModal();
+                            }
+                        });
+                    });
+
+
+                    document.querySelector('#collectionList li:last-child').addEventListener('click',
+                        function() {
+                            $('#addCollectionModal').modal('hide');
+                            $('#newCollectionModal').modal('show');
+
+                        });
+                });
         }
 
         function redirectToLogin() {
@@ -419,45 +427,45 @@ var hasClub = isLoggedIn == true ? {{json_encode(auth()->check() && auth()->user
 
     $('#saveNewCollectionBtn').on('click', function() {
 
-        
+
         if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
             $('#membershipPopup').modal('show');
         } else if (!isLoggedIn) {
-            redirectToLogin(); 
-        }else if(isLoggedIn && hasClub == 1) {
+            redirectToLogin();
+        } else if (isLoggedIn && hasClub == 1) {
             $(".modal-backdrop").hide();
 
-        let newCollectionName = $('#newCollectionNameInput').val();
-        let cartInfo = $('.addCollection').data('cart-info');
-        if (newCollectionName) {
-            $.ajax({
-                type: 'POST',
-                url: '/collections',
-                data: {
-                    collection_name: newCollectionName,
-                    _token: "{{ csrf_token() }}",
-                    cart: cartInfo
-                },
-                success: function(response) {
-                    console.log(response);
-                    if (response) {
-                        $('#newCollectionModal').modal('hide');
-                        $('#newCollectionNameInput').val(" ");
-                        toastr.success("Ürün Koleksiyonunuza Eklendİ");
+            let newCollectionName = $('#newCollectionNameInput').val();
+            let cartInfo = $('.addCollection').data('cart-info');
+            if (newCollectionName) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/collections',
+                    data: {
+                        collection_name: newCollectionName,
+                        _token: "{{ csrf_token() }}",
+                        cart: cartInfo
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response) {
+                            $('#newCollectionModal').modal('hide');
+                            $('#newCollectionNameInput').val(" ");
+                            toastr.success("Ürün Koleksiyonunuza Eklendİ");
 
-                    } else {
-                        toastr.error('Koleksiyon eklenirken bir hata oluştu.');
+                        } else {
+                            toastr.error('Koleksiyon eklenirken bir hata oluştu.');
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Koleksiyon eklenirken bir hata oluştu:', error);
                     }
-                },
-                error: function(error) {
-                    console.error('Koleksiyon eklenirken bir hata oluştu:', error);
-                }
-            });
-        } else {
-            toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
+                });
+            } else {
+                toastr.warning('Lütfen yeni bir koleksiyon adı girin.');
+            }
         }
-        }
-       
+
     });
 
     function closeModal() {

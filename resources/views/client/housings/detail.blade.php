@@ -72,29 +72,29 @@
                                             fill: #FFFFFF;
                                         }
                                     </style>
-                                     @if ($housing->user->corporate_account_status )
-                                     <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
-                                         width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
-                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                         <g>
-                                             <path class="st0"
-                                                 d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
-                                             <g class="st1">
-                                                 <path
-                                                     d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
-                                                 <path
-                                                     d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
-                                                 <path
-                                                     d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
-                                                 <path
-                                                     d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
-                                             </g>
-                                             <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
-                                             <path class="st2"
-                                                 d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
-                                         </g>
-                                     </svg>
-                                 @endif
+                                    @if ($housing->user->corporate_account_status)
+                                        <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
+                                            width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g>
+                                                <path class="st0"
+                                                    d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                                <g class="st1">
+                                                    <path
+                                                        d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                                    <path
+                                                        d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                                    <path
+                                                        d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                                    <path
+                                                        d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                                </g>
+                                                <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                                <path class="st2"
+                                                    d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
+                                            </g>
+                                        </svg>
+                                    @endif
                                 </a></p>
                             <div class="mobile-hidden" style="display: flex">
                                 <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
@@ -145,29 +145,29 @@
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
-                        <div class="headings-2 pt-0">
-                            <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
-                                @php
-                                    $status = optional($sold)->status;
-                                @endphp
-                                <div class="detail-wrapper-body">
-                                    <div class="listing-title-bar pb-3">
-                                        <strong style="color: black;font-size: 11px !important;">İlan No: <span
-                                                style="color:#274abb;font-size: 11px !important;">{{ $housing->id + 2000000 }}</span>
-                                        </strong>
-                                        <h3>
-                                            @if ($status && $status != '0' && $status != '1')
-                                                @include('client.layouts.partials.housing_title', [
-                                                    'title' => $housing->title,
-                                                ])
-                                            @else
-                                                @include('client.layouts.partials.housing_title', [
-                                                    'title' => $housing->title,
-                                                ])
-                                            @endif
-                                        </h3>
-                                    </div>
+                    <div class="headings-2 pt-0">
+                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
+                            @php
+                                $status = optional($sold)->status;
+                            @endphp
+                            <div class="detail-wrapper-body">
+                                <div class="listing-title-bar pb-3">
+                                    <strong style="color: black;font-size: 11px !important;">İlan No: <span
+                                            style="color:#274abb;font-size: 11px !important;">{{ $housing->id + 2000000 }}</span>
+                                    </strong>
+                                    <h3>
+                                        @if ($status && $status != '0' && $status != '1')
+                                            @include('client.layouts.partials.housing_title', [
+                                                'title' => $housing->title,
+                                            ])
+                                        @else
+                                            @include('client.layouts.partials.housing_title', [
+                                                'title' => $housing->title,
+                                            ])
+                                        @endif
+                                    </h3>
                                 </div>
+                            </div>
 
                         </div>
                     </div>
@@ -279,7 +279,7 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
-                                        <div class="item carousel-item" data-slide-number="{{ $key  }}">
+                                        <div class="item carousel-item" data-slide-number="{{ $key }}">
                                             <a href="{{ asset('housing_images/' . $image) }}"
                                                 data-lightbox="image-gallery">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
@@ -342,8 +342,8 @@
                                 </div>
                             </div>
                         @else
-                        <div class="mobileHour mobileHourDiv">
-                            <div class="schedule widget-boxed mt-33 mt-0">
+                            <div class="mobileHour mobileHourDiv">
+                                <div class="schedule widget-boxed mt-33 mt-0">
 
 
                                     <div class="row buttonDetail" style="align-items: center">
@@ -446,53 +446,52 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div
-                                        @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
-                                                json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                        ) class="add-to-collections-wrapper addCollection"  data-type='housing' data-id="{{ $housing->id }}" 
+                                <div
+                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
+                                            json_decode($housing->housing_type_data)->{"share-open1"}[0]
+                                    ) class="add-to-collections-wrapper addCollection"  data-type='housing' data-id="{{ $housing->id }}" 
                                             @else
                                             class="add-to-collections-wrapper disabledShareButton addCollection" @endif>
-                                        <div class="add-to-collection-button-wrapper">
-                                            <div class="add-to-collection-button">
+                                    <div class="add-to-collection-button-wrapper">
+                                        <div class="add-to-collection-button">
 
-                                                <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <rect width="32" height="32" fill="#e54242" />
-                                                    <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                        <rect width="1440" height="1577"
-                                                            transform="translate(-1100 -1183)" fill="white" />
-                                                        <g id="Group 6131">
-                                                            <g id="Frame 21409">
-                                                                <g id="Group 6385">
-                                                                    <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                        height="48" rx="8" fill="#e54242 " />
-                                                                    <g id="Group 2664">
-                                                                        <rect id="Rectangle 316" width="32"
-                                                                            height="32" rx="4"
-                                                                            fill="#e54242 " />
-                                                                        <g id="Group 72">
-                                                                            <path id="Rectangle 12"
-                                                                                d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                                fill="white" stroke="white"
-                                                                                stroke-width="2" />
-                                                                        </g>
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="32" fill="#e54242" />
+                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                    <rect width="1440" height="1577"
+                                                        transform="translate(-1100 -1183)" fill="white" />
+                                                    <g id="Group 6131">
+                                                        <g id="Frame 21409">
+                                                            <g id="Group 6385">
+                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                    height="48" rx="8" fill="#e54242 " />
+                                                                <g id="Group 2664">
+                                                                    <rect id="Rectangle 316" width="32"
+                                                                        height="32" rx="4" fill="#e54242 " />
+                                                                    <g id="Group 72">
+                                                                        <path id="Rectangle 12"
+                                                                            d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                            fill="white" stroke="white"
+                                                                            stroke-width="2" />
                                                                     </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_1750_971">
-                                                            <rect width="1440" height="1577" fill="white"
-                                                                transform="translate(-1100 -1183)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg><span class="add-to-collection-button-text">Koleksiyona
-                                                    Ekle</span>
-                                            </div>
-                                            <span class="fa fa-plus"></span>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_1750_971">
+                                                        <rect width="1440" height="1577" fill="white"
+                                                            transform="translate(-1100 -1183)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg><span class="add-to-collection-button-text">Koleksiyona
+                                                Ekle</span>
                                         </div>
+                                        <span class="fa fa-plus"></span>
                                     </div>
+                                </div>
                             </div>
 
                         @endif
@@ -533,9 +532,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        {!! 'İl-İlçe' .
-                                                    optional($housing->neighborhood)->mahalle_title ?
-                                                    '-Mahalle:' : ":"!!}
+                                                        İl-İlçe{!! optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':' !!}
                                                         <span class="det">
                                                             {!! optional($housing->city)->title .
                                                                 ' / ' .
@@ -774,8 +771,11 @@
                                                                 <div class="row">
                                                                     <div class="d-flex align-items-center">
                                                                         <input id="money-trusted" type="checkbox">
-                                                                        <i class="fa fa-info-circle ml-2" title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır." style="font-size: 18px;"></i>
-                                                                        <label for="money-trusted" class="m-0 ml-1"> Param güvende (+1.000₺)</label>
+                                                                        <i class="fa fa-info-circle ml-2"
+                                                                            title="Param güvende seçeneği işaretlerseniz rezervasyon iptal durumunda paranızın iadesinde kesinti olmayacaktır."
+                                                                            style="font-size: 18px;"></i>
+                                                                        <label for="money-trusted" class="m-0 ml-1"> Param
+                                                                            güvende (+1.000₺)</label>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1140,10 +1140,21 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="tc">TC *</label>
-                                    <input type="number" class="form-control" id="tc" name="tc" required>
+                                    <label for="tc">TC * </label>
+                                    <input type="number" class="form-control" id="tc" name="tc" required
+                                        oninput="validateTCLength(this)">
                                 </div>
                             </div>
+
+                            <script>
+                                function validateTCLength(input) {
+                                    var maxLength = 11;
+                                    if (input.value.length > maxLength) {
+                                        input.value = input.value.slice(0, maxLength);
+                                        alert("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                    }
+                                }
+                            </script>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Telefon *</label>
@@ -1185,7 +1196,9 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"
+        integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
@@ -1212,7 +1225,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
-        $(function () {
+        $(function() {
             $('.fa-info-circle').tooltip()
         })
         if (window.innerWidth <= 768) {
@@ -1548,7 +1561,7 @@
                             tc: tc,
                             phone: phone,
                             address: address,
-                            money_trusted : moneyTrusted
+                            money_trusted: moneyTrusted
                         },
                         success: function(response) {
                             $('#finalConfirmationModal').modal('hide');

@@ -479,12 +479,12 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    {!! 'İl-İlçe' !!}
                                                     @if ($project->neighbourhood)
-                                                        {!! '-Mahalle: ' !!}
+                                                        {!! 'İl-İlçe-Mahalle:' !!}
                                                     @else
-                                                        {!! ': ' !!}
+                                                        {!! 'İl-İlçe:' !!}
                                                     @endif
+                                                    
                                                     <span class="det">
                                                         {!! optional($project->city)->title .
                                                             ' / ' .

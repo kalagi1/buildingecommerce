@@ -271,14 +271,13 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>
-                                                                {!! 'İl-İlçe' !!}
-                                                                @if ($project->neighbourhood)
-                                                                    {!! '-Mahalle: ' !!}
-                                                                @else
-                                                                    {!! ': ' !!}
-                                                                @endif
+                                                            @if ($project->neighbourhood)
+                                                            {!! 'İl-İlçe-Mahalle:' !!}
+                                                        @else
+                                                            {!! 'İl-İlçe:' !!}
+                                                        @endif
                                                             </span></strong>
-                                                        <span class="det" style="color: black;">
+                                                        <span class="det" style="color: black;font-size:10px !important">
                                                             {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                             @if ($project->neighbourhood)
                                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -475,12 +474,12 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1">  {!! 'İl-İlçe' !!}
+                                            <strong><span class="mr-1"> 
                                                 @if ($project->neighbourhood)
-                                                    {!! '-Mahalle: ' !!}
-                                                @else
-                                                    {!! ': ' !!}
-                                                @endif</span></strong>
+                                                {!! 'İl-İlçe-Mahalle:' !!}
+                                            @else
+                                                {!! 'İl-İlçe:' !!}
+                                            @endif</span></strong>
                                             <span class="det" style="color: black;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
