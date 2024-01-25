@@ -12,7 +12,7 @@
 
             <th>İlanları Düzenle</th>
             {{-- <th>Sponsorlu</th> --}}
-            <th>İşlem Kayıtları & Proje Düzenle</th>
+            <th>İşlem Kayıtları & Genel Düzenleme</th>
             <th>Sil</th>
         </tr>
     </thead>
