@@ -111,7 +111,7 @@
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Satış",
-        "key": "GetOrders",
+        "key": "Orders",
         "url": "#nv-shopping",
         "activePath": ["institutional/orders*","institutional/my-orders"],
         "subMenu": [
