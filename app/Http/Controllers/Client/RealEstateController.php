@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\RealEstateForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RealEstateController extends Controller
 {
@@ -80,6 +81,7 @@ class RealEstateController extends Controller
             "isinma" => $request->input('isinma'),
             "oda_salon" => $request->input('oda_salon'),
             "tapu" => $request->input('tapu'),
+            "user_id" => Auth::user()->id,
             "dsl" => in_array("DSL",$request->input('features')) ? 1 : 0,
             "asansor" => in_array("ASANSÖR",$request->input('features')) ? 1 : 0,
             "esyali" => in_array("EŞYALI",$request->input('features')) ? 1 : 0,
