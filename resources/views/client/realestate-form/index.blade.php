@@ -113,23 +113,23 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Bina Kat</label>
-                                    <input type="text"  value="{{old('bina_kat')}}" name="bina_kat" class="form-control price-only">
+                                    <input type="number"  value="{{old('bina_kat')}}" name="bina_kat" class="form-control price-only">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="">Bulunduğu Kat</label>
-                                    <input type="text"  value="{{old('bulundugu_kat')}}" name="bulundugu_kat" class="form-control price-only">
+                                    <input type="number"  value="{{old('bulundugu_kat')}}" name="bulundugu_kat" class="form-control price-only">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="m2Net">M2 Net</label>
-                                    <input type="text"  value="{{old('m2_net')}}" class="form-control price-only" name="m2_net">
+                                    <input type="number"  value="{{old('m2_net')}}" class="form-control price-only" name="m2_net">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="m2Brut">M2 Brüt</label>
-                                    <input type="text"  value="{{old('m2_brut')}}" class="form-control price-only" name="m2_brut">
+                                    <input type="number"  value="{{old('m2_brut')}}" class="form-control price-only" name="m2_brut">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="binaYasi">Bina Yaşı</label>
-                                    <input type="text"  value="{{old('bina_yasi')}}" class="form-control price-only" name="bina_yasi">
+                                    <input type="number"  value="{{old('bina_yasi')}}" class="form-control price-only" name="bina_yasi">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="cephe">Cephe</label>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="banyoTuvalet">Banyo/Tuvalet</label>
-                                    <input type="text"  value="{{old('banyo_tuvalet')}}" class="form-control price-only" name="banyo_tuvalet">
+                                    <input type="number"  value="{{old('banyo_tuvalet')}}" class="form-control price-only" name="banyo_tuvalet">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="isinma">Isınma</label>
