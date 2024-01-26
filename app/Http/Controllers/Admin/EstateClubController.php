@@ -18,12 +18,14 @@ use Illuminate\Support\Facades\Mail;
 class EstateClubController extends Controller {
     public function list() {
         $estateClubUsers = User::with('collections', 'shares')
-        ->where('status', 1)
-        ->where('has_club', "!=", "0")
-        ->orderByDesc("has_club","2")
-        ->get();
-            return view( 'admin.estate_club.list', compact( 'estateClubUsers' ) );
+            ->where('status', 1)
+            ->where('has_club', '!=', '0')
+            ->orderByRaw('CASE WHEN has_club = 3 THEN 0 WHEN has_club = 1 THEN 1 WHEN has_club = 3 THEN 2 ELSE 3 END')
+            ->get();
+    
+        return view('admin.estate_club.list', compact('estateClubUsers'));
     }
+    
 
     
     public function changeStatus(Request $request, $userId, $action)
