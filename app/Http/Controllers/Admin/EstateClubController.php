@@ -20,7 +20,7 @@ class EstateClubController extends Controller {
         $estateClubUsers = User::with('collections', 'shares')
         ->where('status', 1)
         ->where('has_club', "!=", "0")
-        ->orderByDesc(DB::raw('has_club = 2'))
+        ->orderByDesc("has_club","2")
         ->get();
             return view( 'admin.estate_club.list', compact( 'estateClubUsers' ) );
     }
