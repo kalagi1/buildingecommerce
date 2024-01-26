@@ -598,18 +598,11 @@
                 var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
                 var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
                 $('.custom-option').on('click', function() {
-                    location.reload();
                     var selectedOption = $(this).data('value');
-                    updateDisplayedPrice(selectedOption);
+                    updateCart(selectedOption);                    
                 });
 
-                // Function to update displayed price
-                function updateDisplayedPrice(selectedOption) {
-                    var newDisplayedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
-                    displayedPriceSpan.text(number_format(newDisplayedPrice, 0, ',', '.') + ' ₺');
-                    updateCart(selectedOption);
-
-                }
+              
 
                 function updateCart(selectedOption) {
                     var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
@@ -622,6 +615,7 @@
                             _token: '{{ csrf_token() }}' // Add this line to include CSRF token
                         },
                         success: function(response) {
+                            location.reload();
                             console.log(response);
                         },
                         error: function(error) {
