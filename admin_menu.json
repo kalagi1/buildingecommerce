@@ -5,7 +5,7 @@
         "icon": "bell",
         "text": "Başvurular",
         "key": "EmlakClubApplications",
-        "url": "estate.club.users.list",
+        "url": "admin.estate.club.users.list",
         "activePath": "admin/club_user_applications"
     },
     {
