@@ -168,58 +168,6 @@
 
 
 
-                                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-                                        <script>
-                                            $(document).ready(function() {
-                                                // Initial setup - store original and installment prices
-                                                var displayedPriceSpan = $('#itemPrice');
-                                                var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
-                                                var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
-                                                $('.custom-option').on('click', function() {
-                                                    var selectedOption = $(this).data('value');
-                                                    updateDisplayedPrice(selectedOption);
-                                                    location.reload();
-                                                });
-
-                                                // Function to update displayed price
-                                                function updateDisplayedPrice(selectedOption) {
-                                                    var newDisplayedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
-                                                    displayedPriceSpan.text(number_format(newDisplayedPrice, 0, ',', '.') + ' ₺');
-                                                    updateCart(selectedOption);
-
-                                                }
-
-                                                function updateCart(selectedOption) {
-                                                    var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: '/update-cart',
-                                                        data: {
-                                                            paymentOption: selectedOption,
-                                                            updatedPrice: updatedPrice,
-                                                            _token: '{{ csrf_token() }}' // Add this line to include CSRF token
-                                                        },
-                                                        success: function(response) {
-                                                            console.log(response);
-                                                        },
-                                                        error: function(error) {
-                                                            console.error(error);
-                                                        }
-                                                    });
-                                                }
-
-
-
-                                                // Function to format numbers
-                                                function number_format(number, decimals, dec_point, thousands_sep) {
-                                                    number = number.toFixed(decimals);
-                                                    var parts = number.toString().split(dec_point);
-                                                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
-                                                    return parts.join(dec_point);
-                                                }
-                                            });
-                                        </script>
 
 
 
@@ -643,7 +591,56 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script>
+            $(document).ready(function() {
+                // Initial setup - store original and installment prices
+                var displayedPriceSpan = $('#itemPrice');
+                var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
+                var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
+                $('.custom-option').on('click', function() {
+                    location.reload();
+                    var selectedOption = $(this).data('value');
+                    updateDisplayedPrice(selectedOption);
+                });
 
+                // Function to update displayed price
+                function updateDisplayedPrice(selectedOption) {
+                    var newDisplayedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
+                    displayedPriceSpan.text(number_format(newDisplayedPrice, 0, ',', '.') + ' ₺');
+                    updateCart(selectedOption);
+
+                }
+
+                function updateCart(selectedOption) {
+                    var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
+                    $.ajax({
+                        type: 'POST',
+                        url: '/update-cart',
+                        data: {
+                            paymentOption: selectedOption,
+                            updatedPrice: updatedPrice,
+                            _token: '{{ csrf_token() }}' // Add this line to include CSRF token
+                        },
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(error) {
+                            console.error(error);
+                        }
+                    });
+                }
+
+
+
+                // Function to format numbers
+                function number_format(number, decimals, dec_point, thousands_sep) {
+                    number = number.toFixed(decimals);
+                    var parts = number.toString().split(dec_point);
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+                    return parts.join(dec_point);
+                }
+            });
+        </script>
     <script>
         $(document).ready(function() {
 
