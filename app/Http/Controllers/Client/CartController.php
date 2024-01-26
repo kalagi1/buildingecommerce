@@ -45,13 +45,12 @@ class CartController extends Controller {
             }
         }
 
-        $hasReference= null;
+        $hasReference = null;
 
-        if ($request->input( 'reference_code' )) {
+        if ( $request->input( 'reference_code' ) ) {
             $hasReference = User::where( 'code',  $request->input( 'reference_code' ) )->first();
 
         }
-
 
         $cartJson = $request->session()->get( 'cart' );
         $order = new CartOrder;
@@ -693,6 +692,34 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
         return response( [ 'message' => 'success' ] );
     }
 
+    public function update(Request $request)
+{
+    try {
+        $cart = $request->session()->get('cart', []);
+        if ($cart) {
+            $selectedPaymentOption = $request->input('paymentOption');
+            $updatedPrice = $request->input('updatedPrice');
+
+
+            if (isset($updatedPrice)) {
+                $cart['item']['amount'] = $updatedPrice;
+                $cart['item']['payment-plan'] = $selectedPaymentOption;
+
+            }
+
+            $request->session()->put('cart', $cart);
+
+            return response(['message' => 'success']);
+        }
+
+        return response(['message' => 'fail']);
+    } catch (\Exception $e) {
+        // Handle exceptions if any
+        return response(['message' => 'error', 'error' => $e->getMessage()], 500);
+    }
+}
+
+
     public function add( Request $request ) {
         try {
             $lastClick = Click::where( 'user_id', auth()->user()->id )
@@ -733,6 +760,23 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         }
                     }
                     $price = isset( $projectHousing[ 'Peşin Fiyat' ]->value ) ? $projectHousing[ 'Peşin Fiyat' ]->value : $projectHousing[ 'Fiyat' ]->value;
+                    $installmentPrice = null;
+                    $pesinat = null;
+                    $taksitsayisi =null;
+                    $aylik = null;
+
+                    if ( isset( $projectHousing[ 'Taksitli Toplam Fiyat' ] ) ) {
+                        $installmentPrice = $projectHousing['Taksitli Toplam Fiyat']->value;
+                        $pesinat = $projectHousing['Peşinat']->value;
+                        $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
+                        $aylik = ($installmentPrice - $pesinat) / $taksitSayisi;
+                        
+                    } elseif ( isset( $projectHousing[ 'Taksitli Fiyat' ] ) ) {
+                        $installmentPrice = $projectHousing[ 'Taksitli Fiyat' ]->value;
+                        $pesinat = $projectHousing['Peşinat']->value;
+                        $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
+                        $aylik = ($installmentPrice - $pesinat) / $taksitSayisi;
+                    }
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
 
                     $cartItem = [
@@ -742,11 +786,17 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'address' => $project->address,
                         'title' => $project->project_title,
                         'price' => $price,
+                        'amount' => $price,
                         'image' => asset( 'project_housing_images/' . $image ),
                         'discount_amount' => $discount_amount,
                         'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value ?? false,
                         'share_percent' =>  0.5,
                         'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value ?? 0,
+                        'installmentPrice' => $installmentPrice,
+                        "payment-plan" => "pesin",
+                        "pesinat" => $pesinat,
+                        "taksitSayisi" => $taksitSayisi,
+                        "aylik" => $aylik
                     ];
                 } else if ( $type == 'housing' ) {
                     if ( $lastClick ) {
@@ -767,12 +817,14 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'city' => $housing->city[ 'title' ],
                         'address' => $housing->address,
                         'title' => $housing->title,
+                        'amount' => $housingData->price[ 0 ],
                         'price' => $housingData->price[ 0 ],
                         'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
                         'discount_amount' => $discount_amount,
                         'share_open' => $housingData-> {
                             'share-open'}
                             [ 0 ] ?? null,
+                            'installmentPrice' => null,
                             'share_percent' =>  0.5,
                             'discount_rate' => $housingData-> {
                                 'discount_rate'}
@@ -811,7 +863,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                 $bankAccounts = BankAccount::all();
                 $cart = $request->session()->get( 'cart', [] );
                 $saleType = null;
-                if (isset($cart) && !empty($cart)) {
+                if ( isset( $cart ) && !empty( $cart ) ) {
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
@@ -820,7 +872,6 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         $saleType = $project->step2_slug;
                     }
                 }
-               
 
                 return view( 'client.cart.index', compact( 'cart', 'bankAccounts', 'saleType' ) );
             }

@@ -3,25 +3,241 @@
 @section('content')
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
-            <div style="text-align: right;">
-                <button type="button" class="btn btn-close-cart" style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
-                        onclick="window.location.href='{{ route('index') }}'">
-                        <i class="fa fa-times"></i> Kapat
-                    </button>
-            </div>
-            
+           
+
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
-                    <div class="my-properties">
+                    <div class="my-choose mb-3 d-flex align-items-center justify-content-between">
+                        @if (isset($cart['item']) && $cart['item']['installmentPrice'])
+                            <div class="payment-options">
+                                <div class="custom-option pesin-option {{ $cart['item']['payment-plan'] === 'pesin' ? 'selected' : '' }}"
+                                    data-value="pesin">
+                                    Peşin Fiyat ile Ödeme
+                                </div>
+
+                                <div class="custom-option taksitli-option {{ $cart['item']['payment-plan'] === 'taksitli' ? 'selected' : '' }}"
+                                    data-value="taksitli">
+                                    Taksitli Fiyat ile Ödeme
+                                </div>
+                            </div>
+                        @endif
+                        <div style="text-align: right;">
+                            @if (isset($cart['item']))
+                            <button type="button" class="btn btn-close-cart remove-from-cart"
+                         
+                            style="background: #EA2B2E;padding:5px;height:auto !important; color: white; font-size: 12px;"
+                           >
+                            <i class="fa fa-times"></i> Sepeti Temizle
+                        </button>
+                            @endif
+                            
+                            <button type="button" class="btn btn-close-cart"
+                                style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
+                                onclick="window.location.href='{{ route('index') }}'">
+                                <i class="fa fa-times"></i> Kapat
+                            </button>
+                           
+                        </div>
+                    </div>
+
+                    @if (isset($cart['item'])&& isset($cart['item']['payment-plan']))
+                    <div class="my-properties p-0 my-choose mb-3 {{ $cart['item']['payment-plan'] === 'pesin' ? 'd-none' : 'd-block' }}">
                         <table class="table-responsive">
-                            <thead class="mobile-hidden">
+                            <tbody>
                                 <tr>
-                                    <th class="pl-2">İlan</th>
-                                    <th class="p-0" style="width: 300px !important"></th>
-                                    <th class="pl-2">Fiyat</th>
-                                    <th>Kaldır</th>
+                                    <td>
+                                        <strong>Peşinat</strong> <br>
+                                        {{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺</td>
+
+                                    <td>
+                                        <strong>Taksit Sayısı</strong> <br>
+                                        {{ $cart['item']['taksitSayisi'] }}</td>
+
+
+                                    <td><strong>Aylık Ödenecek Tutar</strong><br> 
+                                        {{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺</td>
+
+
+
+                                    <td><strong>Toplam Fiyat</strong><br>
+                                        {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }} ₺</td>
                                 </tr>
-                            </thead>
+                            </tbody>
+                        </table>
+                    </div> 
+                    @endif
+
+                 
+
+                    <div class="my-properties p-0">
+                        <table class="table-responsive">
+                            <tbody>
+                                @if (!$cart || empty($cart['item']))
+                                    <tr>
+                                        <td colspan="4">Sepette Ürün Bulunmuyor</td>
+                                    </tr>
+                                @else
+                                    @php
+                                        $housingOffer = App\Models\Offer::where('type', 'housing')
+                                            ->where('housing_id', $cart['item']['id'])
+                                            ->where('start_date', '<=', now())
+                                            ->where('end_date', '>=', now())
+                                            ->first();
+                                        $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
+
+                                        // Project için indirim kontrolü
+                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                            ->where('project_id', $cart['item']['id'])
+                                            ->where('start_date', '<=', now())
+                                            ->where('end_date', '>=', now())
+                                            ->first();
+                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                    @endphp
+
+
+                                    <tr>
+                                        <td class="image myelist">
+                                            <a
+                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
+                                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
+                                                    style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="inner">
+                                                <a
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
+                                                    <h2 style="font-weight: 600;text-align: left !important">
+                                                        {{ $cart['type'] == 'housing'
+                                                            ? 'İlan No: ' . $cart['item']['id'] + 2000000
+                                                            : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                                                        <br>
+
+                                                        {{ $cart['item']['title'] }}
+                                                        <br>
+                                                        {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
+                                                    </h2>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        @php
+                                            $itemPrice = $cart['item']['amount'];
+
+                                            if ($cart['hasCounter']) {
+                                                if ($cart['type'] == 'housing') {
+                                                    $housing = App\Models\Housing::find($cart['item']['id']);
+                                                    $housingData = json_decode($housing->housing_type_data);
+                                                    $discountRate = $housingData->discount_rate[0] ?? 0;
+
+                                                    $housingAmount = $itemPrice - $housingDiscountAmount;
+
+                                                    $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+                                                } else {
+                                                    $project = App\Models\Project::find($cart['item']['id']);
+                                                    $roomOrder = $cart['item']['housing'];
+                                                    $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                                        ->where('room_order', $roomOrder)
+                                                        ->get()
+                                                        ->keyBy('name');
+
+                                                    $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                                                    $projectAmount = $itemPrice - $projectDiscountAmount;
+                                                    $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                                                }
+                                            } else {
+                                                $discountedPrice = $itemPrice;
+                                            }
+
+                                            // Eğer taksitli fiyat varsa ve ödeme seçeneği "taksitli" ise
+                                            $selectedPaymentOption = request('paymentOption');
+                                            if ($selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])) {
+                                                $itemPrice = $cart['item']['installmentPrice'];
+                                            }
+
+                                            $displayedPrice = $selectedPaymentOption === 'taksitli' ? $cart['item']['installmentPrice'] : $discountedPrice;
+                                        @endphp
+
+                                        <td>
+                                            <span class="discounted-price-x" id="itemPrice"
+                                                data-original-price="{{ $cart['item']['price'] }}"
+                                                data-installment-price="{{ $cart['item']['installmentPrice'] }}"
+                                                style="color: green; font-size:14px !important">
+                                                {{ number_format($displayedPrice, 0, ',', '.') }} ₺
+                                            </span>
+                                        </td>
+
+
+
+                                        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+                                        <script>
+                                            $(document).ready(function() {
+                                                // Initial setup - store original and installment prices
+                                                var displayedPriceSpan = $('#itemPrice');
+                                                var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
+                                                var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
+                                                $('.custom-option').on('click', function() {
+                                                    var selectedOption = $(this).data('value');
+                                                    updateDisplayedPrice(selectedOption);
+                                                    location.reload();
+                                                });
+
+                                                // Function to update displayed price
+                                                function updateDisplayedPrice(selectedOption) {
+                                                    var newDisplayedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
+                                                    displayedPriceSpan.text(number_format(newDisplayedPrice, 0, ',', '.') + ' ₺');
+                                                    updateCart(selectedOption);
+
+                                                }
+
+                                                function updateCart(selectedOption) {
+                                                    var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '/update-cart',
+                                                        data: {
+                                                            paymentOption: selectedOption,
+                                                            updatedPrice: updatedPrice,
+                                                            _token: '{{ csrf_token() }}' // Add this line to include CSRF token
+                                                        },
+                                                        success: function(response) {
+                                                            console.log(response);
+                                                        },
+                                                        error: function(error) {
+                                                            console.error(error);
+                                                        }
+                                                    });
+                                                }
+
+
+
+                                                // Function to format numbers
+                                                function number_format(number, decimals, dec_point, thousands_sep) {
+                                                    number = number.toFixed(decimals);
+                                                    var parts = number.toString().split(dec_point);
+                                                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+                                                    return parts.join(dec_point);
+                                                }
+                                            });
+                                        </script>
+
+
+
+
+
+                                       
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                  
+
+                    {{-- @if ($cart || (!empty($cart['item']) && !empty($cart['item']['installmentPrice'])))
+                    <div class="my-properties p-0 mt-3">
+                        <table class="table-responsive">
                             <tbody>
                                 @if (!$cart || empty($cart['item']))
                                     <tr>
@@ -80,7 +296,7 @@
                                                             $housingData = json_decode($housing->housing_type_data);
                                                             $discountRate = $housingData->discount_rate[0] ?? 0;
 
-                                                            $housingAmount = $cart['item']['price'] - $housingDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
+                                                            $housingAmount = $cart['item']["installmentPrice"] - $housingDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
 
                                                             $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
 
@@ -95,14 +311,14 @@
                                                                 ->keyBy('name');
 
                                                             $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                                            $projectAmount = $cart['item']['price'] - $projectDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
+                                                            $projectAmount = $cart['item']["installmentPrice"] - $projectDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
                                                             $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
 
                                                         @endphp
                                                     @endif
 
                                                     <del style="color: red;">
-                                                        {{ number_format($cart['item']['price']) }} ₺
+                                                        {{ number_format($cart['item']["installmentPrice"]) }} ₺
                                                     </del><br>
                                                     <span class="discounted-price-x"
                                                         style="color: green; font-size:14px !important">
@@ -110,7 +326,7 @@
                                                     </span>
                                                 @else
                                                     @php
-                                                        $discountedPrice = $cart['item']['price'];
+                                                        $discountedPrice = $cart['item']["installmentPrice"];
 
                                                     @endphp
                                                     <span style="color: green; font-size:14px !important">
@@ -134,6 +350,7 @@
                         </table>
 
                     </div>
+                    @endif --}}
                 </div>
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
@@ -150,7 +367,7 @@
                                 @else
                                     <ul>
                                         <li>İlan Fiyatı<strong class="pull-right">
-                                                {{ number_format($cart['item']['price'], 0, ',', '.') }}
+                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                                 TL</strong></li>
 
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
@@ -198,6 +415,13 @@
                                     </ul>
                                 @endif
                             </div>
+                            <div class="coupon-cart-area mb-3">
+                                <div class="d-flex">
+                                    <input type="text" placeholder="Kupon Kodu" style="height: 40px;"
+                                        class="form-control coupon-code">
+                                    <button class="btn btn-primary coupon-apply">Uygula</button>
+                                </div>
+                            </div>
                             @if (!$cart || empty($cart['item']))
                                 <button type="button" class="btn btn-primary btn-lg btn-block"
                                     style="font-size: 11px;margin: 0 auto;"
@@ -226,13 +450,7 @@
                                 @endif
                             @endif
 
-                            <div class="coupon-cart-area mt-3">
-                                <div class="d-flex">
-                                    <input type="text" placeholder="Kupon Kodu" style="height: 40px;"
-                                        class="form-control coupon-code">
-                                    <button class="btn btn-primary coupon-apply">Uygula</button>
-                                </div>
-                            </div>
+                           
 
                         </div>
                     </div>
@@ -269,8 +487,8 @@
                                         </div>
                                         <div id="ibanInfo" style="font-size: 12px !important"></div>
                                         <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                            <span style="color:red;font-weight:bold"
-                                                id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                            <span style="color:red;font-weight:bold" id="uniqueCode"></span> kodu
+                                            kullanarak ödemenizi
                                             yapın. IBAN açıklama
                                             alanına
                                             bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak
@@ -287,9 +505,10 @@
                                     class="btn btn-secondary btn-lg btn-block mb-3 mt-3" id="completePaymentButton"
                                     style="width:150px;float:right">Satın Al
                                 </button>
-                                <button type="button" class="btn btn-secondary btn-lg btn-block mt-3" style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
+                                    style="width:150px" data-bs-dismiss="modal">İptal</button>
                             </div>
-                            
+
 
                         </div>
                     </div>
@@ -332,10 +551,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tc">TC * </label>
-                                                <input type="number" class="form-control" id="tc" name="tc" required oninput="validateTCLength(this)">
+                                                <input type="number" class="form-control" id="tc" name="tc"
+                                                    required oninput="validateTCLength(this)">
                                             </div>
                                         </div>
-                                        
+
                                         <script>
                                             function validateTCLength(input) {
                                                 var maxLength = 11;
@@ -358,7 +578,7 @@
                                                 <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
                                             </div>
                                         </div>
-                                      
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="notes">Notlar:</label>
@@ -368,14 +588,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="notes">Referans Kodu (Opsiyonel):</label>
-                                                <input type="text" class="form-control"
-                                                    name="reference_code">
+                                                <input type="text" class="form-control" name="reference_code">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="d-flex">
-                                        <button type="submit" class="btn btn-secondary paySuccess" style="float:right">Ödemeyi
+                                        <button type="submit" class="btn btn-secondary paySuccess"
+                                            style="float:right">Ödemeyi
                                             Tamamla
                                             <svg viewBox="0 0 576 512" class="svgIcon">
                                                 <path
@@ -383,10 +603,11 @@
                                                 </path>
                                             </svg>
                                         </button>
-                                        <button type="button" class="btn btn-secondary btn-lg btn-block" style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                        <button type="button" class="btn btn-secondary btn-lg btn-block"
+                                            style="width:150px" data-bs-dismiss="modal">İptal</button>
                                     </div>
-                                    
-                                 
+
+
                                 </form>
 
                             </div>
@@ -425,6 +646,7 @@
 
     <script>
         $(document).ready(function() {
+
             $('#completePaymentButton').prop('disabled', false);
 
             $('.bank-account').on('click', function() {
@@ -485,14 +707,15 @@
                                     if (response.discount_type == 1) {
                                         @if (isset($housingOffer))
                                             var newPrice = parseFloat(response.cart.item
-                                                .price) -
+                                                    .price) -
                                                 {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0 }} -
                                                 (parseFloat(response.cart.item.price) * response
                                                     .discount_amount / 100);
                                         @else
                                             var newPrice = parseFloat(response.cart.item
                                                 .price) - (parseFloat(response.cart.item
-                                                    .price) * response.discount_amount / 100);
+                                                    .price) * response.discount_amount /
+                                                100);
                                         @endif
                                         var newCapora = newPrice * 2 / 100;
 
@@ -734,4 +957,43 @@
             }
         });
     </script>
+@endsection
+
+
+@section('styles')
+    <style>
+        .my-choose td {
+            padding: 15px 20px 15px 0 !important;
+        }
+        /* Style for custom option container */
+        .payment-options {
+            display: flex;
+        }
+
+        .shopping-cart__totals {
+            border: 1px solid #e4e4e4;
+            margin-bottom: 1.25rem;
+            max-width: 100%;
+        }
+
+        /* Style for custom option */
+        .custom-option {
+            display: flex;
+            cursor: pointer;
+            font-size: 11px !important;
+            color: black;
+            margin-right: 10px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e4e4e4;
+            padding: 10px;
+        }
+
+        /* Style for selected option */
+        .custom-option.selected {
+            background-color: #5cb85c;
+            /* Adjust color as needed */
+            color: #fff;
+        }
+    </style>
 @endsection
