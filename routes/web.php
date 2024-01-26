@@ -208,6 +208,10 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
+
+    Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');
+
     Route::get('/estate_club_users', [AdminEstateClubController::class,"index"])->name('estate.club.users');
     Route::get('/coupons', [AdminEstateClubController::class,"coupons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [AdminEstateClubController::class,"createCoupon"])->name('estate.create.coupon');
