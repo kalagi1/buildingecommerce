@@ -39,6 +39,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                @if (Auth::check() && Auth::user()->type == "1")
                                 <div class="mt-3">
                                     <label class="q-label">Tc Kimlik No</label>
                                     <input type="number" name="idNumber"
@@ -48,6 +49,8 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                @endif
+                                
                                 <div class="mt-3">
                                     <label class="q-label">Banka Alıcı Adı</label>
                                     <input type="text" name="bank_name"

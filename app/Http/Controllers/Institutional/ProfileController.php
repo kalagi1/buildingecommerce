@@ -218,24 +218,45 @@ class ProfileController extends Controller
 
     public function clubUpdate(Request $request)
     {
-        $request->validate(
-            [
-                "idNumber" => "required",
-                "phone" => "required",
-                "bank_name" => "required",
-                "instagramusername" => "required",
-                "iban" => "required",
-                "check-d" => "required"
-            ],
-            [
-                "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
-                "phone.required" => "Telefon Numarası alanı zorunludur.",
-                "bank_name.required" => "Banka Adı alanı zorunludur.",
-                "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
-                "iban.required" => "IBAN alanı zorunludur.",
-                "check-d.required" => "Onay kutusu zorunludur."
-            ]
-        );
+
+        if (Auth::user()->type == "1") {
+            $request->validate(
+                [
+                    "idNumber" => "required",
+                    "phone" => "required",
+                    "bank_name" => "required",
+                    "instagramusername" => "required",
+                    "iban" => "required",
+                    "check-d" => "required"
+                ],
+                [
+                    "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
+                    "phone.required" => "Telefon Numarası alanı zorunludur.",
+                    "bank_name.required" => "Banka Adı alanı zorunludur.",
+                    "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
+                    "iban.required" => "IBAN alanı zorunludur.",
+                    "check-d.required" => "Onay kutusu zorunludur."
+                ]
+            );
+        }else{
+            $request->validate(
+                [
+                    "phone" => "required",
+                    "bank_name" => "required",
+                    "instagramusername" => "required",
+                    "iban" => "required",
+                    "check-d" => "required"
+                ],
+                [
+                    "phone.required" => "Telefon Numarası alanı zorunludur.",
+                    "bank_name.required" => "Banka Adı alanı zorunludur.",
+                    "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
+                    "iban.required" => "IBAN alanı zorunludur.",
+                    "check-d.required" => "Onay kutusu zorunludur."
+                ]
+            );
+        }
+       
         
 
         $user = User::where("id", Auth::user()->id)->first();
