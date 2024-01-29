@@ -23621,8 +23621,19 @@ a.btn_1 {
 .inner-pages .recent-post ul li {
     list-style: none;
     padding: .5rem 0;
-    border-bottom: 1px solid #ccc;
 }
+
+.itemsDiv{
+    max-height: 270px;
+    overflow-y: scroll;
+}
+
+/* 
+.inner-pages .recent-post ul li a{
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    display: block;
+} */
 
 .inner-pages .recent-post ul li:last-child {
     padding-top: .5rem;
