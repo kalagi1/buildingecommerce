@@ -7,7 +7,7 @@
 
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
-                    <div class="my-choose mb-3 d-flex align-items-center justify-content-between">
+                    <div class="my-choose mb-3 d-flex align-items-center justify-content-between flex-wrap">
                         @if (isset($cart['item']) && $cart['item']['installmentPrice'])
                             <div class="payment-options">
                                 <div class="custom-option pesin-option {{ $cart['item']['payment-plan'] === 'pesin' ? 'selected' : '' }}"
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                         @endif
-                        <div style="text-align: right;">
+                        <div class="clearButtons">
                             @if (isset($cart['item']))
                             <button type="button" class="btn btn-close-cart remove-from-cart"
                          
@@ -107,7 +107,7 @@
                                             <div class="inner">
                                                 <a
                                                     href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
-                                                    <h2 style="font-weight: 600;text-align: left !important">
+                                                    <h2 style="font-weight: 600;text-align: left ">
                                                         {{ $cart['type'] == 'housing'
                                                             ? 'İlan No: ' . $cart['item']['id'] + 2000000
                                                             : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
@@ -958,6 +958,7 @@
         /* Style for custom option container */
         .payment-options {
             display: flex;
+            width: 100%;
         }
 
         .shopping-cart__totals {
@@ -966,13 +967,17 @@
             max-width: 100%;
         }
 
+        .clearButtons{
+            width:100%;
+        }
+
         /* Style for custom option */
         .custom-option {
             display: flex;
             cursor: pointer;
             font-size: 11px !important;
             color: black;
-            margin-right: 10px;
+            width: 50%;
             align-items: center;
             justify-content: center;
             border: 1px solid #e4e4e4;
@@ -984,6 +989,20 @@
             background-color: #5cb85c;
             /* Adjust color as needed */
             color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .my-choose{
+                flex-direction: column-reverse;
+            }
+            .clearButtons{
+                margin-bottom: 10px;
+            }
+
+            .my-properties table h2{
+                text-align: center !important;
+                margin: 9px 0 9px 0
+            }
         }
     </style>
 @endsection
