@@ -62,10 +62,13 @@
                         <nav class="navbar" style="padding: 0 !important">
                             <div class="navbar-items">
                                 <a class="navbar-item active" href="{{ route('club.dashboard', Str::slug($store->name)) }}">
-                                    <b style=";display:flex;align-items:baseline">
-                                        <img style="height: 21px;" class="lazy entered loading"
-                                            src="http://127.0.0.1:8000/yeniler_2.svg" alt="Yeniler"
-                                            data-ll-status="loading">
+                                    <b style="font-weight:800 !important;display:flex">
+                                        <img style="height: 32px;
+                                        position: absolute;
+                                        left: 10px;
+                                        top: 10px;"
+                                            class="lazy entered loading" src="{{ url('emlakkulüplogo.png') }}"
+                                            alt="Yeniler" data-ll-status="loading">
                                         EMLAK KULÜP</b></a>
                             </div>
                         </nav>
@@ -122,30 +125,30 @@
 
 
                                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                    @if (
-                                                        $item['item_type'] == 2 &&
-                                                            isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                                            json_decode($item['housing']['housing_type_data'])->discount_rate[0]
-                                                    )
-                                                        @php
-                                                            $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
-                                                            $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
+                                                        @if (
+                                                            $item['item_type'] == 2 &&
+                                                                isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
+                                                                json_decode($item['housing']['housing_type_data'])->discount_rate[0]
+                                                        )
+                                                            @php
+                                                                $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                                                                $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
 
-                                                            $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                                $discountedPrice = $price - ($price * $discountRate) / 100;
 
-                                                        @endphp
-                                                    @elseif (
-                                                        $item['item_type'] == 1 &&
-                                                            isset($item['project_values']['discount_rate[]']) &&
-                                                            $item['project_values']['discount_rate[]']
-                                                    )
-                                                        @php
-                                                            $discountRate = $item['project_values']['discount_rate[]'];
-                                                            $price = $item['project_values']['price[]'] - $item['discount_amount'];
+                                                            @endphp
+                                                        @elseif (
+                                                            $item['item_type'] == 1 &&
+                                                                isset($item['project_values']['discount_rate[]']) &&
+                                                                $item['project_values']['discount_rate[]']
+                                                        )
+                                                            @php
+                                                                $discountRate = $item['project_values']['discount_rate[]'];
+                                                                $price = $item['project_values']['price[]'] - $item['discount_amount'];
 
-                                                            $discountedPrice = $price - (($price * $discountRate) / 100);
-                                                        @endphp
-                                                    @endif
+                                                                $discountedPrice = $price - ($price * $discountRate) / 100;
+                                                            @endphp
+                                                        @endif
 
 
                                                         @if (isset($discountedPrice))
@@ -464,7 +467,7 @@
                                                                 $discountRate = $item['project_values']['discount_rate[]'];
                                                                 $price = $item['project_values']['price[]'] - $item['discount_amount'];
 
-                                                                $discountedPrice = $price - (($price * $discountRate) / 100);
+                                                                $discountedPrice = $price - ($price * $discountRate) / 100;
                                                             @endphp
                                                         @endif
 
