@@ -10,11 +10,8 @@
             <div style="color: #27ae60; font-size: 26px; text-align: center;">ÖDEME BAŞARILI</div>
             <p style="font-size: 18px;">Sipariş başarıyla verildi. Sipariş numaranız: {{ $cart_order->key }}</p>
             
-            @php
-    $routeName = Auth::user()->type != '1' ? 'institutional.profile.cart-orders' : 'client.profile.cart-orders';
-@endphp
-
-<a href="{{ route($routeName) }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
+          
+<a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
 
 
         </div>
