@@ -230,6 +230,7 @@ class ProjectController extends Controller
         $is_project = null;
 
         $optName = [];
+        $items = [];
 
         if ($deneme) {
             $slug = "al-sat-acil";
@@ -301,10 +302,13 @@ class ProjectController extends Controller
                         $slug = $item1->id;
                     }
 
+
                     if ($housingTypeParent) {
+                        $items = HousingTypeParent::with("connections.housingType")->where("parent_id", $housingTypeParent->id)->get();
                         $housingTypeSlugName = $housingTypeParent->title;
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
+
 
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
@@ -515,7 +519,8 @@ class ProjectController extends Controller
         
 
 
-        return view('client.all-projects.menu-list', compact('filters','nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+
+        return view('client.all-projects.menu-list', compact('filters',"items",'nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)

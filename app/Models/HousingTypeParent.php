@@ -10,4 +10,9 @@ class HousingTypeParent extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function connections()
+    {
+        return $this->hasMany(HousingTypeParentConnection::class, "parent_id","id");
+    }
 }

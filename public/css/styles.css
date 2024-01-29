@@ -18268,7 +18268,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 span {
-    font-size: 12px !important;
+    font-size: 11px !important;
 }
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
@@ -18284,6 +18284,10 @@ span {
     -ms-flex-pack: center;
     justify-content: center;
     padding: 1rem 0;
+}
+
+.recent-post{
+    font-size:11px !important
 }
 
 .inner-pages .blog .homes-content.details-2.mb-4 {
@@ -23422,6 +23426,7 @@ a.btn_1 {
 .inner-pages .recent-post ul li:last-child {
     padding-top: .5rem;
     padding-bottom: 0px;
+    border:0 !important
 }
 
 .inner-pages .recent-post ul li a {
