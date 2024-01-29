@@ -58,21 +58,6 @@
 
                     </div>
 
-                    <div class="card-body">
-                        <nav class="navbar" style="padding: 0 !important">
-                            <div class="navbar-items">
-                                <a class="navbar-item active" href="{{ route('club.dashboard', Str::slug($store->name)) }}">
-                                    <b style="font-weight:800 !important;display:flex">
-                                        <img style="height: 32px;
-                                        position: absolute;
-                                        left: 10px;
-                                        top: 10px;"
-                                            class="lazy entered loading" src="{{ url('emlakkulüplogo.png') }}"
-                                            alt="Yeniler" data-ll-status="loading">
-                                        EMLAK KULÜP</b></a>
-                            </div>
-                        </nav>
-                    </div>
                 </div>
             </div>
         </div>
@@ -85,15 +70,6 @@
                         <div class="mobile-hidden">
                             <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>İlan No</th>
-                                            <th>Kapak Fotoğrafı</th>
-                                            <th>İlan Başlığı</th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
                                     <tbody class="collection-title">
                                         @foreach ($mergedItems as $item)
                                             <tr>
@@ -116,7 +92,7 @@
                                                     @if ($item['item_type'] == 1)
                                                         {!! $item['room_order'] . " No'lu Daire <br>" !!}
                                                     @endif <span
-                                                        style="font-size: 11px;font-weight:700">
+                                                        style="font-size: 9px !important;font-weight:700">
                                                         {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
                                                         <br>
                                                     </span>
@@ -160,7 +136,7 @@
                                                                 ₺
                                                             </del>
                                                         @else
-                                                            <span style="color: green; font-size:15px !important">
+                                                            <span style="color: green; font-size:12px !important">
                                                                 {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
                                                                 ₺
                                                             </span>
@@ -482,7 +458,7 @@
                                                                 ₺
                                                             </del>
                                                         @else
-                                                            <span style="color: green; font-size:15px !important">
+                                                            <span style="color: green; font-size:12px !important">
                                                                 {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
                                                                 ₺
                                                             </span>
