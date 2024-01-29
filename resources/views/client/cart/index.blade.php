@@ -958,7 +958,6 @@
         /* Style for custom option container */
         .payment-options {
             display: flex;
-            width: 100%;
         }
 
         .shopping-cart__totals {
@@ -967,9 +966,7 @@
             max-width: 100%;
         }
 
-        .clearButtons{
-            width:100%;
-        }
+      
 
         /* Style for custom option */
         .custom-option {
@@ -977,7 +974,7 @@
             cursor: pointer;
             font-size: 11px !important;
             color: black;
-            width: 50%;
+           
             align-items: center;
             justify-content: center;
             border: 1px solid #e4e4e4;
@@ -1003,6 +1000,15 @@
                 text-align: center !important;
                 margin: 9px 0 9px 0
             }
+            .payment-options {
+            width: 100%;
+        }
+        .clearButtons{
+            width:100%;
+        }
+        .custom-option {
+            width: 50%;
+        }
         }
     </style>
 @endsection
