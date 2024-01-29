@@ -169,10 +169,10 @@
                             <div>
                                 <a id="clear-filters"
                                     style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
-                                @if (isset($items) && isset($housingTypeSlugName))
+                                @if (isset($items) && count($items) > 0 && isset($housingTypeSlugName))
                                     <div class="trip-search itemsDiv">
                                         <div class="recent-post">
-                                            <h3>{{ $housingTypeSlugName }}</h3>
+                                            {{-- <h3>{{ $housingTypeSlugName }}</h3> --}}
                                             <ul>
                                                 @foreach ($items as $key => $item)
                                                     <li @if ($optName) class="@if ($optName == $item->title) d-show
