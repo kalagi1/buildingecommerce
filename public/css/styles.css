@@ -23431,7 +23431,7 @@ a.btn_1 {
 
 .inner-pages .recent-post ul li a {
     text-decoration: none;
-    color: #666;
+    color: #333 !important;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
