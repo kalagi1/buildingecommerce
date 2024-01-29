@@ -285,10 +285,10 @@
                                                     id="citySelect" name="city_id">
                                                     <option value="">Seçiniz</option>
                                                     @foreach ($towns as $item)
-                                                        <option for="{{ $item->sehir_title }}"
-                                                            value="{{ $item->sehir_key }}"
-                                                            {{ old('city_id') == $item->sehir_key ? 'selected' : '' }}>
-                                                            {{ $item->sehir_title }}
+                                                        <option for="{{ $item['sehir_title'] }}"
+                                                            value="{{ $item['sehir_key'] }}"
+                                                            {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                                            {{ $item['sehir_title'] }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -346,10 +346,10 @@
                                                                 name="taxOfficeCity">
                                                                 <option value="">Seçiniz</option>
                                                                 @foreach ($cities as $item)
-                                                                    <option for="{{ $item->title }}"
-                                                                        value="{{ $item->title }}"
-                                                                        {{ old('taxOfficeCity') == $item->title ? 'selected' : '' }}>
-                                                                        {{ $item->title }}
+                                                                    <option for="{{ $item['title'] }}"
+                                                                        value="{{ $item['title'] }}"
+                                                                        {{ old('taxOfficeCity') == $item['title'] ? 'selected' : '' }}>
+                                                                        {{ $item['title'] }}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
