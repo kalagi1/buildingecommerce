@@ -27669,7 +27669,8 @@ font{
     font-size:12px !important
 }
 
-#home div{
+#home div,
+#home li{
     font-size:12px !important
 
 }
