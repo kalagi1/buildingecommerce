@@ -585,6 +585,10 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+             
+.CartBtn {
+    margin-top: 0 !important;
+}
         .mobile-hidden {
             display: flex;
             flex-wrap: wrap
@@ -625,6 +629,8 @@
             .inner-pages .portfolio .homes-content .homes-list-div ul {
                 flex-wrap: wrap
             }
+
+       
 
             .homes-content .footer {
                 display: block;

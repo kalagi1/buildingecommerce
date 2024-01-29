@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="content">
+
         <div class="card border mb-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
             <div class="card-header border-bottom bg-body">
                 <div class="row flex-between-center g-2">
@@ -11,6 +12,7 @@
                 </div>
             </div>
             <div class="card-body">
+
                 <div class="row list" id="icon-list">
                     @foreach ($collections as $collection)
                         <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
@@ -20,9 +22,9 @@
                                 justify-content: space-between;
                                 padding: 5px;
                                 align-items: center;">
-                                    <strong style="font-size: 11px;text-align:left">{{ $collection->name }} <br>
-                                            <span style="color:#e54242"><i class="fa fa-eye"></i>
-                                                {{ count($collection->clicks) }} Görüntülenme</span>
+                                    <strong style="font-size: 11px;text-align:left">
+                                        <span style="color:#e54242"><i class="fa fa-eye"></i>
+                                            {{ count($collection->clicks) }} Görüntülenme</span>
                                     </strong>
 
                                     <div class="col-auto" style="display: flex;align-items:center">
@@ -87,14 +89,9 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-                                <span style="width:100%"><strong>{{ count($collection->links) }} İlan</strong></span><br>
-                                <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
-                                    class="text-decoration-none">
-                                    <button class="btn" style="color:#EA2B2E;"> Koleksiyona Git</button>
-                                </a>
+                              
+       
+                             
                                 <div class="modal fade" id="editCollectionModal{{ $collection->id }}" tabindex="-1"
                                     aria-labelledby="editCollectionModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -127,25 +124,51 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
-                                            class="text-decoration-none" target="_blank" style="width: 100%">
+                                        <div class="d-flex align-items-center mb-2">
 
-                                            <button style="width:100%;font-size:10px;padding:3px 0"
-                                                class="btn btn-primary me-1 mb-1" type="button">
-                                                <i class="fa fa-eye" aria-hidden="true"></i> <br> ÖNİZLEME
-                                            </button>
-                                        </a>
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">Koleksiyon Adı: <span
+                                                    class="fw-semibold text-primary ms-1">{{ $collection->name }}</span></p>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+        
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">İlan Sayısı : <span
+                                                    class="fw-semibold text-primary ms-1"> {{count($collection->links)}} İlan</span></p>
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
-                                            class="text-decoration-none" target="_blank" style="width: 100%">
-
-                                            <button class="btn btn-secondary me-1 mb-1"
-                                                style="width:100%;font-size:10px;padding:3px 0" type="button">
-                                                <i class="fa fa-share-alt" aria-hidden="true"></i> <br> PAYLAŞ
+                                        <div class="col-md-12">
+                                            <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
+                                                class="text-decoration-none">
+                                                <button style="width:100%;font-size:10px;padding:3px 0"
+                                                class="badge badge-phoenix fs-10 badge-phoenix-warning" type="button">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i> DÜZENLE
                                             </button>
-                                        </a>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
+                                                class="text-decoration-none" target="_blank" style="width: 100%">
+    
+                                                <button style="width:100%;font-size:10px;padding:3px 0"
+                                                    class="badge badge-phoenix fs-10 badge-phoenix-info" type="button">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>  ÖNİZLE
+                                                </button>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button class="badge badge-phoenix fs-10 badge-phoenix-success"
+                                                    style="width:100%;font-size:10px;padding:3px 0" type="button"
+                                                    onclick="copyLink('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}')">
+                                                <i class="fa fa-copy" aria-hidden="true"></i>  KOPYALA
+                                            </button>
+                                            
+                                        </div>
+                                        
+                                     
+                                        
+                                        
                                     </div>
+                                   
                                 </div>
 
                             </div>
@@ -160,6 +183,18 @@
             </div>
         </div>
     </div>
+
+       
+    <script>
+        function copyLink(link) {
+            var tempInput = document.createElement('input');
+            tempInput.value = link;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert("Kopyalandı");        }
+    </script>
 @endsection
 
 
