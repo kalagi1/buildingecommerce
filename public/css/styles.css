@@ -27665,6 +27665,20 @@ input[type="checkbox"]::before {
     margin-top: 12px;
 }
 
+font{
+    font-size:12px !important
+}
+
+#home div{
+    font-size:12px !important
+
+}
+
+#home div b{
+   font-weight: 700 !important;
+
+}
+
 .CartBtn,
 .reservationBtn,
 .soldBtn {
