@@ -169,7 +169,7 @@
                             <div>
                                 <a id="clear-filters"
                                     style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
-                                @if (isset($items))
+                                @if (isset($items) && isset($housingTypeSlugName))
                                     <div class="trip-search itemsDiv">
                                         <div class="recent-post">
                                             <h3>{{ $housingTypeSlugName }}</h3>
