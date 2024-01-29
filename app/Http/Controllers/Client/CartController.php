@@ -324,7 +324,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             } else {
                 $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                 $user = User::where( 'id', $housing->user_id )->first();
-                if ( $shareOpen && $lastClick ) {
+                if (  $lastClick ) {
                     $collection = Collection::where( 'id', $lastClick->collection_id )->first();
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     if ( $user->corporate_type == 'Emlakçı' ) {
@@ -485,7 +485,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     'earn2' => 0,
                 ] );
             } else {
-                if ( $shareOpen && $lastClick ) {
+                if (  $lastClick ) {
                     $collection = Collection::where( 'id', $lastClick->collection_id )->first();
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     $share_percent =  0.5;

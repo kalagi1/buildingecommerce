@@ -765,15 +765,10 @@
                                                                                                             data-aos="fade-up">
                                                                                                             <div
                                                                                                                 class="button-effect-div">
-                                                                                                                <span
-                                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) &&
-                                                                                                                        $projectHousingsList[$i + 1]['share-open[]'] != '[]' &&
-                                                                                                                        $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
+                                                                                                                <span class="btn addCollection mobileAddCollection"  
                                                                                                                                 data-type='project'
                                                                                                                                 data-project='{{ $project->id }}'
-                                                                                                                                data-id='{{ $i + 1 }}'
-                                                                                                                    @else
-                                                                                                                    class="btn mobileAddCollection disabledShareButton" @endif>
+                                                                                                                                data-id='{{ $i + 1 }}'>
                                                                                                                 <i
                                                                                                                     class="fa fa-bookmark"></i>
                                                                                                             </span>
@@ -1156,16 +1151,13 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
-                                                                                            <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
-                                                                                              data-type='project'
-                                                                                              data-project='{{ $project->id }}'
-                                                                                              data-id='{{ $i + 1 }}'
-                                                                                @else
-                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                                                <i
-                                                                                                    class="fa fa-bookmark"></i>
-                                                                                            </span>
+                                                                                        <span class="btn addCollection mobileAddCollection"  
+                                                                                        data-type='project'
+                                                                                        data-project='{{ $project->id }}'
+                                                                                        data-id='{{ $i + 1 }}'>
+                                                                        <i
+                                                                            class="fa fa-bookmark"></i>
+                                                                    </span>
                                                                                         <span
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1406,16 +1398,13 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                            <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
-                                                                                              data-type='project'
-                                                                                              data-project='{{ $project->id }}'
-                                                                                              data-id='{{ $i + 1 }}'
-                                                                                                @else
-                                                                                                class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                                                <i
-                                                                                                    class="fa fa-bookmark"></i>
-                                                                                            </span>
+                                                                                        <span class="btn addCollection mobileAddCollection"  
+                                                                                        data-type='project'
+                                                                                        data-project='{{ $project->id }}'
+                                                                                        data-id='{{ $i + 1 }}'>
+                                                                        <i
+                                                                            class="fa fa-bookmark"></i>
+                                                                    </span>
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1758,15 +1747,13 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
-                                                                        <span
-                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection"  
-                                                                          data-type='project'
-                                                                          data-project='{{ $project->id }}'
-                                                                          data-id='{{ $i + 1 }}'
-                                                            @else
-                                                            class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                            <i class="fa fa-bookmark"></i>
-                                                                        </span>
+                                                                    <span class="btn addCollection mobileAddCollection"  
+                                                                    data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ $i + 1 }}'>
+                                                    <i
+                                                        class="fa fa-bookmark"></i>
+                                                </span>
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"

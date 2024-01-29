@@ -553,11 +553,7 @@
                                                 <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                                 </h4>
                                                 <span
-                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
-                                                            json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                                    ) class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" 
-                        @else
-                        class="btn addCollection mobileAddCollection disabledShareButton" @endif>
+                                                 class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" >
                                                     <i class="fa fa-bookmark"></i>
                                                 </span>
                                                 <span class="btn toggle-favorite bg-white"
@@ -808,13 +804,9 @@
                                                                 </div>
                                                                 <div class="button-effect-div">
                                                                     <span
-                                                                    @if (isset(json_decode($housing->housing_type_data)->{"share-open1"}) &&
-                                                                            json_decode($housing->housing_type_data)->{"share-open1"}[0]
-                                                                    ) class="btn addCollection"  data-type='housing' data-id="{{ $housing->id }}" 
-                                                                                    @else
-                                                                                    class="btn addCollection disabledShareButton" @endif>
-                                                                    <i class="fa fa-bookmark"></i>
-                                                                </span>
+                                                                    class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" >
+                                                                       <i class="fa fa-bookmark"></i>
+                                                                   </span>
 
                                                                     <span class="btn toggle-favorite bg-white"
                                                                         data-housing-id={{ $housing->id }}>
