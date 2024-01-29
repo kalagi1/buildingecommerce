@@ -553,7 +553,8 @@
                                                 <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                                 </h4>
                                                 <span
-                                                 class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" >
+                                                    class="btn @if ($sold && $sold[0] == '1' || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "
+                                                    data-type='housing' data-id="{{ $housing->id }}">
                                                     <i class="fa fa-bookmark"></i>
                                                 </span>
                                                 <span class="btn toggle-favorite bg-white"
@@ -803,10 +804,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="button-effect-div">
-                                                                    <span
-                                                                    class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" >
-                                                                       <i class="fa fa-bookmark"></i>
-                                                                   </span>
+                                                                    <span class="btn @if ($sold && $sold[0] == '1' || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                        data-type='housing'
+                                                                        data-id="{{ $housing->id }}">
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </span>
 
                                                                     <span class="btn toggle-favorite bg-white"
                                                                         data-housing-id={{ $housing->id }}>

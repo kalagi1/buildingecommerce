@@ -798,7 +798,8 @@
                                                                                                             <div
                                                                                                                 class="button-effect-div">
 
-                                                                                                                <span class="btn addCollection mobileAddCollection"  
+                                                                                                                <span class="btn 
+                                                                                                                @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
                                                                                                                 data-type='project'
                                                                                                                 data-project='{{ $project->id }}'
                                                                                                                 data-id='{{ $i + 1 }}'>
@@ -1184,7 +1185,8 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
-                                                                                        <span class="btn addCollection mobileAddCollection"  
+                                                                                        <span class="btn 
+                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
                                                                                         data-type='project'
                                                                                         data-project='{{ $project->id }}'
                                                                                         data-id='{{ $i + 1 }}'>
@@ -1431,7 +1433,8 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                        <span class="btn addCollection mobileAddCollection"  
+                                                                                        <span class="btn
+                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"  
                                                                                         data-type='project'
                                                                                         data-project='{{ $project->id }}'
                                                                                         data-id='{{ $i + 1 }}'>
@@ -1780,7 +1783,8 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
-                                                                    <span class="btn addCollection mobileAddCollection"  
+                                                                    <span class="btn 
+                                                                    @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
                                                                     data-type='project'
                                                                     data-project='{{ $project->id }}'
                                                                     data-id='{{ $i + 1 }}'>

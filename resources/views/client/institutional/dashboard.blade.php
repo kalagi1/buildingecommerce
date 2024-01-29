@@ -641,7 +641,6 @@
                     @foreach ($secondhandHousings as $housing)
                         @php($sold = $housing->sold)
 
-                        @if (($sold && $sold != '1') || !$sold)
                             <div class="d-flex" style="flex-wrap: nowrap">
                                 <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                     <div class="project-inner project-head">
@@ -667,7 +666,7 @@
                                                 <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                                 </h4>
                                                 <span
-                                                class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" >
+                                                class="btn  @if ($sold && $sold[0] == '1' || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "  data-type='housing' data-id="{{ $housing->id }}" >
                                                    <i class="fa fa-bookmark"></i>
                                                </span>
                                                 <span class="btn toggle-favorite bg-white"
@@ -875,7 +874,6 @@
 
                             </div>
                             <hr>
-                        @endif
                     @endforeach
                 </div>
 
@@ -887,7 +885,7 @@
                                     @foreach ($secondhandHousings as $housing)
                                         @php($sold = $housing->sold)
 
-                                        @if (($sold && $sold != '1') || !$sold)
+                                    
                                             <a href="{{ route('housing.show', [$housing->id]) }}"
                                                 class="text-decoration-none">
                                                 <div data-aos="fade-up" data-aos-delay="150">
@@ -912,7 +910,7 @@
                                                                 </div>
                                                                 <div class="button-effect-div">
                                                                     <span
-                                                                    class="btn addCollection mobileAddCollection"  data-type='housing' data-id="{{ $housing->id }}" >
+                                                                    class="btn @if ($sold && $sold[0] == '1' || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "  data-type='housing' data-id="{{ $housing->id }}" >
                                                                        <i class="fa fa-bookmark"></i>
                                                                    </span>
 
@@ -1163,7 +1161,6 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        @endif
                                     @endforeach
                                 </div>
                             </div>

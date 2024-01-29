@@ -762,7 +762,7 @@
                                                         </div>
                                                         <div class="button-effect-div">
                                                            
-                                                                    <span ${res.share ? `class="btn addCollection"  data-type="housing" data-id="${res.id}"` :
+                                                                    <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection"  data-type="housing" data-id="${res.id}"` :
                                                                                                 `class="btn disabledShareButton"`}>
                                                                                     <i class="fa fa-bookmark"></i>
                                                                                 </span>
@@ -803,7 +803,7 @@
                                                                 res.offSale ?
                                                                     `<button
                                                                                                                                                                     class="btn second-btn " 
-                                                                                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">Satıldı
+                                                                                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı
                                                                                                                                                                 </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
@@ -866,7 +866,7 @@
                                                     <h4>
                                                     ${res.title}
                                                 </h4>
-                                                <span ${res.share ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
+                                                <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
                                                                                         `class="btn  mobileAddCollection  disabledShareButton"`}>
                                                                             <i class="fa fa-bookmark"></i>
                                                                         </span>
@@ -885,7 +885,7 @@
                                                         `  <button class="btn second-btn  mobileCBtn" 
                                                                                                                             style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                                                                            <span class="text">Satıldı</span>
+                                                                                                                            <span class="text">Satışa Kapatıldı</span>
                                                                                                                         </button>`
                                                         :
                                                         res.action === 'payment_await' ?
