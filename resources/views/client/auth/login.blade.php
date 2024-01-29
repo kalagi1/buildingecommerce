@@ -65,12 +65,35 @@
 
                                         </div>
 
-
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
-                                            <input type="password" name="password" class="form-control">
-
+                                       
+                                                <input type="password" name="password" id="passwordInput"
+                                                    class="form-control">
+                                                    <i id="eyeIcon" class="fa fa-eye-slash field-icon"
+                                                    onclick="togglePassword()"></i>
+                                        
                                         </div>
+                                        <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
+                                        <script>
+                                            function togglePassword() {
+                                                var passwordInput = document.getElementById("passwordInput");
+                                                var eyeIcon = document.getElementById("eyeIcon");
+
+                                                if (passwordInput.type === "password") {
+                                                    passwordInput.type = "text";
+                                                    eyeIcon.classList.remove("fa-eye-slash");
+                                                    eyeIcon.classList.add("fa-eye");
+                                                } else {
+                                                    passwordInput.type = "password";
+                                                    eyeIcon.classList.remove("fa-eye");
+                                                    eyeIcon.classList.add("fa-eye-slash");
+                                                }
+                                            }
+                                        </script>
+
+
+
 
                                         <div class="forgot-password d-flex justify-content-between">
                                             <a href="{{ route('institutional.login') }}"><span>Kurumsal Giriş</span></a>
@@ -136,14 +159,14 @@
                                                 <button
                                                     class="user-type-button institutional {{ old('type') == 2 ? 'active' : '' }}"
                                                     data-user-type="2" type="button">Kurumsal</button>
-                                                
+
                                             </div>
                                             <input type="hidden" name="type" id="user-type-input"
                                                 value="{{ old('type', 1) }}">
                                         </div>
 
 
-                                        <div class="individual-form {{ old('type') == 1  ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
+                                        <div class="individual-form {{ old('type') == 1 ? 'd-show' : '' }} {{ old('type') == 2 ? 'hidden' : '' }} "
                                             id="individualForm">
 
                                             <!-- İsim -->
@@ -183,11 +206,32 @@
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
                                             <input type="password" name="password"
+                                            id="passwordInput2"
                                                 class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
+                                                <i id="eyeIcon2" class="fa fa-eye-slash field-icon"
+                                                onclick="togglePassword2()"></i>
                                             @if ($errors->has('password'))
                                                 <span class="error-message">{{ $errors->first('password') }}</span>
                                             @endif
                                         </div>
+
+                                        <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
+                                        <script>
+                                            function togglePassword2() {
+                                                var passwordInput = document.getElementById("passwordInput2");
+                                                var eyeIcon = document.getElementById("eyeIcon2");
+
+                                                if (passwordInput.type === "password") {
+                                                    passwordInput.type = "text";
+                                                    eyeIcon.classList.remove("fa-eye-slash");
+                                                    eyeIcon.classList.add("fa-eye");
+                                                } else {
+                                                    passwordInput.type = "password";
+                                                    eyeIcon.classList.remove("fa-eye");
+                                                    eyeIcon.classList.add("fa-eye-slash");
+                                                }
+                                            }
+                                        </script>
 
                                         <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
                                             id="corporateForm">
@@ -800,6 +844,24 @@
 
 @section('styles')
     <style>
+
+        #passwordInput {
+            position: relative;
+
+        }
+        #passwordInput2 {
+            position: relative;
+
+        }
+        .field-icon {
+            float: right;
+    margin-right: 9px;
+    margin-top: -26px;
+    position: relative;
+    z-index: 2;
+    z-index: 9999;
+        }
+
         .hidden {
             display: none !important;
         }
