@@ -3,7 +3,7 @@
 @section('content')
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
-           
+
 
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
@@ -23,51 +23,52 @@
                         @endif
                         <div class="clearButtons">
                             @if (isset($cart['item']))
-                            <button type="button" class="btn btn-close-cart remove-from-cart"
-                         
-                            style="background: #EA2B2E;padding:5px;height:auto !important; color: white; font-size: 12px;"
-                           >
-                            <i class="fa fa-times"></i> Sepeti Temizle
-                        </button>
+                                <button type="button" class="btn btn-close-cart remove-from-cart"
+                                    style="background: #EA2B2E;padding:5px;height:auto !important; color: white; font-size: 12px;">
+                                    <i class="fa fa-times"></i> Sepeti Temizle
+                                </button>
                             @endif
-                            
+
                             <button type="button" class="btn btn-close-cart"
                                 style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
                                 onclick="window.location.href='{{ route('index') }}'">
                                 <i class="fa fa-times"></i> Kapat
                             </button>
-                           
+
                         </div>
                     </div>
 
-                    @if (isset($cart['item'])&& isset($cart['item']['payment-plan']))
-                    <div class="my-properties p-0 my-choose mb-3 {{ $cart['item']['payment-plan'] === 'pesin' ? 'd-none' : 'd-block' }}">
-                        <table class="table-responsive">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <strong>Peşinat</strong> <br>
-                                        {{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺</td>
+                    @if (isset($cart['item']) && isset($cart['item']['payment-plan']))
+                        <div
+                            class="my-properties p-0 my-choose mb-3 {{ $cart['item']['payment-plan'] === 'pesin' ? 'd-none' : 'd-block' }}">
+                            <table class="table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Peşinat</strong> <br>
+                                            {{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺
+                                        </td>
 
-                                    <td>
-                                        <strong>Taksit Sayısı</strong> <br>
-                                        {{ $cart['item']['taksitSayisi'] }}</td>
-
-
-                                    <td><strong>Aylık Ödenecek Tutar</strong><br> 
-                                        {{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺</td>
-
+                                        <td>
+                                            <strong>Taksit Sayısı</strong> <br>
+                                            {{ $cart['item']['taksitSayisi'] }}
+                                        </td>
 
 
-                                    <td><strong>Toplam Fiyat</strong><br>
-                                        {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }} ₺</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> 
+                                        <td><strong>Aylık Ödenecek Tutar</strong><br>
+                                            {{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺</td>
+
+
+
+                                        <td><strong>Toplam Fiyat</strong><br>
+                                            {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }} ₺</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     @endif
 
-                 
+
 
                     <div class="my-properties p-0">
                         <table class="table-responsive">
@@ -122,6 +123,7 @@
                                         </td>
                                         @php
                                             $itemPrice = $cart['item']['amount'];
+                                            
 
                                             if ($cart['hasCounter']) {
                                                 if ($cart['type'] == 'housing') {
@@ -148,7 +150,6 @@
                                                 $discountedPrice = $itemPrice;
                                             }
 
-                                            // Eğer taksitli fiyat varsa ve ödeme seçeneği "taksitli" ise
                                             $selectedPaymentOption = request('paymentOption');
                                             if ($selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])) {
                                                 $itemPrice = $cart['item']['installmentPrice'];
@@ -158,6 +159,12 @@
                                         @endphp
 
                                         <td>
+                                            @if ($discountedPrice)
+                                            <span>
+                                                <del style="color:#EA2B2E">   {{ number_format($itemPrice, 0, ',', '.') }} ₺</del>
+                                            </span>
+                                            @endif
+                                           
                                             <span class="discounted-price-x" id="itemPrice"
                                                 data-original-price="{{ $cart['item']['price'] }}"
                                                 data-installment-price="{{ $cart['item']['installmentPrice'] }}"
@@ -173,7 +180,7 @@
 
 
 
-                                       
+
                                     </tr>
                                 @endif
                             </tbody>
@@ -181,7 +188,7 @@
 
                     </div>
 
-                  
+
 
                     {{-- @if ($cart || (!empty($cart['item']) && !empty($cart['item']['installmentPrice'])))
                     <div class="my-properties p-0 mt-3">
@@ -265,7 +272,7 @@
                                                         @endphp
                                                     @endif
 
-                                                    <del style="color: red;">
+                                                    <del style="color: #EA2B2E;">
                                                         {{ number_format($cart['item']["installmentPrice"]) }} ₺
                                                     </del><br>
                                                     <span class="discounted-price-x"
@@ -319,7 +326,7 @@
                                                 TL</strong></li>
 
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                            <li style="color:red">Mağaza İndirimi :<strong class="pull-right">
+                                            <li style="color:#EA2B2E">Mağaza İndirimi :<strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -331,8 +338,8 @@
                                                         ₺ </span></strong></li>
                                         @endif
 
-                                        @if (isset($discountRate) && $discountRate != "0")
-                                            <li style="color:red">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
+                                        @if (isset($discountRate) && $discountRate != '0')
+                                            <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -397,7 +404,7 @@
                                 @endif
                             @endif
 
-                           
+
 
                         </div>
                     </div>
@@ -434,7 +441,7 @@
                                         </div>
                                         <div id="ibanInfo" style="font-size: 12px !important"></div>
                                         <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                            <span style="color:red;font-weight:bold" id="uniqueCode"></span> kodu
+                                            <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
                                             kullanarak ödemenizi
                                             yapın. IBAN açıklama
                                             alanına
@@ -470,7 +477,7 @@
                         <div class="modal-body">
                             <div class="container">
                                 <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
-                                <span>1. <strong style="color:red;font-size:15px;font-weight:bold"
+                                <span>1. <strong style="color:#EA2B2E;font-size:15px;font-weight:bold"
                                         id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                     alanına yazdığınızdan emin olun.</span>
 
@@ -485,21 +492,21 @@
                                             <div class="form-group">
                                                 <label for="fullName">Ad Soyad:</label>
                                                 <input type="text" class="form-control" id="fullName"
-                                                    name="fullName" required>
+                                                    name="fullName" requi#EA2B2E>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="email">E-posta:</label>
                                                 <input type="email" class="form-control" id="email" name="email"
-                                                    required>
+                                                    requi#EA2B2E>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tc">TC * </label>
                                                 <input type="number" class="form-control" id="tc" name="tc"
-                                                    required oninput="validateTCLength(this)">
+                                                    requi#EA2B2E oninput="validateTCLength(this)">
                                             </div>
                                         </div>
 
@@ -516,13 +523,13 @@
                                             <div class="form-group">
                                                 <label for="phone">Telefon:</label>
                                                 <input type="tel" class="form-control" id="phone" name="phone"
-                                                    required>
+                                                    requi#EA2B2E>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="address">Adres:</label>
-                                                <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
+                                                <textarea class="form-control" id="address" name="address" rows="5" requi#EA2B2E></textarea>
                                             </div>
                                         </div>
 
@@ -590,50 +597,50 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <script>
-            $(document).ready(function() {
-                // Initial setup - store original and installment prices
-                var displayedPriceSpan = $('#itemPrice');
-                var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
-                var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
-                $('.custom-option').on('click', function() {
-                    var selectedOption = $(this).data('value');
-                    updateCart(selectedOption);                    
-                });
-
-              
-
-                function updateCart(selectedOption) {
-                    var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
-                    $.ajax({
-                        type: 'POST',
-                        url: '/update-cart',
-                        data: {
-                            paymentOption: selectedOption,
-                            updatedPrice: updatedPrice,
-                            _token: '{{ csrf_token() }}' // Add this line to include CSRF token
-                        },
-                        success: function(response) {
-                            location.reload();
-                            console.log(response);
-                        },
-                        error: function(error) {
-                            console.error(error);
-                        }
-                    });
-                }
-
-
-
-                // Function to format numbers
-                function number_format(number, decimals, dec_point, thousands_sep) {
-                    number = number.toFixed(decimals);
-                    var parts = number.toString().split(dec_point);
-                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
-                    return parts.join(dec_point);
-                }
+    <script>
+        $(document).ready(function() {
+            // Initial setup - store original and installment prices
+            var displayedPriceSpan = $('#itemPrice');
+            var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
+            var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
+            $('.custom-option').on('click', function() {
+                var selectedOption = $(this).data('value');
+                updateCart(selectedOption);
             });
-        </script>
+
+
+
+            function updateCart(selectedOption) {
+                var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-cart',
+                    data: {
+                        paymentOption: selectedOption,
+                        updatedPrice: updatedPrice,
+                        _token: '{{ csrf_token() }}' // Add this line to include CSRF token
+                    },
+                    success: function(response) {
+                        location.reload();
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+
+
+            // Function to format numbers
+            function number_format(number, decimals, dec_point, thousands_sep) {
+                number = number.toFixed(decimals);
+                var parts = number.toString().split(dec_point);
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+                return parts.join(dec_point);
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
@@ -711,7 +718,7 @@
 
                                         @if (isset($housingOffer))
                                             $('.booking-price-detail>ul>li').eq(2).css('color',
-                                                'red').html(
+                                                '#EA2B2E').html(
                                                 'İndirim Tutarı<strong class="pull-right">' +
                                                 (formatPrice(parseFloat(response.cart.item
                                                         .price) * response
@@ -726,7 +733,7 @@
                                                 (formatPrice(newCapora)) + ' TL</strong>')
                                         @else
                                             $('.booking-price-detail>ul>li').eq(1).css('color',
-                                                'red').html(
+                                                '#EA2B2E').html(
                                                 'İndirim Tutarı<strong class="pull-right">' +
                                                 (formatPrice(parseFloat(response.cart.item
                                                         .price) * response
@@ -756,7 +763,7 @@
                                         var newCapora = newPrice * 2 / 100;
 
                                         $('.booking-price-detail ul li').eq(1).after(
-                                            '<li style="color:red;">İndirim Tutarı<strong class="pull-right">' +
+                                            '<li style="color:#EA2B2E;">İndirim Tutarı<strong class="pull-right">' +
                                             (formatPrice(response.discount_amount)) +
                                             ' TL</strong></li>')
                                         $('.booking-price-detail ul li').eq(2).after(
@@ -814,7 +821,7 @@
                                 }
 
                                 $('.booking-price-detail ul li').eq(1).after(
-                                    '<li style="color:red;">İndirim Tutarı<strong class="pull-right">' +
+                                    '<li style="color:#EA2B2E;">İndirim Tutarı<strong class="pull-right">' +
                                     (formatPrice(parseFloat(response.cart.item.price) * response
                                         .discount_amount / 100)) + ' TL</strong></li>')
                                 $('.booking-price-detail ul li').eq(2).after(
@@ -834,7 +841,7 @@
                                 var newCapora = newPrice * 2 / 100;
 
                                 $('.booking-price-detail ul li').eq(1).after(
-                                    '<li style="color:red;">İndirim Tutarı<strong class="pull-right">' +
+                                    '<li style="color:#EA2B2E;">İndirim Tutarı<strong class="pull-right">' +
                                     (formatPrice(response.discount_amount)) + ' TL</strong></li>')
                                 $('.booking-price-detail ul li').eq(2).after(
                                     '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
@@ -955,6 +962,7 @@
         .my-choose td {
             padding: 15px 20px 15px 0 !important;
         }
+
         /* Style for custom option container */
         .payment-options {
             display: flex;
@@ -966,7 +974,7 @@
             max-width: 100%;
         }
 
-      
+
 
         /* Style for custom option */
         .custom-option {
@@ -974,7 +982,7 @@
             cursor: pointer;
             font-size: 11px !important;
             color: black;
-           
+
             align-items: center;
             justify-content: center;
             border: 1px solid #e4e4e4;
@@ -989,26 +997,30 @@
         }
 
         @media (max-width: 768px) {
-            .my-choose{
+            .my-choose {
                 flex-direction: column-reverse;
             }
-            .clearButtons{
+
+            .clearButtons {
                 margin-bottom: 10px;
             }
 
-            .my-properties table h2{
+            .my-properties table h2 {
                 text-align: center !important;
                 margin: 9px 0 9px 0
             }
+
             .payment-options {
-            width: 100%;
-        }
-        .clearButtons{
-            width:100%;
-        }
-        .custom-option {
-            width: 50%;
-        }
+                width: 100%;
+            }
+
+            .clearButtons {
+                width: 100%;
+            }
+
+            .custom-option {
+                width: 50%;
+            }
         }
     </style>
 @endsection
