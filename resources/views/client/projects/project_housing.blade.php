@@ -2651,8 +2651,8 @@ out center;`;
 
                                                     </div>
                                                     <div class="footer">
-                                                        <a href="http://127.0.0.1:8000/magaza/maliyetine-ev/profil">
-                                                            <img src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
+                                                        <a href="https://emlaksepette.com/magaza/maliyetine-ev/profil">
+                                                            <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
                                                             Maliyetine Ev
                                                         </a>
                                                         <span class="price-mobile">
@@ -2933,8 +2933,8 @@ out center;`;
 
                                                     </div>
                                                     <div class="footer">
-                                                        <a href="http://127.0.0.1:8000/magaza/maliyetine-ev/profil">
-                                                            <img src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
+                                                        <a href="https://emlaksepette.com/magaza/maliyetine-ev/profil">
+                                                            <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
                                                             Maliyetine Ev
                                                         </a>
                                                         <span class="price-mobile">

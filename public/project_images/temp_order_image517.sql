@@ -54237,9 +54237,9 @@ CREATE TABLE `social_media_icons` (
 --
 
 INSERT INTO `social_media_icons` (`id`, `name`, `icon_class`, `url`, `created_at`, `updated_at`) VALUES
-(1, 'Instagram', 'fa fa-instagram', 'http://127.0.0.1:8000/', '2023-09-09 10:38:38', '2023-09-09 10:38:38'),
-(3, 'Twitter', 'fa fa-twitter', 'http://127.0.0.1:8000/', '2023-09-09 10:41:58', '2023-09-09 10:41:58'),
-(4, 'Facebook', 'fa fa-facebook', 'http://127.0.0.1:8000/', '2023-09-09 10:42:15', '2023-09-09 10:42:15');
+(1, 'Instagram', 'fa fa-instagram', 'https://emlaksepette.com/', '2023-09-09 10:38:38', '2023-09-09 10:38:38'),
+(3, 'Twitter', 'fa fa-twitter', 'https://emlaksepette.com/', '2023-09-09 10:41:58', '2023-09-09 10:41:58'),
+(4, 'Facebook', 'fa fa-facebook', 'https://emlaksepette.com/', '2023-09-09 10:42:15', '2023-09-09 10:42:15');
 
 -- --------------------------------------------------------
 
