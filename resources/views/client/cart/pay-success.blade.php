@@ -9,9 +9,10 @@
 
             <div style="color: #27ae60; font-size: 26px; text-align: center;">ÖDEME BAŞARILI</div>
             <p style="font-size: 18px;">Sipariş başarıyla verildi. Sipariş numaranız: {{ $cart_order->key }}</p>
-            
-          
-<a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri Görüntüle</a>
+
+
+            <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri
+                Görüntüle</a>
 
 
         </div>

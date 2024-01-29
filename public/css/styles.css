@@ -27655,10 +27655,37 @@ input[type="checkbox"]::before {
     color: #fff !important;
     /* Yazı rengi */
 }
-
+.select2-selection__rendered{
+    font-size:10px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+    color: #444 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 32px !important;
+}
+.select2-dropdown{
+    border: 1px solid #eee !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+    font-size:10px !important;
+    color:#444;
+}
 .slick-lancersl {
     position: relative;
     overflow: hidden;
+}
+.select2-container--default .select2-selection--single{
+    border: 1px solid #eee !important;
+    border-radius: 0 !important;
+}
+
+.select2-container--default .select2-results__option{
+    font-size: 10px !important;
+}
+
+.select2-container .select2-selection--single {
+height: 32px !important;
 }
 
 .CartBtn,.reservationBtn {

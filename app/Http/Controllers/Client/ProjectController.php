@@ -402,7 +402,50 @@ class ProjectController extends Controller
         $filters = [];
 
         $housingStatuses = HousingStatus::get();
-        $cities = City::get();
+        $cities = City::get()->toArray();
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+        
+        usort($cities, function($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+        
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['title']), $priorityCities);
+        
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+        
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+        
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+        
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
+        
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+        
+                return $comparison;
+            }
+        });
+        
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('slug',$housingTypeSlug)->first();
         if ($projects) {
