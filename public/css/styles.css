@@ -20821,6 +20821,7 @@ body.dashboard-bd {
 
 .my-properties table h2 {
     border: none;
+    width:300px;
     font-size: 11px;
     color: #444;
     text-decoration: none;

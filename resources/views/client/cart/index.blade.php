@@ -148,6 +148,7 @@
                                                 }
                                             } else {
                                                 $discountedPrice = $itemPrice;
+                                                $discountRate= 0;
                                             }
 
                                             $selectedPaymentOption = request('paymentOption');
@@ -159,7 +160,7 @@
                                         @endphp
 
                                         <td>
-                                            @if ($discountedPrice)
+                                            @if (isset($discountRate) && $discountRate != 0)
                                             <span>
                                                 <del style="color:#EA2B2E">   {{ number_format($itemPrice, 0, ',', '.') }} ₺</del>
                                             </span>
