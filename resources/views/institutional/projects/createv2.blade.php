@@ -1422,51 +1422,7 @@
                     @endif
 
 
-                    $('.add-pay-dec').click(function(){
-                        $('.pay-desc').append(`
-                            <div class="pay-desc-item">
-                                <div class="row" style="align-items: flex-end;">
-                                    <div class="flex-1">
-                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
-                                    </div>
-                                    <div class="flex-10">
-                                        <label for="">Ara Ödeme Tutarı</label>
-                                        <input type="text" class="price-only pay-desc-price form-control">
-                                    </div>
-                                    <div class="flex-10">
-                                        <label for="">Ara Ödeme Tarihi</label>
-                                        <input type="date" class="form-control pay-desc-date">
-                                    </div>
-                                </div>
-                            </div>
-                        `)
-
-
-                        $('.price-only').keyup(function(){
-                            $('.price-only .error-text').remove();
-                            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                                if($(this).closest('.form-group').find('.error-text').length > 0){
-                                    $(this).val("");
-                                }else{
-                                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                    $(this).val("");
-                                }
-                                
-                            }else{
-                                let inputValue = $(this).val();
-
-                                // Sadece sayı karakterlerine izin ver
-                                inputValue = inputValue.replace(/\D/g, '');
-
-                                // Her üç basamakta bir nokta ekleyin
-                                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-                                $(this).val(inputValue)
-                                $(this).closest('.form-group').find('.error-text').remove();
-                            }
-                        })
-                        changeData($('.pay-desc-item').length,'pay-dec-count'+$('.house_order_input').val())
-                    })
+                    
 
                     $('.price-only').keyup(function(){
                         $('.price-only .error-text').remove();
