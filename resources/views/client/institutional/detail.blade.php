@@ -152,8 +152,7 @@
                 <div id="mapContainer" style="height: 350px;width:100%;margin-bottom:20px"></div>
 
                 @endif
-
-
+            
             </div>
 
             <div class="single homes-content details mb-30">
@@ -359,10 +358,6 @@
                 }
             });
 
-            google.maps.event.addListener(map, 'click', function(event) {
-                placeMarker(event.latLng);
-            });
-
             if (cityName) {
                 // Google Haritalar Geocoding API'yi kullanarak şehir adını koordinatlara dönüştür
                 var geocoder = new google.maps.Geocoder();
@@ -398,11 +393,6 @@
             marker = new google.maps.Marker({
                 position: location,
                 map: map
-            });
-
-            // Bilgi penceresi oluşturun (isteğe bağlı)
-            var infowindow = new google.maps.InfoWindow({
-                content: 'Koordinatlar: ' + location.lat() + ', ' + location.lng()
             });
 
             // İşaretçiye tıklandığında bilgi penceresini gösterin
