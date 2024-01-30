@@ -202,7 +202,6 @@
 
             
             <div class="pay-desc">
-                <h2>Ara Ödemeler</h2>
                 <div class="pay-dec-front">
                     <table class="pay-desc-table">
                         <thead>
