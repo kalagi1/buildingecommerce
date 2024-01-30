@@ -60,29 +60,29 @@
                                         fill: #FFFFFF;
                                     }
                                 </style>
-                                @if ($project->user->corporate_account_status )
-                                <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
-                                    width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <g>
-                                        <path class="st0"
-                                            d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
-                                        <g class="st1">
-                                            <path
-                                                d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
-                                            <path
-                                                d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
-                                            <path
-                                                d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
-                                            <path
-                                                d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                @if ($project->user->corporate_account_status)
+                                    <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
+                                        width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <g>
+                                            <path class="st0"
+                                                d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                            <g class="st1">
+                                                <path
+                                                    d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                                <path
+                                                    d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                                <path
+                                                    d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                                <path
+                                                    d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                            </g>
+                                            <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                            <path class="st2"
+                                                d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
                                         </g>
-                                        <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
-                                        <path class="st2"
-                                            d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
-                                    </g>
-                                </svg>
-                            @endif
+                                    </svg>
+                                @endif
                             </a></p>
                         <div class="mobile-hidden">
                             <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
@@ -191,8 +191,7 @@
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
                                 <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-0" data-slide-to="0"
-                                        data-target="#listingDetailsSlider">
+                                    <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
@@ -202,7 +201,7 @@
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
                                         <a id="carousel-selector-{{ $key + 1 }}"
-                                            data-slide-to="{{ $key + 1}}" data-target="#listingDetailsSlider">
+                                            data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -252,7 +251,7 @@
                                                             style="color: black;">{!! $project->user->name !!}</span>
                                                     </td>
                                                 </tr>
-                                                
+
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">İletişim No:</span>
@@ -267,18 +266,19 @@
                                                             style="color: black;">{!! $project->user->email !!}</span>
                                                     </td>
                                                 </tr>
-                                              
+
 
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>
-                                                            @if ($project->neighbourhood)
-                                                            {!! 'İl-İlçe-Mahalle:' !!}
-                                                        @else
-                                                            {!! 'İl-İlçe:' !!}
-                                                        @endif
+                                                                @if ($project->neighbourhood)
+                                                                    {!! 'İl-İlçe-Mahalle:' !!}
+                                                                @else
+                                                                    {!! 'İl-İlçe:' !!}
+                                                                @endif
                                                             </span></strong>
-                                                        <span class="det" style="color: black;font-size:10px !important">
+                                                        <span class="det"
+                                                            style="color: black;font-size:10px !important">
                                                             {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                             @if ($project->neighbourhood)
                                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -420,8 +420,9 @@
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                                type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki
+                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Projedeki
                                 Konutlar</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -440,7 +441,7 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-                       
+
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#map"
                                 type="button" role="tab" aria-controls="contact"
@@ -475,12 +476,13 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <strong><span class="mr-1"> 
-                                                @if ($project->neighbourhood)
-                                                {!! 'İl-İlçe-Mahalle:' !!}
-                                            @else
-                                                {!! 'İl-İlçe:' !!}
-                                            @endif</span></strong>
+                                            <strong><span class="mr-1">
+                                                    @if ($project->neighbourhood)
+                                                        {!! 'İl-İlçe-Mahalle:' !!}
+                                                    @else
+                                                        {!! 'İl-İlçe:' !!}
+                                                    @endif
+                                                </span></strong>
                                             <span class="det" style="color: black;">
                                                 {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                 @if ($project->neighbourhood)
@@ -681,12 +683,11 @@
 
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
-                                    <div class="container">
-                                        <h5 class="mb-4">Projedeki Konutlar </h5>
-
+                              
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 ">
                                                 <div class="tabbed-content button-tabs">
+                                                  <div class="container">
                                                     <ul class="tabs">
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
@@ -698,6 +699,7 @@
                                                             </li>
                                                         @endforeach
                                                     </ul>
+                                                  </div>
                                                     @foreach ($project->blocks as $key => $block)
                                                         <div id="contentblock-{{ $block['id'] }}"
                                                             class="tab-content-block{{ $loop->first ? ' active' : '' }}"
@@ -752,13 +754,9 @@
                                                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                                                                                @if (isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != '[]')
-                                                                                                                    {{ $i + 1 - $lastHousingCount }}.
-                                                                                                                    Hisse
-                                                                                                                @else
-                                                                                                                    No
-                                                                                                                    <br>{{ $i + 1 - $lastHousingCount }}
-                                                                                                                @endif
+
+                                                                                                                No
+                                                                                                                <br>{{ $i + 1 - $lastHousingCount }}
 
                                                                                                             </p>
                                                                                                         </div>
@@ -766,14 +764,15 @@
                                                                                                             data-aos="fade-up">
                                                                                                             <div
                                                                                                                 class="button-effect-div">
-                                                                                                                <span class="btn 
-                                                                                                                @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
-                                                                                                                                data-type='project'
-                                                                                                                                data-project='{{ $project->id }}'
-                                                                                                                                data-id='{{ $i + 1 }}'>
-                                                                                                                <i
-                                                                                                                    class="fa fa-bookmark"></i>
-                                                                                                            </span>
+                                                                                                                <span
+                                                                                                                    class="btn 
+                                                                                                                @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                                                                    data-type='project'
+                                                                                                                    data-project='{{ $project->id }}'
+                                                                                                                    data-id='{{ $i + 1 }}'>
+                                                                                                                    <i
+                                                                                                                        class="fa fa-bookmark"></i>
+                                                                                                                </span>
                                                                                                                 <div href="javascript:void()"
                                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                                     data-project-housing-id="{{ $i + 1 }}"
@@ -788,7 +787,7 @@
                                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
-                                                                                                                    style="height: 100px !important;object-fit:cover">
+                                                                                                                    style="height: 100px !important;object-fit:cover;width:100%">
                                                                                                                 @if ($projectDiscountAmount)
                                                                                                                     <div
                                                                                                                         style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
@@ -828,7 +827,7 @@
 
                                                                                                 <div class="row align-items-center justify-content-between mobile-position"
                                                                                                     @if (($sold && $sold->status != '2') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
-                                                                                                    <div class="col-md-8">
+                                                                                                    <div class="col-md-9">
 
                                                                                                         <div
                                                                                                             class="homes-list-div">
@@ -1097,6 +1096,7 @@
 
                                                             @endphp
                                                             <div class="mobile-show">
+                                                                <div class="container">
                                                                 @for ($i = $startIndex; $i < $endIndex; $i++)
                                                                     @php
                                                                         $j++;
@@ -1153,14 +1153,14 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
-                                                                                        <span class="btn 
-                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
-                                                                                        data-type='project'
-                                                                                        data-project='{{ $project->id }}'
-                                                                                        data-id='{{ $i + 1 }}'>
-                                                                        <i
-                                                                            class="fa fa-bookmark"></i>
-                                                                    </span>
+                                                                                        <span
+                                                                                            class="btn 
+                                                                                        @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                                            data-type='project'
+                                                                                            data-project='{{ $project->id }}'
+                                                                                            data-id='{{ $i + 1 }}'>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
                                                                                         <span
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1348,18 +1348,19 @@
 
                                                             </div>
                                                         </div>
+
+                                                        </div>
                                                     @endforeach
                                                 </div>
 
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
                             @else
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
-                                        <div class="container">
-                                            <h5 class="mb-4">Projedeki Konutlar </h5>
+<div class="container">
+
 
                                             <div class="row project-filter-reverse blog-pots">
                                                 @for ($i = 0; $i < $project->room_count; $i++)
@@ -1401,14 +1402,14 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                        <span class="btn
-                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"  
-                                                                                        data-type='project'
-                                                                                        data-project='{{ $project->id }}'
-                                                                                        data-id='{{ $i + 1 }}'>
-                                                                        <i
-                                                                            class="fa fa-bookmark"></i>
-                                                                    </span>
+                                                                                        <span
+                                                                                            class="btn
+                                                                                        @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"
+                                                                                            data-type='project'
+                                                                                            data-project='{{ $project->id }}'
+                                                                                            data-id='{{ $i + 1 }}'>
+                                                                                            <i class="fa fa-bookmark"></i>
+                                                                                        </span>
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1421,7 +1422,7 @@
                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
-                                                                                            style="height: 100px !important;object-fit:cover">
+                                                                                            style="height: 100px !important;object-fit:cover;width:100%">
                                                                                         @if ($projectDiscountAmount)
                                                                                             <div
                                                                                                 style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
@@ -1463,7 +1464,7 @@
 
                                                                     <div class="row align-items-center justify-content-between mobile-position"
                                                                         @if (($sold && $sold->status != '2') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
-                                                                        <div class="col-md-8">
+                                                                        <div class="col-md-9">
 
                                                                             <div class="homes-list-div">
                                                                                 <ul
@@ -1698,8 +1699,8 @@
                                                 @endfor
 
                                             </div>
-                                        </div>
                                     </div>
+                                </div>
                                     <div class="mobile-show">
                                         <div class="container">
 
@@ -1751,14 +1752,14 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
-                                                                    <span class="btn
-                                                                    @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"  
-                                                                    data-type='project'
-                                                                    data-project='{{ $project->id }}'
-                                                                    data-id='{{ $i + 1 }}'>
-                                                    <i
-                                                        class="fa fa-bookmark"></i>
-                                                </span>
+                                                                    <span
+                                                                        class="btn
+                                                                    @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"
+                                                                        data-type='project'
+                                                                        data-project='{{ $project->id }}'
+                                                                        data-id='{{ $i + 1 }}'>
+                                                                        <i class="fa fa-bookmark"></i>
+                                                                    </span>
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"
@@ -1936,9 +1937,8 @@
                                                 </div>
                                                 <hr>
                                             @endfor
-                                        </div>
-
                                     </div>
+                                </div>
 
 
 
@@ -2038,12 +2038,19 @@
                                                         <div class="project-inner project-head">
 
                                                             <div class="button-effect-div">
+                                                                <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
+    data-type='project'
+    data-project='{{ $project->id }}'
+    data-id='${startIndex+1+i+lastBlockHousingCount}'>
+    <i class="fa fa-bookmark"></i>
+</span>
+
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover;width:100%">`
                             var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
                                 lastBlockHousingCount);
                             if (checkOfferX) {
@@ -2082,7 +2089,7 @@
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                                             <div class="row align-items-center justify-content-between mobile-position">
-                                                <div class="col-md-8">
+                                                <div class="col-md-9">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
                                                             
@@ -2458,12 +2465,18 @@
                                                         <div class="project-inner project-head">
 
                                                             <div class="button-effect-div">
+                                                                <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
+    data-type='project'
+    data-project='{{ $project->id }}'
+    data-id='${startIndex+1+i+lastBlockHousingCount}'>
+    <i class="fa fa-bookmark"></i>
+</span>
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
+                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover;width:100%">`
                         var checkOfferX = checkOffer(response.offers, startIndex + 1 + i + lastBlockHousingCount);
                         if (checkOfferX) {
                             var newPercent = Math.round((checkOfferX['discount_amount'] / res[i]["price[]"]) * 100);
@@ -2499,7 +2512,7 @@
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                                             <div class="row align-items-center justify-content-between mobile-position">
-                                                <div class="col-md-8">
+                                                <div class="col-md-9">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
                                                             

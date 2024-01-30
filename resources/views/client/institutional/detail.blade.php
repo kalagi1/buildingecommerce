@@ -124,7 +124,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="seller-info-container__wrapper"><img src="{{ url('images/artboard-2.svg') }}"
+                    <div class="seller-info-container__wrapper"><img src="{{ url('phone.png') }}"
                             alt="icon" class="seller-info-container__wrapper__img">
                         <div class="seller-info-container__wrapper__text-container"><span
                                 class="seller-info-container__wrapper__text-container__title">İletişim </span><span

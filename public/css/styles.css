@@ -23307,7 +23307,7 @@ a.btn_1 {
 }
 
 .homes-content .row {
-    width: 100% !important;
+    width: 102% !important;
 }
 
 .btn-white,
@@ -25286,7 +25286,6 @@ section.ui-element {
     overflow: hidden;
     width: 100%;
     background: #f3f3f3;
-    border-radius: 9px;
 }
 
 .ui-elements .button-tabs .tabs>li {
@@ -30142,7 +30141,8 @@ a {
 
 
 @media (max-width: 768px) {
-    .mobileAddCollection {
+    .mobileAddCollection ,
+    .disabledShareButton {
         border: 1px solid gray;
         display: flex;
         justify-content: center;
