@@ -188,6 +188,9 @@ class ProfileController extends Controller
         $year = $request->input("year");
         $bank_name = $request->input("bank_name");
         $phone = $request->input("phone");
+        $longitude = $request->input("longitude");
+        $latitude = $request->input("latitude");
+
 
 
         $data = $request->all();
@@ -209,6 +212,11 @@ class ProfileController extends Controller
         $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
         $data['year'] = $year; // Vergi Dairesi İli güncellendi
         $data['bank_name'] = $bank_name; // Vergi Dairesi İli güncellendi
+        $data['phone'] = $phone;
+        $data['longitude'] = $longitude;
+        $data['latitude'] = $latitude;
+
+
 
 
         
