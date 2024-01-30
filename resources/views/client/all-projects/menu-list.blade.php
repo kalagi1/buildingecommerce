@@ -170,18 +170,22 @@
                                 <a id="clear-filters"
                                     style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
                                 @if (isset($items) && count($items) > 0 && isset($housingTypeSlugName))
+                                
                                     <div class="trip-search itemsDiv">
                                         <div class="recent-post">
-                                            {{-- <h3>{{ $housingTypeSlugName }}</h3> --}}
+                                            <h3><a href="{{ url('kategori/' . $housingTypeParentSlug ) }}" style="color: #444">{{ $housingTypeSlugName }}</a></h3>
                                             <ul>
                                                 @foreach ($items as $key => $item)
                                                     <li @if ($optName) class="@if ($optName == $item->title) d-show
                                                         @else
                                                         d-none @endif"
-                                                        @endif>
+                                                        @endif
+                                                        
+                                                        style="border-bottom: 1px solid #eaeff5;padding: 0 !important">
                                                         <a
                                                             href="{{ url('kategori/' . $housingTypeParentSlug . '/' . $item->slug) }}"><i
                                                                 class="fa fa-caret-right"
+                                                                style="padding: 0.5rem 0;"
                                                                 aria-hidden="true"></i>{{ $item->title }}</a>
                                                                 @if (isset($item->connections) && count($item->connections) > 0)
                                                                 <ul style="margin-left: 20px" class="item_submenu">

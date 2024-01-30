@@ -23628,6 +23628,13 @@ a.btn_1 {
     overflow-y: scroll;
 }
 
+
+.itemsDiv::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+
 /* 
 .inner-pages .recent-post ul li a{
     border-bottom: 1px solid #ccc;

@@ -278,7 +278,7 @@ class ProjectController extends Controller
         foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
 
-                if ($paramValue == "satilik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
+                if ($paramValue == "satilik" || $paramValue == "devren-satilik" || $paramValue == "devren-kiralik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
@@ -286,8 +286,13 @@ class ProjectController extends Controller
                             $optName = "Kiralık";
                         }elseif ($opt == "satilik")  {
                             $optName = "Satılık";
-                        }else {
+                        }elseif ($opt == "gunluk-kiralik")  {
                             $optName = "Günlük Kiralık";
+                        }elseif ($opt == "devren-satilik")  {
+                            $optName = "Devren Satılık";
+                        }
+                        elseif ($opt == "devren-kiralik")  {
+                            $optName = "Devren Kiralık";
                         }
                     }
                 } else {
