@@ -783,7 +783,7 @@
                                             </div>
                                             <div class="flex-10">
                                                 <label for="">Ara Ödeme Tutarı</label>
-                                                <input type="text" name="pay-dec-price[]" value="${priceFormat(getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}0"))}" class="price-only form-control pay-desc-price">
+                                                <input type="text" name="pay-dec-price[]" value="${getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}0") ? priceFormat(getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}0")) : ""}" class="price-only form-control pay-desc-price">
                                             </div>
                                             <div class="flex-10">
                                                 <label for="">Ara Ödeme Tarihi</label>
@@ -806,7 +806,7 @@
                                         </div>
                                         <div class="flex-10">
                                             <label for="">Ara Ödeme Tutarı</label>
-                                            <input type="text" name="pay-dec-price[]" value="${priceFormat(getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}"+i))}" class="price-only pay-desc-price form-control">
+                                            <input type="text" name="pay-dec-price[]" value="${getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}"+i) ? priceFormat(getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}"+i)) : ""}" class="price-only pay-desc-price form-control">
                                         </div>
                                         <div class="flex-10">
                                             <label for="">Ara Ödeme Tarihi</label>
