@@ -402,11 +402,9 @@
                         </div>
                     </div>
                     <div class="moveCollection">
-                        @if (Auth::check() && Auth::user()->type == 21)
                             <div
-                                @if (isset($projectHousingsList[$housingOrder]['share-open[]'])) class="add-to-collections-wrapper addCollectionMobile addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
-                                        @else
-                                        class="add-to-collections-wrapper disabledShareButton addCollection addCollectionMobile" @endif>
+                               class="add-to-collections-wrapper addCollectionMobile addCollection"  data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
+>
                                 <div class="add-to-collection-button-wrapper">
                                     <div class="add-to-collection-button">
 
@@ -445,7 +443,6 @@
                                     <span class="fa fa-plus"></span>
                                 </div>
                             </div>
-                        @endif
                     </div>
 
 
@@ -481,12 +478,12 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    {!! 'İl-İlçe' !!}
                                                     @if ($project->neighbourhood)
-                                                        {!! '-Mahalle: ' !!}
+                                                        {!! 'İl-İlçe-Mahalle:' !!}
                                                     @else
-                                                        {!! ': ' !!}
+                                                        {!! 'İl-İlçe:' !!}
                                                     @endif
+                                                    
                                                     <span class="det">
                                                         {!! optional($project->city)->title .
                                                             ' / ' .
@@ -500,7 +497,7 @@
                                             @if ($project->user->phone)
                                                 <tr>
                                                     <td>
-                                                        Telefon :
+                                                        Sabit Telefon :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
                                                                 href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
@@ -548,7 +545,13 @@
                 <div class="col-md-12">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                                type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki
+                                Diğer Konutlar
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link " id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
                                 type="button" role="tab" aria-controls="home"
                                 aria-selected="true">Açıklama</button>
                         </li>
@@ -557,12 +560,7 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                                type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki
-                                Diğer Konutlar
-                            </button>
-                        </li>
+                       
                         <li class="nav-item" role="presentation">
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
@@ -576,7 +574,7 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active blog-info details mb-30" id="home" role="tabpanel"
+                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
                             <h5 class="mb-4">Açıklama</h5>
                             {!! $project->description !!}
@@ -709,7 +707,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade  blog-info details housingsListTab mb-30 " id="contact"
+                        <div class="tab-pane fade show active   blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
                             @if ($project->have_blocks == 1)
@@ -800,20 +798,14 @@
                                                                                                             <div
                                                                                                                 class="button-effect-div">
 
-                                                                                                                @if (Auth::check() && Auth::user()->type == 21)
-                                                                                                                    <span
-                                                                                                                        @if (isset($projectHousingsList[$i + 1]['share-open[]']) &&
-                                                                                                                                $projectHousingsList[$i + 1]['share-open[]'] != '[]' &&
-                                                                                                                                $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                                                                                    data-type='project'
-                                                                                                                                    data-project='{{ $project->id }}'
-                                                                                                                                    data-id='{{ $i + 1 }}'
-                                                                                                                        @else
-                                                                                                                        class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                                                                        <i
-                                                                                                                            class="fa fa-bookmark"></i>
-                                                                                                                    </span>
-                                                                                                                @endif
+                                                                                                                <span class="btn 
+                                                                                                                @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
+                                                                                                                data-type='project'
+                                                                                                                data-project='{{ $project->id }}'
+                                                                                                                data-id='{{ $i + 1 }}'>
+                                                                                                <i
+                                                                                                    class="fa fa-bookmark"></i>
+                                                                                            </span>
                                                                                                                 <div href="javascript:void()"
                                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                                     data-project-housing-id="{{ $i + 1 }}"
@@ -1193,18 +1185,14 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
-                                                                                        @if (Auth::check() && Auth::user()->type == 21)
-                                                                                            <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                                          data-type='project'
-                                                                                          data-project='{{ $project->id }}'
-                                                                                          data-id='{{ $i + 1 }}'
-                                                                            @else
-                                                                            class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                                                <i
-                                                                                                    class="fa fa-bookmark"></i>
-                                                                                            </span>
-                                                                                        @endif
+                                                                                        <span class="btn 
+                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
+                                                                                        data-type='project'
+                                                                                        data-project='{{ $project->id }}'
+                                                                                        data-id='{{ $i + 1 }}'>
+                                                                        <i
+                                                                            class="fa fa-bookmark"></i>
+                                                                    </span>
                                                                                         <span
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1445,18 +1433,14 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                        @if (Auth::check() && Auth::user()->type == 21)
-                                                                                            <span
-                                                                                                @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                                          data-type='project'
-                                                                                          data-project='{{ $project->id }}'
-                                                                                          data-id='{{ $i + 1 }}'
-                                                                                            @else
-                                                                                            class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                                                <i
-                                                                                                    class="fa fa-bookmark"></i>
-                                                                                            </span>
-                                                                                        @endif
+                                                                                        <span class="btn
+                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"  
+                                                                                        data-type='project'
+                                                                                        data-project='{{ $project->id }}'
+                                                                                        data-id='{{ $i + 1 }}'>
+                                                                        <i
+                                                                            class="fa fa-bookmark"></i>
+                                                                    </span>
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1799,17 +1783,14 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
-                                                                    @if (Auth::check() && Auth::user()->type == 21)
-                                                                        <span
-                                                                            @if (isset($projectHousingsList[$i + 1]['share-open[]']) && $projectHousingsList[$i + 1]['share-open[]'] != '[]') class="btn addCollection mobileAddCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" 
-                                                                      data-type='project'
-                                                                      data-project='{{ $project->id }}'
-                                                                      data-id='{{ $i + 1 }}'
-                                                        @else
-                                                        class="btn mobileAddCollection disabledShareButton" @endif>
-                                                                            <i class="fa fa-bookmark"></i>
-                                                                        </span>
-                                                                    @endif
+                                                                    <span class="btn 
+                                                                    @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
+                                                                    data-type='project'
+                                                                    data-project='{{ $project->id }}'
+                                                                    data-id='{{ $i + 1 }}'>
+                                                    <i
+                                                        class="fa fa-bookmark"></i>
+                                                </span>
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"
@@ -2657,8 +2638,8 @@ out center;`;
 
                                                     </div>
                                                     <div class="footer">
-                                                        <a href="http://127.0.0.1:8000/magaza/maliyetine-ev/profil">
-                                                            <img src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
+                                                        <a href="https://emlaksepette.com/magaza/maliyetine-ev/profil">
+                                                            <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
                                                             Maliyetine Ev
                                                         </a>
                                                         <span class="price-mobile">
@@ -2939,8 +2920,8 @@ out center;`;
 
                                                     </div>
                                                     <div class="footer">
-                                                        <a href="http://127.0.0.1:8000/magaza/maliyetine-ev/profil">
-                                                            <img src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
+                                                        <a href="https://emlaksepette.com/magaza/maliyetine-ev/profil">
+                                                            <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
                                                             Maliyetine Ev
                                                         </a>
                                                         <span class="price-mobile">

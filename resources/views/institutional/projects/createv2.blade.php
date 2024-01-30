@@ -330,7 +330,7 @@
                                             <select onchange="changeData(this.value,'city_id')" name="city_id" id="cities" class="form-control">
                                                 <option value="">İl Seç</option>
                                                 @foreach($cities as $city)
-                                                    <option {{isset($tempData->city_id) && $tempData->city_id == $city->id ? "selected" : ''}} value="{{$city->id}}">{{$city->title}}</option>
+                                                    <option {{isset($tempData->city_id) && $tempData->city_id == $city['id'] ? "selected" : ''}} value="{{$city['id']}}">{{$city['title']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

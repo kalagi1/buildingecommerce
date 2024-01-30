@@ -170,12 +170,12 @@ class ProfileController extends Controller
     {
         $request->validate([
             "name" => "required",
-            "phone" => "required",
+            "mobile_phone" => "required",
             "iban" => "required",
             "banner_hex_code" => "required",
         ],[
             "name.required" => "İsim alanı zorunludur",
-            "phone.required" => "Telefon alanı zorunludur",
+            "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
@@ -186,6 +186,13 @@ class ProfileController extends Controller
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
         $taxOfficeCityId = $city ? $city->id : null;
         $year = $request->input("year");
+        $bank_name = $request->input("bank_name");
+        $phone = $request->input("phone");
+        $longitude = $request->input("longitude");
+        $latitude = $request->input("latitude");
+
+
+
         $data = $request->all();
 
         if ($request->hasFile('profile_image')) {
@@ -204,12 +211,73 @@ class ProfileController extends Controller
         $data['taxOfficeCity'] = $taxOfficeCityId; // Vergi Dairesi İli güncellendi
         $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
         $data['year'] = $year; // Vergi Dairesi İli güncellendi
+        $data['bank_name'] = $bank_name; // Vergi Dairesi İli güncellendi
+        $data['phone'] = $phone;
+        $data['longitude'] = $longitude;
+        $data['latitude'] = $latitude;
 
 
-        // Kullanıcının bilgilerini güncelle
+
+
+        
         $user->update($data);
 
-        return redirect()->route('institutional.profile.edit')->with('success', 'Profiliniz başarıyla güncellendi.');
+        return redirect()->back();
+    }
+
+    public function clubUpdate(Request $request)
+    {
+
+        if (Auth::user()->type == "1") {
+            $request->validate(
+                [
+                    "idNumber" => "required",
+                    "phone" => "required",
+                    "bank_name" => "required",
+                    "instagramusername" => "required",
+                    "iban" => "required",
+                    "check-d" => "required"
+                ],
+                [
+                    "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
+                    "phone.required" => "Telefon Numarası alanı zorunludur.",
+                    "bank_name.required" => "Banka Adı alanı zorunludur.",
+                    "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
+                    "iban.required" => "IBAN alanı zorunludur.",
+                    "check-d.required" => "Onay kutusu zorunludur."
+                ]
+            );
+        }else{
+            $request->validate(
+                [
+                    "phone" => "required",
+                    "bank_name" => "required",
+                    "instagramusername" => "required",
+                    "iban" => "required",
+                    "check-d" => "required"
+                ],
+                [
+                    "phone.required" => "Telefon Numarası alanı zorunludur.",
+                    "bank_name.required" => "Banka Adı alanı zorunludur.",
+                    "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
+                    "iban.required" => "IBAN alanı zorunludur.",
+                    "check-d.required" => "Onay kutusu zorunludur."
+                ]
+            );
+        }
+       
+        
+
+        $user = User::where("id", Auth::user()->id)->first();
+
+
+        $data = $request->all();
+        $data = $request->except('check-d');
+
+        $data['has_club'] = "2"; 
+        $user->update($data);
+
+        return  view("institutional.home.has-club-status");
     }
 
 }

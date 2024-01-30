@@ -38,7 +38,7 @@ class RegisterController extends Controller
             ],
             'email' => 'required|email|unique:users',
             'password' => 'required|min:3',
-            'phone' =>  'required',
+            'mobile_phone' =>  'required',
             'type' => 'required|in:1,2,21',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2',
@@ -59,7 +59,7 @@ class RegisterController extends Controller
 
         $msgs = [
             'email.required' => 'E-posta adresi alanı zorunludur.',
-            'phone.required' => 'Telefon numarası zorunludur.',
+            'mobile_phone.required' => 'Cep telefonu zorunludur.',
             'check-a.required_if' => "Hesap açmak için Bireysel Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
             'check-d.required_if' => "Hesap açmak için Kurumsal Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
             'check-b.required' => 'Hesap açmak için Kvkk metinini okuyup onaylamanız gerekmektedir.',
@@ -112,6 +112,7 @@ class RegisterController extends Controller
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
         $user->phone = $request->input("phone");
+        $user->mobile_phone = $request->input("mobile_phone");
         $user->neighborhood_id = $request->input("neighborhood_id");
         $user->username = $request->input("username");
         $user->account_type = $accountType;

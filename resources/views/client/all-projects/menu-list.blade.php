@@ -4,8 +4,7 @@
     <style>
         /* css */
         .trip-search select {
-            border: 1px solid #CCC;
-            border-radius: 8px;
+            border: 1px solid #eee;
         }
 
         input[type=radio] {
@@ -40,9 +39,7 @@
             #clear-filters,
             #close-filters {
                 width: 90%;
-                padding: 10px !important;
                 margin: 0 auto;
-                margin: 10px auto;
                 font-size: 11px !important;
             }
 
@@ -167,23 +164,103 @@
 
                         <div>
 
-                            <div>
+                            <div class="mobile-filters">
                                 <a id="clear-filters"
                                     style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
-                                <div class="trip-search">
+                                @if (isset($items) && count($items) > 0)
+
+                                    <div class="trip-search itemsDiv">
+                                        <div class="recent-post">
+                                            @if ($slugName)
+                                                <h3 style="padding: 0.5rem 0; margin-bottom:0"><a
+                                                        href="{{ url('kategori/' . $slugItem) }}"
+                                                        style="color: #444">{{ $slugName }}</a></h3>
+
+                                            @endif
+                                            @if ($housingTypeParentSlug)
+                                                <h3 style="margin-bottom:0;"><a
+                                                        href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . $housingTypeParentSlug) }}"
+                                                        style="color: #444"><i class="fa fa-caret-right"
+                                                            style="padding: 0.5rem 0;margin-right: 1rem;"
+                                                            aria-hidden="true"></i>{{ $housingTypeSlugName }}</a></h3>
+
+                                            @endif
+                                            <ul>
+                                                @foreach ($items as $key => $item)
+                                                    <li @if ($optName) class="@if ($optName == $item->title) d-show
+                                                        @else
+                                                        d-none @endif"
+                                                        @endif
+
+                                                        style="padding: 0 !important;@if ($housingTypeParentSlug) margin-left: 20px  @else ' ' @endif">
+                                                        <a
+                                                            href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug) }}"><i
+                                                                class="fa fa-caret-right" style="padding: 0.5rem 0;"
+                                                                aria-hidden="true"></i>{{ $item->title }}</a>
+
+
+                                                        @if (isset($item->parents) && count($item->parents) > 0)
+                                                            <ul style="margin-left: 20px" class="item_submenu">
+                                                                @foreach ($item->parents as $parent)
+                                                                    <li @if ($housingTypeSlug) class="@if ($housingTypeSlug == $parent->slug) d-show
+                                                                            @else
+                                                                            d-none @endif"
+                                                                        @endif><a
+                                                                            href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $parent->slug) }}">
+                                                                            <i class="fa fa-caret-right"
+                                                                                aria-hidden="true"></i>{{ $parent->title }}</a>
+                                                                    </li>
+                                                                    @if (isset($parent->connections) && count($parent->connections) > 0)
+                                                                        <ul style="margin-left: 20px" class="item_submenu">
+                                                                            @foreach ($parent->connections as $connection)
+                                                                                <li @if ($housingTypeSlug) class="@if ($housingTypeSlug == $connection->housingType->slug) d-show
+                                                                                    @else
+                                                                                    d-none @endif"
+                                                                                    @endif><a
+                                                                                        href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $parent->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        @else
+                                                            @if (isset($item->connections) && count($item->connections) > 0)
+                                                                <ul style="margin-left: 20px" class="item_submenu">
+                                                                    @foreach ($item->connections as $connection)
+                                                                        <li @if ($housingTypeSlug) class="@if ($housingTypeSlug == $connection->housingType->slug) d-show
+                                                                            @else
+                                                                            d-none @endif"
+                                                                            @endif><a
+                                                                                href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @endif
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endif
+
+
+                                <div class="trip-search  @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header"
-                                        style="margin-bottom: 0 !important">
+                                       >
                                         <span>Adres</span>
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İl</option>
                                             @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}">{{ $city->title }}</option>
+                                                <option value="{{ $city['id'] }}">{{ $city['title'] }}</option>
                                             @endforeach
                                         </select>
-
                                     </div>
+
+
                                     <div class="mt-md-2">
                                         <select id="county" class="bg-white filter-now mobile-button">
                                             <option value="#" class="selected" selected disabled>İlçe</option>
@@ -285,7 +362,7 @@
 
                                         @if ($filter['type'] == 'text')
                                             <div class="trip-search mt-md-2">
-                                                <div class="head d-flex" onclick="toggleFilterDiv(this)">
+                                                <div class="head widget-boxed-header mobile-title widget-boxed-header" onclick="toggleFilterDiv(this)">
                                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
                                                         <span>{!! $filter['label'] !!}</span>
                                                     </div>
@@ -447,8 +524,8 @@
 
                         </div>
                     </section>
-                    {{-- <section id="pages" class="d-flex justify-content-center" style="gap: 12px;">
-                    </section> --}}
+                    <div id="pages" class="d-flex justify-content-center" style="gap: 12px;">
+                    </div>
 
                 </div>
 
@@ -457,57 +534,34 @@
         </div>
     </section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Search Fields -->
-                    <div class="widget-boxed main-search-field">
-                        <div class="trip-search">
-                            <div class="head d-flex">
-                                <span>Adres </span>
-                                <span class="ml-auto" onclick="$(this).parent().parent().find('.mt-4').slideToggle();">
-                                    <svg width="16px" height="16px" viewBox="0 0 384 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div class="mt-4">
-                                <select id="city" class="bg-white filter-now">
-                                    <option value="#" selected disabled>İl</option>
-                                    @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}">{{ $city->title }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mt-4">
-                                <select id="county" class="bg-white filter-now">
-                                    <option value="#" selected disabled>İlçe</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
-
 @section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#city').select2({
+                placeholder: 'İl',
+                width: '100%',
+                searchInputPlaceholder: 'Ara...'
+            });
+            $("#project_type").select2({
+                minimumResultsForSearch: -1,
+                width: '100%',
+            });
+            $('#county').select2({
+                minimumResultsForSearch: -1,
+                width: '100%',
+            });
+            $('#neighborhood').select2({
+                minimumResultsForSearch: -1,
+                width: '100%',
+            });
+
+        });
+    </script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         let last_page;
@@ -565,12 +619,18 @@
         })
 
         $('#city').on('change', function() {
+
+
             $.ajax({
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
+                    $('#county').select2({
+                        placeholder: 'İlçe',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    });
                     $('#county').empty();
-                    $('#county').append('<option value="#" disabled>İlçe</option>');
                     res.forEach((e) => {
                         $('#county').append(
                             `<option value="${e.ilce_key}">${e.ilce_title}</option>`
@@ -582,10 +642,16 @@
         });
 
         $('#county').on('change', function() {
+
             $.ajax({
                 method: "GET",
                 url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                 success: function(res) {
+                    $('#neighborhood').select2({
+                        placeholder: 'Mahalle',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    });
                     $('#neighborhood').empty();
                     $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
                     res.forEach((e) => {
@@ -594,6 +660,7 @@
                         );
                         $('#neighborhood').val('#');
                     });
+
                 }
             });
         });
@@ -710,22 +777,22 @@
                                     `
 
                                     <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                            data-aos-delay="150">
-                            <div class="small-category-2">
-                                <div class="small-category-2-thumb img-1">
-                                    <a href="${res.url}"><img src="${res.image}"
-                                            alt=""></a>
+                                    data-aos-delay="150">
+                                    <div class="small-category-2">
+                                        <div class="small-category-2-thumb img-1">
+                                            <a href="${res.url}"><img src="${res.image}"
+                                                    alt=""></a>
+                                        </div>
+                                        <div class="sc-2-detail">
+                                            <h4 class="sc-jb-title"><a href="{res.url}">${res.title}</a></h4>
+                                            <span>${res.city.title}
+                                                /
+                                                ${res.county.ilce_title}
+                                                </span>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="sc-2-detail">
-                                    <h4 class="sc-jb-title"><a href="{res.url}">${res.title}</a></h4>
-                                    <span>${res.city.title}
-                                        /
-                                        ${res.county.ilce_title}
-                                        </span>
-                                </div>
-                            </div>
-                            
-                        </div>
                                     `
                                 );
                             @else
@@ -748,7 +815,6 @@
 
                                 // Metni kırp ve üç nokta ekle
                                 var kisaltilmisBaslik = kisalt(res.title, 45);
-                                console.log(res);
                                 $('.pp-row').append(`
                                     <div class="agents-grid col-md-4" data-aos="fade-up" data-aos-delay="150">
                                         <a href="${res.housing_url}" tabindex="0" class="text-decoration-none">
@@ -763,13 +829,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="button-effect-div">
-                                                            ${showAddCollectionButton == 21 &&
-                                `<span ${res.share ? `class="btn addCollection" data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type="housing" data-id="${res.id}"` :
-                                                        `class="btn disabledShareButton"`}>
-                                            <i class="fa fa-bookmark"></i>
-                                        </span>` 
-                            }
-</span>
+                                                           
+                                                                    <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection"  data-type="housing" data-id="${res.id}"` :
+                                                                                                `class="btn disabledShareButton"`}>
+                                                                                    <i class="fa fa-bookmark"></i>
+                                                                                </span>
+                                                                              </span>
                                                             <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
                                                                 <i class="fa fa-heart-o ${res.in_favorites ? 'text-danger' : ''}"></i>
                                                             </div>
@@ -805,44 +870,44 @@
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button
-                                                                                                                                                            class="btn second-btn " 
-                                                                                                                                                            style="background: #EA2B2E !important;width:100%;color:White">Satıldı
-                                                                                                                                                        </button>`
+                                                                                                                                                                                                                        class="btn second-btn " 
+                                                                                                                                                                                                                        style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı
+                                                                                                                                                                                                                    </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                                                                class="btn second-btn " 
-                                                                                                                                                                style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
-                                                                                                                                                            </button>`
+                                                                                                                                                                                                                            class="btn second-btn " 
+                                                                                                                                                                                                                            style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
+                                                                                                                                                                                                                        </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                                                                    class="btn second-btn " 
-                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
-                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                class="btn second-btn " 
+                                                                                                                                                                                                                                style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
+                                                                                                                                                                                                                            </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                        data-id='${res.id}'>
-                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                        </span>
-                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                    </button>` :
+                                                                                                                                                                                                                    data-id='${res.id}'>
+                                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                </button>` :
                                                             `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                                                                                                                                    <span class="IconContainer">
-                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                    </span>
-                                                                                                                                                    <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                                </button>`
+                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                            </button>`
                                                             }
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </a>
+                                        </div>
                                     </div>
-                                </div>
-                            `);
+                                `);
 
 
                                 $('.pp-col').append(`
@@ -869,12 +934,10 @@
                                                     <h4>
                                                     ${res.title}
                                                 </h4>
-                                                ${showAddCollectionButton == 21 &&
-                                `<span ${res.share ? `class="btn addCollection mobileAddCollection " data-bs-toggle="modal" data-bs-target="#addCollectionModal" data-type="housing" data-id="${res.id}"` :
-                                                        `class="btn  mobileAddCollection  disabledShareButton"`}>
-                                            <i class="fa fa-bookmark"></i>
-                                        </span>` 
-                            }
+                                                <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
+                                                                                        `class="btn  mobileAddCollection  disabledShareButton"`}>
+                                                                            <i class="fa fa-bookmark"></i>
+                                                                        </span>
                                                 <span class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
                                                         <i class="fa fa-heart-o"></i>
                                                     </span>
@@ -888,36 +951,36 @@
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                     res.offSale ?
                                                         `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                                                                                                                style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                                                                    <span class="text">Satıldı</span>
-                                                                                                                </button>`
+                                                                                                                                                                                <span class="text">Satışa Kapatıldı</span>
+                                                                                                                                                                            </button>`
                                                         :
                                                         res.action === 'payment_await' ?
                                                             `<button
-                                                                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                    style="background: orange !important;width:100%;color:White">Rezerve Edildi
-                                                                                                                                                </button>`
+                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                style="background: orange !important;width:100%;color:White">Rezerve Edildi
+                                                                                                                                                                                                            </button>`
                                                             :
                                                             res.action === 'sold' ?
                                                                 `<button
-                                                                                                                                                        class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                        style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                    </button>`
+                                                                                                                                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                </button>`
                                                                 :
                                                                 `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                        data-id='${res.id}'>
-                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                        </span>
-                                                                                                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                    </button>` :
+                                                                                                                                                                                                                    data-id='${res.id}'>
+                                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                </button>` :
                                                                     `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
-                                                                                                                                                            <span class="IconContainer">
-                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                            </span>
-                                                                                                                                                            <span class="text">Rezervasyon Yap</span>
-                                                                                                                                                        </button>`
+                                                                                                                                                                                                                        <span class="IconContainer">
+                                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                        <span class="text">Rezervasyon Yap</span>
+                                                                                                                                                                                                                    </button>`
                                                                 }
                                                                     </div>
                                                                     <span class="ml-auto text-primary priceFont"
@@ -936,7 +999,7 @@
                                 </div>
                                 <div class="w-100" style="height:40px;background-color:#8080802e;margin-top:20px">
                                     <div class="d-flex justify-content-between align-items-center"
-                                style="height: 100%;padding: 10px">
+                                    style="height: 100%;padding: 10px">
                                     <ul class="d-flex align-items-center h-100"
                                     style="list-style: none;padding:0;font-weight:600;justify-content:start;margin-bottom:0 !important">
                                            
@@ -946,9 +1009,7 @@
                                         </ul>
                                         <span style="font-size: 11px !important">${res.city} ${" / "} ${res.county} </span>
                                         </div>
-                                </div>
-                                <hr>
-                            `);
+                                </div> <hr> `);
                             @endif
                         });
                     } else {
@@ -1149,10 +1210,16 @@
         }
 
         #pages {
-            position: absolute;
             width: 100%;
-            bottom: 0;
             justify-content: center
+        }
+
+        #pages .btn {
+            height: 100% !important;
+        }
+
+        #pages .btn:hover {
+            color: #007bff !important;
         }
 
         hr {
@@ -1211,6 +1278,30 @@
         }
 
         @media (max-width:768px) {
+            .room_count_field{
+                border-bottom: 1px solid #eaeff5;
+            }
+            .mobile-filters{
+                padding: 10px
+            }
+            .mt-md-2{
+                margin-bottom: 10px
+            }
+            .trip-search   {
+                padding-top: 10px; 
+                margin-top: 0 !important;
+                border: 0 !important;
+                padding: 0 !important;
+            }
+          
+            .select2-results ,
+            .select2-dropdown,
+            .select2-container--open .select2-dropdown--below{
+                position: relative;
+                z-index: 99999999999999;
+            }
+
+
             #submit-filters {
                 position: inherit !important;
                 border: 1px solid #CCC;
@@ -1226,16 +1317,12 @@
                 padding: 0 !important;
             }
 
-            .room_count_field {
-                padding: 9px
-            }
+            
 
             .mobile-title {
                 padding-bottom: 10px;
                 padding-top: 10px;
-
-                margin-bottom: 10px;
-
+                margin-bottom: 10px !important;
             }
 
             #sort-select option {

@@ -45,6 +45,13 @@ class CartController extends Controller {
             }
         }
 
+        $hasReference = null;
+
+        if ( $request->input( 'reference_code' ) ) {
+            $hasReference = User::where( 'code',  $request->input( 'reference_code' ) )->first();
+
+        }
+
         $cartJson = $request->session()->get( 'cart' );
         $order = new CartOrder;
         $order->user_id = auth()->user()->id;
@@ -245,6 +252,7 @@ $order->phone = $request->input( 'phone' );
 $order->address = $request->input( 'address' );
 $order->tc = $request->input( 'tc' );
 $order->notes = $request->input( 'notes' );
+$order->reference_id = $hasReference ? $hasReference->id : null;
 $order->save();
 
 $lastClick = Click::where( 'user_id', auth()->user()->id )
@@ -304,19 +312,24 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                 $coupon->update( [
                     'use_count' => $coupon->use_count - 1
                 ] );
+                
 
-                SharerPrice::create( [
-                    'user_id' => $coupon->user_id,
-                    'cart_id' => $order->id,
-                    'status' => '0',
-                    'balance' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
-                    'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
-                    'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
-                ] );
+                if ($coupon->user_id != Auth::user()->id) {
+                    SharerPrice::create( [
+                        'user_id' => $coupon->user_id,
+                        'cart_id' => $order->id,
+                        'status' => '0',
+                        'balance' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
+                        'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
+                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                    ] );
+                }
+
+               
             } else {
                 $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                 $user = User::where( 'id', $housing->user_id )->first();
-                if ( $shareOpen && $lastClick ) {
+                if (  $lastClick ) {
                     $collection = Collection::where( 'id', $lastClick->collection_id )->first();
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     if ( $user->corporate_type == 'Emlakçı' ) {
@@ -344,6 +357,8 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         $sharedAmount_earn = $newAmount * 0.02 * $share_percent_earn;
                     }
 
+                    if ($collection->user_id != Auth::user()->id) {
+
                     SharerPrice::create( [
                         'collection_id' => $lastClick->collection_id,
                         'user_id' => $collection->user_id,
@@ -353,6 +368,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
                         'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
                     ] );
+                    }
                 } elseif ( !$lastClick ) {
                     $newAmount = $amountWithoutDiscount;
                     if ( $user->corporate_type == 'Emlakçı' ) {
@@ -468,16 +484,19 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     'use_count' => $coupon->use_count - 1
                 ] );
 
-                SharerPrice::create( [
-                    'user_id' => $coupon->user_id,
-                    'cart_id' => $order->id,
-                    'status' => '0',
-                    'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
-                    'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
-                    'earn2' => 0,
-                ] );
+                if ($coupon->user_id != Auth::user()->id) {
+                    SharerPrice::create( [
+                        'user_id' => $coupon->user_id,
+                        'cart_id' => $order->id,
+                        'status' => '0',
+                        'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
+                        'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
+                        'earn2' => 0,
+                    ] );
+                }
+               
             } else {
-                if ( $shareOpen && $lastClick ) {
+                if (  $lastClick ) {
                     $collection = Collection::where( 'id', $lastClick->collection_id )->first();
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     $share_percent =  0.5;
@@ -495,16 +514,20 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     } else {
                         $sharedAmount_balance = $newAmount * 0.02 * $share_percent;
                     }
-                    SharerPrice::create( [
-                        'collection_id' => $lastClick->collection_id,
-                        'user_id' => $collection->user_id,
-                        'cart_id' => $order->id,
-                        'status' => '0',
-                        'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
-                        'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
-                        'earn2' => 0,
 
-                    ] );
+                    if ($collection->user_id != Auth::user()->id) {
+                        SharerPrice::create( [
+                            'collection_id' => $lastClick->collection_id,
+                            'user_id' => $collection->user_id,
+                            'cart_id' => $order->id,
+                            'status' => '0',
+                            'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
+                            'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
+                            'earn2' => 0,
+    
+                        ] );
+                    }
+                   
                 } else if ( !$lastClick ) {
                     $newAmount = $amountWithoutDiscount;
 
@@ -684,6 +707,34 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
         return response( [ 'message' => 'success' ] );
     }
 
+    public function update(Request $request)
+{
+    try {
+        $cart = $request->session()->get('cart', []);
+        if ($cart) {
+            $selectedPaymentOption = $request->input('paymentOption');
+            $updatedPrice = $request->input('updatedPrice');
+
+
+            if (isset($updatedPrice)) {
+                $cart['item']['amount'] = $updatedPrice;
+                $cart['item']['payment-plan'] = $selectedPaymentOption;
+
+            }
+
+            $request->session()->put('cart', $cart);
+
+            return response(['message' => 'success']);
+        }
+
+        return response(['message' => 'fail']);
+    } catch (\Exception $e) {
+        // Handle exceptions if any
+        return response(['message' => 'error', 'error' => $e->getMessage()], 500);
+    }
+}
+
+
     public function add( Request $request ) {
         try {
             $lastClick = Click::where( 'user_id', auth()->user()->id )
@@ -717,13 +768,30 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
 
                         if ( isset( $collection ) ) {
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id ) ) {
+                                if ( ( $link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id && $link->user_id != Auth::user()->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
                         }
                     }
                     $price = isset( $projectHousing[ 'Peşin Fiyat' ]->value ) ? $projectHousing[ 'Peşin Fiyat' ]->value : $projectHousing[ 'Fiyat' ]->value;
+                    $installmentPrice = null;
+                    $pesinat = null;
+                    $taksitsayisi =null;
+                    $aylik = null;
+
+                    if ( isset( $projectHousing[ 'Taksitli Toplam Fiyat' ] ) ) {
+                        $installmentPrice = $projectHousing['Taksitli Toplam Fiyat']->value;
+                        $pesinat = $projectHousing['Peşinat']->value;
+                        $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
+                        $aylik = ($installmentPrice - $pesinat) / $taksitSayisi;
+                        
+                    } elseif ( isset( $projectHousing[ 'Taksitli Fiyat' ] ) ) {
+                        $installmentPrice = $projectHousing[ 'Taksitli Fiyat' ]->value;
+                        $pesinat = $projectHousing['Peşinat']->value;
+                        $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
+                        $aylik = ($installmentPrice - $pesinat) / $taksitSayisi;
+                    }
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
 
                     $cartItem = [
@@ -733,18 +801,24 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'address' => $project->address,
                         'title' => $project->project_title,
                         'price' => $price,
+                        'amount' => $price,
                         'image' => asset( 'project_housing_images/' . $image ),
-                        'discount_amount' => $discount_amount,
+                        'discount_amount' => $hasCounter ?  $discount_amount : 0,
                         'share_open' => $projectHousing[ 'Paylaşıma Açık' ]->value ?? false,
                         'share_percent' =>  0.5,
                         'discount_rate' => $projectHousing[ 'İndirim Oranı %' ]->value ?? 0,
+                        'installmentPrice' => $installmentPrice,
+                        "payment-plan" => "pesin",
+                        "pesinat" => $pesinat,
+                        "taksitSayisi" => $taksitSayisi,
+                        "aylik" => $aylik
                     ];
                 } else if ( $type == 'housing' ) {
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
                         if ( isset( $collection ) ) {
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 2 && $link->item_id == $id ) ) {
+                                if ( ( $link->item_type == 2 && $link->item_id == $id && $link->user_id != Auth::user()->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
@@ -758,12 +832,14 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'city' => $housing->city[ 'title' ],
                         'address' => $housing->address,
                         'title' => $housing->title,
+                        'amount' => $housingData->price[ 0 ],
                         'price' => $housingData->price[ 0 ],
                         'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
-                        'discount_amount' => $discount_amount,
+                        'discount_amount' => $hasCounter ?  $discount_amount : 0,
                         'share_open' => $housingData-> {
                             'share-open'}
                             [ 0 ] ?? null,
+                            'installmentPrice' => null,
                             'share_percent' =>  0.5,
                             'discount_rate' => $housingData-> {
                                 'discount_rate'}
@@ -801,12 +877,15 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             public function index( Request $request ) {
                 $bankAccounts = BankAccount::all();
                 $cart = $request->session()->get( 'cart', [] );
-                if ( $cart[ 'type' ] == 'housing' ) {
-                    $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                    $saleType = $housing->step2_slug;
-                } else {
-                    $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                    $saleType = $project->step2_slug;
+                $saleType = null;
+                if ( isset( $cart ) && !empty( $cart ) ) {
+                    if ( $cart[ 'type' ] == 'housing' ) {
+                        $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                        $saleType = $housing->step2_slug;
+                    } else {
+                        $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                        $saleType = $project->step2_slug;
+                    }
                 }
 
                 return view( 'client.cart.index', compact( 'cart', 'bankAccounts', 'saleType' ) );

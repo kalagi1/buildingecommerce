@@ -27,6 +27,15 @@
         "activePath": "institutional/projects"
     },
     {
+        "id": "account",
+        "label": "Hesabım & Yardım",
+        "icon": "home",
+        "text": "Panelim",
+        "key": "ViewDashboard",
+        "url": "institutional.index",
+        "activePath": "institutional/"
+    },
+    {
         "id": "projects",
         "label": "Mağazam Emlak Sepette",
         "icon": "plus",
@@ -35,18 +44,10 @@
         "url": "institutional.housing.list",
         "activePath": "institutional/housings"
     },
-    {
-        "id": "account",
-        "label": "Hesabım & Yardım",
-        "icon": "home",
-        "text": "Hesabım",
-        "key": "ViewDashboard",
-        "url": "institutional.index",
-        "activePath": "institutional/"
-    },
+   
     {
         "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
+        "label": "Emlak Kulüp",
         "icon": "gift",
         "text": "EMLAK KULÜP",
         "key": "GetMyEarnings",
@@ -55,7 +56,7 @@
     },
     {
         "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
+        "label": "Emlak Kulüp",
         "icon": "bookmark",
         "text": "Koleksiyonlarım",
         "key": "GetMyCollection",
@@ -104,13 +105,21 @@
             }
         ]
     },
-  
+    {
+        "id": "realestate",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "info",
+        "text": "Sat Kirala Formlarım",
+        "key": "RealEstate",
+        "url": "institutional.real.estates",
+        "activePath": "institutional/real_estates"
+    },
     {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Satış",
-        "key": "GetOrders",
+        "key": "Orders",
         "url": "#nv-shopping",
         "activePath": ["institutional/orders*","institutional/my-orders"],
         "subMenu": [
@@ -133,7 +142,7 @@
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
         "text": "Kiralık",
-        "key": "GetReservations",
+        "key": "Reservations",
         "url": "#nv-shopping",
         "activePath": ["institutional/my-reservations*","institutional/reservations"],
         "subMenu": [
@@ -145,7 +154,7 @@
             },
             {
                 "text": "Kiraladıklarım",
-                "key": "GetReservations",
+                "key": "MyReservations",
                 "url": "institutional.myreservations",
                 "activePath": "institutional/my-reservations"
             }

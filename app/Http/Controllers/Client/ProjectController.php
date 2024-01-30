@@ -215,6 +215,7 @@ class ProjectController extends Controller
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
+        $slugItem = null;
         $slugName = [];
 
         $housingTypeSlug = [];
@@ -230,6 +231,7 @@ class ProjectController extends Controller
         $is_project = null;
 
         $optName = [];
+        $items = [];
 
         if ($deneme) {
             $slug = "al-sat-acil";
@@ -277,7 +279,7 @@ class ProjectController extends Controller
         foreach ($parameters as $index => $paramValue) {
             if ($paramValue) {
 
-                if ($paramValue == "satilik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
+                if ($paramValue == "satilik" || $paramValue == "devren-satilik" || $paramValue == "devren-kiralik" || $paramValue == "kiralik" || $paramValue == "gunluk-kiralik") {
                     $opt = $paramValue;
                     if ($opt) {
                         $opt = $opt;
@@ -285,8 +287,13 @@ class ProjectController extends Controller
                             $optName = "Kiralık";
                         }elseif ($opt == "satilik")  {
                             $optName = "Satılık";
-                        }else {
+                        }elseif ($opt == "gunluk-kiralik")  {
                             $optName = "Günlük Kiralık";
+                        }elseif ($opt == "devren-satilik")  {
+                            $optName = "Devren Satılık";
+                        }
+                        elseif ($opt == "devren-kiralik")  {
+                            $optName = "Devren Kiralık";
                         }
                     }
                 } else {
@@ -296,15 +303,20 @@ class ProjectController extends Controller
 
 
                     if ($item1) {
+                        $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id",null)->get();
                         $is_project = $item1->is_project;
                         $slugName = $item1->name;
+                        $slugItem = $item1->slug;
                         $slug = $item1->id;
                     }
 
+
                     if ($housingTypeParent) {
+                        $items = HousingTypeParent::with("connections.housingType")->where("parent_id", $housingTypeParent->id)->get();
                         $housingTypeSlugName = $housingTypeParent->title;
                         $housingTypeParentSlug = $housingTypeParent->slug;
                     }
+
 
                     if ($housingType) {
                         $housingTypeName = $housingType->title;
@@ -402,7 +414,50 @@ class ProjectController extends Controller
         $filters = [];
 
         $housingStatuses = HousingStatus::get();
-        $cities = City::get();
+        $cities = City::get()->toArray();
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+        
+        usort($cities, function($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+        
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['title']), $priorityCities);
+        
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+        
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+        
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+        
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
+        
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+        
+                return $comparison;
+            }
+        });
+        
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('slug',$housingTypeSlug)->first();
         if ($projects) {
@@ -410,36 +465,40 @@ class ProjectController extends Controller
                 $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
-        
-                foreach ($housingTypeData as $data) {
-                    if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
-                        $filterItem = [
-                            "label" => $data->label,
-                            "type" => $data->type,
-                            "name" => str_replace('[]', '', $data->name),
-                        ];
-        
-                        if ($data->type == "select" || $data->type == "checkbox-group") {
-                            $filterItem["values"] = $data->values;
-                        } else if ($data->type == "text") {
-                            $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
+
+                if (isset($housingTypeData)) {
+                    foreach ($housingTypeData as $data) {
+                        if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
+                            $filterItem = [
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]', '', $data->name),
+                            ];
+            
+                            if ($data->type == "select" || $data->type == "checkbox-group") {
+                                $filterItem["values"] = $data->values;
+                            } else if ($data->type == "text") {
+                                $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
+                            }
+            
+                            // Eğer toggle varsa, toggle değerini ekleyin
+                            if (isset($data->toggle)) {
+                                $filterItem['toggle'] = $data->toggle;
+                            }
+            
+                            array_push($filters, $filterItem);
                         }
-        
-                        // Eğer toggle varsa, toggle değerini ekleyin
-                        if (isset($data->toggle)) {
-                            $filterItem['toggle'] = $data->toggle;
-                        }
-        
-                        array_push($filters, $filterItem);
                     }
                 }
+        
+              
             }
         } else {
             if ($housingTypeSlug && $newHousingType) {
                 $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
-        
+                if (isset($housingTypeData)) {
                 foreach ($housingTypeData as $data) {
                     if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
                         $filterItem = [
@@ -463,11 +522,10 @@ class ProjectController extends Controller
                     }
                 }
             }
+            }
         }
-        
 
-
-        return view('client.all-projects.menu-list', compact('filters','nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        return view('client.all-projects.menu-list', compact('filters',"slugItem","items",'nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)

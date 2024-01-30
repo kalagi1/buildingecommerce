@@ -1,21 +1,31 @@
-[ {
-    "id": "EmlakClubUsers",
-    "label": "Emlak Kulüp",
-    "icon": "users",
-    "text": "Üyelere Kupon Tanımla",
-    "key": "EmlakClubUsers",
-    "url": "admin.estate.club.users",
-    "activePath": "admin/estate_club_users"
-},
-{
-    "id": "EmlakClubGift",
-    "label": "Emlak Kulüp",
-    "icon": "gift",
-    "text": "Kuponlarım",
-    "key": "EmlakClubGift",
-    "url": "admin.estate.coupons",
-    "activePath": "admin/coupons"
-},
+[
+    {
+        "id": "EmlakClubGift",
+        "label": "Emlak Kulüp",
+        "icon": "bell",
+        "text": "Başvurular",
+        "key": "EmlakClubApplications",
+        "url": "admin.estate.club.users.list",
+        "activePath": "admin/club_user_applications"
+    },
+    {
+        "id": "EmlakClubUsers",
+        "label": "Emlak Kulüp",
+        "icon": "users",
+        "text": "Üyelere Kupon Tanımla",
+        "key": "EmlakClubUsers",
+        "url": "admin.estate.club.users",
+        "activePath": "admin/estate_club_users"
+    },
+    {
+        "id": "EmlakClubGift",
+        "label": "Emlak Kulüp",
+        "icon": "gift",
+        "text": "Kuponlarım",
+        "key": "EmlakClubGift",
+        "url": "admin.estate.coupons",
+        "activePath": "admin/coupons"
+    },
     {
         "id": "home",
         "label": "EMLAK SEPETTE",
@@ -34,7 +44,6 @@
         "url": "admin.accounting",
         "activePath": "admin/accounting"
     },
-    
     {
         "id": "projects",
         "label": "EMLAK SEPETTE",
@@ -94,7 +103,6 @@
         "url": "admin.reservations",
         "activePath": "admin/reservations"
     },
-  
     {
         "id": "order",
         "label": "EMLAK SEPETTE",
@@ -104,7 +112,6 @@
         "url": "admin.orders",
         "activePath": "admin/orders"
     },
-  
     {
         "id": "order",
         "label": "EMLAK SEPETTE",
@@ -114,7 +121,6 @@
         "url": "admin.packageOrders",
         "activePath": "admin/package-orders"
     },
-  
     {
         "id": "order",
         "label": "EMLAK SEPETTE",
@@ -142,7 +148,6 @@
         "url": "admin.messages",
         "activePath": "admin/messages"
     },
-  
     {
         "id": "ad-banners",
         "label": "EMLAK SEPETTE",
@@ -152,7 +157,6 @@
         "url": "admin.adBanners.index",
         "activePath": "admin/ad-banners"
     },
-   
     {
         "id": "menu",
         "label": "Yönetim",
@@ -309,7 +313,6 @@
             }
         ]
     },
-  
     {
         "id": "housing_types",
         "label": "EMLAK SEPETTE",

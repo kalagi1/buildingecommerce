@@ -12,11 +12,44 @@ use App\Models\Housing;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class EstateClubController extends Controller {
+    public function list() {
+        $estateClubUsers = User::with('collections', 'shares')
+            ->where('status', 1)
+            ->where('has_club', '!=', '0')
+            ->orderByRaw('CASE WHEN has_club = 3 THEN 0 WHEN has_club = 1 THEN 1 WHEN has_club = 3 THEN 2 ELSE 3 END')
+            ->get();
+    
+        return view('admin.estate_club.list', compact('estateClubUsers'));
+    }
+    
+
+    
+    public function changeStatus(Request $request, $userId, $action)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Kullanıcı bulunamadı.');
+        }
+        if ($action == 'approve') {
+            $user->update(['has_club' => "1"]); // Onaylama durumu
+            $message = 'Kullanıcının başvurusu onaylandı.';
+        } elseif ($action == 'reject') {
+            $user->update(['has_club' => "3"]); // Reddetme durumu
+            $message = 'Kullanıcının başvurusu reddedildi.';
+        } else {
+            return redirect()->back()->with('error', 'Geçersiz işlem.');
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
     public function index() {
-        $estateClubUsers = User::with( 'collections', 'shares' )->where( 'type', '21' )->where( 'status', 1 )->get();
+        $estateClubUsers = User::with( 'collections', 'shares' )->where( 'status', 1 )->get();
 
         return view( 'admin.estate_club.index', compact( 'estateClubUsers' ) );
     }
@@ -24,15 +57,15 @@ class EstateClubController extends Controller {
     public function createCoupon( $userId ) {
         $projects = Project::where( 'status', 1 )->get();
         $housings = Housing::where( 'status', 1 )->get();
-        $estateClubUsers = User::with( 'collections', 'shares' )->where( 'type', '21' )->where( 'status', 1 )->get();
-        $estateClubUser = User::wherE( 'type', 21 )->where( 'status', 1 )->where( 'id', $userId )->first();
+        $estateClubUsers = User::with( 'collections', 'shares' )->where( 'status', 1 )->get();
+        $estateClubUser = User::where( 'status', 1 )->where( 'id', $userId )->first();
         return view( 'admin.estate_club.create_coupon', compact( 'estateClubUser', "estateClubUsers",'projects', 'housings' ) );
     }
 
     public function createCouponAllUsers() {
         $projects = Project::where( 'status', 1 )->get();
         $housings = Housing::where( 'status', 1 )->get();
-        $estateClubUsers = User::with( 'collections', 'shares' )->where( 'type', '21' )->where( 'status', 1 )->get();
+        $estateClubUsers = User::with( 'collections', 'shares' )->where( 'status', 1 )->get();
         return view( 'admin.estate_club.create_coupon_all_users', compact( "estateClubUsers",'projects', 'housings' ) );
     }
 
@@ -311,7 +344,7 @@ class EstateClubController extends Controller {
         $coupon = Coupon::where( 'id', $id )->with("housings","projects")->first();
         $projects = Project::where( 'status', 1 )->get();
         $housings = Housing::where( 'status', 1 )->get();
-        $estateClubUser = User::where( 'type', 21 )->where( 'status', 1 )->where( 'id', $coupon->user_id )->first();
+        $estateClubUser = User::where( 'status', 1 )->where( 'id', $coupon->user_id )->first();
 
         return view( 'admin.estate_club.edit_coupon', compact( 'coupon', 'estateClubUser', 'projects', 'housings' ) );
     }

@@ -18,23 +18,33 @@
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
+                   <div class="table-responsive">
                     @include('institutional.projects.project_table', [
                         'tableId' => 'bulk-select-body-active',
                         'projectTypes' => $activeProjects,
                     ])
+                   </div>
                 </div>
                 <div class="tab-pane fade" id="pendingProjects">
+                    <div class="table-responsive">
+
                     @include('institutional.projects.project_table', [
                         'tableId' => 'bulk-select-body-pendingProjects',
                         'projectTypes' => $pendingProjects,
                     ])
                 </div>
+            </div>
+
                 <div class="tab-pane fade" id="inactive">
+                    <div class="table-responsive">
+
                     @include('institutional.projects.project_table', [
                         'tableId' => 'bulk-select-body-inactive',
                         'projectTypes' => $inactiveProjects,
                     ])
                 </div>
+            </div>
+
             </div>
         </div>
 
@@ -210,7 +220,7 @@
                 var exportLink = document.createElement("a");
                 exportLink.className = "badge badge-phoenix badge-phoenix-success ml-3";
                 exportLink.href = "{{ URL::to('/') }}/institutional/edit_project_v2/" + project.slug;
-                exportLink.textContent = "Proje Düzenle";
+                exportLink.textContent = "Genel Düzenleme";
                 var divider = document.createElement("div");
                 divider.className = "dropdown-divider";
 

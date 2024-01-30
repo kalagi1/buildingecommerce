@@ -74,79 +74,57 @@
                                         </li>
                                     </ul>
                             @endforeach
+                        </aside>
                     </div>
-                    </aside>
                 </div>
-            </div>
-            <div class="col-lg-9">
+                <div class="col-lg-9">
                     <div id="orders-container">
                         @if ($cartOrders->count() > 0)
                             @foreach ($cartOrders as $order)
                                 @php($o = json_decode($order->cart))
                                 @php(
-                                    $project =
-                                        $o->type == 'project'
-                                            ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
-                                            : null
-                                )
-
-
+                                $project =
+                                    $o->type == 'project'
+                                        ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
+                                        : null
+                            )
+    
+    
                                 <div class="order">
                                     <div class="order-header">
                                         <?php
                                         $tarih = date('d F Y', strtotime($order->created_at));
                                         $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
                                         ?>
-
+    
                                         <div class="order-header-info" style="flex-direction: column;">
-                                            <b>Sipariş Tarihi: </b> 
-                                            <span>{{ $tarih }}</span>
-                                          
+                                            <b style="font-weight:700 !important">Sipariş Detayı </b>
+    
                                         </div>
                                         <div class="order-header-info" style="flex-direction: column;">
-                                            <b>Sipariş Özeti: </b> 
-                                            <span> @if ($o->type == 'housing')
-                                                {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
-                                            @else
-                                                <strong>
-                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                    
-                                                    {{ ' ' }}
-                                                    {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
-                                                    {{ $project->step1_slug }}
-                                                </strong>
-                                            @endif</span>
-                                          
+                                            <b>Sipariş Tarihi: {{ $tarih }} </b>
+    
                                         </div>
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>
-                                                Alıcı:
+                                                Alıcı: {{ Auth::user()->name }}
                                             </b>
-                                            <span>{{Auth::user()->name}}</span>
                                         </div>
-
+    
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>
-                                                Tutar:
+                                                Tutar: <span style="color: #EA2B2E;font-weight:700 !important">
+                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.02, 0, ',', '.') }}
+                                                    ₺</span>
                                             </b>
-                                            <span style="color: #EA2B2E"> {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.02, 0, ',', '.') }}
-                                                ₺</span>
+    
                                         </div>
-
-                                       
+    
+    
                                     </div>
-                                    <div class="order-list">
-                                        <div class="order-item">
-                                            <div class="order-item-status">
-                                                {!! [
-                                                    '0' => '<i class="fa fa-exclamation-circle text-warning"></i><span class="text-warning ml-2"> Rezerve Edildi</span>',
-                                                    '1' => '<i class="fa fa-check-circle text-success"></i><span class="text-success ml-2"> Ödeme Onaylandı</span>',
-                                                    '2' => '<i class="fa fa-times-circle text-danger"></i><span class="text-danger ml-2"> Ödeme Reddedildi</span>',
-                                                ][$order->status] !!}
-                                            </div>
-                                            
-                                            
-                                            <div class="order-item-images">
+                                    <div class="order-list d-flex justify-content-between">
+                                        <div class="order-item-images d-flex">
+                                            <div>
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         style="object-fit: contain;width:100px;height:75px" alt="Görsel">
@@ -155,18 +133,69 @@
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
                                             </div>
-                                          
-                                            <div class="order-header-info d-flex">
-                                                <a href="{{ route('client.profile.cart-orders.detail', $order->id) }}">
+                                            <div style="margin-left: 10px">
+                                                @if ($o->type == 'housing')
+                                                    {{-- {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }} --}}
+                                                @else
+                                                    <strong>
+                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
+    
+                                                        {{ ' ' }}
+                                                        {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
+                                                        {{ $project->step1_slug }}
+                                                    </strong>
+                                                @endif
+    
+                                                <br>
+    
+                                                <span> {!! [
+                                                    '0' =>
+                                                        '<i class="fa fa-exclamation-circle text-warning"></i><span class="text-warning ml-2"> Rezerve Edildi</span>',
+                                                    '1' => '<i class="fa fa-check-circle text-success"></i><span class="text-success ml-2"> Ödeme Onaylandı</span>',
+                                                    '2' => '<i class="fa fa-times-circle text-danger"></i><span class="text-danger ml-2"> Ödeme Reddedildi</span>',
+                                                ][$order->status] !!}</span>
+    
+                                            </div>
+    
+    
+                                        </div>
+                                        <div>
+                                            @if ($order->invoice)
+                                                <a href="{{ route('client.invoice.show', $order->id) }}">
                                                     <button class="invoiceBtn">
                                                         <span class="button_lg">
                                                             <span class="button_sl"></span>
-                                                            <span class="button_text">Sipariş Detayı</span>
+                                                            <span class="button_text">Faturayı Görüntüle</span>
                                                         </span>
                                                     </button>
                                                 </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="payment summary-box ">
+                                            <div class="header"><span class="header-text"
+                                                    style="font-weight: 700 !important;color: #333">Ödeme Bilgileri</span>
                                             </div>
-
+                                            <div class="content">
+                                                <div class="price-info"><span class="price-text">İlan Fiyatı</span><span
+                                                        class="price-amount">
+                                                        @if ($o->type == 'housing')
+                                                            {{ number_format(floatval(str_replace('.', '', json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->price[0])), 0, ',', '.') }}
+                                                        @else
+                                                            {{ number_format(floatval(str_replace('.', '', getHouse($project, 'price[]', json_decode($order->cart)->item->housing)->value)), 0, ',', '.') }}
+                                                        @endif
+                                                        ₺
+                                                    </span></div>
+                                                <div class="price-info"><span class="price-text">Ödenen Kapora
+                                                        Miktarı</span><span class="price-amount"><span
+                                                            style="color: #EA2B2E;font-weight:700 !important">
+                                                            {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.02, 0, ',', '.') }}
+                                                            ₺</span></div>
+    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -175,12 +204,18 @@
                             <span class="text-center">Sipariş Bulunamadı</span>
                         @endif
                     </div>
-
-
+    
+    
+                </div>
+    
+    
+                
             </div>
 
+
+
         </div>
-        </div>
+
     </section>
 @endsection
 
@@ -191,6 +226,44 @@
     <link rel="stylesheet" href="{{ asset('css/account.css') }}" />
 
     <style>
+        .summary-box .header {
+            display: flex !important;
+            width: 100%;
+            height: 42px !important;
+            border-radius: 6px 6px 0 0;
+            border-bottom: solid 1px #e2e2e2;
+            background-color: #fafafa;
+            align-items: center !important;
+            padding: 0 20px;
+            box-sizing: border-box;
+            justify-content: space-between !important;
+        }
+
+        .summary-box .content {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            color: #333;
+        }
+
+        .payment .content .price-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 1px 0;
+            font-size: 12px;
+        }
+
+        .summary-box {
+            width: 100%;
+            height: max-content;
+            border-radius: 6px;
+            border: solid 1px #e2e2e2;
+            background-color: #ffffff;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+        }
+
         @media(max-width: 768px) {
             .mobile-shadow {
                 background: white;

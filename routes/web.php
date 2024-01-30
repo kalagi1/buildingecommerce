@@ -145,6 +145,8 @@ Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('hou
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+Route::post('/update-cart', [CartController::class, 'update'])->name('cart.update');
+
 Route::post('addLink/', [CartController::class, 'addLink'])->name('add.to.link');
 
 Route::post('add_to_project_cart/', [CartController::class, 'addProject'])->name('add.to.project.cart');
@@ -208,6 +210,10 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+    Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
+
+    Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');
+
     Route::get('/estate_club_users', [AdminEstateClubController::class,"index"])->name('estate.club.users');
     Route::get('/coupons', [AdminEstateClubController::class,"coupons"])->name('estate.coupons');
     Route::get('/create_coupon/{user_id}', [AdminEstateClubController::class,"createCoupon"])->name('estate.create.coupon');
@@ -710,7 +716,7 @@ Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']],
 
 });
 
-Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount']], function () {
+Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
     Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
@@ -720,7 +726,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/create_coupon/{user_id}', [EstateClubController::class,"createCouponStore"])->name('estate.create.coupon.store');
     Route::get('/edit_coupon/{coupon_id}', [EstateClubController::class,"editCoupon"])->name('estate.edit.coupon');
     Route::get('/coupon_destroy/{user_id}', [EstateClubController::class,"destroy"])->name('estate.coupon.destroy');
-    
+    Route::get('/real_estates',[AdminRealEstateController::class,"iindex"])->name('real.estates');
+    Route::get('/real_estate/{id}',[AdminRealEstateController::class,"idetail"])->name('real.estate.detail');
     Route::get('/my-collections', [SharerController::class,"index"])->name('sharer.index');
     Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
     Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
@@ -738,6 +745,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
+    Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
+
     Route::post('verify-account', [DashboardController::class, 'verifyAccount'])->name('verify-account');
 
     Route::get('get/tax-document', [InstitutionalUserController::class, 'getTaxDocument'])->name('get.tax-document');
@@ -851,6 +861,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::middleware(['checkPermission:EditProfile'])->group(function () {
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
+        Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
+
         Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
         Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
     });
@@ -1001,7 +1013,8 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
     Route::get('/get_neighbourhood', [InstitutionalProjectController::class, "getNeighbourhood"])->name('get.neighbourhood');
 
     Route::middleware(['checkPermission:ShowCartOrders'])->group(function () {
-        Route::get('/siparisler', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/siparislerim', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
+        Route::get('/siparislerim/{order}', [ClientPanelProfileController::class, "cartOrderDetail"])->name('profile.cart-orders.detail');
         Route::get('/fatura/{order}', [InvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
 

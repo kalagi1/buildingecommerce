@@ -47,29 +47,38 @@
                                         value="{{ old('name', $user->name) }}">
                                 </div>
                                 <div class="mt-3">
-                                    <label class="q-label">Telefon</label>
-                                    <input type="number" name="phone" class="form-control"
-                                        value="{{ old('phone', $user->phone) }}">
+                                    <label class="q-label">Cep Telefon</label>
+                                    <input type="number" name="mobile_phone" class="form-control"
+                                        value="{{ old('mobile_phone', $user->mobile_phone) }}">
                                 </div>
+
                                 <div class="mt-3">
                                     <label class="q-label">Iban Numarası</label>
                                     <input type="text" name="iban" class="form-control"
                                         value="{{ old('iban', $user->iban) }}">
                                 </div>
-                                @if (Auth::check() && Auth::user()->type == 21)
-                                    <div class="mt-3">
-                                        <label class="q-label">İnstagram Kullanıcı Adı</label>
-                                        <input type="text" name="instagramusername" class="form-control"
-                                            value="{{ old('instagramusername', $user->instagramusername) }}">
-                                    </div>
-                                @endif
-
+                                <div class="mt-3">
+                                    <label class="q-label">İnstagram Kullanıcı Adı</label>
+                                    <input type="text" name="instagramusername" class="form-control"
+                                        value="{{ old('instagramusername', $user->instagramusername) }}">
+                                </div>
 
                                 @if (Auth::check() && Auth::user()->type == 2)
+                                    <div class="mt-3">
+                                        <label class="q-label">Sabit Telefon</label>
+                                        <input type="number" name="phone" class="form-control"
+                                            value="{{ old('phone', $user->phone) }}">
+                                    </div>
                                     <div class="mt-3">
                                         <label class="q-label">Kaç yıldır sektördesiniz ?</label>
                                         <input type="text" name="year" class="form-control"
                                             value="{{ old('year', $user->year) }}">
+                                    </div>
+                                    <div class="mt-3">
+                                        <label class="q-label">Konum (Lütfen haritadan konumunuzu seçiniz.)</label>
+                                        <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude', $user->latitude) }}">
+                                        <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude', $user->longitude) }}">
+                                        <div id="mapContainer" style="height: 350px;"></div>
                                     </div>
                                 @endif
 
@@ -101,6 +110,93 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <!-- Google Maps API script -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
+        defer></script>
+
+    <script>
+        var map;
+        var marker;
+
+        function initMap(cityName, zoomLevel) {
+            // Harita oluştur
+            map = new google.maps.Map(document.getElementById('mapContainer'), {
+                zoom: 10, // Başlangıç zoom seviyesi
+                center: {
+                    lat: 41.0082,
+                    lng: 28.9784
+                } // Başlangıç merkez koordinatları (İstanbul örneği)
+            });
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                placeMarker(event.latLng);
+            });
+
+            if (cityName) {
+                // Google Haritalar Geocoding API'yi kullanarak şehir adını koordinatlara dönüştür
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({
+                    address: cityName
+                }, function(results, status) {
+                    if (status === 'OK') {
+                        // Başarılı ise haritayı zoomla
+                        map.setCenter(results[0].geometry.location);
+                        map.setZoom(zoomLevel); // İstediğiniz zoom seviyesini ayarlayabilirsiniz
+                    } else {
+                        alert('Şehir bulunamadı: ' + status);
+                    }
+                });
+            }
+
+            var userLatitude = $("#latitude").val();
+            var userLongitude = $("#longitude").val();
+
+
+
+            if (userLatitude && userLongitude) {
+            var userLocation = new google.maps.LatLng(userLatitude, userLongitude);
+            placeMarker(userLocation);
+        }
+        }
+
+        window.initMap = initMap;
+
+        function placeMarker(location) {
+            clearMarker(); // Önceki işaretçiyi temizle
+
+            // İşaretçiyi oluşturun
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            document.getElementById('latitude').value = location.lat();
+            document.getElementById('longitude').value = location.lng();
+
+            // Bilgi penceresi oluşturun (isteğe bağlı)
+            var infowindow = new google.maps.InfoWindow({
+                content: 'Koordinatlar: ' + location.lat() + ', ' + location.lng()
+            });
+
+            // İşaretçiye tıklandığında bilgi penceresini gösterin
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+
+            // İşaretçiyi dizide saklayın
+            markers.push(marker);
+        }
+
+        function clearMarker() {
+            if (marker) {
+                marker.setMap(null);
+                marker = null;
+            }
+        }
+    </script>
+
+
     <script>
         const accountTypeRadios = document.querySelectorAll('input[name="account_type"]');
         const idNumberDiv = document.getElementById('idNumberDiv');

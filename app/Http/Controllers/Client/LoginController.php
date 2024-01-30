@@ -20,9 +20,93 @@ use Illuminate\Support\Facades\URL;
 
 class LoginController extends Controller {
     public function showLoginForm() {
-        $cities = City::all();
+        $cities = City::all()->toArray();
 
-        $towns = Town::all();
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+        
+        usort($cities, function($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+        
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['title']), $priorityCities);
+        
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+        
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+        
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+        
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
+        
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+        
+                return $comparison;
+            }
+        });
+        
+
+        $towns = Town::all()->toArray();
+
+        usort($towns, function($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+        
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
+        
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+        
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+        
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+        
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
+        
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+        
+                return $comparison;
+            }
+        });
+        
+        
         $subscriptionPlans = SubscriptionPlan::all();
 
         $subscriptionPlans_bireysel = SubscriptionPlan::where( 'plan_type', 'Bireysel' )->get();
@@ -101,18 +185,17 @@ class LoginController extends Controller {
                         ] );
 
                     }
+                    $cart = session( 'cart', [] );
+                    if ( count( $cart ) != 0 ) {
+                        session( [ 'cart' => $cart ] );
+                    }
 
                     if ( $user->type == 3 ) {
                         return redirect()->intended( '/admin' );
-                    } elseif ( $user->type != 1 && $user->type != '3' ) {
+                    } elseif ( $user->type != '3' ) {
                         return redirect()->intended( route( 'index' ) );
-                    } else {
-                        $cart = session( 'cart', [] );
-                        if ( count( $cart ) != 0 ) {
-                            session( [ 'cart' => $cart ] );
-                        }
-                        return redirect()->intended( '/hesabim' );
                     }
+
                 } else {
                     session()->flash( 'warning', 'Giriş Başarısız. Lütfen bilgilerinizi kontrol ediniz.' );
 

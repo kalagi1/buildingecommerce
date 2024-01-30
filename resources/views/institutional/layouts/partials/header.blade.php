@@ -388,6 +388,7 @@
                     </div>
                 </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
+                    @if (Auth::check() && Auth::user()->type == "2")
                     <li class="nav-item" style="margin-right:10px">
                         <a href="{{ url('institutional/ilan-tipi-sec') }}">
                             <button type="button" class="buyUserRequest">
@@ -399,7 +400,9 @@
                                     <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                 </span>
                             </button></a>
-                    </li>
+                    </li> 
+                    @endif
+                   
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"

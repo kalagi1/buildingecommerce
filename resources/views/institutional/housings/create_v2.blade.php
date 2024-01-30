@@ -150,8 +150,8 @@ Emlak İlanı Ekle
                                             <option value="">İl Seç</option>
                                             @foreach ($cities as $city)
                                                 <option
-                                                    {{ isset($tempData->city_id) && $tempData->city_id == $city->id ? 'selected' : '' }}
-                                                    value="{{ $city->id }}">{{ $city->title }}</option>
+                                                    {{ isset($tempData->city_id) && $tempData->city_id == $city['id'] ? 'selected' : '' }}
+                                                    value="{{ $city['id'] }}">{{ $city['title'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>

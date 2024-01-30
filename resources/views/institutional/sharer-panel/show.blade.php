@@ -100,11 +100,11 @@
                                                     @php
                                                         $sharePercent = 0.5;
                                                         $discountedPrice = isset($discountedPrice) ? $discountedPrice : json_decode($item['housing']['housing_type_data'])->price[0];
-                                                        $earningAmount = number_format($discountedPrice * 0.02, 0, ',', '.') * $sharePercent;
+                                                        $earningAmount = $discountedPrice * $sharePercent;
                                                     @endphp
                                                     <strong style="color: #e54242">
 
-                                                        {{ $earningAmount }} ₺
+                                                        {{ number_format($earningAmount * 0.02, 0, ',', '.') }} ₺
                                                     </strong>
                                                 @elseif ($item['item_type'] == 1)
                                                     @php
@@ -139,11 +139,11 @@
                                         </td>
 
                                         <td>
-                                            <button class="btn btn-info remove-from-collection" style="float: right"
+                                            <button class="btn btn-info remove-from-collection btn-sm" style="float: right"
                                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
                                                 @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                                                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
                                                     stroke-width="2" fill="none" stroke-linecap="round"
                                                     stroke-linejoin="round" class="css-i6dzq1">
                                                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -164,10 +164,13 @@
                                                         Bu satıştan kaporanın
                                                         %50'si
                                                         oranında kazanç elde edeceksiniz.
-                                                        <strong>Link aracılığıyla satın alan emlak sepette üyelerine
+                                                        @if (isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]))
+                                                            <strong>Link aracılığıyla satın alan emlak sepette üyelerine
 
-                                                            %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
-                                                            indirim uygulanacaktır.</strong>
+                                                                %{{ json_decode($item['housing']['housing_type_data'])->discount_rate[0] }}
+                                                                indirim uygulanacaktır.</strong>
+                                                        @endif
+
                                                     </span>
                                                 </td>
                                             </tr>
@@ -295,6 +298,8 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+       
+
         .mobile-hidden {
             display: flex;
         }

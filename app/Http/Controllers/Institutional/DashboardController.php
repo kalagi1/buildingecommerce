@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\CancelRequest;
 use App\Models\CartOrder;
+use App\Models\Collection;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Reservation;
+use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
@@ -62,12 +64,12 @@ class DashboardController extends Controller
 
     public function getOrders()
     {
-        $user = Auth::user();
+        $user = User::where("id", Auth::user()->id)->with("projects","housings")->first();
         $userProjectIds = $user->projects->pluck('id')->toArray();
     
         // Projects için sorgu
         $projectOrders = CartOrder::select('cart_orders.*')
-            ->with("user", "invoice")
+            ->with("user", "invoice","reference")
             ->where(function ($query) use ($userProjectIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
@@ -75,25 +77,20 @@ class DashboardController extends Controller
                 )->where('cart_orders.status', '1');
             })
             ->get();
+
     
-        // Housings için sorgu
+            $userHousingIds = $user->housings->pluck('id')->toArray();
         $housingOrders = CartOrder::select('cart_orders.*')
-            ->with("user", "invoice")
-            ->where(function ($query) use ($userProjectIds) {
+            ->with("user", "invoice","reference")
+            ->where(function ($query) use ($userHousingIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
-                    $userProjectIds
-                )->where('cart_orders.status', '1');
-            })
-            ->orWhereIn('cart_orders.cart', function($subQuery) use ($user) {
-                $subQuery->select('cart')
-                    ->from('housings')
-                    ->where('user_id', $user->id);
+                    $userHousingIds
+                );
             })
             ->get();
     
         $cartOrders = $projectOrders->merge($housingOrders);
-
     
         return view('institutional.orders.index', compact('cartOrders'));
     }
@@ -101,6 +98,15 @@ class DashboardController extends Controller
     public function corporateAccountVerification()
     {
         return view('institutional.home.verification');
+    }
+
+    public function corporateHasClubAccountVerification()
+    {
+        return view('institutional.home.has-club-verification');
+    }
+    public function corporateHasClubAccountVerificationStatus()
+    {
+        return view('institutional.home.has-club-status');
     }
 
     public function verifyAccount(Request $request)
@@ -247,6 +253,34 @@ class DashboardController extends Controller
 
         }
         DB::commit();
-        return view('institutional.home.index', compact("userLog", "remainingPackage", "stats1_data", "stats2_data","hasPlan"));
+
+        $user_id = Auth::user()->id;
+    
+        $balanceStatus0Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "0")->get();
+
+        $balanceStatus0 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "0")
+            ->sum('balance');
+    
+        $balanceStatus1Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "1")->get();
+
+        $balanceStatus1 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "1")
+            ->sum('balance');
+    
+        $balanceStatus2Lists = SharerPrice::where("user_id", $user_id)
+        ->where("status", "2")->get();
+
+        $balanceStatus2 = SharerPrice::where("user_id", $user_id)
+            ->where("status", "2")
+            ->sum('balance');
+
+            $collections = Collection::with("links")->where("user_id",Auth::user()->id)->get();
+            $totalStatus1Count = $balanceStatus1Lists->count();
+            $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+    
+        return view('institutional.home.index', compact("userLog", "balanceStatus0","successPercentage", "collections","balanceStatus1", "balanceStatus2", "balanceStatus0Lists","balanceStatus1Lists","balanceStatus2Lists","remainingPackage", "stats1_data", "stats2_data","hasPlan"));
     }
 }

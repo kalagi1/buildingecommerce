@@ -50,9 +50,11 @@ h3 {
     color: #333;
     font-weight: 600;
 }
-#toast-container *{
-    font-size:11px !important;
+
+#toast-container * {
+    font-size: 11px !important;
 }
+
 h4 {
     font-family: 'Montserrat', sans-serif;
     font-size: 10px;
@@ -122,7 +124,7 @@ h5 {
     padding: 5px 15px;
 }
 
-.mb-30{
+.mb-30 {
     margin-bottom: 30px !important;
 }
 
@@ -197,7 +199,7 @@ button {
 }
 
 @media (max-width: 768px) {
-  
+
     .bank-account {
         margin: 20px;
     }
@@ -263,7 +265,7 @@ button {
 }
 
 .section-title h2 {
-    font-size: 12px !important; 
+    font-size: 12px !important;
     color: #274abb;
     margin-bottom: 0 !important;
     text-transform: uppercase;
@@ -475,7 +477,8 @@ img {
         padding-top: 0;
         margin-top: 20px;
     }
-    .search-style{
+
+    .search-style {
         padding: 0 !important;
         position: relative !important;
         margin: 10px 10px !important;
@@ -5085,8 +5088,8 @@ section.counterup {
     margin-bottom: 1.6rem;
 }
 
-.about_content h3{
- width: 100%;
+.about_content h3 {
+    width: 100%;
 }
 
 
@@ -5358,7 +5361,7 @@ section.counterup {
 @media screen and (max-width: 767px) {
     .first-footer .navigation h3 {
         margin-top: 3rem;
-        font-size:15px !important;
+        font-size: 15px !important;
     }
 }
 
@@ -5953,7 +5956,7 @@ element.style {
     background: transparent !important;
 }
 
-.homepage-2 .featured .project-single .button-effect-div{
+.homepage-2 .featured .project-single .button-effect-div {
     opacity: 1;
     visibility: visible;
     -webkit-transform: translateX(0%);
@@ -5977,41 +5980,48 @@ element.style {
     transition: all 0.4s ease;
     margin-bottom: .7rem;
 }
+
 .add-to-collections-wrapper {
     background-color: #ffd0d0;
     padding: 8px;
-    margin-top:30px;
+    margin-top: 30px;
     border: 1px solid transparent;
     cursor: pointer;
 }
+
 .add-to-collection-button-wrapper .add-to-collection-button .add-to-collection-button-text {
     line-height: 16px;
     color: #333;
     font-size: 11px !important;
     font-weight: 600;
 }
+
 .add-to-collections-wrapper .add-to-collection-button-wrapper .fa-plus {
     display: block;
     padding: 4px;
     font-size: 10.5px;
     color: #333;
 }
+
 .add-to-collection-button-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .add-to-collection-button-wrapper .add-to-collection-button {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
 #product-detail-app .add-to-collections-wrapper .add-to-collection-button-wrapper .i-plus-bold {
     display: block;
     padding: 4px;
     font-size: 10.5px;
     color: #333;
 }
+
 .homepage-2 .featured .button-effect-div .btn {
     display: inline-block;
     color: #fff;
@@ -8808,7 +8818,7 @@ a.button {
     background-color: transparent !important;
     padding: 10px 30px;
     outline: 0;
-    height:36px !important;
+    height: 36px !important;
 }
 
 .input-group.search i {
@@ -13209,7 +13219,8 @@ section.visited-cities {
     background-position: center center;
     background-repeat: no-repeat;
 }
-.heitwo{
+
+.heitwo {
     height: 200px;
     width: 350px;
     margin: 0 auto;
@@ -14679,6 +14690,7 @@ a.btn-white {
         background-position: inherit !important;
         background-repeat: inherit !important;
     }
+
     .th-18 .google-maps .filter form {
         background: #f55d2c;
     }
@@ -16291,8 +16303,11 @@ a.button {
 .slick-initialized .slick-slide {
     padding: 0 10px;
 }
-
+.homes-content .second-btn{
+    margin-top: 30px !important;
+}
 .homes-button .second-btn {
+   
     position: absolute;
     bottom: 0;
     border-radius: 0 !important;
@@ -17025,9 +17040,10 @@ a.button {
 }
 
 .error-check label:before {
-border: 1px solid #EA2B2E !important;
-    
-    }
+    border: 1px solid #EA2B2E !important;
+
+}
+
 .inner-pages .checkboxes label:before {
     content: "";
     display: inline-block;
@@ -17948,11 +17964,11 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #fff;
 }
 
-.collection-title tr td{
+.collection-title tr td {
     display: table-cell !important;
 }
+
 .widget-boxed-header {
-    padding-bottom: 0.5rem;
     padding-top: 0px;
 }
 
@@ -18237,8 +18253,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #274abb;
 }
 
-.reservation-list li{
-    width:50%;
+.reservation-list li {
+    width: 50%;
     text-align: center;
 }
 
@@ -18256,7 +18272,7 @@ span {
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
-}   
+}
 
 .inner-pages .blog .homes-content.details-2 {
     background: black;
@@ -18267,6 +18283,10 @@ span {
     -ms-flex-pack: center;
     justify-content: center;
     padding: 1rem 0;
+}
+
+.recent-post{
+    font-size:11px !important
 }
 
 .inner-pages .blog .homes-content.details-2.mb-4 {
@@ -20801,6 +20821,7 @@ body.dashboard-bd {
 
 .my-properties table h2 {
     border: none;
+    width:300px;
     font-size: 11px;
     color: #444;
     text-decoration: none;
@@ -21093,9 +21114,10 @@ small {
 }
 
 @media screen and (max-width: 768px) {
-    .inner-pages .headings-2 .listing-title-bar h3:after{
+    .inner-pages .headings-2 .listing-title-bar h3:after {
         display: none !important;
     }
+
     .nav-tabs {
         align-items: stretch;
         overflow-x: auto;
@@ -23285,7 +23307,7 @@ a.btn_1 {
 }
 
 .homes-content .row {
-    width: 100% !important;
+    width: 102% !important;
 }
 
 .btn-white,
@@ -23404,11 +23426,12 @@ a.btn_1 {
 .inner-pages .recent-post ul li:last-child {
     padding-top: .5rem;
     padding-bottom: 0px;
+    border:0 !important
 }
 
 .inner-pages .recent-post ul li a {
     text-decoration: none;
-    color: #666;
+    color: #333 !important;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
@@ -23493,7 +23516,7 @@ a.btn_1 {
     padding: 9px !important;
     /* border: none !important; */
     color: #717171 !important;
-    border-color: #EEE;
+    border-color: #eee ;
     padding: 0 1rem;
     border-radius: 0 !important;
 }
@@ -23598,8 +23621,26 @@ a.btn_1 {
 .inner-pages .recent-post ul li {
     list-style: none;
     padding: .5rem 0;
-    border-bottom: 1px solid #ccc;
 }
+
+.itemsDiv{
+    max-height: 270px;
+    overflow-y: scroll;
+}
+
+
+.itemsDiv::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+
+/* 
+.inner-pages .recent-post ul li a{
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    display: block;
+} */
 
 .inner-pages .recent-post ul li:last-child {
     padding-top: .5rem;
@@ -25245,7 +25286,6 @@ section.ui-element {
     overflow: hidden;
     width: 100%;
     background: #f3f3f3;
-    border-radius: 9px;
 }
 
 .ui-elements .button-tabs .tabs>li {
@@ -26718,7 +26758,7 @@ section.ui-element {
 
 @media screen and (max-width: 992px) {
     h3 {
-        font-size: 10px;
+        font-size: 11px;
         width: 80%;
     }
 
@@ -27637,10 +27677,56 @@ input[type="checkbox"]::before {
     color: #fff !important;
     /* Yazı rengi */
 }
-
+.select2-selection__rendered{
+    font-size:10px !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+    color: #444 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 32px !important;
+}
+.select2-dropdown{
+    border: 1px solid #eee !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__placeholder{
+    font-size:10px !important;
+    color:#444;
+}
 .slick-lancersl {
     position: relative;
     overflow: hidden;
+}
+.select2-container--default .select2-selection--single{
+    border: 1px solid #eee !important;
+    border-radius: 0 !important;
+}
+
+.select2-container--default .select2-results__option{
+    font-size: 10px !important;
+}
+
+.select2-container .select2-selection--single {
+height: 32px !important;
+}
+
+.CartBtn,.reservationBtn {
+    margin-top: 12px;
+}
+
+font{
+    font-size:12px !important
+}
+
+#home div,
+#home li{
+    font-size:12px !important
+
+}
+
+#home div b{
+   font-weight: 700 !important;
+
 }
 
 .CartBtn,
@@ -27658,7 +27744,7 @@ input[type="checkbox"]::before {
     transition-duration: .5s;
     overflow: hidden;
     position: relative;
-    margin-top: 12px;
+   
 }
 
 @media (max-width: 768px) {
@@ -27670,7 +27756,7 @@ input[type="checkbox"]::before {
 
 }
 
-.mobileCBtn .IconContainer{
+.mobileCBtn .IconContainer {
     display: none !important;
 }
 
@@ -27755,11 +27841,12 @@ input[type="checkbox"]::before {
     font-weight: 600;
 }
 
-.disabledShareButton .fa-bookmark:before{
-    color:black !important;
+.disabledShareButton .fa-bookmark:before {
+    color: black !important;
 }
-.bg-success .fa-bookmark:before{
-    color:white !important;
+
+.bg-success .fa-bookmark:before {
+    color: white !important;
 }
 
 
@@ -28002,8 +28089,10 @@ input[type="checkbox"]::before {
     flex-direction: initial;
 }
 
-.fa-bookmark:before{
-color:Black}
+.fa-bookmark:before {
+    color: Black
+}
+
 .list-group-item {
     width: 48%
 }
@@ -28054,10 +28143,12 @@ color:Black}
 
 #orders-container .order .order-item .order-item-status {
     display: flex;
-    flex-direction: column;
-    width: 80%;
+    /* flex-direction: column; */
+    width: 50%;
     color: #333;
+    align-items: center;
     font-size: 11px;
+    justify-content: start;
 }
 
 #orders-container .order .order-item .order-item-status .title {
@@ -29149,7 +29240,7 @@ color:Black}
 }
 
 .type-tag {
-    background-color: rgba(74,74,76,0.7)  !important;
+    background-color: rgba(74, 74, 76, 0.7) !important;
     right: 10px;
     text-align: center;
     width: auto !important;
@@ -30040,33 +30131,34 @@ a {
     border: 1px solid #eee;
 }
 
-.tab-content{
+.tab-content {
     display: none;
 }
 
-.tab-content.active{
+.tab-content.active {
     display: block;
 }
 
 
 @media (max-width: 768px) {
-    .mobileAddCollection{
+    .mobileAddCollection ,
+    .disabledShareButton {
         border: 1px solid gray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 33px;
-    height: 33px !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
-    border: solid 1px #f0f0f0;
-    background: #ffffff;
-    box-sizing: border-box;
-    border-radius: 100%;
-    font-size: 11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 33px;
+        height: 33px !important;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.11);
+        border: solid 1px #f0f0f0;
+        background: #ffffff;
+        box-sizing: border-box;
+        border-radius: 100%;
+        font-size: 11px;
     }
 
-    .mobileAddCollection:hover{
+    .mobileAddCollection:hover {
         background-color: white !important;
-        color:black !important
+        color: black !important
     }
 }

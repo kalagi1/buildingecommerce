@@ -18,22 +18,28 @@
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
+                    <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-active',
                         'housingTypes' => $activeHousingTypes,
                     ])
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="inactive">
+                    <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-inactive',
                         'housingTypes' => $inactiveHousingTypes,
                     ])
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="pendingHousingTypes">
+                    <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-pendingHousingTypes',
                         'housingTypes' => $pendingHousingTypes,
                     ])
+                    </div>
                 </div>
             </div>
         </div>

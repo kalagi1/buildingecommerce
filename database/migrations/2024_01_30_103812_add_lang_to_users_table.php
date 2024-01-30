@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('reservations', function (Blueprint $table) {
-            $table->unsignedBigInteger('owner_id');
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("latitude")->nullable();
+            $table->string("longitude")->nullable();
+
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('reservations', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
