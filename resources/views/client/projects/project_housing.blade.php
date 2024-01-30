@@ -497,7 +497,7 @@
                                             @if ($project->user->phone)
                                                 <tr>
                                                     <td>
-                                                        Telefon :
+                                                        Sabit Telefon :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
                                                                 href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>

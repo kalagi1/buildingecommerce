@@ -131,7 +131,7 @@
                     <div class="seller-info-container__wrapper__text-container"><span
                             class="seller-info-container__wrapper__text-container__title">İletişim </span><span
                             class="seller-info-container__wrapper__text-container__value">
-                      <span>     Telefon :  {{ $institutional->phone ? $institutional->phone : "Belirtilmedi."}} <br>
+                      <span>     Sabit Telefon :  {{ $institutional->phone ? $institutional->phone : "Belirtilmedi."}} <br>
                         E-Mail :  {{ $institutional->email ? $institutional->email : "Belirtilmedi"}}</span>
 
                         </span>

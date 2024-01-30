@@ -544,7 +544,7 @@
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
-                                                            Telefon :
+                                                            Sabit Telefon :
                                                             <span class="det">
                                                                 <a style="text-decoration: none;color:inherit"
                                                                     href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>

@@ -170,12 +170,12 @@ class ProfileController extends Controller
     {
         $request->validate([
             "name" => "required",
-            "phone" => "required",
+            "mobile_phone" => "required",
             "iban" => "required",
             "banner_hex_code" => "required",
         ],[
             "name.required" => "İsim alanı zorunludur",
-            "phone.required" => "Telefon alanı zorunludur",
+            "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
@@ -187,6 +187,8 @@ class ProfileController extends Controller
         $taxOfficeCityId = $city ? $city->id : null;
         $year = $request->input("year");
         $bank_name = $request->input("bank_name");
+        $phone = $request->input("phone");
+
 
         $data = $request->all();
 
@@ -209,8 +211,7 @@ class ProfileController extends Controller
         $data['bank_name'] = $bank_name; // Vergi Dairesi İli güncellendi
 
 
-
-        // Kullanıcının bilgilerini güncelle
+        
         $user->update($data);
 
         return redirect()->back();

@@ -47,20 +47,29 @@
                                         value="{{ old('name', $user->name) }}">
                                 </div>
                                 <div class="mt-3">
-                                    <label class="q-label">Telefon</label>
-                                    <input type="number" name="phone" class="form-control"
-                                        value="{{ old('phone', $user->phone) }}">
+                                    <label class="q-label">Cep Telefon</label>
+                                    <input type="number" name="mobile_phone" class="form-control"
+                                        value="{{ old('mobile_phone', $user->mobile_phone) }}">
                                 </div>
+
                                 <div class="mt-3">
                                     <label class="q-label">Iban Numarası</label>
                                     <input type="text" name="iban" class="form-control"
                                         value="{{ old('iban', $user->iban) }}">
                                 </div>
+                                <div class="mt-3">
+                                    <label class="q-label">İnstagram Kullanıcı Adı</label>
+                                    <input type="text" name="instagramusername" class="form-control"
+                                        value="{{ old('instagramusername', $user->instagramusername) }}">
+                                </div>
+
+                                @if (Auth::check() && Auth::user()->type == 2)
                                     <div class="mt-3">
-                                        <label class="q-label">İnstagram Kullanıcı Adı</label>
-                                        <input type="text" name="instagramusername" class="form-control"
-                                            value="{{ old('instagramusername', $user->instagramusername) }}">
+                                        <label class="q-label">Sabit Telefon</label>
+                                        <input type="number" name="phone" class="form-control"
+                                            value="{{ old('phone', $user->phone) }}">
                                     </div>
+                                @endif
 
 
                                 @if (Auth::check() && Auth::user()->type == 2)
