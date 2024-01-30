@@ -17969,7 +17969,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .widget-boxed-header {
-    padding-bottom: 0.5rem;
     padding-top: 0px;
 }
 
@@ -23516,7 +23515,7 @@ a.btn_1 {
     padding: 9px !important;
     /* border: none !important; */
     color: #717171 !important;
-    border-color: #EEE;
+    border-color: #717171 !important;
     padding: 0 1rem;
     border-radius: 0 !important;
 }
@@ -26759,7 +26758,7 @@ section.ui-element {
 
 @media screen and (max-width: 992px) {
     h3 {
-        font-size: 10px;
+        font-size: 11px;
         width: 80%;
     }
 
