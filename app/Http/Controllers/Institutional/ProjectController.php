@@ -72,6 +72,7 @@ class ProjectController extends Controller
 
     public function editHousingPost(Request $request,$projectId,$roomOrder){
         try{
+
             $project = Project::where('id', $projectId)->first();
             $housingType = HousingType::where('id', $project->housing_type_id)->firstOrFail();
             $housingTypeInputs = json_decode($housingType->form_json);
@@ -84,6 +85,38 @@ class ProjectController extends Controller
             Project::where('id',$project->id)->update([
                 "status" => 2
             ]);
+            
+            if($request->input('pay-dec-price')){
+                ProjectHousing::create([
+                    "key" => "pay-dec-count".$roomOrder,
+                    "name" => "pay-dec-count".$roomOrder,
+                    "value" => count($request->input('pay-dec-price')),
+                    "project_id" => $project->id,
+                    "room_order" => $roomOrder,
+                ]);
+    
+                for($i = 0 ; $i < count($request->input('pay-dec-price')); $i++){
+                    if(isset($request->input('pay-dec-price')[$i])){
+                        ProjectHousing::create([
+                            "key" => "pay_desc_price".$roomOrder.$i,
+                            "name" => "pay_desc_price".$roomOrder.$i,
+                            "value" => str_replace('.','',$request->input('pay-dec-price')[$i]),
+                            "project_id" => $project->id,
+                            "room_order" => $roomOrder,
+                        ]);
+                    }
+
+                    if(isset($request->input('pay-dec-date')[$i])){
+                        ProjectHousing::create([
+                            "key" => "pay_desc_date".$roomOrder.$i,
+                            "name" => "pay_desc_date".$roomOrder.$i,
+                            "value" => $request->input('pay-dec-date')[$i],
+                            "project_id" => $project->id,
+                            "room_order" => $roomOrder,
+                        ]);
+                    }
+                }
+            }
 
             for ($i = 0; $i < 1; $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
@@ -420,6 +453,7 @@ class ProjectController extends Controller
 
     public function createProjectEnd(Request $request)
     {
+
         DB::beginTransaction();
         $tempOrderFull = TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->first();
         $tempOrder = json_decode($tempOrderFull->data);
@@ -461,6 +495,7 @@ class ProjectController extends Controller
             }else{
                 $houseCount = $tempOrder->house_count;
             }
+            
 
             $instUser = User::where("id", Auth::user()->id)->first();
             $project = Project::create([
@@ -488,6 +523,40 @@ class ProjectController extends Controller
                 "status" => 2,
                 "have_blocks" => isset($tempOrder->has_blocks) ? ($tempOrder->has_blocks ? true : false) : false
             ]);
+
+            
+            for ($i = 0; $i < $houseCount; $i++) {
+                if(isset($tempOrder->{"pay-dec-count".($i+1)})){
+                    ProjectHousing::create([
+                        "key" => "pay-dec-count".($i+1),
+                        "name" => "pay-dec-count".($i+1),
+                        "value" => $tempOrder->{"pay-dec-count".($i+1)},
+                        "project_id" => $project->id,
+                        "room_order" => $i + 1,
+                    ]);
+                    for($j = 0; $j < $tempOrder->{"pay-dec-count".($i+1)}; $j++){
+                        if(isset($tempOrder->{"pay_desc_price".($i+1).$j})){
+                            ProjectHousing::create([
+                                "key" => "pay_desc_price".($i+1).$j,
+                                "name" => "pay_desc_price".($i+1).$j,
+                                "value" => str_replace('.', '', $tempOrder->{"pay_desc_price".($i+1).$j}),
+                                "project_id" => $project->id,
+                                "room_order" => $i + 1,
+                            ]);
+                        }
+
+                        if(isset($tempOrder->{"pay_desc_date".($i+1).$j})){
+                            ProjectHousing::create([
+                                "key" => "pay_desc_date".($i+1).$j,
+                                "name" => "pay_desc_date".($i+1).$j,
+                                "value" => $tempOrder->{"pay_desc_date".($i+1).$j},
+                                "project_id" => $project->id,
+                                "room_order" => $i + 1,
+                            ]);
+                        }
+                    }
+                }
+            }
 
             foreach ($tempOrder->statuses as $status) {
                 ProjectHousingType::create([
@@ -528,17 +597,19 @@ class ProjectController extends Controller
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
                         if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
-                            if (in_array("taksitli", $tempOrder->roomInfoKeys->{'payment-plan' . ($i + 1)})) {
+                            if(isset($tempOrder->roomInfoKeys->{'payment-plan' . ($i + 1)}) &&  $tempOrder->roomInfoKeys->{'payment-plan' . ($i + 1)}){
+                                if (in_array("taksitli", $tempOrder->roomInfoKeys->{'payment-plan' . ($i + 1)})) {
 
-                                ProjectHousing::create([
-                                    "key" => $housingTypeInputs[$j]->label,
-                                    "name" => $housingTypeInputs[$j]->name,
-                                    "value" => str_replace('.', '', $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]),
-                                    "project_id" => $project->id,
-                                    "room_order" => $i + 1,
-                                ]);
-                                if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
-                                    $paymentPlanOrder++;
+                                    ProjectHousing::create([
+                                        "key" => $housingTypeInputs[$j]->label,
+                                        "name" => $housingTypeInputs[$j]->name,
+                                        "value" => str_replace('.', '', $tempOrder->roomInfoKeys->{substr($housingTypeInputs[$j]->name, 0, -2)}[$i]),
+                                        "project_id" => $project->id,
+                                        "room_order" => $i + 1,
+                                    ]);
+                                    if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
+                                        $paymentPlanOrder++;
+                                    }
                                 }
                             }
                         } else {
@@ -601,6 +672,8 @@ class ProjectController extends Controller
                         }
                     }
                 }
+
+
             }
 
 

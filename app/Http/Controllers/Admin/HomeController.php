@@ -12,6 +12,7 @@ use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Project;
 use App\Models\Reservation;
 use App\Models\SharerPrice;
@@ -31,6 +32,12 @@ class HomeController extends Controller {
         $descProjects = Project::orderBy( 'id', 'desc' )->with( 'user', 'city', 'county' )->limit( 4 )->get();
         $secondhandHousings = Housing::all();
         return view( 'admin.home.index', compact( 'comments', 'countUser', 'passiveProjects', 'clients', 'institutionals', 'projects', 'secondhandHousings', 'descProjects' ) );
+    }
+
+    public function orderDetail($id){
+        $order = CartOrder::where('id',$id)->first();
+
+        return view('admin.orders.detail',compact('order'));
     }
 
     public function getPackageOrders() {

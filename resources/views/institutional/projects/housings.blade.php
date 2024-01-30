@@ -389,7 +389,7 @@
                                         </td>
 
                                         <td class="price">
-                                            @if (getData($project, 'installments-price[]', $i + 1))
+                                            @if (getData($project, 'installments-price[]', $i + 1) && getData($project, 'installments-price[]', $i + 1)->value)
                                                 <div class="d-flex">
                                                     <div class="input d-none d-flex" style="align-items: center">
                                                         <input type="text" name="installments-price[]"
@@ -449,7 +449,7 @@
 
 
                                         <td class="price">
-                                            @if (getData($project, 'advance[]', $i + 1))
+                                            @if (getData($project, 'advance[]', $i + 1) && getData($project, 'advance[]', $i + 1)->value)
                                                 <div class="d-flex">
                                                     <div class="input d-none d-flex" style="align-items: center">
                                                         <input type="text" name="advance[]" class="price-only"

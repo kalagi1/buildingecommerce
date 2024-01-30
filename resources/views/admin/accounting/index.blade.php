@@ -60,8 +60,8 @@
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
-                                @foreach ($mergedArray as $item)
-                                    @if($item['is_reservation'])
+                                @foreach ($mergedArray as $key => $item)
+                                    @if($item['is_reservation'] == 1)
                                         @php($reservation = App\Models\Reservation::with('user')->find($item['reservation_id']))
                                         @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
                                         <tr>
@@ -169,7 +169,7 @@
                                                 @endif
                                             </td>
                                             <td>{{isset($item->cart->coupon) ? "Evet" : "Hayır"}}</td>
-                                            <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺ @endif @endif)</td>
+                                            <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺) @endif @else - @endif</td>
                                             <td>
                                                 @if (isset($item->balance))
                                                     <strong>{{ optional($item->user)->name ?? null }}</strong>

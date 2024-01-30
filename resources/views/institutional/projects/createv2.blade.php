@@ -868,301 +868,357 @@
             var houseCount = 0;
 
             const houseCountInput = document.getElementById('house_count');
-                const generateTabsButton = document.getElementById('generate_tabs');
-                const tabsContainer = document.getElementById('tabs');
+            const generateTabsButton = document.getElementById('generate_tabs');
+            const tabsContainer = document.getElementById('tabs');
 
-                generateTabsButton.addEventListener('click', function () {
-                    $('.full-area').removeClass('d-none')
-                    $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
-                    $('.total-house-text').html(houseCountInput.value)
-                    $('.bottom-housing-area').removeClass('d-none')
-                    $('.pop-up-v2').addClass('d-none')
-                    
-                    if(selectedid){
-                        $('.rendered-area').removeClass('d-none')
-                    }else{
-                        $.toast({
-                            heading: 'Hata',
-                            text: 'Proje Hangi Tipte Konutlardan Oluşuyor Seçeneğini Lütfen Seçiniz',
-                            position: 'top-right',
-                            stack: false
-                        })
-                    }
-                    houseCount = parseInt(houseCountInput.value);
+            generateTabsButton.addEventListener('click', function () {
+                $('.full-area').removeClass('d-none')
+                $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
+                $('.total-house-text').html(houseCountInput.value)
+                $('.bottom-housing-area').removeClass('d-none')
+                $('.pop-up-v2').addClass('d-none')
+                
+                if(selectedid){
+                    $('.rendered-area').removeClass('d-none')
+                }else{
+                    $.toast({
+                        heading: 'Hata',
+                        text: 'Proje Hangi Tipte Konutlardan Oluşuyor Seçeneğini Lütfen Seçiniz',
+                        position: 'top-right',
+                        stack: false
+                    })
+                }
+                houseCount = parseInt(houseCountInput.value);
 
-                    if (isNaN(houseCount) || houseCount <= 0) {
-                        alert('Lütfen geçerli bir sayı girin.');
-                        return;
-                    }
+                if (isNaN(houseCount) || houseCount <= 0) {
+                    alert('Lütfen geçerli bir sayı girin.');
+                    return;
+                }
 
-                    var htmlContent = '';
-                    $.ajax({
-                        method: "GET",
-                        url: "{{ route('institutional.ht.getform') }}",
-                        data: {
-                            id: selectedid
-                        },
-                        success: function(response) {
-                            for(var i = 0 ; i < 1; i++ ){
-                                htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
-                                    '<div id="renderForm'+(i+1)+'"></div>'+
-                                '</div>';
-                            }
+                var htmlContent = '';
+                $.ajax({
+                    method: "GET",
+                    url: "{{ route('institutional.ht.getform') }}",
+                    data: {
+                        id: selectedid
+                    },
+                    success: function(response) {
+                        for(var i = 0 ; i < 1; i++ ){
+                            htmlContent += '<div class="tab-pane fade show '+(i == 0 ? 'active' : '')+'" id="TabContent'+(i+1)+'" role="tabpanel">'+
+                                '<div id="renderForm'+(i+1)+'"></div>'+
+                            '</div>';
+                        }
 
-                            $('.tab-content').html(htmlContent)
+                        $('.tab-content').html(htmlContent)
 
-                            $('#generate_tabs .loading-icon').remove();
+                        $('#generate_tabs .loading-icon').remove();
 
-                        for (let i = 1; i <= 1; i++) {
-                            formRenderOpts = {
-                                dataType: 'json',
-                                formData: response.form_json
-                            };
+                    for (let i = 1; i <= 1; i++) {
+                        formRenderOpts = {
+                            dataType: 'json',
+                            formData: response.form_json
+                        };
 
-                            var renderedForm = $('<div>');
-                            renderedForm.formRender(formRenderOpts);
-                            var renderHtml = renderedForm.html().toString();
-                            renderHtml = renderHtml.toString().split('images[][]');
-                            renderHtml = renderHtml[0];
+                        var renderedForm = $('<div>');
+                        renderedForm.formRender(formRenderOpts);
+                        var renderHtml = renderedForm.html().toString();
+                        renderHtml = renderHtml.toString().split('images[][]');
+                        renderHtml = renderHtml[0];
+                        var json = JSON.parse(response.form_json);
+                        for(var lm = 0 ; lm < json.length; lm++){
+                            if(json[lm].type == "checkbox-group"){
                             var json = JSON.parse(response.form_json);
-                            for(var lm = 0 ; lm < json.length; lm++){
-                                if(json[lm].type == "checkbox-group"){
-                                var json = JSON.parse(response.form_json);
-                                var renderHtml = renderHtml.toString().split(json[lm].name+'-');
-                                renderHtmlx = "";
-                                for(var t = 0 ; t < renderHtml.length ; t++){
-                                    if(t != renderHtml.length - 1){
-                                        renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
-                                    }else{
-                                        renderHtmlx += renderHtml[t];
-                                    }
-                                }
-
-                                renderHtml = renderHtmlx;
-                                var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
-                                renderHtmlx = "";
-                                var json = JSON.parse(response.form_json);
-                                for(var t = 0 ; t < renderHtml.length ; t++){
-                                    if(t != renderHtml.length - 1){
-                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
-                                    }else{
+                            var renderHtml = renderHtml.toString().split(json[lm].name+'-');
+                            renderHtmlx = "";
+                            for(var t = 0 ; t < renderHtml.length ; t++){
+                                if(t != renderHtml.length - 1){
+                                    renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[]-'+i;
+                                }else{
                                     renderHtmlx += renderHtml[t];
-                                    }
-                                }
-
-
-                                renderHtml = renderHtmlx;
-
-                                
                                 }
                             }
-                            $('#renderForm'+(i)).html(renderHtmlx);
+
+                            renderHtml = renderHtmlx;
+                            var renderHtml = renderHtml.toString().split(json[lm].name+'[]');
+                            renderHtmlx = "";
+                            var json = JSON.parse(response.form_json);
+                            for(var t = 0 ; t < renderHtml.length ; t++){
+                                if(t != renderHtml.length - 1){
+                                renderHtmlx += renderHtml[t]+(json[lm].name.split('[]')[0])+i+'[][]';
+                                }else{
+                                renderHtmlx += renderHtml[t];
+                                }
+                            }
+
+
+                            renderHtml = renderHtmlx;
 
                             
-                        }
-                        
-                        confirmHousings();
-
-                        $('.dropzonearea').closest('.formbuilder-file').remove();
-                        
-
-                        var csrfToken = "{{ csrf_token() }}";
-
-                        $('.add-new-project-house-image').click(function(){
-                            $(this).parent('div').find('.new_file_on_drop').trigger("click")
-                        })
-                        $('.second-payment-plan').closest('div').addClass('d-none')
-                        $('.tab-pane select[multiple="false"]').removeAttr('multiple')
-
-                        $('input[value="taksitli"]').change(function(){
-                            if($(this).is(':checked')){
-                                $('.second-payment-plan').closest('div').removeClass('d-none');
-                            }else{
-                                $('.second-payment-plan').closest('div').addClass('d-none');
                             }
-                        })
+                        }
+                        $('#renderForm'+(i)).html(renderHtmlx);
 
-                        $('.item-left-area').click(function(e){
-                            var clickIndex = $(this).index();
-                            var currentIndex = $('.nav-linkx.active').closest('.item-left-area').index();
+                        
+                    }
+                    
+                    confirmHousings();
 
-                            if(clickIndex>currentIndex){
-                                var nextHousing = true;
-                                $('.tab-pane.active input[required="required"]').map((key,item) => {
-                                    if(!$(item).val() && $(item).attr('type') != "file"){
-                                        nextHousing = false;
-                                        $(item).addClass("error-border")
-                                    }
-                                })
+                    $('.dropzonearea').closest('.formbuilder-file').remove();
+                    
 
-                                $('.tab-pane.active select[required="required"]').map((key,item) => {
-                                    if(!$(item).val() || $(item).val() == "Seçiniz"){
-                                        nextHousing = false;
-                                        $(item).addClass("error-border")
-                                    }
-                                })
-                                
+                    var csrfToken = "{{ csrf_token() }}";
 
-                                $('.tab-pane.active input[type="file"]').map((key,item) => {
-                                    if($(item).parent('div').find('.project_imaget').length == 0){
-                                        nextHousing = false;
-                                        $(item).addClass("error-border")
-                                    }
-                                })
-                                
-                                var indexItem = $('.tab-pane.active').index();
-                                if(nextHousing){
-                                    $('.tab-pane.active').removeClass('active');
-                                    $('.tab-pane').eq(indexItem + 1).addClass('active');
-                                    $('.item-left-area p').removeClass('active')
-                                    $(this).children('p').addClass('active');
-                                }else{
-                                    $('html, body').animate({
-                                        scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
-                                    }, 100);
+                    $('.add-new-project-house-image').click(function(){
+                        $(this).parent('div').find('.new_file_on_drop').trigger("click")
+                    })
+                    $('.second-payment-plan').closest('div').addClass('d-none')
+                    $('.tab-pane select[multiple="false"]').removeAttr('multiple')
+
+                    $('input[value="taksitli"]').change(function(){
+                        if($(this).is(':checked')){
+                            $('.second-payment-plan').closest('div').removeClass('d-none');
+                        }else{
+                            $('.second-payment-plan').closest('div').addClass('d-none');
+                        }
+                    })
+
+                    $('.item-left-area').click(function(e){
+                        var clickIndex = $(this).index();
+                        var currentIndex = $('.nav-linkx.active').closest('.item-left-area').index();
+
+                        if(clickIndex>currentIndex){
+                            var nextHousing = true;
+                            $('.tab-pane.active input[required="required"]').map((key,item) => {
+                                if(!$(item).val() && $(item).attr('type') != "file"){
+                                    nextHousing = false;
+                                    $(item).addClass("error-border")
                                 }
+                            })
 
-                                
+                            $('.tab-pane.active select[required="required"]').map((key,item) => {
+                                if(!$(item).val() || $(item).val() == "Seçiniz"){
+                                    nextHousing = false;
+                                    $(item).addClass("error-border")
+                                }
+                            })
+                            
 
-                            }else{
-
+                            $('.tab-pane.active input[type="file"]').map((key,item) => {
+                                if($(item).parent('div').find('.project_imaget').length == 0){
+                                    nextHousing = false;
+                                    $(item).addClass("error-border")
+                                }
+                            })
+                            
+                            var indexItem = $('.tab-pane.active').index();
+                            if(nextHousing){
+                                $('.tab-pane.active').removeClass('active');
+                                $('.tab-pane').eq(indexItem + 1).addClass('active');
                                 $('.item-left-area p').removeClass('active')
                                 $(this).children('p').addClass('active');
-                                $('.tab-pane.active').removeClass('active');
-                                $('.tab-pane').eq(clickIndex).addClass('active');
+                            }else{
+                                $('html, body').animate({
+                                    scrollTop: $('.tab-pane.active').offset().top - parseFloat($('.navbar-top').css('height'))
+                                }, 100);
                             }
-                            
-                        })
 
-                        
-                        $('.copy-item').change(function(){
-                            var transactionIndex = 0;
-                            $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
-                            var order = parseInt($(this).val()) - 1;
-                            var currentOrder = parseInt($(this).closest('.item-left-area').index());
-                            var arrayValues = {};
-                            var formData = new FormData();
-                            formData.append('_token', csrfToken);
-                            formData.append('last_order',(parseInt($(this).val()) - 1));
-                            formData.append('new_order',(parseInt($('.house_order_input').val()) - 1));
-                            formData.append('item_type',1);
                             
-                            $.ajax({
-                                type: "POST",
-                                url: "{{route('institutional.temp.order.copy.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function(response) {
-                                    var data = response;
-                                    for(var i = 0 ; i < data.length; i++){
-                                        var key = Object.keys(data[i])
-                                        if(data[i].type == "select"){
-                                            $('select[name="'+key[0]+'[]"]')
-                                            if(data[i][key[0]] == null){
-                                                $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
-                                            }else{
-                                                $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                            }
+
+                        }else{
+
+                            $('.item-left-area p').removeClass('active')
+                            $(this).children('p').addClass('active');
+                            $('.tab-pane.active').removeClass('active');
+                            $('.tab-pane').eq(clickIndex).addClass('active');
+                        }
+                        
+                    })
+
+                    
+                    $('.copy-item').change(function(){
+                        var transactionIndex = 0;
+                        $('.tab-pane').prepend('<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>');
+                        var order = parseInt($(this).val()) - 1;
+                        var currentOrder = parseInt($(this).closest('.item-left-area').index());
+                        var arrayValues = {};
+                        var formData = new FormData();
+                        formData.append('_token', csrfToken);
+                        formData.append('last_order',(parseInt($(this).val()) - 1));
+                        formData.append('new_order',(parseInt($('.house_order_input').val()) - 1));
+                        formData.append('item_type',1);
+                        
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.copy.data')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                var data = response.data;
+                                for(var i = 0 ; i < data.length; i++){
+                                    var key = Object.keys(data[i])
+                                    if(data[i].type == "select"){
+                                        $('select[name="'+key[0]+'[]"]')
+                                        if(data[i][key[0]] == null){
+                                            $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
                                         }else{
-                                            if(data[i].type != "file"){
-                                                if(data[i].type == "checkbox-group"){
-                                                        console.log(data[i][key[0]]);
-                                                    if(data[i][key[0]] == null){
-                                                        $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
-                                                    }else{
-                                                        $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
-                                                            $(item).prop('checked',false);
-                                                            for(var k = 0 ; k < data[i][key[0]].length; k++){
-                                                                if($(item).attr('value')){
-                                                                    if($(item).attr('value').trim() == data[i][key[0]][k]){
-                                                                        $(item).prop('checked',true);
-                                                                    }
+                                            $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                        }
+                                    }else{
+                                        if(data[i].type != "file"){
+                                            if(data[i].type == "checkbox-group"){
+                                                    console.log(data[i][key[0]]);
+                                                if(data[i][key[0]] == null){
+                                                    $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
+                                                }else{
+                                                    $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
+                                                        $(item).prop('checked',false);
+                                                        for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                            if($(item).attr('value')){
+                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                    $(item).prop('checked',true);
                                                                 }
                                                             }
-                                                            
-                                                        })
-                                                    }
-                                                }else{
-                                                    if(data[i][key[0]] == null){
-                                                        $('input[name="'+key[0]+'[]"]').val("");
-                                                    }else{
-                                                        $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
-                                                    }
+                                                        }
+                                                        
+                                                    })
                                                 }
                                             }else{
                                                 if(data[i][key[0]] == null){
-                                                    $('.project_imaget img').remove();
+                                                    $('input[name="'+key[0]+'[]"]').val("");
                                                 }else{
-                                                    if($('.project_imaget img').length > 0){
-                                                        $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
-                                                    }else{
-                                                        $('.project_imaget').html('<img src="'+"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]]+'">')
-                                                    }
+                                                    $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                }
+                                            }
+                                        }else{
+                                            if(data[i][key[0]] == null){
+                                                $('.project_imaget img').remove();
+                                            }else{
+                                                if($('.project_imaget img').length > 0){
+                                                    $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                }else{
+                                                    $('.project_imaget').html('<img src="'+"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]]+'">')
                                                 }
                                             }
                                         }
                                     }
-                                    
-                                    $('.loading-icon-right').remove();
-                                    $('.copy-item').val('')
-                                    confirmHousings();
-                                },
-                            });
-                            console.log(transactionIndex);
-                        })
-
-                        if(isContinueProject){
-                            $('.continue-disabled').closest('.form-group').remove();
-                        }
-                        
-                        $('.project-disabled').closest('.form-group').remove();
-                        
-                        $('.rendered-form input').change(function(){
-                            if($(this).attr('type') != "file"){
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                formData.append('_token', csrfToken);
-                                formData.append('value',$(this).val());
-                                
-                                console.log($(this).attr('name'))
-                                formData.append('order',parseInt($('.house_order_input').val()) - 1);
-                                formData.append('item_type',1);
-                                if($(this).hasClass('only-one')){
-                                    formData.append('only-one',"1");
-                                    $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
                                 }
-                                if($(this).attr('type') == "checkbox"){
-                                    formData.append('checkbox',"1");
-                                    formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", "").slice(0, -1)+$('.house_order_input').val());
+
+                                var data2 = response.data2;
+
+
+                                $('.dec-pay-area').remove();
+                                var newOrderx = (parseInt($('.house_order_input').val()));
+                                console.log(newOrderx);
+                                if(data2['pay-dec-count'+( parseInt($('.house_order_input').val()))]){
+                                    $('.installement-dec-pay').closest('.form-group').after(`
+                                        <div class="dec-pay-area">
+                                            <div class="top">
+                                                <h4>Ara Ödemeler</h4>
+                                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <div class="pay-desc">
+                                                <div class="pay-desc-item">
+                                                    <div class="row" style="align-items: flex-end;">
+                                                        <div class="flex-1">
+                                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <input type="text" value="${data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tarihi</label>
+                                                            <input type="date" value="${data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `)
+
+                                    for(var i = 1; i < data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]; i++){
+                                        $('.pay-desc').append(`
+                                            <div class="pay-desc-item">
+                                                <div class="row" style="align-items: flex-end;">
+                                                    <div class="flex-1">
+                                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                    <div class="flex-10">
+                                                        <label for="">Ara Ödeme Tutarı</label>
+                                                        <input type="text" value="${data2['pay_desc_price'+newOrderx+i] ? data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
+                                                    </div>
+                                                    <div class="flex-10">
+                                                        <label for="">Ara Ödeme Tarihi</label>
+                                                        <input type="date" value="${data2['pay_desc_date'+newOrderx+i] ? data2['pay_desc_date'+newOrderx+i] : ""}" class="form-control pay-desc-date">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `)
+                                    }
                                 }else{
-                                    formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", ""));
+
+                                    $('.installement-dec-pay').closest('.form-group').after(`
+                                        <div class="dec-pay-area">
+                                            <div class="top">
+                                                <h4>Ara Ödemeler</h4>
+                                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <div class="pay-desc">
+                                                <div class="pay-desc-item">
+                                                    <div class="row" style="align-items: flex-end;">
+                                                        <div class="flex-1">
+                                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <input type="text" value="" class="price-only form-control pay-desc-price">
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tarihi</label>
+                                                            <input type="date" value="" class="form-control pay-desc-date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `)
                                 }
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                    },
-                                });
 
+                                
+                                $('.loading-icon-right').remove();
+                                $('.copy-item').val('')
                                 confirmHousings();
-                            }
-                        })
+                            },
+                        });
+                    })
 
-                        $('.rendered-form select').change(function(){
-                            if($(this).val().length){
-                                $(this).removeClass('error-border')
-                            }
+                    if(isContinueProject){
+                        $('.continue-disabled').closest('.form-group').remove();
+                    }
+                    
+                    $('.project-disabled').closest('.form-group').remove();
+                    
+                    $('.rendered-form input').change(function(){
+                        if($(this).attr('type') != "file"){
                             var formData = new FormData();
                             var csrfToken = $("meta[name='csrf-token']").attr("content");
                             formData.append('_token', csrfToken);
                             formData.append('value',$(this).val());
+                            
+                            console.log($(this).attr('name'))
                             formData.append('order',parseInt($('.house_order_input').val()) - 1);
-                            formData.append('key',$(this).attr('name').replace("[]", ""));
                             formData.append('item_type',1);
+                            if($(this).hasClass('only-one')){
+                                formData.append('only-one',"1");
+                                $(this).closest('.form-group').find('.only-one[value!="'+$(this).val()+'"]').prop('checked',false);
+                            }
+                            if($(this).attr('type') == "checkbox"){
+                                formData.append('checkbox',"1");
+                                formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", "").slice(0, -1)+$('.house_order_input').val());
+                            }else{
+                                formData.append('key',$(this).attr('name').replace("[]", "").replace("[]", ""));
+                            }
                             $.ajax({
                                 type: "POST",
                                 url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
@@ -1174,7 +1230,217 @@
                             });
 
                             confirmHousings();
-                        })
+                        }
+                    })
+
+                    $('.rendered-form select').change(function(){
+                        if($(this).val().length){
+                            $(this).removeClass('error-border')
+                        }
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        formData.append('value',$(this).val());
+                        formData.append('order',parseInt($('.house_order_input').val()) - 1);
+                        formData.append('key',$(this).attr('name').replace("[]", ""));
+                        formData.append('item_type',1);
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.project.housing.change')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                            },
+                        });
+
+                        confirmHousings();
+                    })
+
+                    $('.price-only').keyup(function(){
+                        $('.price-only .error-text').remove();
+                        if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                            if($(this).closest('.form-group').find('.error-text').length > 0){
+                                $(this).val("");
+                            }else{
+                                $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                                $(this).val("");
+                            }
+                            
+                        }else{
+                            let inputValue = $(this).val();
+
+                            // Sadece sayı karakterlerine izin ver
+                            inputValue = inputValue.replace(/\D/g, '');
+
+                            // Her üç basamakta bir nokta ekleyin
+                            inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                            $(this).val(inputValue)
+                            $(this).closest('.form-group').find('.error-text').remove();
+                        }
+                    })
+
+                    
+                    $('.maks-3').keyup(function(){
+                        console.log("asd")
+                        if(parseInt($(this).val()) > 3){
+                            $(this).val(3);
+                        }
+                    })
+
+                    $('.number-only').keyup(function(){
+                        $('.number-only .error-text').remove();
+                        if($(this).val() != parseInt($(this).val())){
+                            if($(this).closest('.form-group').find('.error-text').length > 0){
+                                $(this).val("");
+                            }else{
+                                $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                                $(this).val("");
+                            }
+                            
+                        }else{
+                            $(this).closest('.form-group').find('.error-text').remove();
+                        }
+                    })
+
+                    $('.formbuilder-text input').change(function(){
+                        if($(this).val() != ""){
+                            $(this).removeClass('error-border')
+                        }
+                    })
+
+                    $('.formbuilder-number input').change(function(){
+                        if($(this).val() != ""){
+                            $(this).removeClass('error-border')
+                        }
+                    })
+
+                    
+                    $('.cover-image-by-housing-type').change(function(){
+                        var input = this;
+                        if (input.files && input.files[0]) {
+                            $(this).removeClass('error-border');
+
+                            confirmHousings();
+                            var reader = new FileReader();
+
+                            var formData = new FormData();
+                            var csrfToken = $("meta[name='csrf-token']").attr("content");
+                            var lastOrders = 0;
+                            if(hasBlocks){
+                                for(var i = 0 ; i < selectedBlock; i++){
+                                    lastOrders += parseInt(blockHouseCount[i]);
+                                }
+                            }
+                            formData.append('order',(lastOrders + parseInt($('.house_order_input').val()) - 1));
+                            formData.append('_token', csrfToken);
+                            formData.append('file',this.files[0]);
+                            formData.append('item_type',1);
+                            $.ajax({
+                                type: "POST",
+                                url: "{{route('institutional.temp.order.project.add.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function(response) {
+                                },
+                                error: function() {
+                                    // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                                    alert("Dosya yüklenemedi.");
+                                }
+                            });
+
+                            reader.onload = function(e) {
+                                // Resmi görüntülemek için bir div oluşturun
+                                var imageDiv = $('<div class="project_imaget"></div>');
+
+                                // Resmi oluşturun ve div içine ekleyin
+                                var image = $('<img>').attr('src', e.target.result);
+                                imageDiv.append(image);
+                                // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
+                                $('.cover-photo').html(imageDiv);
+
+                                $('.tab-pane.active .cover-image-by-housing-type').parent('div').find('.project_imaget').remove()
+                                $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
+                                confirmHousings();
+                            };
+
+                            // Resmi okuyun
+                            reader.readAsDataURL(input.files[0]);
+                            
+                        }
+                    })
+
+                    
+                    $('.installement-dec-pay').closest('.form-group').after(`
+                        <div class="dec-pay-area">
+                            <div class="top">
+                                <h4>Ara Ödemeler</h4>
+                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                            </div>
+                            <div class="pay-desc">
+                                <div class="pay-desc-item">
+                                    <div class="row" style="align-items: flex-end;">
+                                        <div class="flex-1">
+                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                        <div class="flex-10">
+                                            <label for="">Ara Ödeme Tutarı</label>
+                                            <input type="text" value="{{isset($tempData->pay_desc_price10) ? $tempData->pay_desc_price10 : ''}}" class="price-only form-control pay-desc-price">
+                                        </div>
+                                        <div class="flex-10">
+                                            <label for="">Ara Ödeme Tarihi</label>
+                                            <input type="date" value="{{isset($tempData->pay_desc_date10) ? $tempData->pay_desc_date10 : ""}}" class="form-control pay-desc-date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `)
+
+                    @if(isset($tempData->{"pay-dec-count1"}))
+                        @for($i = 1; $i < $tempData->{"pay-dec-count1"}; $i++)
+                            $('.pay-desc').append(`
+                                <div class="pay-desc-item">
+                                    <div class="row" style="align-items: flex-end;">
+                                        <div class="flex-1">
+                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                        <div class="flex-10">
+                                            <label for="">Ara Ödeme Tutarı</label>
+                                            <input type="text" value="{{ isset($tempData->{"pay_desc_price1".$i}) ? $tempData->{"pay_desc_price1".$i} : ""  }}" class="price-only pay-desc-price form-control">
+                                        </div>
+                                        <div class="flex-10">
+                                            <label for="">Ara Ödeme Tarihi</label>
+                                            <input type="date" value="{{isset($tempData->{"pay_desc_date1".$i}) ? $tempData->{"pay_desc_date1".$i} : ""}}" class="form-control pay-desc-date">
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
+                        @endfor
+                    @endif
+
+
+                    $('.add-pay-dec').click(function(){
+                        $('.pay-desc').append(`
+                            <div class="pay-desc-item">
+                                <div class="row" style="align-items: flex-end;">
+                                    <div class="flex-1">
+                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    <div class="flex-10">
+                                        <label for="">Ara Ödeme Tutarı</label>
+                                        <input type="text" class="price-only pay-desc-price form-control">
+                                    </div>
+                                    <div class="flex-10">
+                                        <label for="">Ara Ödeme Tarihi</label>
+                                        <input type="date" class="form-control pay-desc-date">
+                                    </div>
+                                </div>
+                            </div>
+                        `)
+
 
                         $('.price-only').keyup(function(){
                             $('.price-only .error-text').remove();
@@ -1199,110 +1465,55 @@
                                 $(this).closest('.form-group').find('.error-text').remove();
                             }
                         })
+                        changeData($('.pay-desc-item').length,'pay-dec-count'+$('.house_order_input').val())
+                    })
 
-                        
-                        $('.maks-3').keyup(function(){
-                            console.log("asd")
-                            if(parseInt($(this).val()) > 3){
-                                $(this).val(3);
-                            }
-                        })
-
-                        $('.number-only').keyup(function(){
-                            $('.number-only .error-text').remove();
-                            if($(this).val() != parseInt($(this).val())){
-                                if($(this).closest('.form-group').find('.error-text').length > 0){
-                                    $(this).val("");
-                                }else{
-                                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                                    $(this).val("");
-                                }
-                                
+                    $('.price-only').keyup(function(){
+                        $('.price-only .error-text').remove();
+                        if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                            if($(this).closest('.form-group').find('.error-text').length > 0){
+                                $(this).val("");
                             }else{
-                                $(this).closest('.form-group').find('.error-text').remove();
+                                $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                                $(this).val("");
                             }
-                        })
+                            
+                        }else{
+                            let inputValue = $(this).val();
 
-                        $('.formbuilder-text input').change(function(){
-                            if($(this).val() != ""){
-                                $(this).removeClass('error-border')
-                            }
-                        })
+                            // Sadece sayı karakterlerine izin ver
+                            inputValue = inputValue.replace(/\D/g, '');
 
-                        $('.formbuilder-number input').change(function(){
-                            if($(this).val() != ""){
-                                $(this).removeClass('error-border')
-                            }
-                        })
+                            // Her üç basamakta bir nokta ekleyin
+                            inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
-                        
-                        $('.cover-image-by-housing-type').change(function(){
-                            var input = this;
-                            if (input.files && input.files[0]) {
-                                $(this).removeClass('error-border');
-
-                                confirmHousings();
-                                var reader = new FileReader();
-
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr("content");
-                                var lastOrders = 0;
-                                if(hasBlocks){
-                                    for(var i = 0 ; i < selectedBlock; i++){
-                                        lastOrders += parseInt(blockHouseCount[i]);
-                                    }
-                                }
-                                formData.append('order',(lastOrders + parseInt($('.house_order_input').val()) - 1));
-                                formData.append('_token', csrfToken);
-                                formData.append('file',this.files[0]);
-                                formData.append('item_type',1);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{route('institutional.temp.order.project.add.image')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {
-                                    },
-                                    error: function() {
-                                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
-                                        alert("Dosya yüklenemedi.");
-                                    }
-                                });
-
-                                reader.onload = function(e) {
-                                    // Resmi görüntülemek için bir div oluşturun
-                                    var imageDiv = $('<div class="project_imaget"></div>');
-
-                                    // Resmi oluşturun ve div içine ekleyin
-                                    var image = $('<img>').attr('src', e.target.result);
-                                    imageDiv.append(image);
-                                    // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
-                                    $('.cover-photo').html(imageDiv);
-
-                                    $('.tab-pane.active .cover-image-by-housing-type').parent('div').find('.project_imaget').remove()
-                                    $('.tab-pane.active .cover-image-by-housing-type').closest('.formbuilder-file').append(imageDiv)
-                                    confirmHousings();
-                                };
-
-                                // Resmi okuyun
-                                reader.readAsDataURL(input.files[0]);
-                                
-                            }
-                        })
-
-                        
-                        
-
-                        $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
-                        },
-                        error: function(error) {
-                            console.log(error)
+                            $(this).val(inputValue)
+                            $(this).closest('.form-group').find('.error-text').remove();
                         }
                     })
-                    // Belirtilen sayıda sekme oluştur
 
-                });
+
+                    $(document).on("click",".remove-pay-dec",function(){
+                        $(this).closest('.pay-desc-item').remove()
+                    })
+
+                    $(document).on('change','.pay-desc-price',function(){
+                        changeData($(this).val(),'pay_desc_price'+($('.house_order_input').val()+''+$(this).closest('.pay-desc-item').index()))
+                    })
+
+                    $(document).on('change','.pay-desc-date',function(){
+                        changeData($(this).val(),'pay_desc_date'+($('.house_order_input').val()+''+$(this).closest('.pay-desc-item').index()))
+                    })
+
+                    $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                })
+                // Belirtilen sayıda sekme oluştur
+
+            });
 
             $('.confirm-button-block').click(function(){
                 var blockName = $('.block-name').val();
@@ -1540,7 +1751,7 @@
                                             processData: false,
                                             contentType: false,
                                             success: function(response) {
-                                                var data = response;
+                                                var data = response.data;
                                                 for(var i = 0 ; i < data.length; i++){
                                                     var key = Object.keys(data[i])
                                                     if(data[i].type == "select"){
@@ -1589,10 +1800,98 @@
                                                         }
                                                     }
                                                 }
+
+                                                var data2 = response.data2;
+
+
+                                                $('.dec-pay-area').remove();
+                                                var newOrderx = (parseInt($('.house_order_input').val()));
+                                                console.log(newOrderx);
+                                                if(data2['pay-dec-count'+( parseInt($('.house_order_input').val()))]){
+                                                    $('.installement-dec-pay').closest('.form-group').after(`
+                                                        <div class="dec-pay-area">
+                                                            <div class="top">
+                                                                <h4>Ara Ödemeler</h4>
+                                                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                            <div class="pay-desc">
+                                                                <div class="pay-desc-item">
+                                                                    <div class="row" style="align-items: flex-end;">
+                                                                        <div class="flex-1">
+                                                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                                        </div>
+                                                                        <div class="flex-10">
+                                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                                            <input type="text" value="${data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                                        </div>
+                                                                        <div class="flex-10">
+                                                                            <label for="">Ara Ödeme Tarihi</label>
+                                                                            <input type="date" value="${data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    `)
+
+                                                    for(var i = 1; i < data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]; i++){
+                                                        $('.pay-desc').append(`
+                                                            <div class="pay-desc-item">
+                                                                <div class="row" style="align-items: flex-end;">
+                                                                    <div class="flex-1">
+                                                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                                    </div>
+                                                                    <div class="flex-10">
+                                                                        <label for="">Ara Ödeme Tutarı</label>
+                                                                        <input type="text" value="${data2['pay_desc_price'+newOrderx+i] ? data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
+                                                                    </div>
+                                                                    <div class="flex-10">
+                                                                        <label for="">Ara Ödeme Tarihi</label>
+                                                                        <input type="date" value="${data2['pay_desc_date'+newOrderx+i] ? data2['pay_desc_date'+newOrderx+i] : ""}" class="form-control pay-desc-date">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        `)
+                                                    }
+                                                }else{
+
+                                                    $('.installement-dec-pay').closest('.form-group').after(`
+                                                        <div class="dec-pay-area">
+                                                            <div class="top">
+                                                                <h4>Ara Ödemeler</h4>
+                                                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                            <div class="pay-desc">
+                                                                <div class="pay-desc-item">
+                                                                    <div class="row" style="align-items: flex-end;">
+                                                                        <div class="flex-1">
+                                                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                                        </div>
+                                                                        <div class="flex-10">
+                                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                                            <input type="text" value="" class="price-only form-control pay-desc-price">
+                                                                        </div>
+                                                                        <div class="flex-10">
+                                                                            <label for="">Ara Ödeme Tarihi</label>
+                                                                            <input type="date" value="" class="form-control pay-desc-date">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    `)
+                                                }
+
                                                 
                                                 $('.loading-icon-right').remove();
                                                 $('.copy-item').val('')
                                                 confirmHousings();
+                                                
+                                                $('.loading-icon-right').remove();
+                                                $('.copy-item').val('')
+                                                confirmHousings();
+
+
                                             },
                                         });
                                         console.log(transactionIndex);
@@ -2032,26 +2331,27 @@
                     type: "GET", // GET isteği
                     dataType: "json", // Gelen veri tipi JSON
                     success: function (data) {
-                        for(var i = 0 ; i < data.length; i++){
-                            var key = Object.keys(data[i])
-                            if(data[i].type == "select"){
+                        console.log(data.length);
+                        for(var i = 0 ; i < data.data.length; i++){
+                            var key = Object.keys(data.data[i])
+                            if(data.data[i].type == "select"){
                                 $('select[name="'+key[0]+'[]"]')
-                                if(data[i][key[0]] == null){
+                                if(data.data[i][key[0]] == null){
                                     $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
                                 }else{
-                                    $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                    $('select[name="'+key[0]+'[]"]').val(data.data[i][key[0]]);
                                 }
                             }else{
-                                if(data[i].type != "file"){
-                                    if(data[i].type == "checkbox-group"){
-                                        if(data[i][key[0]] == null){
+                                if(data.data[i].type != "file"){
+                                    if(data.data[i].type == "checkbox-group"){
+                                        if(data.data[i][key[0]] == null){
                                             $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                         }else{
                                             $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                 $(item).prop('checked',false);
-                                                for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                for(var k = 0 ; k < data.data[i][key[0]].length; k++){
                                                     if($(item).attr('value')){
-                                                        if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                        if($(item).attr('value').trim() == data.data[i][key[0]][k]){
                                                             $(item).prop('checked',true);
                                                         }
                                                     }
@@ -2060,25 +2360,26 @@
                                             })
                                         }
                                     }else{
-                                        if(data[i][key[0]] == null){
+                                        if(data.data[i][key[0]] == null){
                                             $('input[name="'+key[0]+'[]"]').val("");
                                         }else{
-                                            $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                            $('input[name="'+key[0]+'[]"]').val(data.data[i][key[0]]);
                                         }
                                     }
                                 }else{
-                                    if(data[i][key[0]] == null){
+                                    if(data.data[i][key[0]] == null){
                                         $('.project_imaget img').remove();
                                     }else{
                                         if($('.project_imaget img').length > 0){
-                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                            $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data.data[i][key[0]])
                                         }else{
-                                            $('.project_imaget').html('<img src="{{URL::to("/")}}/storage/project_images/'+data[i][key[0]]+'"/>')
+                                            $('.project_imaget').html('<img src="{{URL::to("/")}}/storage/project_images/'+data.data[i][key[0]]+'"/>')
                                         }
                                     }
                                 }
                             }
                         }
+
                         $('.pop-up-v4').addClass('d-none');
                         confirmHousings();
                         $('.house_order_input').val(parseInt($('.house_order_input').val()) - 1)
@@ -2088,6 +2389,82 @@
                             thisx.addClass('disabled-button')
                         }else{
                             thisx.removeClass('disabled-button')
+                        }
+
+                        $('.dec-pay-area').remove();
+                        var newOrderx = (lastOrders + parseInt($('.house_order_input').val()));
+                        if(data.data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]){
+                            $('.installement-dec-pay').closest('.form-group').after(`
+                                <div class="dec-pay-area">
+                                    <div class="top">
+                                        <h4>Ara Ödemeler</h4>
+                                        <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="pay-desc">
+                                        <div class="pay-desc-item">
+                                            <div class="row" style="align-items: flex-end;">
+                                                <div class="flex-1">
+                                                    <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <input type="text" value="${data.data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                    <input type="date" value="${data.data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
+
+                            for(var i = 1; i < data.data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]; i++){
+                                $('.pay-desc').append(`
+                                    <div class="pay-desc-item">
+                                        <div class="row" style="align-items: flex-end;">
+                                            <div class="flex-1">
+                                                <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                            <div class="flex-10">
+                                                <label for="">Ara Ödeme Tutarı</label>
+                                                <input type="text" value="${data.data2['pay_desc_price'+newOrderx+i]}" class="price-only pay-desc-price form-control">
+                                            </div>
+                                            <div class="flex-10">
+                                                <label for="">Ara Ödeme Tarihi</label>
+                                                <input type="date" value="${data.data2['pay_desc_date'+newOrderx+i]}" class="form-control pay-desc-date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+                            }
+                        }else{
+                            $('.installement-dec-pay').closest('.form-group').after(`
+                                <div class="dec-pay-area">
+                                    <div class="top">
+                                        <h4>Ara Ödemeler</h4>
+                                        <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="pay-desc">
+                                        <div class="pay-desc-item">
+                                            <div class="row" style="align-items: flex-end;">
+                                                <div class="flex-1">
+                                                    <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <input type="text" value="" class="price-only form-control pay-desc-price">
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                    <input type="date" value="" class="form-control pay-desc-date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
                         }
                     },
                     error: function (xhr, status, error) {
@@ -2165,26 +2542,26 @@
                                 return xhr;
                             },
                             success: function (data) {
-                                for(var i = 0 ; i < data.length; i++){
-                                    var key = Object.keys(data[i])
-                                    if(data[i].type == "select"){
+                                for(var i = 0 ; i < data.data.length; i++){
+                                    var key = Object.keys(data.data[i])
+                                    if(data.data[i].type == "select"){
                                         $('select[name="'+key[0]+'[]"]')
-                                        if(data[i][key[0]] == null){
+                                        if(data.data[i][key[0]] == null){
                                             $('select[name="'+key[0]+'[]"]').find('option').prop('selected',false);
                                         }else{
-                                            $('select[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                            $('select[name="'+key[0]+'[]"]').val(data.data[i][key[0]]);
                                         }
                                     }else{
-                                        if(data[i].type != "file"){
-                                            if(data[i].type == "checkbox-group"){
-                                                if(data[i][key[0]] == null){
+                                        if(data.data[i].type != "file"){
+                                            if(data.data[i].type == "checkbox-group"){
+                                                if(data.data[i][key[0]] == null){
                                                     $('input[name="'+key[0]+'1[][]"]').prop("checked",false);
                                                 }else{
                                                     $('input[name="'+key[0]+'1[][]"]').map((keyx,item) => {
                                                         $(item).prop('checked',false)
-                                                        for(var k = 0 ; k < data[i][key[0]].length; k++){
+                                                        for(var k = 0 ; k < data.data[i][key[0]].length; k++){
                                                             if($(item).attr('value')){
-                                                                if($(item).attr('value').trim() == data[i][key[0]][k]){
+                                                                if($(item).attr('value').trim() == data.data[i][key[0]][k]){
                                                                     $(item).prop('checked',true);
                                                                 }
                                                             }
@@ -2193,25 +2570,50 @@
                                                     })
                                                 }
                                             }else{
-                                                if(data[i][key[0]] == null){
+                                                if(data.data[i][key[0]] == null){
                                                     $('input[name="'+key[0]+'[]"]').val("");
                                                 }else{
-                                                    $('input[name="'+key[0]+'[]"]').val(data[i][key[0]]);
+                                                    $('input[name="'+key[0]+'[]"]').val(data.data[i][key[0]]);
                                                 }
                                             }
                                         }else{
-                                            if(data[i][key[0]] == null){
+                                            if(data.data[i][key[0]] == null){
                                                 $('.project_imaget img').remove();
                                             }else{
                                                 if($('.project_imaget img').length > 0){
-                                                    $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]])
+                                                    $('.project_imaget img').attr('src',"{{URL::to('/')}}/storage/project_images/"+data.data[i][key[0]])
                                                 }else{
-                                                    $('.project_imaget').html('<img src="'+"{{URL::to('/')}}/storage/project_images/"+data[i][key[0]]+'">')
+                                                    $('.project_imaget').html('<img src="'+"{{URL::to('/')}}/storage/project_images/"+data.data[i][key[0]]+'">')
                                                 }
                                             }
                                         }
                                     }
                                 }
+                                
+                                
+                                $('.price-only').keyup(function(){
+                                    $('.price-only .error-text').remove();
+                                    if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                        if($(this).closest('.form-group').find('.error-text').length > 0){
+                                            $(this).val("");
+                                        }else{
+                                            $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                                            $(this).val("");
+                                        }
+                                        
+                                    }else{
+                                        let inputValue = $(this).val();
+
+                                        // Sadece sayı karakterlerine izin ver
+                                        inputValue = inputValue.replace(/\D/g, '');
+
+                                        // Her üç basamakta bir nokta ekleyin
+                                        inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                                        $(this).val(inputValue)
+                                        $(this).closest('.form-group').find('.error-text').remove();
+                                    }
+                                })
                                 
                                 if((parseInt($('.house_order_input').val())+1) == houseCount){
                                     thisx.addClass('disabled-button')
@@ -2224,6 +2626,84 @@
                                 $('.house_order_input').val(parseInt($('.house_order_input').val()) + 1)
                                 $('.room-order-progress').html(parseInt($('.house_order_input').val()))
                                 $('.error-border').removeClass('error-border');
+
+                                $('.dec-pay-area').remove();
+                                var newOrderx = (lastOrders + parseInt($('.house_order_input').val()));
+                                if(data.data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]){
+                                    $('.installement-dec-pay').closest('.form-group').after(`
+                                        <div class="dec-pay-area">
+                                            <div class="top">
+                                                <h4>Ara Ödemeler</h4>
+                                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <div class="pay-desc">
+                                                <div class="pay-desc-item">
+                                                    <div class="row" style="align-items: flex-end;">
+                                                        <div class="flex-1">
+                                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <input type="text" value="${data.data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tarihi</label>
+                                                            <input type="date" value="${data.data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `)
+
+                                    for(var i = 1; i < data.data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]; i++){
+                                        $('.pay-desc').append(`
+                                            <div class="pay-desc-item">
+                                                <div class="row" style="align-items: flex-end;">
+                                                    <div class="flex-1">
+                                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                    </div>
+                                                    <div class="flex-10">
+                                                        <label for="">Ara Ödeme Tutarı</label>
+                                                        <input type="text" value="${data.data2['pay_desc_price'+newOrderx+i] ? data.data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
+                                                    </div>
+                                                    <div class="flex-10">
+                                                        <label for="">Ara Ödeme Tarihi</label>
+                                                        <input type="date" value="${data.data2['pay_desc_date'+newOrderx+i] ? data.data2['pay_desc_date'+newOrderx+i] : ""}" class="form-control pay-desc-date">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `)
+                                    }
+                                }else{
+                                    
+                                    changeData(1,'pay-dec-count'+$('.house_order_input').val())
+                                    $('.installement-dec-pay').closest('.form-group').after(`
+                                        <div class="dec-pay-area">
+                                            <div class="top">
+                                                <h4>Ara Ödemeler</h4>
+                                                <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <div class="pay-desc">
+                                                <div class="pay-desc-item">
+                                                    <div class="row" style="align-items: flex-end;">
+                                                        <div class="flex-1">
+                                                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <input type="text" value="" class="price-only form-control pay-desc-price">
+                                                        </div>
+                                                        <div class="flex-10">
+                                                            <label for="">Ara Ödeme Tarihi</label>
+                                                            <input type="date" value="" class="form-control pay-desc-date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `)
+                                }
                             },
                             error: function (xhr, status, error) {
                                 // İstek hata verdiğinde çalışacak fonksiyon
@@ -2232,6 +2712,28 @@
                         });
                     }
                 }
+            })
+
+            $(document).on('click','.add-pay-dec',function(){
+                $('.pay-desc').append(`
+                    <div class="pay-desc-item">
+                        <div class="row" style="align-items: flex-end;">
+                            <div class="flex-1">
+                                <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                            </div>
+                            <div class="flex-10">
+                                <label for="">Ara Ödeme Tutarı</label>
+                                <input type="text" class="price-only pay-desc-price form-control">
+                            </div>
+                            <div class="flex-10">
+                                <label for="">Ara Ödeme Tarihi</label>
+                                <input type="date" class="form-control pay-desc-date">
+                            </div>
+                        </div>
+                    </div>
+                `)
+
+                changeData($('.pay-desc-item').length,'pay-dec-count'+$('.house_order_input').val())
             })
 
             $('#rulesOpenModal').click(function(){
@@ -2249,8 +2751,6 @@
                     e.stopPropagation();
                 }
             })
-
-            
 
             $('#paymentModal').click(function(){
                 $(this).removeClass('show')
@@ -2347,9 +2847,11 @@
             @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->top_row))
                 changeData(0,"top_row");
             @endif
+
             @if(!isset($tempDataFull) || !isset($tempData) || !isset($tempData->featured))
                 changeData(0,"featured");
             @endif
+
             $('.doping-square').click(function(){
                 if($(this).hasClass('selected')){
                     if($(this).attr('data-id') == "1"){
@@ -2371,9 +2873,11 @@
                     $(this).find('.doping-is-selected').html('Seçildi')
                 }
             })
+
             $('.doping-square select').click(function(e){
                 e.stopPropagation();
             })
+
             $('.doping-square select').change(function(e) {
                 var dataId = $(this).closest('.doping-square').attr('data-id')
                 if(dataId == "1"){
@@ -2889,7 +3393,6 @@
                                 }
                                 
                             })
-
                             
                             $('.copy-item').change(function(){
                                 console.log($(this).val())
@@ -2917,7 +3420,7 @@
                                     processData: false,
                                     contentType: false,
                                     success: function(response) {
-                                        var data = response;
+                                        var data = response.data;
                                         for(var i = 0 ; i < data.length; i++){
                                             var key = Object.keys(data[i])
                                             if(data[i].type == "select"){
@@ -2966,6 +3469,92 @@
                                                 }
                                             }
                                         }
+
+                                        var data2 = response.data2;
+
+
+                                        $('.dec-pay-area').remove();
+                                        var newOrderx = (parseInt($('.house_order_input').val()));
+                                        console.log(newOrderx);
+                                        if(data2['pay-dec-count'+( parseInt($('.house_order_input').val()))]){
+                                            $('.installement-dec-pay').closest('.form-group').after(`
+                                                <div class="dec-pay-area">
+                                                    <div class="top">
+                                                        <h4>Ara Ödemeler</h4>
+                                                        <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                    <div class="pay-desc">
+                                                        <div class="pay-desc-item">
+                                                            <div class="row" style="align-items: flex-end;">
+                                                                <div class="flex-1">
+                                                                    <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                                <div class="flex-10">
+                                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                                    <input type="text" value="${data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                                </div>
+                                                                <div class="flex-10">
+                                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                                    <input type="date" value="${data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `)
+
+                                            for(var i = 1; i < data2['pay-dec-count'+(lastOrders + parseInt($('.house_order_input').val()))]; i++){
+                                                $('.pay-desc').append(`
+                                                    <div class="pay-desc-item">
+                                                        <div class="row" style="align-items: flex-end;">
+                                                            <div class="flex-1">
+                                                                <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                            </div>
+                                                            <div class="flex-10">
+                                                                <label for="">Ara Ödeme Tutarı</label>
+                                                                <input type="text" value="${data2['pay_desc_price'+newOrderx+i] ? data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
+                                                            </div>
+                                                            <div class="flex-10">
+                                                                <label for="">Ara Ödeme Tarihi</label>
+                                                                <input type="date" value="${data2['pay_desc_date'+newOrderx+i] ? data2['pay_desc_date'+newOrderx+i] : ""}" class="form-control pay-desc-date">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                `)
+                                            }
+                                        }else{
+
+                                            $('.installement-dec-pay').closest('.form-group').after(`
+                                                <div class="dec-pay-area">
+                                                    <div class="top">
+                                                        <h4>Ara Ödemeler</h4>
+                                                        <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                    <div class="pay-desc">
+                                                        <div class="pay-desc-item">
+                                                            <div class="row" style="align-items: flex-end;">
+                                                                <div class="flex-1">
+                                                                    <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                                <div class="flex-10">
+                                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                                    <input type="text" value="" class="price-only form-control pay-desc-price">
+                                                                </div>
+                                                                <div class="flex-10">
+                                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                                    <input type="date" value="" class="form-control pay-desc-date">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            `)
+                                        }
+
+                                        
+                                        $('.loading-icon-right').remove();
+                                        $('.copy-item').val('')
+                                        confirmHousings();
                                         
                                         $('.loading-icon-right').remove();
                                         $('.copy-item').val('')
@@ -3041,7 +3630,7 @@
                                 confirmHousings();
                             })
 
-                            $('.price-only').keyup(function(){
+                            $(document).on('keyup','.price-only',function(){
                                 $('.price-only .error-text').remove();
                                 if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
                                     if($(this).closest('.form-group').find('.error-text').length > 0){
@@ -3071,7 +3660,6 @@
                                     $(this).val(3);
                                 }
                             })
-                            
 
                             $('.number-only').keyup(function(){
                                 $('.number-only .error-text').remove();
@@ -3104,9 +3692,6 @@
                                 $('.continue-disabled').closest('.form-group').remove();
                             }
 
-                            
-
-                            
                             $('.cover-image-by-housing-type').change(function(){
                                 var input = this;
                                 if (input.files && input.files[0]) {
@@ -3160,9 +3745,132 @@
                                     
                                 }
                             })
+                            
+                            $('.installement-dec-pay').closest('.form-group').after(`
+                                <div class="dec-pay-area">
+                                    <div class="top">
+                                        <h4>Ara Ödemeler</h4>
+                                        <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="pay-desc">
+                                        <div class="pay-desc-item">
+                                            <div class="row" style="align-items: flex-end;">
+                                                <div class="flex-1">
+                                                    <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <input type="text" value="{{isset($tempData->pay_desc_price10) ? $tempData->pay_desc_price10 : ''}}" class="price-only form-control pay-desc-price">
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                    <input type="date" value="{{isset($tempData->pay_desc_date10) ? $tempData->pay_desc_date10 : ""}}" class="form-control pay-desc-date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
 
-                            
-                            
+                            @if(isset($tempData->{"pay-dec-count1"}))
+                                @for($i = 1; $i < $tempData->{"pay-dec-count1"}; $i++)
+                                    $('.pay-desc').append(`
+                                        <div class="pay-desc-item">
+                                            <div class="row" style="align-items: flex-end;">
+                                                <div class="flex-1">
+                                                    <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <input type="text" value="{{ isset($tempData->{"pay_desc_price1".$i}) ? $tempData->{"pay_desc_price1".$i} : ""  }}" class="price-only pay-desc-price form-control">
+                                                </div>
+                                                <div class="flex-10">
+                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                    <input type="date" value="{{isset($tempData->{"pay_desc_date1".$i}) ? $tempData->{"pay_desc_date1".$i} : ""}}" class="form-control pay-desc-date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `)
+                                @endfor
+                            @endif
+
+
+                            $('.add-pay-dec').click(function(){
+                                $('.pay-desc').append(`
+                                    <div class="pay-desc-item">
+                                        <div class="row" style="align-items: flex-end;">
+                                            <div class="flex-1">
+                                                <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                            <div class="flex-10">
+                                                <label for="">Ara Ödeme Tutarı</label>
+                                                <input type="text" class="price-only pay-desc-price form-control">
+                                            </div>
+                                            <div class="flex-10">
+                                                <label for="">Ara Ödeme Tarihi</label>
+                                                <input type="date" class="form-control pay-desc-date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+
+                                changeData($('.pay-desc-item').length,'pay-dec-count'+$('.house_order_input').val())
+                            })
+
+                            $('.price-only').keyup(function(){
+                                $('.price-only .error-text').remove();
+                                if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                                    if($(this).closest('.form-group').find('.error-text').length > 0){
+                                        $(this).val("");
+                                    }else{
+                                        $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                                        $(this).val("");
+                                    }
+                                    
+                                }else{
+                                    let inputValue = $(this).val();
+
+                                    // Sadece sayı karakterlerine izin ver
+                                    inputValue = inputValue.replace(/\D/g, '');
+
+                                    // Her üç basamakta bir nokta ekleyin
+                                    inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                                    $(this).val(inputValue)
+                                    $(this).closest('.form-group').find('.error-text').remove();
+                                }
+                            })
+
+
+                            $(document).on("click",".remove-pay-dec",function(){
+                                var thisx = $(this);
+                                var itemIndex = $(this).closest('.pay-desc-item').index();
+                                var formData = new FormData();
+                                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                                formData.append('_token', csrfToken);
+                                formData.append('item_index',itemIndex);
+                                formData.append('item_type',1);
+                                formData.append('active_housing',$('.house_order_input').val());
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{route('institutional.temp.order.remove.pay.dec')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                        console.log(response);
+                                        thisx.closest('.pay-desc-item').remove()
+                                    },
+                                });
+                            })
+
+                            $(document).on('change','.pay-desc-price',function(){
+                                changeData($(this).val(),'pay_desc_price'+($('.house_order_input').val()+''+$(this).closest('.pay-desc-item').index()))
+                            })
+
+                            $(document).on('change','.pay-desc-date',function(){
+                                changeData($(this).val(),'pay_desc_date'+($('.house_order_input').val()+''+$(this).closest('.pay-desc-item').index()))
+                            })
 
                             $('#tablist').attr('style','height:'+$('.tab-content').css('height')+' !important;flex-wrap:nowrap;overflow:scroll;')
 
@@ -3402,10 +4110,10 @@
                 }
             })
 
-
             function datediff(first, second) {        
                 return Math.round((second - first) / (1000 * 60 * 60 * 24));
             }
+
             $('.list-dates').click(function(){
                 if($('.doping_statuses').val() == ""){
                     $('.doping_statuses').addClass('error-border')
@@ -3537,7 +4245,6 @@
                 
                 $(this).off(e);
             })
-            
             
             function changeData(value,key,isArray = 0){
                 var formData = new FormData();
@@ -3750,10 +4457,6 @@
                 $(this).find('input').attr('checked','checked');
                 $(this).find('.price-radio').addClass('select')
                 $('.pricing-select-first .error-text').remove();
-            })
-
-            $('.photo-area').click(function(){
-
             })
 
             function getCopyList(housingCount,currentItemKey){
