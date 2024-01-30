@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\CancelRequest;
 use App\Models\CartOrder;
 use App\Models\CartPrice;
 use App\Models\DocumentNotification;
@@ -11,11 +12,13 @@ use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\Project;
 use App\Models\Reservation;
 use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\UserPlan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller {
@@ -31,6 +34,12 @@ class HomeController extends Controller {
         return view( 'admin.home.index', compact( 'comments', 'countUser', 'passiveProjects', 'clients', 'institutionals', 'projects', 'secondhandHousings', 'descProjects' ) );
     }
 
+    public function orderDetail($id){
+        $order = CartOrder::where('id',$id)->first();
+
+        return view('admin.orders.detail',compact('order'));
+    }
+
     public function getPackageOrders() {
         $cartOrders = UserPlan::with( 'user', 'subscriptionPlan' )->where( 'subscription_plan_id', '!=', NULL )->get();
         return view( 'admin.package-orders.index', compact( 'cartOrders' ) );
@@ -41,11 +50,40 @@ class HomeController extends Controller {
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
+   
+
     public function getReservations() {
-        $housingReservations = Reservation::with( 'user', 'housing', 'owner' )
+        $housingReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','=',1)->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->whereNull('cancel_requests.id')
+        ->get();
+        $confirmReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','!=',3)->where('status','!=',1)->where('check_in_date','>=',date('Y-m-d'))->where('status','!=',3)->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->whereNull('cancel_requests.id')
         ->get();
 
-        return view( 'admin.reservations.index', compact( 'housingReservations' ) );
+        $expiredReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('check_in_date','<=',date('Y-m-d'))->where('status','!=',3)
+        ->get();
+
+        $cancelReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','=',3)
+        ->get();
+
+        $cancelRequestReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->where('status','!=',3)->whereNotNull('cancel_requests.id')
+        ->get();
+
+        return view( 'admin.reservations.index', compact( 'housingReservations','cancelReservations',"expiredReservations","confirmReservations","cancelRequestReservations" ) );
+    }
+
+    public function deleteCancelRequest($id){
+        $reservation = Reservation::where('id',$id)->first();
+        $cancelRequest = $reservation->cancelRequest;
+        $cancelRequest->delete();
+
+        return redirect()->route('admin.reservations',["status" => "cancel_cancel_request"]);
+    }
+
+    public function reservationInfo($id){
+        $reservation = Reservation::with("user","owner","cancelRequest")->where('id',$id)->first();
+
+        return json_encode([
+            "reservation" => $reservation
+        ]);
     }
 
     public function approveShare( $share ) {
@@ -191,7 +229,8 @@ class HomeController extends Controller {
     }
 
     public function unapproveReservation( Reservation $reservation ) {
-        $reservation->update( [ 'status' => '2' ] );
+        $reservation->update( [ 'status' => '3' ] );
+        CancelRequest::where('reservation_id',$reservation->id)->delete();
         return redirect()->back();
     }
 

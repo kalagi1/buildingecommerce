@@ -13,6 +13,38 @@ use Throwable;
 
 class TempOrderController extends Controller
 {
+    public function removePayDecItem(Request $request){
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+
+        $tempData = json_decode($tempOrder->data);
+
+        for($i = 0 ; $i < $tempData->{"pay-dec-count".$request->active_housing} ; $i++){
+            if($i == $tempData->{"pay-dec-count".$request->active_housing} - 1 ){
+                unset($tempData->{"pay_desc_date".$request->active_housing.$i});
+                unset($tempData->{"pay_desc_price".$request->active_housing.$i});
+            }else{
+                if($i >= $request->input('item_index')){
+                    if(isset($tempData->{"pay_desc_price".$request->active_housing.($i+1)}) && $tempData->{"pay_desc_price".$request->active_housing.($i+1)}){
+                        $tempData->{"pay_desc_price".$request->active_housing.$i} =  $tempData->{"pay_desc_price".$request->active_housing.($i+1)};
+                    }
+
+                    if(isset($tempData->{"pay_desc_date".$request->active_housing.($i+1)}) && $tempData->{"pay_desc_date".$request->active_housing.($i+1)}){
+                        $tempData->{"pay_desc_date".$request->active_housing.$i} =  $tempData->{"pay_desc_date".$request->active_housing.($i+1)};
+                    }
+                }
+            }
+        }
+
+        $tempData->{"pay-dec-count".$request->active_housing} = $tempData->{"pay-dec-count".$request->active_housing} - 1;
+
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            "data" => json_encode($tempData),
+        ]);
+        
+        return json_encode([
+            "status" => true
+        ]);
+    }
 
     public function locationControl(Request $request){
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
@@ -651,8 +683,25 @@ class TempOrderController extends Controller
                 array_push($data,[str_replace('[]','',$formData->name) => $this->getDataByKey($request->input('order'),$tempData,$formData->name) , "type" => $formData->type]);
             }
         }
+        $data2 = [];
+        if(isset($tempData->{"pay-dec-count".($request->input('order') + 1)})){
+            $data2["pay-dec-count".($request->input('order') + 1)] = $tempData->{"pay-dec-count".($request->input('order') + 1)};
+        }
+        if(isset($tempData->{"pay-dec-count".(intval($request->input('order')) + 1)})){
+            for($i = 0 ; $i < $tempData->{"pay-dec-count".intval($request->input('order') + 1)}; $i++){
+                if(isset($tempData->{"pay_desc_price".($request->input('order') + 1).$i})){
+                    $data2["pay_desc_price".($request->input('order') + 1).$i] = $tempData->{"pay_desc_price".($request->input('order') + 1).$i};
+                }
 
-        return $data;
+                if(isset($tempData->{"pay_desc_date".($request->input('order') + 1).$i})){
+                    $data2["pay_desc_date".($request->input('order') + 1).$i] = $tempData->{"pay_desc_date".($request->input('order') + 1).$i};
+                }
+            }
+        }
+        return [
+            "data" => $data,
+            "data2" => $data2 
+        ];
     }
 
     public function getHouseDataFunc($lastOrder,$itemType){
@@ -708,13 +757,47 @@ class TempOrderController extends Controller
             }
         }
 
+        if(isset($tempData->{"pay-dec-count".($request->input('last_order')+1)}) && $tempData->{"pay-dec-count".($request->input('last_order')+1)}){
+            $tempData->{"pay-dec-count".($request->input('new_order')+1)} = $tempData->{"pay-dec-count".($request->input('last_order')+1)};
+                
+            for($i = 0; $i < $tempData->{"pay-dec-count".($request->input('last_order')+1)} ; $i++){
+                if(isset($tempData->{"pay_desc_price".($request->input('last_order') + 1).$i}) && $tempData->{"pay_desc_price".($request->input('last_order') + 1).$i}){
+                    $tempData->{"pay_desc_price".($request->input('new_order') + 1).$i} = $tempData->{"pay_desc_price".($request->input('last_order') + 1).$i};
+                }
+
+                if(isset($tempData->{"pay_desc_date".($request->input('last_order') + 1).$i}) && $tempData->{"pay_desc_date".($request->input('last_order') + 1).$i}){
+                    $tempData->{"pay_desc_date".($request->input('new_order') + 1).$i} = $tempData->{"pay_desc_date".($request->input('last_order') + 1).$i};
+                }
+            }
+        }
+
         $tempOrder->update([
             "data" => json_encode($tempData)
         ]);
 
         $dataCopyItem = $this->getHouseDataFunc($request->input('new_order'),$request->input('item_type'));
-        
-        return $dataCopyItem;
+
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+        $data2 = [];
+        if(isset($tempData->{"pay-dec-count".($request->input('new_order') + 1)})){
+            $data2["pay-dec-count".($request->input('new_order') + 1)] = $tempData->{"pay-dec-count".($request->input('new_order') + 1)};
+        }
+        if(isset($tempData->{"pay-dec-count".(intval($request->input('new_order')) + 1)})){
+            for($i = 0 ; $i < $tempData->{"pay-dec-count".intval($request->input('new_order') + 1)}; $i++){
+                if(isset($tempData->{"pay_desc_price".($request->input('new_order') + 1).$i})){
+                    $data2["pay_desc_price".($request->input('new_order') + 1).$i] = $tempData->{"pay_desc_price".($request->input('new_order') + 1).$i};
+                }
+
+                if(isset($tempData->{"pay_desc_date".($request->input('new_order') + 1).$i})){
+                    $data2["pay_desc_date".($request->input('new_order') + 1).$i] = $tempData->{"pay_desc_date".($request->input('new_order') + 1).$i};
+                }
+            }
+        }
+        return [
+            "data" => $dataCopyItem,
+            "data2" => $data2
+        ];
     }
 
     public function housingConfirmFull(Request $request){

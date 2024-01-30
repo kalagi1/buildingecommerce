@@ -42547,3 +42547,259 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     font-size: 16px;
     font-weight: bold;
 }
+
+.modal-reservation-cancel{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.modal-reservation-bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #33333347;
+}
+
+.modal-reservation-cancel-content{
+    position: relative;
+    z-index: 999;
+    width: 50%;
+    background: #fff;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.modal-reservation-cancel-content .title-top{
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.reservation-cancel-table table{
+    width: 100%;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.reservation-cancel-table table tr{
+    border-bottom: 1px solid #333;
+}
+
+.reservation-cancel-table table tr th{
+    border-right: 1px solid #333;
+    padding:5px 10px ;
+}
+
+.reservation-cancel-table table tr td{
+    border-right: 1px solid #333;
+    padding:5px 10px ;
+}
+
+.modal-reservation-cancel-content .close{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: -15px;
+    right: -15px;
+    background: #fff;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.breadcrumb{
+    padding: 10px 20px;
+    background: #fff;
+}
+
+.breadcrumb ul{
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb ul li{
+    margin-right: 20px;
+    position: relative;
+}
+
+.breadcrumb ul li::after {
+    font-family: 'Font Awesome 5 Free'; /* Font Awesome font family */
+    content: '\f054'; 
+    position: absolute;
+    top: 35%;
+    width: 8px;
+    height: 8px;
+    right: -14px;
+    transform: translateY(-50%);
+    /* İstediğiniz diğer stillendirmeleri burada ekleyebilirsiniz */
+    font-size: 9px;
+}
+
+.breadcrumb ul li:last-child::after{
+    content: '';
+}
+
+.button-back{
+    padding: 5px 10px;
+    border: 1px solid #ea2a28;
+    border-radius: .25rem;
+    font-size: 12px;
+    color: #ea2a28;
+    background: #fff;
+}
+
+.button-back:hover{
+    transition: .5s;
+    color: #fff;
+    background: #ea2a28;
+}
+
+.order-status-container{
+    padding: 20px;
+    background: #46cd93;
+    display: flex;
+    color: #fff;
+    justify-content: space-between;
+}
+
+.button-rotate-back{
+    padding: 5px 10px;
+    border: 1px solid #fff;
+    border-radius: .25rem;
+    font-size: 12px;
+    color: #fff;
+}
+
+.button-rotate-back:hover{
+    transition: .5s;
+    color: #46cd93;
+    background: #fff;
+}
+
+.order-detail-inner{
+    border: 1px solid #ebebeb !important;
+}
+
+.order-detail-inner .title{
+    display: flex;
+    border-bottom:1px solid #ebebeb !important;
+    padding-bottom: 10px;
+}
+
+.order-detail-inner .title h4{
+    margin-left: 10px;
+}
+
+.order-detail-product{
+    border: 1px solid #ebebeb !important;
+}
+
+.order-detail-product .product-info{
+    display: flex;
+    align-items: center;
+}
+
+.order-detail-product .product-info img{
+    width: 100px;
+}
+
+.order-detail-product .product-info .product-text-info{
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.order-detail-product .product-info .product-text-info p{
+    margin-bottom: 0;
+}
+
+
+.w-150px{
+    width: 150px;
+}
+
+.jc-space-between{
+    justify-content: space-between;
+}
+
+.order-detail-product-2{
+    border-top: 1px solid #ebebeb !important;
+}
+
+.product-order-card{
+    border: 1px solid #ebebeb !important;
+}
+
+.product-order-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px 0;
+}
+
+.border-line{
+    border-top: 1px solid #ebebeb !important;
+    height: 1px;
+    width: 100%;
+}
+
+.product-order-card span{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.order-not-cancel span{
+    font-size: 13px;
+    font-weight: 300;
+    color: #999;
+}
+
+.order-not-cancel .checkbox{
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.order-not-cancel .checkbox input{
+    width: 20px;
+    height: 20px;
+}
+
+.order-not-cancel .checkbox label{
+    margin-left: 5px;
+    font-size: 13px;
+    font-weight: 700;
+    color: red;
+}
+
+.dec-pay-area{
+    border: 1px solid #ebebeb;
+    padding: 10px;
+}
+
+.dec-pay-area .top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-10{
+    flex: 20;
+}
+
+.flex-1{
+    flex: 1;
+}
+
+.pay-desc-item{
+    margin-top: 10px;
+}

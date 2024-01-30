@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Institutional;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\CancelRequest;
 use App\Models\CartOrder;
 use App\Models\Collection;
 use App\Models\DocumentNotification;
@@ -28,14 +29,36 @@ class DashboardController extends Controller
             return view('institutional.reservations.index', compact('housingReservations'));
 
     }
+
     public function getMyReservations() {
         $user = Auth::user();
         $housingReservations = Reservation::with("user", "housing","owner")
             ->where("user_id", $user->id)
+            ->where('status','!=',3)
             ->get();
 
-    return view('institutional.reservations.get', compact('housingReservations'));
+        return view('institutional.reservations.get', compact('housingReservations'));
 
+    }
+
+    public function cancelReservationRequest(Request $request,$id){
+        CancelRequest::create([
+            "reservation_id" => $id,
+            "description" => $request->input('reservation_cancel_text'),
+            "iban" => $request->input('iban'),
+            "iban_name" => $request->input('iban_name'),
+            "item_type" => 1,
+        ]);
+
+        return redirect()->route('institutional.myreservations',["status" => "cancel_reservation_request"]);
+    }
+
+    public function cancelReservationCancel($id){
+        CancelRequest::where('id',$id)->delete();
+
+        return [
+            "status" => true
+        ];
     }
     
 
