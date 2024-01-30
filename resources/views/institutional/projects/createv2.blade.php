@@ -1492,9 +1492,26 @@
                         }
                     })
 
-
                     $(document).on("click",".remove-pay-dec",function(){
-                        $(this).closest('.pay-desc-item').remove()
+                        var thisx = $(this);
+                        var itemIndex = $(this).closest('.pay-desc-item').index();
+                        var formData = new FormData();
+                        var csrfToken = $("meta[name='csrf-token']").attr("content");
+                        formData.append('_token', csrfToken);
+                        formData.append('item_index',itemIndex);
+                        formData.append('item_type',1);
+                        formData.append('active_housing',$('.house_order_input').val());
+                        $.ajax({
+                            type: "POST",
+                            url: "{{route('institutional.temp.order.remove.pay.dec')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                console.log(response);
+                                thisx.closest('.pay-desc-item').remove()
+                            },
+                        });
                     })
 
                     $(document).on('change','.pay-desc-price',function(){
@@ -3793,29 +3810,6 @@
                                     `)
                                 @endfor
                             @endif
-
-
-                            $('.add-pay-dec').click(function(){
-                                $('.pay-desc').append(`
-                                    <div class="pay-desc-item">
-                                        <div class="row" style="align-items: flex-end;">
-                                            <div class="flex-1">
-                                                <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                            <div class="flex-10">
-                                                <label for="">Ara Ödeme Tutarı</label>
-                                                <input type="text" class="price-only pay-desc-price form-control">
-                                            </div>
-                                            <div class="flex-10">
-                                                <label for="">Ara Ödeme Tarihi</label>
-                                                <input type="date" class="form-control pay-desc-date">
-                                            </div>
-                                        </div>
-                                    </div>
-                                `)
-
-                                changeData($('.pay-desc-item').length,'pay-dec-count'+$('.house_order_input').val())
-                            })
 
                             $('.price-only').keyup(function(){
                                 $('.price-only .error-text').remove();
