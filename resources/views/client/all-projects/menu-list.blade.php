@@ -169,38 +169,78 @@
                             <div>
                                 <a id="clear-filters"
                                     style="font-size: 11px;text-decoration: underline !important;color: black;cursor: pointer;margin-bottom: 10px;text-align: left;width: 100%;display: block;">Temizle</a>
-                                @if (isset($items) && count($items) > 0 && isset($housingTypeSlugName))
-                                
+                                @if (isset($items) && count($items) > 0)
+
                                     <div class="trip-search itemsDiv">
                                         <div class="recent-post">
-                                            <h3><a href="{{ url('kategori/' . $housingTypeParentSlug ) }}" style="color: #444">{{ $housingTypeSlugName }}</a></h3>
+                                            @if ($slugName)
+                                                <h3 style="padding: 0.5rem 0; margin-bottom:0"><a
+                                                        href="{{ url('kategori/' . $slugItem) }}"
+                                                        style="color: #444">{{ $slugName }}</a></h3>
+
+                                            @endif
+                                            @if ($housingTypeParentSlug)
+                                                <h3 style="margin-bottom:0;"><a
+                                                        href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . $housingTypeParentSlug) }}"
+                                                        style="color: #444"><i class="fa fa-caret-right"
+                                                            style="padding: 0.5rem 0;margin-right: 1rem;"
+                                                            aria-hidden="true"></i>{{ $housingTypeSlugName }}</a></h3>
+
+                                            @endif
                                             <ul>
                                                 @foreach ($items as $key => $item)
                                                     <li @if ($optName) class="@if ($optName == $item->title) d-show
                                                         @else
                                                         d-none @endif"
                                                         @endif
-                                                        
-                                                        style="border-bottom: 1px solid #eaeff5;padding: 0 !important">
+
+                                                        style="padding: 0 !important;@if ($housingTypeParentSlug) margin-left: 20px  @else ' ' @endif">
                                                         <a
-                                                            href="{{ url('kategori/' . $housingTypeParentSlug . '/' . $item->slug) }}"><i
-                                                                class="fa fa-caret-right"
-                                                                style="padding: 0.5rem 0;"
+                                                            href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug) }}"><i
+                                                                class="fa fa-caret-right" style="padding: 0.5rem 0;"
                                                                 aria-hidden="true"></i>{{ $item->title }}</a>
-                                                                @if (isset($item->connections) && count($item->connections) > 0)
+
+
+                                                        @if (isset($item->parents) && count($item->parents) > 0)
+                                                            <ul style="margin-left: 20px" class="item_submenu">
+                                                                @foreach ($item->parents as $parent)
+                                                                    <li @if ($housingTypeSlug) class="@if ($housingTypeSlug == $parent->slug) d-show
+                                                                            @else
+                                                                            d-none @endif"
+                                                                        @endif><a
+                                                                            href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $parent->slug) }}">
+                                                                            <i class="fa fa-caret-right"
+                                                                                aria-hidden="true"></i>{{ $parent->title }}</a>
+                                                                    </li>
+                                                                    @if (isset($parent->connections) && count($parent->connections) > 0)
+                                                                        <ul style="margin-left: 20px" class="item_submenu">
+                                                                            @foreach ($parent->connections as $connection)
+                                                                                <li @if ($housingTypeSlug) class="@if ($housingTypeSlug == $connection->housingType->slug) d-show
+                                                                                    @else
+                                                                                    d-none @endif"
+                                                                                    @endif><a
+                                                                                        href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
+                                                                                </li>
+                                                                            @endforeach
+                                                                        </ul>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        @else
+                                                            @if (isset($item->connections) && count($item->connections) > 0)
                                                                 <ul style="margin-left: 20px" class="item_submenu">
                                                                     @foreach ($item->connections as $connection)
                                                                         <li @if ($housingTypeSlug) class="@if ($housingTypeSlug == $connection->housingType->slug) d-show
                                                                             @else
                                                                             d-none @endif"
                                                                             @endif><a
-                                                                                href="{{ url('kategori/' . $housingTypeParentSlug . '/' . $item->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
+                                                                                href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
                                                             @endif
+                                                        @endif
                                                     </li>
-                                                   
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -874,35 +914,35 @@
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button
-                                                                                                                                                                                                        class="btn second-btn " 
-                                                                                                                                                                                                        style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı
-                                                                                                                                                                                                    </button>`
+                                                                                                                                                                                                                    class="btn second-btn " 
+                                                                                                                                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı
+                                                                                                                                                                                                                </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                                                                                                            class="btn second-btn " 
-                                                                                                                                                                                                            style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
-                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                        class="btn second-btn " 
+                                                                                                                                                                                                                        style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
+                                                                                                                                                                                                                    </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                                                                                                                class="btn second-btn " 
-                                                                                                                                                                                                                style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
-                                                                                                                                                                                                            </button>`
+                                                                                                                                                                                                                            class="btn second-btn " 
+                                                                                                                                                                                                                            style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
+                                                                                                                                                                                                                        </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                                                                    data-id='${res.id}'>
-                                                                                                                                                                                                    <span class="IconContainer">
-                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                </button>` :
+                                                                                                                                                                                                                data-id='${res.id}'>
+                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                            </button>` :
                                                             `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                                                                                                                                                                                <span class="IconContainer">
-                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                </span>
-                                                                                                                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                                                                            </button>`
+                                                                                                                                                                                                            <span class="IconContainer">
+                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                        </button>`
                                                             }
                                                         </ul>
                                                     </div>
@@ -955,36 +995,36 @@
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                     res.offSale ?
                                                         `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                                                                                                            style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                                                                                                                <span class="text">Satışa Kapatıldı</span>
-                                                                                                                                                            </button>`
+                                                                                                                                                                            <span class="text">Satışa Kapatıldı</span>
+                                                                                                                                                                        </button>`
                                                         :
                                                         res.action === 'payment_await' ?
                                                             `<button
-                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                style="background: orange !important;width:100%;color:White">Rezerve Edildi
-                                                                                                                                                                                            </button>`
+                                                                                                                                                                                                            class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                            style="background: orange !important;width:100%;color:White">Rezerve Edildi
+                                                                                                                                                                                                        </button>`
                                                             :
                                                             res.action === 'sold' ?
                                                                 `<button
-                                                                                                                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                            </button>`
                                                                 :
                                                                 `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                                                                    data-id='${res.id}'>
-                                                                                                                                                                                                    <span class="IconContainer">
-                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                    </span>
-                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                </button>` :
+                                                                                                                                                                                                                data-id='${res.id}'>
+                                                                                                                                                                                                                <span class="IconContainer">
+                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                            </button>` :
                                                                     `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
-                                                                                                                                                                                                        <span class="IconContainer">
-                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                        </span>
-                                                                                                                                                                                                        <span class="text">Rezervasyon Yap</span>
-                                                                                                                                                                                                    </button>`
+                                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                    <span class="text">Rezervasyon Yap</span>
+                                                                                                                                                                                                                </button>`
                                                                 }
                                                                     </div>
                                                                     <span class="ml-auto text-primary priceFont"

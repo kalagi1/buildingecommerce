@@ -215,6 +215,7 @@ class ProjectController extends Controller
         $secondhandHousings = [];
         $projects = [];
         $slug = [];
+        $slugItem = null;
         $slugName = [];
 
         $housingTypeSlug = [];
@@ -302,8 +303,10 @@ class ProjectController extends Controller
 
 
                     if ($item1) {
+                        $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id",null)->get();
                         $is_project = $item1->is_project;
                         $slugName = $item1->name;
+                        $slugItem = $item1->slug;
                         $slug = $item1->id;
                     }
 
@@ -522,7 +525,7 @@ class ProjectController extends Controller
             }
         }
 
-        return view('client.all-projects.menu-list', compact('filters',"items",'nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        return view('client.all-projects.menu-list', compact('filters',"slugItem","items",'nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)
