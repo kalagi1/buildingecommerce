@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('real_estate_forms', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("mobile_phone")->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('real_estate_forms', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

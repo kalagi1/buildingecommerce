@@ -67,12 +67,11 @@
 
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
-                                       
-                                                <input type="password" name="password" id="passwordInput"
-                                                    class="form-control">
-                                                    <i id="eyeIcon" class="fa fa-eye-slash field-icon"
-                                                    onclick="togglePassword()"></i>
-                                        
+
+                                            <input type="password" name="password" id="passwordInput" class="form-control">
+                                            <i id="eyeIcon" class="fa fa-eye-slash field-icon"
+                                                onclick="togglePassword()"></i>
+
                                         </div>
                                         <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
                                         <script>
@@ -193,22 +192,25 @@
                                             @endif
                                         </div>
 
+
                                         <div class="mt-3">
-                                            <label class="q-label">Sabit Telefon</label>
-                                            <input type="number" name="phone"
-                                                class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
-                                                value="{{ old('phone') }}">
-                                            @if ($errors->has('phone'))
-                                                <span class="error-message">{{ $errors->first('phone') }}</span>
+                                            <label class="q-label">Cep Telefonu</label>
+                                            <input type="number" name="mobile_phone"
+                                                class="form-control {{ $errors->has('mobile_phone') ? 'error-border' : '' }}"
+                                                value="{{ old('mobile_phone') }}">
+                                            @if ($errors->has('mobile_phone'))
+                                                <span class="error-message">{{ $errors->first('mobile_phone') }}</span>
                                             @endif
                                         </div>
 
+
+
+
                                         <div class="mt-3">
                                             <label class="q-label">Şifre</label>
-                                            <input type="password" name="password"
-                                            id="passwordInput2"
+                                            <input type="password" name="password" id="passwordInput2"
                                                 class="form-control {{ $errors->has('password') ? 'error-border' : '' }}">
-                                                <i id="eyeIcon2" class="fa fa-eye-slash field-icon"
+                                            <i id="eyeIcon2" class="fa fa-eye-slash field-icon"
                                                 onclick="togglePassword2()"></i>
                                             @if ($errors->has('password'))
                                                 <span class="error-message">{{ $errors->first('password') }}</span>
@@ -246,6 +248,7 @@
                                                 @endif
                                             </div>
 
+
                                             <!-- Firma Adı -->
                                             <div class="mt-3">
                                                 <label class="q-label">Firma Adı
@@ -262,7 +265,15 @@
                                                 @endif
                                             </div>
 
-
+                                            <div class="mt-3">
+                                                <label class="q-label">Sabit Telefon</label>
+                                                <input type="number" name="phone"
+                                                    class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
+                                                    value="{{ old('phone') }}">
+                                                @if ($errors->has('phone'))
+                                                    <span class="error-message">{{ $errors->first('phone') }}</span>
+                                                @endif
+                                            </div>
                                             <div class="mt-3">
                                                 <label class="q-label">Iban</label>
                                                 <input type="text" name="iban"
@@ -844,22 +855,23 @@
 
 @section('styles')
     <style>
-
         #passwordInput {
             position: relative;
 
         }
+
         #passwordInput2 {
             position: relative;
 
         }
+
         .field-icon {
             float: right;
-    margin-right: 9px;
-    margin-top: -26px;
-    position: relative;
-    z-index: 2;
-    z-index: 9999;
+            margin-right: 9px;
+            margin-top: -26px;
+            position: relative;
+            z-index: 2;
+            z-index: 9999;
         }
 
         .hidden {
@@ -871,7 +883,7 @@
         }
 
         .error-border {
-            border: 1px solid #EA2B2E !important;
+            border-color: #EA2B2E !important;
         }
 
         .error-message {

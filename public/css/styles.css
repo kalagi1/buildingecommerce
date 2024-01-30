@@ -23515,7 +23515,7 @@ a.btn_1 {
     padding: 9px !important;
     /* border: none !important; */
     color: #717171 !important;
-    border-color: #eee !important;
+    border-color: #eee ;
     padding: 0 1rem;
     border-radius: 0 !important;
 }
