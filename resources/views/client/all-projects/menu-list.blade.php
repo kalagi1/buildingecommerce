@@ -219,7 +219,7 @@
                                                                                     @else
                                                                                     d-none @endif"
                                                                                     @endif><a
-                                                                                        href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
+                                                                                        href="{{ url('kategori/' . ($slugItem ? $slugItem . '/' : '') . ($housingTypeParentSlug ? $housingTypeParentSlug . '/' : '') . $item->slug . '/' . $parent->slug . '/' . $connection->housingType->slug) }}">{{ $connection->housingType->title }}</a>
                                                                                 </li>
                                                                             @endforeach
                                                                         </ul>
