@@ -174,10 +174,6 @@
                                         <!-- Add this script at the end of your HTML body or after Bootstrap's JavaScript files -->
                                         <script>
                                             function copyLinkAndShare(link) {
-                                                // Copy link
-                                                copyLink(link);
-                                        
-                                                // Share on WhatsApp
                                                 window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
                                             }
                                         
