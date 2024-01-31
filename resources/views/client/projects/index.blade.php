@@ -451,7 +451,6 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane d-lg-none fade blog-info details mb-30 single homes-content" id="general"
                             role="tabpanel" aria-labelledby="general-tab">
-                            <h5 class="mb-4">Genel Bilgi</h5>
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
@@ -552,7 +551,6 @@
                             <div class="similar-property featured portfolio p-0 bg-white">
 
                                 <div class="single homes-content">
-                                    <h5 class="mb-4">Özellikler</h5>
 
                                     <table class="table ">
                                         <tbody class="trStyle">
@@ -674,7 +672,6 @@
                         </div>
                         <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
-                            <h5 class="mb-4">Açıklama</h5>
 
                             {!! $project->description !!}
                         </div>
@@ -1948,7 +1945,7 @@
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                             aria-labelledby="contact-tab">
-                            <div id="mapContainer" style="height: 300px"></div>
+                            <div id="mapContainer" style="height: 100%"></div>
                         </div>
                     </div>
                 </div>

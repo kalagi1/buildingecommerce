@@ -206,20 +206,10 @@
                     <table class="pay-desc-table">
                         <thead>
                             <tr>
-                                <th style="text-align:left !important;">Ara Ödeme Tutarı</th>
-                                <th style="text-align:left !important;">Ara Ödeme Tarihi</th>
+                                <td>Peşin</td>
+                                <td>Peşin</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Peşin</td>
-                                <td>Peşin</td>
-                            </tr>
-                            <tr>
-                                <td>Taksitli</td>
-                                <td>1.400.000,00₺</td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -626,33 +616,29 @@
                                         var advanceData = formatPrice(getDataJS(response,
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
-                                        console.log((parseFloat(getDataJS(response,
-                                            "installments-price[]", response
-                                            .room_info[
-                                                i].room_order)) - parseFloat(getDataJS(
-                                            response, "advance[]", response
-                                            .room_info[i]
-                                            .room_order))));
                                         
                                         order = parseInt(order);
                                         var payDecPrice = 0;
-                                        $('.pay-desc-table tbody tr').remove();
+                                        $('.pay-desc-table thead tr').remove();
                                         if(getDataJS(response,"pay-dec-count"+(order + 1),response.room_info[i].room_order)){
                                             for(var l = 0 ; l < getDataJS(response,"pay-dec-count"+(order+1),response.room_info[i].room_order); l++){
                                                 var html2 = "<tr>";
+                                                    html2 += "<th style='text-align:center !important;'>"+(l + 1)+". Ödeme</th>";
+                                                    html2 += "<th style='text-align:center !important;'>Ara Ödeme Tutarı: </th>";
                                                 if(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order)){
                                                     payDecPrice += parseFloat(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order));
-                                                    html2 += "<td style='text-align:left !important;'><span style='padding:10px 10px 10px 30px;'>"+formatPrice(parseFloat(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order)))+"</span></td>"
+                                                    html2 += "<th style='text-align:center !important;'>"+formatPrice(parseFloat(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order)))+"</th>"
                                                 }
+                                                html2 += "<th style='text-align:center !important;'>Ara Ödeme Tarihi: </th>";
 
                                                 if(getDataJS(response,"pay_desc_date"+(order + 1)+l,response.room_info[i].room_order)){
                                                     var payDescDate = new Date(getDataJS(response,"pay_desc_date"+(order + 1)+l,response.room_info[i].room_order));
-                                                    html2 += "<td style='text-align:left !important;'><span >"+( months[payDescDate.getMonth()]+' '+payDescDate.getDate()+', '+payDescDate.getFullYear())+"</span></td>"
+                                                    html2 += "<th style='text-align:center !important;'>"+( months[payDescDate.getMonth()]+' '+payDescDate.getDate()+', '+payDescDate.getFullYear())+"</th>"
                                                 }
 
                                                 html2 += "</tr>"
 
-                                                $('.pay-desc-table tbody').append(html2);
+                                                $('.pay-desc-table thead').append(html2);
                                             }
                                         }
                                         var monhlyPrice = (formatPrice((( parseFloat(getDataJS(response,"installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order)) - payDecPrice) / parseInt(installementData)))) + '₺';

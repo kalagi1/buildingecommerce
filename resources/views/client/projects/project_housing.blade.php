@@ -576,14 +576,12 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
                             aria-labelledby="home-tab">
-                            <h5 class="mb-4">Açıklama</h5>
                             {!! $project->description !!}
                         </div>
                         <div class="tab-pane fade blog-info details mb-30" id="profile" role="tabpanel"
                             aria-labelledby="profile-tab">
                             <div class="similar-property featured portfolio p-0 bg-white">
                                 <div class="single homes-content">
-                                    <h5 class="mb-4">Özellikler</h5>
                                     <table class="table">
                                         <tbody class="trStyle">
                                             <tr>
@@ -713,7 +711,6 @@
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="container">
-                                        <h5 class="mb-4">Projedeki Konutlar </h5>
 
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 ">
@@ -1391,7 +1388,6 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
-                                            <h5 class="mb-4">Projedeki Konutlar </h5>
 
                                             <div class="row project-filter-reverse blog-pots">
                                                 @for ($i = 0; $i < $project->room_count; $i++)
@@ -1980,7 +1976,6 @@
                         </div>
                         <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
                             aria-labelledby="payment">
-                            <h5 class="mb-4">Ödeme Planı</h5>
                             @php
                                 $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'];
                                 $soldStatus = optional($sold)->status;
@@ -2016,7 +2011,7 @@
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
                             aria-labelledby="contact-tab">
-                            <div id="map"></div>
+                            <div id="mapContainer" style="height: 100%"></div>
                         </div>
                     </div>
                 </div>
@@ -2038,7 +2033,7 @@
     <script>
         function initMap() {
             // İlk harita görüntüsü
-            var map = new google.maps.Map(document.getElementById('map'), {
+            var map = new google.maps.Map(document.getElementById('mapContainer'), {
                 center: {
                     lat: {{ explode(',', $project->location)[0] }},
                     lng: {{ explode(',', $project->location)[1] }}
