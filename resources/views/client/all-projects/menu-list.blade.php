@@ -406,6 +406,8 @@
                                                 @endif
                                             @endif
                                         @else
+                                        @if ($filter['label'] != 'Fiyat' )
+
                                             @if ($filter['type'] != 'text')
                                                 <div class="trip-search mt-md-2">
                                                     <div class="head widget-boxed-header mobile-title widget-boxed-header"
@@ -510,6 +512,8 @@
                                                 </div>
                                             @endif
                                         @endif
+                                        @endif
+
 
                                         <script>
                                             function toggleFilter(element) {
