@@ -74,7 +74,7 @@
                                         @foreach ($mergedItems as $item)
                                             <tr>
                                                 <td>
-                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
 
                                                 </td>
 
