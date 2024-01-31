@@ -406,38 +406,49 @@
                                                 @endif
                                             @endif
                                         @else
-                                        @if ($filter['label'] != 'Fiyat' )
-
-                                            @if ($filter['type'] != 'text')
-                                                <div class="trip-search mt-md-2">
-                                                    <div class="head widget-boxed-header mobile-title widget-boxed-header"
-                                                        onclick="toggleFilter(this)">
-                                                        <span>
-                                                            @if ($filter['label'] == 'Peşin Fiyat')
-                                                                Fiyat
-                                                            @else
-                                                                {{ $filter['label'] }}
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                    <div class="mt-md-2 filtreArea" style="display: none !important;">
-                                                        @foreach ($filter['values'] as $key => $value)
-                                                            @if (isset($filter['toggle']) && $filter['toggle'] == true)
-                                                                <!-- Switch-slider öğesi -->
-                                                                <div class="mb-2 d-flex align-items-center">
-                                                                    <label class="switch-slider">
-                                                                        <input name="{{ $filter['name'] }}[]"
-                                                                            type="checkbox" value="{{ $value->value }}"
-                                                                            class="filter-now form-control switch"
-                                                                            id="{{ $filter['name'] . $key }}">
-                                                                        <span class="slider"></span>
-                                                                    </label>
-                                                                    <label for="{{ $filter['name'] . $key }}"
-                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                </div>
-                                                            @else
-                                                                @if ($filter['type'] == 'select')
-                                                                    @if ($key != 0)
+                                            @if ($filter['label'] != 'Peşin Fiyat')
+                                                @if ($filter['type'] != 'text')
+                                                    <div class="trip-search mt-md-2">
+                                                        <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                                            onclick="toggleFilter(this)">
+                                                            <span>
+                                                                @if ($filter['label'] == 'Peşin Fiyat')
+                                                                    Fiyat
+                                                                @else
+                                                                    {{ $filter['label'] }}
+                                                                @endif
+                                                            </span>
+                                                        </div>
+                                                        <div class="mt-md-2 filtreArea" style="display: none !important;">
+                                                            @foreach ($filter['values'] as $key => $value)
+                                                                @if (isset($filter['toggle']) && $filter['toggle'] == true)
+                                                                    <!-- Switch-slider öğesi -->
+                                                                    <div class="mb-2 d-flex align-items-center">
+                                                                        <label class="switch-slider">
+                                                                            <input name="{{ $filter['name'] }}[]"
+                                                                                type="checkbox"
+                                                                                value="{{ $value->value }}"
+                                                                                class="filter-now form-control switch"
+                                                                                id="{{ $filter['name'] . $key }}">
+                                                                            <span class="slider"></span>
+                                                                        </label>
+                                                                        <label for="{{ $filter['name'] . $key }}"
+                                                                            class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                    </div>
+                                                                @else
+                                                                    @if ($filter['type'] == 'select')
+                                                                        @if ($key != 0)
+                                                                            <div class="mb-2 d-flex align-items-center">
+                                                                                <input name="{{ $filter['name'] }}[]"
+                                                                                    type="checkbox"
+                                                                                    value="{{ $value->value }}"
+                                                                                    class="filter-now form-control"
+                                                                                    id="{{ $filter['name'] . $key }}">
+                                                                                <label for="{{ $filter['name'] . $key }}"
+                                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                            </div>
+                                                                        @endif
+                                                                    @elseif($filter['type'] == 'checkbox-group')
                                                                         <div class="mb-2 d-flex align-items-center">
                                                                             <input name="{{ $filter['name'] }}[]"
                                                                                 type="checkbox"
@@ -448,70 +459,61 @@
                                                                                 class="form-check-label w-100 ml-4">{{ $value->label }}</label>
                                                                         </div>
                                                                     @endif
-                                                                @elseif($filter['type'] == 'checkbox-group')
-                                                                    <div class="mb-2 d-flex align-items-center">
-                                                                        <input name="{{ $filter['name'] }}[]"
-                                                                            type="checkbox" value="{{ $value->value }}"
-                                                                            class="filter-now form-control"
-                                                                            id="{{ $filter['name'] . $key }}">
-                                                                        <label for="{{ $filter['name'] . $key }}"
-                                                                            class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                    </div>
                                                                 @endif
-                                                            @endif
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @endif
-
-
-
-
-                                            @if ($filter['type'] == 'text')
-                                                <div class="trip-search mt-md-2">
-                                                    <div class="head widget-boxed-header mobile-title widget-boxed-header"
-                                                        onclick="toggleFilterDiv(this)">
-                                                        <div class="widget-boxed-header mobile-title widget-boxed-header">
-                                                            <span>
-                                                                @if ($filter['label'] == 'Peşin Fiyat')
-                                                                    Fiyat
-                                                                @else
-                                                                    {{ $filter['label'] }}
-                                                                @endif
-                                                            </span>
+                                                            @endforeach
                                                         </div>
+                                                    </div>
+                                                @endif
 
+
+
+
+                                                @if ($filter['type'] == 'text')
+                                                    <div class="trip-search mt-md-2">
+                                                        <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                                            onclick="toggleFilterDiv(this)">
+                                                            <div
+                                                                class="widget-boxed-header mobile-title widget-boxed-header">
+                                                                <span>
+                                                                    @if ($filter['label'] == 'Peşin Fiyat')
+                                                                        Fiyat
+                                                                    @else
+                                                                        {{ $filter['label'] }}
+                                                                    @endif
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="d-flex align-items-center mt-md-2"
+                                                            style="display: none !important;">
+                                                            @if ($filter['text_style'] == 'min-max')
+                                                                <span id="slider-range-value1">
+                                                                    <input type="text"
+                                                                        name="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                        id="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                        min="0" placeholder="En Düşük"
+                                                                        class="filter-now form-control price-only">
+                                                                </span>
+                                                                <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
+                                                                <span id="slider-range-value2">
+                                                                    <input type="text"
+                                                                        id="{{ str_replace('[]', '', $filter['name']) }}-max"
+                                                                        min="0" placeholder="En Yüksek"
+                                                                        class="filter-now form-control price-only"
+                                                                        name="{{ str_replace('[]', '', $filter['name']) }}-max">
+                                                                </span>
+                                                            @else
+                                                                <span class="w-100">
+                                                                    <input type="text"
+                                                                        name="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                        id="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                        class="filter-now form-control">
+                                                                </span>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                    <div class="d-flex align-items-center mt-md-2"
-                                                        style="display: none !important;">
-                                                        @if ($filter['text_style'] == 'min-max')
-                                                            <span id="slider-range-value1">
-                                                                <input type="text"
-                                                                    name="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                    id="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                    min="0" placeholder="En Düşük"
-                                                                    class="filter-now form-control price-only">
-                                                            </span>
-                                                            <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
-                                                            <span id="slider-range-value2">
-                                                                <input type="text"
-                                                                    id="{{ str_replace('[]', '', $filter['name']) }}-max"
-                                                                    min="0" placeholder="En Yüksek"
-                                                                    class="filter-now form-control price-only"
-                                                                    name="{{ str_replace('[]', '', $filter['name']) }}-max">
-                                                            </span>
-                                                        @else
-                                                            <span class="w-100">
-                                                                <input type="text"
-                                                                    name="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                    id="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                    class="filter-now form-control">
-                                                            </span>
-                                                        @endif
-                                                    </div>
-                                                </div>
+                                                @endif
                                             @endif
-                                        @endif
                                         @endif
 
 
@@ -998,35 +1000,35 @@
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button
-                                                                                                                                                                                                                                    class="btn second-btn " 
-                                                                                                                                                                                                                                    style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı
-                                                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                        class="btn second-btn " 
+                                                                                                                                                                                                                                        style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı
+                                                                                                                                                                                                                                    </button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
                                                                         `<button
-                                                                                                                                                                                                                                        class="btn second-btn " 
-                                                                                                                                                                                                                                        style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
-                                                                                                                                                                                                                                    </button>`
+                                                                                                                                                                                                                                            class="btn second-btn " 
+                                                                                                                                                                                                                                            style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi
+                                                                                                                                                                                                                                        </button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button
-                                                                                                                                                                                                                                            class="btn second-btn " 
-                                                                                                                                                                                                                                            style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
-                                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                                class="btn second-btn " 
+                                                                                                                                                                                                                                                style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı
+                                                                                                                                                                                                                                            </button>`
                                                                             :
                                                                 `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                                                                                                data-id='${res.id}'>
+                                                                                                                                                                                                                                    data-id='${res.id}'>
+                                                                                                                                                                                                                                    <span class="IconContainer">
+                                                                                                                                                                                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                                </button>` :
+                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
                                                                                                                                                                                                                                 <span class="IconContainer">
                                                                                                                                                                                                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                                                                                                                                                                                                 </span>
-                                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                                            </button>` :
-                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
-                                                                                                                                                                                                                            <span class="IconContainer">
-                                                                                                                                                                                                                                <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                            </span>
-                                                                                                                                                                                                                            <span class="text" style="color: white;">Rezervasyon Yap</span>
-                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                <span class="text" style="color: white;">Rezervasyon Yap</span>
+                                                                                                                                                                                                                            </button>`
                                                             }
                                                         </ul>
                                                     </div>
@@ -1079,36 +1081,36 @@
                                                                         ${res.step2_slug !== "gunluk-kiralik" ?
                                                     res.offSale ?
                                                         `  <button class="btn second-btn  mobileCBtn" 
-                                                                                                                                                                                            style="background: #EA2B2E !important;width:100%;color:White">
+                                                                                                                                                                                                style="background: #EA2B2E !important;width:100%;color:White">
 
-                                                                                                                                                                                            <span class="text">Satışa Kapatıldı</span>
-                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                <span class="text">Satışa Kapatıldı</span>
+                                                                                                                                                                                            </button>`
                                                         :
                                                         res.action === 'payment_await' ?
                                                             `<button
-                                                                                                                                                                                                                            class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                            style="background: orange !important;width:100%;color:White">Rezerve Edildi
-                                                                                                                                                                                                                        </button>`
+                                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                style="background: orange !important;width:100%;color:White">Rezerve Edildi
+                                                                                                                                                                                                                            </button>`
                                                             :
                                                             res.action === 'sold' ?
                                                                 `<button
-                                                                                                                                                                                                                                class="btn mobileCBtn second-btn CartBtn" 
-                                                                                                                                                                                                                                style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                                                                                                                                            </button>`
+                                                                                                                                                                                                                                    class="btn mobileCBtn second-btn CartBtn" 
+                                                                                                                                                                                                                                    style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                                                                                                                                </button>`
                                                                 :
                                                                 `<button class="CartBtn mobileCBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                                                                                                                                                                                data-id='${res.id}'>
-                                                                                                                                                                                                                                <span class="IconContainer">
-                                                                                                                                                                                                                                    <img src="{{ asset('sc.png') }}" alt="">
-                                                                                                                                                                                                                                </span>
-                                                                                                                                                                                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                                                                                                                                                                            </button>` :
-                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
+                                                                                                                                                                                                                                    data-id='${res.id}'>
                                                                                                                                                                                                                                     <span class="IconContainer">
                                                                                                                                                                                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                                                                                                                                                                                     </span>
-                                                                                                                                                                                                                                    <span class="text">Rezervasyon Yap</span>
-                                                                                                                                                                                                                                </button>`
+                                                                                                                                                                                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                                                                                                                                                                                </button>` :
+                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
+                                                                                                                                                                                                                                        <span class="IconContainer">
+                                                                                                                                                                                                                                            <img src="{{ asset('sc.png') }}" alt="">
+                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                        <span class="text">Rezervasyon Yap</span>
+                                                                                                                                                                                                                                    </button>`
                                                                 }
                                                                     </div>
                                                                     <span class="ml-auto text-primary priceFont"
