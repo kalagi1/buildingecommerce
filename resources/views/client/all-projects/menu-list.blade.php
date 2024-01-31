@@ -411,7 +411,7 @@
                                                     <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                         onclick="toggleFilter(this)">
                                                         <span>
-                                                            @if ($filter['label'] != 'Peşin Fiyat')
+                                                            @if ($filter['label'] == 'Peşin Fiyat')
                                                                 Fiyat
                                                             @else
                                                                 {{ $filter['label'] }}
@@ -471,7 +471,7 @@
                                                         onclick="toggleFilterDiv(this)">
                                                         <div class="widget-boxed-header mobile-title widget-boxed-header">
                                                             <span>
-                                                                @if ($filter['label'] != 'Peşin Fiyat')
+                                                                @if ($filter['label'] == 'Peşin Fiyat')
                                                                     Fiyat
                                                                 @else
                                                                     {{ $filter['label'] }}
