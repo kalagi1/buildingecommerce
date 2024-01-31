@@ -159,10 +159,37 @@
                                             <button class="badge badge-phoenix fs-10 badge-phoenix-success"
                                                     style="width:100%;font-size:10px;padding:3px 0" type="button"
                                                     onclick="copyLink('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}')">
-                                                <i class="fa fa-copy" aria-hidden="true"></i>  KOPYALA
+                                                <i class="fa fa-copy" aria-hidden="true"></i> LİNKİ KOPYALA
                                             </button>
                                             
                                         </div>
+                                        <div class="col-md-12">
+                                            <button class="badge badge-phoenix fs-10 badge-phoenix-success"
+                                                    style="width:100%;font-size:10px;padding:3px 0" type="button"
+                                                    onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}')">
+                                                <i class="fa fa-whatsapp" aria-hidden="true"></i> WHATSAPPTA PAYLAŞ
+                                            </button>
+                                        </div>
+                                        
+                                        <!-- Add this script at the end of your HTML body or after Bootstrap's JavaScript files -->
+                                        <script>
+                                            function copyLinkAndShare(link) {
+                                                // Copy link
+                                                copyLink(link);
+                                        
+                                                // Share on WhatsApp
+                                                window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
+                                            }
+                                        
+                                            function copyLink(text) {
+                                                var textArea = document.createElement("textarea");
+                                                textArea.value = text;
+                                                document.body.appendChild(textArea);
+                                                textArea.select();
+                                                document.execCommand('copy');
+                                                document.body.removeChild(textArea);
+                                            }
+                                        </script>
                                         
                                      
                                         
