@@ -220,7 +220,7 @@
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
                     <div class="d-flex align-items-center ">
-                        <a href="{{ route('index') }}" class="mobile-hidden"><img
+                        <a href="{{ route('index') }}"><img
                                 src="{{ URL::to('/') }}/images/emlaksepettelogo.png" class="logo"
                                 alt=""></a>
                     </div>
@@ -8130,7 +8130,7 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
             }
 
             .navbar-logo .logo {
-                height: 45px !important;
+                height: 35px !important;
                 padding: 5px;
             }
 

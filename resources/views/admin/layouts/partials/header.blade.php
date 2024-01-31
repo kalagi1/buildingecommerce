@@ -7971,7 +7971,7 @@
             }
 
             .navbar-logo .logo {
-                height: 45px !important;
+                height: 35px !important;
                 padding: 5px;
             }
 
