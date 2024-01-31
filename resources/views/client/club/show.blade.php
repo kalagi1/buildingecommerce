@@ -312,7 +312,7 @@
                                                 <div class="d-flex" style="gap: 8px;justify-content:space-between">
 
                                                     <h4>
-                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + 10000000 : $item['housing']->id + 2000000 }}
+                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
                                                         <br>
                                                         {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                                     </h4>
