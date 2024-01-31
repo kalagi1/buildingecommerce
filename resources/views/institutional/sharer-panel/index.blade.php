@@ -4,7 +4,7 @@
     <div class="content">
 
         <div class="card border mb-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
-            <div class="card-header border-bottom bg-body">
+            <div class="card-header border-bottom">
                 <div class="row flex-between-center g-2">
                     <div class="col-auto">
                         <h4 class="mb-0">Koleksiyonlarım</h4>
