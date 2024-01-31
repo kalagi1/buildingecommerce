@@ -2482,6 +2482,12 @@ out center;`;
                                                         <div class="project-inner project-head">
 
                                                             <div class="button-effect-div">
+                                                                <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
+    data-type='project'
+    data-project='{{ $project->id }}'
+    data-id='${startIndex+1+i+lastBlockHousingCount}'>
+    <i class="fa fa-bookmark"></i>
+</span>
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
@@ -2760,6 +2766,12 @@ out center;`;
                                                         <div class="project-inner project-head">
 
                                                             <div class="button-effect-div">
+                                                                <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
+    data-type='project'
+    data-project='{{ $project->id }}'
+    data-id='${startIndex+1+i+lastBlockHousingCount}'>
+    <i class="fa fa-bookmark"></i>
+</span>
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
