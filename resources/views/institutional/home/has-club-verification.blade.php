@@ -22,14 +22,14 @@
                             <!-- Diğer giriş alanlarını buraya ekleyin -->
                             <div class="corporate-form" id="corporateForm">
     
-                                <div class="mt-3">
+                                {{-- <div class="mt-3">
                                     <label class="q-label">İsim</label>
                                     <input type="text" name="name" disabled readonly
                                         class="form-control @error('name') is-invalid @enderror"value="{{ old('name', $user->name) }}">
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div class="mt-3">
                                     <label class="q-label">Telefon</label>
                                     <input type="number" name="phone"
@@ -61,7 +61,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-3">
-                                    <label class="q-label">Iban Numarası</label>
+                                    <label class="q-label">Iban Numarası <i class="fa fa-info-circle ml-2" style="font-size: 18px;" aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
                                     <input type="text" name="iban"
                                         class="form-control @error('iban') is-invalid @enderror"
                                         value="{{ old('iban', $user->iban) }}">
