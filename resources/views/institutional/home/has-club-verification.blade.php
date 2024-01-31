@@ -107,6 +107,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+          $(function() {
+            $('.fa-info-circle').tooltip()
+        })
+    </script>
 @endsection
 
 
