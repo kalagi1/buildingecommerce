@@ -178,13 +178,7 @@
                             </div>
                             <div class="w-100" style="padding-left:0;">
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
-                                    <button class="btn btn-danger"
-                                        data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
-                                        style="width:50px;padding:0 !important;margin-bottom:4px"
-                                        data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
-                                        @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                                        Sil
-                                    </button>
+                                   
                                     <a style="text-decoration: none;height:100%;margin-bottom:5px"
                                         href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                         <div class="d-flex"
@@ -196,7 +190,13 @@
                                                 {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                             </h4>
 
-
+                                            <button class="btn btn-danger"
+                                            data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
+                                            style="width:50px;padding:0 !important;margin-bottom:4px"
+                                            data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
+                                            @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
+                                            Sil
+                                        </button>
 
                                         </div>
                                     </a>
