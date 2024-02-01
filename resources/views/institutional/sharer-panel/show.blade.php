@@ -201,7 +201,7 @@
                                         </div>
                                     </a>
 
-                                    <div class="d-flex">
+                                    <div class="d-flex" style="align-items: center;justify-content:space-between">
                                         @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-danger">
                                             @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
@@ -225,7 +225,7 @@
 
                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-success mt-1">
-                                            Kazanç: <br>
+                                           
                                             @if ($item['item_type'] == 2)
                                                 @php
                                                     $sharePercent = 0.5;
