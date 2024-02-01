@@ -201,7 +201,6 @@
 
                                         </div>
                                     </a>
-                                    <div>
                                         @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                             <span class="badge badge-phoenix fs-10 badge-phoenix-danger">
                                                 @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
@@ -219,8 +218,9 @@
                                                     </span>
                                                 @endif
                                             </span>
+                                            <br>
                                         @endif
-                                        <br>
+                                  
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-success">
                                             Kazanç:
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
@@ -266,7 +266,6 @@
                                             @endif
 
                                         </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
