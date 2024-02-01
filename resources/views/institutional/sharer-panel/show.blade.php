@@ -162,7 +162,7 @@
                             }
                         @endphp
                         <div class="d-flex" style="flex-wrap: nowrap">
-                            <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
+                            <div class="align-items-center d-flex " style="padding-right:0; width: 70;">
                                 <div class="project-inner project-head">
                                     <a
                                         href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
