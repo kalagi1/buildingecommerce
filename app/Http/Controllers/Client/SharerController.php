@@ -67,95 +67,102 @@ class SharerController extends Controller {
     {
         $users = User::all();
         $collection = Collection::where("id",$id)->first();
-
-        $clickData = [
-            'collection_id' => $collection->id,
-            'user_id' => auth()->id(),
-            'ip_address' => $request->ip(),
-        ];
+        
+        if (isset($collection)) {
+            $clickData = [
+                'collection_id' => $collection->id,
+                'user_id' => auth()->id(),
+                'ip_address' => $request->ip(),
+            ];
+        
+            $collection->uniqueClicks()->updateOrCreate(['user_id' => auth()->id(), 'ip_address' => $request->ip()], $clickData);
+        
+            foreach ($users as $institutional) {          
+                $slugName = Str::slug($institutional->name);
+                if ($slugName === $slug) {
+                    
     
-        $collection->uniqueClicks()->updateOrCreate(['user_id' => auth()->id(), 'ip_address' => $request->ip()], $clickData);
-    
-        foreach ($users as $institutional) {          
-            $slugName = Str::slug($institutional->name);
-            if ($slugName === $slug) {
+                    $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
+                        ->findOrFail($institutional->id);
                 
-
-                $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
-                    ->findOrFail($institutional->id);
-            
-                $projects = Project::with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
-                    ->where("user_id", $store->id)->where("status", 1)->orderBy("id", "desc")->limit(3)->get();
-            
-                $collections = Collection::with('links')->where('user_id', $institutional->id)->get();
-            
-                $collection = Collection::findOrFail($id);
-                // $sharer = User::findOrFail(auth()->user()->id);
-            
-                $items = ShareLink::where('user_id', $institutional->id)->where('collection_id', $collection->id)->get();
-                $itemsArray = $items->map(function ($item) use ($store) {
-                    $action = null;
-                    $offSale = null;
-            
-                    if ($item->item_type == 2) {
-                        $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
-                            ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
-                            ->first();
-            
-                        $action = $cartStatus ? (
-                            ($cartStatus->status == "0") ? 'payment_await' : (
-                                ($cartStatus->status == "1") ? 'sold' : (
-                                    ($cartStatus->status == "2") ? 'tryBuy' : ''
+                    $projects = Project::with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
+                        ->where("user_id", $store->id)->where("status", 1)->orderBy("id", "desc")->limit(3)->get();
+                
+                    $collections = Collection::with('links')->where('user_id', $institutional->id)->get();
+                
+                    $collection = Collection::findOrFail($id);
+                    // $sharer = User::findOrFail(auth()->user()->id);
+                
+                    $items = ShareLink::where('user_id', $institutional->id)->where('collection_id', $collection->id)->get();
+                    $itemsArray = $items->map(function ($item) use ($store) {
+                        $action = null;
+                        $offSale = null;
+                
+                        if ($item->item_type == 2) {
+                            $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
+                                ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
+                                ->first();
+                
+                            $action = $cartStatus ? (
+                                ($cartStatus->status == "0") ? 'payment_await' : (
+                                    ($cartStatus->status == "1") ? 'sold' : (
+                                        ($cartStatus->status == "2") ? 'tryBuy' : ''
+                                    )
                                 )
-                            )
-                        ) : 'noCart';
-
-                        $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
-                        $housingTypeData = json_decode($item->housing->housing_type_data, true);
-                        $offSale = isset($housingTypeData['off_sale1']);
-                    }
-            
-                    if ($item->item_type == 1) {
-
-                        $userProjectIds = $store->projects->pluck('id');
-                        $discount_amount = Offer::where( 'type', 'project' )
-                        ->where( 'project_id', $item->project->id )
-                        ->where('project_housings', 'LIKE', '%' . $item->room_order . '%')
-                        ->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
-
-                        $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
-                            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
-                            ->first();
-
-                            
-                            $action = $status ? (
-                            ($status->status == "0") ? 'payment_await' : (
-                                ($status->status == "1") ? 'sold' : (
-                                    ($status->status == "2") ? 'tryBuy' : ''
+                            ) : 'noCart';
+    
+                            $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
+                            $housingTypeData = json_decode($item->housing->housing_type_data, true);
+                            $offSale = isset($housingTypeData['off_sale1']);
+                        }
+                
+                        if ($item->item_type == 1) {
+    
+                            $userProjectIds = $store->projects->pluck('id');
+                            $discount_amount = Offer::where( 'type', 'project' )
+                            ->where( 'project_id', $item->project->id )
+                            ->where('project_housings', 'LIKE', '%' . $item->room_order . '%')
+                            ->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+    
+                            $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
+                                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
+                                ->first();
+    
+                                
+                                $action = $status ? (
+                                ($status->status == "0") ? 'payment_await' : (
+                                    ($status->status == "1") ? 'sold' : (
+                                        ($status->status == "2") ? 'tryBuy' : ''
+                                    )
                                 )
-                            )
-                        ) : 'noCart';
-                    }
+                            ) : 'noCart';
+                        }
+                
+                        return [
+                            'project_values' => $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray(),
+                            'housing' => $item->housing,
+                            'project' => $item->project,
+                            'action' => $action,
+                            'offSale' => $offSale,
+                            'discount_amount' => $discount_amount
+                        ];
+                    });
             
-                    return [
-                        'project_values' => $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray(),
-                        'housing' => $item->housing,
-                        'project' => $item->project,
-                        'action' => $action,
-                        'offSale' => $offSale,
-                        'discount_amount' => $discount_amount
-                    ];
-                });
-        
-                $mergedItems = array_map(function($item, $itemArray) {
-                    return array_merge($item, $itemArray);
-                }, $items->toArray(), $itemsArray->toArray());
-        
-                return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'collections', 'collection', 'items'));
+                    $mergedItems = array_map(function($item, $itemArray) {
+                        return array_merge($item, $itemArray);
+                    }, $items->toArray(), $itemsArray->toArray());
+            
+                    return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'collections', 'collection', 'items'));
+                }
             }
+        }else{
+            return view("errors.404");
         }
+
+     
        
     }
+
     public function viewsLinks( $id ) {
         $collection = Collection::with("clicks.user")->where( 'id', $id )->first();
         return view( 'institutional.sharer-panel.views', compact( "collection" ) );
