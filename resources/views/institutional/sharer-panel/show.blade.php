@@ -105,7 +105,7 @@
                                                 @else
                                                     @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
                                                         <strong style="color: orange">
-                                                            <span>Komisyon Onayınız Bekleniyor:</span><br>
+                                                            <span>Onay Bekleniyor:</span><br>
                                                             {{ $item['share_price']['balance'] }} ₺
                                                         </strong>
                                                     @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
@@ -115,7 +115,7 @@
                                                         </strong>
                                                     @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
                                                         <strong style="color: red">
-                                                            <span>Komisyon Kazancınız Reddedildi:</span><br>
+                                                            <span>Kazancınız Reddedildi:</span><br>
                                                             {{ $item['share_price']['balance'] }} ₺
                                                         </strong>
                                                     @else
@@ -212,7 +212,7 @@
                                             @else
                                                 @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
                                                     <strong style="color: orange">
-                                                        <span>Komisyon Onayınız Bekleniyor:</span><br>
+                                                        <span>Onay Bekleniyor:</span><br>
                                                         {{ $item['share_price']['balance'] }} ₺
                                                     </strong>
                                                 @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '1')
@@ -222,7 +222,7 @@
                                                     </strong>
                                                 @elseif (isset($item['share_price']['balance']) && $item['share_price']['status'] == '2')
                                                     <strong style="color: red">
-                                                        <span>Komisyon Kazancınız Reddedildi:</span><br>
+                                                        <span>Kazancınız Reddedildi:</span><br>
                                                         {{ $item['share_price']['balance'] }} ₺
                                                     </strong>
                                                 @else
