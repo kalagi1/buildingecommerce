@@ -63,7 +63,7 @@
                                         </td>
                                         <td>
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                @if (isset($discountedPrice) && $discountedPrice != 0)
+                                                @if (isset($discountRate) && $discountRate != 0)
                                                     <span style="color: green;">
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                     </span><br>
@@ -147,6 +147,21 @@
                 <div class="mobile-show">
 
                     @foreach ($mergedItems as $item)
+
+                    @php
+                    $discountedPrice = null;
+                    $price = null;
+
+                    if ($item['item_type'] == 2 && isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])) {
+                        $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
+                        $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
+                        $discountedPrice = $price - ($price * $discountRate) / 100;
+                    } elseif ($item['item_type'] == 1 && isset($item['project_values']['discount_rate[]']) && $item['project_values']['discount_rate[]']!=0) {
+                        $discountRate = $item['project_values']['discount_rate[]'];
+                        $price = $item['project_values']['price[]'] - $item['discount_amount'];
+                        $discountedPrice = $price - ($price * $discountRate) / 100;
+                    }
+                @endphp
                         <div class="d-flex" style="flex-wrap: nowrap">
                             <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                 <div class="project-inner project-head">
@@ -175,11 +190,8 @@
                                                 <br>
                                                 {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                             </h4>
-                                        </div>
-                                    </a>
-                                    <div class="d-flex" style="align-items:center;justify-content:space-between">
-                                        <div class="d-flex" style="gap: 8px;">
 
+                                            
                                             <button class="btn btn-info remove-from-collection btn-sm" style="float: right"
                                                 data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                                 data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
@@ -187,7 +199,27 @@
                                                 Sil
                                             </button>
                                         </div>
-                                        <span class="ml-auto text-success priceFont">
+                                    </a>
+                                    <div class="d-flex" style="align-items:center;justify-content:space-between">
+                                        <span class="badge badge-phoenix fs-10 badge-phoenix-danger">
+                                            @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                            @if (isset($discountRate) && $discountRate != 0)
+                                                <span >
+                                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                </span><br>
+                                                <del >
+                                                    {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                    ₺
+                                                </del>
+                                            @else
+                                                <span >
+                                                    {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                    ₺
+                                                </span>
+                                            @endif
+                                        @endif
+                                        </span>
+                                        <span class="badge badge-phoenix fs-10 badge-phoenix-success">
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                 @if ($item['item_type'] == 2)
                                                     @php
