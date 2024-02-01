@@ -167,8 +167,7 @@
                                     <a
                                         href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                         <div class="homes">
-                                            <div class="homes-img h-100 d-flex align-items-center"
-                                                style="width: 130px; height: 128px;">
+                                            <div class="homes-img h-100 d-flex align-items-center">
                                                 <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                     alt="home-1" class="img-responsive"
                                                     style="height: 70px !important; object-fit: cover;width:100px">
@@ -178,7 +177,7 @@
                                 </div>
                             </div>
                             <div class="w-100" style="padding-left:0;">
-                                <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
+                                <div class="bg-white h-100 d-flex flex-column justify-content-center">
                                     <button class="btn btn-danger"
                                         data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                         style="width:50px;padding:0 !important;margin-bottom:4px"
@@ -201,7 +200,9 @@
 
                                         </div>
                                     </a>
-                                    @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+
+                                    <div class="d-flex">
+                                        @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-danger">
                                             @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
                                                 <span>
@@ -264,6 +265,8 @@
                                             @endif
                                         </span>
                                     @endif
+                                    </div>
+                                   
 
 
                                 </div>
