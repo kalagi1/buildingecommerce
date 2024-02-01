@@ -1967,6 +1967,10 @@
             .trStyle tr {
                 width: 100%;
             }
+
+            .removeClass {
+                margin-bottom: 20px
+            }
         }
 
         .flatpickr-day.flatpickr-disabled,
