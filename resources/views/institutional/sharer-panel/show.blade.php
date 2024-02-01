@@ -218,12 +218,12 @@
                                                     </span>
                                                 @endif
                                             </span>
-                                            <br>
                                         @endif
                                   
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                            Kazanç:
+                                        
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                            Kazanç:
                                                 @if ($item['item_type'] == 2)
                                                     @php
                                                         $sharePercent = 0.5;
