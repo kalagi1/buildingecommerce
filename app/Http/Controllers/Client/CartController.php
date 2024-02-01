@@ -756,7 +756,9 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             } else {
                 if ( $type == 'project' ) {
 
-                    $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $project )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+                    $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $project )
+                    ->where('project_housings', 'LIKE', '%' .$id . '%')->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+                   
                     $project = Project::find( $project );
                     $projectHousing = ProjectHousing::where( 'project_id', $project->id )
                     ->where( 'room_order', $id )

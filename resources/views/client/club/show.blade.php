@@ -71,7 +71,7 @@
                             <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
-                                    
+
                                         @foreach ($mergedItems as $item)
                                             <tr>
                                                 <td>
@@ -103,7 +103,7 @@
                                                         @php
                                                             $discountedPrice = null;
                                                             $price = null;
-
+                                                            $discountRate = null;
                                                             if ($item['item_type'] == 2 && isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])) {
                                                                 $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
                                                                 $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
@@ -115,7 +115,7 @@
                                                             }
                                                         @endphp
 
-                                                        @if (isset($discountedPrice) && $discountedPrice != 0)
+                                                        @if (isset($discountRate) && $discountRate != 0)
                                                             <span style="color: green;">
                                                                 {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                             </span><br>

@@ -89,6 +89,7 @@
                                         // Project için indirim kontrolü
                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                             ->where('project_id', $cart['item']['id'])
+                                            ->where('project_housings', 'LIKE', '%' .$cart['item']['housing'] . '%')
                                             ->where('start_date', '<=', now())
                                             ->where('end_date', '>=', now())
                                             ->first();
