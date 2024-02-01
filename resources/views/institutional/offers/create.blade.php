@@ -134,7 +134,7 @@
                     countiesSelect.empty(); 
                     for (var i = 1; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
-                            value: response[i].i, // İlçe ID'si
+                            value: i, // İlçe ID'si
                             text: response[i].label + " " + i + " No'lu Daire"// İlçe adı
                         }));
                     }

@@ -1048,7 +1048,7 @@
 
         $('body').on('click', '.disabledShareButton', function(event) {
             event.preventDefault();
-            toastr.error("Paylaşıma kapalı ürünleri koleksiyonunuza ekleyemezsiniz.");
+            toastr.error("Satışa kapalı ürünleri koleksiyonunuza ekleyemezsiniz.");
         });
 
         updateCartButton();

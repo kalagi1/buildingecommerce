@@ -20,7 +20,7 @@ class OfferController extends Controller
 
     public function create()
     {
-        $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
+        $projects = Project::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where("status","1")->get();
         $housings = Housing::where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         return view('institutional.offers.create', compact('projects', 'housings'));
     }

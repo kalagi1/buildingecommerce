@@ -180,7 +180,7 @@ return $a;
                                         </h4>
                                         <span
                                         class="btn  @if ($sold && $sold[0] == '1' || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "  data-type='housing' data-id="{{ $housing->id }}" >
-                                           <i class="fa fa-bookmark"></i>
+                                           <i class="fa fa-bookmark-o"></i>
                                        </span>
                                         <span class="btn toggle-favorite bg-white"
                                             data-housing-id="{{ $housing->id }}" style="color: white;">
@@ -424,7 +424,7 @@ return $a;
                                                         <div class="button-effect-div">
                                                             <span
                                                             class="btn @if ($sold && $sold[0] == '1' || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else  addCollection mobileAddCollection @endif "  data-type='housing' data-id="{{ $housing->id }}" >
-                                                               <i class="fa fa-bookmark"></i>
+                                                               <i class="fa fa-bookmark-o"></i>
                                                            </span>
 
                                                             <span class="btn toggle-favorite bg-white"

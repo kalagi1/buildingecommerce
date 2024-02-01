@@ -71,6 +71,7 @@
                             <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
+                                    
                                         @foreach ($mergedItems as $item)
                                             <tr>
                                                 <td>
@@ -98,36 +99,23 @@
                                                     </span>
                                                 </td>
                                                 <td>
-
-
                                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                        @if (
-                                                            $item['item_type'] == 2 &&
-                                                                isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                                                json_decode($item['housing']['housing_type_data'])->discount_rate[0]
-                                                        )
-                                                            @php
+                                                        @php
+                                                            $discountedPrice = null;
+                                                            $price = null;
+
+                                                            if ($item['item_type'] == 2 && isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])) {
                                                                 $discountRate = json_decode($item['housing']['housing_type_data'])->discount_rate[0];
                                                                 $price = json_decode($item['housing']['housing_type_data'])->price[0] - $item['discount_amount'];
-
                                                                 $discountedPrice = $price - ($price * $discountRate) / 100;
-
-                                                            @endphp
-                                                        @elseif (
-                                                            $item['item_type'] == 1 &&
-                                                                isset($item['project_values']['discount_rate[]']) &&
-                                                                $item['project_values']['discount_rate[]']
-                                                        )
-                                                            @php
+                                                            } elseif ($item['item_type'] == 1 && isset($item['project_values']['discount_rate[]']) && $item['project_values']['discount_rate[]'] != 0) {
                                                                 $discountRate = $item['project_values']['discount_rate[]'];
                                                                 $price = $item['project_values']['price[]'] - $item['discount_amount'];
-
                                                                 $discountedPrice = $price - ($price * $discountRate) / 100;
-                                                            @endphp
-                                                        @endif
+                                                            }
+                                                        @endphp
 
-
-                                                        @if (isset($discountedPrice))
+                                                        @if (isset($discountedPrice) && $discountedPrice != 0)
                                                             <span style="color: green;">
                                                                 {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                             </span><br>
@@ -142,8 +130,6 @@
                                                             </span>
                                                         @endif
                                                     @endif
-
-
                                                 </td>
 
 
@@ -561,10 +547,10 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-             
-.CartBtn {
-    margin-top: 0 !important;
-}
+        .CartBtn {
+            margin-top: 0 !important;
+        }
+
         .mobile-hidden {
             display: flex;
             flex-wrap: wrap
@@ -606,7 +592,7 @@
                 flex-wrap: wrap
             }
 
-       
+
 
             .homes-content .footer {
                 display: block;

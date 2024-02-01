@@ -118,7 +118,10 @@ class SharerController extends Controller {
                     if ($item->item_type == 1) {
 
                         $userProjectIds = $store->projects->pluck('id');
-                        $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $item->project->id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+                        $discount_amount = Offer::where( 'type', 'project' )
+                        ->where( 'project_id', $item->project->id )
+                        ->where('project_housings', 'LIKE', '%' . $item->room_order . '%')
+                        ->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
 
                         $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
                             ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
@@ -195,7 +198,8 @@ class SharerController extends Controller {
             if ($item->item_type == 1) {
 
                 $userProjectIds = $sharer->projects->pluck('id');
-                $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $item->project->id )->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
+                $discount_amount = Offer::where( 'type', 'project' )->where( 'project_id', $item->project->id )
+                ->where('project_housings', 'LIKE', '%' . $item->room_order . '%')->where( 'start_date', '<=', date( 'Y-m-d H:i:s' ) )->where( 'end_date', '>=', date( 'Y-m-d H:i:s' ) )->first()->discount_amount ?? 0;
 
                
                 $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)

@@ -962,7 +962,7 @@
                                                            
                                                                     <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection"  data-type="housing" data-id="${res.id}"` :
                                                                                                 `class="btn disabledShareButton"`}>
-                                                                                    <i class="fa fa-bookmark"></i>
+                                                                                    <i class="fa fa-bookmark-o"></i>
                                                                                 </span>
                                                                               </span>
                                                             <div href="" class="btn toggle-favorite bg-white ${res.in_favorites ? 'bg-white' : ''}" data-housing-id="${res.id}">
@@ -1066,7 +1066,7 @@
                                                 </h4>
                                                 <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
                                                                                         `class="btn  mobileAddCollection  disabledShareButton"`}>
-                                                                            <i class="fa fa-bookmark"></i>
+                                                                            <i class="fa fa-bookmark-o"></i>
                                                                         </span>
                                                 <span class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
                                                         <i class="fa fa-heart-o"></i>

@@ -65,29 +65,29 @@
                                             fill: #FFFFFF;
                                         }
                                     </style>
-                                    @if ($project->user->corporate_account_status )
-                                    <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
-                                        width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g>
-                                            <path class="st0"
-                                                d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
-                                            <g class="st1">
-                                                <path
-                                                    d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
-                                                <path
-                                                    d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
-                                                <path
-                                                    d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
-                                                <path
-                                                    d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                    @if ($project->user->corporate_account_status)
+                                        <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
+                                            width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g>
+                                                <path class="st0"
+                                                    d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
+                                                <g class="st1">
+                                                    <path
+                                                        d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
+                                                    <path
+                                                        d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
+                                                    <path
+                                                        d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
+                                                    <path
+                                                        d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
+                                                </g>
+                                                <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
+                                                <path class="st2"
+                                                    d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
                                             </g>
-                                            <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
-                                            <path class="st2"
-                                                d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
-                                        </g>
-                                    </svg>
-                                @endif
+                                        </svg>
+                                    @endif
                                 </a>
                             </p>
                             <div class="mobile-hidden">
@@ -137,40 +137,40 @@
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
-                        <div class="headings-2 pt-0 pb-0">
-                            <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
-                                @php
-                                    $advertiseTitle = $projectHousingsList[$housingOrder]['advertise_title[]'] ?? null;
-                                    $status = optional($sold)->status;
-                                @endphp
+                    <div class="headings-2 pt-0 pb-0">
+                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
+                            @php
+                                $advertiseTitle = $projectHousingsList[$housingOrder]['advertise_title[]'] ?? null;
+                                $status = optional($sold)->status;
+                            @endphp
 
-                                <div class="detail-wrapper-body">
-                                    <div class="listing-title-bar">
-                                        <strong style="color: black;font-size: 11px !important;">İlan No:  
-                                            <span style="color: #274abb;">{{ $housingOrder + $project->id + 1000000 }}</span>
-                                        </strong>
+                            <div class="detail-wrapper-body">
+                                <div class="listing-title-bar">
+                                    <strong style="color: black;font-size: 11px !important;">İlan No:
+                                        <span style="color: #274abb;">{{ $housingOrder + $project->id + 1000000 }}</span>
+                                    </strong>
 
-                                        <h3>
-                                            @if ($status && $status != '0' && $status != '1')
-                                                @include('client.layouts.partials.project_title', [
-                                                    'title' => $project->project_title,
-                                                    'advertiseTitle' => $advertiseTitle,
-                                                    'housingOrder' => $housingOrder,
-                                                    'step1Slug' => $project->step1_slug,
-                                                ])
-                                            @else
-                                                @include('client.layouts.partials.project_title', [
-                                                    'title' => $project->project_title,
-                                                    'advertiseTitle' => $advertiseTitle,
-                                                    'housingOrder' => $housingOrder,
-                                                    'step1Slug' => $project->step1_slug,
-                                                ])
-                                            @endif
-                                        </h3>
-                                    </div>
+                                    <h3>
+                                        @if ($status && $status != '0' && $status != '1')
+                                            @include('client.layouts.partials.project_title', [
+                                                'title' => $project->project_title,
+                                                'advertiseTitle' => $advertiseTitle,
+                                                'housingOrder' => $housingOrder,
+                                                'step1Slug' => $project->step1_slug,
+                                            ])
+                                        @else
+                                            @include('client.layouts.partials.project_title', [
+                                                'title' => $project->project_title,
+                                                'advertiseTitle' => $advertiseTitle,
+                                                'housingOrder' => $housingOrder,
+                                                'step1Slug' => $project->step1_slug,
+                                            ])
+                                        @endif
+                                    </h3>
                                 </div>
-
                             </div>
+
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -185,7 +185,39 @@
                                     <div class="single detail-wrapper mr-2">
                                         <div class="detail-wrapper-body">
                                             <div class="listing-title-bar">
-                                                <h4 style="white-space: nowrap">
+                                                <div style="white-space: nowrap">
+                                                    <div class="discountAmountStyle">
+                                                        @if ($discountAmount)
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#e54242" stroke-width="2" fill="#e54242"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                                            </svg>
+                                                            <h6
+                                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
+                                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                                ₺
+                                                            </h6>
+                                                            <br>
+                                                        @endif
+                                                    </div>
+
+                                                    <h4 style="white-space: nowrap">
+                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'] - $discountAmount, 0, ',', '.') }}
+                                                        ₺</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @else
+                                <div class="single detail-wrapper mr-2">
+                                    <div class="detail-wrapper-body">
+                                        <div class="listing-title-bar">
+                                            <div style="white-space: nowrap">
+                                                <div class="discountAmountStyle">
                                                     @if ($discountAmount)
                                                         <svg viewBox="0 0 24 24" width="18" height="18"
                                                             stroke="#e54242" stroke-width="2" fill="#e54242"
@@ -201,38 +233,12 @@
                                                         </h6>
                                                         <br>
                                                     @endif
+                                                </div>
 
+                                                <h4 style="white-space: nowrap">
                                                     {{ number_format($projectHousingsList[$housingOrder]['price[]'] - $discountAmount, 0, ',', '.') }}
-                                                    ₺
-                                                </h4>
+                                                    ₺</h4>
                                             </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @else
-                                <div class="single detail-wrapper mr-2">
-                                    <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar">
-                                            <h4 style="white-space: nowrap">
-                                                @if ($discountAmount)
-                                                    <svg viewBox="0 0 24 24" width="18" height="18"
-                                                        stroke="#e54242" stroke-width="2" fill="#e54242"
-                                                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"
-                                                        style="margin-right: 5px">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-                                                    <span
-                                                        style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
-                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                        ₺
-                                                    </span>
-                                                @endif
-                                                @if ($offSaleValue == '[]')
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'] - $discountAmount, 0, ',', '.') }}
-                                                    ₺
-                                                @endif
-                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -295,7 +301,7 @@
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item" style="margin: 10px; cursor: pointer">
                                             <a id="carousel-selector-{{ $key + 1 }}"
-                                                data-slide-to="{{ $key + 1}}" data-target="#listingDetailsSlider">
+                                                data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
@@ -402,47 +408,46 @@
                         </div>
                     </div>
                     <div class="moveCollection">
-                            <div
-                               class="add-to-collections-wrapper addCollectionMobile addCollection"  data-type='project'  data-id="{{ $housingOrder }}" data-project="{{ $project->id }}" 
->
-                                <div class="add-to-collection-button-wrapper">
-                                    <div class="add-to-collection-button">
+                        <div class="add-to-collections-wrapper addCollectionMobile addCollection" data-type='project'
+                            data-id="{{ $housingOrder }}" data-project="{{ $project->id }}">
+                            <div class="add-to-collection-button-wrapper">
+                                <div class="add-to-collection-button">
 
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="32" fill="#e54242" />
-                                            <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                <rect width="1440" height="1577" transform="translate(-1100 -1183)"
-                                                    fill="white" />
-                                                <g id="Group 6131">
-                                                    <g id="Frame 21409">
-                                                        <g id="Group 6385">
-                                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                height="48" rx="8" fill="#e54242 " />
-                                                            <g id="Group 2664">
-                                                                <rect id="Rectangle 316" width="32" height="32"
-                                                                    rx="4" fill="#e54242 " />
-                                                                <g id="Group 72">
-                                                                    <path id="Rectangle 12"
-                                                                        d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                        fill="white" stroke="white" stroke-width="2" />
-                                                                </g>
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="e54242"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="32" height="32" fill="#e54242" />
+                                        <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                            <rect width="1440" height="1577" transform="translate(-1100 -1183)"
+                                                fill="white" />
+                                            <g id="Group 6131">
+                                                <g id="Frame 21409">
+                                                    <g id="Group 6385">
+                                                        <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                            height="48" rx="8" fill="#e54242 " />
+                                                        <g id="Group 2664">
+                                                            <rect id="Rectangle 316" width="32" height="32"
+                                                                rx="4" fill="#e54242 " />
+                                                            <g id="Group 72">
+                                                                <path id="Rectangle 12"
+                                                                    d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
+                                                                    fill="white" stroke="white" stroke-width="2" />
                                                             </g>
                                                         </g>
                                                     </g>
                                                 </g>
                                             </g>
-                                            <defs>
-                                                <clipPath id="clip0_1750_971">
-                                                    <rect width="1440" height="1577" fill="white"
-                                                        transform="translate(-1100 -1183)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
-                                    </div>
-                                    <span class="fa fa-plus"></span>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1750_971">
+                                                <rect width="1440" height="1577" fill="white"
+                                                    transform="translate(-1100 -1183)" />
+                                            </clipPath>
+                                        </defs>
+                                    </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
                                 </div>
+                                <span class="fa fa-plus"></span>
                             </div>
+                        </div>
                     </div>
 
 
@@ -483,13 +488,11 @@
                                                     @else
                                                         {!! 'İl-İlçe:' !!}
                                                     @endif
-                                                    
+
                                                     <span class="det">
-                                                        {!! optional($project->city)->title .
-                                                            ' / ' .
-                                                            optional($project->county)->ilce_title !!}
+                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                         @if ($project->neighbourhood)
-                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title!!}
+                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                                         @endif
                                                     </span>
                                                 </td>
@@ -545,8 +548,9 @@
                 <div class="col-md-12">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                                type="button" role="tab" aria-controls="contact" aria-selected="false">Projedeki
+                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab"
+                                data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Projedeki
                                 Diğer Konutlar
                             </button>
                         </li>
@@ -560,7 +564,7 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-                       
+
                         <li class="nav-item" role="presentation">
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
@@ -587,7 +591,7 @@
                                             <tr>
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
-                                                    <span class="det"  style="color: #274abb;">
+                                                    <span class="det" style="color: #274abb;">
                                                         {{ $housingOrder + $project->id + 1000000 }}
                                                     </span>
                                                 </td>
@@ -595,7 +599,7 @@
 
                                             @foreach ($projectHousingSetting as $key => $housingSetting)
                                                 @php
-                                                    if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
+                                                    if (isset($projectHousing[$housingSetting->column_name . '[]']) && isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
                                                         $isArrayCheck = $housingSetting->is_array;
                                                         $onProject = false;
                                                         $valueArray = [];
@@ -626,7 +630,10 @@
                                                         }
                                                     }
                                                 @endphp
-                                                @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name])
+                                                @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&
+                                                        isset($project[$housingSetting->column_name]) &&
+                                                        $project[$housingSetting->column_name]
+                                                )
                                                     @if (!$isArrayCheck && (isset($value) && $value !== ''))
                                                         <tr>
                                                             @if ($housingSetting->label == 'Fiyat')
@@ -652,7 +659,7 @@
 
                                     @foreach ($projectHousingSetting as $housingSetting)
                                         @php
-                                            if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
+                                            if (isset($projectHousing[$housingSetting->column_name . '[]']) && isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
                                                 $isArrayCheck = $housingSetting->is_array;
                                                 $onProject = false;
                                                 $valueArray = [];
@@ -683,7 +690,10 @@
                                                 }
                                             }
                                         @endphp
-                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&  isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name])
+                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&
+                                                isset($project[$housingSetting->column_name]) &&
+                                                $project[$housingSetting->column_name]
+                                        )
                                             @if ($isArrayCheck)
                                                 @if (isset($valueArray))
                                                     <div class="mt-5">
@@ -760,11 +770,13 @@
                                                                                     }
 
                                                                                     $projectOffer = App\Models\Offer::where('type', 'project')
-                                                                                        ->where('project_id', $project->id)
-                                                                                        ->where('housing_id', $i + 1)
-                                                                                        ->where('start_date', '<=', now())
-                                                                                        ->where('end_date', '>=', now())
-                                                                                        ->first();
+                                                            ->where('project_id', $project->id)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                            })
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
                                                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                                                 @endphp
 
@@ -795,14 +807,15 @@
                                                                                                             <div
                                                                                                                 class="button-effect-div">
 
-                                                                                                                <span class="btn 
-                                                                                                                @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
-                                                                                                                data-type='project'
-                                                                                                                data-project='{{ $project->id }}'
-                                                                                                                data-id='{{ $i + 1 }}'>
-                                                                                                <i
-                                                                                                    class="fa fa-bookmark"></i>
-                                                                                            </span>
+                                                                                                                <span
+                                                                                                                    class="btn 
+                                                                                                                @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                                                                    data-type='project'
+                                                                                                                    data-project='{{ $project->id }}'
+                                                                                                                    data-id='{{ $i + 1 }}'>
+                                                                                                                    <i
+                                                                                                                        class="fa fa-bookmark-o"></i>
+                                                                                                                </span>
                                                                                                                 <div href="javascript:void()"
                                                                                                                     class="btn toggle-project-favorite bg-white"
                                                                                                                     data-project-housing-id="{{ $i + 1 }}"
@@ -818,32 +831,7 @@
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
                                                                                                                     style="height: 100px !important;object-fit:cover">
-                                                                                                                @if ($projectDiscountAmount)
-                                                                                                                    <div
-                                                                                                                        style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                                                                        <div
-                                                                                                                            style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                                                                            {{ '%' . round(($projectDiscountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
-                                                                                                                            <svg viewBox="0 0 24 24"
-                                                                                                                                width="16"
-                                                                                                                                height="16"
-                                                                                                                                stroke="currentColor"
-                                                                                                                                stroke-width="2"
-                                                                                                                                fill="none"
-                                                                                                                                stroke-linecap="round"
-                                                                                                                                stroke-linejoin="round"
-                                                                                                                                class="css-i6dzq1"
-                                                                                                                                style="transform: rotate(45deg);">
-                                                                                                                                <polyline
-                                                                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                                                                </polyline>
-                                                                                                                                <polyline
-                                                                                                                                    points="17 18 23 18 23 12">
-                                                                                                                                </polyline>
-                                                                                                                            </svg>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                @endif
+                                                                                                              
 
                                                                                                             </div>
                                                                                                         </div>
@@ -1077,7 +1065,7 @@
                                                                                                                     </button>
                                                                                                                 @else
                                                                                                                     <button
-                                                                                                                        class="CartBtn second-btn"
+                                                                                                                        class="CartBtn second-btn mobileCBtn"
                                                                                                                         data-type='project'
                                                                                                                         data-project='{{ $project->id }}'
                                                                                                                         style="height: auto !important"
@@ -1137,11 +1125,13 @@
                                                                         $room_order = $i + 1;
 
                                                                         $projectOffer = App\Models\Offer::where('type', 'project')
-                                                                            ->where('project_id', $project->id)
-                                                                            ->where('housing_id', $i + 1)
-                                                                            ->where('start_date', '<=', now())
-                                                                            ->where('end_date', '>=', now())
-                                                                            ->first();
+                                                            ->where('project_id', $project->id)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                            })
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
                                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                                     @endphp
@@ -1182,14 +1172,15 @@
                                                                                                 {{ $project->step1_slug }}
                                                                                             @endif
                                                                                         </h3>
-                                                                                        <span class="btn 
-                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
-                                                                                        data-type='project'
-                                                                                        data-project='{{ $project->id }}'
-                                                                                        data-id='{{ $i + 1 }}'>
-                                                                        <i
-                                                                            class="fa fa-bookmark"></i>
-                                                                    </span>
+                                                                                        <span
+                                                                                            class="btn 
+                                                                                        @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                                            data-type='project'
+                                                                                            data-project='{{ $project->id }}'
+                                                                                            data-id='{{ $i + 1 }}'>
+                                                                                            <i
+                                                                                                class="fa fa-bookmark-o"></i>
+                                                                                        </span>
                                                                                         <span
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1227,7 +1218,7 @@
                                                                                                 </button>
                                                                                             @else
                                                                                                 <button
-                                                                                                    class="CartBtn second-btn "
+                                                                                                    class="CartBtn second-btn mobileCBtn "
                                                                                                     data-type='project'
                                                                                                     data-project='{{ $project->id }}'
                                                                                                     data-id='{{ $i + 1 }}'>
@@ -1392,18 +1383,20 @@
                                             <div class="row project-filter-reverse blog-pots">
                                                 @for ($i = 0; $i < $project->room_count; $i++)
                                                     @php
-                                                        if (isset($projectCartOrders[$i + 1])) {
-                                                            $sold = $projectCartOrders[$i + 1];
-                                                        } else {
-                                                            $sold = null;
-                                                        }
+                                                        $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
+
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
-                                                            ->where('housing_id', $i + 1)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                            })
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
+
+
                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+
                                                     @endphp
 
                                                     <div class="col-md-12 col-12">
@@ -1429,14 +1422,15 @@
                                                                                 <div class="project-inner project-head">
 
                                                                                     <div class="button-effect-div">
-                                                                                        <span class="btn
-                                                                                        @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"  
-                                                                                        data-type='project'
-                                                                                        data-project='{{ $project->id }}'
-                                                                                        data-id='{{ $i + 1 }}'>
-                                                                        <i
-                                                                            class="fa fa-bookmark"></i>
-                                                                    </span>
+                                                                                        <span
+                                                                                            class="btn
+                                                                                        @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else  addCollection mobileAddCollection @endif"
+                                                                                            data-type='project'
+                                                                                            data-project='{{ $project->id }}'
+                                                                                            data-id='{{ $i + 1 }}'>
+                                                                                            <i
+                                                                                                class="fa fa-bookmark-o"></i>
+                                                                                        </span>
                                                                                         <div href="javascript:void()"
                                                                                             class="btn toggle-project-favorite bg-white"
                                                                                             data-project-housing-id="{{ $i + 1 }}"
@@ -1450,33 +1444,7 @@
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
                                                                                             style="height: 100px !important;object-fit:cover">
-                                                                                        @if ($projectDiscountAmount)
-                                                                                            <div
-                                                                                                style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                                                <div
-                                                                                                    style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                                                    {{ '%' . round(($projectDiscountAmount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
-                                                                                                    <svg viewBox="0 0 24 24"
-                                                                                                        width="16"
-                                                                                                        height="16"
-                                                                                                        stroke="currentColor"
-                                                                                                        stroke-width="2"
-                                                                                                        fill="none"
-                                                                                                        stroke-linecap="round"
-                                                                                                        stroke-linejoin="round"
-                                                                                                        class="css-i6dzq1"
-                                                                                                        style="transform: rotate(45deg);">
-                                                                                                        <polyline
-                                                                                                            points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                                        </polyline>
-                                                                                                        <polyline
-                                                                                                            points="17 18 23 18 23 12">
-                                                                                                        </polyline>
-                                                                                                    </svg>
-                                                                                                </div>
-
-                                                                                            </div>
-                                                                                        @endif
+                                                                                    
                                                                                     </div>
 
                                                                                 </div>
@@ -1698,7 +1666,8 @@
                                                                                             @endif
                                                                                         </button>
                                                                                     @else
-                                                                                        <button class="CartBtn second-btn"
+                                                                                        <button
+                                                                                            class="CartBtn second-btn mobileCBtn"
                                                                                             data-type='project'
                                                                                             data-project='{{ $project->id }}'
                                                                                             style="height: auto !important"
@@ -1736,11 +1705,13 @@
                                                     $room_order = $i + 1;
 
                                                     $projectOffer = App\Models\Offer::where('type', 'project')
-                                                        ->where('project_id', $project->id)
-                                                        ->where('housing_id', $i + 1)
-                                                        ->where('start_date', '<=', now())
-                                                        ->where('end_date', '>=', now())
-                                                        ->first();
+                                                            ->where('project_id', $project->id)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                            })
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
                                                 <div class="d-flex" style="flex-wrap: nowrap">
@@ -1779,14 +1750,14 @@
                                                                             {{ $project->step1_slug }}
                                                                         @endif
                                                                     </h3>
-                                                                    <span class="btn 
-                                                                    @if ($sold && $sold->status == '1' || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"  
-                                                                    data-type='project'
-                                                                    data-project='{{ $project->id }}'
-                                                                    data-id='{{ $i + 1 }}'>
-                                                    <i
-                                                        class="fa fa-bookmark"></i>
-                                                </span>
+                                                                    <span
+                                                                        class="btn 
+                                                                    @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                        data-type='project'
+                                                                        data-project='{{ $project->id }}'
+                                                                        data-id='{{ $i + 1 }}'>
+                                                                        <i class="fa fa-bookmark-o"></i>
+                                                                    </span>
                                                                     <span class="btn toggle-project-favorite bg-white"
                                                                         data-project-housing-id="{{ $i + 1 }}"
                                                                         style="color: white;"
@@ -1818,7 +1789,7 @@
                                                                                 @endif
                                                                             </button>
                                                                         @else
-                                                                            <button class="CartBtn second-btn "
+                                                                            <button class="CartBtn second-btn mobileCBtn "
                                                                                 data-type='project'
                                                                                 data-project='{{ $project->id }}'
                                                                                 data-id='{{ $i + 1 }}'>
@@ -2190,16 +2161,29 @@
 
                                 if (!tempPlans.includes(paymentPlanData[j])) {
                                     if (paymentPlanData[j] == "pesin") {
-                                        var priceData = getDataJS(response, "price[]", response.room_info[i].room_order);
+                                        var priceData = getDataJS(response, "price[]", response
+                                            .room_info[i].room_order);
                                         var installementData = "-";
                                         var advanceData = "-";
                                         var monhlyPrice = "-";
                                     } else {
-                                        var priceData = getDataJS(response, "installments-price[]",response.room_info[i].room_order);
-                                        var installementData = getDataJS(response, "installments[]",response.room_info[i].room_order);
-                                        var advanceData = formatPrice(getDataJS(response, "advance[]",response.room_info[i].room_order)) + "₺";
-                                        console.log((parseFloat(getDataJS(response,"installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]", response.room_info[i].room_order))));
-                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,"installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order))) /parseInt(installementData)))) + '₺';
+                                        var priceData = getDataJS(response, "installments-price[]",
+                                            response.room_info[i].room_order);
+                                        var installementData = getDataJS(response, "installments[]",
+                                            response.room_info[i].room_order);
+                                        var advanceData = formatPrice(getDataJS(response, "advance[]",
+                                            response.room_info[i].room_order)) + "₺";
+                                        console.log((parseFloat(getDataJS(response,
+                                            "installments-price[]", response.room_info[
+                                                i].room_order)) - parseFloat(getDataJS(
+                                            response, "advance[]", response.room_info[i]
+                                            .room_order))));
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order)) - parseFloat(
+                                                getDataJS(response, "advance[]",
+                                                    response.room_info[i].room_order))) /
+                                            parseInt(installementData)))) + '₺';
                                     }
                                     var isMobile = window.innerWidth < 768;
                                     html += "<tr>";
@@ -2486,7 +2470,7 @@ out center;`;
     data-type='project'
     data-project='{{ $project->id }}'
     data-id='${startIndex+1+i+lastBlockHousingCount}'>
-    <i class="fa fa-bookmark"></i>
+    <i class="fa fa-bookmark-o"></i>
 </span>
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
@@ -2671,7 +2655,7 @@ out center;`;
                                                                     }
                                                                 </button>`
                             } else {
-                                html += `<button class="CartBtn second-btn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
+                                html += `<button class="CartBtn second-btn mobileCBtn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
                                                                     <span
                                                                         class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}"
@@ -2770,7 +2754,7 @@ out center;`;
     data-type='project'
     data-project='{{ $project->id }}'
     data-id='${startIndex+1+i+lastBlockHousingCount}'>
-    <i class="fa fa-bookmark"></i>
+    <i class="fa fa-bookmark-o"></i>
 </span>
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
@@ -2959,7 +2943,7 @@ out center;`;
                                                                     }
                                                                 </button>`
                                 } else {
-                                    html += `<button class="CartBtn second-btn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
+                                    html += `<button class="CartBtn second-btn mobileCBtn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
                                                                     <span
                                                                         class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}"
