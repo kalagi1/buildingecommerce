@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                             <div class="w-100" style="padding-left:0;">
-                                <div class="bg-white h-100 d-flex flex-column justify-content-center">
+                                <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                     <button class="btn btn-danger"
                                         data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
                                         style="width:50px;padding:0 !important;margin-bottom:4px"
@@ -225,7 +225,7 @@
 
                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-success mt-1">
-                                            Kazanç:
+                                            Kazanç: <br>
                                             @if ($item['item_type'] == 2)
                                                 @php
                                                     $sharePercent = 0.5;
@@ -266,7 +266,7 @@
                                         </span>
                                     @endif
                                     </div>
-                                   
+                                 
 
 
                                 </div>
