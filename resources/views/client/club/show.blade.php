@@ -386,7 +386,7 @@
                                                             </button>
                                                         @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                             <button class="btn second-btn  mobileCBtn"
-                                                                @if ($item['action'] == 'payment_await') style="background: orange !important;color:White @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
+                                                                @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
                                                                 @if ($item['action'] == 'payment_await')
                                                                     <span class="text">Onay Bekleniyor</span>
                                                                 @else
