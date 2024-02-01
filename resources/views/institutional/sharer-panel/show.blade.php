@@ -223,7 +223,7 @@
 
 
                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                        <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                        <span class="badge badge-phoenix fs-10 badge-phoenix-success mt-3">
                                             Kazanç:
                                             @if ($item['item_type'] == 2)
                                                 @php
