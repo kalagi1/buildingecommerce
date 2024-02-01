@@ -179,10 +179,16 @@
                             </div>
                             <div class="w-100" style="padding-left:0;">
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
-
-                                    <a style="text-decoration: none;height:100%"
+                                    <button class="btn btn-danger"
+                                    data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
+                                    style="width:50px;padding:0 !important;margin-bottom:4px"
+                                    data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
+                                    @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
+                                    Sil
+                                </button>
+                                    <a style="text-decoration: none;height:100%;margin-bottom:5px"
                                         href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
-                                        <div class="d-flex" style="gap: 8px;justify-content:space-between">
+                                        <div class="d-flex" style="gap: 8px;justify-content:space-between;align-items:center">
 
                                             <h4>
                                                 #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
@@ -191,34 +197,30 @@
                                             </h4>
 
 
-                                            <button class="btn btn-info remove-from-collection btn-sm" style="float: right"
-                                                data-type="{{ $item['item_type'] == 1 ? 'project' : 'housing' }}"
-                                                data-id="{{ $item['item_type'] == 1 ? $item['room_order'] : $item['housing']->id }}"
-                                                @if ($item['item_type'] == 1) data-project="{{ $item['project']->id }}" @endif>
-                                                Sil
-                                            </button>
+                                      
                                         </div>
                                     </a>
-                                    <div class="d-flex" style="align-items:center;justify-content:space-between">
+                                    <div>
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-danger">
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                             @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
-                                                <span style="color: green;">
+                                                <span >
                                                     {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                 </span><br>
-                                                <del style="color: red;">
+                                                <del >
                                                     {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
                                                     ₺
                                                 </del>
                                             @else
-                                                <span style="color: green; ">
+                                                <span >
                                                     {{ number_format($item['item_type'] == 1 ? $item['project_values']['price[]'] : json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
                                                     ₺
                                                 </span>
                                             @endif
                                         @endif
-                                        </span>
+                                        </span> <br>
                                         <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                            Kazanç:
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                 @if ($item['item_type'] == 2)
                                                     @php
