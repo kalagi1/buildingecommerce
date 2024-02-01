@@ -9,7 +9,7 @@
                         <div class="brands-square w-100">
                             <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
                                 class="brand-logo">
-                            <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}"
+                            <p class="brand-name"><span
                                     style="color:White">
                                     {{ $store->name }}
                                     <style type="text/css">
@@ -49,7 +49,7 @@
                                         </svg>
                                     @endif
 
-                                </a>
+                                </span>
                             </p>
                             <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
 
