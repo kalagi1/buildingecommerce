@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class SharerController extends Controller {
+
+    public function view() {
+
+        return view("client.sharer-panel.view");
+    }
     public function index() {
         $sharer = User::where( 'id', auth()->user()->id )->first();
         $items = ShareLink::where( 'user_id', auth()->user()->id )->get();
