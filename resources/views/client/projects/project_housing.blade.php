@@ -3026,7 +3026,11 @@ out center;`;
         .mobileTagProject {
             display: none
         }
-
+        .mobile-action-move {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly
+        }
 
         @media (max-width:768px) {
             .mobile-action {
