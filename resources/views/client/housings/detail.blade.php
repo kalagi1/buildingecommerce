@@ -1968,6 +1968,11 @@
         }
 
         @media (max-width:768px) {
+            .flex-mobile{
+                display: flex;
+    align-items: center;
+    justify-content: space-between;
+            }
             .mobile-action-move h4 {
                 font-size: 18px;
                 font-weight: 700;

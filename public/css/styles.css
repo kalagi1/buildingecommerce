@@ -30226,8 +30226,8 @@ a {
     .button-effect,
     .main-button,
     .buttons .button{
-        width:40px;
-        height:40px !important;
+        width:35px !important;
+        height:35px !important;
     }
     .mobileAddCollection ,
     .disabledShareButton {

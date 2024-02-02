@@ -43,7 +43,7 @@
         </div>
         <div class="brand-head mb-30">
             <div class="container">
-                <div class="card mb-3">
+                <div class="card">
                     <div class="card-img-top" style="background-color: {{ $project->user->banner_hex_code }}">
                         <div class="brands-square">
                             <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
@@ -168,6 +168,8 @@
                                         @endif
                                     </h3>
                                 </div>
+                                <div class="mobile-action"></div>
+
                             </div>
 
                         </div>
@@ -184,7 +186,7 @@
                                 @if ($offSaleValue == '[]')
                                     <div class="single detail-wrapper mr-2">
                                         <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar">
+                                            <div class="listing-title-bar mobileMovePrice">
                                                 <div style="white-space: nowrap">
                                                     <div class="discountAmountStyle">
                                                         @if ($discountAmount)
@@ -215,7 +217,7 @@
                             @else
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar">
+                                        <div class="listing-title-bar mobileMovePrice">
                                             <div style="white-space: nowrap">
                                                 <div class="discountAmountStyle">
                                                     @if ($discountAmount)
@@ -317,14 +319,7 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center">
-                                <div class="col-md-2 col-2">
-                                    <div class="button-effect toggle-project-favorite"
-                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
-                                        data-project-id={{ $project->id }}>
-                                        <i class="fa fa-heart-o"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-2">
+                                <div class="col-md-5 col-5 mobile-action-move">
                                     <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
@@ -369,8 +364,14 @@
                                                 </svg></a>
                                         </button>
                                     </div>
+                                    <div class="button-effect toggle-project-favorite"
+                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                        data-project-id={{ $project->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+                                  
                                 </div>
-                                <div class="col-md-8 col-8">
+                                <div class="col-md-7 col-7">
                                     @php
                                         $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'] ?? null;
                                         $soldStatus = optional($sold)->status;
@@ -2045,7 +2046,20 @@
         }
 
         if ($(window).width() <= 768) {
+            var mobileActionMove = $(".mobile-action-move").html();
+            var mobileMove = $(".mobileMove").html();
+            var mobileHour = $(".mobileHour").html();
+            var mobileMovePrice = $(".mobileMovePrice").html();
 
+            $("#listingDetailsSlider").after(mobileHour);
+            $(".mobileHourDiv").after(mobileMove);
+            $(".mobile-action").html(mobileActionMove);
+
+
+            $(".mobileMovePrice").remove();
+            $(".mobile-action-move").html(mobileMovePrice);
+            $(".mobileMove").remove();
+            $(".mobileHour").remove();
             var buyBtn = $(".buyBtn").html();
             var moveCollection = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
@@ -3016,6 +3030,41 @@ out center;`;
 
 
         @media (max-width:768px) {
+            .mobile-action-move h4 {
+                font-size: 18px;
+                font-weight: 700;
+                color: #274abb;
+                display: flex;
+                width: 100%;
+                margin-bottom: 0;
+                align-items: center;
+                justify-content: center;
+                text-transform: capitalize !important;
+            }
+
+            .buttons {
+                margin-right: 10px
+            }
+
+
+            .detail-wrapper-body,
+            .mobile-action {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
+
+            .listing-title-bar {
+                color: black;
+                font-size: 12px !important;
+                width: 100%;
+                display: block;
+                text-align: left;
+            }
+
+            .brand-head {
+                margin-bottom: 0 !important;
+            }
             .addCollectionMobile {
                 margin-bottom: 30px !important
             }
@@ -3075,7 +3124,7 @@ out center;`;
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px !important;
+            height: 48px ;
             border-radius: 50%;
             display: flex;
             align-items: center;
