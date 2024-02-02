@@ -1968,6 +1968,9 @@
         }
 
         @media (max-width:768px) {
+            .mobile-action{
+                margin-left: 10px
+            }
             .flex-mobile{
                 display: flex;
     align-items: center;

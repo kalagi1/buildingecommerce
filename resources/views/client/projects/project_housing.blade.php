@@ -369,7 +369,7 @@
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
                                     </div>
-                                  
+
                                 </div>
                                 <div class="col-md-7 col-7">
                                     @php
@@ -771,13 +771,13 @@
                                                                                     }
 
                                                                                     $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
+                                                                                        ->where('project_id', $project->id)
+                                                                                        ->where(function ($query) use ($i) {
+                                                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                                                        })
+                                                                                        ->where('start_date', '<=', now())
+                                                                                        ->where('end_date', '>=', now())
+                                                                                        ->first();
                                                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                                                 @endphp
 
@@ -832,7 +832,7 @@
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
                                                                                                                     style="height: 100px !important;object-fit:cover">
-                                                                                                              
+
 
                                                                                                             </div>
                                                                                                         </div>
@@ -1126,13 +1126,13 @@
                                                                         $room_order = $i + 1;
 
                                                                         $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
+                                                                            ->where('project_id', $project->id)
+                                                                            ->where(function ($query) use ($i) {
+                                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                                            })
+                                                                            ->where('start_date', '<=', now())
+                                                                            ->where('end_date', '>=', now())
+                                                                            ->first();
                                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                                     @endphp
@@ -1395,7 +1395,6 @@
                                                             ->where('end_date', '>=', now())
                                                             ->first();
 
-
                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                     @endphp
@@ -1445,7 +1444,7 @@
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
                                                                                             style="height: 100px !important;object-fit:cover">
-                                                                                    
+
                                                                                     </div>
 
                                                                                 </div>
@@ -1706,13 +1705,13 @@
                                                     $room_order = $i + 1;
 
                                                     $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
+                                                        ->where('project_id', $project->id)
+                                                        ->where(function ($query) use ($i) {
+                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                        })
+                                                        ->where('start_date', '<=', now())
+                                                        ->where('end_date', '>=', now())
+                                                        ->first();
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
                                                 <div class="d-flex" style="flex-wrap: nowrap">
@@ -3030,6 +3029,10 @@ out center;`;
 
 
         @media (max-width:768px) {
+            .mobile-action {
+                margin-left: 10px
+            }
+
             .mobile-action-move h4 {
                 font-size: 18px;
                 font-weight: 700;
@@ -3065,6 +3068,7 @@ out center;`;
             .brand-head {
                 margin-bottom: 0 !important;
             }
+
             .addCollectionMobile {
                 margin-bottom: 30px !important
             }
@@ -3124,7 +3128,7 @@ out center;`;
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px ;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
