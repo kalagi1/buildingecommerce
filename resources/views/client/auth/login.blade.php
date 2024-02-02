@@ -609,6 +609,7 @@
                     individualForm.style.display = 'block';
                     individualFormCheck.style.display = 'block';
                     individualFormCheck.classList.remove('hidden');
+                    individualForm.classList.remove("hidden");
 
                     corporateForm.classList.remove('d-show');
                     corporateFormCheck.classList.remove('d-show');
@@ -619,7 +620,9 @@
                     corporateForm.style.display = 'block';
                     corporateFormCheck.style.display = 'block';
                     corporateFormCheck.classList.remove('hidden');
-
+                    individualForm.style.display = 'none';
+                    individualFormCheck.style.display = 'block';
+                    corporateForm.classList.remove("hidden");
 
                     individualForm.classList.remove('d-show');
                     individualFormCheck.classList.remove('d-show');
