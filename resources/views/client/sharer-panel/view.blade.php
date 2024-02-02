@@ -16,7 +16,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="how-it-works bg-white rec-pro">
         <div class="container">
             <div class="row service-1">
@@ -308,7 +308,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 rigthSide gradient-overlay background-image"  style="background-image: url('https://emlakkulup.emlaksepette.com/club/assets/img/content-sections/content-image-2.jpg')">
+                <div class="col-md-4 rigthSide gradient-overlay background-image"  style="background-image: url('club/assets/img/content-sections/content-image-2.jpg')">
                     <div class="right-side-inner">
                         <h2 class="background-title">
                             Emlaksepette.com ‘da yer alan yüzbinlerce proje ilanını ve emlak ilanlarını seç ve bütün dünya ile paylaş. <br><br>
