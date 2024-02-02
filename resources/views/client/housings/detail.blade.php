@@ -403,7 +403,7 @@
                                                 data-housing-id={{ $housing->id }}>
                                                 <i class="fa fa-heart-o"></i>
                                             </div>
-                                           
+
                                         </div>
                                         <div class="col-md-7 col-7">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
@@ -647,7 +647,8 @@
                                                             <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
                                                                 Yap
                                                             </h4>
-                                                            <div class="d-flex align-items-center justify-content-around mobile-action-move">
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-around mobile-action-move">
                                                                 <div class="buttons" style="margin-right: 5px">
                                                                     <button class="main-button">
                                                                         <svg width="20" height="30"
@@ -1959,27 +1960,31 @@
             border: 1px solid #dee2e6;
             width: 100%;
         }
-        .mobile-action-move{
-            display: flex;align-items: center;justify-content: space-evenly
+
+        .mobile-action-move {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly
         }
 
         @media (max-width:768px) {
-            .mobile-action-move h4{
+            .mobile-action-move h4 {
                 font-size: 18px;
-    font-weight: 700;
-    color: #274abb;
-    display: flex;
-    width: 100%;
-    margin-bottom: 0;
-    align-items: center;
-    justify-content: center;
-    text-transform: capitalize !important;
+                font-weight: 700;
+                color: #274abb;
+                display: flex;
+                width: 100%;
+                margin-bottom: 0;
+                align-items: center;
+                justify-content: center;
+                text-transform: capitalize !important;
             }
+
             .buttons {
                 margin-right: 10px
             }
 
-         
+
             .detail-wrapper-body,
             .mobile-action {
                 display: flex;
