@@ -1266,7 +1266,7 @@ strong {
 /* Typography and Roundedness */
 
 .button--text-upper {
-    letter-spacing: 2px;
+    
     text-transform: uppercase;
 }
 
@@ -25273,7 +25273,7 @@ section.ui-element {
 }
 
 h5.uppercase {
-    letter-spacing: 2px;
+    
     margin-right: -2px;
 }
 
@@ -25571,7 +25571,7 @@ ul {
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    
     font-weight: 700;
 }
 
@@ -25702,7 +25702,7 @@ table.basic-table {
 
 
 .notification p {
-    color: #fff;
+    color: black;
     margin: 0;
     font-size: 15px;
 }
@@ -26275,7 +26275,7 @@ select {
 }
 
 h4 {
-    letter-spacing: 2px;
+    
     margin-right: -2px;
     font-family: Lato, sans-serif;
     font-size: 11px;
