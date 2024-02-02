@@ -349,10 +349,6 @@
 
                                     <div class="row buttonDetail" style="align-items: center">
                                         <div class="col-md-5 col-5 mobile-action-move">
-                                            <div class="button-effect toggle-favorite"
-                                                data-housing-id={{ $housing->id }}>
-                                                <i class="fa fa-heart-o"></i>
-                                            </div>
                                             <div class="buttons">
                                                 <button class="main-button">
                                                     <svg width="20" height="30" fill="currentColor"
@@ -403,6 +399,11 @@
                                                         </svg></a>
                                                 </button>
                                             </div>
+                                            <div class="button-effect toggle-favorite"
+                                                data-housing-id={{ $housing->id }}>
+                                                <i class="fa fa-heart-o"></i>
+                                            </div>
+                                           
                                         </div>
                                         <div class="col-md-7 col-7">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
@@ -646,7 +647,7 @@
                                                             <h4><i class="fa fa-calendar pr-3 padd-r-10"></i>Rezervasyon
                                                                 Yap
                                                             </h4>
-                                                            <div class="d-flex align-items-center justify-content-around">
+                                                            <div class="d-flex align-items-center justify-content-around mobile-action-move">
                                                                 <div class="buttons" style="margin-right: 5px">
                                                                     <button class="main-button">
                                                                         <svg width="20" height="30"
@@ -1978,10 +1979,7 @@
                 margin-right: 10px
             }
 
-            .mobile-action {
-                flex-direction: row-reverse
-            }
-
+         
             .detail-wrapper-body,
             .mobile-action {
                 display: flex;
