@@ -776,6 +776,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/ilan-tipi-sec', [TempOrderController::class, "choiseAdvertiseType"])->name('choise.advertise.type');
     });
 
+    Route::post("set_pay_decs",[InstitutionalProjectController::class,"setPayDecs"])->name('set.pay.decs');
+    Route::get("get_room_pay_decs",[InstitutionalProjectController::class,"getRoomPayDec"])->name('get.pay.decs');
+
     Route::middleware(['checkPermission:TempOrder'])->group(function () {
         Route::post('/end_project_copy_item_image', [TempOrderController::class, "copyItemImage"])->name('copy.item.image');
         Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');

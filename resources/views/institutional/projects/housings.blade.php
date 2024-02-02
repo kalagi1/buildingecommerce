@@ -314,6 +314,7 @@
                                     <th class="sort" data-sort="room_count">İlan Adı</th>
                                     <th class="sort" data-sort="price">Fiyat</th>
                                     <th class="sort" data-sort="price">Taksitli Fiyat</th>
+                                    <th class="sort" data-sort="price">Ara Ödemeler</th>
                                     <th class="sort" data-sort="price">Taksit Sayısı</th>
                                     <th class="sort" data-sort="price">Peşinat</th>
                                     <th class="sort" data-sort="sold">Satış Durumu</th>
@@ -415,6 +416,15 @@
                                             @else
                                                 -
                                             @endif
+                                        </td>
+
+                                        <td class="price">
+                                            <div class="pop-up-edit">
+                                                <span room-order="{{$i+1}}" class="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                    Ara ödemeleri güncelle <br>
+                                                    {{getData($project, 'pay-dec-count'.$i + 1, $i + 1)->value}} Adet ara ödeme bulunmakta
+                                                </span>
+                                            </div>
                                         </td>
 
                                         <td class="price">
@@ -731,6 +741,52 @@
         </div>
     </div>
 
+    <div class="batch-update-pop-up d-none">
+        <div class="batch-update-pop-up-bg"></div>
+        <div class="batch-update-pop-up-content">
+            <div class="close">
+                <i class="fa fa-times"></i>
+            </div>
+            <div class="content-batch">
+                
+                <form action="{{route('institutional.set.pay.decs')}}" method="post">
+                    @csrf
+
+                    <input type="hidden" name="project_id" value="{{$project->id}}">
+                    <input type="hidden" name="item_order" class="item_order">
+                    <div class="dec-pay-area">
+                        <div class="top">
+                            <h4>Ara Ödemeler</h4>
+                            <button class="btn btn-primary add-pay-dec"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="pay-desc">
+                            <div class="pay-desc-item">
+                                <div class="row" style="align-items: flex-end;">
+                                    <div class="flex-1">
+                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    <div class="flex-10">
+                                        <label for="">Ara Ödeme Tutarı</label>
+                                        <input type="text" value="" name="pay-dec-price[]" class="price-only form-control pay-desc-price">
+                                    </div>
+                                    <div class="flex-10">
+                                        <label for="">Ara Ödeme Tarihi</label>
+                                        <input type="date" value="" name="pay-dec-date[]" class="form-control pay-desc-date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <input type="submit" name="current-item" value="Sadece Belirtilen İlana Uygula" class="btn btn-primary btn-sm"/>
+                        <input type="submit" name="all-items" value="Tüm İlanlara Uygula" class="btn btn-primary btn-sm"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <style>
         .fade:not(.show) {
             display: none !important;
@@ -744,9 +800,119 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        function priceFormat(price) {
+            let inputValue = price;
+            inputValue = inputValue.replace(/\D/g, '');
+            inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return inputValue;
+        }
+        $('.batch_update_button').click(function(){
+            $('.batch-update-pop-up').removeClass('d-none')
+            var roomOrder = $(this).attr('room-order');
+
+            $.ajax({
+                    method: "GET",
+                    url: "{{ route('institutional.get.pay.decs') }}",
+                    data: {
+                        item_order: roomOrder,
+                        project_id : {{$project->id}}
+                    },
+                    success : function(response){
+                        response = JSON.parse(response);
+                        var html = "";
+                        for(var i = 0 ; i < response.pay_dec_count.value; i++){
+                            html += `
+                            <div class="pay-desc-item">
+                                <div class="row" style="align-items: flex-end;">
+                                    <div class="flex-1">
+                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    <div class="flex-10">
+                                        <label for="">Ara Ödeme Tutarı</label>
+                                        <input type="text" name="pay-dec-price[]" value="${priceFormat(response.pay_dec_price[i].value)}" class="price-only pay-desc-price form-control">
+                                    </div>
+                                    <div class="flex-10">
+                                        <label for="">Ara Ödeme Tarihi</label>
+                                        <input type="date" name="pay-dec-date[]" value="${response.pay_dec_date[i].value}" class="form-control pay-desc-date">
+                                    </div>
+                                </div>
+                            </div>`
+                        }
+
+                        $('.pay-desc').html(html);
+
+                    },
+                    error: function(error) {
+                        console.log(error)
+                    }
+                })
+            $('.item_order').val($(this).attr('room-order'))
+        })
+
         $('.rulesOpen').click(function() {
             $('#rulesOpenModal').addClass('show')
             $('#rulesOpenModal').addClass('d-block')
+        })
+
+        $('.batch-update-pop-up-bg').click(function(){
+            $('.batch-update-pop-up').addClass('d-none')
+        })
+
+        $('.batch-update-pop-up-content .close').click(function(){
+            $('.batch-update-pop-up').addClass('d-none')
+        })
+
+        $('.add-pay-dec').click(function(e){
+            e.preventDefault();
+            $('.pay-desc').append(`
+                <div class="pay-desc-item">
+                    <div class="row" style="align-items: flex-end;">
+                        <div class="flex-1">
+                            <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                        </div>
+                        <div class="flex-10">
+                            <label for="">Ara Ödeme Tutarı</label>
+                            <input type="text" name="pay-dec-price[]" class="price-only pay-desc-price form-control">
+                        </div>
+                        <div class="flex-10">
+                            <label for="">Ara Ödeme Tarihi</label>
+                            <input type="date" name="pay-dec-date[]" class="form-control pay-desc-date">
+                        </div>
+                    </div>
+                </div>
+            `)
+
+        })
+
+        $(document).on("keyup",".price-only",function(){
+            $('.price-only .error-text').remove();
+            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
+                if($(this).closest('.form-group').find('.error-text').length > 0){
+                    $(this).val("");
+                }else{
+                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                    $(this).val("");
+                }
+                
+            }else{
+                let inputValue = $(this).val();
+
+                // Sadece sayı karakterlerine izin ver
+                inputValue = inputValue.replace(/\D/g, '');
+
+                // Her üç basamakta bir nokta ekleyin
+                inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+                $(this).val(inputValue)
+                $(this).closest('.form-group').find('.error-text').remove();
+            }
+        })
+
+
+        $(document).on("click",".remove-pay-dec",function(e){
+            e.preventDefault();
+            $(this).closest('.pay-desc-item').remove();
+            
         })
 
         $('#rulesOpenModal').click(function() {
