@@ -656,7 +656,7 @@
                                 </li>
                             @endforeach
                             <li>
-                                <a href="{{url('/emlak-kulup')}}" target="_blank">
+                                <a href="{{url('/emlak-kulup')}}">
                                     <b style="font-weight:800 !important;display:flex">
                                         <img style="height: 32px;
                                         position: absolute;
