@@ -50,7 +50,7 @@
         </div>
         <div class="brand-head mb-30">
             <div class="container">
-                <div class="card mb-3">
+                <div class="card">
                     <div class="card-img-top" style="background-color: {{ $housing->user->banner_hex_code }}">
                         <div class="brands-square">
                             <img src="{{ url('storage/profile_images/' . $housing->user->profile_image) }}" alt=""
@@ -152,8 +152,8 @@
                             @endphp
                             <div class="detail-wrapper-body">
                                 <div class="listing-title-bar pb-3">
-                                    <strong style="color: black;font-size: 11px !important;">İlan No: <span
-                                            style="color:#274abb;font-size: 11px !important;">{{ $housing->id + 2000000 }}</span>
+                                    <strong style="color: black;font-size: 12px !important;">İlan No: <span
+                                            style="color:#274abb;font-size: 12px !important;">{{ $housing->id + 2000000 }}</span>
                                     </strong>
                                     <h3>
                                         @if ($status && $status != '0' && $status != '1')
@@ -167,6 +167,7 @@
                                         @endif
                                     </h3>
                                 </div>
+                                <div class="mobile-action"></div>
                             </div>
 
                         </div>
@@ -179,7 +180,7 @@
                                 @if ($sold[0]->status != '0' && $sold[0]->status != '1')
                                     <div class="single detail-wrapper mr-2">
                                         <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar">
+                                            <div class="listing-title-bar mobileMovePrice">
                                                 <h4>
                                                     @if ($discountAmount)
                                                         <svg viewBox="0 0 24 24" width="24" height="24"
@@ -209,7 +210,7 @@
                             @else
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-bodys">
-                                        <div class="listing-title-bar">
+                                        <div class="listing-title-bar mobileMovePrice">
                                             <h4>
                                                 <div>
                                                     @if ($discountAmount)
@@ -347,13 +348,11 @@
 
 
                                     <div class="row buttonDetail" style="align-items: center">
-                                        <div class="col-md-2 col-2">
+                                        <div class="col-md-5 col-5 mobile-action-move">
                                             <div class="button-effect toggle-favorite"
                                                 data-housing-id={{ $housing->id }}>
                                                 <i class="fa fa-heart-o"></i>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2 col-2">
                                             <div class="buttons">
                                                 <button class="main-button">
                                                     <svg width="20" height="30" fill="currentColor"
@@ -405,7 +404,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-md-8 col-8">
+                                        <div class="col-md-7 col-7">
                                             @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                 <button class="btn second-btn "
                                                     style="background: #EA2B2E !important;width:100%;color:White">
@@ -446,8 +445,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="add-to-collections-wrapper addCollection"  data-type='housing' data-id="{{ $housing->id }}" 
-                                           >
+                                <div class="add-to-collections-wrapper addCollection" data-type='housing'
+                                    data-id="{{ $housing->id }}">
                                     <div class="add-to-collection-button-wrapper">
                                         <div class="add-to-collection-button">
 
@@ -1048,7 +1047,8 @@
                                 <ul>
                                     <li>EFT/Havale Kodu<strong class="pull-right totalPriceCode">$60</strong></li>
                                     <li>Toplam Tutar<strong class="pull-right totalPrice">$150</strong></li>
-                                    <li class="red pb-0">Ödenecek Tutar %50<strong class="pull-right newTotalPrice">$263</strong> </li>
+                                    <li class="red pb-0">Ödenecek Tutar %50<strong
+                                            class="pull-right newTotalPrice">$263</strong> </li>
                                 </ul>
                             </div>
                             <div class="booking-price-detail side-list no-border">
@@ -1223,13 +1223,18 @@
             $('.fa-info-circle').tooltip()
         })
         if (window.innerWidth <= 768) {
+            var mobileActionMove = $(".mobile-action-move").html();
             var mobileMove = $(".mobileMove").html();
             var mobileHour = $(".mobileHour").html();
+            var mobileMovePrice = $(".mobileMovePrice").html();
 
             $("#listingDetailsSlider").after(mobileHour);
             $(".mobileHourDiv").after(mobileMove);
+            $(".mobile-action").html(mobileActionMove);
 
 
+            $(".mobileMovePrice").remove();
+            $(".mobile-action-move").html(mobileMovePrice);
             $(".mobileMove").remove();
             $(".mobileHour").remove();
 
@@ -1495,15 +1500,20 @@
                     }
                 }
 
-                $('#money-trusted').change(function(){
-                    if($(this).is(':checked')){
-                        $('.reservation-form-add-area ul').append("<li class='pb-0'>Param Güvende <strong class='pull-right money-trusted-price'>1000 ₺</strong></li>")
-                        $('.reservation-form-add-area ul').append("<li >Yeni toplam fiyat <strong class='pull-right money-trusted-add-total-price'>"+(parseInt($('.newTotalPrice').html()) + 1000)+" ₺</strong></li>")
-                        $('#completePaymentButton').html((parseInt($('.newTotalPrice').html()) + 1000)+" ₺ Öde")
-                    }else{
+                $('#money-trusted').change(function() {
+                    if ($(this).is(':checked')) {
+                        $('.reservation-form-add-area ul').append(
+                            "<li class='pb-0'>Param Güvende <strong class='pull-right money-trusted-price'>1000 ₺</strong></li>"
+                        )
+                        $('.reservation-form-add-area ul').append(
+                            "<li >Yeni toplam fiyat <strong class='pull-right money-trusted-add-total-price'>" +
+                            (parseInt($('.newTotalPrice').html()) + 1000) + " ₺</strong></li>")
+                        $('#completePaymentButton').html((parseInt($('.newTotalPrice').html()) + 1000) +
+                            " ₺ Öde")
+                    } else {
                         $('.money-trusted-price').closest('li').remove();
                         $('.money-trusted-add-total-price').closest('li').remove();
-                        $('#completePaymentButton').html((parseInt($('.newTotalPrice').html()))+" ₺ Öde")
+                        $('#completePaymentButton').html((parseInt($('.newTotalPrice').html())) + " ₺ Öde")
                     }
                 })
 
@@ -1948,8 +1958,49 @@
             border: 1px solid #dee2e6;
             width: 100%;
         }
+        .mobile-action-move{
+            display: flex;align-items: center;justify-content: space-evenly
+        }
 
         @media (max-width:768px) {
+            .mobile-action-move h4{
+                font-size: 18px;
+    font-weight: 700;
+    color: #274abb;
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize !important;
+            }
+            .buttons {
+                margin-right: 10px
+            }
+
+            .mobile-action {
+                flex-direction: row-reverse
+            }
+
+            .detail-wrapper-body,
+            .mobile-action {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
+
+            .listing-title-bar {
+                color: black;
+                font-size: 12px !important;
+                width: 100%;
+                display: block;
+                text-align: left;
+            }
+
+            .brand-head {
+                margin-bottom: 0 !important;
+            }
+
             .listingDetailsSliderNav {
                 display: none !important;
             }
@@ -1987,7 +2038,7 @@
         }
 
         .dayContainer {
-            padding: 11px !important;
+            padding: 12px !important;
         }
 
         .rating-area .rating.selected polygon {

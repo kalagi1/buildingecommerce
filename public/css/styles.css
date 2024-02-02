@@ -18027,7 +18027,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .widget-boxed {
-    padding: 1.5rem;
+    padding: 1rem;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     z-index: 90;
@@ -18789,7 +18789,7 @@ span {
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 14px !important;
         width: 100%;
-        text-align: center;
+        text-align: left;
     }
 
     .schedule.widget-boxed.mt-33 {
@@ -25938,7 +25938,7 @@ table.basic-table {
 }
 
 .ui-buttons h4.effect {
-    font-family: Lato, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     color: #444;
     font-weight: 400;
@@ -26259,7 +26259,7 @@ select {
 h4 {
     
     margin-right: -2px;
-    font-family: Lato, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     color: #444;
     font-weight: 400;
@@ -30222,6 +30222,13 @@ a {
 
 
 @media (max-width: 768px) {
+        
+    .button-effect,
+    .main-button,
+    .buttons .button{
+        width:40px;
+        height:40px !important;
+    }
     .mobileAddCollection ,
     .disabledShareButton {
         border: 1px solid gray;
