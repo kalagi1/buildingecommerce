@@ -8813,6 +8813,7 @@ a.button {
 
 .input-group.search input {
     border: none;
+    margin-bottom: 0 !important;
     width: 100%;
     font-size: 11px;
     background-color: transparent !important;
