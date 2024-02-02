@@ -871,7 +871,7 @@
         .field-icon {
             float: right;
             margin-right: 9px;
-            margin-top: -29px;
+            margin-top: -27px;
             position: relative;
             z-index: 2;
             z-index: 9999;
