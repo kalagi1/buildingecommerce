@@ -422,7 +422,7 @@
                                             <div class="pop-up-edit">
                                                 <span room-order="{{$i+1}}" class="badge badge-phoenix badge-phoenix-primary batch_update_button">
                                                     Ara ödemeleri güncelle <br>
-                                                    {{getData($project, 'pay-dec-count'.$i + 1, $i + 1)->value}} Adet ara ödeme bulunmakta
+                                                    {{isset(getData($project, 'pay-dec-count'.$i + 1, $i + 1)) && getData($project, 'pay-dec-count'.$i + 1, $i + 1) ? getData($project, 'pay-dec-count'.$i + 1, $i + 1)->value : 0}} Adet ara ödeme bulunmakta
                                                 </span>
                                             </div>
                                         </td>
