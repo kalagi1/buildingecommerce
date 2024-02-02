@@ -25700,15 +25700,6 @@ table.basic-table {
 /** Table **/
 /** Notifications **/
 
-#result .success,
-.notification {
-    line-height: 24px;
-    margin-bottom: 15px;
-    position: relative;
-    padding: 20px 26px;
-    padding-right: 50px;
-    border-radius: 3px;
-}
 
 .notification p {
     color: #fff;
