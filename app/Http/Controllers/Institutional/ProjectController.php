@@ -63,6 +63,83 @@ class ProjectController extends Controller
 
     }
 
+    public function setPayDecs(Request $request){ 
+        $project = Project::where('id',$request->input('project_id'))->first();
+        if($request->input('all-items')){
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('name','LIKE','%pay_desc_price%')->delete();
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('name','LIKE','%pay_desc_date%')->delete();
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('name','LIKE','%pay-dec-count%')->delete();
+            for($i = 0; $i < $project->room_count; $i++){
+                ProjectHousing::create([
+                    "key" => 'pay-dec-count'.($i+1),
+                    "name" => 'pay-dec-count'.($i+1),
+                    "value" => count($request->input('pay-dec-price')),
+                    "project_id" => $project->id,
+                    "room_order" => $i + 1
+                ]); 
+                for($j = 0 ; $j < count($request->input('pay-dec-price'));$j++){
+                    ProjectHousing::create([
+                        "key" => 'pay_desc_price'.($i+1).$j,
+                        "name" => 'pay_desc_price'.($i+1).$j,
+                        "value" => str_replace('.','',$request->input('pay-dec-price')[$j]),
+                        "project_id" => $project->id,
+                        "room_order" => $i + 1
+                    ]); 
+
+                    ProjectHousing::create([
+                        "key" => 'pay_desc_date'.($i+1).$j,
+                        "name" => 'pay_desc_date'.($i+1).$j,
+                        "value" => $request->input('pay-dec-date')[$j],
+                        "project_id" => $project->id,
+                        "room_order" => $i + 1
+                    ]); 
+                }
+            }
+        }else{
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('item_order'))->where('name','LIKE','%pay_desc_price%')->delete();
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('item_order'))->where('name','LIKE','%pay_desc_date%')->delete();
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('item_order'))->where('name','LIKE','%pay-dec-count%')->delete();
+            ProjectHousing::create([
+                "key" => 'pay-dec-count'.$request->input('item_order'),
+                "name" => 'pay-dec-count'.$request->input('item_order'),
+                "value" => count($request->input('pay-dec-price')),
+                "project_id" => $project->id,
+                "room_order" => $request->input('item_order')
+            ]); 
+            for($j = 0 ; $j < count($request->input('pay-dec-price'));$j++){
+                ProjectHousing::create([
+                    "key" => 'pay_desc_price'.$request->input('item_order').$j,
+                    "name" => 'pay_desc_price'.$request->input('item_order').$j,
+                    "value" => str_replace('.','',$request->input('pay-dec-price')[$j]),
+                    "project_id" => $project->id,
+                    "room_order" => $request->input('item_order')
+                ]); 
+
+                ProjectHousing::create([
+                    "key" => 'pay_desc_date'.$request->input('item_order').$j,
+                    "name" => 'pay_desc_date'.$request->input('item_order').$j,
+                    "value" => str_replace('.','',$request->input('pay-dec-date')[$j]),
+                    "project_id" => $project->id,
+                    "room_order" => $request->input('item_order')
+                ]); 
+            }
+        }
+
+        return redirect()->route('institutional.projects.housings',$project->id);
+    }
+
+    public function getRoomPayDec(Request $request){
+        $payDecCount = ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('item_order'))->where('name','pay-dec-count'.$request->input('item_order'))->first();
+        $payDecPrice = ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('item_order'))->where('name','LIKE','%pay_desc_price'.$request->input('item_order').'%')->get();
+        $payDecDate = ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('item_order'))->where('name','LIKE','%pay_desc_date'.$request->input('item_order').'%')->get();
+
+        return json_encode([
+            "pay_dec_count" => $payDecCount,
+            "pay_dec_price" => $payDecPrice,
+            "pay_dec_date" => $payDecDate,
+        ]);
+    }
+
     public function editHousing($projectId,$roomOrder){
         $project = Project::where('id',$projectId)->first();
         $housingType = HousingType::where('id',$project->housing_type_id)->first();

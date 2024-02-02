@@ -42803,3 +42803,56 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .pay-desc-item{
     margin-top: 10px;
 }
+
+.batch-update-pop-up{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.batch-update-pop-up-bg{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: #333;
+    opacity: 0.2;
+}
+
+.batch-update-pop-up-content{
+    width: 50%;
+    background: #fff;
+    z-index: 3;
+    position: relative;
+    padding: 15px;
+}
+
+.batch-update-pop-up-content .close{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: -15px;
+    top: -15px;
+    border-radius: 100%;
+}
+
+.batch-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.batch_update_button{
+    cursor: pointer;
+}
