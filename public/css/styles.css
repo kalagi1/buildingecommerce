@@ -527,7 +527,6 @@ img {
     font-size: 17px;
     border: none;
     border-radius: 0.7em;
-    letter-spacing: 0.08em;
     position: relative;
     display: flex;
     align-content: center;
@@ -4092,7 +4091,7 @@ section.team {
     margin-bottom: 10px;
     font-size: 15px;
     font-weight: 400;
-    letter-spacing: 1px;
+
 }
 
 .team-content ul {
@@ -6955,7 +6954,6 @@ a.button,
 
 .homepage-3 .singleJobClinet p,
 .homepage-1 .singleJobClinet p {
-    letter-spacing: 0.32px;
     margin-bottom: 25px;
 }
 
@@ -6997,7 +6995,6 @@ a.button,
 .homepage-1 .detailJC h5 {
     font-size: 19px;
     line-height: 28px;
-    letter-spacing: 0.38px;
     margin-bottom: 0;
 }
 
@@ -7005,7 +7002,6 @@ a.button,
 .homepage-1 .detailJC p {
     color: #666;
     font-size: 15px;
-    letter-spacing: .30px;
     margin: 0;
 }
 
@@ -10282,7 +10278,6 @@ a.button {
 
 .swiper_imgbox .swipper_img>h4 {
     font-size: 11px;
-    letter-spacing: 8px;
     text-transform: uppercase;
     color: #c18847;
     margin: 0;
@@ -10294,7 +10289,6 @@ a.button {
     text-transform: uppercase;
     font-weight: 400;
     color: #252a2d;
-    letter-spacing: 13px;
     position: absolute;
     left: 10px;
     right: 0;
@@ -10713,7 +10707,6 @@ a.int_btn,
 .int_btn_two {
     background: #ff1d4d;
     width: 170px;
-    letter-spacing: 1px;
 }
 
 .btn_caret {
@@ -11282,7 +11275,6 @@ a.button {
 
 .int_white_bg .swiper_imgbox .swipper_img>h4 {
     font-size: 11px;
-    letter-spacing: 8px;
     text-transform: uppercase;
     color: #c18847;
     margin: 0;
@@ -11294,7 +11286,6 @@ a.button {
     text-transform: uppercase;
     font-weight: 400;
     color: #f1f1f1;
-    letter-spacing: 13px;
     position: absolute;
     left: 10px;
     right: 0;
@@ -13200,7 +13191,6 @@ section.visited-cities {
     right: 0;
     z-index: 3;
     font-size: 11px;
-    letter-spacing: 1px;
     opacity: 0;
     font-weight: 400;
     -webkit-transform: translateY(400%);
@@ -13574,7 +13564,6 @@ section.visited-cities {
     margin-right: 15px;
     position: relative;
     display: block;
-    letter-spacing: 0.4px;
     background: #fff;
     color: #000;
     font-family: var(--heading-font);
@@ -15290,7 +15279,6 @@ section.h18.testimonials {
 .slide-left-social ul li a {
     color: #000;
     font-size: 10px;
-    letter-spacing: 5px;
     text-transform: uppercase;
     font-weight: 600;
     text-decoration: none;
@@ -16479,7 +16467,6 @@ a.button {
 
 .inner-pages .letter-spacing-093 {
     font-weight: 600;
-    letter-spacing: .93px !important;
 }
 
 .inner-pages .input-group-lg>.form-control {
@@ -18331,7 +18318,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: #717171;
     font-size: 11px;
     font-weight: 400;
-    letter-spacing: 0em;
     padding: 10px 15px;
     width: 100%
 }
@@ -18851,7 +18837,6 @@ span {
 .inner-pages .leave-rating label {
     font-size: 24px;
     float: right;
-    letter-spacing: 4px;
     color: #dadada;
     cursor: pointer;
     -webkit-transition: .3s;
@@ -19304,7 +19289,7 @@ h2.white {
     margin-bottom: 10px;
     font-size: .97rem;
     font-weight: 400;
-    letter-spacing: 1px;
+    
 }
 
 .inner-pages .team-content ul {
@@ -23322,7 +23307,6 @@ a.btn_1 {
     font-weight: 600;
     font-size: 15px;
     font-style: normal;
-    letter-spacing: 0em;
     padding: 13px 30px;
     position: relative;
     overflow: hidden;
@@ -26214,7 +26198,6 @@ select {
     font-size: 11px;
     text-transform: uppercase;
     font-weight: bold;
-    letter-spacing: 1px;
     color: #777;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -26344,7 +26327,6 @@ h4 {
     font-size: 11px;
     text-transform: uppercase;
     font-weight: bold;
-    letter-spacing: 1px;
     border-radius: 0 !important;
 }
 
@@ -28815,7 +28797,6 @@ font{
 #orders-container .orders-collection-point-description .delivery-point-desc {
     font-size: 11px;
     font-weight: 400;
-    letter-spacing: -0.1px;
     color: #333333;
     display: flex;
     align-items: center;
