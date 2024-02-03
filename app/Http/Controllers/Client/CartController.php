@@ -890,7 +890,18 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     }
                 }
 
-                return view( 'client.cart.index', compact( 'cart', 'bankAccounts', 'saleType' ) );
+                
+                $pageInfo = [
+                    "meta_title" => "Sepetim",
+                    "meta_keywords" => "Sepetim",
+                    "meta_description" => "Emlak Sepette Sepetim",
+                    "meta_author" => "Emlak Sepette",
+                ];
+
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+
+                return view( 'client.cart.index', compact( 'pageInfo','cart', 'bankAccounts', 'saleType' ) );
             }
 
             public function removeFromCart( Request $request ) {
