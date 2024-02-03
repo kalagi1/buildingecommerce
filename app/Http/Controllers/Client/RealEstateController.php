@@ -10,7 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class RealEstateController extends Controller
 {
     public function index(){
-        return view('client.realestate-form.index');
+        $pageInfo = [
+            "meta_title" => "Sat Kirala",
+            "meta_keywords" => "Emlak Sepette,Sat Kirala",
+            "meta_description" => "Emlak Kulüp Sat Kirala",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+        return view('client.realestate-form.index',compact('pageInfo'));
     }
 
     public function store(Request $request){

@@ -21,8 +21,17 @@ use Illuminate\Support\Facades\Request as FacadesRequest;
 class SharerController extends Controller {
 
     public function view() {
+        $pageInfo = [
+            "meta_title" => "Emlak Kulüp",
+            "meta_keywords" => "Emlak Sepette,Emlak Kulüp",
+            "meta_description" => "Emlak Kulüp",
+            "meta_author" => "Emlak Sepette",
+        ];
 
-        return view("client.sharer-panel.view");
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+
+        return view("client.sharer-panel.view",compact('pageInfo'));
     }
     public function index() {
         $sharer = User::where( 'id', auth()->user()->id )->first();

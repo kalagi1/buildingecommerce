@@ -16,7 +16,17 @@ class ForgotPasswordController extends Controller {
     */
 
     public function showLinkRequestForm() {
-        return view( 'auth.passwords.email' );
+        
+        $pageInfo = [
+            "meta_title" => "Şifremi Sıfırla",
+            "meta_keywords" => "Emlak Sepette,Şifremi Sıfırla",
+            "meta_description" => "Emlak Sepette Sifremi Sıfırla",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+        return view( 'auth.passwords.email',compact('pageInfo') );
     }
 
     /**

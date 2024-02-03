@@ -81,9 +81,17 @@ class ProjectController extends Controller
      
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
         $status = HousingStatus::find($statusID);
+        $pageInfo = [
+            "meta_title" => $project->project_title,
+            "meta_keywords" => $project->project_title."Proje,Proje Detay,".$project->city->title,
+            "meta_description" => $project->project_title,
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
         
-        
-        return view('client.projects.index', compact('projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact("pageInfo",'projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
     
@@ -499,33 +507,65 @@ class ProjectController extends Controller
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
                 if (isset($housingTypeData)) {
-                foreach ($housingTypeData as $data) {
-                    if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
-                        $filterItem = [
-                            "label" => $data->label,
-                            "type" => $data->type,
-                            "name" => str_replace('[]', '', $data->name),
-                        ];
-        
-                        if ($data->type == "select" || $data->type == "checkbox-group") {
-                            $filterItem["values"] = $data->values;
-                        } else if ($data->type == "text") {
-                            $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
+                    foreach ($housingTypeData as $data) {
+                        if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
+                            $filterItem = [
+                                "label" => $data->label,
+                                "type" => $data->type,
+                                "name" => str_replace('[]', '', $data->name),
+                            ];
+            
+                            if ($data->type == "select" || $data->type == "checkbox-group") {
+                                $filterItem["values"] = $data->values;
+                            } else if ($data->type == "text") {
+                                $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
+                            }
+            
+                            // Eğer toggle varsa, toggle değerini ekleyin
+                            if (isset($data->toggle)) {
+                                $filterItem['toggle'] = $data->toggle;
+                            }
+            
+                            array_push($filters, $filterItem);
                         }
-        
-                        // Eğer toggle varsa, toggle değerini ekleyin
-                        if (isset($data->toggle)) {
-                            $filterItem['toggle'] = $data->toggle;
-                        }
-        
-                        array_push($filters, $filterItem);
                     }
                 }
             }
-            }
         }
 
-        return view('client.all-projects.menu-list', compact('filters',"slugItem","items",'nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        $title = "";
+        
+        if($slugName){
+            $title .= $slugName;
+        }
+
+        if($housingTypeSlugName){
+            $title .= " ".$housingTypeSlugName;
+        }
+
+        if($optName){
+            $title .= " ".$optName;
+        }
+
+        if($housingTypeName){
+            $title .= " ".$housingTypeName;
+        }
+
+        if($checkTitle){
+            $title .= " ".$checkTitle;
+        }
+
+        $pageInfo = [
+            "meta_title" => $title,
+            "meta_keywords" => "Emlak Sepette,asdasd",
+            "meta_description" => "Emlak Sepette",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+
+        return view('client.all-projects.menu-list', compact('pageInfo','filters',"slugItem","items",'nslug','checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
 
     public function allProjects($slug)
@@ -615,7 +655,18 @@ class ProjectController extends Controller
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
-        return view('client.projects.project_housing', compact('projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        
+        $pageInfo = [
+            "meta_title" => $projectHousingsList[$housingOrder]['advertise_title[]'],
+            "meta_keywords" => $project->project_title."Proje,Proje Detay,".$project->city->title,
+            "meta_description" => $projectHousingsList[$housingOrder]['advertise_title[]'],
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+
+        return view('client.projects.project_housing', compact('pageInfo','projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)

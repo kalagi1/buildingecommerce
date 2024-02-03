@@ -113,7 +113,18 @@ class LoginController extends Controller {
         $subscriptionPlans_emlakci = SubscriptionPlan::where( 'plan_type', 'Emlakçı' )->get();
         $subscriptionPlans_banka = SubscriptionPlan::where( 'plan_type', 'Banka' )->get();
         $subscriptionPlans_insaat = SubscriptionPlan::where( 'plan_type', 'İnşaat' )->get();
-        return view( 'client.auth.login', compact( 'cities', 'subscriptionPlans_bireysel', 'towns', 'subscriptionPlans', 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat' ) );
+        
+        $pageInfo = [
+            "meta_title" => "Giriş Yap & Kayıt Ol",
+            "meta_keywords" => "Giriş Yap",
+            "meta_description" => "Emlak Sepetteye giriş yap",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+
+        return view( 'client.auth.login', compact("pageInfo", 'cities', 'subscriptionPlans_bireysel', 'towns', 'subscriptionPlans', 'subscriptionPlans_emlakci', 'subscriptionPlans_banka', 'subscriptionPlans_insaat' ) );
 
     }
 

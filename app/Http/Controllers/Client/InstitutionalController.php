@@ -75,9 +75,16 @@ class InstitutionalController extends Controller
                 ->orderByDesc('housings.created_at')
                 ->where("user_id",$institutional->id)
                 ->get();
-
-
-                return view("client.institutional.dashboard", compact("store","slug", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
+                $pageInfo = [
+                    "meta_title" => $store->name,
+                    "meta_keywords" => "Emlak Sepette,".$store->name,
+                    "meta_description" => "Emlak Kulüp ".$store->name,
+                    "meta_author" => "Emlak Sepette",
+                ];
+        
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+                return view("client.institutional.dashboard", compact("pageInfo","store","slug", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
             }
         }
     }
@@ -167,6 +174,7 @@ class InstitutionalController extends Controller
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
                 $institutional = User::where("id", $institutional->id)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
+                
                 return view("client.institutional.detail", compact("institutional"));
             }
         }
