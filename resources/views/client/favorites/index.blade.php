@@ -46,7 +46,6 @@
 
                                         $project = $item->project;
                                         $housingId = $item->housing_id;
-                                     dd($item);
                                         $projectDiscountAmount =
                                             App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $project->id)
@@ -58,13 +57,13 @@
                                              
 
                                         $soldQuery = 'SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1';
-                                        $sold = DB::select($soldQuery, [getHouse($project, 'price[]', $housingId)->room_order, $project->id]);
+                                        $sold = DB::select($soldQuery, [$housingId, $project->id]);
                                     @endphp
 
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'price[]', $housingId)->room_order]) }}">
+                                                href="{{ route('project.housings.detail', [$project->slug, $housingId) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingId)->value }}"
                                                     class="img-fluid">
@@ -73,7 +72,7 @@
                                         <td>
                                             <div class="inner">
                                                 <a
-                                                    href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'price[]', $housingId)->room_order]) }}">
+                                                    href="{{ route('project.housings.detail', [$project->slug, $housingId) }}">
                                                
                                                     <h2>{{ $project->project_title }} Projesinde {{ getHouse($project, 'price[]', $housingId)->room_order}} No'lu {{$project->step1_slug}}<br>
                                                         <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
