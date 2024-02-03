@@ -28,8 +28,8 @@
                             <th class="pl-2">Konut</th>
                             <th class="p-0"></th>
                             <th class="pl-2">Fiyat</th>
-                            <th>Sepete Ekle</th>
                             <th>Kaldır</th>
+                            <th>Sepete Ekle</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -186,7 +186,11 @@
 
                                             </span>
                                         </td>
-                                     
+                                        <td class="actions">
+                                            <a href="#" class="remove-from-cart"
+                                                data-housing-id="{{ $item->housing->id }}" style="float: left"><i
+                                                    class="far fa-trash-alt"></i></a>
+                                        </td>
                                         <td>
                                             @if ($item->housing->step2_slug != 'gunluk-kiralik')
                                                 <button class="CartBtn" data-type='housing'
@@ -212,11 +216,7 @@
                                                 </script>
                                             @endif
                                         </td>
-                                        <td class="actions">
-                                            <a href="#" class="remove-from-cart"
-                                                data-housing-id="{{ $item->housing->id }}" style="float: left"><i
-                                                    class="far fa-trash-alt"></i></a>
-                                        </td>
+
                                     </tr>
                                 @endif
 
