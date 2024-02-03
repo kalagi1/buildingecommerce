@@ -819,7 +819,7 @@
                                                                                                                 class="the-icons mobile-hidden">
                                                                                                                 <span>
                                                                                                                     @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                                                                                                        @if ($sold)
+                                                                                                                        @if(isset($sold))
                                                                                                                             @if ($sold->status != '1' && $sold->status != '0')
                                                                                                                                 @if ($projectDiscountAmount)
                                                                                                                                     <h6
@@ -883,7 +883,7 @@
                                                                                                         <span
                                                                                                             class="price-mobile">
                                                                                                             @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                                                                                                @if ($sold)
+                                                                                                                @if(isset($sold))
                                                                                                                     @if ($sold->status != '1' && $sold->status != '0')
                                                                                                                         @if ($projectDiscountAmount)
                                                                                                                             <h6
@@ -1143,7 +1143,7 @@
                                                                                     <span
                                                                                         class="ml-auto text-primary priceFont">
                                                                                         @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                                                                            @if ($sold)
+                                                                                            @if(isset($sold))
                                                                                                 @if ($sold->status != '1' && $sold->status != '0')
                                                                                                     @if ($projectDiscountAmount)
                                                                                                         <h6
@@ -1431,8 +1431,7 @@
                                                                                     <li class="the-icons mobile-hidden">
                                                                                         <span>
                                                                                             @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                                                                                @if ($sold)
-                                                                                                asssadsa
+                                                                                                @if(isset($sold))
                                                                                                     @if ($sold->status != '1' && $sold->status != '0')
                                                                                                         @if ($projectDiscountAmount)
                                                                                                             <h6
@@ -1454,7 +1453,6 @@
                                                                                                         @endif
                                                                                                     @endif
                                                                                                 @else
-                                                                                                sdsddsd
                                                                                                     @if ($projectDiscountAmount)
                                                                                                         <h6
                                                                                                             style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
@@ -1493,7 +1491,7 @@
                                                                                 </a>
                                                                                 <span class="price-mobile">
                                                                                     @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                                                                        @if ($sold)
+                                                                                        @if(isset($sold))
                                                                                             @if ($sold->status != '1' && $sold->status != '0')
                                                                                                 @if ($projectDiscountAmount)
                                                                                                     <h6
@@ -1713,7 +1711,7 @@
                                                                 </div>
                                                                 <span class="ml-auto text-primary priceFont">
                                                                     @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                                                        @if ($sold)
+                                                                        @if(isset($sold))
                                                                             @if ($sold->status != '1' && $sold->status != '0')
                                                                                 @if ($projectDiscountAmount)
                                                                                     <h6
