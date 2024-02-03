@@ -41,22 +41,22 @@
                         @else
                             @foreach ($mergedFavorites as $key => $item)
                                 @if (isset($item->project_id))
-                                    @php
-                                        $data = $item->projectHousing->pluck('value', 'key')->toArray();
-
-                                        $project = $item->project;
-                                        $housingId = $item->housing_id;
-                                        $projectDiscountAmount =
-                                            App\Models\Offer::where('type', 'project')
-                                                ->where('project_id', $project->id)
-                                                ->where('project_housings', 'LIKE', "%\"{$project->housing_type_id}\"%")
-                                                ->where('start_date', '<=', now())
-                                                ->where('end_date', '>=', now())
-                                                ->first()->discount_amount ?? 0;
-
-                                        $soldQuery = 'SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1';
-                                        $sold = DB::select($soldQuery, [getHouse($project, 'price[]', $housingId)->room_order, $project->id]);
-                                    @endphp
+                                @php
+                                $data = $item->projectHousing->pluck('value', 'key')->toArray();
+                            
+                                $project = $item->project;
+                                $housingId = $item->housing_id;
+                                
+                                $projectDiscountAmount = App\Models\Offer::where('type', 'project')
+                                    ->where('project_id', $project->id)
+                                    ->where('project_housings', 'LIKE', "%\"{$project->housing_type_id}\"%")
+                                    ->where('start_date', '<=', now())
+                                    ->where('end_date', '>=', now())
+                                    ->first()->discount_amount ?? 0;
+                            
+                                $soldQuery = 'SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1';
+                                $sold = DB::select($soldQuery, [getHouse($project, 'price[]', $housingId)->room_order, $project->id]);
+                            @endphp
 
                                     <tr>
                                         <td class="image myelist">

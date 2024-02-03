@@ -492,7 +492,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <table class="table table-bordered ">
+                                        <table class="table">
                                             <tr>
                                                 <td>
                                                     İlan No:
