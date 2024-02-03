@@ -78,24 +78,26 @@
                                         <td colspan="4">Sepette Ürün Bulunmuyor</td>
                                     </tr>
                                 @else
-                                    @php
-                                        $housingOffer = App\Models\Offer::where('type', 'housing')
-                                            ->where('housing_id', $cart['item']['id'])
-                                            ->where('start_date', '<=', now())
-                                            ->where('end_date', '>=', now())
-                                            ->first();
-                                        $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
-
-                                        // Project için indirim kontrolü
-                                        $projectOffer = App\Models\Offer::where('type', 'project')
-                                            ->where('project_id', $cart['item']['id'])
-                                            ->where('project_housings', 'LIKE', '%' .$cart['item']['housing'] . '%')
-                                            ->where('start_date', '<=', now())
-                                            ->where('end_date', '>=', now())
-                                            ->first();
-                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                    @endphp
-
+                                @php
+                                if ($cart['type'] == 'housing') {
+                                    $housingOffer = App\Models\Offer::where('type', 'housing')
+                                        ->where('housing_id', $cart['item']['id'])
+                                        ->where('start_date', '<=', now())
+                                        ->where('end_date', '>=', now())
+                                        ->first();
+                                    $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
+                                } else {
+                                    // Project için indirim kontrolü
+                                    $projectOffer = App\Models\Offer::where('type', 'project')
+                                        ->where('project_id', $cart['item']['id'])
+                                        ->where('project_housings', 'LIKE', '%' . $cart['item']['housing'] . '%')
+                                        ->where('start_date', '<=', now())
+                                        ->where('end_date', '>=', now())
+                                        ->first();
+                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                }
+                            @endphp
+                            
 
                                     <tr>
                                         <td class="image myelist">
