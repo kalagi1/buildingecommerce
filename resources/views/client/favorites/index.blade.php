@@ -34,6 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{dd($mergedFavorites)}}
                         @if (count($favorites) == 0 && count($projectFavorites) == 0)
                             <tr>
                                 <td colspan="5">Favorileriniz Bulunmuyor</td>
@@ -44,9 +45,9 @@
                                     @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
 
                                     @php(
-                                            $discount_amount =
-                                                App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('project_housings', 'LIKE', "%\"{$item->project->housing_type_id}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                                        )
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $item->project->id)->where('project_housings', 'LIKE', "%\"{$item->project->housing_type_id}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+)
 
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1', [getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order, $item->project->id]))
 
@@ -97,7 +98,7 @@
                                         </td>
                                         <td>
                                             @if (getHouse($item->project, 'off_sale[]', $item->housing_id)->value != '[]')
-                                                <button class="btn mobileBtn second-btn " 
+                                                <button class="btn mobileBtn second-btn "
                                                     style="background: #EA2B2E !important;width:100%;color:White">
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
@@ -106,7 +107,7 @@
                                                 </button>
                                             @else
                                                 @if ($sold && $sold[0]->status != '2')
-                                                    <button class="btn second-btn " 
+                                                    <button class="btn second-btn "
                                                         @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                         @else 
                                         style="background: #EA2B2E !important;width:100%;color:White" @endif>
@@ -131,9 +132,9 @@
                                     </tr>
                                 @else
                                     @php(
-                                            $discount_amount =
-                                                App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                                        )
+    $discount_amount =
+        App\Models\Offer::where('type', 'housing')->where('housing_id', $item->housing->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+)
 
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$item->housing->id]))
 
@@ -168,7 +169,8 @@
                                                     @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                         @if ($item->housing->step2_slug == 'gunluk-kiralik')
                                                             {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                            ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">1 Gece</span>
+                                                            ₺ <span style="font-size:11px; color:Red"
+                                                                class="mobilePriceStyle">1 Gece</span>
                                                         @else
                                                             {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                             ₺
@@ -177,7 +179,8 @@
                                                 @else
                                                     @if ($item->housing->step2_slug == 'gunluk-kiralik')
                                                         {{ number_format(json_decode($item->housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                        ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">1 Gece</span>
+                                                        ₺ <span style="font-size:11px; color:Red" class="mobilePriceStyle">1
+                                                            Gece</span>
                                                     @else
                                                         {{ number_format(json_decode($item->housing->housing_type_data)->price[0], 0, ',', '.') }}
                                                         ₺
@@ -219,10 +222,8 @@
 
                                     </tr>
                                 @endif
-
                             @endforeach
-
-                            @endif
+                        @endif
 
                     </tbody>
                 </table>
@@ -283,7 +284,7 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        
+
                         toastr.success("Konut favorilerden kaldırıldı");
                         console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();
@@ -318,7 +319,7 @@
                         housing_id: housingId
                     },
                     success: function(response) {
-                        
+
                         toastr.success("Konut favorilerden kaldırıldı");
                         console.log("Konut favorilerden kaldırıldı: " + response);
                         location.reload();
