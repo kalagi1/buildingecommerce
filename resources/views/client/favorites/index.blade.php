@@ -2,8 +2,7 @@
 
 @section('content')
     @php
-
-        function getHouse($project, $key, $roomOrder)
+   function getHouse($project, $key, $roomOrder)
         {
             foreach ($project->roomInfo as $room) {
                 if ($room->room_order == $roomOrder && $room->name == $key) {
@@ -11,6 +10,7 @@
                 }
             }
         }
+
 
     @endphp
     <section class="recently portfolio bg-white homepage-5 ">
