@@ -10,7 +10,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="width: 10%">İlan No</th>
+                                    <th style="width: 15%">İlan No</th>
                                     <th style="width: 10%">Kapak Fotoğrafı</th>
                                     <th style="width: 35%">İlan Başlığı</th>
                                     <th style="width: 10%">Fiyat</th>
