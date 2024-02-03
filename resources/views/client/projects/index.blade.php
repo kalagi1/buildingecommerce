@@ -254,7 +254,7 @@
 
                                                 <tr>
                                                     <td>
-                                                        <span class="autoWidthTr">İletişim No:</span>
+                                                        <span class="autoWidthTr">Telefon:</span>
                                                         <span class="det"
                                                             style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
                                                     </td>
@@ -492,7 +492,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span class="mr-1">İletişim No:</span>
+                                            <span class="mr-1">Telefon:</span>
                                             <span class="det" style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
                                         </td>
                                     </tr>

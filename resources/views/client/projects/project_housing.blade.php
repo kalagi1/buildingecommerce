@@ -528,17 +528,6 @@
                                                     </td>
                                                 </tr>
                                             @endif
-                                            @if ($project->user->mobile_phone)
-                                            <tr>
-                                                <td>
-                                                    Telefon :
-                                                    <span class="det">
-                                                        <a style="text-decoration: none;color:inherit"
-                                                            href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        @endif
                                             @if ($project->step1_slug)
                                                 <tr>
                                                     <td>
