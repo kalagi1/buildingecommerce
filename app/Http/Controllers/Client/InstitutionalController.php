@@ -175,7 +175,16 @@ class InstitutionalController extends Controller
             if ($slugName === $slug) {
                 $institutional = User::where("id", $institutional->id)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
                 
-                return view("client.institutional.detail", compact("institutional"));
+                $pageInfo = [
+                    "meta_title" => $institutional->name,
+                    "meta_keywords" => "Emlak Sepette,".$institutional->name,
+                    "meta_description" => "Emlak Kulüp ".$institutional->name,
+                    "meta_author" => "Emlak Sepette",
+                ];
+        
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+                return view("client.institutional.detail", compact("institutional","pageInfo"));
             }
         }
 
@@ -226,7 +235,18 @@ class InstitutionalController extends Controller
                 ->orderByDesc('housings.created_at')
                 ->where("user_id",$institutional->id)
                 ->get();
-                return view("client.institutional.housings", compact("secondhandHousings", "store"));
+
+                $pageInfo = [
+                    "meta_title" => $store->name." Emlak İlanları",
+                    "meta_keywords" => "Emlak Sepette,".$store->name." Proje İlanları",
+                    "meta_description" => "Emlak Kulüp ".$store->name,
+                    "meta_author" => "Emlak Sepette",
+                ];
+        
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+
+                return view("client.institutional.housings", compact("pageInfo","secondhandHousings", "store"));
             }
         }
     }
@@ -238,7 +258,17 @@ class InstitutionalController extends Controller
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
                 $institutional = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands')->first();
-                return view("client.institutional.project-detail", compact("institutional"));
+                
+                $pageInfo = [
+                    "meta_title" => $institutional->name." Proje İlanları",
+                    "meta_keywords" => "Emlak Sepette,".$institutional->name." Proje İlanları",
+                    "meta_description" => "Emlak Kulüp ".$institutional->name,
+                    "meta_author" => "Emlak Sepette",
+                ];
+        
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+                return view("client.institutional.project-detail", compact("institutional","pageInfo"));
             }
         }
     }

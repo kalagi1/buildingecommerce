@@ -128,9 +128,17 @@ class HousingController extends Controller {
             }
         }
         
-        
+        $pageInfo = [
+            "meta_title" => $housing->title,
+            "meta_keywords" => "Emlak Sepette,İkinci el konut,konut",
+            "meta_description" => "Emlak Kulüpte".$housing->title,
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
         $parent = HousingTypeParent::where("slug", $housing->step1_slug)->first();        
-        return view('client.housings.detail', compact('housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'id', 'housingComments', 'labels'));
+        return view('client.housings.detail', compact('pageInfo','housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'id', 'housingComments', 'labels'));
     }
     
 
