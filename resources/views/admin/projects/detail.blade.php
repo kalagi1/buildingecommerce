@@ -150,7 +150,7 @@
 
                                         <tr>
                                             <td>
-                                                <strong class="autoWidthTr">Telefon:</strong>
+                                                <strong class="autoWidthTr">İletişim No:</strong>
                                                 <span class="det" style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
                                             </td>
                                         </tr>
