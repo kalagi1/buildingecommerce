@@ -2,7 +2,8 @@
 
 @section('content')
     @php
-   function getHouse($project, $key, $roomOrder)
+
+        function getHouse($project, $key, $roomOrder)
         {
             foreach ($project->roomInfo as $room) {
                 if ($room->room_order == $roomOrder && $room->name == $key) {
@@ -10,7 +11,6 @@
                 }
             }
         }
-
 
     @endphp
     <section class="recently portfolio bg-white homepage-5 ">
@@ -62,12 +62,12 @@
 
                                     <tr>
                                         <td class="image myelist">
-                                            {{-- <a
+                                            <a
                                                 href="{{ route('project.housings.detail', [$project->slug, $housingId]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingId)->value }}"
                                                     class="img-fluid">
-                                            </a> --}}
+                                            </a>
                                         </td>
                                         <td>
                                             <div class="inner">
