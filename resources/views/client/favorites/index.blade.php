@@ -46,7 +46,7 @@
 
                                         $project = $item->project;
                                         $housingId = $item->housing_id;
-                                        dd($housingId);
+                                     dd($item);
                                         $projectDiscountAmount =
                                             App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $project->id)
