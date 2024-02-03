@@ -71,10 +71,14 @@
                                             <div class="inner">
                                                 <a
                                                     href="{{ route('project.housings.detail', [$project->slug, getHouse($project, 'price[]', $housingId)->room_order]) }}">
-                                                    <h2 style="font-weight: 600">
-                                                        {{ getHouse($project, 'price[]', $housingId)->value . ' metrekare ' . getHouse($project, 'room_count[]', $housingId)->value }}
+                                               
+                                                    <h2>{{ $project->project_title }} Projesinde {{ getHouse($project, 'price[]', $housingId)->room_order}} No'lu {{$project->step1_slug}}<br>
+                                                        <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                            @endif
+                                                        </span>
                                                     </h2>
-                                                    <h2>{{ $project->project_title }}</h2>
                                                 </a>
                                             </div>
                                         </td>
@@ -158,9 +162,16 @@
                                         <td>
                                             <div class="inner">
                                                 <a href="{{ route('housing.show', $housing->id) }}">
-                                                    <h2 style="font-weight: 600">{{ $housing->title }}</h2>
-                                                    <figure><i class="lni-map-marker"></i>{{ $housing->city->title }}
-                                                    </figure>
+                                                    <h2 style="font-weight: 600">{{ $housing->title }}
+                                                        <br>
+                                                        <span>{!! optional($housing->city)->title .
+                                                            ' / ' .
+                                                            optional($housing->county)->title .
+                                                            ' / ' .
+                                                            optional($housing->neighborhood)->mahalle_title ??
+                                                            '' !!}</span>
+                                                    </h2>
+
                                                 </a>
                                             </div>
                                         </td>
