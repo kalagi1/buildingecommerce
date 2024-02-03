@@ -34,14 +34,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{dd($mergedFavorites)}}
                         @if (count($favorites) == 0 && count($projectFavorites) == 0)
                             <tr>
                                 <td colspan="5">Favorileriniz Bulunmuyor</td>
                             </tr>
                         @else
                             @foreach ($mergedFavorites as $key => $item)
-                                @if ($item->project_id)
+                                @if (isset($item->project_id))
                                     @php($data = $item->projectHousing->pluck('value', 'key')->toArray())
 
                                     @php(
