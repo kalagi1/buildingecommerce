@@ -40,7 +40,6 @@
                             </tr>
                         @else
                             @foreach ($mergedFavorites as $key => $item)
-                            {{dd(getHouse($project, 'price[]', $housingId)->room_order)}}
                                 @if (isset($item->project_id))
                                     @php
                                         $data = $item->projectHousing->pluck('value', 'key')->toArray();
@@ -54,6 +53,8 @@
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first()->discount_amount ?? 0;
+
+                                                dd(getHouse($project, 'price[]', $housingId)->room_order);
 
                                         $soldQuery = 'SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1';
                                         $sold = DB::select($soldQuery, [getHouse($project, 'price[]', $housingId)->room_order, $project->id]);
