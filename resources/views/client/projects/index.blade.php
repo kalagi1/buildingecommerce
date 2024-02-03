@@ -551,8 +551,7 @@
                             <div class="similar-property featured portfolio p-0 bg-white">
 
                                 <div class="single homes-content">
-
-                                    <table class="table ">
+                                    <table class="table">
                                         <tbody class="trStyle">
                                             <tr>
                                                 <td>
@@ -562,110 +561,60 @@
                                                     </span>
                                                 </td>
                                             </tr>
-
-                                            @foreach ($projectHousingSetting as $key => $housingSetting)
+                                            @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
+                                                    $isArrayCheck = $housingSetting->is_array;
+                                                    $value = '';
+                                
                                                     if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                        $isArrayCheck = $housingSetting->is_array;
-                                                        $onProject = false;
-                                                        $valueArray = [];
-
-                                                        if ($isArrayCheck) {
-                                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                            if (isset($valueArray)) {
-                                                                $value = implodeData($valueArray);
-                                                            }
+                                                        $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
+                                
+                                                        if ($isArrayCheck && isset($valueArray)) {
+                                                            $value = implodeData($valueArray);
                                                         } elseif ($housingSetting->is_parent_table) {
-                                                            $value = $project[$housingSetting->column_name];
-                                                            $onProject = true;
-                                                        } else {
+                                                            $value = $project[$housingSetting->column_name] ?? null;
+                                                        } elseif ($project->roomInfo) {
                                                             foreach ($project->roomInfo as $roomInfo) {
-                                                                if ($roomInfo->room_order == 1) {
-                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                        if ($roomInfo['value'] == '["on"]') {
-                                                                            $value = 'Evet';
-                                                                        } elseif ($roomInfo['value'] == '["off"]') {
-                                                                            $value = 'Hayır';
-                                                                        } else {
-                                                                            $value = $roomInfo['value'];
-                                                                        }
-                                                                        $onProject = true;
-                                                                    }
+                                                                if ($roomInfo->room_order == 1 && $roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                    $value = ($roomInfo['value'] == '["on"]') ? 'Evet' : (($roomInfo['value'] == '["off"]') ? 'Hayır' : $roomInfo['value']);
+                                                                    break;
                                                                 }
                                                             }
                                                         }
                                                     }
-
                                                 @endphp
-
-                                                @if (!$isArrayCheck && (isset($value) && $value !== '') && $housingSetting->label != 'Fiyat')
+                                
+                                                @if (!$isArrayCheck && isset($value) && $value !== '')
                                                     <tr>
-                                                        <td> <span class=" mr-1">{{ $housingSetting->label }}:</span>
-
+                                                        <td>
+                                                            <span class="mr-1">{{ $housingSetting->label }}:</span>
                                                             <span class="det">{{ $value }}</span>
                                                         </td>
                                                     </tr>
                                                 @endif
                                             @endforeach
-
+                                
+                                           
                                         </tbody>
                                     </table>
-
-
-
                                     @foreach ($projectHousingSetting as $housingSetting)
-                                        @php
-                                            if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                                $isArrayCheck = $housingSetting->is_array;
-                                                $onProject = false;
-                                                $valueArray = [];
-
-                                                if ($isArrayCheck) {
-                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                    if (isset($valueArray)) {
-                                                        $value = implodeData($valueArray);
-                                                    }
-                                                } elseif ($housingSetting->is_parent_table) {
-                                                    $value = $project[$housingSetting->column_name];
-                                                    $onProject = true;
-                                                } else {
-                                                    foreach ($project->roomInfo as $roomInfo) {
-                                                        if ($roomInfo->room_order == 1) {
-                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                if ($roomInfo['value'] == '["on"]') {
-                                                                    $value = 'Evet';
-                                                                } elseif ($roomInfo['value'] == '["off"]') {
-                                                                    $value = 'Hayır';
-                                                                } else {
-                                                                    $value = $roomInfo['value'];
-                                                                }
-                                                                $onProject = true;
-                                                            }
-                                                        }
-                                                    }
+                                    @php
+                                        if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                            $isArrayCheck = $housingSetting->is_array;
+                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
+                    
+                                            if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
+                                                echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name . '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                                                foreach ($valueArray as $ozellik) {
+                                                    echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
                                                 }
+                                                echo '</ul></div>';
                                             }
-                                        @endphp
-
-                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']))
-                                            @if ($isArrayCheck)
-                                                @if (isset($valueArray) && $valueArray != null)
-                                                    <div class="mt-5">
-                                                        <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
-                                                        </h5>
-                                                        <ul class="homes-list clearfix checkSquareIcon">
-                                                            @foreach ($valueArray as $ozellik)
-                                                                <li><i class="fa fa-check-square"
-                                                                        aria-hidden="true"></i><span>{{ $ozellik }}</span>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        @endif
-                                    @endforeach
+                                        }
+                                    @endphp
+                                @endforeach
                                 </div>
+                                
 
 
                             </div>
