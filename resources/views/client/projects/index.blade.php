@@ -1432,6 +1432,7 @@
                                                                                         <span>
                                                                                             @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                                 @if ($sold)
+                                                                                                asssadsa
                                                                                                     @if ($sold->status != '1' && $sold->status != '0')
                                                                                                         @if ($projectDiscountAmount)
                                                                                                             <h6
@@ -1453,6 +1454,7 @@
                                                                                                         @endif
                                                                                                     @endif
                                                                                                 @else
+                                                                                                sdsddsd
                                                                                                     @if ($projectDiscountAmount)
                                                                                                         <h6
                                                                                                             style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
