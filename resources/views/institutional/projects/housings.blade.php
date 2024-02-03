@@ -224,8 +224,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="sold">
-                                                    @if (isset(getData($project, 'off_sale[]', $i + 1)) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                        <div class="input d-none d-flex" style="align-items: center">
+                                                    @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                                    <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
                                                                 <option value="[]">Satışa Açık</option>
                                                                 <option value='["Satışa Kapalı"]' selected>Satışa Kapalı
@@ -487,8 +487,8 @@
                                             @endif
                                         </td>
                                         <td class="sold">
-                                            @if (isset(getData($project, 'off_sale[]', $i + 1)) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                <div class="input d-none d-flex" style="align-items: center">
+                                            @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                            <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]">Satışa Açık</option>
                                                         <option value='["Satışa Kapalı"]' selected>Satışa Kapalı</option>
