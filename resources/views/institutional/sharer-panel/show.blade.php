@@ -345,7 +345,9 @@
             display: flex;
             align-items: self-end;
         }
-
+        thead, tbody, tfoot, tr, td, th{
+            text-align: center
+        }
 
 
         @media (max-width: 768px) {
