@@ -1,25 +1,25 @@
 @extends('client.layouts.master')
 
 @section('content')
-@php
+    @php
 
-function implodeData($array)
-{
-    $html = '';
+        function implodeData($array)
+        {
+            $html = '';
 
-    for ($i = 0; $i < count($array); $i++) {
-        if ($i == 0) {
-            $html .= ' ' . $array[$i];
-        } else {
-            $html .= ', ' . $array[$i];
+            for ($i = 0; $i < count($array); $i++) {
+                if ($i == 0) {
+                    $html .= ' ' . $array[$i];
+                } else {
+                    $html .= ', ' . $array[$i];
+                }
+            }
+
+            return $html;
         }
-    }
-
-    return $html;
-}
-$projectHousings = [];
-$projectDiscountAmount = null;
-@endphp
+        $projectHousings = [];
+        $projectDiscountAmount = null;
+    @endphp
     @php
 
         if (isset($projectCartOrders[$housingOrder])) {
@@ -520,7 +520,7 @@ $projectDiscountAmount = null;
                                             @if ($project->user->phone)
                                                 <tr>
                                                     <td>
-                                                        Sabit Telefon :
+                                                        Telefon :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
                                                                 href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
@@ -528,6 +528,17 @@ $projectDiscountAmount = null;
                                                     </td>
                                                 </tr>
                                             @endif
+                                            @if ($project->user->mobile_phone)
+                                            <tr>
+                                                <td>
+                                                    Telefon :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
                                             @if ($project->step1_slug)
                                                 <tr>
                                                     <td>
@@ -620,10 +631,10 @@ $projectDiscountAmount = null;
                                                 @php
                                                     $isArrayCheck = $housingSetting->is_array;
                                                     $value = '';
-                                
+
                                                     if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
                                                         $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
-                                
+
                                                         if ($isArrayCheck && isset($valueArray)) {
                                                             $value = implodeData($valueArray);
                                                         } elseif ($housingSetting->is_parent_table) {
@@ -631,43 +642,44 @@ $projectDiscountAmount = null;
                                                         } elseif ($project->roomInfo) {
                                                             foreach ($project->roomInfo as $roomInfo) {
                                                                 if ($roomInfo->room_order == 1 && $roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                    $value = ($roomInfo['value'] == '["on"]') ? 'Evet' : (($roomInfo['value'] == '["off"]') ? 'Hayır' : $roomInfo['value']);
+                                                                    $value = $roomInfo['value'] == '["on"]' ? 'Evet' : ($roomInfo['value'] == '["off"]' ? 'Hayır' : $roomInfo['value']);
                                                                     break;
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 @endphp
-                                
+
                                                 @if (!$isArrayCheck && isset($value) && $value !== '')
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $housingSetting->label }}:</span>
-                                                            <span class="det">{{ $housingSetting->label == "Fiyat" ? number_format($value, 0, ',', '.')  : $value }}</span>
+                                                            <span
+                                                                class="det">{{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}</span>
                                                         </td>
                                                     </tr>
                                                 @endif
                                             @endforeach
-                                
-                                           
+
+
                                         </tbody>
                                     </table>
                                     @foreach ($projectHousingSetting as $housingSetting)
-                                    @php
-                                        if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
-                                            $isArrayCheck = $housingSetting->is_array;
-                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
-                    
-                                            if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
-                                                echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name . '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
-                                                foreach ($valueArray as $ozellik) {
-                                                    echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
+                                        @php
+                                            if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                                $isArrayCheck = $housingSetting->is_array;
+                                                $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
+
+                                                if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
+                                                    echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name . '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                                                    foreach ($valueArray as $ozellik) {
+                                                        echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
+                                                    }
+                                                    echo '</ul></div>';
                                                 }
-                                                echo '</ul></div>';
                                             }
-                                        }
-                                    @endphp
-                                @endforeach
+                                        @endphp
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -748,10 +760,10 @@ $projectDiscountAmount = null;
                                                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                                                                             
-                                                                                                                    No
-                                                                                                                    <br>{{ $i + 1 - $lastHousingCount }}
-                                                                                                           
+
+                                                                                                                No
+                                                                                                                <br>{{ $i + 1 - $lastHousingCount }}
+
 
                                                                                                             </p>
                                                                                                         </div>
@@ -2987,6 +2999,7 @@ out center;`;
         .mobileTagProject {
             display: none
         }
+
         .mobile-action-move {
             display: flex;
             align-items: center;
