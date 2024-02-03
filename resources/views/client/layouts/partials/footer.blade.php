@@ -200,7 +200,7 @@
                 </tbody>
             </table>
 
-            
+
             <div class="pay-desc">
                 <div class="pay-dec-front">
                     <table class="pay-desc-table">
@@ -583,6 +583,15 @@
                             .room_order == parseInt(order) + 1) {
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
 
+                            if (!paymentPlanData.includes("pesin")) {
+                                // Add "pesin" to the beginning of the array
+                                paymentPlanData.unshift("pesin");
+                            } else if (!paymentPlanData.includes("taksitli")) {
+                                // If "pesin" is already present but "taksitli" is not, add "taksitli" to the end
+                                paymentPlanData.push("taksitli");
+                            }
+
+
 
                             var html = "";
 
@@ -598,7 +607,9 @@
                                 return parts.join(",");
                             }
                             var tempPlans = [];
-                            const months = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"]
+                            const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                                "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+                            ]
                             for (var j = 0; j < paymentPlanData.length; j++) {
 
                                 if (!tempPlans.includes(paymentPlanData[j])) {
@@ -616,24 +627,48 @@
                                         var advanceData = formatPrice(getDataJS(response,
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
-                                        
+
                                         order = parseInt(order);
                                         var payDecPrice = 0;
                                         $('.pay-desc-table thead tr').remove();
-                                        if(getDataJS(response,"pay-dec-count"+(order + 1),response.room_info[i].room_order)){
-                                            for(var l = 0 ; l < getDataJS(response,"pay-dec-count"+(order+1),response.room_info[i].room_order); l++){
+                                        if (getDataJS(response, "pay-dec-count" + (order + 1),
+                                                response.room_info[i].room_order)) {
+                                            for (var l = 0; l < getDataJS(response,
+                                                    "pay-dec-count" + (order + 1), response
+                                                    .room_info[i].room_order); l++) {
                                                 var html2 = "<tr>";
-                                                    html2 += "<th style='text-align:center !important;'>"+(l + 1)+". Ödeme</th>";
-                                                    html2 += "<th style='text-align:center !important;'>Ara Ödeme Tutarı: </th>";
-                                                if(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order)){
-                                                    payDecPrice += parseFloat(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order));
-                                                    html2 += "<th style='text-align:center !important;'>"+formatPrice(parseFloat(getDataJS(response,"pay_desc_price"+(order + 1)+l,response.room_info[i].room_order)))+"</th>"
+                                                html2 +=
+                                                    "<th style='text-align:center !important;'>" + (
+                                                        l + 1) + ". Ödeme</th>";
+                                                html2 +=
+                                                    "<th style='text-align:center !important;'>Ara Ödeme Tutarı: </th>";
+                                                if (getDataJS(response, "pay_desc_price" + (order +
+                                                            1) + l, response.room_info[i]
+                                                        .room_order)) {
+                                                    payDecPrice += parseFloat(getDataJS(response,
+                                                        "pay_desc_price" + (order + 1) + l,
+                                                        response.room_info[i].room_order));
+                                                    html2 +=
+                                                        "<th style='text-align:center !important;'>" +
+                                                        formatPrice(parseFloat(getDataJS(response,
+                                                            "pay_desc_price" + (order + 1) +
+                                                            l, response.room_info[i]
+                                                            .room_order))) + "</th>"
                                                 }
-                                                html2 += "<th style='text-align:center !important;'>Ara Ödeme Tarihi: </th>";
+                                                html2 +=
+                                                    "<th style='text-align:center !important;'>Ara Ödeme Tarihi: </th>";
 
-                                                if(getDataJS(response,"pay_desc_date"+(order + 1)+l,response.room_info[i].room_order)){
-                                                    var payDescDate = new Date(getDataJS(response,"pay_desc_date"+(order + 1)+l,response.room_info[i].room_order));
-                                                    html2 += "<th style='text-align:center !important;'>"+( months[payDescDate.getMonth()]+' '+payDescDate.getDate()+', '+payDescDate.getFullYear())+"</th>"
+                                                if (getDataJS(response, "pay_desc_date" + (order +
+                                                            1) + l, response.room_info[i]
+                                                        .room_order)) {
+                                                    var payDescDate = new Date(getDataJS(response,
+                                                        "pay_desc_date" + (order + 1) + l,
+                                                        response.room_info[i].room_order));
+                                                    html2 +=
+                                                        "<th style='text-align:center !important;'>" +
+                                                        (months[payDescDate.getMonth()] + ' ' +
+                                                            payDescDate.getDate() + ', ' +
+                                                            payDescDate.getFullYear()) + "</th>"
                                                 }
 
                                                 html2 += "</tr>"
@@ -641,7 +676,14 @@
                                                 $('.pay-desc-table thead').append(html2);
                                             }
                                         }
-                                        var monhlyPrice = (formatPrice((( parseFloat(getDataJS(response,"installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order)) - payDecPrice) / parseInt(installementData)))) + '₺';
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(getDataJS(response,
+                                                    "advance[]", response.room_info[
+                                                        i].room_order)) - payDecPrice) /
+                                            parseInt(installementData)))) + '₺';
                                     }
                                     var isMobile = window.innerWidth < 768;
                                     html += "<tr>";
@@ -661,7 +703,10 @@
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<td>" + (isMobile ? paymentPlanDatax[paymentPlanData[j]] + " " + "<strong>Fiyat:</strong> " : "") + formatPrice(priceData) + "₺</td>";
+                                        html += "<td>" + (isMobile ? paymentPlanDatax[
+                                                paymentPlanData[j]] + " " +
+                                            "<strong>Fiyat:</strong> " : "") + formatPrice(
+                                            priceData) + "₺</td>";
                                     }
 
 
@@ -669,11 +714,31 @@
                                         html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
                                             "") + advanceData + "</td>";
                                     }
-
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ? "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
-                                            "") + (formatPrice((( parseFloat(getDataJS(response,"installments-price[]", response.room_info[i].room_order)) - parseFloat(getDataJS(response, "advance[]",response.room_info[i].room_order)) - payDecPrice)))) + "</td>";
+                                        var installmentsPrice = parseFloat(getDataJS(response,
+                                            "installments-price[]", response.room_info[i]
+                                            .room_order));
+                                        var advanceAmount = parseFloat(getDataJS(response,
+                                            "advance[]", response.room_info[i].room_order));
+
+                                        // Check if the values are valid numbers
+                                        if (!isNaN(installmentsPrice) && !isNaN(advanceAmount) && !
+                                            isNaN(payDecPrice)) {
+                                            var calculatedValue = installmentsPrice -
+                                                advanceAmount - payDecPrice;
+
+                                            html += "<td>" + (isMobile ?
+                                                    "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
+                                                    "") +
+                                                formatPrice(calculatedValue) + "</td>";
+                                        } else {
+                                            // Handle the case when values are not valid numbers
+                                            html += "<td>-</td>";
+                                        }
+                                    } else {
+                                        html += "<td>-</td>";
                                     }
+
 
                                     if (!isMobile || isNotEmpty(monhlyPrice)) {
                                         html += "<td>" + (isMobile ?

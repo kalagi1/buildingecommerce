@@ -2114,7 +2114,10 @@
 
                                                 <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
-                                                        <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
+                                                        <button class="first-btn payment-plan-button" 
+                                                        project-id="{{ $project->id }}"
+                                                        data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
+                                                        order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
                                                         </button>`
                             if (res[i]['off_sale[]'] != "[]") {
@@ -2536,7 +2539,10 @@
 
                                                 <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
-                                                        <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
+                                                        <button class="first-btn payment-plan-button" 
+                                                        project-id="{{ $project->id }}"
+                                                        data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
+                                                        order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
                                                         </button>`
                         if (res[i]['off_sale[]'] != "[]") {
