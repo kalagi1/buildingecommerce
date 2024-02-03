@@ -487,7 +487,7 @@
                                             @endif
                                         </td>
                                         <td class="sold">
-                                            @if (getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                            @if (getData($project, 'off_sale[]', $i + 1) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                 <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]">Satışa Açık</option>
