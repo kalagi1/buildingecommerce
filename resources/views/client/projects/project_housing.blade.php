@@ -643,7 +643,7 @@ $projectDiscountAmount = null;
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $housingSetting->label }}:</span>
-                                                            <span class="det">{{ $value }}</span>
+                                                            <span class="det">{{ $housingSetting->label == "Fiyat" ? number_format($value, 0, ',', '.')  : $value }}</span>
                                                         </td>
                                                     </tr>
                                                 @endif
