@@ -944,7 +944,7 @@
                                                                                                             Detayları
                                                                                                         </button>
 
-                                                                                                        @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                                                                                        @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                                                                                             <button
                                                                                                                 class="btn second-btn"
                                                                                                                 style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
@@ -1098,7 +1098,7 @@
                                                                                     <div class="d-flex"
                                                                                         style="gap: 8px;width: 100%;
                                                                                                                 align-items: center;">
-                                                                                        @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                                                                        @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                                                                             <button
                                                                                                 class="btn second-btn  mobileCBtn"
                                                                                                 style="background: #EA2B2E !important;width:100%;color:White">
@@ -1549,7 +1549,7 @@
                                                                                     Ödeme Detayları
                                                                                 </button>
 
-                                                                                @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                                                                @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                                                                     <button class="btn second-btn "
                                                                                         style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
@@ -1674,7 +1674,7 @@
                                                                 <div class="d-flex"
                                                                     style="gap: 8px;width: 100%;
                                                                                             align-items: center;">
-                                                                    @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                                                    @if (isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                                                         <button class="btn second-btn  mobileCBtn"
                                                                             style="background: #EA2B2E !important;width:100%;color:White">
 
