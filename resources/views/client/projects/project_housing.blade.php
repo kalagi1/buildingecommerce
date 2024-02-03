@@ -612,7 +612,7 @@ $projectDiscountAmount = null;
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: #274abb;">
-                                                        {{ $project->id + 10000000 }}
+                                                        {{ $project->id + $housingOrder + 10000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
