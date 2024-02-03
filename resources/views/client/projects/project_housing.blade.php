@@ -748,13 +748,10 @@ $projectDiscountAmount = null;
                                                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                                                                                @if (isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != '[]')
-                                                                                                                    {{ $i + 1 - $lastHousingCount }}.
-                                                                                                                    Hisse
-                                                                                                                @else
+                                                                                                             
                                                                                                                     No
                                                                                                                     <br>{{ $i + 1 - $lastHousingCount }}
-                                                                                                                @endif
+                                                                                                           
 
                                                                                                             </p>
                                                                                                         </div>
