@@ -75,7 +75,7 @@
                                         @foreach ($mergedItems as $item)
                                             <tr>
                                                 <td>
-                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
 
                                                 </td>
 
@@ -238,7 +238,7 @@
                                                     <tr style="background-color: #8080802e">
                                                         <td colspan="5">
                                                             <span style="color: #e54242">
-                                                                #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                                #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
                                                                 Numaralı İlan İçin:
                                                                 Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                                 tarafından paylaşılan link aracılığıyla
@@ -255,7 +255,7 @@
                                                     <tr style="background-color: #8080802e">
                                                         <td colspan="5">
                                                             <span style="color: #e54242">
-                                                                #{{ $item['project']->id + $item['room_order'] + 10000000 }}
+                                                                #{{ $item['project']->id + $item['room_order'] + 1000000 }}
                                                                 Numaralı İlan İçin:
                                                                 Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                                 tarafından paylaşılan link aracılığıyla
@@ -300,7 +300,7 @@
                                                 <div class="d-flex" style="gap: 8px;justify-content:space-between">
 
                                                     <h4>
-                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
                                                         <br>
                                                         {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                                     </h4>
@@ -459,7 +459,7 @@
                                             <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
-                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] +  10000000 : $item['housing']->id + 2000000 }}
+                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] +  1000000 : $item['housing']->id + 2000000 }}
                                                     Numaralı İlan İçin:
                                                     Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                     tarafından paylaşılan link aracılığıyla
@@ -479,7 +479,7 @@
                                             <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
-                                                    #{{ $item['project']->id + $item['room_order'] + 10000000 }}
+                                                    #{{ $item['project']->id + $item['room_order'] + 1000000 }}
                                                     Numaralı İlan İçin:
                                                     Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                     tarafından paylaşılan link aracılığıyla

@@ -778,7 +778,7 @@ class HomeController extends Controller
                             ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                             ->orWhere('step2_slug', 'LIKE', "%{$term}%")
                             ->orWhere('description', 'LIKE', "%{$term}%")
-                            ->orWhere('id', '=', (int)$term - 10000000);
+                            ->orWhere('id', '=', (int)$term - 1000000);
                     })
                     ->orWhereHas('city', function ($query) use ($term) {
                         $query->where('title', 'LIKE', "%{$term}%");
@@ -878,7 +878,7 @@ class HomeController extends Controller
                         ->orWhere('step1_slug', 'LIKE', "%{$term}%")
                         ->orWhere('step2_slug', 'LIKE', "%{$term}%")
                         ->orWhere('description', 'LIKE', "%{$term}%")
-                        ->orWhere('id', '=', (int)$term - 10000000);
+                        ->orWhere('id', '=', (int)$term - 1000000);
 
                 })
                 ->orWhereHas('city', function ($query) use ($term) {

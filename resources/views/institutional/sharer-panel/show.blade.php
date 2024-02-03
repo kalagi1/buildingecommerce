@@ -38,7 +38,7 @@
 
                                     <tr>
                                         <td>
-                                            #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                            #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
 
                                         </td>
 
@@ -187,7 +187,7 @@
                                             style="gap: 8px;justify-content:space-between;align-items:center">
 
                                             <h4>
-                                                #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
                                                 <br>
                                                 {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                             </h4>
