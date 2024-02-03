@@ -79,6 +79,8 @@
                                     </tr>
                                 @else
                                 @php
+                                $housingDiscountAmount= 0;
+                                $projectDiscountAmount = 0;
                                 if ($cart['type'] == 'housing') {
                                     $housingOffer = App\Models\Offer::where('type', 'housing')
                                         ->where('housing_id', $cart['item']['id'])
