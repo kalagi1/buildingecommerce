@@ -1990,7 +1990,9 @@
                                             </a>
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position">
+                                            <div class="row align-items-center justify-content-between mobile-position"
+                                            style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
+
                                                 <div class="col-md-9">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
@@ -2416,7 +2418,9 @@
                                             </a>
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position">
+                                            <div class="row align-items-center justify-content-between mobile-position"
+                                            style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
+
                                                 <div class="col-md-9">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
