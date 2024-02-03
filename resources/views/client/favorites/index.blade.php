@@ -55,6 +55,7 @@
                                             <a
                                                 href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}"><img
                                                     alt="my-properties-3"
+                                                    style="width: 100px;height:70px"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($item->project, 'image[]', $item->housing_id)->value }}"
                                                     class="img-fluid"></a>
                                         </td>
