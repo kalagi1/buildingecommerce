@@ -20947,7 +20947,9 @@ justify-content: center;
 }
 
 .my-properties table tbody tr .image a img {
-    width: 100%;
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
     border-radius: 3px;
 }
 

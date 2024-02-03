@@ -55,7 +55,6 @@
                                             <a
                                                 href="{{ route('project.housings.detail', [$item->project->slug, getHouse($item->project, 'squaremeters[]', $item->housing_id)->room_order]) }}"><img
                                                     alt="my-properties-3"
-                                                    style="width: 100px;height:70px"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($item->project, 'image[]', $item->housing_id)->value }}"
                                                     class="img-fluid"></a>
                                         </td>
@@ -98,7 +97,7 @@
                                         </td>
                                         <td>
                                             @if (getHouse($item->project, 'off_sale[]', $item->housing_id)->value != '[]')
-                                                <button class="btn mobileBtn  second-btn CartBtn" disabled
+                                                <button class="btn mobileBtn second-btn " 
                                                     style="background: #EA2B2E !important;width:100%;color:White">
                                                     <span class="IconContainer">
                                                         <img src="{{ asset('sc.png') }}" alt="">
@@ -107,7 +106,7 @@
                                                 </button>
                                             @else
                                                 @if ($sold && $sold[0]->status != '2')
-                                                    <button class="btn second-btn soldBtn" disabled
+                                                    <button class="btn second-btn " 
                                                         @if ($sold[0]->status == '0') style="background: orange !important;width:100%;color:White"
                                         @else 
                                         style="background: #EA2B2E !important;width:100%;color:White" @endif>
