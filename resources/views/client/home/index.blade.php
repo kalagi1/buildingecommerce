@@ -135,7 +135,7 @@
     <section class="container justify-content-center">
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $status)
-                <div class="col-lg-2 col-md-6 col-sm-6 mb-3 mt-3 col-6 statusHome">
+                <div class="col-lg-2 col-md-6 col-sm-6 mb-3 mt-3 col-6 statusHome {{ $key == 0 ? 'd-none d-md-block' : '' }}">
                     <a href="{{ url('kategori/' . $status->slug) }}">
                         <button style="background-color: #ea2a28; color: white;" class="w-100">
                             {{ $status->name }}
