@@ -447,6 +447,12 @@
                                 type="button" role="tab" aria-controls="contact"
                                 aria-selected="false">Harita</button>
                         </li>
+
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="situation-tab" data-bs-toggle="tab" data-bs-target="#situation"
+                                type="button" role="tab" aria-controls="situation"
+                                aria-selected="false">Vaziyet Planı</button>
+                        </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane d-lg-none fade blog-info details mb-30 single homes-content" id="general"
@@ -1852,6 +1858,13 @@
                             aria-labelledby="contact-tab">
                             <div id="mapContainer" style="height: 100%"></div>
                         </div>
+                        <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel" aria-labelledby="situation-tab">
+                            <div class="situation-images-project">
+                                @foreach($project->situations as $situation)
+                                    <img src="{{URL::to('/')}}/{{str_replace('public/', '', $situation->situation)}}" alt="">
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2320,6 +2333,15 @@
                 }
             }]
         });
+
+        $(document).ready(function(){
+            $('.situation-images-project').slick({
+                dots: true,
+                infinite: true,
+                slidesToShow: 2,
+                slidesToScroll: 2
+            });
+        })
 
         function changeTabContent(tabName) {
             document.querySelectorAll('.nav-item-block').forEach(function(content) {
@@ -2901,8 +2923,6 @@
                 font-size: 13px;
                 color: #666;
             }
-
-
 
         }
 
