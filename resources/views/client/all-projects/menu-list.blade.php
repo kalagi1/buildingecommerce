@@ -884,6 +884,8 @@
                             if (typeof res === "boolean")
                                 return true;
 
+                                console.log(res);
+
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
