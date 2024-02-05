@@ -2,12 +2,12 @@
 
 
 html {
-    font-size: 15px;
+    font-size: 11px;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     color: #666;
     overflow-x: hidden !important;
@@ -253,7 +253,7 @@ button {
 .featured .allView h3,
 .popular-places button h3 {
     color: white;
-    font-size: 15px;
+    font-size: 11px;
     margin-bottom: 0 !important;
     padding: 10px 15px;
 }
@@ -595,7 +595,7 @@ img {
 .brand-head .brand-name {
     margin-left: 10px !important;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 11px;
     margin: 0;
     padding: 0;
     color: white;
@@ -619,7 +619,7 @@ img {
 .brand-head .navbar-item {
     text-decoration: none;
     color: black;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
     padding: 20px;
 }
@@ -1250,7 +1250,7 @@ strong {
 }
 
 .button--size-s {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: bold;
 }
 
@@ -2774,7 +2774,7 @@ section.welcome {
     }
 
     .welcome-content>p span {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -3872,7 +3872,7 @@ section.feature-cities-1 {
     right: 0;
     width: 100%;
     display: block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: bold;
     padding: 0px;
     overflow: hidden;
@@ -3889,7 +3889,7 @@ section.feature-cities-1 {
     position: relative;
     text-align: center;
     width: 120px;
-    font-size: 15px;
+    font-size: 11px;
     margin: 0;
 }
 
@@ -3925,7 +3925,7 @@ section.feature-cities-1 {
 .feature-cities-1 .img-box-content span,
 .feature-cities-1 .img-box-content pre {
     font-family: 'Nunito', sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 300;
     color: #fff;
 }
@@ -4089,7 +4089,7 @@ section.team {
     color: #666;
     font-style: italic;
     margin-bottom: 10px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
 
 }
@@ -5300,7 +5300,7 @@ section.counterup {
 
 .first-footer .info p {
     margin: 0px;
-    font-size: 15px;
+    font-size: 11px;
     color: rgba(245, 255, 255, 0.8);
     margin-left: 1rem;
     line-height: 1.1;
@@ -6527,7 +6527,7 @@ a.button,
     }
 
     .homepage-3 .banner-inner .sub-title {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -6608,7 +6608,7 @@ a.button,
 .homepage-3 .btn.btn-yellow {
     border: 0px;
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 11px;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
     box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
     color: #ffffff;
@@ -7001,7 +7001,7 @@ a.button,
 .homepage-3 .detailJC p,
 .homepage-1 .detailJC p {
     color: #666;
-    font-size: 15px;
+    font-size: 11px;
     margin: 0;
 }
 
@@ -8327,7 +8327,7 @@ html input[disabled] {
 .hp-6 .btn.btn-yellow {
     border: 0px;
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 11px;
     background-color: black;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
     box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
@@ -8373,7 +8373,7 @@ html input[disabled] {
 }
 
 .header-user-menu .lang-wrap ul li a {
-    font-size: 15px;
+    font-size: 11px;
     display: block;
     text-transform: capitalize;
 }
@@ -8731,7 +8731,7 @@ a.button {
     display: flex;
     padding: 12px 35px;
     border-radius: 40px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     color: #fff;
     margin-top: 10px;
@@ -9140,7 +9140,7 @@ a.button {
 
 .hp-6 .checkboxes label span {
     color: #909090;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .hp-6 .checkboxes input[type=checkbox] {
@@ -9760,7 +9760,7 @@ a.button {
     }
 
     .search-2 .welcome-text p {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -10921,7 +10921,7 @@ a.int_btn,
 
 .listing-img-content span {
     color: #fff;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -11972,7 +11972,7 @@ a.button {
     }
 
     .parallax-searchs.home15 .welcome-text p {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .featured-boxes-area {
@@ -12144,7 +12144,7 @@ a.button {
     visibility: hidden;
     -webkit-transition: .6;
     transition: .6;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     text-decoration: none;
 }
@@ -12436,7 +12436,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes .button {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     padding: 6px 14px;
     border-radius: 2px;
@@ -13391,7 +13391,7 @@ section.visited-cities {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .rld-single-input input:hover,
@@ -13426,7 +13426,7 @@ section.visited-cities {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .rld-single-input textarea:hover,
@@ -14246,7 +14246,7 @@ form label.error {
     }
 
     .th-8 .trip-search.contact-us h4 {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -14637,7 +14637,7 @@ select {
     display: inline-block;
     padding: 12px 35px;
     border-radius: 40px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     color: #fff;
     margin-top: 30px;
@@ -14754,7 +14754,7 @@ a.btn-white {
     }
 
     .header-image .left p {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .google-maps.home-18 .filter {
@@ -15613,7 +15613,7 @@ a.button {
     }
 
     .homepage-23 .banner-inner .sub-title {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -15832,7 +15832,7 @@ a.button {
     display: flex;
     padding: 12px 35px;
     border-radius: 40px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     color: #fff;
     -webkit-box-shadow: 1px 1px 30px 0px rgba(0, 0, 0, 0.15);
@@ -16384,7 +16384,7 @@ a.button {
 .homes-button .first-btn {
     padding: 15px;
     color: white;
-    font-size: 13px;
+    font-size: 11px;
     background-color: black;
     font-weight: 600;
     border: none;
@@ -16406,7 +16406,7 @@ a.button {
     bottom: 0;
     border-radius: 0 !important;
     right: 0;
-    font-size: 13px;
+    font-size: 11px;
     padding: 15px;
     color: white;
     background-color: #274abb;
@@ -16471,7 +16471,7 @@ a.button {
 
 .inner-pages .input-group-lg>.form-control {
     padding: .5rem 1rem .5rem .5rem !important;
-    font-size: 15px;
+    font-size: 11px;
     line-height: 1;
     margin-top: 7px;
     border-radius: 3px;
@@ -16851,7 +16851,7 @@ a.button {
 /* Trigger */
 
 .inner-pages .more-search-options-trigger {
-    font-size: 15px;
+    font-size: 11px;
     margin: 5px 0 2px 0;
     display: inline-block;
 }
@@ -16951,7 +16951,7 @@ a.button {
     color: #757575;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .inner-pages .form-group .nice-select i {
@@ -17126,7 +17126,7 @@ a.button {
 
 .inner-pages .checkboxes label span {
     color: #909090;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .inner-pages .checkboxes input[type=checkbox] {
@@ -17945,7 +17945,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .sidebar .sidebar-widget .author__meta {
-    font-size: 15px;
+    font-size: 11px;
     color: #666;
     font-weight: 400;
 }
@@ -18286,7 +18286,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .carousel-inner h5,
 .wprt-image-video.w50.pro h5 {
     color: #000;
-    font-size: 14px;
+    font-size: 11px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
@@ -18540,7 +18540,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     }
 
     .inner-pages .headings-2 .listing-title-bar a {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .inner-pages .homes-content.details-2 ul {
@@ -19099,7 +19099,7 @@ section.breadcrumb-outer {
 }
 
 .detail-title .detail-title-inner .list-single-contacts li {
-    font-size: 15px;
+    font-size: 11px;
     padding-right: 17px;
 }
 
@@ -19743,7 +19743,7 @@ ul.the-agents-details li a {
 .inner-pages .agent-tag {
     position: absolute;
     padding: 8px 8px;
-    font-size: 15px;
+    font-size: 11px;
     z-index: 20;
     top: 20px;
     left: 10px;
@@ -19820,7 +19820,7 @@ ul.the-agents-details li a {
 
 .inner-pages .agent-details .fa {
     color: black;
-    font-size: 15px;
+    font-size: 11px;
     margin-right: 8px;
 }
 
@@ -20292,7 +20292,7 @@ a.button {
     -webkit-transition: 0.3s;
     transition: 0.3s;
     display: inline-block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
@@ -20307,7 +20307,7 @@ a.button {
     color: #fff;
     position: relative;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 11px;
     text-align: center;
     font-weight: 600;
     display: inline-block;
@@ -20559,7 +20559,7 @@ body.dashboard-bd {
     color: #50596E;
     float: left;
     width: 100%;
-    font-size: 15px;
+    font-size: 11px;
     text-decoration: none;
     font-weight: 400;
     text-align: left;
@@ -20665,7 +20665,7 @@ body.dashboard-bd {
 }
 
 .dashborad-box .item .info .type {
-    font-size: 15px;
+    font-size: 11px;
     color: #fff;
     margin-bottom: 0px;
 }
@@ -21364,7 +21364,7 @@ small {
 
     .user-profile-box .detail ul li a,
     .reviews .review .body h4 {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .my-properties table tbody tr .image {
@@ -21374,7 +21374,7 @@ small {
     .my-properties table thead tr th:first-child,
     .my-properties table thead tr th {
         padding-left: 1rem;
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .my-properties table tbody tr td {
@@ -23304,7 +23304,7 @@ a.btn_1 {
     display: inline-block;
     font-family: var(--title-font-family);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 11px;
     font-style: normal;
     padding: 13px 30px;
     position: relative;
@@ -23341,7 +23341,7 @@ a.btn_1 {
 .ud-btn2 {
     font-family: var(--title-font-family);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 11px;
     position: relative;
     text-align: center;
     -webkit-transition: all .4s ease;
@@ -23674,7 +23674,7 @@ a.btn_1 {
 
 .inner-pages .info-img h6 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     color: #222;
     font-weight: 400;
 }
@@ -24156,7 +24156,7 @@ form label.error {
 .inner-pages .property-form-group label {
     color: #333;
     display: inline-block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -24246,7 +24246,7 @@ form label.error {
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     display: block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     padding: 10px 20px;
     text-transform: capitalize;
@@ -25069,7 +25069,7 @@ h6 {
 }
 
 .google-maps .filter-item label {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     margin-bottom: 10px;
     color: white;
@@ -25148,7 +25148,7 @@ input[type="file"] {
     background: white;
     height: 39px;
     line-height: 39px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .chosen-container .chosen-single div {
@@ -25687,7 +25687,7 @@ table.basic-table {
 .notification p {
     color: black;
     margin: 0;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 #result .success,
@@ -26880,7 +26880,7 @@ h4 {
 
 @media screen and (max-width: 576px) {
     body {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     h1 {
@@ -27266,7 +27266,7 @@ h4 {
 
 .login-tabs li a h3 {
     margin-top: 10px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .loginItems #signup {
