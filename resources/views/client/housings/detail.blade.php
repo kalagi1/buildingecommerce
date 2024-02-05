@@ -1008,12 +1008,9 @@
 
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
-                            aria-labelledby="contact-tab">
-                            <div class="similar-property featured portfolio p-0 bg-white">
-
-                                <div id="map"></div>
-                            </div>
-                        </div>
+                        aria-labelledby="contact-tab">
+                        <div id="mapContainer" style="height: 100%"></div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -1253,7 +1250,7 @@
 
         function initMap() {
             // İlk harita görüntüsü
-            var map = new google.maps.Map(document.getElementById('map'), {
+            var map = new google.maps.Map(document.getElementById('mapContainer'), {
                 center: {
                     lat: {{ $housing->latitude }},
                     lng: {{ $housing->longitude }}
