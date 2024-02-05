@@ -592,7 +592,6 @@
                         <div class="brand-head py-2" style="padding-top: 0">
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
                                 @if ($slugName)
-                                    <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $slugName }}</p>
                                 @endif
                                 @if ($housingTypeSlugName)
