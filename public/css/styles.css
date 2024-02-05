@@ -1263,7 +1263,7 @@ strong {
 /* Typography and Roundedness */
 
 .button--text-upper {
-    
+
     text-transform: uppercase;
 }
 
@@ -14781,7 +14781,7 @@ a.btn-white {
 /*---- 38. SECTION WHY CHOOSE US HOME 18 -----*/
 /*--------------------------------------------*/
 
-.content-section-type-1 .rigthSide{
+.content-section-type-1 .rigthSide {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -14794,13 +14794,16 @@ a.btn-white {
     padding: 0 75px;
     position: relative;
 }
+
 .black-section {
     background-color: #000;
     color: white;
 }
+
 .inner-wrapper .content-wrapper {
     max-width: 700px;
 }
+
 .columns-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -14812,6 +14815,7 @@ a.btn-white {
     justify-content: center;
     margin: -15px;
 }
+
 .columns-wrapper .column {
     position: relative;
     padding: 15px;
@@ -14825,6 +14829,7 @@ a.btn-white {
 .icon-wrapper {
     margin-bottom: 25px;
 }
+
 .inner-service {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -14842,14 +14847,17 @@ a.btn-white {
     max-width: 100%;
     padding: 40px 0;
 }
+
 .column-100 {
     width: 100%;
     min-width: 100%;
 }
+
 .inner-service .content-wrapper .title {
     margin-bottom: 10px;
     color: white;
 }
+
 .content-section-type-1 .inner-wrapper {
     padding: 50px 30px;
     display: -webkit-box;
@@ -14863,14 +14871,16 @@ a.btn-white {
     justify-content: center;
 }
 
-.right-side-inner{
-    position:relative
+.right-side-inner {
+    position: relative
 }
-.background-title{
+
+.background-title {
     color: white;
     position: relative;
     font-size: 16px;
 }
+
 .gradient-overlay:before {
     content: " ";
     display: -webkit-box;
@@ -14885,6 +14895,7 @@ a.btn-white {
     opacity: .95;
     left: 0;
 }
+
 section.how-it-works {
     background: #fff;
     padding: 2.6rem 0 0 0;
@@ -15697,7 +15708,8 @@ a.button {
     .input-group.search {
         width: 100% !important
     }
-    .background-title{
+
+    .background-title {
         padding: 30px 0;
     }
 }
@@ -16395,11 +16407,13 @@ a.button {
 .slick-initialized .slick-slide {
     padding: 0 10px;
 }
-.homes-content .second-btn{
+
+.homes-content .second-btn {
     margin-top: 30px !important;
 }
+
 .homes-button .second-btn {
-   
+
     position: absolute;
     bottom: 0;
     border-radius: 0 !important;
@@ -18062,6 +18076,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .widget-boxed-header {
     padding-top: 0px;
+    cursor: pointer;
 }
 
 .widget-boxed-header h4 {
@@ -18375,8 +18390,8 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     padding: 1rem 0;
 }
 
-.recent-post{
-    font-size:11px !important
+.recent-post {
+    font-size: 11px !important
 }
 
 .inner-pages .blog .homes-content.details-2.mb-4 {
@@ -19286,7 +19301,7 @@ h2.white {
     margin-bottom: 10px;
     font-size: .97rem;
     font-weight: 400;
-    
+
 }
 
 .inner-pages .team-content ul {
@@ -20897,13 +20912,15 @@ body.dashboard-bd {
     font-size: 11px;
     font-weight: 600;
 }
-.discountAmountStyle{
-display: flex;
-align-items: center;
-justify-content: center;
+
+.discountAmountStyle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.pay-desc{
-    width:40%
+
+.pay-desc {
+    width: 40%
 }
 
 .my-properties table tbody tr td {
@@ -20917,7 +20934,7 @@ justify-content: center;
 
 .my-properties table h2 {
     border: none;
-    width:300px;
+    width: 300px;
     font-size: 11px;
     color: #444;
     text-decoration: none;
@@ -23523,7 +23540,7 @@ a.btn_1 {
 .inner-pages .recent-post ul li:last-child {
     padding-top: .5rem;
     padding-bottom: 0px;
-    border:0 !important
+    border: 0 !important
 }
 
 .inner-pages .recent-post ul li a {
@@ -23613,7 +23630,7 @@ a.btn_1 {
     padding: 9px !important;
     /* border: none !important; */
     color: #717171 !important;
-    border-color: #eee ;
+    border-color: #eee;
     padding: 0 1rem;
     border-radius: 0 !important;
 }
@@ -23720,15 +23737,17 @@ a.btn_1 {
     padding: .5rem 0;
 }
 
-.itemsDiv{
+.itemsDiv {
     max-height: 270px;
     overflow-y: scroll;
 }
 
 
 .itemsDiv::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */
 }
 
 
@@ -25256,7 +25275,7 @@ section.ui-element {
 }
 
 h5.uppercase {
-    
+
     margin-right: -2px;
 }
 
@@ -25502,7 +25521,7 @@ ul {
     display: flex !important;
 }
 
-{
+    {
     padding-bottom: 50px;
 }
 
@@ -25553,7 +25572,7 @@ ul {
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
-    
+
     font-weight: 700;
 }
 
@@ -26173,11 +26192,13 @@ input[type="password"] {
     font-weight: 500;
     border-radius: 0;
 }
+
 @media (max-width:768px) {
+
     input[type="text"],
-input[type="password"] {
-    height: 35px !important;
-}
+    input[type="password"] {
+        height: 35px !important;
+    }
 }
 
 textarea {
@@ -26994,7 +27015,7 @@ h4 {
 .portfolio .project-head span {
     text-align: center;
     color: #333;
-    border:solid 1px #f0f0f0;
+    border: solid 1px #f0f0f0;
     font-size: 11px;
     display: block;
     transition: all ease 0.2s;
@@ -27761,51 +27782,57 @@ input[type="checkbox"]::before {
     color: #fff !important;
     /* Yazı rengi */
 }
-.select2-selection__rendered{
-    font-size:10px !important;
+
+.select2-selection__rendered {
+    font-size: 10px !important;
 }
-.select2-container--default .select2-selection--single .select2-selection__placeholder{
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
     color: #444 !important;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 32px !important;
 }
-.select2-dropdown{
+
+.select2-dropdown {
     border: 1px solid #eee !important;
 }
-.select2-container--default .select2-selection--single .select2-selection__placeholder{
-    font-size:10px !important;
-    color:#444;
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    font-size: 10px !important;
+    color: #444;
 }
+
 .slick-lancersl {
     position: relative;
     overflow: hidden;
 }
-.select2-container--default .select2-selection--single{
+
+.select2-container--default .select2-selection--single {
     border: 1px solid #eee !important;
     border-radius: 0 !important;
 }
 
-.select2-container--default .select2-results__option{
+.select2-container--default .select2-results__option {
     font-size: 10px !important;
 }
 
 .select2-container .select2-selection--single {
-height: 32px !important;
+    height: 32px !important;
 }
 
-font{
-    font-size:12px !important
+font {
+    font-size: 12px !important
 }
 
 #home div,
-#home li{
-    font-size:12px !important
-
+#home li {
+    font-size: 12px !important
 }
 
-#home div b{
-   font-weight: 700 !important;
+#home div b {
+    font-weight: 700 !important;
 
 }
 
@@ -27824,7 +27851,7 @@ font{
     transition-duration: .5s;
     overflow: hidden;
     position: relative;
-   
+
 }
 
 @media (max-width: 768px) {
@@ -27925,7 +27952,7 @@ font{
     color: black !important;
 }
 
-.disabledShareButton:hover{
+.disabledShareButton:hover {
     background: white;
 }
 
@@ -30224,14 +30251,15 @@ a {
 
 
 @media (max-width: 768px) {
-        
+
     .button-effect,
     .main-button,
-    .buttons .button{
-        width:35px !important;
-        height:35px !important;
+    .buttons .button {
+        width: 35px !important;
+        height: 35px !important;
     }
-    .mobileAddCollection ,
+
+    .mobileAddCollection,
     .disabledShareButton {
         border: 1px solid gray;
         display: flex;
