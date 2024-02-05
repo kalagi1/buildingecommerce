@@ -18298,6 +18298,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .homes-content .homes-list {
     padding: 0px !important;
+    padding-bottom: 20px !important;
     margin: 0px !important;
 }
 
@@ -26256,13 +26257,11 @@ select {
 }
 
 h4 {
-    
     margin-right: -2px;
     font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     color: #444;
     font-weight: 400;
-    margin-bottom: 24px;
 }
 
 .radio-option {
