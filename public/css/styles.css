@@ -20946,6 +20946,10 @@ justify-content: center;
     width: 150px;
 }
 
+#myTabContent span {
+    font-size: inherit !important;
+}
+
 .my-properties table tbody tr .image a img {
     width: 100px;
     height: 70px;
