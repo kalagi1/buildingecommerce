@@ -248,7 +248,7 @@
 
                                 <div class="trip-search  @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
-                                        <span>Adres</span>
+                                        <span>Adresasas</span>
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
@@ -678,16 +678,16 @@
                 searchInputPlaceholder: 'Ara...'
             });
             $("#project_type").select2({
+                minimumResultsForSearch: -1,
                 width: '100%',
-                searchInputPlaceholder: 'Ara...'
             });
             $('#county').select2({
+                minimumResultsForSearch: -1,
                 width: '100%',
-                searchInputPlaceholder: 'Ara...'
             });
             $('#neighborhood').select2({
+                minimumResultsForSearch: -1,
                 width: '100%',
-                searchInputPlaceholder: 'Ara...'
             });
 
         });
