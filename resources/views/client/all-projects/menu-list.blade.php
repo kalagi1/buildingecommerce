@@ -533,7 +533,7 @@
                                     </script>
                                     <script>
                                         function toggleFilterDiv(element) {
-                                            var filterContent = $(element).parent().find('.mt-md-2');
+                                            var filterContent = $(element).find('.mt-md-2');
                                             var filterIcon = $(element).find('#filter-icon');
 
                                             if (filterContent.css('display') === 'none') {
