@@ -248,7 +248,7 @@
 
                                 <div class="trip-search  @if (isset($items)) mt-3 @endif">
                                     <div class="widget-boxed-header mobile-title widget-boxed-header">
-                                        <span>Adresasas</span>
+                                        <span>Adres</span>
                                     </div>
                                     <div class="mt-md-2">
                                         <select id="city" class="bg-white filter-now mobile-button">
