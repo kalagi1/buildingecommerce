@@ -581,6 +581,7 @@ img {
 .brand-head .brands-square {
     display: flex;
     align-items: center;
+    margin-left:10px;
 }
 
 .brand-head .brand-logo {
