@@ -1458,7 +1458,7 @@
 
             .mobile-title {
                 padding-bottom: 10px;
-                padding-top: 10px;
+                padding-top: 10px !important;
                 margin-bottom: 10px !important;
             }
 
