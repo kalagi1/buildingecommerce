@@ -1464,9 +1464,9 @@
 
 
 
-            .mobile-title  .mobile-title {
+            .mobile-title{
                 padding-bottom: 10px;
-                padding-top: 10px !important;
+                padding-top: 10px;
                 margin-bottom: 10px !important;
             }
 
