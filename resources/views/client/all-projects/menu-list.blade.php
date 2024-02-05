@@ -1470,11 +1470,12 @@
             }
 
             #sort-select {
+                text-transform: capitalize;
                 background: #f0f0f0 !important;
                 padding: 6px !important;
                 cursor: pointer;
                 border: 0 !important;
-                width: 202px;
+                width: 50%;
                 border-radius: 0 !important;
                 text-align: center;
                 display: flex;

@@ -145,8 +145,7 @@
 
                         <button type="button" onclick="$('.filters-input-area').slideToggle();"
                             style="background: #e54242 !important"
-                            class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4"
-                            id="close-filters">Kapat</button>
+                            class="btn btn-secondary btn-lg btn-block mt-4 d-md-none mb-4" id="close-filters">Kapat</button>
 
                     </div>
                 </aside>
@@ -625,20 +624,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ?
                                                             `<button
-                                                                                                            style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                        </button>`
+                                                                                                                style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                            </button>`
                                                             :
 
                                                             `
-                                                                <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                data-id='${res.id}'>
-                                                                <span class="IconContainer">
-                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                    <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                    data-id='${res.id}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                </span>
-                                                                <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                            </button>
-                                                                `
+                                                                    </span>
+                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                </button>
+                                                                    `
                                                             }
                                                     </ul>
                                                 </div>
@@ -873,10 +872,10 @@
 
         @media (max-width:768px) {
             #sort-select {
-               /* margin: 15px 0; */
-    border-radius: 0 !important;
-    width: 200px;
-    border: 0 !important;
+                /* margin: 15px 0; */
+                border-radius: 0 !important;
+                width: 200px;
+                border: 0 !important;
             }
 
             .circleIcon {
