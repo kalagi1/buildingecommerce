@@ -592,6 +592,7 @@ img {
 
 .brand-head .brand-name {
     margin-left: 10px !important;
+    margin-right: 0 !important;
     font-weight: 600;
     font-size: 11px;
     margin: 0;
@@ -8463,7 +8464,7 @@ html input[disabled] {
     .brand-head .brand-name{
         font-size:10px !important
     }
-    
+
     .home5-right-slider {
         height: 200px;
     }

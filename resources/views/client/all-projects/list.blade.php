@@ -852,10 +852,6 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        .brand-head .brand-name {
-            margin-left: 0 !important;
-            margin-right: 10px !important
-        }
 
         .brand-head .brands-square {
             padding-left: 0 !important
