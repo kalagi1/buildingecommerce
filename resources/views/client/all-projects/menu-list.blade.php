@@ -755,11 +755,6 @@
                 method: "GET",
                 url: "{{ url('get-counties') }}/" + $(this).val(),
                 success: function(res) {
-                    $('#county').select2({
-                        placeholder: 'İlçe',
-                        width: '100%',
-                        searchInputPlaceholder: 'Ara...'
-                    });
                     $('#county').empty();
                     res.forEach((e) => {
                         $('#county').append(
@@ -767,6 +762,12 @@
                         );
                         $('#county').val('#');
                     });
+                    $('#county').select2({
+                        placeholder: 'İlçe',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    });
+                  
                 }
             });
         });
@@ -777,11 +778,6 @@
                 method: "GET",
                 url: "{{ url('get-neighborhoods-for-client') }}/" + $(this).val(),
                 success: function(res) {
-                    $('#neighborhood').select2({
-                        placeholder: 'Mahalle',
-                        width: '100%',
-                        searchInputPlaceholder: 'Ara...'
-                    });
                     $('#neighborhood').empty();
                     $('#neighborhood').append('<option value="#" disabled>Mahalle</option>');
                     res.forEach((e) => {
@@ -790,6 +786,12 @@
                         );
                         $('#neighborhood').val('#');
                     });
+                    $('#neighborhood').select2({
+                        placeholder: 'Mahalle',
+                        width: '100%',
+                        searchInputPlaceholder: 'Ara...'
+                    });
+                
 
                 }
             });
