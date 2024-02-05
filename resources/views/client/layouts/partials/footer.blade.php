@@ -175,7 +175,7 @@
                 <thead>
                     <tr>
                         <th>Ödeme Türü</th>
-                        <th>Taksitli Toplam Fiyat</th>
+                        <th>Toplam Fiyat</th>
                         <th>Peşin Ödenecek Tutar</th>
                         <th>Ara Ödemeler Çıkınca Ödenecek Tutar</th>
                         <th>Aylık Ödenecek Tutar</th>
