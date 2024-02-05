@@ -295,11 +295,12 @@
 
 
                                 @foreach ($filters as $filter)
-                                    <div id="room_count_field" class="room_count_field">
+                                
 
                                         @if ($housingTypeParentSlug != 'mustakil-tatil')
                                             @if ($filter['label'] != 'Günlük Fiyat' && $filter['label'] != 'Konaklayacak Maksimum Kişi Sayısı')
                                                 @if ($filter['type'] != 'text')
+                                                <div id="room_count_field" class="room_count_field">
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilter(this)">
@@ -354,12 +355,15 @@
                                                             @endforeach
                                                         </div>
                                                     </div>
+                                                </div>
                                                 @endif
 
 
 
 
                                                 @if ($filter['type'] == 'text')
+                                                <div id="room_count_field" class="room_count_field">
+
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilterDiv(this)">
@@ -403,11 +407,14 @@
                                                             @endif
                                                         </div>
                                                     </div>
+                                                </div>
                                                 @endif
                                             @endif
                                         @else
                                             @if ($filter['label'] != 'Peşin Fiyat')
                                                 @if ($filter['type'] != 'text')
+                                                <div id="room_count_field" class="room_count_field">
+
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilter(this)">
@@ -463,12 +470,15 @@
                                                             @endforeach
                                                         </div>
                                                     </div>
+                                                </div>
                                                 @endif
 
 
 
 
                                                 @if ($filter['type'] == 'text')
+                                                <div id="room_count_field" class="room_count_field">
+
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilterDiv(this)">
@@ -512,6 +522,7 @@
                                                             @endif
                                                         </div>
                                                     </div>
+                                                </div>
                                                 @endif
                                             @endif
                                         @endif
@@ -558,7 +569,6 @@
 
 
 
-                                    </div>
                                 @endforeach
 
                             </div>
