@@ -884,9 +884,10 @@
                             if (typeof res === "boolean")
                                 return true;
 
-                                console.log(res);
+                               
 
                             @if (!$secondhandHousings)
+                            console.log(res);
                                 $('.pp-row').append(
                                     `
                                     <div class="col-sm-12 col-md-6 col-lg-6 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
