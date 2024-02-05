@@ -88,7 +88,7 @@
                                     <div>
                                         <p class="fw-bold mb-1" style="color:green">Toplam Kazanç</p>
                                         <h4 class="fw-bolder text-nowrap">
-                                            {{ $balanceStatus1 }} ₺
+                                            {{ number_format($balanceStatus1, 0, ',', '.') }} ₺
                                         </h4>
                                     </div>
                                 </div>
