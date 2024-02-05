@@ -678,16 +678,16 @@
                 searchInputPlaceholder: 'Ara...'
             });
             $("#project_type").select2({
-                minimumResultsForSearch: -1,
                 width: '100%',
+                searchInputPlaceholder: 'Ara...'
             });
             $('#county').select2({
-                minimumResultsForSearch: -1,
                 width: '100%',
+                searchInputPlaceholder: 'Ara...'
             });
             $('#neighborhood').select2({
-                minimumResultsForSearch: -1,
                 width: '100%',
+                searchInputPlaceholder: 'Ara...'
             });
 
         });
