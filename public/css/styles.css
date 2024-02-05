@@ -18359,9 +18359,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     font-size: 9px !important;
 }
 
-span {
-    font-size: 11px !important;
-}
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
@@ -20944,10 +20941,6 @@ justify-content: center;
 
 .my-properties table tbody tr .image {
     width: 150px;
-}
-
-#myTabContent span {
-    font-size: inherit !important;
 }
 
 .my-properties table tbody tr .image a img {
