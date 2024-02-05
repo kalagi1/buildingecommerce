@@ -802,8 +802,6 @@
                             <div class="similar-property featured portfolio p-0 bg-white">
 
                                 <div class="single homes-content">
-                                    <!-- title -->
-                                    <h5 class="mb-4">Özellikler</h5>
                                     <table class="table ">
                                         <tbody class="trStyle">
                                             <tr>
