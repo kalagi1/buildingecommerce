@@ -3,6 +3,25 @@
 @section('content')
     @php
 
+        function implodeData($array)
+        {
+            $html = '';
+
+            for ($i = 0; $i < count($array); $i++) {
+                if ($i == 0) {
+                    $html .= ' ' . $array[$i];
+                } else {
+                    $html .= ', ' . $array[$i];
+                }
+            }
+
+            return $html;
+        }
+        $projectHousings = [];
+        $projectDiscountAmount = null;
+    @endphp
+    @php
+
         if (isset($projectCartOrders[$housingOrder])) {
             $sold = $projectCartOrders[$housingOrder];
         } else {
@@ -43,7 +62,7 @@
         </div>
         <div class="brand-head mb-30">
             <div class="container">
-                <div class="card mb-3">
+                <div class="card">
                     <div class="card-img-top" style="background-color: {{ $project->user->banner_hex_code }}">
                         <div class="brands-square">
                             <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
@@ -168,6 +187,8 @@
                                         @endif
                                     </h3>
                                 </div>
+                                <div class="mobile-action"></div>
+
                             </div>
 
                         </div>
@@ -184,7 +205,7 @@
                                 @if ($offSaleValue == '[]')
                                     <div class="single detail-wrapper mr-2">
                                         <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar">
+                                            <div class="listing-title-bar mobileMovePrice">
                                                 <div style="white-space: nowrap">
                                                     <div class="discountAmountStyle">
                                                         @if ($discountAmount)
@@ -215,7 +236,7 @@
                             @else
                                 <div class="single detail-wrapper mr-2">
                                     <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar">
+                                        <div class="listing-title-bar mobileMovePrice">
                                             <div style="white-space: nowrap">
                                                 <div class="discountAmountStyle">
                                                     @if ($discountAmount)
@@ -317,14 +338,7 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center">
-                                <div class="col-md-2 col-2">
-                                    <div class="button-effect toggle-project-favorite"
-                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
-                                        data-project-id={{ $project->id }}>
-                                        <i class="fa fa-heart-o"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-2 col-2">
+                                <div class="col-md-5 col-5 mobile-action-move">
                                     <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
@@ -369,8 +383,14 @@
                                                 </svg></a>
                                         </button>
                                     </div>
+                                    <div class="button-effect toggle-project-favorite"
+                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                        data-project-id={{ $project->id }}>
+                                        <i class="fa fa-heart-o"></i>
+                                    </div>
+
                                 </div>
-                                <div class="col-md-8 col-8">
+                                <div class="col-md-7 col-7">
                                     @php
                                         $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'] ?? null;
                                         $soldStatus = optional($sold)->status;
@@ -472,7 +492,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                        <table class="table table-bordered ">
+                                        <table class="table">
                                             <tr>
                                                 <td>
                                                     İlan No:
@@ -500,7 +520,7 @@
                                             @if ($project->user->phone)
                                                 <tr>
                                                     <td>
-                                                        Sabit Telefon :
+                                                        Telefon :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
                                                                 href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
@@ -592,125 +612,62 @@
                                                 <td>
                                                     <span class="mr-1">İlan No:</span>
                                                     <span class="det" style="color: #274abb;">
-                                                        {{ $housingOrder + $project->id + 1000000 }}
+                                                        {{ $project->id + $housingOrder + 1000000 }}
                                                     </span>
                                                 </td>
                                             </tr>
-
-                                            @foreach ($projectHousingSetting as $key => $housingSetting)
+                                            @foreach ($projectHousingSetting as $housingSetting)
                                                 @php
-                                                    if (isset($projectHousing[$housingSetting->column_name . '[]']) && isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
-                                                        $isArrayCheck = $housingSetting->is_array;
-                                                        $onProject = false;
-                                                        $valueArray = [];
+                                                    $isArrayCheck = $housingSetting->is_array;
+                                                    $value = '';
 
-                                                        if ($isArrayCheck) {
-                                                            $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                            if (isset($valueArray)) {
-                                                                $value = '';
-                                                            }
+                                                    if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
+                                                        $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
+
+                                                        if ($isArrayCheck && isset($valueArray)) {
+                                                            $value = implodeData($valueArray);
                                                         } elseif ($housingSetting->is_parent_table) {
-                                                            $value = $project[$housingSetting->column_name];
-                                                            $onProject = true;
-                                                        } else {
+                                                            $value = $project[$housingSetting->column_name] ?? null;
+                                                        } elseif ($project->roomInfo) {
                                                             foreach ($project->roomInfo as $roomInfo) {
-                                                                if ($roomInfo->room_order == $housingOrder) {
-                                                                    if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                        if ($roomInfo['value'] == '["on"]') {
-                                                                            $value = 'Evet';
-                                                                        } elseif ($roomInfo['value'] == '["off"]') {
-                                                                            $value = 'Hayır';
-                                                                        } else {
-                                                                            $value = $roomInfo['value'];
-                                                                        }
-                                                                        $onProject = true;
-                                                                    }
+                                                                if ($roomInfo->room_order == 1 && $roomInfo['name'] === $housingSetting->column_name . '[]') {
+                                                                    $value = $roomInfo['value'] == '["on"]' ? 'Evet' : ($roomInfo['value'] == '["off"]' ? 'Hayır' : $roomInfo['value']);
+                                                                    break;
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 @endphp
-                                                @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&
-                                                        isset($project[$housingSetting->column_name]) &&
-                                                        $project[$housingSetting->column_name]
-                                                )
-                                                    @if (!$isArrayCheck && (isset($value) && $value !== ''))
-                                                        <tr>
-                                                            @if ($housingSetting->label == 'Fiyat')
-                                                                <td>
-                                                                    <span
-                                                                        class="mr-1">{{ $housingSetting->label }}:</span>
-                                                                    <span class="det" style="color: black; ">
-                                                                        {{ number_format($value, 0, ',', '.') }} ₺
-                                                                    </span>
-                                                                </td>
-                                                            @else
-                                                                <td>
-                                                                    <span
-                                                                        class=" mr-1">{{ $housingSetting->label }}:</span>{{ $value }}
-                                                                </td>
-                                                            @endif
-                                                        </tr>
-                                                    @endif
+
+                                                @if (!$isArrayCheck && isset($value) && $value !== '')
+                                                    <tr>
+                                                        <td>
+                                                            <span class="mr-1">{{ $housingSetting->label }}:</span>
+                                                            <span
+                                                                class="det">{{ $housingSetting->label == 'Fiyat' ? number_format($value, 0, ',', '.') : $value }}</span>
+                                                        </td>
+                                                    </tr>
                                                 @endif
                                             @endforeach
+
+
                                         </tbody>
                                     </table>
-
                                     @foreach ($projectHousingSetting as $housingSetting)
                                         @php
-                                            if (isset($projectHousing[$housingSetting->column_name . '[]']) && isset($project[$housingSetting->column_name]) && $project[$housingSetting->column_name]) {
+                                            if (isset($projectHousing[$housingSetting->column_name . '[]'])) {
                                                 $isArrayCheck = $housingSetting->is_array;
-                                                $onProject = false;
-                                                $valueArray = [];
+                                                $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value'] ?? null);
 
-                                                if ($isArrayCheck) {
-                                                    $valueArray = json_decode($projectHousing[$housingSetting->column_name . '[]']['value']);
-                                                    if (isset($valueArray)) {
-                                                        $value = '';
+                                                if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
+                                                    echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name . '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                                                    foreach ($valueArray as $ozellik) {
+                                                        echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
                                                     }
-                                                } elseif ($housingSetting->is_parent_table) {
-                                                    $value = $project[$housingSetting->column_name];
-                                                    $onProject = true;
-                                                } else {
-                                                    foreach ($project->roomInfo as $roomInfo) {
-                                                        if ($roomInfo->room_order == $housingOrder) {
-                                                            if ($roomInfo['name'] === $housingSetting->column_name . '[]') {
-                                                                if ($roomInfo['value'] == '["on"]') {
-                                                                    $value = 'Evet';
-                                                                } elseif ($roomInfo['value'] == '["off"]') {
-                                                                    $value = 'Hayır';
-                                                                } else {
-                                                                    $value = $roomInfo['value'];
-                                                                }
-                                                                $onProject = true;
-                                                            }
-                                                        }
-                                                    }
+                                                    echo '</ul></div>';
                                                 }
                                             }
                                         @endphp
-                                        @if (isset($projectHousing[$housingSetting->column_name . '[]']) &&
-                                                isset($project[$housingSetting->column_name]) &&
-                                                $project[$housingSetting->column_name]
-                                        )
-                                            @if ($isArrayCheck)
-                                                @if (isset($valueArray))
-                                                    <div class="mt-5">
-                                                        <h5>{{ $projectHousing[$housingSetting->column_name . '[]']['key'] }}:
-                                                        </h5>
-                                                        <ul class="homes-list clearfix checkSquareIcon">
-                                                            @foreach ($valueArray as $ozellik)
-                                                                <li>
-                                                                    <i class="fa fa-check-square"
-                                                                        aria-hidden="true"></i><span>{{ $ozellik }}</span>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -770,13 +727,13 @@
                                                                                     }
 
                                                                                     $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
+                                                                                        ->where('project_id', $project->id)
+                                                                                        ->where(function ($query) use ($i) {
+                                                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                                                        })
+                                                                                        ->where('start_date', '<=', now())
+                                                                                        ->where('end_date', '>=', now())
+                                                                                        ->first();
                                                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                                                 @endphp
 
@@ -792,13 +749,10 @@
                                                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                                                                                @if (isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != '[]')
-                                                                                                                    {{ $i + 1 - $lastHousingCount }}.
-                                                                                                                    Hisse
-                                                                                                                @else
-                                                                                                                    No
-                                                                                                                    <br>{{ $i + 1 - $lastHousingCount }}
-                                                                                                                @endif
+
+                                                                                                                No
+                                                                                                                <br>{{ $i + 1 - $lastHousingCount }}
+
 
                                                                                                             </p>
                                                                                                         </div>
@@ -831,7 +785,7 @@
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
                                                                                                                     style="height: 100px !important;object-fit:cover">
-                                                                                                              
+
 
                                                                                                             </div>
                                                                                                         </div>
@@ -1125,13 +1079,13 @@
                                                                         $room_order = $i + 1;
 
                                                                         $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
+                                                                            ->where('project_id', $project->id)
+                                                                            ->where(function ($query) use ($i) {
+                                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                                            })
+                                                                            ->where('start_date', '<=', now())
+                                                                            ->where('end_date', '>=', now())
+                                                                            ->first();
                                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                                     @endphp
@@ -1394,7 +1348,6 @@
                                                             ->where('end_date', '>=', now())
                                                             ->first();
 
-
                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                     @endphp
@@ -1444,7 +1397,7 @@
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
                                                                                             style="height: 100px !important;object-fit:cover">
-                                                                                    
+
                                                                                     </div>
 
                                                                                 </div>
@@ -1705,13 +1658,13 @@
                                                     $room_order = $i + 1;
 
                                                     $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
+                                                        ->where('project_id', $project->id)
+                                                        ->where(function ($query) use ($i) {
+                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                        })
+                                                        ->where('start_date', '<=', now())
+                                                        ->where('end_date', '>=', now())
+                                                        ->first();
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
                                                 <div class="d-flex" style="flex-wrap: nowrap">
@@ -2045,7 +1998,20 @@
         }
 
         if ($(window).width() <= 768) {
+            var mobileActionMove = $(".mobile-action-move").html();
+            var mobileMove = $(".mobileMove").html();
+            var mobileHour = $(".mobileHour").html();
+            var mobileMovePrice = $(".mobileMovePrice").html();
 
+            $("#listingDetailsSlider").after(mobileHour);
+            $(".mobileHourDiv").after(mobileMove);
+            $(".mobile-action").html(mobileActionMove);
+
+
+            $(".mobileMovePrice").remove();
+            $(".mobile-action-move").html(mobileMovePrice);
+            $(".mobileMove").remove();
+            $(".mobileHour").remove();
             var buyBtn = $(".buyBtn").html();
             var moveCollection = $(".moveCollection").html();
             $("#listingDetailsSlider").after(buyBtn);
@@ -2512,7 +2478,9 @@ out center;`;
                                             </a>
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position">
+                                            <div class="row align-items-center justify-content-between mobile-position" 
+                                            style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
+>
                                                 <div class="col-md-8">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
@@ -2635,7 +2603,10 @@ out center;`;
 
                                                 <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
-                                                        <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
+                                                        <button class="first-btn payment-plan-button" 
+                                                        project-id="{{ $project->id }}"
+                                                        data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
+                                                        order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
                                                         </button>`
                         if (res[i]['off_sale[]'] != "[]") {
@@ -2799,7 +2770,8 @@ out center;`;
                                             </a>
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position">
+                                            <div class="row align-items-center justify-content-between mobile-position"
+                                            style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
                                                 <div class="col-md-8">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
@@ -2923,7 +2895,10 @@ out center;`;
 
                                                 <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
                                                     <div class="homes-button" style="width:100%;height:100%">
-                                                        <button class="first-btn payment-plan-button" project-id="281" data-sold="0" order="${startIndex+i+lastBlockHousingCount}">
+                                                        <button class="first-btn payment-plan-button" 
+                                                        project-id="{{ $project->id }}"
+                                                        data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
+                                                        order="${startIndex+i+lastBlockHousingCount}">
                                                             Ödeme Detayları
                                                         </button>`
                             if (res[i]['off_sale[]'] != "[]") {
@@ -3014,8 +2989,53 @@ out center;`;
             display: none
         }
 
+        .mobile-action-move {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly
+        }
 
         @media (max-width:768px) {
+            .mobile-action {
+                margin-left: 10px
+            }
+
+            .mobile-action-move h4 {
+                font-size: 18px;
+                font-weight: 700;
+                color: #274abb;
+                display: flex;
+                width: 100%;
+                margin-bottom: 0;
+                align-items: center;
+                justify-content: center;
+                text-transform: capitalize !important;
+            }
+
+            .buttons {
+                margin-right: 10px
+            }
+
+
+            .detail-wrapper-body,
+            .mobile-action {
+                display: flex;
+                align-items: center;
+                justify-content: center
+            }
+
+            .listing-title-bar {
+                color: black;
+                font-size: 12px !important;
+                width: 100%;
+                display: block;
+                text-align: left;
+            }
+
+            .brand-head {
+                margin-bottom: 0 !important;
+            }
+
             .addCollectionMobile {
                 margin-bottom: 30px !important
             }
@@ -3075,7 +3095,7 @@ out center;`;
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px !important;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;

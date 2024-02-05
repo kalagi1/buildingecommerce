@@ -279,7 +279,7 @@
                                                     </li>
                                                 </ul>
                                                 <ul class="homes-list clearfix pb-0"
-                                                    style="display: flex; justify-content: space-between;margin-top:20px !important;">
+                                                    style="display: flex; justify-content: space-between;">
                                                     <li style="font-size: 16px; font-weight: 700;">
                                                         {{ getData($housing, 'price') }}TL</li>
 

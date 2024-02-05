@@ -2,12 +2,12 @@
 
 
 html {
-    font-size: 15px;
+    font-size: 11px;
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     color: #666;
     overflow-x: hidden !important;
@@ -253,7 +253,7 @@ button {
 .featured .allView h3,
 .popular-places button h3 {
     color: white;
-    font-size: 15px;
+    font-size: 11px;
     margin-bottom: 0 !important;
     padding: 10px 15px;
 }
@@ -579,10 +579,9 @@ img {
 
 
 .brand-head .brands-square {
-
-    margin-left: 30px;
     display: flex;
     align-items: center;
+    margin-left:10px;
 }
 
 .brand-head .brand-logo {
@@ -594,8 +593,9 @@ img {
 
 .brand-head .brand-name {
     margin-left: 10px !important;
+    margin-right: 0 !important;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 11px;
     margin: 0;
     padding: 0;
     color: white;
@@ -619,9 +619,9 @@ img {
 .brand-head .navbar-item {
     text-decoration: none;
     color: black;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
-    padding: 20px;
+    padding: 15px;
 }
 
 .brand-head .navbar-item.active {
@@ -1250,7 +1250,7 @@ strong {
 }
 
 .button--size-s {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: bold;
 }
 
@@ -1265,7 +1265,7 @@ strong {
 /* Typography and Roundedness */
 
 .button--text-upper {
-    
+
     text-transform: uppercase;
 }
 
@@ -2774,7 +2774,7 @@ section.welcome {
     }
 
     .welcome-content>p span {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -2959,7 +2959,7 @@ section.services-home {
 }
 
 section.portfolio {
-    padding: 30px 0;
+    padding: 10px 0;
     background: #f7f7f7;
 }
 
@@ -3872,7 +3872,7 @@ section.feature-cities-1 {
     right: 0;
     width: 100%;
     display: block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: bold;
     padding: 0px;
     overflow: hidden;
@@ -3889,7 +3889,7 @@ section.feature-cities-1 {
     position: relative;
     text-align: center;
     width: 120px;
-    font-size: 15px;
+    font-size: 11px;
     margin: 0;
 }
 
@@ -3925,7 +3925,7 @@ section.feature-cities-1 {
 .feature-cities-1 .img-box-content span,
 .feature-cities-1 .img-box-content pre {
     font-family: 'Nunito', sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 300;
     color: #fff;
 }
@@ -4089,7 +4089,7 @@ section.team {
     color: #666;
     font-style: italic;
     margin-bottom: 10px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
 
 }
@@ -5300,7 +5300,7 @@ section.counterup {
 
 .first-footer .info p {
     margin: 0px;
-    font-size: 15px;
+    font-size: 11px;
     color: rgba(245, 255, 255, 0.8);
     margin-left: 1rem;
     line-height: 1.1;
@@ -6527,7 +6527,7 @@ a.button,
     }
 
     .homepage-3 .banner-inner .sub-title {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -6608,7 +6608,7 @@ a.button,
 .homepage-3 .btn.btn-yellow {
     border: 0px;
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 11px;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
     box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
     color: #ffffff;
@@ -7001,7 +7001,7 @@ a.button,
 .homepage-3 .detailJC p,
 .homepage-1 .detailJC p {
     color: #666;
-    font-size: 15px;
+    font-size: 11px;
     margin: 0;
 }
 
@@ -7729,7 +7729,7 @@ a.button,
 }
 
 .home5-right-slider {
-    height: 230px;
+    height: 250px;
 }
 
 .home5-right-slider .owl-stage-outer {
@@ -8327,7 +8327,7 @@ html input[disabled] {
 .hp-6 .btn.btn-yellow {
     border: 0px;
     border-radius: 3px;
-    font-size: 15px;
+    font-size: 11px;
     background-color: black;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
     box-shadow: 0px 1px 4px 0px rgba(255, 90, 95, 0.3);
@@ -8373,7 +8373,7 @@ html input[disabled] {
 }
 
 .header-user-menu .lang-wrap ul li a {
-    font-size: 15px;
+    font-size: 11px;
     display: block;
     text-transform: capitalize;
 }
@@ -8460,11 +8460,12 @@ html input[disabled] {
     align-items: center;
 }
 
-p {
-    font-size: 11px !important;
-}
 
 @media (max-width: 768px) {
+    .brand-head .brand-name{
+        font-size:10px !important
+    }
+
     .home5-right-slider {
         height: 200px;
     }
@@ -8731,7 +8732,7 @@ a.button {
     display: flex;
     padding: 12px 35px;
     border-radius: 40px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     color: #fff;
     margin-top: 10px;
@@ -9140,7 +9141,7 @@ a.button {
 
 .hp-6 .checkboxes label span {
     color: #909090;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .hp-6 .checkboxes input[type=checkbox] {
@@ -9760,7 +9761,7 @@ a.button {
     }
 
     .search-2 .welcome-text p {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -10921,7 +10922,7 @@ a.int_btn,
 
 .listing-img-content span {
     color: #fff;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -11972,7 +11973,7 @@ a.button {
     }
 
     .parallax-searchs.home15 .welcome-text p {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .featured-boxes-area {
@@ -12144,7 +12145,7 @@ a.button {
     visibility: hidden;
     -webkit-transition: .6;
     transition: .6;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     text-decoration: none;
 }
@@ -12436,7 +12437,7 @@ section.featured.home15 {
 }
 
 .featured.home15 .homes .button {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     padding: 6px 14px;
     border-radius: 2px;
@@ -13391,7 +13392,7 @@ section.visited-cities {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .rld-single-input input:hover,
@@ -13426,7 +13427,7 @@ section.visited-cities {
     -webkit-transition: all 0.4s ease;
     transition: all 0.4s ease;
     border-radius: 4px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .rld-single-input textarea:hover,
@@ -14246,7 +14247,7 @@ form label.error {
     }
 
     .th-8 .trip-search.contact-us h4 {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -14637,7 +14638,7 @@ select {
     display: inline-block;
     padding: 12px 35px;
     border-radius: 40px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     color: #fff;
     margin-top: 30px;
@@ -14754,7 +14755,7 @@ a.btn-white {
     }
 
     .header-image .left p {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .google-maps.home-18 .filter {
@@ -14783,7 +14784,7 @@ a.btn-white {
 /*---- 38. SECTION WHY CHOOSE US HOME 18 -----*/
 /*--------------------------------------------*/
 
-.content-section-type-1 .rigthSide{
+.content-section-type-1 .rigthSide {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -14796,13 +14797,16 @@ a.btn-white {
     padding: 0 75px;
     position: relative;
 }
+
 .black-section {
     background-color: #000;
     color: white;
 }
+
 .inner-wrapper .content-wrapper {
     max-width: 700px;
 }
+
 .columns-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -14814,6 +14818,7 @@ a.btn-white {
     justify-content: center;
     margin: -15px;
 }
+
 .columns-wrapper .column {
     position: relative;
     padding: 15px;
@@ -14827,6 +14832,7 @@ a.btn-white {
 .icon-wrapper {
     margin-bottom: 25px;
 }
+
 .inner-service {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -14844,14 +14850,17 @@ a.btn-white {
     max-width: 100%;
     padding: 40px 0;
 }
+
 .column-100 {
     width: 100%;
     min-width: 100%;
 }
+
 .inner-service .content-wrapper .title {
     margin-bottom: 10px;
     color: white;
 }
+
 .content-section-type-1 .inner-wrapper {
     padding: 50px 30px;
     display: -webkit-box;
@@ -14865,14 +14874,16 @@ a.btn-white {
     justify-content: center;
 }
 
-.right-side-inner{
-    position:relative
+.right-side-inner {
+    position: relative
 }
-.background-title{
+
+.background-title {
     color: white;
     position: relative;
     font-size: 16px;
 }
+
 .gradient-overlay:before {
     content: " ";
     display: -webkit-box;
@@ -14887,6 +14898,7 @@ a.btn-white {
     opacity: .95;
     left: 0;
 }
+
 section.how-it-works {
     background: #fff;
     padding: 2.6rem 0 0 0;
@@ -15613,7 +15625,7 @@ a.button {
     }
 
     .homepage-23 .banner-inner .sub-title {
-        font-size: 15px;
+        font-size: 11px;
     }
 }
 
@@ -15699,7 +15711,8 @@ a.button {
     .input-group.search {
         width: 100% !important
     }
-    .background-title{
+
+    .background-title {
         padding: 30px 0;
     }
 }
@@ -15832,7 +15845,7 @@ a.button {
     display: flex;
     padding: 12px 35px;
     border-radius: 40px;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     color: #fff;
     -webkit-box-shadow: 1px 1px 30px 0px rgba(0, 0, 0, 0.15);
@@ -16384,7 +16397,7 @@ a.button {
 .homes-button .first-btn {
     padding: 15px;
     color: white;
-    font-size: 13px;
+    font-size: 11px;
     background-color: black;
     font-weight: 600;
     border: none;
@@ -16397,16 +16410,18 @@ a.button {
 .slick-initialized .slick-slide {
     padding: 0 10px;
 }
-.homes-content .second-btn{
+
+.homes-content .second-btn {
     margin-top: 30px !important;
 }
+
 .homes-button .second-btn {
-   
+
     position: absolute;
     bottom: 0;
     border-radius: 0 !important;
     right: 0;
-    font-size: 13px;
+    font-size: 11px;
     padding: 15px;
     color: white;
     background-color: #274abb;
@@ -16471,7 +16486,7 @@ a.button {
 
 .inner-pages .input-group-lg>.form-control {
     padding: .5rem 1rem .5rem .5rem !important;
-    font-size: 15px;
+    font-size: 11px;
     line-height: 1;
     margin-top: 7px;
     border-radius: 3px;
@@ -16851,7 +16866,7 @@ a.button {
 /* Trigger */
 
 .inner-pages .more-search-options-trigger {
-    font-size: 15px;
+    font-size: 11px;
     margin: 5px 0 2px 0;
     display: inline-block;
 }
@@ -16951,7 +16966,7 @@ a.button {
     color: #757575;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .inner-pages .form-group .nice-select i {
@@ -17126,7 +17141,7 @@ a.button {
 
 .inner-pages .checkboxes label span {
     color: #909090;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .inner-pages .checkboxes input[type=checkbox] {
@@ -17945,7 +17960,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .sidebar .sidebar-widget .author__meta {
-    font-size: 15px;
+    font-size: 11px;
     color: #666;
     font-weight: 400;
 }
@@ -18027,7 +18042,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .widget-boxed {
-    padding: 1.5rem;
+    padding: 1rem;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     z-index: 90;
@@ -18064,6 +18079,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .widget-boxed-header {
     padding-top: 0px;
+    cursor: pointer;
 }
 
 .widget-boxed-header h4 {
@@ -18286,7 +18302,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .carousel-inner h5,
 .wprt-image-video.w50.pro h5 {
     color: #000;
-    font-size: 14px;
+    font-size: 11px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: capitalize;
@@ -18298,7 +18314,9 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .inner-pages .blog .homes-content .homes-list {
     padding: 0px !important;
+    padding-bottom: 20px !important;
     margin: 0px !important;
+    margin-top: 2px !important;
 }
 
 .login-page-info h3 {
@@ -18359,9 +18377,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     font-size: 9px !important;
 }
 
-span {
-    font-size: 11px !important;
-}
 
 .inner-pages .blog .homes-content .homes-list li:last-child {
     border: none;
@@ -18378,8 +18393,8 @@ span {
     padding: 1rem 0;
 }
 
-.recent-post{
-    font-size:11px !important
+.recent-post {
+    font-size: 11px !important
 }
 
 .inner-pages .blog .homes-content.details-2.mb-4 {
@@ -18543,7 +18558,7 @@ span {
     }
 
     .inner-pages .headings-2 .listing-title-bar a {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .inner-pages .homes-content.details-2 ul {
@@ -18789,7 +18804,7 @@ span {
     .inner-pages .headings-2 .listing-title-bar h3 {
         font-size: 14px !important;
         width: 100%;
-        text-align: center;
+        text-align: left;
     }
 
     .schedule.widget-boxed.mt-33 {
@@ -19102,7 +19117,7 @@ section.breadcrumb-outer {
 }
 
 .detail-title .detail-title-inner .list-single-contacts li {
-    font-size: 15px;
+    font-size: 11px;
     padding-right: 17px;
 }
 
@@ -19289,7 +19304,7 @@ h2.white {
     margin-bottom: 10px;
     font-size: .97rem;
     font-weight: 400;
-    
+
 }
 
 .inner-pages .team-content ul {
@@ -19746,7 +19761,7 @@ ul.the-agents-details li a {
 .inner-pages .agent-tag {
     position: absolute;
     padding: 8px 8px;
-    font-size: 15px;
+    font-size: 11px;
     z-index: 20;
     top: 20px;
     left: 10px;
@@ -19823,7 +19838,7 @@ ul.the-agents-details li a {
 
 .inner-pages .agent-details .fa {
     color: black;
-    font-size: 15px;
+    font-size: 11px;
     margin-right: 8px;
 }
 
@@ -20295,7 +20310,7 @@ a.button {
     -webkit-transition: 0.3s;
     transition: 0.3s;
     display: inline-block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
@@ -20310,7 +20325,7 @@ a.button {
     color: #fff;
     position: relative;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 11px;
     text-align: center;
     font-weight: 600;
     display: inline-block;
@@ -20562,7 +20577,7 @@ body.dashboard-bd {
     color: #50596E;
     float: left;
     width: 100%;
-    font-size: 15px;
+    font-size: 11px;
     text-decoration: none;
     font-weight: 400;
     text-align: left;
@@ -20668,7 +20683,7 @@ body.dashboard-bd {
 }
 
 .dashborad-box .item .info .type {
-    font-size: 15px;
+    font-size: 11px;
     color: #fff;
     margin-bottom: 0px;
 }
@@ -20900,13 +20915,15 @@ body.dashboard-bd {
     font-size: 11px;
     font-weight: 600;
 }
-.discountAmountStyle{
-display: flex;
-align-items: center;
-justify-content: center;
+
+.discountAmountStyle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.pay-desc{
-    width:40%
+
+.pay-desc {
+    width: 40%
 }
 
 .my-properties table tbody tr td {
@@ -20920,7 +20937,7 @@ justify-content: center;
 
 .my-properties table h2 {
     border: none;
-    width:300px;
+    width: 300px;
     font-size: 11px;
     color: #444;
     text-decoration: none;
@@ -20947,7 +20964,9 @@ justify-content: center;
 }
 
 .my-properties table tbody tr .image a img {
-    width: 100%;
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
     border-radius: 3px;
 }
 
@@ -21365,7 +21384,7 @@ small {
 
     .user-profile-box .detail ul li a,
     .reviews .review .body h4 {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .my-properties table tbody tr .image {
@@ -21375,7 +21394,7 @@ small {
     .my-properties table thead tr th:first-child,
     .my-properties table thead tr th {
         padding-left: 1rem;
-        font-size: 15px;
+        font-size: 11px;
     }
 
     .my-properties table tbody tr td {
@@ -23305,7 +23324,7 @@ a.btn_1 {
     display: inline-block;
     font-family: var(--title-font-family);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 11px;
     font-style: normal;
     padding: 13px 30px;
     position: relative;
@@ -23342,7 +23361,7 @@ a.btn_1 {
 .ud-btn2 {
     font-family: var(--title-font-family);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 11px;
     position: relative;
     text-align: center;
     -webkit-transition: all .4s ease;
@@ -23524,7 +23543,7 @@ a.btn_1 {
 .inner-pages .recent-post ul li:last-child {
     padding-top: .5rem;
     padding-bottom: 0px;
-    border:0 !important
+    border: 0 !important
 }
 
 .inner-pages .recent-post ul li a {
@@ -23614,7 +23633,7 @@ a.btn_1 {
     padding: 9px !important;
     /* border: none !important; */
     color: #717171 !important;
-    border-color: #eee ;
+    border-color: #eee;
     padding: 0 1rem;
     border-radius: 0 !important;
 }
@@ -23675,7 +23694,7 @@ a.btn_1 {
 
 .inner-pages .info-img h6 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     color: #222;
     font-weight: 400;
 }
@@ -23721,15 +23740,17 @@ a.btn_1 {
     padding: .5rem 0;
 }
 
-.itemsDiv{
+.itemsDiv {
     max-height: 270px;
     overflow-y: scroll;
 }
 
 
 .itemsDiv::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */
 }
 
 
@@ -24157,7 +24178,7 @@ form label.error {
 .inner-pages .property-form-group label {
     color: #333;
     display: inline-block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: capitalize;
 }
@@ -24247,7 +24268,7 @@ form label.error {
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     display: block;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     padding: 10px 20px;
     text-transform: capitalize;
@@ -25070,7 +25091,7 @@ h6 {
 }
 
 .google-maps .filter-item label {
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
     margin-bottom: 10px;
     color: white;
@@ -25149,7 +25170,7 @@ input[type="file"] {
     background: white;
     height: 39px;
     line-height: 39px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .chosen-container .chosen-single div {
@@ -25257,7 +25278,7 @@ section.ui-element {
 }
 
 h5.uppercase {
-    
+
     margin-right: -2px;
 }
 
@@ -25432,7 +25453,6 @@ ul {
     background: #fff;
     border: 1px solid #e6e6e6;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .0511637);
-    border-radius: 6px;
     height: 108px;
     padding: 20px;
     align-items: center;
@@ -25504,7 +25524,7 @@ ul {
     display: flex !important;
 }
 
-{
+    {
     padding-bottom: 50px;
 }
 
@@ -25555,7 +25575,7 @@ ul {
     line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
-    
+
     font-weight: 700;
 }
 
@@ -25688,7 +25708,7 @@ table.basic-table {
 .notification p {
     color: black;
     margin: 0;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 #result .success,
@@ -25938,7 +25958,7 @@ table.basic-table {
 }
 
 .ui-buttons h4.effect {
-    font-family: Lato, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     color: #444;
     font-weight: 400;
@@ -26165,16 +26185,7 @@ section.headings-2 {
 /** Buttons **/
 /** Form Elements **/
 
-input[type="text"],
-input[type="password"] {
-    background: #f5f5f5;
-    border: none;
-    width: 100%;
-    height: 50px;
-    padding-left: 20px;
-    font-weight: 500;
-    border-radius: 0;
-}
+
 
 textarea {
     width: 100%;
@@ -26257,13 +26268,11 @@ select {
 }
 
 h4 {
-    
     margin-right: -2px;
-    font-family: Lato, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     color: #444;
     font-weight: 400;
-    margin-bottom: 24px;
 }
 
 .radio-option {
@@ -26881,7 +26890,7 @@ h4 {
 
 @media screen and (max-width: 576px) {
     body {
-        font-size: 15px;
+        font-size: 11px;
     }
 
     h1 {
@@ -26992,7 +27001,7 @@ h4 {
 .portfolio .project-head span {
     text-align: center;
     color: #333;
-    border:solid 1px #f0f0f0;
+    border: solid 1px #f0f0f0;
     font-size: 11px;
     display: block;
     transition: all ease 0.2s;
@@ -27267,7 +27276,7 @@ h4 {
 
 .login-tabs li a h3 {
     margin-top: 10px;
-    font-size: 15px;
+    font-size: 11px;
 }
 
 .loginItems #signup {
@@ -27759,51 +27768,57 @@ input[type="checkbox"]::before {
     color: #fff !important;
     /* Yazı rengi */
 }
-.select2-selection__rendered{
-    font-size:10px !important;
+
+.select2-selection__rendered {
+    font-size: 10px !important;
 }
-.select2-container--default .select2-selection--single .select2-selection__placeholder{
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
     color: #444 !important;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 32px !important;
 }
-.select2-dropdown{
+
+.select2-dropdown {
     border: 1px solid #eee !important;
 }
-.select2-container--default .select2-selection--single .select2-selection__placeholder{
-    font-size:10px !important;
-    color:#444;
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    font-size: 10px !important;
+    color: #444;
 }
+
 .slick-lancersl {
     position: relative;
     overflow: hidden;
 }
-.select2-container--default .select2-selection--single{
+
+.select2-container--default .select2-selection--single {
     border: 1px solid #eee !important;
     border-radius: 0 !important;
 }
 
-.select2-container--default .select2-results__option{
+.select2-container--default .select2-results__option {
     font-size: 10px !important;
 }
 
 .select2-container .select2-selection--single {
-height: 32px !important;
+    height: 32px !important;
 }
 
-font{
-    font-size:12px !important
+font {
+    font-size: 12px !important
 }
 
 #home div,
-#home li{
-    font-size:12px !important
-
+#home li {
+    font-size: 12px !important
 }
 
-#home div b{
-   font-weight: 700 !important;
+#home div b {
+    font-weight: 700 !important;
 
 }
 
@@ -27822,7 +27837,7 @@ font{
     transition-duration: .5s;
     overflow: hidden;
     position: relative;
-   
+
 }
 
 @media (max-width: 768px) {
@@ -27923,7 +27938,7 @@ font{
     color: black !important;
 }
 
-.disabledShareButton:hover{
+.disabledShareButton:hover {
     background: white;
 }
 
@@ -30222,7 +30237,15 @@ a {
 
 
 @media (max-width: 768px) {
-    .mobileAddCollection ,
+
+    .button-effect,
+    .main-button,
+    .buttons .button {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .mobileAddCollection,
     .disabledShareButton {
         border: 1px solid gray;
         display: flex;

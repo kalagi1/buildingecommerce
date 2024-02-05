@@ -75,7 +75,7 @@
                                         @foreach ($mergedItems as $item)
                                             <tr>
                                                 <td>
-                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
 
                                                 </td>
 
@@ -94,8 +94,10 @@
                                                         {!! $item['room_order'] . " No'lu Daire <br>" !!}
                                                     @endif <span
                                                         style="font-size: 9px !important;font-weight:700">
-                                                        {{ $item['item_type'] == 1 ? $item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title'] : $item['housing']['city']['title'] . ' / ' . $item['housing']['county']['title'] . ' / ' . $item['housing']['neighborhood']['mahalle_title'] }}
-                                                        <br>
+                                                        {{ isset($item['item_type']) && $item['item_type'] == 1 ? 
+                                                        ($item['project']['city']['title'] . ' / ' . $item['project']['county']['ilce_title'] . ' / ' . $item['project']['neighbourhood']['mahalle_title']) : 
+                                                        ($item['housing']['city'] ? $item['housing']['city']['title'] : 'City Not Available') }}
+                                                                                                             <br>
                                                     </span>
                                                 </td>
                                                 <td>
@@ -236,7 +238,7 @@
                                                     <tr style="background-color: #8080802e">
                                                         <td colspan="5">
                                                             <span style="color: #e54242">
-                                                                #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                                #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
                                                                 Numaralı İlan İçin:
                                                                 Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                                 tarafından paylaşılan link aracılığıyla
@@ -253,7 +255,7 @@
                                                     <tr style="background-color: #8080802e">
                                                         <td colspan="5">
                                                             <span style="color: #e54242">
-                                                                #{{ $item['project']->id + $item['room_order'] + 10000000 }}
+                                                                #{{ $item['project']->id + $item['room_order'] + 1000000 }}
                                                                 Numaralı İlan İçin:
                                                                 Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                                 tarafından paylaşılan link aracılığıyla
@@ -298,7 +300,7 @@
                                                 <div class="d-flex" style="gap: 8px;justify-content:space-between">
 
                                                     <h4>
-                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 10000000 : $item['housing']->id + 2000000 }}
+                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
                                                         <br>
                                                         {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                                     </h4>
@@ -457,7 +459,7 @@
                                             <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
-                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] +  10000000 : $item['housing']->id + 2000000 }}
+                                                    #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] +  1000000 : $item['housing']->id + 2000000 }}
                                                     Numaralı İlan İçin:
                                                     Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                     tarafından paylaşılan link aracılığıyla
@@ -477,7 +479,7 @@
                                             <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
-                                                    #{{ $item['project']->id + $item['room_order'] + 10000000 }}
+                                                    #{{ $item['project']->id + $item['room_order'] + 1000000 }}
                                                     Numaralı İlan İçin:
                                                     Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
                                                     tarafından paylaşılan link aracılığıyla
