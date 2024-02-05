@@ -1908,15 +1908,7 @@
                                 @if (($sold && $soldStatus != '0') || $soldStatus != '1')
                                     <div class="table-responsive">
                                         <table class="payment-plan-table table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Ödeme Türü</th>
-                                                    <th>Fiyat</th>
-                                                    <th>Peşin Ödenecek Tutar</th>
-                                                    <th>Aylık Ödenecek Tutar</th>
-                                                    <th>Taksit Sayısı</th>
-                                                </tr>
-                                            </thead>
+
                                             <tbody>
                                                 <tr>
                                                     <td data-label="Ödeme Türü">...</td>
@@ -2108,7 +2100,13 @@
                             .room_order == parseInt(order)) {
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
 
-
+                            if (!paymentPlanData.includes("pesin")) {
+                                // Add "pesin" to the beginning of the array
+                                paymentPlanData.unshift("pesin");
+                            } else if (!paymentPlanData.includes("taksitli")) {
+                                // If "pesin" is already present but "taksitli" is not, add "taksitli" to the end
+                                paymentPlanData.push("taksitli");
+                            }
                             var html = "";
 
                             function formatPrice(number) {
@@ -2129,69 +2127,156 @@
                                     if (paymentPlanData[j] == "pesin") {
                                         var priceData = getDataJS(response, "price[]", response
                                             .room_info[i].room_order);
-                                        var installementData = "-";
-                                        var advanceData = "-";
-                                        var monhlyPrice = "-";
+                                        var installementData = "";
+                                        var advanceData = "";
+                                        var monhlyPrice = "";
                                     } else {
+
+
                                         var priceData = getDataJS(response, "installments-price[]",
                                             response.room_info[i].room_order);
                                         var installementData = getDataJS(response, "installments[]",
                                             response.room_info[i].room_order);
-                                        var advanceData = formatPrice(getDataJS(response, "advance[]",
+                                        var advanceData = formatPrice(getDataJS(response,
+                                            "advance[]",
                                             response.room_info[i].room_order)) + "₺";
-                                        console.log((parseFloat(getDataJS(response,
-                                            "installments-price[]", response.room_info[
-                                                i].room_order)) - parseFloat(getDataJS(
-                                            response, "advance[]", response.room_info[i]
-                                            .room_order))));
-                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(response,
-                                                "installments-price[]", response
-                                                .room_info[i].room_order)) - parseFloat(
-                                                getDataJS(response, "advance[]",
-                                                    response.room_info[i].room_order))) /
+
+                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(getDataJS(response,
+                                                    "advance[]", response.room_info[
+                                                        i].room_order)) - payDecPrice) /
                                             parseInt(installementData)))) + '₺';
                                     }
                                     var isMobile = window.innerWidth < 768;
+
+                                    order = parseInt(order);
+                                    var payDecPrice = 0;
+                                    if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
+                                        html += "<tr style='background-color:#EEE !important'><th>" +
+                                            installementData +
+                                            " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
+
+                                        for (var l = 1; l <= getDataJS(response,
+                                                "pay-dec-count" + (order + 1), response
+                                                .room_info[i].room_order); l++) {
+                                            html += "<th>" +
+                                                l + ". Ara Ödeme</th>";
+                                        }
+
+                                        html += "</tr>";
+                                    }
+
                                     html += "<tr>";
 
                                     // Function to check if the value is empty or not
                                     function isNotEmpty(value) {
-                                        return value !== "" && value !== undefined && value !== "-" &&
+                                        return value !== "" && value !== undefined && value !==
+                                            "-" &&
                                             value !== null;
                                     }
 
-                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[j]])) {
-                                        html += "<td>" + (isMobile ? "<strong>Ödeme Türü:</strong> " :
-                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
+                                    if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
+                                            j]]) && paymentPlanDatax[paymentPlanData[j]] !=
+                                        "Taksitli") {
+                                        html += "<th>" + (isMobile ?
+                                            "<strong>Ödeme Türü:</strong> " :
+                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</th>";
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<td>" + (isMobile ? paymentPlanDatax[paymentPlanData[
-                                                j]] + " " + "<strong>Fiyat:</strong> " : "") +
-                                            formatPrice(priceData) + "₺</td>";
+                                        html += "<th>" + (isMobile ? paymentPlanDatax[
+                                                paymentPlanData[j]] + " " +
+                                            "<strong>Fiyat:</strong> " : "") + formatPrice(
+                                            priceData) + "₺</th>";
                                     }
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</td>";
+                                        html += "<th>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</th>";
                                     }
 
-                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
-                                        html += "<td>" + (isMobile ?
+                                    if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
+                                            paymentPlanData[j]] != "Taksitli") {
+                                        var installmentsPrice = parseFloat(getDataJS(response,
+                                            "installments-price[]", response.room_info[i]
+                                            .room_order));
+                                        var advanceAmount = parseFloat(getDataJS(response,
+                                            "advance[]", response.room_info[i].room_order));
+
+                                        // Check if the values are valid numbers
+                                        if (!isNaN(installmentsPrice) && !isNaN(advanceAmount) && !
+                                            isNaN(payDecPrice)) {
+                                            var calculatedValue = installmentsPrice -
+                                                advanceAmount - payDecPrice;
+
+                                            html += "<th>" + (isMobile ?
+                                                    "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
+                                                    "") +
+                                                formatPrice(calculatedValue) + "</th>";
+                                        }
+                                    }
+
+
+                                    if (!isMobile && isNotEmpty(monhlyPrice)) {
+                                        html += "<th>" + (isMobile ?
                                                 "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
-                                            monhlyPrice + "</td>";
+                                            monhlyPrice + "</th>";
                                     }
 
 
-                                    if (!isMobile || isNotEmpty(installementData)) {
-                                        html += "<td>" + (isMobile ?
+                                    if (!isMobile && isNotEmpty(installementData) &&
+                                        paymentPlanDatax[paymentPlanData[j]] != "Taksitli") {
+                                        html += "<th>" + (isMobile ?
                                                 "<strong>Taksit Sayısı:</strong> " : "") +
-                                            installementData + "</td>";
+                                            installementData + "</th>";
+                                    }
+
+
+                                    order = parseInt(order);
+                                    var payDecPrice = 0;
+                                    if (getDataJS(response, "pay-dec-count" + (order + 1),
+                                            response.room_info[i].room_order)) {
+
+                                        for (var l = 0; l < getDataJS(response,
+                                                "pay-dec-count" + (order + 1), response
+                                                .room_info[i].room_order); l++) {
+
+                                            if (getDataJS(response, "pay_desc_price" + (order +
+                                                        1) + l, response.room_info[i]
+                                                    .room_order)) {
+                                                payDecPrice += parseFloat(getDataJS(response,
+                                                    "pay_desc_price" + (order + 1) + l,
+                                                    response.room_info[i].room_order));
+                                                var payDescDate = new Date(getDataJS(response,
+                                                    "pay_desc_date" + (order + 1) + l,
+                                                    response.room_info[i].room_order));
+
+                                                if (paymentPlanDatax[paymentPlanData[j]] ==
+                                                    "Taksitli") {
+                                                    html +=
+                                                        "<th>" +
+                                                        formatPrice(parseFloat(getDataJS(response,
+                                                            "pay_desc_price" + (order + 1) +
+                                                            l, response.room_info[i]
+                                                            .room_order))) + "<br>" +
+                                                        (months[payDescDate.getMonth()] + ' ' +
+                                                            payDescDate.getDate() + ', ' +
+                                                            payDescDate.getFullYear()) + "</th>"
+                                                } else {
+                                                    html +=
+                                                        "<th></th>"
+                                                }
+
+                                            }
+
+                                        }
                                     }
 
                                     html += "</tr>";
-
                                 }
 
                                 tempPlans.push(paymentPlanData[j])

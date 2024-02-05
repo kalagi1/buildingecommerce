@@ -20926,11 +20926,11 @@ body.dashboard-bd {
     width: 40%
 }
 
-.my-properties table tbody tr td {
+.my-properties tbody tr td {
     border-top: none;
     text-align: center !important;
     border-bottom: 1px solid #f3f3f3;
-    padding: 15px 20px 15px 0;
+    padding: 15px 20px 15px 20px;
     vertical-align: middle;
     font-size: 11px;
 }
