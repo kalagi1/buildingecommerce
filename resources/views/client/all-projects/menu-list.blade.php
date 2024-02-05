@@ -591,8 +591,6 @@
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head py-2" style="padding-top: 0">
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
-                                <p class="brand-name"><a href="{{ url('/') }}" style="color: black">Anasayfa</a>
-                                </p>
                                 @if ($slugName)
                                     <p class="brand-name"><i class="fa fa-angle-right" style="color: black"></i></p>
                                     <p class="brand-name" style="color: black">{{ $slugName }}</p>
