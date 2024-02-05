@@ -37,32 +37,28 @@
 
                         </div>
                     </div>
-
+                    @php
+                        $months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+                    @endphp
                     @if (isset($cart['item']) && isset($cart['item']['payment-plan']))
                         <div
                             class="my-properties p-0 my-choose mb-3 {{ $cart['item']['payment-plan'] === 'pesin' ? 'd-none' : 'd-block' }}">
                             <table class="table-responsive">
                                 <tbody>
                                     <tr>
-                                        <td>
-                                            <strong>Peşinat</strong> <br>
-                                            {{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺
-                                        </td>
-
-                                        <td>
-                                            <strong>Taksit Sayısı</strong> <br>
-                                            {{ $cart['item']['taksitSayisi'] }}
-                                        </td>
-
-
-                                        <td><strong>Aylık Ödenecek Tutar</strong><br>
-                                            {{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺</td>
-
-
-
-                                        <td><strong>Toplam Fiyat</strong><br>
-                                            {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }} ₺</td>
+                                        <td><strong>Peşinat</strong> <br>{{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺</td>
+                                        <td><strong>Taksit Sayısı</strong> <br>{{ $cart['item']['taksitSayisi'] }}</td>
+                                        <td><strong>Aylık Ödenecek Tutar</strong><br>{{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺</td>
+                                        <td><strong>Ara Ödeme Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : "" }}</td>
+                                        <td><strong>Toplam Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }} ₺</td>
                                     </tr>
+                                    @if(isset($cart['item']['pay_decs']))
+                                        <tr>
+                                            @for($i = 0; $i < count($cart['item']['pay_decs']); $i++)
+                                                <td><strong>{{$i + 1}}. Ara Ödeme</strong> <br>{{number_format($cart['item']['pay_decs'][$i]['pay_dec_price'.$i], 0, ',', '.')}} ₺ <br> {{$months[date('n',strtotime($cart['item']['pay_decs'][$i]['pay_dec_date'.$i])) -1].', '.date('d Y',strtotime($cart['item']['pay_decs'][$i]['pay_dec_date'.$i]))}}</td>
+                                            @endfor
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>

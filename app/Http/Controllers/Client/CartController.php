@@ -750,7 +750,6 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
             $hasCounter = false;
             $cart = $request->session()->get( 'cart', [] );
             http_response_code( 500 );
-
             if ( $cart && ( ( $type == 'housing' && isset( $cart[ 'item' ][ 'id' ] ) &&  $cart[ 'item' ][ 'id' ] == $id ) || ( $type == 'project' && isset( $cart[ 'item' ][ 'housing' ] ) && $cart[ 'item' ][ 'housing' ] == $id ) ) ) {
                 $request->session()->forget( 'cart' );
             } else {
@@ -795,6 +794,15 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         $aylik = ($installmentPrice - $pesinat) / $taksitSayisi;
                     }
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
+                    $payDecs = [];
+                    if($projectHousing['pay-dec-count'.$request->input('id')]){
+                        for($k = 0 ; $k < $projectHousing['pay-dec-count'.$request->input('id')]->value; $k++){
+                            array_push($payDecs,[
+                                "pay_dec_price".$k => $projectHousing['pay_desc_price'.$request->input('id').$k]->value,
+                                "pay_dec_date".$k => $projectHousing['pay_desc_date'.$request->input('id').$k]->value,
+                            ]);
+                        }
+                    }
 
                     $cartItem = [
                         'id' => $project->id,
@@ -813,7 +821,8 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         "payment-plan" => "pesin",
                         "pesinat" => $pesinat,
                         "taksitSayisi" => $taksitSayisi,
-                        "aylik" => $aylik
+                        "aylik" => $aylik,
+                        "pay_decs" => $payDecs
                     ];
                 } else if ( $type == 'housing' ) {
                     if ( $lastClick ) {
