@@ -312,7 +312,7 @@
                                                                 @endif
                                                             </span>
                                                         </div>
-                                                        <div class="mt-md-2 filtreArea" style="display: none !important;">
+                                                        <div class="mt-md-2 filtreArea" >
                                                             @foreach ($filter['values'] as $key => $value)
                                                                 @if (isset($filter['toggle']) && $filter['toggle'] == true)
                                                                     <!-- Switch-slider öğesi -->
@@ -375,8 +375,7 @@
                                                             </span>
                                                         </div>
 
-                                                        <div class="d-flex align-items-center mt-md-2"
-                                                            style="display: none !important;">
+                                                        <div class="d-flex align-items-center mt-md-2">
                                                             @if ($filter['text_style'] == 'min-max')
                                                                 <span id="slider-range-value1">
                                                                     <input type="text"
@@ -422,7 +421,7 @@
                                                                 @endif
                                                             </span>
                                                         </div>
-                                                        <div class="mt-md-2 filtreArea" style="display: none !important;">
+                                                        <div class="mt-md-2 filtreArea" >
                                                             @foreach ($filter['values'] as $key => $value)
                                                                 @if (isset($filter['toggle']) && $filter['toggle'] == true)
                                                                     <!-- Switch-slider öğesi -->
@@ -486,8 +485,7 @@
                                                             </span>
 
                                                         </div>
-                                                        <div class="d-flex align-items-center mt-md-2"
-                                                            style="display: none !important;">
+                                                        <div class="d-flex align-items-center mt-md-2">
                                                             @if ($filter['text_style'] == 'min-max')
                                                                 <span id="slider-range-value1">
                                                                     <input type="text"
