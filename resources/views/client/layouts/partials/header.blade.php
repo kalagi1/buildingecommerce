@@ -266,7 +266,7 @@
             bottom: 0;
             display: flex;
             background-color: #F7F7F7;
-            height: 70px;
+            height: 60px;
             align-items: center;
             justify-content: space-around;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
@@ -293,7 +293,7 @@
 
         .button-container .button span {
             margin-top: 5px;
-            font-size: 13px
+            font-size: 11px
         }
 
         .button-container .button:hover {
@@ -301,7 +301,7 @@
         }
 
         .button-container .icon {
-            font-size: 20px;
+            font-size: 18px;
         }
     }
 </style>
