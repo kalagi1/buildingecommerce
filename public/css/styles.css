@@ -8458,11 +8458,12 @@ html input[disabled] {
     align-items: center;
 }
 
-p {
-    font-size: 11px !important;
-}
 
 @media (max-width: 768px) {
+    .brand-head .brand-name{
+        font-size:10px !important
+    }
+    
     .home5-right-slider {
         height: 200px;
     }
