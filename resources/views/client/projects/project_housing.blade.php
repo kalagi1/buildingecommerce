@@ -2090,8 +2090,8 @@
             // Ajax isteği gönderme
 
             const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-                                "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
-                            ]
+                "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+            ]
             $.ajax({
                 url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
@@ -2154,11 +2154,12 @@
                                     }
                                     var isMobile = window.innerWidth < 768;
 
-                                    orderHousing = "{{$housingOrder}}" -1;
+                                    orderHousing = "{{ $housingOrder }}" - 1;
 
                                     var payDecPrice = 0;
                                     if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
-                                        html += "<tr class style='background-color:#EEE !important'><th>" +
+                                        html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                            "' style='background-color: #EEE !important;'><th>" +
                                             installementData +
                                             " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
@@ -2190,9 +2191,9 @@
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<td>" + (isMobile ? paymentPlanDatax[
+                                        html += "<td><strong>" + (isMobile ? paymentPlanDatax[
                                                 paymentPlanData[j]] + " " +
-                                            "<strong>Fiyat:</strong> " : "") + formatPrice(
+                                            "Fiyat:</strong> " : "") + formatPrice(
                                             priceData) + "₺</td>";
                                     }
 
@@ -2259,19 +2260,20 @@
 
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
-                                                    html +=
-                                                        "<td>" +
+                                                    html += "<td>" + (isMobile ? "<strong>" + (l + 1) +
+                                                            ". Ara Ödeme Tutarı ve Tarihi:</strong> <br>" : "") +
                                                         formatPrice(parseFloat(getDataJS(response,
-                                                            "pay_desc_price" + (orderHousing + 1) +
-                                                            l, response.room_info[i]
-                                                            .room_order))) + "<br>" +
+                                                            "pay_desc_price" + (orderHousing +
+                                                                1) + l, response.room_info[i]
+                                                            .room_order))) + "₺" +
+                                                        (isMobile ? " " : "<br>") +
                                                         (months[payDescDate.getMonth()] + ' ' +
-                                                            payDescDate.getDate() + ', ' +
-                                                            payDescDate.getFullYear()) + "</td>"
+                                                            payDescDate.getDate() + ', ' + payDescDate
+                                                            .getFullYear()) + "</td>";
                                                 } else {
-                                                    html +=
-                                                        "<th></th>"
+                                                    html += null;
                                                 }
+
 
                                             }
 
@@ -3214,6 +3216,10 @@ out center;`;
         }
 
         @media (max-width: 768px) {
+
+            .payment-plan-table td strong {
+                font-weight: 700 !important
+            }
             .payment-plan-table thead {
                 display: none !important;
             }
