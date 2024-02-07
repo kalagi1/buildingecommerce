@@ -1458,6 +1458,14 @@ class ProjectController extends Controller
             $projectImage->save();
         }
 
+        ProjectSituation::where('project_id', $tempData->id)->delete();
+        foreach ($tempData->situations as $key => $image) {
+            $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+            $projectImage->situation = 'public/situation_images/'.str_replace('public/situation_images/', '', $image->situation);
+            $projectImage->project_id = $tempData->id;
+            $projectImage->save();
+        }
+
         foreach ($tempData->roomInfoKeys as $roomInfo) {
             if (isset($roomInfo->new_value) && $roomInfo->new_value == 1) {
                 if ($roomInfo->name == "price[]" || $roomInfo->name == "installments-price[]" || $roomInfo->name == "installments[]") {

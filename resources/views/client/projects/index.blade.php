@@ -1860,9 +1860,15 @@
                         </div>
                         <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel" aria-labelledby="situation-tab">
                             <div class="situation-images-project">
-                                @foreach($project->situations as $situation)
-                                    <img src="{{URL::to('/')}}/{{str_replace('public/', '', $situation->situation)}}" alt="">
-                                @endforeach
+                                <div class="row">
+                                    @foreach($project->situations as $situation)
+                                        <div class="col-md-4 mb-2">
+                                            <a href="{{ URL::to('/') . '/' . str_replace('public/', '', $situation->situation) }}"
+                                                data-lightbox="image-gallery1"> <img style="height: 100%;object-fit: contain" src="{{URL::to('/')}}/{{str_replace('public/', '', $situation->situation)}}" alt=""></a>
+                                            
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2333,15 +2339,6 @@
                 }
             }]
         });
-
-        $(document).ready(function(){
-            $('.situation-images-project').slick({
-                dots: true,
-                infinite: true,
-                slidesToShow: 2,
-                slidesToScroll: 2
-            });
-        })
 
         function changeTabContent(tabName) {
             document.querySelectorAll('.nav-item-block').forEach(function(content) {

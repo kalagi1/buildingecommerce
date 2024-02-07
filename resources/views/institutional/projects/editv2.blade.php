@@ -258,7 +258,7 @@
                                 @if(isset($tempData->situations) && $tempData->situations)
                                     @foreach($tempData->situations as $image)
                                         <div class="situation_imagex"  order="{{$image->situation}}">
-                                            <img src="{{URL::to('/')}}/situation_images/{{$image->situation}}" alt="">
+                                            <img src="{{URL::to('/')}}/situation_images/{{str_replace('public/situation_images/', '', $image->situation)}}" alt="">
                                             <div class="image-buttons">
                                                 <i class="fa fa-trash"></i>
                                             </div>
