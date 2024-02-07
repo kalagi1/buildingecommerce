@@ -650,22 +650,22 @@
                                     if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
                                             j]]) && paymentPlanDatax[paymentPlanData[j]] !=
                                         "Taksitli") {
-                                        html += "<th>" + (isMobile ?
+                                        html += "<td>" + (isMobile ?
                                             "<strong>Ödeme Türü:</strong> " :
-                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</th>";
+                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<th>" + (isMobile ? paymentPlanDatax[
+                                        html += "<td>" + (isMobile ? paymentPlanDatax[
                                                 paymentPlanData[j]] + " " +
                                             "<strong>Fiyat:</strong> " : "") + formatPrice(
-                                            priceData) + "₺</th>";
+                                            priceData) + "₺</td>";
                                     }
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<th>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</th>";
+                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>";
                                     }
 
                                     if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
@@ -682,26 +682,26 @@
                                             var calculatedValue = installmentsPrice -
                                                 advanceAmount - payDecPrice;
 
-                                            html += "<th>" + (isMobile ?
+                                            html += "<td>" + (isMobile ?
                                                     "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
                                                     "") +
-                                                formatPrice(calculatedValue) + "</th>";
+                                                formatPrice(calculatedValue) + "</td>";
                                         } 
                                     } 
 
 
                                     if (!isMobile && isNotEmpty(monhlyPrice)) {
-                                        html += "<th>" + (isMobile ?
+                                        html += "<td>" + (isMobile ?
                                                 "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
-                                            monhlyPrice + "</th>";
+                                            monhlyPrice + "</td>";
                                     }
 
 
                                     if (!isMobile && isNotEmpty(installementData) &&
                                         paymentPlanDatax[paymentPlanData[j]] != "Taksitli") {
-                                        html += "<th>" + (isMobile ?
+                                        html += "<td>" + (isMobile ?
                                                 "<strong>Taksit Sayısı:</strong> " : "") +
-                                            installementData + "</th>";
+                                            installementData + "</td>";
                                     }
 
 
@@ -728,17 +728,17 @@
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html +=
-                                                        "<th>" +
+                                                        "<td>" +
                                                         formatPrice(parseFloat(getDataJS(response,
                                                             "pay_desc_price" + (order + 1) +
                                                             l, response.room_info[i]
                                                             .room_order))) + "<br>" +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' +
-                                                            payDescDate.getFullYear()) + "</th>"
+                                                            payDescDate.getFullYear()) + "</td>"
                                                 } else {
                                                     html +=
-                                                        "<th></th>"
+                                                        "<td></td>"
                                                 }
 
                                             }

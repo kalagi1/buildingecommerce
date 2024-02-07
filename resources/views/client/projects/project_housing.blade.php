@@ -2089,7 +2089,9 @@
             }
             // Ajax isteği gönderme
 
-
+            const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+                                "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+                            ]
             $.ajax({
                 url: "{{ route('get.housing.payment.plan') }}", // Sepete veri eklemek için uygun URL'yi belirtin
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
@@ -2152,7 +2154,8 @@
                                     }
                                     var isMobile = window.innerWidth < 768;
 
-                                    order = parseInt(order);
+                                    orderHousing = "{{$housingOrder}}" -1;
+
                                     var payDecPrice = 0;
                                     if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
                                         html += "<tr style='background-color:#EEE !important'><th>" +
@@ -2160,7 +2163,7 @@
                                             " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
                                         for (var l = 1; l <= getDataJS(response,
-                                                "pay-dec-count" + (order + 1), response
+                                                "pay-dec-count" + (orderHousing + 1), response
                                                 .room_info[i].room_order); l++) {
                                             html += "<th>" +
                                                 l + ". Ara Ödeme</th>";
@@ -2181,22 +2184,22 @@
                                     if (!isMobile && isNotEmpty(paymentPlanDatax[paymentPlanData[
                                             j]]) && paymentPlanDatax[paymentPlanData[j]] !=
                                         "Taksitli") {
-                                        html += "<th>" + (isMobile ?
+                                        html += "<td>" + (isMobile ?
                                             "<strong>Ödeme Türü:</strong> " :
-                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</th>";
+                                            "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<th>" + (isMobile ? paymentPlanDatax[
+                                        html += "<td>" + (isMobile ? paymentPlanDatax[
                                                 paymentPlanData[j]] + " " +
                                             "<strong>Fiyat:</strong> " : "") + formatPrice(
-                                            priceData) + "₺</th>";
+                                            priceData) + "₺</td>";
                                     }
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<th>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</th>";
+                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>";
                                     }
 
                                     if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
@@ -2213,59 +2216,58 @@
                                             var calculatedValue = installmentsPrice -
                                                 advanceAmount - payDecPrice;
 
-                                            html += "<th>" + (isMobile ?
+                                            html += "<td>" + (isMobile ?
                                                     "<strong>Ara Ödemeler Çıkınca Ödenecek Tutar:</strong> " :
                                                     "") +
-                                                formatPrice(calculatedValue) + "</th>";
+                                                formatPrice(calculatedValue) + "</td>";
                                         }
                                     }
 
 
                                     if (!isMobile && isNotEmpty(monhlyPrice)) {
-                                        html += "<th>" + (isMobile ?
+                                        html += "<td>" + (isMobile ?
                                                 "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
-                                            monhlyPrice + "</th>";
+                                            monhlyPrice + "</td>";
                                     }
 
 
                                     if (!isMobile && isNotEmpty(installementData) &&
                                         paymentPlanDatax[paymentPlanData[j]] != "Taksitli") {
-                                        html += "<th>" + (isMobile ?
+                                        html += "<td>" + (isMobile ?
                                                 "<strong>Taksit Sayısı:</strong> " : "") +
-                                            installementData + "</th>";
+                                            installementData + "</td>";
                                     }
 
 
-                                    order = parseInt(order);
                                     var payDecPrice = 0;
-                                    if (getDataJS(response, "pay-dec-count" + (order + 1),
+                                    if (getDataJS(response, "pay-dec-count" + (orderHousing + 1),
                                             response.room_info[i].room_order)) {
 
                                         for (var l = 0; l < getDataJS(response,
-                                                "pay-dec-count" + (order + 1), response
+                                                "pay-dec-count" + (orderHousing + 1), response
                                                 .room_info[i].room_order); l++) {
 
-                                            if (getDataJS(response, "pay_desc_price" + (order +
+                                            if (getDataJS(response, "pay_desc_price" + (orderHousing +
                                                         1) + l, response.room_info[i]
                                                     .room_order)) {
                                                 payDecPrice += parseFloat(getDataJS(response,
-                                                    "pay_desc_price" + (order + 1) + l,
+                                                    "pay_desc_price" + (orderHousing + 1) + l,
                                                     response.room_info[i].room_order));
                                                 var payDescDate = new Date(getDataJS(response,
-                                                    "pay_desc_date" + (order + 1) + l,
+                                                    "pay_desc_date" + (orderHousing + 1) + l,
                                                     response.room_info[i].room_order));
 
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html +=
-                                                        "<th>" +
+                                                        "<td>" +
                                                         formatPrice(parseFloat(getDataJS(response,
-                                                            "pay_desc_price" + (order + 1) +
+                                                            "pay_desc_price" + (orderHousing + 1) +
                                                             l, response.room_info[i]
                                                             .room_order))) + "<br>" +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' +
-                                                            payDescDate.getFullYear()) + "</th>"
+                                                            payDescDate.getFullYear()) + "</td>"
                                                 } else {
                                                     html +=
                                                         "<th></th>"
