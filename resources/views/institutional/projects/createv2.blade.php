@@ -1067,6 +1067,12 @@
                         var currentOrder = parseInt($(this).closest('.item-left-area').index());
                         var arrayValues = {};
                         var formData = new FormData();
+                        var lastOrders = 0;
+                        if(hasBlocks){
+                            for(var i = 0 ; i < selectedBlock; i++){
+                                lastOrders += blockHouseCount[i];
+                            }
+                        }
                         formData.append('_token', csrfToken);
                         formData.append('last_order',(parseInt($(this).val()) - 1));
                         formData.append('new_order',(parseInt($('.house_order_input').val()) - 1));
@@ -1131,10 +1137,8 @@
 
                                 var data2 = response.data2;
 
-
                                 $('.dec-pay-area').remove();
                                 var newOrderx = (parseInt($('.house_order_input').val()));
-                                console.log(newOrderx);
                                 if(data2['pay-dec-count'+( parseInt($('.house_order_input').val()))]){
                                     $('.installement-dec-pay').closest('.form-group').after(`
                                         <div class="dec-pay-area">
@@ -1150,11 +1154,11 @@
                                                         </div>
                                                         <div class="flex-10">
                                                             <label for="">Ara Ödeme Tutarı</label>
-                                                            <input type="text" value="${data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                            <input type="text" value="${data2['pay_desc_price'+newOrderx+'0'] ? data2['pay_desc_price'+newOrderx+'0'] : ""}" class="price-only form-control pay-desc-price">
                                                         </div>
                                                         <div class="flex-10">
                                                             <label for="">Ara Ödeme Tarihi</label>
-                                                            <input type="date" value="${data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                            <input type="date" value="${data2['pay_desc_date'+newOrderx+'0'] ? data2['pay_desc_date'+newOrderx+'0'] : ""}" class="form-control pay-desc-date">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1820,11 +1824,11 @@
                                                                         </div>
                                                                         <div class="flex-10">
                                                                             <label for="">Ara Ödeme Tutarı</label>
-                                                                            <input type="text" value="${data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                                            <input type="text" value="${data2['pay_desc_price'+newOrderx+'0'] ? data2['pay_desc_price'+newOrderx+'0'] : ""}" class="price-only form-control pay-desc-price">
                                                                         </div>
                                                                         <div class="flex-10">
                                                                             <label for="">Ara Ödeme Tarihi</label>
-                                                                            <input type="date" value="${data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                                            <input type="date" value="${data2['pay_desc_date'+newOrderx+'0'] ? data2['pay_desc_date'+newOrderx+'0']: ""}" class="form-control pay-desc-date">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -3613,7 +3617,6 @@
 
                                         $('.dec-pay-area').remove();
                                         var newOrderx = (parseInt($('.house_order_input').val()));
-                                        console.log(newOrderx);
                                         if(data2['pay-dec-count'+( parseInt($('.house_order_input').val()))]){
                                             $('.installement-dec-pay').closest('.form-group').after(`
                                                 <div class="dec-pay-area">
@@ -3629,11 +3632,11 @@
                                                                 </div>
                                                                 <div class="flex-10">
                                                                     <label for="">Ara Ödeme Tutarı</label>
-                                                                    <input type="text" value="${data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
+                                                                    <input type="text" value="${data2['pay_desc_price'+newOrderx+'0'] ? data2['pay_desc_price'+newOrderx+'0'] : ""}" class="price-only form-control pay-desc-price">
                                                                 </div>
                                                                 <div class="flex-10">
                                                                     <label for="">Ara Ödeme Tarihi</label>
-                                                                    <input type="date" value="${data2['pay_desc_date'+newOrderx+'0']}" class="form-control pay-desc-date">
+                                                                    <input type="date" value="${data2['pay_desc_date'+newOrderx+'0'] ? data2['pay_desc_date'+newOrderx+'0'] : ""}" class="form-control pay-desc-date">
                                                                 </div>
                                                             </div>
                                                         </div>

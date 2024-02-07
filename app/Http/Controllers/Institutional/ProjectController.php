@@ -495,7 +495,6 @@ class ProjectController extends Controller
         $cities = City::get();
         $tempUpdateHas = false;
         $housing_status = HousingStatus::all();
-        $tempDataFull = TempOrder::where('item_type', 1)->where('user_id', auth()->guard()->user()->id)->first();
         $tempDataFull = Project::where('slug', $slug)->first();
         $project = Project::where('slug', $slug)->first();
         $tempDataFull2 = Project::where('slug', $slug)->first();
@@ -520,6 +519,7 @@ class ProjectController extends Controller
             $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
             $tempDataFull->statuses = array_keys((array) $selectedStatuses);
             $tempDataFull->images = $tempDataFull->images;
+            $tempDataFull->situations = $tempDataFull->situations;
             TempOrder::create([
                 "user_id" => auth()->user()->id,
                 "data" => json_encode($tempDataFull),

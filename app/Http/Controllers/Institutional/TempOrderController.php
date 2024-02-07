@@ -36,7 +36,7 @@ class TempOrderController extends Controller
             $data->situations = [];
     
             foreach($request->input('situations') as $image){
-                array_push($data->images,["situation" => $image]);
+                array_push($data->situations,["situation" => $image]);
             }
     
             TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
@@ -66,8 +66,8 @@ class TempOrderController extends Controller
             $tempData = json_decode($tempOrder->data);
             $data = $tempData;
             $newImages = [];
-            foreach($data->images as $image){
-                if($image->image != $request->input('situation')){
+            foreach($data->situations as $image){
+                if($image->situation != $request->input('situation')){
                     array_push($newImages,$image);
                 }
             }
@@ -130,16 +130,15 @@ class TempOrderController extends Controller
                 $tempData->situations = [];
             }
             $newOrder = $tempData->situations ? count($tempData->situations) + 1 : 1;
-            $newOrder = $tempData->situations ? count($tempData->situations) + 1 : 1;
             $uploadedFiles = $request->file();
             $imageNames = [];
             $tempOrder = 0;
             foreach ($uploadedFiles as $fileKey => $file) {
                 $imageName = 'temp_order_situation'.time().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
 
-                $file->move(public_path('storage/situation_images'), $imageName);
+                $file->move(public_path('situation_images'), $imageName);
                 $data = $tempData;
-                array_push($data->situations,["image" => 'storage/situation_images/'.$imageName]);
+                array_push($data->situations,["situation" => $imageName]);
                 array_push($imageNames,$imageName);
                 $tempOrder++;
             }
