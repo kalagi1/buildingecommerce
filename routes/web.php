@@ -805,6 +805,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/location_control', [TempOrderController::class, 'locationControl'])->name('temp.order.location.control');
         Route::post('/change_area_list_data', [TempOrderController::class, 'changeAreaListData'])->name('temp.order.change.area.list.data');
         Route::post('/remove_pay_dec_item', [TempOrderController::class, 'removePayDecItem'])->name('temp.order.remove.pay.dec');
+        Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
+        Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
+        Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
         
     });
 

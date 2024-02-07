@@ -101,8 +101,18 @@ class FavoriteController extends Controller
         $mergedFavorites = $favorites->merge($projectFavorites);
         
         $mergedFavorites = $mergedFavorites->sortByDesc('created_at');
+                
+        $pageInfo = [
+            "meta_title" => "Favorilerim",
+            "meta_keywords" => "Favorilerim",
+            "meta_description" => "Emlak Sepette Favorilerim",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
         
-        return view('client.favorites.index', compact('user', 'favorites', 'projectFavorites','mergedFavorites'));
+        return view('client.favorites.index', compact("pageInfo",'user', 'favorites', 'projectFavorites','mergedFavorites'));
     }
 
     public function getHousingFavoriteStatus($id)

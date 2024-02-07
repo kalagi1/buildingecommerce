@@ -400,6 +400,31 @@
                                 @endif
                             </div>
                         </div>
+                        <span class="section-title mt-4 housing_after_step d-none">Vaziyet & Kat Planı</span>
+                        <div class="photo card py-2 px-5 housing_after_step d-none">
+                            <input type="file" multiple name="situation-plans" accept="image/*" class="situation-plan d-none">
+                            <div class="upload-container col-md-4 col-xl-3 situation-plan-div" ondrop="handleDrop4(event)" ondragover="allowDrop4(event)">
+                                <div class="border-container">
+                                  <div class="icons fa-4x">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
+                                </div>
+                            </div>
+                            <div class="situations">
+                                @if(isset($tempData->situations) && $tempData->situations)
+                                    @foreach($tempData->situations as $image)
+                                        <div class="situation_imagex"  order="{{$image}}">
+                                            <img src="{{URL::to('/')}}/situation_images/{{$image}}" alt="">
+                                            <div class="image-buttons">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
                         <span class="section-title mt-4 housing_after_step d-none">Ruhsat Belgesi / Tapu Belgesi</span>
                         <div class="cover-photo-full card py-2 px-5 housing_after_step d-none">
                             <input type="file" name="cover-image" class="document d-none">
@@ -2912,13 +2937,38 @@
                     for(var i = 0; i < $('.photos .project_imagex').length; i++){
                         ids.push($('.photos .project_imagex').eq(i).attr('order'));
                     }
-                    console.log(ids);
-                    // Sıralama değiştiğinde bir Ajax POST isteği gönder
+
                     $.ajax({
                         url: '{{route("institutional.update.image.order.temp.update")}}',
                         type: 'POST',
                         data: { 
-                            images: ids ,
+                            images: ids,
+                            item_type : 1,
+                            _token : csrfToken
+                        },
+                        success: function(response) {
+                            console.log("Sıralama güncellendi.");
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                        }
+                    });
+                }
+            });
+
+            $('.situations').sortable({
+                revert: true,
+                update: function(event, ui) {
+                    var ids = [];
+                    for(var i = 0; i < $('.situations .situation_imagex').length; i++){
+                        ids.push($('.situations .situation_imagex').eq(i).attr('order'));
+                    }
+                    // Sıralama değiştiğinde bir Ajax POST isteği gönder
+                    $.ajax({
+                        url: '{{route("institutional.update.situation.order.temp.update")}}',
+                        type: 'POST',
+                        data: { 
+                            situations: ids ,
                             item_type : 1,
                             _token : csrfToken
                         },
@@ -2934,6 +2984,10 @@
 
             $('.project_imagex').draggable({
                 connectToSortable: ".photos",
+            });
+
+            $('.situation_imagex').draggable({
+                connectToSortable: ".situations",
             });
 
             function allowDrop(event) {
@@ -3132,6 +3186,117 @@
                     
                 }
             }
+
+            function allowDrop4(event) {
+                event.preventDefault();
+            }
+
+            function handleDrop4(event) {
+                event.preventDefault();
+
+                var files = event.dataTransfer.files;
+                console.log(event);
+                if (files.length > 0) {
+                    handleDroppedFiles4(files);
+                }
+            }
+
+            function handleDroppedFiles4(files) {
+                if (files && files[0]) {
+                    $('.cover-document-area').removeClass('error-border')
+                    var reader = new FileReader();
+
+                    var formData = new FormData();
+                    var csrfToken = $("meta[name='csrf-token']").attr("content");
+                    formData.append('_token', csrfToken);
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append(`file${i}`, files[i]);
+                    }
+                    formData.append('item_type',1);
+                    $.ajax({
+                        type: "POST",
+                        url: "{{route('institutional.temp.order.situation.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            console.log(response)
+                            for (let i = 0; i < response.length; i++) {
+                                var imageDiv = $('<div class="situation_imagex" order="'+response[i]+'"></div>');
+                                var image = $('<img>').attr('src', '{{URL::to('/')}}/situation_images/'+response[i]);
+                                var imageButtons = $('<div>').attr('class','image-buttons');
+                                var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                                imageButtons.append(imageButtonsIcon)
+                                imageDiv.append(image);
+                                imageDiv.append(imageButtons);
+                                $('.situations').append(imageDiv);
+
+                                $('.situation_imagex .image-buttons').click(function(){
+                                    var thisx = $(this);
+                                    $.ajax({
+                                        url: '{{route("institutional.delete.situation.order.temp.update")}}',
+                                        type: 'POST',
+                                        data: { 
+                                            image: $(this).closest('.situation_imagex').attr('order') ,
+                                            item_type : 1,
+                                            _token : csrfToken
+                                        },
+                                        success: function(response) {
+                                            thisx.closest('.situation_imagex').remove()
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                        }
+                                    });
+                                })
+                            }
+                        },
+                        error: function() {
+                            // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                            alert("Dosya yüklenemedi.");
+                        }
+                    });
+                    
+                }
+            }
+
+            $('.project_imagex .image-buttons').click(function(){
+                var thisx = $(this);
+                $.ajax({
+                    url: '{{route("institutional.delete.image.order.temp.update")}}',
+                    type: 'POST',
+                    data: { 
+                        image: $(this).closest('.project_imagex').attr('order') ,
+                        item_type : 1,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        thisx.closest('.project_imagex').remove()
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            })
+
+            $('.situation_imagex .image-buttons').click(function(){
+                var thisx = $(this);
+                $.ajax({
+                    url: '{{route("institutional.delete.situation.order.temp.update")}}',
+                    type: 'POST',
+                    data: { 
+                        situation: $(this).closest('.situation_imagex').attr('order') ,
+                        item_type : 1,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        thisx.closest('.situation_imagex').remove()
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            })
 
             var houseCount = @if(isset($tempData->has_blocks) && $tempData->has_blocks) {{isset($tempData->house_count0) ? $tempData->house_count0 : 0}} @else {{isset($tempData->house_count) ? $tempData->house_count : 0}} @endif;
             $('.choise-1').click(function(){
@@ -4232,6 +4397,10 @@
                 $('.project_image.d-none').trigger('click');
             })
 
+            $('.situation-plan-div').click(function(){
+                $('.situation-plan.d-none').trigger('click');
+            })
+
             $('.cover-photo-area').click(function(){
                 $('.cover_image.d-none').trigger('click');
             })
@@ -4375,6 +4544,67 @@
                                         },
                                         success: function(response) {
                                             thisx.closest('.project_imagex').remove()
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                        }
+                                    });
+                                })
+                            }
+                        },
+                        error: function() {
+                            // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                            alert("Dosya yüklenemedi.");
+                        }
+                    });
+                    
+
+                }
+            });
+
+            $('.situation-plan').change(function() {
+                var input = this;
+                console.log(input.files)
+                if (input.files && input.files[0]) {
+                    $('.situation-area').removeClass('error-border')
+
+                    var formData = new FormData();
+                    var csrfToken = $("meta[name='csrf-token']").attr("content");
+                    formData.append('_token', csrfToken);
+                    formData.append('item_type',1);
+                    for (let i = 0; i < this.files.length; i++) {
+                        formData.append(`file${i}`, this.files[i]);
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "{{route('institutional.temp.order.situation.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            
+                            for (let i = 0; i < response.length; i++) {
+                                var imageDiv = $('<div class="situation_imagex" order="'+response[i]+'"></div>');
+                                var image = $('<img>').attr('src', '{{URL::to('/')}}/situation_images/'+response[i]);
+                                var imageButtons = $('<div>').attr('class','image-buttons');
+                                var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                                imageButtons.append(imageButtonsIcon)
+                                imageDiv.append(image);
+                                imageDiv.append(imageButtons);
+                                $('.situations').append(imageDiv);
+
+                                $('.situation_imagex .image-buttons').click(function(){
+                                    var thisx = $(this);
+                                    $.ajax({
+                                        url: '{{route("institutional.delete.situation.order.temp.update")}}',
+                                        type: 'POST',
+                                        data: { 
+                                            situation: $(this).closest('.situation_imagex').attr('order') ,
+                                            item_type : 1,
+                                            _token : csrfToken
+                                        },
+                                        success: function(response) {
+                                            thisx.closest('.situation_imagex').remove()
                                         },
                                         error: function(xhr, status, error) {
                                             console.error("Ajax isteği sırasında bir hata oluştu: " + error);

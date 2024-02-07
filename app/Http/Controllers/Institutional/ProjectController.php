@@ -27,6 +27,7 @@ use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
+use App\Models\ProjectSituation;
 use App\Models\SinglePrice;
 use App\Models\StandOutUser;
 use App\Models\TempOrder;
@@ -598,10 +599,8 @@ class ProjectController extends Controller
             if ($tempOrder->{"pricing-type"} == "2") {
                 $singlePrice = SinglePrice::where('id', $tempOrder->price_id)->first();
                 $endDate = $now->addMonths($singlePrice->month);
-                $month = $singlePrice->month;
             } else {
                 $endDate = $now->addMonths(2);
-                $month = 2;
             }
 
             if(isset($tempOrder->has_blocks) && $tempOrder->has_blocks){
@@ -711,6 +710,23 @@ class ProjectController extends Controller
                     }
                 }
             }
+
+            foreach ($tempOrder->situations as $key => $situation) {
+                $eskiDosyaAdi = public_path('situation_images/' . $situation); // Mevcut dosyanın yolu
+                $extension = explode('.', $situation);
+                $newFileName = Str::slug($tempOrder->name) . '-' . ($key + 1) . '.' . end($extension);
+                $yeniDosyaAdi = public_path('situation_images/' . $newFileName); // Yeni dosya adı ve yolu
+
+                if (File::exists($eskiDosyaAdi)) {
+                    if (File::move($eskiDosyaAdi, $yeniDosyaAdi)) {
+                        $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+                        $projectImage->situation = 'public/situation_images/' . $newFileName;
+                        $projectImage->project_id = $project->id;
+                        $projectImage->save();
+                    }
+                }
+            }
+            
             for ($i = 0; $i < $houseCount; $i++) {
                 $paymentPlanOrder = 0;
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {

@@ -20,6 +20,10 @@ class Project extends Model {
         return $this->hasMany( ProjectImage::class, 'project_id', 'id' );
     }
 
+    public function situations() {
+        return $this->hasMany( ProjectSituation::class, 'project_id', 'id' );
+    }
+
     public function brand() {
         return $this->hasOne( Brand::class, 'id', 'brand_id' );
     }

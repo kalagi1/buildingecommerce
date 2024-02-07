@@ -42856,3 +42856,29 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .batch_update_button{
     cursor: pointer;
 }
+
+.situation_imagex img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.situation_imagex {
+    text-align: center;
+    float: left;
+    border: 1px dashed #c8c8c8;
+    border-radius: 2px;
+    width: 129px;
+    height: 97px;
+    padding: 0 1px 1px 0;
+    margin: 0 10px 10px 0;
+    position: relative;
+}
+
+.situation_imagex:hover .image-buttons {
+    display: block;
+    transition: .2s;
+}
+
+.situations{
+    margin-top: 10px;
+}
