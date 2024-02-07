@@ -451,7 +451,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="situation-tab" data-bs-toggle="tab" data-bs-target="#situation"
                                 type="button" role="tab" aria-controls="situation"
-                                aria-selected="false">Vaziyet Planı</button>
+                                aria-selected="false">Vaziyet&Kat Planı</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
@@ -1860,14 +1860,20 @@
                         </div>
                         <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel" aria-labelledby="situation-tab">
                             <div class="situation-images-project">
-                                <div class="row">
-                                    @foreach($project->situations as $situation)
-                                        <div class="col-md-4 mb-2">
-                                            <a href="{{ URL::to('/') . '/' . str_replace('public/', '', $situation->situation) }}"
-                                                data-lightbox="image-gallery1"> <img style="height: 100%;object-fit: contain" src="{{URL::to('/')}}/{{str_replace('public/', '', $situation->situation)}}" alt=""></a>
-                                            
+                                <div class="row w-100">
+                                    @if($project->situation && count($project->situation) > 0)
+                                        @foreach($project->situations as $situation)
+                                            <div class="col-md-4 mb-2">
+                                                <a href="{{ URL::to('/') . '/' . str_replace('public/', '', $situation->situation) }}"
+                                                    data-lightbox="image-gallery1"> <img style="height: 100%;object-fit: contain" src="{{URL::to('/')}}/{{str_replace('public/', '', $situation->situation)}}" alt=""></a>
+                                                
+                                            </div>
+                                        @endforeach
+                                    @else 
+                                        <div class="alert alert-danger w-100" style="color:#fff;">
+                                            Vaziyet planı belirtilmedi
                                         </div>
-                                    @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
