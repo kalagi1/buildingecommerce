@@ -233,8 +233,32 @@
                                 @if (isset($tempData->images) && $tempData->images)
                                     @foreach ($tempData->images as $key => $image)
                                         <div class="project_imagex" order="{{ $image->image }}">
-                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}"
-                                                alt="">
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $image->image) }}" alt="">
+                                            <div class="image-buttons">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+                        <span class="section-title mt-4 housing_after_step">Vaziyet & Kat Planı</span>
+                        <div class="photo card py-2 px-5 housing_after_step">
+                            <input type="file" multiple name="situation-plans" accept="image/*" class="situation-plan d-none">
+                            <div class="upload-container col-md-4 col-xl-3 situation-plan-div" ondrop="handleDrop4(event)" ondragover="allowDrop4(event)">
+                                <div class="border-container">
+                                  <div class="icons fa-4x">
+                                    <i class="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>
+                                  </div>
+                                  <!--<input type="file" id="file-upload">-->
+                                  <p>Bilgisayardan Fotoğraf Ekle <span>veya sürükle bırak</span></p>
+                                </div>
+                            </div>
+                            <div class="situations">
+                                @if(isset($tempData->situations) && $tempData->situations)
+                                    @foreach($tempData->situations as $image)
+                                        <div class="situation_imagex"  order="{{$image->situation}}">
+                                            <img src="{{URL::to('/')}}/situation_images/{{str_replace('public/situation_images/', '', $image->situation)}}" alt="">
                                             <div class="image-buttons">
                                                 <i class="fa fa-trash"></i>
                                             </div>
@@ -390,6 +414,120 @@
             }
             
         }
+
+        $('.situations').sortable({
+            revert: true,
+            update: function(event, ui) {
+                var ids = [];
+                for(var i = 0; i < $('.situations .situation_imagex').length; i++){
+                    ids.push($('.situations .situation_imagex').eq(i).attr('order'));
+                }
+                // Sıralama değiştiğinde bir Ajax POST isteği gönder
+                $.ajax({
+                    url: '{{route("institutional.update.situation.order.temp.update")}}',
+                    type: 'POST',
+                    data: { 
+                        situations: ids ,
+                        item_type : 3,
+                        _token : csrfToken
+                    },
+                    success: function(response) {
+                        console.log("Sıralama güncellendi.");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                    }
+                });
+            }
+        });
+
+        $('.situation_imagex').draggable({
+            connectToSortable: ".situations",
+        });
+
+        $('.situation-plan-div').click(function(){
+            $('.situation-plan.d-none').trigger('click');
+        })
+
+        $('.situation-plan').change(function() {
+            var input = this;
+            console.log(input.files)
+            if (input.files && input.files[0]) {
+                $('.situation-area').removeClass('error-border')
+
+                var formData = new FormData();
+                var csrfToken = $("meta[name='csrf-token']").attr("content");
+                formData.append('_token', csrfToken);
+                formData.append('item_type',3);
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append(`file${i}`, this.files[i]);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('institutional.temp.order.situation.add')}}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        
+                        for (let i = 0; i < response.length; i++) {
+                            var imageDiv = $('<div class="situation_imagex" order="'+response[i]+'"></div>');
+                            var image = $('<img>').attr('src', '{{URL::to('/')}}/situation_images/'+response[i]);
+                            var imageButtons = $('<div>').attr('class','image-buttons');
+                            var imageButtonsIcon = $('<i>').attr('class','fa fa-trash');
+                            imageButtons.append(imageButtonsIcon)
+                            imageDiv.append(image);
+                            imageDiv.append(imageButtons);
+                            $('.situations').append(imageDiv);
+
+                            $('.situation_imagex .image-buttons').click(function(){
+                                var thisx = $(this);
+                                $.ajax({
+                                    url: '{{route("institutional.delete.situation.order.temp.update")}}',
+                                    type: 'POST',
+                                    data: { 
+                                        situation: $(this).closest('.situation_imagex').attr('order') ,
+                                        item_type : 3,
+                                        _token : csrfToken
+                                    },
+                                    success: function(response) {
+                                        thisx.closest('.situation_imagex').remove()
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                                    }
+                                });
+                            })
+                        }
+                    },
+                    error: function() {
+                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
+                        alert("Dosya yüklenemedi.");
+                    }
+                });
+                
+
+            }
+        });
+
+        $('.situation_imagex .image-buttons').click(function(){
+            var thisx = $(this);
+            $.ajax({
+                url: '{{route("institutional.delete.situation.order.temp.update")}}',
+                type: 'POST',
+                data: { 
+                    situation: $(this).closest('.situation_imagex').attr('order') ,
+                    item_type : 3,
+                    _token : csrfToken
+                },
+                success: function(response) {
+                    thisx.closest('.situation_imagex').remove()
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax isteği sırasında bir hata oluştu: " + error);
+                }
+            });
+        })
 
         function allowDrop2(event) {
             event.preventDefault();

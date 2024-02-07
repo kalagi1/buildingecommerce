@@ -495,7 +495,6 @@ class ProjectController extends Controller
         $cities = City::get();
         $tempUpdateHas = false;
         $housing_status = HousingStatus::all();
-        $tempDataFull = TempOrder::where('item_type', 1)->where('user_id', auth()->guard()->user()->id)->first();
         $tempDataFull = Project::where('slug', $slug)->first();
         $project = Project::where('slug', $slug)->first();
         $tempDataFull2 = Project::where('slug', $slug)->first();
@@ -520,6 +519,7 @@ class ProjectController extends Controller
             $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
             $tempDataFull->statuses = array_keys((array) $selectedStatuses);
             $tempDataFull->images = $tempDataFull->images;
+            $tempDataFull->situations = $tempDataFull->situations;
             TempOrder::create([
                 "user_id" => auth()->user()->id,
                 "data" => json_encode($tempDataFull),
@@ -1454,6 +1454,14 @@ class ProjectController extends Controller
         foreach ($tempData->images as $key => $image) {
             $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
             $projectImage->image = $image->image;
+            $projectImage->project_id = $tempData->id;
+            $projectImage->save();
+        }
+
+        ProjectSituation::where('project_id', $tempData->id)->delete();
+        foreach ($tempData->situations as $key => $image) {
+            $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+            $projectImage->situation = 'public/situation_images/'.str_replace('public/situation_images/', '', $image->situation);
             $projectImage->project_id = $tempData->id;
             $projectImage->save();
         }
