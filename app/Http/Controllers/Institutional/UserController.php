@@ -124,7 +124,7 @@ class UserController extends Controller {
         $user->status = $request->has( 'is_active' ) ? 1 : 5;
         $user->corporate_account_status = 1;
         $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
-        $user->code = $lastUser->id + auth()->user()->parent_id  + 1000000;
+        $user->code = $lastUser->id + auth()->user()->id  + 1000000;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
         $user->save();
