@@ -7,9 +7,9 @@
                 <div class="owl-carousel home5-right-slider">
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
-                            style="background-image: url(images/emlakkulupslider.jpeg)"></div>
+                            style="background-image: url(images/emlakkulupslider.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
-                            style="background-image: url(images/emlakkulupslider.jpeg);"></div>
+                            style="background-image: url(images/emlakkulupslider.png);"></div>
 
                     </a>
                 </div>
