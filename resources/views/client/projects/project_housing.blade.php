@@ -2158,7 +2158,7 @@
 
                                     var payDecPrice = 0;
                                     if (paymentPlanDatax[paymentPlanData[j]] == "Taksitli") {
-                                        html += "<tr style='background-color:#EEE !important'><th>" +
+                                        html += "<tr class style='background-color:#EEE !important'><th>" +
                                             installementData +
                                             " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
