@@ -1861,7 +1861,7 @@
                         <div class="tab-pane fade blog-info details mb-30" id="situation" role="tabpanel" aria-labelledby="situation-tab">
                             <div class="situation-images-project">
                                 <div class="row w-100">
-                                    @if($project->situation && count($project->situation) > 0)
+                                    @if($project->situations && count($project->situations) > 0)
                                         @foreach($project->situations as $situation)
                                             <div class="col-md-4 mb-2">
                                                 <a href="{{ URL::to('/') . '/' . str_replace('public/', '', $situation->situation) }}"
