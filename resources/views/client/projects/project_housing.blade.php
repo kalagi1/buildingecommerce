@@ -1246,7 +1246,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="w-100"
-                                                                        style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                                                        style="height: 40px; background-color: #8080802e; margin-top: 15px">
                                                                         <div class="d-flex justify-content-between align-items-center"
                                                                             style="height: 100%">
                                                                             <span
@@ -1813,7 +1813,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="w-100"
-                                                    style="height: 40px; background-color: #8080802e; margin-top: 20px">
+                                                    style="height: 40px; background-color: #8080802e; margin-top: 15px">
                                                     <div class="d-flex justify-content-between align-items-center"
                                                         style="height: 100%">
                                                         <span
