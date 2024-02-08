@@ -918,14 +918,19 @@
                                             <div class="body py-3">
                                                 {{ $comment->comment }}
                                             </div>
-                                            <div class="slick-images">
+                                            <div class="slick-lancers">
                                                 @foreach (json_decode($comment->images, true) as $img)
-                                                <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                                                    <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
-                                                            data-lightbox="gallery">
-                                                            <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
-                                                                style="object-fit: cover; width:100%" />
-                                                        </a>
+                                                    <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                                                        <div class="landscapes">
+                                                            <div class="project-single">
+                                                                <div class="project-inner project-head">
+                                                                    <div class="homes">
+                                                                        <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}}"
+                                                                            alt="home-1" class="img-responsive">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -1219,41 +1224,40 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
-       $('.slick-images').slick({
-		infinite: false,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		dots: false,
-		arrows: true,
-		adaptiveHeight: true,
-		responsive: [
-		    {
-		      breakpoint: 1292,
-		      settings: {
-		        dots: false,
-		    	arrows: true
-		      }
-		    },
-		    {
-		      breakpoint: 993,
-		      settings: {
-		        slidesToShow: 2,
-		        slidesToScroll: 2,
-		        dots: false,
-		    	arrows: true
-		      }
-		    },
-		    {
-		      breakpoint: 769,
-		      settings: {
-		        slidesToShow: 1,
-		        slidesToScroll: 1,
-		        dots: false,
-		   		arrows: true
-		      }
-		    }
-	  ]
-	});
+        $('.slick-images').slick({
+            infinite: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false,
+            arrows: true,
+            adaptiveHeight: true,
+            responsive: [{
+                    breakpoint: 1292,
+                    settings: {
+                        dots: false,
+                        arrows: true
+                    }
+                },
+                {
+                    breakpoint: 993,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        dots: false,
+                        arrows: true
+                    }
+                },
+                {
+                    breakpoint: 769,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: false,
+                        arrows: true
+                    }
+                }
+            ]
+        });
         $('#selectImageButton').on('click', function() {
             console.log("a");
             $('.fileinput').click();
