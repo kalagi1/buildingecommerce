@@ -991,12 +991,15 @@
                                         </svg>
                                     </div>
                                     <div class="ml-auto">
-                                        <input type="hidden" style="visibility: hidden;" class="fileinput"
-                                            name="images[]" multiple accept="image/*" />
-                                        <button type="button" class="btn btn-primary q-button "
-                                            onClick="jQuery('.fileinput').trigger('click');">Resimleri
-                                            Seç</button>
+                                        <input type="file" style="display: none;" class="fileinput" name="images[]"
+                                            multiple accept="image/*" />
+                                        <button type="button" class="btn btn-primary q-button"
+                                            id="selectImageButton">Resimleri Seç</button>
+
+
                                     </div>
+
+
                                 </div>
                                 <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
                                 <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
@@ -1006,9 +1009,9 @@
 
                         </div>
                         <div class="tab-pane fade  blog-info details mb-30" id="map" role="tabpanel"
-                        aria-labelledby="contact-tab">
-                        <div id="mapContainer" style="height: 100%"></div>
-                    </div>
+                            aria-labelledby="contact-tab">
+                            <div id="mapContainer" style="height: 100%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1216,6 +1219,10 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
+         $('#selectImageButton').on('click', function () {
+                console.log("a");
+                $('.fileinput').click();
+            });
         $(function() {
             $('.fa-info-circle').tooltip()
         })
@@ -1928,6 +1935,7 @@
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
             });
+           
         </script>
     @endif
 @endsection
@@ -1963,14 +1971,16 @@
         }
 
         @media (max-width:768px) {
-            .mobile-action{
+            .mobile-action {
                 margin-left: 10px
             }
-            .flex-mobile{
+
+            .flex-mobile {
                 display: flex;
-    align-items: center;
-    justify-content: space-between;
+                align-items: center;
+                justify-content: space-between;
             }
+
             .mobile-action-move h4 {
                 font-size: 18px;
                 font-weight: 700;
