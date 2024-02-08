@@ -883,11 +883,10 @@
                                             style="border-bottom: 1px solid #E6E6E6 !important; ">
                                             <div class="head d-flex w-full">
                                                 <div>
-                                                    <div class="">
-                                                        {{ $comment->user->name }}</div>
-                                                    <i
-                                                        class="small"><?= strftime('%d %B %A', strtotime($comment->created_at)) ?></i>
+                                                    <div>{{ $comment->user->name }}</div>
+                                                    <i class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
                                                 </div>
+                                                
                                                 <div class="ml-auto order-2">
                                                     @for ($i = 0; $i < $comment->rate; ++$i)
                                                         <svg enable-background="new 0 0 50 50" height="24px"
