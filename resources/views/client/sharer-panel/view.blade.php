@@ -1,7 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
-    <section class="recently portfolio bg-white homepage-5">
+    <section class="recently portfolio bg-white homepage-5 emlak-kulup-slider">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
@@ -9,7 +9,7 @@
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                             style="background-image: url(images/emlakkulupslider.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
-                            style="background-image: url(images/emlakkulupslider.png);"></div>
+                            style="background-image: url(images/emlakkulupmobilslider.png);"></div>
 
                     </a>
                 </div>
@@ -507,6 +507,17 @@
         }
 
         @media (max-width: 768px) {
+
+            .emlak-kulup-slider{
+                margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  
+            }
+
+            .emlak-kulup-slider .recently-slider {
+                padding-right: 15px !important;
+    padding-left: 15px !important;
+            }
 
             .how-it-works-two .service-1 p {
                 padding: 5px
