@@ -3165,7 +3165,7 @@ out center;`;
             }
 
             .addCollectionMobile {
-                margin-bottom: 30px !important
+                margin-bottom: 20px !important
             }
 
             .mobileTagProject {
