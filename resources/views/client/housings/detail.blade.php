@@ -918,7 +918,7 @@
                                             <div class="body py-3">
                                                 {{ $comment->comment }}
                                             </div>
-                                            <div class="slick-lancers">
+                                            <div class="slick-images">
                                                 @foreach (json_decode($comment->images, true) as $img)
                                                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                                                         <div class="landscapes">
