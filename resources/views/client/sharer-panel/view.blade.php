@@ -59,7 +59,7 @@
                                 style="background-color: black; color: white;height:100%">
                                 <p class="text-center">
                                     Emlaksepette.com da bulunan bütün ilanları Koleksiyonuna ekleyerek
-                                    kendi mağazandan sosyal medya hesabında sana özel link ile paylaş </p>
+                                    kendi mağazada sosyal medya hesabında sana özel link ile paylaş </p>
                             </div>
                         </div>
 
@@ -381,7 +381,7 @@
                                         <div class="content-wrapper">
                                             <h6 class="title">Peki, Paylaşmak nasıl mı kazandırıyor ? </h6>
                                             <p class="content">Emlak Sepette'den seçtiğin, beğendiğin emlak veya proje
-                                                konutlarını, kendi sosyal medya hesaplannda sana özel oluşturduğumuz
+                                                konutlarını, kendi sosyal medya hesaplarında sana özel oluşturduğumuz
                                                 linki ekleyerek paylaşıyorsun. Paylaştığın link üzerinden Emlak
                                                 Sepette'den yapılan her alışveriş ise sana nakit kazanç sağlıyor</p>
                                         </div>
