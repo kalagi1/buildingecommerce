@@ -506,14 +506,14 @@
             line-height: 1.5rem;
         }
 
-        .emlak-kulup-slider .home5-right-slider,
+
+        @media (max-width: 768px) {
+
+            .emlak-kulup-slider .home5-right-slider,
         .emlak-kulup-slider .home5-right-slider .owl-stage-outer,
         .emlak-kulup-slider .recent-16{
             height: 250px !important;
         }
-
-        @media (max-width: 768px) {
-
             .emlak-kulup-slider {
                 margin-bottom: 0 !important;
                 padding-bottom: 0 !important;
