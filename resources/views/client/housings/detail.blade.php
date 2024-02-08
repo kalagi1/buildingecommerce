@@ -918,10 +918,10 @@
                                             <div class="body py-3">
                                                 {{ $comment->comment }}
                                             </div>
-                                            <div class="row mt-3 owl-image">
+                                            <div class="row mt-3 slick-images">
                                                 @foreach (json_decode($comment->images, true) as $img)
-                                                    <div class="item">
-                                                        <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                                                    <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
                                                             data-lightbox="gallery">
                                                             <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
                                                                 style="object-fit: cover; width:100%" />
@@ -1217,24 +1217,21 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        
+
     <script>
-        $(document).ready(function() {
-            $(".owl-image").slick({
-                infinite: false,
-		slidesToShow: 5,
+       $('.slick-images').slick({
+		infinite: false,
+		slidesToShow: 1,
 		slidesToScroll: 1,
-		dots:false,
-		arrows: false,
+		dots: false,
+		arrows: true,
 		adaptiveHeight: true,
 		responsive: [
 		    {
 		      breakpoint: 1292,
 		      settings: {
-                slidesToShow: 3,
-		        slidesToScroll: 3,
-		        dots:false,
-		    	arrows: false
+		        dots: false,
+		    	arrows: true
 		      }
 		    },
 		    {
@@ -1242,8 +1239,8 @@
 		      settings: {
 		        slidesToShow: 2,
 		        slidesToScroll: 2,
-		        dots:false,
-		    	arrows: false
+		        dots: false,
+		    	arrows: true
 		      }
 		    },
 		    {
@@ -1251,13 +1248,12 @@
 		      settings: {
 		        slidesToShow: 1,
 		        slidesToScroll: 1,
-		        dots:false,
-		   		arrows: false
+		        dots: false,
+		   		arrows: true
 		      }
 		    }
 	  ]
-            });
-        });
+	});
         $('#selectImageButton').on('click', function() {
             console.log("a");
             $('.fileinput').click();
