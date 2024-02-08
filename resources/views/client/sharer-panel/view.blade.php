@@ -26,7 +26,9 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <img src="{{ asset('/contact.png') }}" alt="" 
+                                <img src="{{ asset('/contact.png') }}" alt="" class="mobile-hidden"
+                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                <img src="{{ asset('/contact-black.png') }}" alt="" class="mobile-show"
                                 style="height:38px;width:38px;display:flex;align-items:center"/>
                             </div>
                         </div>
@@ -50,7 +52,9 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <img src="{{ asset('/contact2.png') }}" alt="" 
+                                <img src="{{ asset('/contact2.png') }}" alt="" class="mobile-hidden"
+                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                <img src="{{ asset('/handshake.png') }}" alt="" class="mobile-show"
                                 style="height:38px;width:38px;display:flex;align-items:center"/>
                             </div>
                         </div>
@@ -286,6 +290,66 @@
         </div>
     </section>
 
+   
+    <section class="recently content-section-type-1 portfolio bg-white homepage-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 black-section">
+                    <div class="inner-wrapper">
+                        <div class="content-wrapper">
+                            <div class="columns-wrapper">
+                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s"
+                                    data-wow-delay="0.2s"
+                                    style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                    <div class="inner-service">
+                                        <span class="icon-wrapper">
+                                            <i class="fa fa-home"></i>
+                                        </span>
+                                        <div class="content-wrapper">
+                                            <h6 class="title">Emlak Kulüp Nedir ?</h6>
+                                            <p class="content">Emlak Kulüp, en sevdiğin Emlak Sepette ürünlerini,
+                                                arkadaşlarınla, ailenle veya takipçilerinle paylaştığın, paylaştıkça
+                                                kazandığın bir Affiliate / Satış Ortaklığı Platformu’dur.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s"
+                                    data-wow-delay="0.3s"
+                                    style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
+                                    <div class="inner-service">
+                                        <span class="icon-wrapper">
+                                            <i class="fa fa-share-alt"></i>
+                                        </span>
+                                        <div class="content-wrapper">
+                                            <h6 class="title">Peki, Paylaşmak nasıl mı kazandırıyor ? </h6>
+                                            <p class="content">Emlak Sepette'den seçtiğin, beğendiğin emlak veya proje
+                                                konutlarını, kendi sosyal medya hesaplarında sana özel oluşturduğumuz
+                                                linki ekleyerek paylaşıyorsun. Paylaştığın link üzerinden Emlak
+                                                Sepette'den yapılan her alışveriş ise sana nakit kazanç sağlıyor</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 rigthSide gradient-overlay background-image"
+                    style="background-image: url('club/assets/img/content-sections/content-image-2.jpg')">
+                    <div class="right-side-inner">
+                        <h2 class="background-title">
+                            Emlaksepette.com ‘da yer alan yüzbinlerce proje ilanını ve emlak ilanlarını seç ve bütün dünya
+                            ile paylaş. <br><br>
+                            Aylık 50.000
+                            TL ile 500.000 tl arasında linklerinden nakit gelir elde etme hakkı kazan! <br><br> Emlak kulüp
+                            üyeleri arasından en başarılı ilk yüz
+                            kişiye süpriz hediyeler! </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="how-it-works bg-white rec-pro">
         <div class="container">
             <div class="row service-1">
@@ -345,64 +409,6 @@
                         </div>
                     </div>
                 </article>
-            </div>
-        </div>
-    </section>
-    <section class="recently content-section-type-1 portfolio bg-white homepage-5">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-8 black-section">
-                    <div class="inner-wrapper">
-                        <div class="content-wrapper">
-                            <div class="columns-wrapper">
-                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s"
-                                    data-wow-delay="0.2s"
-                                    style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.2s; animation-name: fadeInUp;">
-                                    <div class="inner-service">
-                                        <span class="icon-wrapper">
-                                            <i class="fa fa-home"></i>
-                                        </span>
-                                        <div class="content-wrapper">
-                                            <h6 class="title">Emlak Kulüp Nedir ?</h6>
-                                            <p class="content">Emlak Kulüp, en sevdiğin Emlak Sepette ürünlerini,
-                                                arkadaşlarınla, ailenle veya takipçilerinle paylaştığın, paylaştıkça
-                                                kazandığın bir Affiliate / Satış Ortaklığı Platformu’dur.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s"
-                                    data-wow-delay="0.3s"
-                                    style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
-                                    <div class="inner-service">
-                                        <span class="icon-wrapper">
-                                            <i class="fa fa-share-alt"></i>
-                                        </span>
-                                        <div class="content-wrapper">
-                                            <h6 class="title">Peki, Paylaşmak nasıl mı kazandırıyor ? </h6>
-                                            <p class="content">Emlak Sepette'den seçtiğin, beğendiğin emlak veya proje
-                                                konutlarını, kendi sosyal medya hesaplarında sana özel oluşturduğumuz
-                                                linki ekleyerek paylaşıyorsun. Paylaştığın link üzerinden Emlak
-                                                Sepette'den yapılan her alışveriş ise sana nakit kazanç sağlıyor</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 rigthSide gradient-overlay background-image"
-                    style="background-image: url('club/assets/img/content-sections/content-image-2.jpg')">
-                    <div class="right-side-inner">
-                        <h2 class="background-title">
-                            Emlaksepette.com ‘da yer alan yüzbinlerce proje ilanını ve emlak ilanlarını seç ve bütün dünya
-                            ile paylaş. <br><br>
-                            Aylık 50.000
-                            TL ile 500.000 tl arasında linklerinden nakit gelir elde etme hakkı kazan! <br><br> Emlak kulüp
-                            üyeleri arasından en başarılı ilk yüz
-                            kişiye süpriz hediyeler! </h2>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -474,7 +480,7 @@
             }
 
             .how-it-works-two p {
-                font-size: 14px !important;
+                font-size: 11px !important;
                 line-height: 23px;
                 padding: 5px;
             }

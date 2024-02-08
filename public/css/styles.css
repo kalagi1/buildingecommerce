@@ -8879,7 +8879,7 @@ a.button {
 
 
 .mobile-show {
-    display: none;
+    display: none !important;
 }
 
 
@@ -8890,12 +8890,23 @@ a.button {
         border-bottom: none;
     }
 
+    .how-it-works-two .service-1 .art-1{
+        background-color: transparent !important;
+    } 
+    
+    .how-it-works-two .service-1 .art-1 img{
+        margin-bottom: 10px;
+        width:50px !important;
+        height:50px !important;
+
+    }
+
     .ps-page__dashboard {
         margin-top: 20px
     }
 
     .mobile-show {
-        display: block;
+        display: block !important;
     }
 
     .mobile-hidden {
