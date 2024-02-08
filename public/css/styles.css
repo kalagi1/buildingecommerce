@@ -17446,7 +17446,7 @@ section.single-proper {
 }
 
 section.headings-2 {
-    padding: 60px 0 5px 0;
+    padding: 60px 0 5px 0 !important;
     align-items: center;
 }
 
