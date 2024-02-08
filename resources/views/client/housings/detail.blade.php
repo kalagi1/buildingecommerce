@@ -884,9 +884,10 @@
                                             <div class="head d-flex w-full">
                                                 <div>
                                                     <div>{{ $comment->user->name }}</div>
-                                                    <i class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
+                                                    <i
+                                                        class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
                                                 </div>
-                                                
+
                                                 <div class="ml-auto order-2">
                                                     @for ($i = 0; $i < $comment->rate; ++$i)
                                                         <svg enable-background="new 0 0 50 50" height="24px"
@@ -917,13 +918,13 @@
                                             <div class="body py-3">
                                                 {{ $comment->comment }}
                                             </div>
-                                            <div class="row mt-3">
+                                            <div class="row mt-3 owl-image">
                                                 @foreach (json_decode($comment->images, true) as $img)
-                                                    <div class="col-md-2 col-3 mb-3">
-                                                        <a href="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
+                                                    <div class="item">
+                                                        <a href="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
                                                             data-lightbox="gallery">
-                                                            <img src="<?= asset('storage/' . preg_replace('@^public/@', null, $img)) ?>"
-                                                                style="object-fit: cover;width:100%" />
+                                                            <img src="{{ asset('storage/' . preg_replace('@^public/@', null, $img)) }}"
+                                                                style="object-fit: cover; width:100%" />
                                                         </a>
                                                     </div>
                                                 @endforeach
@@ -1218,10 +1219,28 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
     <script>
-         $('#selectImageButton').on('click', function () {
-                console.log("a");
-                $('.fileinput').click();
+        $(document).ready(function() {
+            $(".owl-image").owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
             });
+        });
+        $('#selectImageButton').on('click', function() {
+            console.log("a");
+            $('.fileinput').click();
+        });
         $(function() {
             $('.fa-info-circle').tooltip()
         })
@@ -1934,7 +1953,6 @@
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
             });
-           
         </script>
     @endif
 @endsection
