@@ -1062,7 +1062,7 @@
                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                             alt="{{ $project->housingType->title }}"
                                                                                             class="img-responsive"
-                                                                                            style="height: 80px !important;">
+                                                                                            style="height: 95px !important;">
                                                                                     </div>
                 
                                                                                     <span class="mobileNoStyle">
@@ -1643,7 +1643,7 @@
                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                             alt="{{ $project->housingType->title }}"
                                                                             class="img-responsive"
-                                                                            style="height: 80px !important;">
+                                                                            style="height: 95px !important;">
                                                                     </div>
 
                                                                     <span class="mobileNoStyle">
