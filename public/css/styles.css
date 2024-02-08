@@ -13211,6 +13211,9 @@ section.visited-cities {
     height: 200px;
     width: 350px;
     margin: 0 auto;
+    background-size: contain !important;
+    background-position: inherit !important;
+    background-repeat: no-repeat !important;
 }
 
 /*----------------------------*/
@@ -14673,8 +14676,8 @@ a.btn-white {
 @media (max-width: 768px) {
     .img-center {
         background-size: cover;
-        background-position: inherit !important;
-        background-repeat: inherit !important;
+        background-position: inherit ;
+        background-repeat: inherit ;
     }
 
     .th-18 .google-maps .filter form {
