@@ -111,7 +111,7 @@
                             <div class="title">
                                 <span>Emlaksepette.com Paylaş Kazan Nedir?
                                 </span>
-                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+                                <i class="accordion-toggle-icon fas fa-chevron-down"></i>
 
                             </div>
                             <div class="content">
@@ -440,26 +440,10 @@
 @section('scripts')
     <script>
         $(".accordion li").click(function() {
-            var accordion = $(this).closest(".accordion");
-            var isActive = $(this).hasClass("active");
-
-            if (accordion.hasClass("one-open")) {
-                accordion.find("li").removeClass("active").find('.accordion-toggle-icon').removeClass(
-                    'fa-chevron-down').addClass('fa-chevron-right');
-
-                if (!isActive) {
-                    $(this).addClass("active").find('.accordion-toggle-icon').removeClass('fa-chevron-right')
-                        .addClass('fa-chevron-down');
-                }
-            } else {
-                $(this).toggleClass("active").find('.accordion-toggle-icon').toggleClass(
-                    'fa-chevron-right fa-chevron-down');
-            }
-
-            // Check if mr_parallax is defined and call windowLoad after a delay
-            if (typeof window.mr_parallax !== "undefined") {
-                setTimeout(mr_parallax.windowLoad, 500);
-            }
+            $(".faq li").not(this).removeClass("active");
+            $(".faq li i").not($(this).find("i")).removeClass("fa-chevron-down").addClass("fa-chevron-right");
+            $(this).toggleClass("active").find("i").toggleClass("fa-chevron-right", !$(this).hasClass("active")).toggleClass("fa-chevron-down", $(this).hasClass("active"));
+        
         });
     </script>
 @endsection
@@ -510,10 +494,11 @@
         @media (max-width: 768px) {
 
             .emlak-kulup-slider .home5-right-slider,
-        .emlak-kulup-slider .home5-right-slider .owl-stage-outer,
-        .emlak-kulup-slider .recent-16{
-            height: 250px !important;
-        }
+            .emlak-kulup-slider .home5-right-slider .owl-stage-outer,
+            .emlak-kulup-slider .recent-16 {
+                height: 250px !important;
+            }
+
             .emlak-kulup-slider {
                 margin-bottom: 0 !important;
                 padding-bottom: 0 !important;
