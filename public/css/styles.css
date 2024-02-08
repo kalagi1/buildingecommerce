@@ -5955,8 +5955,13 @@ element.style {
     background: transparent !important;
 }
 
+.img-responsive{
+    width:100%;
+}
+
 .homepage-2 .featured .project-single .button-effect-div {
     opacity: 1;
+    display: flex;
     visibility: visible;
     -webkit-transform: translateX(0%);
     transform: translateX(0%);
@@ -6029,11 +6034,15 @@ element.style {
     padding: 0;
     margin-right: 15px;
     border-radius: 3px;
-    width: 36px;
-    height: 36px !important;
+    margin-right:10px !important;
+    width: 28px;
+    height: 28px !important;
     line-height: 33px;
     background: white;
     z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .homepage-2 .featured .button-effect .fa-link:before {
@@ -19997,7 +20006,6 @@ ul.the-agents-details li a {
 .portfolio .project-head .fa-video {
     font-size: 11px;
     text-align: center;
-    margin-bottom: 1rem;
     margin-right: 0px;
     line-height: 0px;
 }

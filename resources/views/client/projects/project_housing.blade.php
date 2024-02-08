@@ -1371,11 +1371,7 @@
                                                                             style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                                             <p
                                                                                 style="padding: 10px;text-align:center; color: white; height: 100%; display: flex; align-items: center; ">
-                                                                                @if (isset($projectHousingsList[$i + 1]['share-sale[]']) && $projectHousingsList[$i + 1]['share-sale[]'] != '[]')
-                                                                                    {{ $i + 1 }}. Hisse
-                                                                                @else
-                                                                                    No<br>{{ $i + 1 }}
-                                                                                @endif
+                                                                                No<br>{{ $i + 1 }}
                                                                             </p>
                                                                         </div>
                                                                         <div class="project-single mb-0 bb-0 aos-init aos-animate"
@@ -2546,13 +2542,7 @@ out center;`;
                                                 <div class="d-flex" style="height: 100%;">
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                            ${
-                                                                res[i]["share-sale[]"] && res[i]["share-sale[]"] != "[]" ? 
-                                                                    `No <br>${startIndex+1+i}`
-                                                                : 
-                                                                    `${startIndex+1+i}. Hisse`
-
-                                                            }
+                                                            No <br>${startIndex+1+i}
                                                             
                                                         </p>
                                                     </div>
@@ -2608,7 +2598,7 @@ out center;`;
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                                             <div class="row align-items-center justify-content-between mobile-position" 
                                             style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
->
+
                                                 <div class="col-md-8">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
