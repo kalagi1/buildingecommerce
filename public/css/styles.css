@@ -8890,14 +8890,14 @@ a.button {
         border-bottom: none;
     }
 
-    .how-it-works-two .service-1 .art-1{
+    .how-it-works-two .service-1 .art-1 {
         background-color: transparent !important;
-    } 
-    
-    .how-it-works-two .service-1 .art-1 img{
+    }
+
+    .how-it-works-two .service-1 .art-1 img {
         margin-bottom: 10px;
-        width:40px !important;
-        height:40px !important;
+        width: 40px !important;
+        height: 40px !important;
 
     }
 
@@ -25358,6 +25358,9 @@ h5.uppercase {
     padding: 13px;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .bg-secondary .accordion-1 .title {
@@ -25370,6 +25373,7 @@ h5.uppercase {
 
 .accordion-1 .title span {
     font-size: 11px;
+    width:90%
 }
 
 .accordion-1 .active .title {
@@ -27873,9 +27877,9 @@ font {
         position: relative;
     }
 
-    .payment-plan-mobile-btn{
+    .payment-plan-mobile-btn {
         background-color: transparent !important;
-        border: 1px solid  #274abb;
+        border: 1px solid #274abb;
         color: #274abb;
     }
 

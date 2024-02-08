@@ -27,9 +27,9 @@
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
                                 <img src="{{ asset('/contact.png') }}" alt="" class="mobile-hidden"
-                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                    style="height:38px;width:38px;display:flex;align-items:center" />
                                 <img src="{{ asset('/contact-black.png') }}" alt="" class="mobile-show"
-                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                    style="height:38px;width:38px;display:flex;align-items:center" />
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
@@ -53,9 +53,9 @@
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
                                 <img src="{{ asset('/contact2.png') }}" alt="" class="mobile-hidden"
-                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                    style="height:38px;width:38px;display:flex;align-items:center" />
                                 <img src="{{ asset('/handshake.png') }}" alt="" class="mobile-show"
-                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                    style="height:38px;width:38px;display:flex;align-items:center" />
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
@@ -78,8 +78,8 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <img src="{{ asset('/contact3.png') }}" alt="" 
-                                style="height:38px;width:38px;display:flex;align-items:center"/>
+                                <img src="{{ asset('/contact3.png') }}" alt=""
+                                    style="height:38px;width:38px;display:flex;align-items:center" />
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
@@ -111,6 +111,8 @@
                             <div class="title">
                                 <span>Emlaksepette.com Paylaş Kazan Nedir?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -125,6 +127,8 @@
                             <div class="title">
                                 <span>En fazla ne kadar kazanç elde edebilirim?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -137,6 +141,8 @@
                             <div class="title">
                                 <span>Kazanç komisyonu neye göre belirlenir?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -154,8 +160,10 @@
                         </li>
                         <li>
                             <div class="title">
+
                                 <span>Koleksiyona ilan eklemede ve paylaşımda sınır var mı?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
                             <div class="content">
                                 <p>
@@ -169,6 +177,8 @@
                             <div class="title">
                                 <span>Hangi ilanlarda komisyon kazanabilirim?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -181,8 +191,10 @@
                         <li>
                             <div class="title">
                                 <span>Paylaştığım linkten gelen kişiler kaç gün içinde satın alma yaparsa benim kazancıma
+
                                     yansır?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
                             <div class="content">
                                 <p>
@@ -197,6 +209,8 @@
                                 <span>Koleksiyonuma eklediğim ilanların linkini paylaşımından sonra fiyat değişikliği olursa
                                     ne olur?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -209,6 +223,8 @@
                             <div class="title">
                                 <span>Komisyonumu ne zaman alabilirim?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -224,6 +240,8 @@
                             <div class="title">
                                 <span>Komisyon kazancımı ne şekilde alabilirim?
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
+
                             </div>
                             <div class="content">
                                 <p>
@@ -243,7 +261,9 @@
                             <div class="title">
                                 <span>Paylaştığım ilan iptal ya da iade edildi ise kazancım iptal olur mu?
 
+
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
                             <div class="content">
                                 <p>
@@ -259,7 +279,9 @@
                                 <span>Kendi linkim üzerinden satın alım yaparak kazanç elde edebilir miyim?
 
 
+
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
                             <div class="content">
                                 <p>
@@ -274,6 +296,7 @@
 
 
                                 </span>
+                                <i class="accordion-toggle-icon fas fa-chevron-right"></i>
                             </div>
                             <div class="content">
                                 <p>
@@ -290,7 +313,7 @@
         </div>
     </section>
 
-   
+
     <section class="recently content-section-type-1 portfolio bg-white homepage-5">
         <div class="container-fluid">
             <div class="row">
@@ -417,9 +440,26 @@
 @section('scripts')
     <script>
         $(".accordion li").click(function() {
-            $(this).closest(".accordion").hasClass("one-open") ? ($(this).closest(".accordion").find("li")
-                    .removeClass("active"), $(this).addClass("active")) : $(this).toggleClass("active"),
-                "undefined" != typeof window.mr_parallax && setTimeout(mr_parallax.windowLoad, 500)
+            var accordion = $(this).closest(".accordion");
+            var isActive = $(this).hasClass("active");
+
+            if (accordion.hasClass("one-open")) {
+                accordion.find("li").removeClass("active").find('.accordion-toggle-icon').removeClass(
+                    'fa-chevron-down').addClass('fa-chevron-right');
+
+                if (!isActive) {
+                    $(this).addClass("active").find('.accordion-toggle-icon').removeClass('fa-chevron-right')
+                        .addClass('fa-chevron-down');
+                }
+            } else {
+                $(this).toggleClass("active").find('.accordion-toggle-icon').toggleClass(
+                    'fa-chevron-right fa-chevron-down');
+            }
+
+            // Check if mr_parallax is defined and call windowLoad after a delay
+            if (typeof window.mr_parallax !== "undefined") {
+                setTimeout(mr_parallax.windowLoad, 500);
+            }
         });
     </script>
 @endsection
@@ -445,13 +485,14 @@
             width: 100%;
             margin: 0 auto
         }
+
         .how-it-works-two .service-1 .art-1 {
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           margin: 0 auto
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto
         }
-        
+
 
         .how-it-works-two .service-1 p {
             margin: 0;
