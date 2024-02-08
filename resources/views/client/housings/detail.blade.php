@@ -1217,27 +1217,45 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         
     <script>
         $(document).ready(function() {
-            $(".owl-image").owlCarousel({
-                loop: true,
-                margin: 10,
-                nav: true,
-                responsive: {
-                    0: {
-                        items: 2
-                    },
-                    600: {
-                        items: 3
-                    },
-                    1000: {
-                        items: 5
-                    }
-                }
+            $(".owl-image").slick({
+                infinite: false,
+		slidesToShow: 5,
+		slidesToScroll: 1,
+		dots:false,
+		arrows: false,
+		adaptiveHeight: true,
+		responsive: [
+		    {
+		      breakpoint: 1292,
+		      settings: {
+                slidesToShow: 3,
+		        slidesToScroll: 3,
+		        dots:false,
+		    	arrows: false
+		      }
+		    },
+		    {
+		      breakpoint: 993,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 2,
+		        dots:false,
+		    	arrows: false
+		      }
+		    },
+		    {
+		      breakpoint: 769,
+		      settings: {
+		        slidesToShow: 1,
+		        slidesToScroll: 1,
+		        dots:false,
+		   		arrows: false
+		      }
+		    }
+	  ]
             });
         });
         $('#selectImageButton').on('click', function() {
