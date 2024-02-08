@@ -26,13 +26,8 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <i class="fa fa-user-plus"
-                                    style="padding: 0;height:100%;    display: flex;
-                                padding: 0;
-                                height: 100%;
-                                align-items: center;
-                                justify-content: center;
-                                font-size:35px"></i>
+                                <img src="{{ asset('/contact.png') }}" alt="" 
+                                style="height:38px;width:38px;display:flex;align-items:center"/>
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
@@ -55,13 +50,8 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <i class="fa fa-handshake"
-                                    style="padding: 0;height:100%;    display: flex;
-                                padding: 0;
-                                height: 100%;
-                                align-items: center;
-                                justify-content: center;
-                                font-size:35px"></i>
+                                <img src="{{ asset('/contact2.png') }}" alt="" 
+                                style="height:38px;width:38px;display:flex;align-items:center"/>
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
@@ -84,12 +74,8 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <i class="fa fa-money" style="padding: 0;height:100%;    display: flex;
-                                padding: 0;
-                                height: 100%;
-                                align-items: center;
-                                justify-content: center;
-                                font-size:35px"></i>
+                                <img src="{{ asset('/contact3.png') }}" alt="" 
+                                style="height:38px;width:38px;display:flex;align-items:center"/>
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
@@ -453,6 +439,13 @@
             width: 100%;
             margin: 0 auto
         }
+        .how-it-works-two .service-1 .art-1 {
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           margin: 0 auto
+        }
+        
 
         .how-it-works-two .service-1 p {
             margin: 0;
