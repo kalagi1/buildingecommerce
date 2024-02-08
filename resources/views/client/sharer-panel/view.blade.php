@@ -4,7 +4,7 @@
     <section class="recently portfolio bg-white homepage-5">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
-                <div class="owl-carousel home5-right-slider" style="height: 550px !important">
+                <div class="owl-carousel home5-right-slider" style="height: 550px">
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                             style="background-image: url(images/emlakkulupslider.png)"></div>
@@ -17,67 +17,98 @@
         </div>
     </section>
 
-    <section class="how-it-works bg-white rec-pro">
+    <section class="how-it-works-two bg-white rec-pro">
         <div class="container">
             <div class="row service-1">
-                <article class="col-lg-3 col-md-6 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
+                <article class="col-lg-12 col-md-12 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
                     data-aos-delay="150">
-                    <div class="serv-flex">
-                        <div class="art-1 img-13">
-                            <i class="fa fa-share-alt"></i>
+                    <div class="row align-items-center justify-content-center hw50">
+                        <div class="col-md-1 col-12" style="padding: 0;height:100%">
+                            <div class="art-1 img-13 mobile-icon"
+                                style="background-color: #ea2a28;height:100%; color: white;">
+                                <i class="fa fa-user-plus"
+                                    style="padding: 0;height:100%;    display: flex;
+                                padding: 0;
+                                height: 100%;
+                                align-items: center;
+                                justify-content: center;
+                                font-size:35px"></i>
+                            </div>
                         </div>
-                        <div class="service-text-p">
-                            <p class="text-center">Paylaşımlarını yaptığın sosyal medya hesaplarını herkese görünür yaparsan
-                                daha fazla kişiye ulaşırsın
+                        <div class="col-md-11 col-12" style="padding:0;height:100%">
+                            <div class="service-text-p mobile-text"
+                                style="background-color: black; color: white;height:100%">
+                                <p class="text-center">
+                                    Emlak Kulüp’e ÜYE OL Hemen Paylaştıkça Kazan (ilk 5000 üyelik ücretsiz)
+                                </p>
+                            </div>
+                        </div>
 
-                            </p>
-                        </div>
+
                     </div>
                 </article>
-                <article class="col-lg-3 col-md-6 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
-                    data-aos-delay="250">
-                    <div class="serv-flex">
-                        <div class="art-1 img-14">
-                            <i class="fa fa-tag"></i>
+            </div>
+            <div class="row service-1 mt-5">
+                <article class="col-lg-12 col-md-12 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
+                    data-aos-delay="150">
+                    <div class="row align-items-center justify-content-center hw50">
+                        <div class="col-md-1 col-12" style="padding: 0;height:100%">
+                            <div class="art-1 img-13 mobile-icon"
+                                style="background-color: #ea2a28;height:100%; color: white;">
+                                <i class="fa fa-handshake"
+                                    style="padding: 0;height:100%;    display: flex;
+                                padding: 0;
+                                height: 100%;
+                                align-items: center;
+                                justify-content: center;
+                                font-size:35px"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-11 col-12" style="padding:0;height:100%">
+                            <div class="service-text-p mobile-text"
+                                style="background-color: black; color: white;height:100%">
+                                <p class="text-center">
+                                    Emlaksepette.com da bulunan bütün ilanları Koleksiyonuna ekleyerek
+                                    kendi mağazandan sosyal medya hesabında sana özel link ile paylaş </p>
+                            </div>
+                        </div>
 
-                        </div>
-                        <div class="service-text-p">
-                            <p class="text-center">#işbirliği #affiliate #işortaklığı #affiliatelink hashtag 'lerini
-                                kullanmayı unutma!</p>
-                        </div>
+
                     </div>
                 </article>
-                <article class="col-lg-3 col-md-6 col-xs-12 serv mb-0 pt aos-init aos-animate" data-aos="fade-up"
-                    data-aos-delay="350">
-                    <div class="serv-flex arrow">
-                        <div class="art-1 img-15">
-                            <i class="fa fa-users"></i>
+            </div>
+            <div class="row service-1 mt-5">
+                <article class="col-lg-12 col-md-12 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
+                    data-aos-delay="150">
+                    <div class="row align-items-center justify-content-center hw50">
+                        <div class="col-md-1 col-12" style="padding: 0;height:100%">
+                            <div class="art-1 img-13 mobile-icon"
+                                style="background-color: #ea2a28;height:100%; color: white;">
+                                <i class="fa fa-money" style="padding: 0;height:100%;    display: flex;
+                                padding: 0;
+                                height: 100%;
+                                align-items: center;
+                                justify-content: center;
+                                font-size:35px"></i>
+                            </div>
                         </div>
-                        <div class="service-text-p">
-                            <p class="text-center">Sosyal medya hesaplarının ne kadar popüler olduğu fark etmeksizin
-                                paylaşımlarında hepsini değerlendir, satış nereden gelir bilinmez!
+                        <div class="col-md-11 col-12" style="padding:0;height:100%">
+                            <div class="service-text-p mobile-text"
+                                style="background-color: black; color: white;height:100%">
+                                <p class="text-center">
+                                    Paylaştığın link üzerinden satışa dönen her ilandan sınırsız para kazan
+                                </p>
+                            </div>
+                        </div>
 
-                            </p>
-                        </div>
-                    </div>
-                </article>
-                <article class="col-lg-3 col-md-6 col-xs-12 serv mb-0 pt its-2 aos-init aos-animate" data-aos="fade-up"
-                    data-aos-delay="450">
-                    <div class="serv-flex">
-                        <div class="art-1 img-14">
-                            <i class="fa fa-home"></i>
 
-                        </div>
-                        <div class="service-text-p">
-                            <p class="text-center">Takipçilerine ilham ver! Doğru evi bulmalarına aracı oll
-
-                            </p>
-                        </div>
                     </div>
                 </article>
             </div>
         </div>
     </section>
+
+
 
     <section class="faq service-details bg-white">
         <div class="container">
@@ -269,6 +300,68 @@
         </div>
     </section>
 
+    <section class="how-it-works bg-white rec-pro">
+        <div class="container">
+            <div class="row service-1">
+                <article class="col-lg-3 col-md-6 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
+                    data-aos-delay="150">
+                    <div class="serv-flex">
+                        <div class="art-1 img-13">
+                            <i class="fa fa-share-alt"></i>
+                        </div>
+                        <div class="service-text-p">
+                            <p class="text-center">Paylaşımlarını yaptığın sosyal medya hesaplarını herkese görünür
+                                yaparsan
+                                daha fazla kişiye ulaşırsın
+
+                            </p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-lg-3 col-md-6 col-xs-12 serv aos-init aos-animate" data-aos="fade-up"
+                    data-aos-delay="250">
+                    <div class="serv-flex">
+                        <div class="art-1 img-14">
+                            <i class="fa fa-tag"></i>
+
+                        </div>
+                        <div class="service-text-p">
+                            <p class="text-center">#işbirliği #affiliate #işortaklığı #affiliatelink hashtag 'lerini
+                                kullanmayı unutma!</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-lg-3 col-md-6 col-xs-12 serv mb-0 pt aos-init aos-animate" data-aos="fade-up"
+                    data-aos-delay="350">
+                    <div class="serv-flex arrow">
+                        <div class="art-1 img-15">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <div class="service-text-p">
+                            <p class="text-center">Sosyal medya hesaplarının ne kadar popüler olduğu fark etmeksizin
+                                paylaşımlarında hepsini değerlendir, satış nereden gelir bilinmez!
+
+                            </p>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-lg-3 col-md-6 col-xs-12 serv mb-0 pt its-2 aos-init aos-animate" data-aos="fade-up"
+                    data-aos-delay="450">
+                    <div class="serv-flex">
+                        <div class="art-1 img-14">
+                            <i class="fa fa-home"></i>
+
+                        </div>
+                        <div class="service-text-p">
+                            <p class="text-center">Takipçilerine ilham ver! Doğru evi bulmalarına aracı oll
+
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
     <section class="recently content-section-type-1 portfolio bg-white homepage-5">
         <div class="container-fluid">
             <div class="row">
@@ -276,7 +369,9 @@
                     <div class="inner-wrapper">
                         <div class="content-wrapper">
                             <div class="columns-wrapper">
-                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.2s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s"
+                                    data-wow-delay="0.2s"
+                                    style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.2s; animation-name: fadeInUp;">
                                     <div class="inner-service">
                                         <span class="icon-wrapper">
                                             <i class="fa fa-home"></i>
@@ -290,7 +385,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
+                                <div class="column column-100 icon-box-type-5 wow fadeInUp" data-wow-duration="0.5s"
+                                    data-wow-delay="0.3s"
+                                    style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s; animation-name: fadeInUp;">
                                     <div class="inner-service">
                                         <span class="icon-wrapper">
                                             <i class="fa fa-share-alt"></i>
@@ -308,19 +405,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 rigthSide gradient-overlay background-image"  style="background-image: url('club/assets/img/content-sections/content-image-2.jpg')">
+                <div class="col-md-4 rigthSide gradient-overlay background-image"
+                    style="background-image: url('club/assets/img/content-sections/content-image-2.jpg')">
                     <div class="right-side-inner">
                         <h2 class="background-title">
-                            Emlaksepette.com ‘da yer alan yüzbinlerce proje ilanını ve emlak ilanlarını seç ve bütün dünya ile paylaş. <br><br>
-                             Aylık 50.000
-                            TL ile 500.000 tl arasında linklerinden nakit gelir elde etme hakkı kazan! <br><br> Emlak kulüp üyeleri arasından en başarılı ilk yüz
-                            kişiye süpriz hediyeler!                       </h2>
+                            Emlaksepette.com ‘da yer alan yüzbinlerce proje ilanını ve emlak ilanlarını seç ve bütün dünya
+                            ile paylaş. <br><br>
+                            Aylık 50.000
+                            TL ile 500.000 tl arasında linklerinden nakit gelir elde etme hakkı kazan! <br><br> Emlak kulüp
+                            üyeleri arasından en başarılı ilk yüz
+                            kişiye süpriz hediyeler! </h2>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
 @endsection
 
 @section('scripts')
@@ -334,12 +433,63 @@
 @endsection
 
 @section('styles')
+    <style>
+        .how-it-works-two {
+            padding: 2.6rem 0;
+        }
 
-<style>
-    .home5-right-slider,
-    .home5-right-slider .owl-stage-outer ,
-    .recent-16{
-    height: 550px !important;
-}
-</style>
+        .home5-right-slider,
+        .home5-right-slider .owl-stage-outer,
+        .recent-16 {
+            height: 550px !important;
+        }
+
+
+        .hw50 {
+            height: 50px !important
+        }
+
+        .how-it-works-two .service-1 {
+            width: 100%;
+            margin: 0 auto
+        }
+
+        .how-it-works-two .service-1 p {
+            margin: 0;
+            height: 100%;
+            align-items: center;
+            color: white;
+            display: flex;
+            justify-content: center;
+            font-size: 15px;
+            padding: 5px 75px;
+            line-height: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+
+            .how-it-works-two .service-1 p {
+                padding: 5px
+            }
+
+            .home5-right-slider,
+            .recent-16,
+            .home5-right-slider,
+            .home5-right-slider .owl-stage-outer,
+            .recent-16 {
+                height: 200px !important;
+            }
+
+            .how-it-works-two p {
+                font-size: 14px !important;
+                line-height: 23px;
+                padding: 5px;
+            }
+
+            .hw50 {
+                height: auto !important
+            }
+
+        }
+    </style>
 @endsection
