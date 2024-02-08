@@ -581,7 +581,7 @@ img {
 .brand-head .brands-square {
     display: flex;
     align-items: center;
-    margin-left:10px;
+    margin-left: 10px;
 }
 
 .brand-head .brand-logo {
@@ -8462,8 +8462,8 @@ html input[disabled] {
 
 
 @media (max-width: 768px) {
-    .brand-head .brand-name{
-        font-size:10px !important
+    .brand-head .brand-name {
+        font-size: 10px !important
     }
 
     .home5-right-slider {
@@ -14673,11 +14673,29 @@ a.btn-white {
     color: #666;
 }
 
+.clubStyles {
+    height: 32px;
+    position: absolute;
+    left: -9px;
+    top: -3px;
+}
+
 @media (max-width: 768px) {
+.club-items{
+    background-color: white;
+    color: black;
+}
+    .clubStyles {
+        height: 32px;
+        position: absolute;
+        left: 10px;
+        top: 6px;
+    }
+
     .img-center {
         background-size: cover;
-        background-position: inherit ;
-        background-repeat: inherit ;
+        background-position: inherit;
+        background-repeat: inherit;
     }
 
     .th-18 .google-maps .filter form {
@@ -18055,7 +18073,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 
 .payment-plan td {
     padding: .75rem !important;
-    text-align:left !important;
+    text-align: left !important;
     display: table-cell !important;
 }
 
@@ -20928,7 +20946,7 @@ body.dashboard-bd {
 
 .my-properties tbody tr td {
     border-top: none;
-    text-align: center ;
+    text-align: center;
     border-bottom: 1px solid #f3f3f3;
     padding: 15px 20px 15px 20px;
     vertical-align: middle;
