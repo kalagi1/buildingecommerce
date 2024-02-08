@@ -13218,6 +13218,15 @@ section.visited-cities {
     background-repeat: no-repeat;
 }
 
+.heithree{
+    height: 250px !important;
+    width: 500px !important;
+    margin: 0 auto;
+    background-size: contain !important;
+    background-position: inherit !important;
+    background-repeat: no-repeat !important;
+}
+
 .heitwo {
     height: 200px;
     width: 350px;

@@ -8,7 +8,7 @@
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                             style="background-image: url(images/emlakkulupslider.png)"></div>
-                        <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"
+                        <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
                             style="background-image: url(images/emlakkulupmobilslider.png);"></div>
 
                     </a>
@@ -506,17 +506,23 @@
             line-height: 1.5rem;
         }
 
+        .emlak-kulup-slider .home5-right-slider,
+        .emlak-kulup-slider .home5-right-slider .owl-stage-outer,
+        .emlak-kulup-slider .recent-16{
+            height: 250px !important;
+        }
+
         @media (max-width: 768px) {
 
-            .emlak-kulup-slider{
+            .emlak-kulup-slider {
                 margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  
+                padding-bottom: 0 !important;
+
             }
 
             .emlak-kulup-slider .recently-slider {
                 padding-right: 15px !important;
-    padding-left: 15px !important;
+                padding-left: 15px !important;
             }
 
             .how-it-works-two .service-1 p {
