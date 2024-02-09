@@ -269,6 +269,7 @@ class DashboardController extends Controller
         $balanceStatus1 = SharerPrice::where("user_id", $user_id)
             ->where("status", "1")
             ->sum('balance');
+
     
         $balanceStatus2Lists = SharerPrice::where("user_id", $user_id)
         ->where("status", "2")->get();

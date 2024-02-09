@@ -319,9 +319,9 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $coupon->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
-                        'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
-                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                        'balance' => $sharedAmount_balance / 2,
+                        'earn' => $sharedAmount_balance / 2,
+                        'earn2' => $sharedAmount_earn,
                     ] );
                 }
 
@@ -364,9 +364,9 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $collection->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
-                        'earn' => number_format( $sharedAmount_balance / 2, 0, ',', '.' ),
-                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                        'balance' => $sharedAmount_balance / 2,
+                        'earn' => $sharedAmount_balance / 2,
+                        'earn2' => $sharedAmount_earn,
                     ] );
                     }
                 } elseif ( !$lastClick ) {
@@ -400,8 +400,8 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'earn' => number_format( $sharedAmount_balance, 0, ',', '.' ),
-                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                        'earn' => $sharedAmount_balance,
+                        'earn2' => $sharedAmount_earn,
                     ] );
                 } else {
                     $newAmount = $amountWithoutDiscount;
@@ -434,8 +434,8 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'earn' => number_format( $sharedAmount_balance, 0, ',', '.' ),
-                        'earn2' => number_format( $sharedAmount_earn, 0, ',', '.' ),
+                        'earn' => $sharedAmount_balance,
+                        'earn2' =>  $sharedAmount_earn,
                     ] );
                 }
             }
@@ -489,8 +489,8 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $coupon->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
-                        'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
+                        'balance' => $sharedAmount_balance,
+                        'earn' => $sharedAmount_balance,
                         'earn2' => 0,
                     ] );
                 }
@@ -521,8 +521,8 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                             'user_id' => $collection->user_id,
                             'cart_id' => $order->id,
                             'status' => '0',
-                            'balance' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
-                            'earn' => ( number_format( $sharedAmount_balance, 0, ',', '.' ) ),
+                            'balance' =>  $sharedAmount_balance,
+                            'earn' => $sharedAmount_balance,
                             'earn2' => 0,
     
                         ] );
@@ -535,7 +535,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'earn' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) ),
+                        'earn' => $newAmount * 0.02,
                         'earn2' => 0,
 
                     ] );
@@ -546,7 +546,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '0',
-                        'earn' => ( number_format( $newAmount * 0.02, 0, ',', '.' ) ),
+                        'earn' =>$newAmount * 0.02,
                         'earn2' => 0,
 
                     ] );

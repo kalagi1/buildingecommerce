@@ -182,7 +182,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color:green">Toplam Kazanç</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{ $balanceStatus1 }} ₺
+                                                {{number_format( $balanceStatus1, 2, ',', '.' )}}  ₺
                                             </h4>
                                         </div>
                                     </div>
@@ -204,7 +204,8 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color:orange">Onaydaki Komisyon Tutarı</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{ $balanceStatus0 }} ₺
+                                                {{number_format( $balanceStatus0, 2, ',', '.' )}}  ₺
+
                                             </h4>
                                         </div>
                                     </div>
@@ -229,7 +230,8 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color: red">Reddedilen Komisyon Tutarı</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{ $balanceStatus2 }} ₺
+                                                {{number_format( $balanceStatus2, 2, ',', '.' )}}  ₺
+
                                             </h4>
                                         </div>
                                     </div>
