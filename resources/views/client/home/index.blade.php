@@ -1167,7 +1167,7 @@
             <div class="modal-content" style="height: 400px">
                 <div class="modal-header">
                     <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">   &times;</button>
 
                 </div>
                 <div class="modal-body p-0">
@@ -1185,7 +1185,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 $('#customModal').modal('show');
-            }, 5000);
+            }, 000);
         });
     </script>
 @endif

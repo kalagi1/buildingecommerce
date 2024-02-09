@@ -20001,6 +20001,17 @@ ul.the-agents-details li a {
 .inner-pages .featured .compare {
     margin-top: 1.1rem;
 }
+.modal-header{
+    align-items: center;
+}
+
+.modal-header .btn-close{
+    border: none;
+    background: white;
+    font-size: 25px;
+    padding: 0;
+    margin: 0;
+}
 
 .portfolio .project-head .fa,
 .portfolio .project-head .fa-video {
