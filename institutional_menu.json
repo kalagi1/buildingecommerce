@@ -19,7 +19,7 @@
     },    {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
-        "icon": "gift",
+        "icon": "home",
         "text": "Gösterge Paneli",
         "key": "ViewDashboard",
         "url": "institutional.index",
