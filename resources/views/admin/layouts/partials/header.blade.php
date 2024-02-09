@@ -127,61 +127,85 @@
                             <hr class="navbar-vertical-line" />
 
                             @foreach ($groupedMenu as $menuItem)
-                                @if ($menuItem['visible'])
-                                    @php
-                                        $hasVisibleMenus = true;
-                                        $applicationCount= null;
-                                        if ($menuItem['key'] == 'EmlakClubApplications') {
-                                            $applicationCount = \App\Models\User::where("has_club","2")->count() != 0 ? \App\Models\User::where("has_club","2")->count()  :null;
-                                        }
-                                    @endphp
-                                    <!-- Parent Menü -->
-                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1
-                                        @if (request()->is($menuItem['activePath'])) active @endif"
-                                            href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
-                                            role="button"
-                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
-                                            <div class="d-flex align-items-center">
-
-                                                <span class="nav-link-icon">
-                                                    <i class="fas fa-{{ $menuItem['icon'] }}"></i>
-                                                </span>
-                                                <span class="nav-link-text">{{ $menuItem['text'] }} {{$applicationCount != 0 ?  "(". $applicationCount .")" : null}}
-                                                </span>
-                                                @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                                    <div class="dropdown-indicator-icon" style="margin-left: 1px">
-                                                        <span class="fas fa-caret-right"></span>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                            <div class="parent-wrapper label-1">
-                                                <ul class="nav collapse parent @if (request()->is($menuItem['activePath'])) show @endif"
-                                                    data-bs-parent="#navbarVerticalCollapse"
-                                                    id="nv-{{ $menuItem['key'] }}">
-                                                    @foreach ($menuItem['subMenu'] as $subMenuItem)
-                                                        @if ($subMenuItem['visible'])
-                                                            <!-- Alt Menü Öğeleri -->
-                                                            <li class="nav-item">
-                                                                <a class="nav-link @if (request()->is($subMenuItem['activePath'])) active @endif"
-                                                                    href="{{ route($subMenuItem['url']) }}"
-                                                                    data-bs-toggle="" aria-expanded="false">
-                                                                    <div class="d-flex align-items-center"><span
-                                                                            class="nav-link-text">{{ $subMenuItem['text'] }}</span>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-
-                                    </div>
-                                @endif
-                            @endforeach
-
+                            @if ($menuItem['visible'])
+                                @php
+                                    $hasVisibleMenus = true;
+                                    $applicationCount = null;
+                                    $pendingHousingTypes = null;
+                        
+                                    if ($menuItem['key'] == 'EmlakClubApplications') {
+                                        $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
+                                    } else if ($menuItem['key'] == 'Housings') {
+                                        $pendingHousingTypes = Housing::with('city', 'county', 'neighborhood')
+                                            ->where('status', 2)
+                                            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                                            ->select(
+                                                'housings.id',
+                                                'housings.title AS housing_title',
+                                                'housings.status AS status',
+                                                'housings.address',
+                                                'housings.created_at',
+                                                'housing_types.title as housing_type',
+                                                'housing_types.slug',
+                                                'housings.deleted_at',
+                                                'housings.city_id',
+                                                'housings.county_id',
+                                                'housings.neighborhood_id',
+                                                'housing_types.form_json'
+                                            )
+                                            ->orderByDesc('housings.updated_at')
+                                            ->count() ?: null;
+                                    }
+                                @endphp
+                        
+                                <div class="nav-item-wrapper">
+                                    <a class="nav-link dropdown-indicator label-1 {{ request()->is($menuItem['activePath']) ? 'active' : '' }}"
+                                        href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
+                                        role="button"
+                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+                                            </span>
+                                            <span class="nav-link-text">
+                                                {{ $menuItem['text'] }}
+                                                {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                                {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                            </span>
+                        
+                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                <div class="dropdown-indicator-icon" style="margin-left: 1px">
+                                                    <span class="fas fa-caret-right"></span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </a>
+                        
+                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                        <div class="parent-wrapper label-1">
+                                            <ul class="nav collapse parent {{ request()->is($menuItem['activePath']) ? 'show' : '' }}"
+                                                data-bs-parent="#navbarVerticalCollapse"
+                                                id="nv-{{ $menuItem['key'] }}">
+                                                @foreach ($menuItem['subMenu'] as $subMenuItem)
+                                                    @if ($subMenuItem['visible'])
+                                                        <li class="nav-item">
+                                                            <a class="nav-link {{ request()->is($subMenuItem['activePath']) ? 'active' : '' }}"
+                                                                href="{{ route($subMenuItem['url']) }}"
+                                                                data-bs-toggle="" aria-expanded="false">
+                                                                <div class="d-flex align-items-center">
+                                                                    <span class="nav-link-text">{{ $subMenuItem['text'] }}</span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+                        @endforeach
+                        
                             @if (!$hasVisibleMenus)
                                 <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
                                 <script>
