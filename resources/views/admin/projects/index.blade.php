@@ -22,6 +22,11 @@
                         aria-selected="false">Yayında Olmayanlar</button>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="disabledProjects-tab" data-bs-toggle="tab"
+                        data-bs-target="#disabledProjects" type="button" role="tab" aria-controls="disabledProjects"
+                        aria-selected="false">Reddedilen İlanlar</button>
+                </li>
+                <li class="nav-item" role="presentation">
                     <button class="nav-link" id="deletedProjects-tab" data-bs-toggle="tab"
                         data-bs-target="#deletedProjects" type="button" role="tab" aria-controls="deletedProjects"
                         aria-selected="false">Silinen İlanlar</button>
@@ -38,6 +43,9 @@
                 </div>
                 <div class="tab-pane fade" id="inactiveProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
                     @include('admin.projects.tab-content', ['projects' => $inactiveProjects])
+                </div>
+                <div class="tab-pane fade" id="disabledProjects" role="tabpanel" aria-labelledby="disabledProjects-tab">
+                    @include('admin.projects.tab-content', ['projects' => $disabledProjects])
                 </div>
                 <div class="tab-pane fade" id="deletedProjects" role="tabpanel" aria-labelledby="deletedProjects-tab">
                     @include('admin.projects.tab-content-delete', ['projects' => $deletedProjects])
