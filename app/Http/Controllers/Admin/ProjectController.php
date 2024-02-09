@@ -26,8 +26,8 @@ class ProjectController extends Controller {
         $projectStatuses = [
             1 => 'Aktif',
             0 => 'Pasif',
-            2 => 'Admin Onayı Bekliyor',
-            3 => 'Admin Tarafından Reddedildi',
+            2 => 'Onay Bekliyor',
+            3 => 'Yönetim Tarafından Reddedildi',
         ];
     
         $activeProjects = Project::where('status', 1)->orderByDesc('updated_at')->get();

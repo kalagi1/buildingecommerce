@@ -11,6 +11,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab" href="#disabledHousingTypes">Reddedilen İlanlar</a>
+                </li>
              
                 <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
@@ -26,18 +29,26 @@
                     ])
                     </div>
                 </div>
-                <div class="tab-pane fade" id="inactive">
-                    <div class="table-responsive">
-                    @include('institutional.housings.housing_table', [
-                        'tableId' => 'bulk-select-body-inactive',
-                        'housingTypes' => $pendingHousingTypes,
-                    ])
-                    </div>
-                </div>
                 <div class="tab-pane fade" id="pendingHousingTypes">
                     <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-pendingHousingTypes',
+                        'housingTypes' => $pendingHousingTypes,
+                    ])
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="disabledHousingTypes">
+                    <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-disabledHousingTypes',
+                        'housingTypes' => $disabledHousingTypes,
+                    ])
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="inactive">
+                    <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-inactive',
                         'housingTypes' => $inactiveHousingTypes,
                     ])
                     </div>
@@ -55,6 +66,8 @@
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
         var pendingHousingTypes = @json($pendingHousingTypes);
+        var disabledHousingTypes = @json($disabledHousingTypes);
+
 
 
 
@@ -85,10 +98,10 @@
                 statusCell.innerHTML = housingType.status == 1 ?
                     '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
                     housingType.status == 2 ?
-                    '<span class="badge badge-phoenix badge-phoenix-warning">Admin Onayı Bekliyor</span>' :
+                    '<span class="badge badge-phoenix badge-phoenix-warning">Onay Bekleniyor</span>' :
                     housingType
                     .status == 3 ?
-                    '<span class="badge badge-phoenix badge-phoenix-danger">Admin Tarafından Reddedildi</span>' :
+                    '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
                     '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
 
                 var createdAtCell = document.createElement("td");
@@ -193,8 +206,9 @@
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
+        createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
 
-
+        
 
         // Handle tab switching
         var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));

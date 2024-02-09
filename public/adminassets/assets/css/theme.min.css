@@ -36077,7 +36077,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .navbar-vibrant .
 }
 
 .badge-phoenix {
-    text-transform: uppercase;
+    text-transform: inherit;
     padding: 2px 8px;
     background-color: var(--phoenix-badge-bg);
     color: var(--phoenix-badge-color);
