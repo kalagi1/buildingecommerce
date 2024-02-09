@@ -136,7 +136,7 @@
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
                                     } else if ($menuItem['key'] == 'Housings') {
-                                        $pendingHousingTypes = Housing::with('city', 'county', 'neighborhood')
+                                        $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
                                             ->where('status', 2)
                                             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                                             ->select(
