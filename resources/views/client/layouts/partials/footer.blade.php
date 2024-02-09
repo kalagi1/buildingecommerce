@@ -237,33 +237,6 @@
     </div>
 </div>
 
-    @if (Auth::check() && Auth::user()->has_club == 0)
-        <div id="customModal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document"
-            style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
-                <div class="modal-content" style="height: 400px">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body p-0">
-                        <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
-                        style="cursor: pointer;width:100%;height:400px;object-fit:cover" src="{{asset('popup.jpeg')}}" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                setTimeout(function() {
-                    $('#customModal').modal('show');
-                }, 30000); 
-            });
-        </script>
-    @endif
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
