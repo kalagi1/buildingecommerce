@@ -31,7 +31,7 @@ class ProjectController extends Controller {
         ];
     
         $activeProjects = Project::where('status', 1)->orderByDesc('updated_at')->get();
-        $inactiveProjects = Project::where('status', 0)->orderByDesc('updated_at')->get();
+        $inactiveProjects = Project::whereIn('status',"!=", [1, 2])->orderByDesc('updated_at')->get();
         $pendingProjects = Project::where('status', 2)->orderByDesc('updated_at')->get();
         $deletedProjects = Project::onlyTrashed()->get();
         

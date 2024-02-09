@@ -330,11 +330,11 @@ class ProjectController extends Controller
             $project->offSale = $salesCloseProjectHousingCount;
                 if ($project->status == 1) {
                 $activeProjects[] = $project;
-            } elseif($project->status == 0){
-                $inactiveProjects[] = $project;
             }elseif($project->status == 2){
                 $pendingProjects[] = $project;
 
+            }else{
+                $inactiveProjects[] = $project;
             }
     
             return $project;
