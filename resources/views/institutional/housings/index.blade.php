@@ -38,7 +38,7 @@
                     <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-pendingHousingTypes',
-                        'housingTypes' => $inactiveProjects,
+                        'housingTypes' => $inactiveHousingTypes,
                     ])
                     </div>
                 </div>
