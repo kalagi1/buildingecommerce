@@ -146,7 +146,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-12">
-                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}"
+                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name),'userid' => Auth::user()->id, 'id' => $collection->id]) }}"
                                                 class="text-decoration-none" target="_blank" style="width: 100%">
     
                                                 <button style="width:100%;font-size:10px;padding:8px 0"
@@ -158,7 +158,7 @@
                                         <div class="col-md-12">
                                             <button class="badge badge-phoenix fs-10 badge-phoenix-success"
                                                     style="width:100%;font-size:10px;padding:8px 0" type="button"
-                                                    onclick="copyLink('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}')">
+                                                    onclick="copyLink('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' =>Auth::user()->id , 'id' => $collection->id]) }}')">
                                                 <i class="fa fa-copy" aria-hidden="true"></i> LİNKİ KOPYALA
                                             </button>
                                             
@@ -166,7 +166,7 @@
                                         <div class="col-md-12">
                                             <button class="badge badge-phoenix fs-10 badge-phoenix-success"
                                                     style="width:100%;font-size:10px;padding:8px 0" type="button"
-                                                    onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'id' => $collection->id]) }}')">
+                                                    onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' =>Auth::user()->id , 'id' => $collection->id]) }}')">
                                                 <i class="fa fa-whatsapp" aria-hidden="true"></i> WHATSAPPTA PAYLAŞ
                                             </button>
                                         </div>

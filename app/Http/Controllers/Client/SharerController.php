@@ -77,7 +77,7 @@ class SharerController extends Controller {
         return view("institutional.earnings.index", compact("balanceStatus0","successPercentage", "collections","balanceStatus1", "balanceStatus2", "balanceStatus0Lists","balanceStatus1Lists","balanceStatus2Lists"));
     }
     
-    public function showClientLinks($slug, $id, Request $request)
+    public function showClientLinks($slug,$userid, $id, Request $request)
     {
         $users = User::all();
         $collection = Collection::where("id",$id)->first();
@@ -90,24 +90,21 @@ class SharerController extends Controller {
             ];
         
             $collection->uniqueClicks()->updateOrCreate(['user_id' => auth()->id(), 'ip_address' => $request->ip()], $clickData);
-        
-            foreach ($users as $institutional) {          
-                $slugName = Str::slug($institutional->name);
-                if ($slugName === $slug) {
+    
                     
     
                     $store = User::with('projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners')
-                        ->findOrFail($institutional->id);
+                        ->findOrFail($userid);
                 
                     $projects = Project::with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
                         ->where("user_id", $store->id)->where("status", 1)->orderBy("id", "desc")->limit(3)->get();
                 
-                    $collections = Collection::with('links')->where('user_id', $institutional->id)->get();
+                    $collections = Collection::with('links')->where('user_id', $userid)->get();
                 
                     $collection = Collection::findOrFail($id);
                     // $sharer = User::findOrFail(auth()->user()->id);
                 
-                    $items = ShareLink::where('user_id', $institutional->id)->where('collection_id', $collection->id)->get();
+                    $items = ShareLink::where('user_id', $userid)->where('collection_id', $collection->id)->get();
                     $itemsArray = $items->map(function ($item) use ($store) {
                         $action = null;
                         $offSale = null;
@@ -167,8 +164,8 @@ class SharerController extends Controller {
                     }, $items->toArray(), $itemsArray->toArray());
             
                     return view('client.club.show', compact("store", "mergedItems","collections", "slug", 'projects', 'itemsArray', 'collections', 'collection', 'items'));
-                }
-            }
+                
+            
         }else{
             return view("errors.404");
         }

@@ -92,7 +92,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
 
-Route::get('/emlak-kulup/{slug}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
+Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');

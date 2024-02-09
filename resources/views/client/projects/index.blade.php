@@ -1188,7 +1188,7 @@
                                                                                                         class="CartBtn second-btn mobileCBtn "
                                                                                                         data-type='project'
                                                                                                         data-project='{{ $project->id }}'
-                                                                                                        data-id='{{ $i + 1 + $lastHousingCount}}'>
+                                                                                                        data-id='{{ $i + 1 + $lastHousingCount }}'>
                                                                                                         <span
                                                                                                             class="IconContainer">
                                                                                                             <img src="{{ asset('sc.png') }}"
@@ -1212,7 +1212,7 @@
                                                                                                 style="width:50% !important"
                                                                                                 project-id="{{ $project->id }}"
                                                                                                 data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                                                order="{{ $i+1 + $lastHousingCount}}">
+                                                                                                order="{{ $i + 1 + $lastHousingCount }}">
                                                                                                 Ödeme Detayı
                                                                                             </button>
                                                                                         @else
@@ -1221,7 +1221,7 @@
                                                                                                 style="width:50% !important"
                                                                                                 project-id="{{ $project->id }}"
                                                                                                 data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                                                order="{{ $i+1 + $lastHousingCount }}">
+                                                                                                order="{{ $i + 1 + $lastHousingCount }}">
                                                                                                 Ödeme Detayı
 
                                                                                             </button>
@@ -1796,7 +1796,7 @@
                                                                             style="width:50% !important"
                                                                             project-id="{{ $project->id }}"
                                                                             data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                            order="{{ $i+1 }}">
+                                                                            order="{{ $i + 1 }}">
                                                                             Ödeme Detayı
                                                                         </button>
                                                                     @else
@@ -1805,7 +1805,7 @@
                                                                             style="width:50% !important"
                                                                             project-id="{{ $project->id }}"
                                                                             data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                            order="{{ $i+1 }}">
+                                                                            order="{{ $i + 1 }}">
                                                                             Ödeme Detayı
 
                                                                         </button>

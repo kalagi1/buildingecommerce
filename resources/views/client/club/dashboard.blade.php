@@ -124,7 +124,7 @@
                     <div class="row list" id="icon-list">
                         @foreach ($collections as $collection)
                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'id' => $collection->id]) }}" class="text-decoration-none">
+                                <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name),'userid' => $store->id, 'id' => $collection->id]) }}" class="text-decoration-none">
     
                                 <span
                                     class="icon-list-item d-none">{{ $collection->name }}</span>
