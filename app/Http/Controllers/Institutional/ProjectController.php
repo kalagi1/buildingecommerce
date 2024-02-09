@@ -1344,6 +1344,18 @@ class ProjectController extends Controller
         return redirect()->route('institutional.projects.index', ["status" => "new_project"]);
     }
 
+    public function passive($id){
+        Project::where('id',$id)->update([
+            "status" => 0
+        ]);
+    }
+
+    public function active($id){
+        Project::where('id',$id)->update([
+            "status" => 1
+        ]);
+    }
+
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
@@ -1354,6 +1366,18 @@ class ProjectController extends Controller
     {
         $housing = Housing::findOrFail($id);
         $housing->delete();
+    }
+
+    public function housingPassive($id){
+        Housing::where('id',$id)->update([
+            'status' => 0
+        ]);
+    }
+
+    public function housingActive($id){
+        Housing::where('id',$id)->update([
+            'status' => 1
+        ]);
     }
 
     public function newProjectImage(Request $request, $projectId)

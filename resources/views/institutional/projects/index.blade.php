@@ -179,29 +179,6 @@
                 houseCount.innerHTML = "<a href='{{ URL::to('/') }}/institutional/projects/" + project.id +
                     "/housings' class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a>";
 
-                // var standOutCell = document.createElement("td");
-                // standOutCell.className = "align-middle status";
-                // console.log(project);
-                // if (project.stand_out) {
-                //     if (project.stand_out.doping_price_payment_wait) {
-                //         standOutCell.innerHTML =
-                //             "<a href='#' class='badge badge-phoenix badge-phoenix-warning'>Ödeme Bekleniyor</a>";
-                //     } else {
-                //         if (project.stand_out.doping_price_payment_cancel) {
-                //             standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" +
-                //                 project.id +
-                //                 "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
-                //         } else {
-                //             standOutCell.innerHTML =
-                //                 "<a href='#' class='badge badge-phoenix badge-phoenix-success'>Sponsorlu</a>";
-                //         }
-                //     }
-                // } else {
-                //     standOutCell.innerHTML = "<a href='{{ URL::to('/') }}/institutional/project_stand_out/" + project
-                //         .id +
-                //         "' class='badge badge-phoenix badge-phoenix-info'>Öne Çıkar</a>";
-                // }
-
                 var activeCell = document.createElement("td");
                 activeCell.className = "align-middle status";
                 activeCell.innerHTML = project.status == 1 ?
@@ -245,7 +222,7 @@
                 var deleteCell = document.createElement("td");
                 deleteCell.className = "align-middle";
                 var deleteButton = document.createElement("button");
-                deleteButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm";
+                deleteButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm mx-2";
                 deleteButton.textContent = "Sil";
                 deleteButton.addEventListener("click", function() {
                     // Kullanıcıdan onay al
@@ -283,6 +260,87 @@
                     }
                 });
 
+                var passiveButton = document.createElement("button");
+                passiveButton.className = "badge badge-phoenix badge-phoenix-danger btn-sm ";
+                passiveButton.textContent = "Pasife Al";
+                passiveButton.addEventListener("click", function() {
+                    // Kullanıcıdan onay al
+                    var confirmDelete = confirm("Bu projeyi pasife almak istediğinizden emin misiniz?");
+                    if (confirmDelete) {
+                        var csrfToken = "{{ csrf_token() }}";
+                        // Laravel route ismi
+                        var routeName = "{{ route('institutional.projects.passive', ['id' => ':id']) }}";
+                        // API Endpoint'i oluştur
+                        var apiUrl = routeName.replace(':id', project.id);
+
+                        fetch(apiUrl, {
+                                method: "POST", // Silme işlemi için DELETE metodu
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
+                                },
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Network response was not ok");
+                                }
+                                location.reload();
+                            })
+                            .then(data => {
+                                toastr.success("Proje başarıyla pasife alındı.");
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error("There was a problem with the fetch operation:", error);
+                                // Silme işlemi başarısız
+                                toastr.error("Proje silinirken bir hata oluştu.");
+                            });
+                    }
+                });
+
+                var activeButton = document.createElement("button");
+                activeButton.className = "badge badge-phoenix badge-phoenix-success btn-sm ";
+                activeButton.textContent = "Aktife Al";
+                activeButton.addEventListener("click", function() {
+                    // Kullanıcıdan onay al
+                    var confirmDelete = confirm("Bu projeyi pasife almak istediğinizden emin misiniz?");
+                    if (confirmDelete) {
+                        var csrfToken = "{{ csrf_token() }}";
+                        // Laravel route ismi
+                        var routeName = "{{ route('institutional.projects.active', ['id' => ':id']) }}";
+                        // API Endpoint'i oluştur
+                        var apiUrl = routeName.replace(':id', project.id);
+
+                        fetch(apiUrl, {
+                                method: "POST", // Silme işlemi için DELETE metodu
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": csrfToken, // CSRF token'ını ekleyin
+                                },
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Network response was not ok");
+                                }
+                                location.reload();
+                            })
+                            .then(data => {
+                                toastr.success("Proje başarıyla aktife alındı.");
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error("There was a problem with the fetch operation:", error);
+                                // Silme işlemi başarısız
+                                toastr.error("Proje silinirken bir hata oluştu.");
+                            });
+                    }
+                });
+                console.log(project.status)
+                if(project.status == 1){
+                    deleteCell.appendChild(passiveButton);
+                }else if(project.status == 0){
+                    deleteCell.appendChild(activeButton);
+                }
                 deleteCell.appendChild(deleteButton);
 
 
