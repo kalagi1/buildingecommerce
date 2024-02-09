@@ -208,9 +208,11 @@
                     '<span class="text-success">Yayında</span>' :
                     project.status == 2 ?
                     '<span class="text-warning">Admin Onayı Bekliyor</span>' :
+                    project.status == 3 ?
+                    '<span class="text-danger">Reddedildi</span>' :
                     project.status == 0 ?
                     '<span class="text-danger">Pasif</span>' :
-                    ''; // Opsiyonel: Diğer durumlar için boş string, isteğe bağlı olarak ekleyebilirsiniz.
+                    '<span class="text-danger">Pasif</span>'; // Opsiyonel: Diğer durumlar için boş string, isteğe bağlı olarak ekleyebilirsiniz.
 
 
                 var actionsCell = document.createElement("td");
