@@ -325,22 +325,28 @@ class ProjectController extends Controller
         $pendingProjects = [];
         $disabledProjects = [];
 
-    
-        $projects = $projects->map(function ($project) use (&$offSaleCount, &$activeProjects, &$inactiveProjects,&$pendingProjects,&$disabledProjects) {
+        $projects = $projects->map(function ($project) use (&$offSaleCount, &$activeProjects, &$inactiveProjects, &$pendingProjects, &$disabledProjects) {
             $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
             $project->offSale = $salesCloseProjectHousingCount;
-                if ($project->status == 1) {
-                $activeProjects[] = $project;
-            }elseif($project->status == 2){
-                $pendingProjects[] = $project;
-            }elseif($project->status == 3){
-                $disabledProjects[] = $project;
-            }else{
-                $inactiveProjects[] = $project;
+        
+            switch ($project->status) {
+                case 1:
+                    $activeProjects[] = $project;
+                    break;
+                case 2:
+                    $pendingProjects[] = $project;
+                    break;
+                case 3:
+                    $disabledProjects[] = $project;
+                    break;
+                default:
+                    $inactiveProjects[] = $project;
+                    break;
             }
-    
+        
             return $project;
         });
+        
     
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');

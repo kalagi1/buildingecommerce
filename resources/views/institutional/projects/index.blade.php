@@ -43,7 +43,7 @@
                     <div class="table-responsive">
 
                         @include('institutional.projects.project_table', [
-                            'tableId' => 'bulk-select-body-pendingProjects',
+                            'tableId' => 'bulk-select-body-disabledProjects',
                             'projectTypes' => $disabledProjects,
                         ])
                     </div>
