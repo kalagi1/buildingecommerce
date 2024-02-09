@@ -13,37 +13,51 @@
                         İlanlar</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="disabledProjects-tab" data-bs-toggle="tab" href="#disabledProjects">Reddedilen
+                        İlanlar</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
-                   <div class="table-responsive">
-                    @include('institutional.projects.project_table', [
-                        'tableId' => 'bulk-select-body-active',
-                        'projectTypes' => $activeProjects,
-                    ])
-                   </div>
+                    <div class="table-responsive">
+                        @include('institutional.projects.project_table', [
+                            'tableId' => 'bulk-select-body-active',
+                            'projectTypes' => $activeProjects,
+                        ])
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="pendingProjects">
                     <div class="table-responsive">
 
-                    @include('institutional.projects.project_table', [
-                        'tableId' => 'bulk-select-body-pendingProjects',
-                        'projectTypes' => $pendingProjects,
-                    ])
+                        @include('institutional.projects.project_table', [
+                            'tableId' => 'bulk-select-body-pendingProjects',
+                            'projectTypes' => $pendingProjects,
+                        ])
+                    </div>
                 </div>
-            </div>
+
+                <div class="tab-pane fade" id="disabledProjects">
+                    <div class="table-responsive">
+
+                        @include('institutional.projects.project_table', [
+                            'tableId' => 'bulk-select-body-pendingProjects',
+                            'projectTypes' => $disabledProjects,
+                        ])
+                    </div>
+                </div>
 
                 <div class="tab-pane fade" id="inactive">
                     <div class="table-responsive">
 
-                    @include('institutional.projects.project_table', [
-                        'tableId' => 'bulk-select-body-inactive',
-                        'projectTypes' => $inactiveProjects,
-                    ])
+                        @include('institutional.projects.project_table', [
+                            'tableId' => 'bulk-select-body-inactive',
+                            'projectTypes' => $inactiveProjects,
+                        ])
+                    </div>
                 </div>
-            </div>
 
             </div>
         </div>
@@ -104,6 +118,8 @@
         var activeProjects = @json($activeProjects);
         var inactiveProjects = @json($inactiveProjects);
         var pendingProjects = @json($pendingProjects);
+        var disabledProjects = @json($disabledProjects);
+
 
         var selectedProjectId = 0;
         var selectedBankId = 0;
@@ -293,6 +309,8 @@
         createTable(document.getElementById("bulk-select-body-active"), activeProjects);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveProjects);
         createTable(document.getElementById("bulk-select-body-pendingProjects"), pendingProjects);
+        createTable(document.getElementById("bulk-select-body-disabledProjects"), disabledProjects);
+
 
         var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
         housingTabs.show();
