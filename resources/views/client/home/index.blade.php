@@ -1118,7 +1118,7 @@
         </div>
     </section>
 
-    @if (Auth::check() && Auth::user()->type != '3')
+    {{-- @if (Auth::check() && Auth::user()->type != '3')
         <!-- HTML -->
         <button class="chatbox-open">
             <i class="fa fa-comment" aria-hidden="true"></i>
@@ -1157,7 +1157,7 @@
                 </aside>
             </footer>
         </div>
-    @endif
+    @endif --}}
 
     @if (Auth::check() && Auth::user()->has_club == 0)
     <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
