@@ -132,6 +132,7 @@
                                     $hasVisibleMenus = true;
                                     $applicationCount = null;
                                     $pendingHousingTypes = null;
+                                    $pendingProjects = null;
                         
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
@@ -155,6 +156,8 @@
                                             )
                                             ->orderByDesc('housings.updated_at')
                                             ->count() ?: null;
+                                    }else if ($menuItem['key'] == "Projects"){
+                                        $pendingProjects =  \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get()
                                     }
                                 @endphp
                         
@@ -171,6 +174,8 @@
                                                 {{ $menuItem['text'] }}
                                                 {{ $applicationCount != null ? "($applicationCount)" : null }}
                                                 {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                                {{ $pendingProjects != null ? "($pendingProjects)" : null }}
+
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
