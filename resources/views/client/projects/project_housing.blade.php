@@ -1241,14 +1241,16 @@
             
                                                                             @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                                 @if ($sold)
-                                                                                    <button class="btn  payment-plan-mobile-btn mobileCBtn"
+                                                                                    <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                                                                                    style="width:50% !important"
                                                                                         project-id="{{ $project->id }}"
                                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                                                                         order="{{ $i+1 + $lastHousingCount }}">
                                                                                         Ödeme Detayı
                                                                                     </button>
                                                                                 @else
-                                                                                    <button class="btn  payment-plan-mobile-btn mobileCBtn"
+                                                                                    <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                                                                                    style="width:50% !important"
                                                                                         project-id="{{ $project->id }}"
                                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                                                                         order="{{ $i+1 + $lastHousingCount}}">
@@ -1819,6 +1821,7 @@
                                                             @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
                                                                 @if ($sold)
                                                                     <button class="btn   payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                                                                    style="width:50% !important"
                                                                         project-id="{{ $project->id }}"
                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                                                         order="{{ $i +1 }}">
@@ -1826,6 +1829,7 @@
                                                                     </button>
                                                                 @else
                                                                     <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                                                                    style="width:50% !important"
                                                                         project-id="{{ $project->id }}"
                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                                                         order="{{ $i+1 }}">
