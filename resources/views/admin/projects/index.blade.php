@@ -7,15 +7,16 @@
         <div class="card shadow-none border border-300 my-4">
             <ul class="nav nav-tabs px-4 mt-3 mb-3" id="projectTabs">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="activeProjects-tab" data-bs-toggle="tab"
-                        data-bs-target="#activeProjects" type="button" role="tab" aria-controls="activeProjects"
-                        aria-selected="true">Yayında Olanlar</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pendingProjects-tab" data-bs-toggle="tab"
+                    <button class="nav-link active" id="pendingProjects-tab" data-bs-toggle="tab"
                         data-bs-target="#pendingProjects" type="button" role="tab" aria-controls="pendingProjects"
                         aria-selected="false">Onay Bekleyen İlanlar</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link " id="activeProjects-tab" data-bs-toggle="tab"
+                        data-bs-target="#activeProjects" type="button" role="tab" aria-controls="activeProjects"
+                        aria-selected="true">Yayında Olanlar</button>
+                </li>
+                
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="inactiveProjects-tab" data-bs-toggle="tab"
                         data-bs-target="#inactiveProjects" type="button" role="tab" aria-controls="inactiveProjects"
@@ -34,11 +35,11 @@
             </ul>
 
             <div class="tab-content px-4 pb-4">
-                <div class="tab-pane fade show active" id="activeProjects" role="tabpanel"
+                <div class="tab-pane fade " id="activeProjects" role="tabpanel"
                     aria-labelledby="activeProjects-tab">
                     @include('admin.projects.tab-content', ['projects' => $activeProjects])
                 </div>
-                <div class="tab-pane fade" id="pendingProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
+                <div class="tab-pane fade show active" id="pendingProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
                     @include('admin.projects.tab-content', ['projects' => $pendingProjects])
                 </div>
                 <div class="tab-pane fade" id="inactiveProjects" role="tabpanel" aria-labelledby="inactiveProjects-tab">
