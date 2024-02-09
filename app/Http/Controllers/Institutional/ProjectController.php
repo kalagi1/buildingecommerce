@@ -345,7 +345,7 @@ class ProjectController extends Controller
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
     
-        return view('institutional.projects.index', compact('activeProjects', 'inactiveProjects', 'pendingProjects','bankAccounts'));
+        return view('institutional.projects.index', compact('activeProjects', 'disabledProjects','inactiveProjects', 'pendingProjects','bankAccounts'));
     }
     
     
