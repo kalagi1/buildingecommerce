@@ -11,6 +11,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
                 </li>
+             
                 <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
@@ -29,7 +30,7 @@
                     <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-inactive',
-                        'housingTypes' => $inactiveHousingTypes,
+                        'housingTypes' => $pendingHousingTypes,
                     ])
                     </div>
                 </div>
@@ -37,7 +38,7 @@
                     <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-pendingHousingTypes',
-                        'housingTypes' => $pendingHousingTypes,
+                        'housingTypes' => $inactiveHousingTypes,
                     ])
                     </div>
                 </div>
@@ -54,6 +55,7 @@
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
         var pendingHousingTypes = @json($pendingHousingTypes);
+
 
 
         function createTable(tbody, housingTypes) {
@@ -274,6 +276,7 @@
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
+
 
 
         // Handle tab switching

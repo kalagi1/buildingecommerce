@@ -32,10 +32,11 @@ class ProjectController extends Controller {
     
         $activeProjects = Project::where('status', 1)->orderByDesc('updated_at')->get();
         $inactiveProjects = Project::where('status', 0)->orderByDesc('updated_at')->get();
+        $disabledProjects = Project::where('status', 3)->orderByDesc('updated_at')->get();
         $pendingProjects = Project::where('status', 2)->orderByDesc('updated_at')->get();
         $deletedProjects = Project::onlyTrashed()->get();
         
-        return view('admin.projects.index', compact('activeProjects','pendingProjects', 'inactiveProjects', 'deletedProjects','projectStatuses'));
+        return view('admin.projects.index', compact('activeProjects',"disabledProjects",'pendingProjects', 'inactiveProjects', 'deletedProjects','projectStatuses'));
     }
     
     /**

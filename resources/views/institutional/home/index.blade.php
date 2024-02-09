@@ -53,7 +53,7 @@
         @endif
 
 
-        @if (Auth::check() && Auth::user()->type != '3')
+        {{-- @if (Auth::check() && Auth::user()->type != '3')
             <!-- HTML -->
             <button class="chatbox-open">
                 <i class="fa fa-comment" aria-hidden="true"></i>
@@ -92,7 +92,7 @@
                     </aside>
                 </footer>
             </div>
-        @endif
+        @endif --}}
 
         @if (Auth::check() && Auth::user()->has_club == 1)
             <div class="row">

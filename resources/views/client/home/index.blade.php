@@ -1118,7 +1118,7 @@
         </div>
     </section>
 
-    @if (Auth::check() && Auth::user()->type != '3')
+    {{-- @if (Auth::check() && Auth::user()->type != '3')
         <!-- HTML -->
         <button class="chatbox-open">
             <i class="fa fa-comment" aria-hidden="true"></i>
@@ -1157,9 +1157,40 @@
                 </aside>
             </footer>
         </div>
-    @endif
+    @endif --}}
 
+    @if (Auth::check() && Auth::user()->has_club == 0)
+    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document"
+            style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
+            <div class="modal-content" style="height: 400px">
+                <div class="modal-header">
+                    <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> 
+                        <i class="fa fa-close"></i>
+                    </button>
 
+                </div>
+                <div class="modal-body p-0">
+                    <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
+                        style="cursor: pointer;width:100%;height:400px;object-fit:cover"
+                        src="{{ asset('popup.jpeg') }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                $('#customModal').modal('show');
+            }, 30000);
+        });
+    </script>
+@endif
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
