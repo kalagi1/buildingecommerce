@@ -1167,7 +1167,9 @@
             <div class="modal-content" style="height: 400px">
                 <div class="modal-header">
                     <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">   &times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> 
+                        <i class="fa fa-close"></i>
+                    </button>
 
                 </div>
                 <div class="modal-body p-0">
