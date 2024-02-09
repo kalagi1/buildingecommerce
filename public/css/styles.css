@@ -3093,7 +3093,7 @@ section.portfolio {
 .portfolio .homes .button {
     font-size: 11px;
     font-weight: 600;
-    padding: 6px;
+    padding: 3px;
     border-radius: 2px;
     color: #fff;
     border: none;
@@ -3105,7 +3105,7 @@ section.portfolio {
 .portfolio .homes-tag.featured {
     left: 10px;
     text-align: center;
-    width: 85px !important;
+    width: 70px !important;
     margin-top: 10px;
     background-color: #EA2B2E !important;
 }
