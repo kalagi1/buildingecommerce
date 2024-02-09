@@ -16,6 +16,14 @@
         "key": "EmlakClubGift",
         "url": "institutional.estate.coupons",
         "activePath": "institutional/coupons"
+    },    {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "gift",
+        "text": "Gösterge Paneli",
+        "key": "ViewDashboard",
+        "url": "institutional.index",
+        "activePath": "institutional/"
     },
     {
         "id": "projects",
@@ -36,15 +44,7 @@
         "url": "institutional.housing.list",
         "activePath": "institutional/housings"
     },
-    {
-        "id": "shopping-bag",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "gift",
-        "text": "Gösterge Paneli",
-        "key": "ViewDashboard",
-        "url": "institutional.index",
-        "activePath": "institutional/"
-    },
+
     {
         "id": "shopping-bag",
         "label": "Emlak Kulüp",
