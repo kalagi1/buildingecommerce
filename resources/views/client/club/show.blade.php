@@ -5,7 +5,8 @@
         <div class="brand-head">
             <div class="container">
                 <div class="card mb-3">
-                    <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
+                    <div class="card-img-top" style="background-color: {{ $store->banner_hex_code ?? '#000' }}"
+                        >
                         <div class="brands-square w-100">
                             <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
                                 class="brand-logo">

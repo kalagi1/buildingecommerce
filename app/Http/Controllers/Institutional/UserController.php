@@ -111,6 +111,8 @@ class UserController extends Controller {
         $mainUser = User::where( 'id', auth()->user()->parent_id ?? auth()->user()->id )->with( 'plan' )->first();
         $countUser = UserPlan::where( 'user_id', $mainUser->id )->first();
         $users = User::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
+        $userCount = User::all();
+        $lastUser = User::latest()->first();
 
         $user = new User();
         $user->name = $validatedData[ 'name' ];
@@ -122,7 +124,7 @@ class UserController extends Controller {
         $user->status = $request->has( 'is_active' ) ? 1 : 5;
         $user->corporate_account_status = 1;
         $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
-        $user->code = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? ( count( $users ) +1 ) + auth()->user()->parent_id  + 1000000 ) : null;
+        $user->code = $lastUser->id + auth()->user()->id  + 1000000;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
         $user->save();
