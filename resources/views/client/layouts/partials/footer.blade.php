@@ -239,8 +239,9 @@
 
     @if (Auth::check() && Auth::user()->has_club == 0)
         <div id="customModal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div class="modal-dialog" role="document"
+            style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
+                <div class="modal-content" style="height: 400px">
                     <div class="modal-header">
                         <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
