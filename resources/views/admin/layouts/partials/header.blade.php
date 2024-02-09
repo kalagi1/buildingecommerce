@@ -136,7 +136,7 @@
                         
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
-                                    } else if ($menuItem['key'] == 'Housings') {
+                                    } elseif ($menuItem['key'] == 'Housings') {
                                         $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
                                             ->where('status', 2)
                                             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
@@ -156,8 +156,8 @@
                                             )
                                             ->orderByDesc('housings.updated_at')
                                             ->count() ?: null;
-                                    }else if ($menuItem['key'] == "Projects"){
-                                        $pendingProjects =  \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get()
+                                    } elseif ($menuItem['key'] == "Projects") {
+                                        $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
                                     }
                                 @endphp
                         
@@ -174,8 +174,7 @@
                                                 {{ $menuItem['text'] }}
                                                 {{ $applicationCount != null ? "($applicationCount)" : null }}
                                                 {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
-                                                {{ $pendingProjects != null ? "($pendingProjects)" : null }}
-
+                                                {{ $pendingProjects != null ? "(". $pendingProjects->count() .")" : null }}
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
