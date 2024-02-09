@@ -249,7 +249,7 @@
                     </div>
                     <div class="modal-body p-0">
                         <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
-                        style="cursor: pointer" src="{{asset('popup.jpeg')}}" alt="">
+                        style="cursor: pointer;width:100%;height:400px;object-fit:cover" src="{{asset('popup.jpeg')}}" alt="">
                     </div>
                 </div>
             </div>
