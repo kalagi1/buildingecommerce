@@ -795,7 +795,7 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                     }
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
                     $payDecs = [];
-                    if($projectHousing['pay-dec-count'.$request->input('id')]){
+                    if(isset($projectHousing['pay-dec-count'.$request->input('id')])){
                         for($k = 0 ; $k < $projectHousing['pay-dec-count'.$request->input('id')]->value; $k++){
                             array_push($payDecs,[
                                 "pay_dec_price".$k => $projectHousing['pay_desc_price'.$request->input('id').$k]->value,

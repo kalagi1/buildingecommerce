@@ -651,7 +651,7 @@ class ProjectController extends Controller
             $projectHousingsList[$item->room_order][$item->name] = $item->value;
         });
 
-        $endIndex = $project->house_count;
+        $endIndex = $project->house_count + 20;
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 

@@ -1,6 +1,7 @@
 @extends('client.layouts.master')
 
 @section('content')
+
     @php
 
         function implodeData($array)
@@ -756,7 +757,7 @@
                                                                                                             style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
 
                                                                                                             No
-                                                                                                            <br>{{ $i + 1 - $lastHousingCount }}
+                                                                                                            <br>{{ $i + 1 + $lastHousingCount }}
 
 
                                                                                                         </p>
@@ -994,9 +995,9 @@
                                                                                                             class="first-btn payment-plan-button"
                                                                                                             project-id="{{ $project->id }}"
                                                                                                             data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                                                            order="{{ $i }}">
+                                                                                                            order="{{ $i+1 }}">
                                                                                                             Ödeme
-                                                                                                            Detayları
+                                                                                                            Detayı
                                                                                                         </button>
 
                                                                                                         @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
@@ -1111,7 +1112,7 @@
                                                                                 </div>
             
                                                                                 <span class="mobileNoStyle">
-                                                                                    No {{ $i + 1 - $lastHousingCount }}
+                                                                                    No {{ $i + 1 + $lastHousingCount }}
                                                                                 </span>
                                                                             </div>
                                                                         </a>
@@ -1138,11 +1139,11 @@
                                                                                     class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
                                                                                     data-type='project'
                                                                                     data-project='{{ $project->id }}'
-                                                                                    data-id='{{ $i + 1 }}'>
+                                                                                    data-id='{{ $i + 1 + $lastHousingCount}}'>
                                                                                     <i class="fa fa-bookmark-o"></i>
                                                                                 </span>
                                                                                 <span class="btn toggle-project-favorite bg-white"
-                                                                                    data-project-housing-id="{{ $i + 1 }}"
+                                                                                    data-project-housing-id="{{ $i + 1 +$lastHousingCount }}"
                                                                                     style="color: white;"
                                                                                     data-project-id="{{ $project->id }}">
                                                                                     <i class="fa fa-heart-o"></i>
@@ -1223,7 +1224,7 @@
                                                                                                 class="CartBtn second-btn mobileCBtn "
                                                                                                 data-type='project'
                                                                                                 data-project='{{ $project->id }}'
-                                                                                                data-id='{{ $i + 1 }}'>
+                                                                                                data-id='{{ $i + 1 +$lastHousingCount }}'>
                                                                                                 <span class="IconContainer">
                                                                                                     <img src="{{ asset('sc.png') }}"
                                                                                                         alt="">
@@ -1243,14 +1244,14 @@
                                                                                     <button class="btn  payment-plan-mobile-btn mobileCBtn"
                                                                                         project-id="{{ $project->id }}"
                                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                                        order="{{ $i }}">
+                                                                                        order="{{ $i+1 + $lastHousingCount }}">
                                                                                         Ödeme Detayı
                                                                                     </button>
                                                                                 @else
                                                                                     <button class="btn  payment-plan-mobile-btn mobileCBtn"
                                                                                         project-id="{{ $project->id }}"
                                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                                        order="{{ $i }}">
+                                                                                        order="{{ $i+1 + $lastHousingCount}}">
                                                                                         Ödeme Detayı
             
                                                                                     </button>
@@ -1597,8 +1598,8 @@
                                                                                 class="first-btn payment-plan-button"
                                                                                 project-id="{{ $project->id }}"
                                                                                 data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                                order="{{ $i }}">
-                                                                                Ödeme Detayları
+                                                                                order="{{ $i +1 }}">
+                                                                                Ödeme Detayı
                                                                             </button>
 
                                                                             @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
@@ -1688,7 +1689,7 @@
                                                                 </div>
 
                                                                 <span class="mobileNoStyle">
-                                                                    No {{ $i + 1 - $lastHousingCount }}
+                                                                    No {{ $i + 1 + $lastHousingCount }}
                                                                 </span>
                                                             </div>
                                                         </a>
@@ -1820,14 +1821,14 @@
                                                                     <button class="btn   payment-plan-button payment-plan-mobile-btn mobileCBtn"
                                                                         project-id="{{ $project->id }}"
                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                        order="{{ $i }}">
+                                                                        order="{{ $i +1 }}">
                                                                         Ödeme Detayı
                                                                     </button>
                                                                 @else
                                                                     <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
                                                                         project-id="{{ $project->id }}"
                                                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                                                        order="{{ $i }}">
+                                                                        order="{{ $i+1 }}">
                                                                         Ödeme Detayı
 
                                                                     </button>
@@ -2513,7 +2514,7 @@ out center;`;
             var endIndex = 10;
             if ($('#contentblock-' + tabName).find('.ajax-list').children('div').length == 0) {
                 $.ajax({
-                    url: "{{ route('project.get.housings.by.start.and.end', [$project->id, $housingOrder]) }}?start=0&end=10&block_index=" +
+                    url: "{{ route('project.get.housings.by.start.and.end', [$project->id, 1]) }}?start=0&end=10&block_index=" +
                         blockIndex,
                 }).done(function(response) {
                     isLoading = false;
@@ -2542,8 +2543,8 @@ out center;`;
                                                 <div class="d-flex" style="height: 100%;">
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                            No <br>${startIndex+1+i}
-                                                            
+                                                            No
+                                                            <br>${startIndex+1+i+lastBlockHousingCount}
                                                         </p>
                                                     </div>
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
@@ -2551,21 +2552,21 @@ out center;`;
 
                                                             <div class="button-effect-div">
                                                                 <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
-    data-type='project'
-    data-project='{{ $project->id }}'
-    data-id='${startIndex+1+i+lastBlockHousingCount}'>
-    <i class="fa fa-bookmark-o"></i>
-</span>
+                                                        data-type='project'
+                                                        data-project='{{ $project->id }}'
+                                                        data-id='${startIndex+1+i+lastBlockHousingCount}'>
+                                                        <i class="fa fa-bookmark-o"></i>
+                                                    </span>
                                                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
                                                                     <i class="fa fa-heart-o"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover">`
-                        var checkOfferX = checkOffer(response.offers, startIndex + 1 + i + lastBlockHousingCount);
-                        if (checkOfferX) {
-                            var newPercent = Math.round((checkOfferX['discount_amount'] / res[i]["price[]"]) * 100);
-                            html += `
+                                                                    <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover;width:100%">`
+                                                                    var checkOfferX = checkOffer(response.offers, startIndex + 1 + i + lastBlockHousingCount);
+                                                                    if (checkOfferX) {
+                                                                        var newPercent = Math.round((checkOfferX['discount_amount'] / res[i]["price[]"]) * 100);
+                                                                        html += `
                                                                     <div style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                         <div style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
                                                                             % ${newPercent}
@@ -2588,18 +2589,18 @@ out center;`;
                                                                             </svg>
                                                                         </div>
                                                                     </div>`
-                        }
-                        html += `</div>
+                                                            }
+                                                            html += `</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position" 
+                                            <div class="row align-items-center justify-content-between mobile-position"
                                             style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
 
-                                                <div class="col-md-8">
+                                                <div class="col-md-9">
                                                     <div class="homes-list-div">
                                                         <ul class="homes-list clearfix pb-3 d-flex">
                                                             
@@ -2724,8 +2725,8 @@ out center;`;
                                                         <button class="first-btn payment-plan-button" 
                                                         project-id="{{ $project->id }}"
                                                         data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
-                                                        order="${startIndex+i+lastBlockHousingCount}">
-                                                            Ödeme Detayları
+                                                        order="${startIndex+i+lastBlockHousingCount+1}">
+                                                            Ödeme Detayı
                                                         </button>`
                         if (res[i]['off_sale[]'] != "[]") {
                             html += `<button
@@ -2744,7 +2745,7 @@ out center;`;
                                                                     }
                                                                 </button>`
                             } else {
-                                html += `<button class="CartBtn second-btn mobileCBtn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
+                                html += `<button class="CartBtn second-btn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
                                                                     <span
                                                                         class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}"
@@ -2771,7 +2772,6 @@ out center;`;
                 });
             }
         }
-
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {
@@ -2832,7 +2832,7 @@ out center;`;
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                             No
-                                                            <br>${startIndex+1+i}
+                                                            <br>${startIndex+1+i+lastBlockHousingCount}
                                                         </p>
                                                     </div>
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
@@ -3016,8 +3016,8 @@ out center;`;
                                                         <button class="first-btn payment-plan-button" 
                                                         project-id="{{ $project->id }}"
                                                         data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
-                                                        order="${startIndex+i+lastBlockHousingCount}">
-                                                            Ödeme Detayları
+                                                        order="${startIndex+i+1+lastBlockHousingCount}">
+                                                            Ödeme Detayı
                                                         </button>`
                             if (res[i]['off_sale[]'] != "[]") {
                                 html += `<button
