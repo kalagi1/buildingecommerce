@@ -388,7 +388,7 @@
                     </div>
                 </div> --}}
                 <ul class="navbar-nav navbar-nav-icons flex-row">
-                    @if (Auth::check() && Auth::user()->type == "2")
+                    @if (Auth::check() && Auth::user()->type != "1" && Auth::user()->type != "3")
                     <li class="nav-item" style="margin-right:10px">
                         <a href="{{ url('institutional/ilan-tipi-sec') }}">
                             <button type="button" class="buyUserRequest">
