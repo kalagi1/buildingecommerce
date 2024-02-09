@@ -323,6 +323,7 @@ class ProjectController extends Controller
         $activeProjects = [];
         $inactiveProjects = [];
         $pendingProjects = [];
+        $disabledProjects = [];
 
     
         $projects = $projects->map(function ($project) use (&$offSaleCount, &$activeProjects, &$inactiveProjects,&$pendingProjects) {
@@ -332,7 +333,8 @@ class ProjectController extends Controller
                 $activeProjects[] = $project;
             }elseif($project->status == 2){
                 $pendingProjects[] = $project;
-
+            }elseif($project->status == 3){
+                $disabledProjects[] = $project;
             }else{
                 $inactiveProjects[] = $project;
             }

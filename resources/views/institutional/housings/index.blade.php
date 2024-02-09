@@ -12,6 +12,9 @@
                     <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="disabledProjects-tab" data-bs-toggle="tab" href="#disabledProjects">Reddedilen İlanlar</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="inactive-tab" data-bs-toggle="tab" href="#inactive">Pasif İlanlar</a>
                 </li>
               
@@ -29,7 +32,15 @@
                     <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-inactive',
-                        'housingTypes' => $inactiveHousingTypes,
+                        'housingTypes' => $pendingHousingTypes,
+                    ])
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="disabled">
+                    <div class="table-responsive">
+                    @include('institutional.housings.housing_table', [
+                        'tableId' => 'bulk-select-body-inactive',
+                        'housingTypes' => $disabledProjects,
                     ])
                     </div>
                 </div>
@@ -37,7 +48,7 @@
                     <div class="table-responsive">
                     @include('institutional.housings.housing_table', [
                         'tableId' => 'bulk-select-body-pendingHousingTypes',
-                        'housingTypes' => $pendingHousingTypes,
+                        'housingTypes' => $inactiveProjects,
                     ])
                     </div>
                 </div>
@@ -54,6 +65,8 @@
         var activeHousingTypes = @json($activeHousingTypes);
         var inactiveHousingTypes = @json($inactiveHousingTypes);
         var pendingHousingTypes = @json($pendingHousingTypes);
+        var disabledProjects = @json($disabledProjects);
+
 
 
         function createTable(tbody, housingTypes) {
@@ -191,6 +204,8 @@
         createTable(document.getElementById("bulk-select-body-active"), activeHousingTypes);
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
+        createTable(document.getElementById("bulk-select-body-disabledProjects"), disabledProjects);
+
 
 
         // Handle tab switching
