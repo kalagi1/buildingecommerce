@@ -114,26 +114,24 @@
                                                 <span>Satıcı: {{ $project->user->email ?? $housing->user->email }}</span>
                                             </td>
                                             <td class="order_details">
-                                                @if ($order->status == 0 || $order->status == 2)
-                                                    <a onclick="return confirm('İlan satışını onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                                        class="badge badge-phoenix fs--2 badge-phoenix-success">İlan
-                                                        Satışını Onayla</a>
+                                                @if ($order->status == 0)
+                                                    <a onclick="return confirm('İlan satışını onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-success">İlan Satışını Onayla</a>
+                                                    <a onclick="return confirm('İlan satışını reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-danger">İlan Satışını Reddet</a>
+                                                @elseif($order->status == 2)
+                                                    <a onclick="return confirm('İlan satışını onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-success">İlan Satışını Onayla</a>
                                                 @else
-                                                    <a onclick="return confirm('İlan satışını reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                                        class="badge badge-phoenix fs--2 badge-phoenix-danger">İlan Satışını
-                                                        Reddet</a>
+                                                    <a onclick="return confirm('İlan satışını reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-danger">İlan Satışını Reddet</a>
                                                 @endif
 
                                                 @if (isset($order->share))
                                                     <br>
-                                                    @if ($order->share->status == 0 || $order->share->status == 2)
-                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri
-                                                            Onayla</a>
+                                                    @if ($order->share->status == 0)
+                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri Onayla</a>
+                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri Reddet</a>
+                                                    @elseif($order->share->status == 2)
+                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri Onayla</a>
                                                     @else
-                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri
-                                                            Reddet</a>
+                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}" class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri Reddet</a>
                                                     @endif
                                                     <br>
                                                 @endif
