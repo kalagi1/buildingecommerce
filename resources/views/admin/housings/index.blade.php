@@ -7,11 +7,12 @@
         <div class="card shadow-none border border-300 my-4">
             <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
                 <li class="nav-item">
-                    <a class="nav-link active" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
+                    <a class="nav-link active" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
+                    <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
                 </li>
+             
                 <li class="nav-item">
                     <a class="nav-link" id="disabledHousingTypes-tab" data-bs-toggle="tab" href="#disabledHousingTypes">Reddedilen İlanlar</a>
                 </li>
@@ -23,10 +24,10 @@
                 </li>
             </ul>
             <div class="tab-content px-4 pb-4">
-                <div class="tab-pane fade show active" id="active">
+                <div class="tab-pane fade " id="active">
                     @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-active', 'housingTypes' => $activeHousingTypes])
                 </div>
-                <div class="tab-pane fade" id="pendingHousingTypes">
+                <div class="tab-pane fade show active" id="pendingHousingTypes">
                     @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-pendingHousingTypes', 'housingTypes' => $pendingHousingTypes])
                 </div>
                 <div class="tab-pane fade" id="disabledHousingTypes">
@@ -128,7 +129,7 @@
 
 
         // Handle tab switching
-        var housingTabs = new bootstrap.Tab(document.getElementById('active-tab'));
+        var housingTabs = new bootstrap.Tab(document.getElementById('pendingHousingTypes-tab'));
         housingTabs.show();
     </script>
 
