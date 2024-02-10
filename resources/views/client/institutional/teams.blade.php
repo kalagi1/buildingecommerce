@@ -104,7 +104,7 @@
                             <div class="homes">
                                 <!-- homes img -->
                                 <div class="homes-img">
-                                    <img src="https://code-theme.com/html/findhouses/images/team/a-2.png" alt="home-1" class="img-responsive">
+                                    <img src="{{asset($item->profile_image)}}" alt="{{$item->name}}" class="img-responsive">
                                 </div>
                             </div>
                         </div>
