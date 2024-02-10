@@ -104,8 +104,17 @@
                             <div class="homes">
                                 <!-- homes img -->
                                 <div class="homes-img">
-                                    <img src="{{asset('storage/profile_images/'. $item->profile_image)}}" alt="{{$item->name}}"
-                                    style="object-fit: contain !important;" class="img-responsive">
+                                    @if ($item->profile_image == 'indir.png')
+                                        @php
+                                            $nameInitials = collect(explode(' ', $item->name))->map(function($word) {
+                                                return strtoupper(substr($word, 0, 1));
+                                            })->implode('');
+                                        @endphp
+                                        <div class="profile-initial">{{ $nameInitials }}</div>
+                                    @else
+                                        <img src="{{ asset('storage/profile_images/' . $item->profile_image) }}" alt="{{ $item->name }}"
+                                            style="object-fit: contain !important;" class="img-responsive">
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -114,16 +123,17 @@
                             <!-- homes address -->
                             <div class="the-agents p-2 w-100">
                                 <ul class="the-agents-details mt-0 text-center w-100">
-                                    <li>{{$item->name}}</li>
-                                    <li>{{$item->role->name}}</li>
-                                    <li>Referans Kodu: {{$item->code}}</li>
-
+                                    <li>{{ $item->name }}</li>
+                                    <li>{{ $item->role->name }}</li>
+                                    <li>Referans Kodu: {{ $item->code }}</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                @endforeach
+            @endforeach
+            
+            
              
             </div>
             </div>
@@ -138,4 +148,12 @@
 @endsection
 
 @section('styles')
+
+<style>
+    .profile-initial{
+        font-size: 50px;
+        color: #e54242 ;
+        padding: 5px
+    }
+</style>
 @endsection
