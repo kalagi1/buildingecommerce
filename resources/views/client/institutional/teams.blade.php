@@ -106,14 +106,16 @@
                                     <!-- homes img -->
                                     <div class="homes-img">
                                         @if ($item->profile_image == 'indir.png')
-                                            @php
-                                                $nameInitials = collect(explode(' ', $item->name))
-                                                    ->map(function ($word) {
-                                                        return strtoupper(substr($word, 0, 1));
-                                                    })
-                                                    ->implode('');
-                                            @endphp
-                                            <div class="profile-initial">{{ $nameInitials }}</div>
+                                        @php
+                                        $nameInitials = collect(preg_split('/\s+/', $item->name))
+                                            ->map(function ($word) {
+                                                return mb_strtoupper(mb_substr($word, 0, 1));
+                                            })
+                                            ->implode('');
+                                    @endphp
+                                    
+                                    <div class="profile-initial">{{ $nameInitials }}</div>
+                                    
                                         @else
                                             <img src="{{ asset('storage/profile_images/' . $item->profile_image) }}"
                                                 alt="{{ $item->name }}" style="object-fit: contain !important;"
