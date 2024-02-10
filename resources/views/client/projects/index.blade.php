@@ -723,7 +723,7 @@
 
                                                                                                                 <span
                                                                                                                     class="btn 
-                                                                                                            @if (($sold && $sold->status == '1') || isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                                                            @if (($sold && $sold->status == '1') || isset($projectHousingsList[$i + 1]) && isset( $projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
                                                                                                                     data-type='project'
                                                                                                                     data-project='{{ $project->id }}'
                                                                                                                     data-id='{{ $i + 1 }}'>
