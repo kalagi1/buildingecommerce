@@ -116,10 +116,10 @@ return $a;
                         <a class="navbar-item " href="{{ route('instituional.dashboard',  ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Anasayfa</a>
                         <a class="navbar-item" href="{{ route('instituional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Mağaza
                             Profili</a>
-                        <a class="navbar-item" href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
+                        <a class="navbar-item" href="{{ route('instituional.projects.detail', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Proje
                             İlanları</a>
 
-                        <a class="navbar-item active" href="{{ route('instituional.housings', Str::slug($store->name)) }}">Emlak İlanları</a>
+                        <a class="navbar-item active" href="{{ route('instituional.housings', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Emlak İlanları</a>
                         <a class="navbar-item"
                         href="{{ route('instituional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
                     </div>

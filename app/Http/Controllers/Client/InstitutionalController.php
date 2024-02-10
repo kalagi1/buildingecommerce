@@ -243,13 +243,9 @@ class InstitutionalController extends Controller
         return view("client.institutional.teams", compact("teams","institutional"));
     }
 
-    public function projectDetails($slug)
+    public function projectDetails($slug, $userID)
     {
-        $users = User::all();
-        foreach ($users as $institutional) {
-            $slugName = Str::slug($institutional->name);
-            if ($slugName === $slug) {
-                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'brands')->first();
+                $institutional = User::where("id", $userID)->with('projects.housings', 'housings', 'city', 'brands')->first();
                 
                 $pageInfo = [
                     "meta_title" => $institutional->name." Proje İlanları",
@@ -261,8 +257,7 @@ class InstitutionalController extends Controller
                 $pageInfo = json_encode($pageInfo);
                 $pageInfo = json_decode($pageInfo);
                 return view("client.institutional.project-detail", compact("institutional","pageInfo"));
-            }
-        }
+          
     }
 
     public function search(Request $request)

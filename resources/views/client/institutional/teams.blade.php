@@ -60,10 +60,10 @@
                                 href="{{ route('instituional.profile',["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item "
-                                href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
+                                href="{{ route('instituional.projects.detail', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Proje
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
+                                href="{{ route('instituional.housings', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Emlak
                                 İlanları</a>
                                 <a class="navbar-item active"
                                 href="{{ route('instituional.teams', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Ekibimiz</a>

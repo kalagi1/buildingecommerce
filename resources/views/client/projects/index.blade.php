@@ -102,10 +102,10 @@
                                 href="{{ route('instituional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
+                                href="{{ route('instituional.projects.detail', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Proje
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.housings', Str::slug($project->user->name)) }}">Emlak
+                                href="{{ route('instituional.housings',["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Emlak
                                 İlanları</a>
                                 <a class="navbar-item"
                                 href="{{ route('instituional.teams', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Ekip</a>

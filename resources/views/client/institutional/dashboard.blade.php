@@ -112,10 +112,10 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Mağaza Profili</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
+                                href="{{ route('instituional.projects.detail', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Proje
                                 İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('instituional.housings', Str::slug($store->name)) }}">Emlak İlanları</a>
+                                href="{{ route('instituional.housings',["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Emlak İlanları</a>
                                 <a class="navbar-item"
                                 href="{{ route('instituional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
                             
