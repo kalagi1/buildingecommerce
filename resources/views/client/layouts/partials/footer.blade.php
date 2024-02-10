@@ -48,7 +48,7 @@
     <div class="second-footer bg-white-3">
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 16px;">
-                <span>2023 © Copyright - All Rights Reserved. @innovaticacode</span>
+                <span>2023 © Copyright - All Rights Reserved. @kodturk</span>
 
             </p>
             <ul class="netsocials">
