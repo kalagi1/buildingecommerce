@@ -114,8 +114,11 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
                                 İlanları</a>
-                            <a class="navbar-item"
+                                <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($store->name)) }}">Emlak İlanları</a>
+                                <a class="navbar-item"
+                                href="{{ route('instituional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
+                            
                         </div>
                         <div class="search-form">
                             <input class="search-input" type="text" placeholder="Mağazada Ara" id="search-project"

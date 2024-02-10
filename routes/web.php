@@ -130,6 +130,8 @@ Route::get('/emlak-kulup/{slug}', [ClubController::class, "dashboard"])->name('c
 Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
 Route::get('/magaza/{slug}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('instituional.housings');
+Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('instituional.teams');
+
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
 Route::get('/get-counties/{city}', [CountyController::class, "getCounties"])->name("getCounties");

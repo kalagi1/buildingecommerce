@@ -120,6 +120,8 @@ return $a;
                             İlanları</a>
 
                         <a class="navbar-item active" href="{{ route('instituional.housings', Str::slug($store->name)) }}">Emlak İlanları</a>
+                        <a class="navbar-item"
+                        href="{{ route('instituional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
                     </div>
                     <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                         @csrf

@@ -20947,6 +20947,10 @@ body.dashboard-bd {
     color: #18ba60;
 }
 
+.homes-content {
+    -webkit-box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+}
 .my-properties {
     background: #FFFFFF;
     -webkit-box-shadow: 0 0 20px rgba(38, 38, 38, 0.2);

@@ -59,14 +59,15 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
                                 Profili</a>
-                            <a class="navbar-item active"
+                            <a class="navbar-item "
                                 href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje
                                 İlanları</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($institutional->name)) }}">Emlak
                                 İlanları</a>
-                                <a class="navbar-item"
-                                href="{{ route('instituional.teams', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Ekip</a>
+                                <a class="navbar-item active"
+                                href="{{ route('instituional.teams', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Ekibimiz</a>
+                            
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf
@@ -93,114 +94,47 @@
         </div>
     </div>
 
-
-
-
-    <section class="featured portfolio rec-pro disc bg-white">
+    <section class="properties-right featured portfolio blog pt-5 bg-white">
         <div class="container">
-            @if (count($institutional->projects))
-                <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
-                            @foreach ($institutional->projects as $project)
-                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                                    data-aos-delay="150">
-                                    <div class="small-category-2">
-                                        <div class="small-category-2-thumb img-1">
-                                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                                    alt=""></a>
-                                        </div>
-                                        <div class=" sc-2-detail">
-                                            <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
-                                            </h4>
-                                            <span>{{ $project->city->title }}
-                                                /
-                                                {{ $project->county->ilce_title }}
-                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mobile-hidden">
-                    @if (count($institutional->projects))
-                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots finish-projects-web">
-                                    @foreach ($institutional->projects as $project)
-                                        <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin"
-                                            data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                                data-aos="zoom-in" data-aos-delay="150">
-                                                <div class="listing-item compact" style="height:100%">
-                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
-                                                        class="listing-img-container">
-                                                        <img class="project_brand_profile_image"
-                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                            alt="">
-                                                        <div class="listing-img-content"
-                                                            style="padding-left:10px;text-transform:uppercase;">
-                                                            <span
-                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                                        /
-                                                                        {{ $project->county->ilce_title }}
-                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                                        </div>
-                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                            alt="" style="height:100%;object-fit:contain">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+            <div class="row">
+                @foreach ($teams as $item)
+                <div class="item col-lg-3 col-md-3 col-xs-12 landscapes sale">
+                    <div class="project-single">
+                        <div class="project-inner project-head">
+                            <div class="homes">
+                                <!-- homes img -->
+                                <div class="homes-img">
+                                    <img src="https://code-theme.com/html/findhouses/images/team/a-2.png" alt="home-1" class="img-responsive">
                                 </div>
                             </div>
                         </div>
-                    @else
-                        <p>Henüz İlan Yayınlanmadı</p>
-                    @endif
-                </div>
-            @else
-                <div class="section-title">
-                    <h2>Proje İlanları</h2> 
-                </div>
-                <p>Henüz Proje Yayınlanmadı</p>
-            @endif
+                        <!-- homes content -->
+                        <div class="homes-content">
+                            <!-- homes address -->
+                            <div class="the-agents p-2 w-100">
+                                <ul class="the-agents-details mt-0 text-center w-100">
+                                    <li><a href="#">{{$item->name}}</a></li>
+                                    <li><a href="#">{{$item->role->name}}</a></li>
+                                    <li><a href="#">Referans Kodu: {{$item->code}}</a></li>
 
-        </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+             
+            </div>
+            </div>
+        
     </section>
-
 
 
 
 @endsection
 
 @section('scripts')
-    <script>
-        'use strict';
-        $('#search-project').on('input', function() {
-            let val = $(this).val();
-            $('.project-item').each(function() {
-                if ($(this).data('title').toLowerCase().search(val) == -1)
-                    $(this).addClass('d-none');
-                else
-                    $(this).removeClass('d-none');
-            });
-        });
-    </script>
 @endsection
 
 @section('styles')
-    <style>
-        .projectMobileMargin {
-            margin-bottom: 20px !important;
-        }
-    </style>
 @endsection

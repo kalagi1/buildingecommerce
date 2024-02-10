@@ -124,6 +124,8 @@
                             <a class="navbar-item"
                                 href="{{ route('instituional.housings', Str::slug($brand->user->name)) }}">Emlak
                                 İlanları</a>
+                                <a class="navbar-item"
+                                href="{{ route('instituional.teams', ["slug" => Str::slug($brand->user->name), "userID" => $brand->user->id]) }}">Ekip</a>
                         </div>
                         <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
                             @csrf

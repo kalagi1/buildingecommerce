@@ -251,6 +251,14 @@ class InstitutionalController extends Controller
         }
     }
 
+    public function teams($slug, $userID)
+    {
+
+        $institutional = User::where("id", $userID)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
+        $teams = User::with("role")->where("parent_id", $institutional->id)->get();
+        return view("client.institutional.teams", compact("teams","institutional"));
+    }
+
     public function projectDetails($slug)
     {
         $users = User::all();
