@@ -761,7 +761,7 @@
                                                                                                 data-aos="fade-up">
 
                                                                                                 <div class="row align-items-center justify-content-between mobile-position"
-                                                                                                    @if (($sold && $sold->status != '2') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
+                                                                                                    @if (($sold && $sold->status != '2') || isset($projectHousingsList[$i + 1])  && isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                                                                                                     <div class="col-md-8">
 
                                                                                                         <div
