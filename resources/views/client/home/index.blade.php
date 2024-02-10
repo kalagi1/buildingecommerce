@@ -1437,6 +1437,14 @@
 
 @section('styles')
     <style>
-
+ .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            padding: 5px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 @endsection
