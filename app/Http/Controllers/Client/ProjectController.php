@@ -655,13 +655,17 @@ class ProjectController extends Controller
 
         $parent = HousingTypeParent::where("slug",$project->step1_slug)->first();
 
-        
-        $pageInfo = [
-            "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]']) ? $projectHousingsList[$housingOrder]['advertise_title[]'] : "",
-            "meta_keywords" => isset($project->project_title, $project->city->title) ? $project->project_title."Proje,Proje Detay,".$project->city->title : "",
-            "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]']) ? $projectHousingsList[$housingOrder]['advertise_title[]'] : "",
-            "meta_author" => "Emlak Sepette",
-        ];
+        $pageInfo = [];
+
+        if (isset($projectHousingsList[$housingOrder])) {
+            $pageInfo = [
+                "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]']) ? $projectHousingsList[$housingOrder]['advertise_title[]'] : "",
+                "meta_keywords" => isset($project->project_title, $project->city->title) ? $project->project_title."Proje,Proje Detay,".$project->city->title : "",
+                "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]']) ? $projectHousingsList[$housingOrder]['advertise_title[]'] : "",
+                "meta_author" => "Emlak Sepette",
+            ];
+        }
+      
         
         $pageInfoJson = json_encode($pageInfo);
         
