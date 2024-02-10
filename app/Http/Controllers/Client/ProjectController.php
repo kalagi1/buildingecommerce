@@ -657,14 +657,20 @@ class ProjectController extends Controller
 
         
         $pageInfo = [
-            "meta_title" => $projectHousingsList[$housingOrder]['advertise_title[]'],
-            "meta_keywords" => $project->project_title."Proje,Proje Detay,".$project->city->title,
-            "meta_description" => $projectHousingsList[$housingOrder]['advertise_title[]'],
+            "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]']) ? $projectHousingsList[$housingOrder]['advertise_title[]'] : "",
+            "meta_keywords" => isset($project->project_title, $project->city->title) ? $project->project_title."Proje,Proje Detay,".$project->city->title : "",
+            "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]']) ? $projectHousingsList[$housingOrder]['advertise_title[]'] : "",
             "meta_author" => "Emlak Sepette",
         ];
-
-        $pageInfo = json_encode($pageInfo);
-        $pageInfo = json_decode($pageInfo);
+        
+        $pageInfoJson = json_encode($pageInfo);
+        
+        if ($pageInfoJson === false) {
+            echo "JSON formatına çevirme hatası!";
+        } else {
+            echo $pageInfoJson;
+        }
+        
 
         return view('client.projects.project_housing', compact('pageInfo','projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
