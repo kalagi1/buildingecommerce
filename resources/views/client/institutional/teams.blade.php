@@ -114,9 +114,9 @@
                             <!-- homes address -->
                             <div class="the-agents p-2 w-100">
                                 <ul class="the-agents-details mt-0 text-center w-100">
-                                    <li><a href="#">{{$item->name}}</a></li>
-                                    <li><a href="#">{{$item->role->name}}</a></li>
-                                    <li><a href="#">Referans Kodu: {{$item->code}}</a></li>
+                                    <li>{{$item->name}}</li>
+                                    <li>{{$item->role->name}}</li>
+                                    <li>Referans Kodu: {{$item->code}}</li>
 
                                 </ul>
                             </div>
