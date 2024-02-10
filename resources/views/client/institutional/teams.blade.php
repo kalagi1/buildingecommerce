@@ -104,7 +104,8 @@
                             <div class="homes">
                                 <!-- homes img -->
                                 <div class="homes-img">
-                                    <img src="{{asset('storage/profile_images/'. $item->profile_image)}}" alt="{{$item->name}}" class="img-responsive">
+                                    <img src="{{asset('storage/profile_images/'. $item->profile_image)}}" alt="{{$item->name}}"
+                                    style="object-fit: contain !important;" class="img-responsive">
                                 </div>
                             </div>
                         </div>
