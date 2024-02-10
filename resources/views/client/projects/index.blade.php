@@ -712,7 +712,7 @@
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                                                                                 No
-                                                                                                                <br>{{ $i + 1 + $lastHousingCount }}
+                                                                                                                <br>{{ $i + 1 }}
 
 
                                                                                                             </p>
@@ -1077,7 +1077,7 @@
 
                                                                                         <span class="mobileNoStyle">
                                                                                             No
-                                                                                            {{ $i + 1 + $lastHousingCount }}
+                                                                                            {{ $i + 1 }}
                                                                                         </span>
                                                                                     </div>
                                                                                 </a>
@@ -2016,7 +2016,7 @@
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                             No
-                                                            <br>${1+i+startIndex}
+                                                            <br>${lastBlockHousingCount+1+i+startIndex}
                                                         </p>
                                                     </div>
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
@@ -2448,7 +2448,7 @@
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                             No
-                                                            <br>${1+i+startIndex}
+                                                            <br>${lastBlockHousingCount+1+i+startIndex}
                                                         </p>
                                                     </div>
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
