@@ -1442,7 +1442,7 @@
     color: #e54242;
     background: white;
     padding: 5px;
-    border: 1px solid #e6e6e6;
+    border: 2px solid #e6e6e6;
     width: 50px;
     height: 50px;
     display: flex;
