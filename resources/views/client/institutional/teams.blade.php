@@ -104,7 +104,7 @@
                             <div class="homes">
                                 <!-- homes img -->
                                 <div class="homes-img">
-                                    <img src="{{asset($item->profile_image)}}" alt="{{$item->name}}" class="img-responsive">
+                                    <img src="{{asset('storage/'. $item->profile_image)}}" alt="{{$item->name}}" class="img-responsive">
                                 </div>
                             </div>
                         </div>
