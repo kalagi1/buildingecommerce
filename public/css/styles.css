@@ -20941,6 +20941,10 @@ body.dashboard-bd {
     margin-top: 20px;
 }
 
+#pages a {
+color: #007bff
+ }
+
 .password-section h6 {
     margin-bottom: 10px;
     color: #18ba60;
