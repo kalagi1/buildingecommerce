@@ -76,16 +76,27 @@
                                     </div>
                                     <div class="mt-3">
                                         <label class="q-label">Konum (Lütfen haritadan konumunuzu seçiniz.)</label>
-                                        <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude', $user->latitude) }}">
-                                        <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude', $user->longitude) }}">
+                                        <input type="hidden" name="latitude" id="latitude"
+                                            value="{{ old('latitude', $user->latitude) }}">
+                                        <input type="hidden" name="longitude" id="longitude"
+                                            value="{{ old('longitude', $user->longitude) }}">
                                         <div id="mapContainer" style="height: 350px;"></div>
                                     </div>
                                 @endif
 
 
 
-                                <div class="mt-3">
-                                    <label class="q-label">Mağaza arka plan rengi</label><br>
+                                <div class="mt-3">  
+                                    <label class="q-label">
+                                        @if (Auth::check() && Auth::user()->type == 2)
+                                            Mağaza
+                                        @else
+                                            Profil
+                                        @endif
+
+
+                                        arka plan rengi
+                                    </label><br>
                                     <input type="color" name="banner_hex_code" class="form-control"
                                         value="{{ old('banner_hex_code', $user->banner_hex_code) }}">
                                 </div>
@@ -155,9 +166,9 @@
 
 
             if (userLatitude && userLongitude) {
-            var userLocation = new google.maps.LatLng(userLatitude, userLongitude);
-            placeMarker(userLocation);
-        }
+                var userLocation = new google.maps.LatLng(userLatitude, userLongitude);
+                placeMarker(userLocation);
+            }
         }
 
         window.initMap = initMap;
