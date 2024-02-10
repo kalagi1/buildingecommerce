@@ -232,296 +232,6 @@
         <!-- END SECTION RECENTLY PROPERTIES -->
     @endif
 
-
-    @if (count($finishProjects))
-        <!-- START SECTION RECENTLY PROPERTIES -->
-        <section class="featured portfolio rec-pro disc bg-white">
-            <div class="container">
-                <div class="featured-heads">
-                    <div class="section-title">
-                        <h2>Tamamlanan Projeler</h2>
-                    </div>
-                    <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 11px;">
-                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                            class="w-100">
-                            Tümünü Gör
-                        </button>
-                    </a>
-                </div>
-                @php
-                    if (!function_exists('getHouse')) {
-                        function getHouse($project, $key, $roomOrder)
-                        {
-                            foreach ($project->roomInfo as $room) {
-                                if ($room->room_order == $roomOrder && $room->name == $key) {
-                                    return $room;
-                                }
-                            }
-                        }
-                    }
-                @endphp
-
-                <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
-                            @foreach ($finishProjects as $project)
-                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                                    data-aos-delay="150">
-                                    <div class="small-category-2">
-                                        <div class="small-category-2-thumb img-1">
-                                            <a
-                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="sc-2-detail">
-                                            <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
-                                            </h4>
-                                            <span>{{ $project->city->title }}
-                                                /
-                                                {{ $project->county->ilce_title }}
-                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mobile-hidden">
-                    @if (count($finishProjects))
-                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots finish-projects-web">
-                                    @foreach ($finishProjects as $project)
-                                        <div class="projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
-                                            data-aos-delay="150" style="height:200px">
-                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                                data-aos="zoom-in" data-aos-delay="150">
-                                                <div class="listing-item compact" style="height:100%">
-                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
-                                                        class="listing-img-container">
-                                                        <img class="project_brand_profile_image"
-                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                            alt="">
-                                                        <div class="listing-img-content"
-                                                            style="padding-left:10px;text-transform:uppercase;">
-                                                            <span
-                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                                        /
-                                                                        {{ $project->county->ilce_title }}
-                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                                        </div>
-                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                            alt="" style="height:100%;object-fit:contain">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <p>Henüz İlan Yayınlanmadı</p>
-                    @endif
-                </div>
-
-
-            </div>
-        </section>
-        <!-- END SECTION POPULAR PLACES -->
-    @endif
-
-
-    @if (count($continueProjects))
-
-        <!-- START SECTION RECENTLY PROPERTIES -->
-        <section class="featured portfolio rec-pro disc bg-white">
-            <div class="container">
-                <div class="featured-heads">
-                    <div class="section-title">
-                        <h2>Devam Eden Projeler</h2>
-                    </div>
-                    <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 11px;">
-                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                            class="w-100">
-                            Tümünü Gör
-                        </button>
-                    </a>
-                </div>
-                <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
-                            @foreach ($continueProjects as $project)
-                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                                    data-aos-delay="150">
-                                    <div class="small-category-2">
-                                        <div class="small-category-2-thumb img-1">
-                                            <a
-                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="sc-2-detail">
-                                            <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
-                                            </h4>
-                                            <span>{{ $project->city->title }}
-                                                /
-                                                {{ $project->county->ilce_title }}
-                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mobile-hidden">
-                    @if (count($continueProjects))
-                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots finish-projects-web">
-                                    @foreach ($continueProjects as $project)
-                                        <div class="projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
-                                            data-aos-delay="150" style="height:200px">
-                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                                data-aos="zoom-in" data-aos-delay="150">
-                                                <div class="listing-item compact" style="height:100%">
-                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
-                                                        class="listing-img-container">
-                                                        <img class="project_brand_profile_image"
-                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                            alt="">
-                                                        <div class="listing-img-content"
-                                                            style="padding-left:10px;text-transform:uppercase;">
-                                                            <span
-                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                                        /
-                                                                        {{ $project->county->ilce_title }}
-                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                                        </div>
-                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                            alt="" style="height:100%;object-fit:contain">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <p>Henüz İlan Yayınlanmadı</p>
-                    @endif
-                </div>
-
-            </div>
-        </section>
-        <!-- END SECTION RECENTLY PROPERTIES -->
-    @endif
-
-    @if (count($soilProjects))
-
-
-        <!-- START SECTION RECENTLY PROPERTIES -->
-        <section class="featured portfolio rec-pro disc bg-white">
-            <div class="container">
-                <div class="featured-heads">
-                    <div class="section-title">
-                        <h2>Topraktan Projeler</h2>
-                    </div>
-                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
-                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                            class="w-100">
-                            Tümünü Gör
-                        </button>
-                    </a>
-                </div>
-
-                <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
-                            @foreach ($soilProjects as $project)
-                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                                    data-aos-delay="150">
-                                    <div class="small-category-2">
-                                        <div class="small-category-2-thumb img-1">
-                                            <a
-                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="sc-2-detail">
-                                            <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
-                                            </h4>
-                                            <span>{{ $project->city->title }}
-                                                /
-                                                {{ $project->county->ilce_title }}
-                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mobile-hidden">
-                    @if (count($soilProjects))
-                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots finish-projects-web">
-                                    @foreach ($soilProjects as $project)
-                                        <div class="projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
-                                            data-aos-delay="150" style="height:200px">
-                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                                data-aos="zoom-in" data-aos-delay="150">
-                                                <div class="listing-item compact" style="height:100%">
-                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
-                                                        class="listing-img-container">
-                                                        <img class="project_brand_profile_image"
-                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                            alt="">
-                                                        <div class="listing-img-content"
-                                                            style="padding-left:10px;text-transform:uppercase;">
-                                                            <span
-                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                                        /
-                                                                        {{ $project->county->ilce_title }}
-                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                                        </div>
-                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                            alt="" style="height:100%;object-fit:contain">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <p>Henüz İlan Yayınlanmadı</p>
-                    @endif
-                </div>
-
-            </div>
-        </section>
-        <!-- END SECTION RECENTLY PROPERTIES -->
-    @endif
-
     @if (count($secondhandHousings))
         <!-- START SECTION RECENTLY PROPERTIES -->
         <section class="featured portfolio rec-pro disc bg-white">
@@ -592,8 +302,8 @@
                                                             @if ($sold != null && $sold != '2')
                                                                 <button class="btn mobileCBtn second-btn "
                                                                     @if ($sold == '0') style="background: orange !important;width:100%;color:White"
-                                                            @else 
-                                                            style="background: #EA2B2E !important;width:100%;color:White" @endif>
+                                                        @else 
+                                                        style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                     </span>
@@ -1093,6 +803,297 @@
 
 
 
+    @if (count($finishProjects))
+        <!-- START SECTION RECENTLY PROPERTIES -->
+        <section class="featured portfolio rec-pro disc bg-white">
+            <div class="container">
+                <div class="featured-heads">
+                    <div class="section-title">
+                        <h2>Tamamlanan Projeler</h2>
+                    </div>
+                    <a href="https://emlaksepette.com/kategori/tamamlanan-projeler" style="font-size: 11px;">
+                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
+                            class="w-100">
+                            Tümünü Gör
+                        </button>
+                    </a>
+                </div>
+                @php
+                    if (!function_exists('getHouse')) {
+                        function getHouse($project, $key, $roomOrder)
+                        {
+                            foreach ($project->roomInfo as $room) {
+                                if ($room->room_order == $roomOrder && $room->name == $key) {
+                                    return $room;
+                                }
+                            }
+                        }
+                    }
+                @endphp
+
+                <div class="row mobile-show homepage-9">
+                    <div class="container">
+                        <div class="row">
+                            @foreach ($finishProjects as $project)
+                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                    data-aos-delay="150">
+                                    <div class="small-category-2">
+                                        <div class="small-category-2-thumb img-1">
+                                            <a
+                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
+                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                    alt=""></a>
+                                        </div>
+                                        <div class="sc-2-detail">
+                                            <h4 class="sc-jb-title"><a
+                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
+                                            </h4>
+                                            <span>{{ $project->city->title }}
+                                                /
+                                                {{ $project->county->ilce_title }}
+                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-hidden">
+                    @if (count($finishProjects))
+                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                            <div class="container">
+                                <div class="row project-filter-reverse blog-pots finish-projects-web">
+                                    @foreach ($finishProjects as $project)
+                                        <div class="projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
+                                            data-aos-delay="150" style="height:200px">
+                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
+                                                data-aos="zoom-in" data-aos-delay="150">
+                                                <div class="listing-item compact" style="height:100%">
+                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
+                                                        class="listing-img-container">
+                                                        <img class="project_brand_profile_image"
+                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                                            alt="">
+                                                        <div class="listing-img-content"
+                                                            style="padding-left:10px;text-transform:uppercase;">
+                                                            <span
+                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
+                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                        /
+                                                                        {{ $project->county->ilce_title }}
+                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
+
+                                                        </div>
+                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                                            alt="" style="height:100%;object-fit:contain">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <p>Henüz İlan Yayınlanmadı</p>
+                    @endif
+                </div>
+
+
+            </div>
+        </section>
+        <!-- END SECTION POPULAR PLACES -->
+    @endif
+
+
+    @if (count($continueProjects))
+
+        <!-- START SECTION RECENTLY PROPERTIES -->
+        <section class="featured portfolio rec-pro disc bg-white">
+            <div class="container">
+                <div class="featured-heads">
+                    <div class="section-title">
+                        <h2>Devam Eden Projeler</h2>
+                    </div>
+                    <a href="https://emlaksepette.com/kategori/devam-eden-projeler" style="font-size: 11px;">
+                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
+                            class="w-100">
+                            Tümünü Gör
+                        </button>
+                    </a>
+                </div>
+                <div class="row mobile-show homepage-9">
+                    <div class="container">
+                        <div class="row">
+                            @foreach ($continueProjects as $project)
+                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                    data-aos-delay="150">
+                                    <div class="small-category-2">
+                                        <div class="small-category-2-thumb img-1">
+                                            <a
+                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
+                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                    alt=""></a>
+                                        </div>
+                                        <div class="sc-2-detail">
+                                            <h4 class="sc-jb-title"><a
+                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
+                                            </h4>
+                                            <span>{{ $project->city->title }}
+                                                /
+                                                {{ $project->county->ilce_title }}
+                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-hidden">
+                    @if (count($continueProjects))
+                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                            <div class="container">
+                                <div class="row project-filter-reverse blog-pots finish-projects-web">
+                                    @foreach ($continueProjects as $project)
+                                        <div class="projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
+                                            data-aos-delay="150" style="height:200px">
+                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
+                                                data-aos="zoom-in" data-aos-delay="150">
+                                                <div class="listing-item compact" style="height:100%">
+                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
+                                                        class="listing-img-container">
+                                                        <img class="project_brand_profile_image"
+                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                                            alt="">
+                                                        <div class="listing-img-content"
+                                                            style="padding-left:10px;text-transform:uppercase;">
+                                                            <span
+                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
+                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                        /
+                                                                        {{ $project->county->ilce_title }}
+                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
+
+                                                        </div>
+                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                                            alt="" style="height:100%;object-fit:contain">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <p>Henüz İlan Yayınlanmadı</p>
+                    @endif
+                </div>
+
+            </div>
+        </section>
+        <!-- END SECTION RECENTLY PROPERTIES -->
+    @endif
+
+    @if (count($soilProjects))
+
+
+        <!-- START SECTION RECENTLY PROPERTIES -->
+        <section class="featured portfolio rec-pro disc bg-white">
+            <div class="container">
+                <div class="featured-heads">
+                    <div class="section-title">
+                        <h2>Topraktan Projeler</h2>
+                    </div>
+                    <a href="https://emlaksepette.com/kategori/topraktan-projeler" style="font-size: 11px;">
+                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
+                            class="w-100">
+                            Tümünü Gör
+                        </button>
+                    </a>
+                </div>
+
+                <div class="row mobile-show homepage-9">
+                    <div class="container">
+                        <div class="row">
+                            @foreach ($soilProjects as $project)
+                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
+                                    data-aos-delay="150">
+                                    <div class="small-category-2">
+                                        <div class="small-category-2-thumb img-1">
+                                            <a
+                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
+                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
+                                                    alt=""></a>
+                                        </div>
+                                        <div class="sc-2-detail">
+                                            <h4 class="sc-jb-title"><a
+                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
+                                            </h4>
+                                            <span>{{ $project->city->title }}
+                                                /
+                                                {{ $project->county->ilce_title }}
+                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mobile-hidden">
+                    @if (count($soilProjects))
+                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                            <div class="container">
+                                <div class="row project-filter-reverse blog-pots finish-projects-web">
+                                    @foreach ($soilProjects as $project)
+                                        <div class="projectMobileMargin marginLeftRightZero" data-aos="zoom-in"
+                                            data-aos-delay="150" style="height:200px">
+                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
+                                                data-aos="zoom-in" data-aos-delay="150">
+                                                <div class="listing-item compact" style="height:100%">
+                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
+                                                        class="listing-img-container">
+                                                        <img class="project_brand_profile_image"
+                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
+                                                            alt="">
+                                                        <div class="listing-img-content"
+                                                            style="padding-left:10px;text-transform:uppercase;">
+                                                            <span
+                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
+                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                                        /
+                                                                        {{ $project->county->ilce_title }}
+                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
+
+                                                        </div>
+                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                                            alt="" style="height:100%;object-fit:contain">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <p>Henüz İlan Yayınlanmadı</p>
+                    @endif
+                </div>
+
+            </div>
+        </section>
+        <!-- END SECTION RECENTLY PROPERTIES -->
+    @endif
+
+
+
 
     <!-- START SECTION RECENTLY PROPERTIES -->
     <section class="recently popular-places bg-white homepage-5" style=" margin-bottom: 50px; ">
@@ -1160,37 +1161,36 @@
     @endif --}}
 
     @if (Auth::check() && Auth::user()->has_club == 0)
-    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document"
-            style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
-            <div class="modal-content" style="height: 400px">
-                <div class="modal-header">
-                    <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> 
-                        <i class="fa fa-close"></i>
-                    </button>
+        <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document"
+                style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
+                <div class="modal-content" style="height: 400px">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
 
-                </div>
-                <div class="modal-body p-0">
-                    <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
-                        style="cursor: pointer;width:100%;height:400px;object-fit:cover"
-                        src="{{ asset('popup.jpeg') }}" alt="">
+                    </div>
+                    <div class="modal-body p-0">
+                        <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
+                            style="cursor: pointer;width:100%;height:400px;object-fit:cover"
+                            src="{{ asset('popup.jpeg') }}" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                $('#customModal').modal('show');
-            }, 30000);
-        });
-    </script>
-@endif
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                setTimeout(function() {
+                    $('#customModal').modal('show');
+                }, 30000);
+            });
+        </script>
+    @endif
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
