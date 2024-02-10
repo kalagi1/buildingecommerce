@@ -28,16 +28,16 @@
     },
     {
         "id": "home",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "home",
-        "text": "Anasayfa",
+        "text": "Gösterge Paneli",
         "key": "ViewDashboard",
         "url": "admin.index",
         "activePath": "admin/"
     },
     {
         "id": "home",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "dollar-sign",
         "text": "Muhasabe",
         "key": "ViewAccounting",
@@ -46,7 +46,7 @@
     },
     {
         "id": "projects",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "plus",
         "text": "Proje İlanları",
         "key": "Projects",
@@ -55,7 +55,7 @@
     },
     {
         "id": "housing",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "plus",
         "text": "Emlak İlanları",
         "key": "Housings",
@@ -64,7 +64,7 @@
     },
     {
         "id": "housing",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "plus",
         "text": "Sat Kirala Form Verileri",
         "key": "sellRent",
@@ -73,7 +73,7 @@
     },
     {
         "id": "user",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "user",
         "text": "Üyeler",
         "key": "Users",
@@ -94,9 +94,10 @@
             }
         ]
     },
+    
     {
         "id": "order",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "calendar",
         "text": "Konut Rezervasyonları",
         "key": "GetReservations",
@@ -105,7 +106,7 @@
     },
     {
         "id": "order",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "shopping-bag",
         "text": "Konut Siparişleri",
         "key": "GetOrders",
@@ -114,7 +115,7 @@
     },
     {
         "id": "order",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "shopping-bag",
         "text": "Paket Siparişleri",
         "key": "GetPackageOrders",
@@ -123,7 +124,7 @@
     },
     {
         "id": "order",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "shopping-bag",
         "text": "Doping Siparişleri",
         "key": "DopingOrders",
@@ -132,7 +133,7 @@
     },
     {
         "id": "comment",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "comments",
         "text": "Yorumlar",
         "key": "GetHousingComments",
@@ -141,7 +142,7 @@
     },
     {
         "id": "comment",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "comments",
         "text": "Canlı Destek",
         "key": "GetMessages",
@@ -150,7 +151,7 @@
     },
     {
         "id": "ad-banners",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "ad",
         "text": "Reklam Görselleri",
         "key": "AdBanners",
@@ -260,7 +261,7 @@
     },
     {
         "id": "subscriptionPlans",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "credit-card",
         "text": "Abonelik Planları",
         "key": "SubscriptionPlans",
@@ -315,7 +316,7 @@
     },
     {
         "id": "housing_types",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "info",
         "text": "İlan Form Yönetimi",
         "key": "HousingTypes",
@@ -324,7 +325,7 @@
     },
     {
         "id": "housing_types",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "info",
         "text": "İlan Formları",
         "key": "HousingTypes",
@@ -333,7 +334,7 @@
     },
     {
         "id": "housing_status",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "bar-chart",
         "text": "Konut Tipleri",
         "key": "HousingStatuses",
@@ -378,7 +379,7 @@
     },
     {
         "id": "marketings",
-        "label": "EMLAK SEPETTE",
+        "label": "Yönetim",
         "icon": "shopping-bag",
         "text": "Pazarlama",
         "key": "Marketings",

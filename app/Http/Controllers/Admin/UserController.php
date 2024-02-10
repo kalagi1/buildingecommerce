@@ -9,6 +9,7 @@ use App\Models\EmailTemplate;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Chat;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -85,37 +86,61 @@ class UserController extends Controller
         $roles = Role::where("parent_id", "4")->get();
         return view('admin.users.create', compact("roles"));
     }
+    public function store( Request $request ) {
+        $messages = [
+            'name.required' => 'İsim alanı zorunludur.',
+            'name.string' => 'İsim alanı metin türünde olmalıdır.',
+            'name.max' => 'İsim alanı en fazla 255 karakter olmalıdır.',
+            'email.required' => 'E-posta alanı zorunludur.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
+            'password.required' => 'Şifre alanı zorunludur.',
+            'password.min' => 'Şifre en az 3 karakterden oluşmalıdır.',
+            'type.required' => 'Tip alanı zorunludur.',
+        ];
 
-    public function store(Request $request)
-    {
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:3',
-            'type' => 'required|in:1,2',
+            'type' => 'required',
         ];
 
-        // Form doğrulama işlemini gerçekleştirin
-        $validatedData = $request->validate($rules);
+        $validatedData = $request->validate( $rules, $messages );
+        $mainUser = User::where( 'id', auth()->user()->parent_id ?? auth()->user()->id )->with( 'plan' )->first();
+        $countUser = UserPlan::where( 'user_id', $mainUser->id )->first();
+        $users = User::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
+        $userCount = User::all();
+        $lastUser = User::latest()->first();
 
-        // Yeni kullanıcıyı oluşturun
         $user = new User();
-        $user->name = $validatedData['name'];
-        $user->profile_image = "indir.png";
-        $user->banner_hex_code = "black";
-        $user->email = $validatedData['email'];
-        $user->password = bcrypt($validatedData['password']); // Şifreyi şifreleyin
-        $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active'); // Aktiflik durumunu kontrol edin
+        $user->name = $validatedData[ 'name' ];
+        $user->email = $validatedData[ 'email' ];
+        $user->profile_image = 'indir.png';
+        $user->password = bcrypt( $validatedData[ 'password' ] );
+        // Şifreyi şifreleyin
+        $user->type = $validatedData[ 'type' ];
+        $user->status = $request->has( 'is_active' ) ? 1 : 5;
+        $user->corporate_account_status = 1;
+        $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
+        $user->code = $lastUser->id + auth()->user()->id  + 1000000;
+        $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
-        // Kullanıcıyı veritabanına kaydedin
         $user->save();
 
-        // Başarılı bir işlem sonrası mesajı ayarlayın
-        session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
+        if ( $user->save() ) {
+            $countUser->user_limit = $countUser->user_limit - 1;
+            $countUser->save();
+        }
 
-        // Yönlendirme yapabilirsiniz, örneğin kullanıcıları listeleme sayfasına yönlendirme
-        return redirect()->route('admin.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
+        Chat::create( [
+            'user_id' => $user->id
+        ] );
+
+        session()->flash( 'success', 'Kullanıcı başarıyla oluşturuldu.' );
+
+        return redirect()->route( 'admin.users.index' );
+
     }
 
     public function getTaxDocument(User $user)

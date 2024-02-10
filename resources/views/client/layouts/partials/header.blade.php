@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    @if (isset($pageInfo) )
+    @if (isset($pageInfo))
         <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
         <meta name="description" content="{{ $pageInfo->meta_description }}">
         <meta name="author" content="{{ $pageInfo->meta_author }}">
@@ -425,7 +425,7 @@
                                                 'text' => 'Sepetim',
                                             ])
                                         </a>
-                                    @elseif (auth()->user()->type != 1 && auth()->user()->type != 3 && auth()->user()->type != 21)
+                                    @elseif (auth()->user()->type != 1 && auth()->user()->parent_id != 4 && auth()->user()->type != 3 && auth()->user()->type != 21)
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Mağazam',
                                             'links' => [
@@ -475,15 +475,22 @@
                                                 'text' => 'Sepetim',
                                             ])
                                         </a>
-                                    @elseif (auth()->user()->type == 3)
-                                        <a href="{{ url('admin/') }}"
-                                            style="
-                                        border-right: 1px solid #666;
-                                        padding-right: 15px;">
-                                            @include('client.layouts.partials.user_icon', [
-                                                'text' => 'Admin',
-                                            ])
-                                        </a>
+                                    @elseif (auth()->user()->type == 3 || auth()->user()->parent_id == 4)
+                                    @include('client.layouts.partials.dropdown_user_icon', [
+                                        'mainLink' => 'Yönetim',
+                                        'links' => [
+                                            [
+                                                'url' => route('admin.index'),
+                                                'icon' => 'fa-user',
+                                                'text' => 'Hesabım',
+                                            ],
+                                            [
+                                                'url' => route('client.logout'),
+                                                'icon' => 'fa-sign-out',
+                                                'text' => 'Çıkış Yap',
+                                            ],
+                                        ],
+                                    ])
                                     @endif
                                 @else
                                     <a href="{{ route('client.login') }}" class="userIcon">
