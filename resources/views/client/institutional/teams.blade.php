@@ -111,6 +111,7 @@
                                                     ->map(function ($word) {
                                                         return mb_strtoupper(mb_substr($word, 0, 1));
                                                     })
+                                                    ->take(2)
                                                     ->implode('');
                                             @endphp
 

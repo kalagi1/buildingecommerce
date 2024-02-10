@@ -129,8 +129,7 @@
                                                     <div class="profile-initial">{{ $nameInitials }}</div>
                                                 @else
                                                     <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                        alt="{{ $brand->name }}" style="object-fit: contain !important;"
-                                                        class="img-responsive">
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
                                                 @endif
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
