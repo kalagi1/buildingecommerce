@@ -712,7 +712,7 @@
                                                                                                             <p
                                                                                                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                                                                                 No
-                                                                                                                <br>{{ $i + 1 }}
+                                                                                                                <br>{{ $i + 1 + $lastHousingCount }}
 
 
                                                                                                             </p>
@@ -1077,7 +1077,7 @@
 
                                                                                         <span class="mobileNoStyle">
                                                                                             No
-                                                                                            {{ $i + 1 }}
+                                                                                            {{ $i + 1 + $lastHousingCount }}
                                                                                         </span>
                                                                                     </div>
                                                                                 </a>
@@ -1678,7 +1678,7 @@
                                                                     </div>
 
                                                                     <span class="mobileNoStyle">
-                                                                        No {{ $i + 1  }}
+                                                                        No {{ $i + 1 + $lastHousingCount }}
                                                                     </span>
                                                                 </div>
                                                             </a>
