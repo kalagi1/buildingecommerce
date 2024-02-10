@@ -107,4 +107,5 @@ class Project extends Model {
     public function standOut() {
         return $this->hasOne( StandOutUser::class, 'item_id', 'id' )->where( 'item_type', 1 );
     }
+    
 }

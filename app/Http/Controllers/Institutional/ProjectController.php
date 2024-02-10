@@ -60,6 +60,7 @@ class ProjectController extends Controller
         $project->images = $project->images;
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
 
+        
         return view('institutional.projects.housings', compact('menu', "offer", 'project'));
 
     }

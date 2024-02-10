@@ -35,9 +35,37 @@ class ProjectController extends Controller {
         $disabledProjects = Project::where('status', 3)->orderByDesc('updated_at')->get();
         $pendingProjects = Project::where('status', 2)->orderByDesc('updated_at')->get();
         $deletedProjects = Project::onlyTrashed()->get();
-        
-        return view('admin.projects.index', compact('activeProjects',"disabledProjects",'pendingProjects', 'inactiveProjects', 'deletedProjects','projectStatuses'));
+    
+        // Hesaplamaları yapan bir fonksiyon
+        $calculateOrderCount = function ($projects) {
+            return $projects->map(function ($project) {
+                $orderCount = \App\Models\CartOrder::where('status', '0')
+                    ->whereJsonContains('cart->item->id', $project->id)
+                    ->count();
+    
+                return [
+                    'project' => $project,
+                    'orderCount' => $orderCount,
+                ];
+            });
+        };
+    
+        $activeProjects = $calculateOrderCount($activeProjects)->sortByDesc('orderCount');
+        $inactiveProjects = $calculateOrderCount($inactiveProjects)->sortByDesc('orderCount');
+        $disabledProjects = $calculateOrderCount($disabledProjects)->sortByDesc('orderCount');
+        $pendingProjects = $calculateOrderCount($pendingProjects)->sortByDesc('orderCount');
+        $deletedProjects = $calculateOrderCount($deletedProjects)->sortByDesc('orderCount');
+    
+        return view('admin.projects.index', compact(
+            'activeProjects',
+            'inactiveProjects',
+            'disabledProjects',
+            'pendingProjects',
+            'deletedProjects',
+            'projectStatuses'
+        ));
     }
+    
     
     /**
     * Show the form for creating a new resource.

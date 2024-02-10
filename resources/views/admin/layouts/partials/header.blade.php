@@ -133,6 +133,7 @@
                                     $applicationCount = null;
                                     $pendingHousingTypes = null;
                                     $pendingProjects = null;
+                                    $orderCount = null;
                         
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
@@ -158,7 +159,9 @@
                                             ->count() ?: null;
                                     } elseif ($menuItem['key'] == "Projects") {
                                         $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
-                                    }
+                                    } elseif ($menuItem['key'] == "GetOrders") {
+                                        $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
+                                    };
                                 @endphp
                         
                                 <div class="nav-item-wrapper">
@@ -174,7 +177,9 @@
                                                 {{ $menuItem['text'] }}
                                                 {{ $applicationCount != null ? "($applicationCount)" : null }}
                                                 {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
-                                                {{ $pendingProjects != null ? "(". $pendingProjects->count() .")" : null }}
+                                                {{ $pendingProjects != null &&  $pendingProjects != 0 ? "(". $pendingProjects->count() .")" : null }}
+                                                {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
+
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)

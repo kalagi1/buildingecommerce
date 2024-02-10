@@ -4,18 +4,43 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\Block;
+use Illuminate\Support\Str;
+use App\Models\CartOrder;
 use App\Models\Coupon;
 use App\Models\CouponItem;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Housing;
+use App\Models\HousingType;
+use App\Models\Menu;
+use App\Models\Offer;
 use App\Models\Project;
+use App\Models\ProjectHousing;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
+use Throwable;
 
 class EstateClubController extends Controller {
+    
+    public function orders($project_id) {
+        $menu = Menu::getMenuItems();
+        $project = Project::with("brand", "blocks", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')
+            ->where('id', $project_id)
+            ->firstOrFail();
+    
+            $cartOrders =CartOrder::where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+            ->orderByDesc( 'created_at' )
+            ->get();
+
+    
+        return view('admin.orders.project', compact('cartOrders'));
+    }
+    
+
     public function list() {
         $estateClubUsers = User::with('collections', 'shares')
             ->where('status', 1)
