@@ -1439,9 +1439,10 @@
     <style>
  .profile-initial {
     font-size: 20px;
-    background: #e54242;
-    color: white;
+    color: #e54242;
+    background: white;
     padding: 5px;
+    border: 1px solid #e6e6e6;
     width: 50px;
     height: 50px;
     display: flex;
