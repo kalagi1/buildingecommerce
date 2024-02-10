@@ -698,6 +698,7 @@
                                                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                                                 @endphp
 
+                                                                                @if (isset( $projectHousingsList[$i + 1]))
                                                                                 <div class="col-md-12 col-12">
                                                                                     <div class="project-card mb-3">
                                                                                         <div class="row">
@@ -1008,7 +1009,10 @@
                                                                                         </div>
 
                                                                                     </div>
-                                                                                </div>
+                                                                                </div>  
+                                                                                @endif
+
+                                                                              
                                                                             @endfor
                                                                         @endif
                                                                     </div>
@@ -1052,6 +1056,7 @@
                                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                                     @endphp
+                                                                    @if (isset( $projectHousingsList[$i + 1]))
                                                                     <div class="d-flex" style="flex-wrap: nowrap">
                                                                         <div class="align-items-center d-flex"
                                                                             style="padding-right:0; width: 110px;">
@@ -1304,7 +1309,9 @@
                                                                                                 margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                                         </div>
                                                                     </div>
-                                                                    <hr>
+                                                                    <hr> 
+                                                                    @endif
+                                                                    
                                                                 @endfor
 
                                                             </div>
