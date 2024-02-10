@@ -698,7 +698,6 @@
                                                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                                                 @endphp
 
-                                                                                @if (isset( $projectHousingsList[$i + 1]))
                                                                                 <div class="col-md-12 col-12">
                                                                                     <div class="project-card mb-3">
                                                                                         <div class="row">
@@ -724,7 +723,7 @@
 
                                                                                                                 <span
                                                                                                                     class="btn 
-                                                                                                            @if (($sold && $sold->status == '1') || isset($projectHousingsList[$i + 1]) && isset( $projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                                                                                            @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
                                                                                                                     data-type='project'
                                                                                                                     data-project='{{ $project->id }}'
                                                                                                                     data-id='{{ $i + 1 }}'>
@@ -742,14 +741,11 @@
                                                                                                             <div
                                                                                                                 class="homes position-relative">
                                                                                                                 <!-- homes img -->
-                                                                                                                @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
-                                                                                                                    
-                                                                                                              
                                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
                                                                                                                     style="height: 100px !important;object-fit:cover">
-                                                                                                                    @endif
+
 
                                                                                                             </div>
                                                                                                         </div>
@@ -762,7 +758,7 @@
                                                                                                 data-aos="fade-up">
 
                                                                                                 <div class="row align-items-center justify-content-between mobile-position"
-                                                                                                    @if (($sold && $sold->status != '2') || isset($projectHousingsList[$i + 1])  && isset($projectHousingsList[$i + 1]['off_sale[]']) && $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
+                                                                                                    @if (($sold && $sold->status != '2') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                                                                                                     <div class="col-md-8">
 
                                                                                                         <div
@@ -1009,10 +1005,7 @@
                                                                                         </div>
 
                                                                                     </div>
-                                                                                </div>  
-                                                                                @endif
-
-                                                                              
+                                                                                </div>
                                                                             @endfor
                                                                         @endif
                                                                     </div>
@@ -1056,7 +1049,6 @@
                                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                                     @endphp
-                                                                    @if (isset( $projectHousingsList[$i + 1]))
                                                                     <div class="d-flex" style="flex-wrap: nowrap">
                                                                         <div class="align-items-center d-flex"
                                                                             style="padding-right:0; width: 110px;">
@@ -1067,12 +1059,10 @@
                                                                                         <!-- homes img -->
                                                                                         <div class="homes-img h-100 d-flex align-items-center"
                                                                                             style="width: 100px; height: 128px;">
-                                                                                            @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
                                                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                 alt="{{ $project->housingType->title }}"
                                                                                                 class="img-responsive"
                                                                                                 style="height: 95px !important;">
-                                                                                                @endif
                                                                                         </div>
 
                                                                                         <span class="mobileNoStyle">
@@ -1309,9 +1299,7 @@
                                                                                                 margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
                                                                         </div>
                                                                     </div>
-                                                                    <hr> 
-                                                                    @endif
-                                                                    
+                                                                    <hr>
                                                                 @endfor
 
                                                             </div>
@@ -1345,8 +1333,6 @@
                                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
                                                     @endphp
-
-@if (isset($projectHousingsList[$i + 1]))
 
                                                     <div class="col-md-12 col-12">
                                                         <div class="project-card mb-3">
@@ -1385,12 +1371,10 @@
                                                                                     </div>
                                                                                     <div class="homes position-relative">
                                                                                         <!-- homes img -->
-                                                                                        @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
                                                                                             style="height: 100px !important;object-fit:cover">
-                                                                                            @endif
 
                                                                                     </div>
 
@@ -1639,7 +1623,6 @@
 
                                                         </div>
                                                     </div>
-                                                    @endif
                                                 @endfor
 
                                             </div>
@@ -1662,9 +1645,6 @@
                                                         ->first();
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
-
-@if (isset($projectHousingsList[$i + 1]))
-
                                                 <div class="d-flex" style="flex-wrap: nowrap">
                                                     <div class="align-items-center d-flex"
                                                         style="padding-right:0; width: 110px;">
@@ -1675,12 +1655,10 @@
                                                                     <!-- homes img -->
                                                                     <div class="homes-img h-100 d-flex align-items-center"
                                                                         style="width: 100px; height: 128px;">
-                                                                        @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                             alt="{{ $project->housingType->title }}"
                                                                             class="img-responsive"
                                                                             style="height: 95px !important;">
-                                                                            @endif
                                                                     </div>
 
                                                                     <span class="mobileNoStyle">
@@ -1903,7 +1881,6 @@
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                @endif
                                             @endfor
                                         </div>
 

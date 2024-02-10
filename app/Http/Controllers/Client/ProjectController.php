@@ -664,6 +664,7 @@ class ProjectController extends Controller
         ];
 
         $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
 
         return view('client.projects.project_housing', compact('pageInfo','projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
