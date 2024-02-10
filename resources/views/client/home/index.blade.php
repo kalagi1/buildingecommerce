@@ -122,7 +122,7 @@
                                                             ->map(function ($word) {
                                                                 return mb_strtoupper(mb_substr($word, 0, 1));
                                                             })
-                                                            ->take(3)
+                                                            ->take(1)
                                                             ->implode('');
                                                     @endphp
 
@@ -1438,13 +1438,17 @@
 @section('styles')
     <style>
  .profile-initial {
-            font-size: 20px;
-            color: #e54242;
-            padding: 5px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    font-size: 20px;
+    background: #e54242;
+    color: white;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto;
         }
     </style>
 @endsection
