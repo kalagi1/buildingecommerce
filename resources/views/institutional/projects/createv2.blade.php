@@ -1153,7 +1153,7 @@
                                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                         </div>
                                                         <div class="flex-10">
-                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <label for="">Ara Ödeme </label>
                                                             <input type="text" value="${data2['pay_desc_price'+newOrderx+'0'] ? data2['pay_desc_price'+newOrderx+'0'] : ""}" class="price-only form-control pay-desc-price">
                                                         </div>
                                                         <div class="flex-10">
@@ -1174,7 +1174,7 @@
                                                         <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                     </div>
                                                     <div class="flex-10">
-                                                        <label for="">Ara Ödeme Tutarı</label>
+                                                        <label for="">Ara Ödeme </label>
                                                         <input type="text" value="${data2['pay_desc_price'+newOrderx+i] ? data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
                                                     </div>
                                                     <div class="flex-10">
@@ -1200,7 +1200,7 @@
                                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                         </div>
                                                         <div class="flex-10">
-                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <label for="">Ara Ödeme </label>
                                                             <input type="text" value="" class="price-only form-control pay-desc-price">
                                                         </div>
                                                         <div class="flex-10">
@@ -1415,7 +1415,7 @@
                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                         </div>
                                         <div class="flex-10">
-                                            <label for="">Ara Ödeme Tutarı</label>
+                                            <label for="">Ara Ödeme </label>
                                             <input type="text" value="{{isset($tempData->pay_desc_price10) ? $tempData->pay_desc_price10 : ''}}" class="price-only form-control pay-desc-price">
                                         </div>
                                         <div class="flex-10">
@@ -1437,7 +1437,7 @@
                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                         </div>
                                         <div class="flex-10">
-                                            <label for="">Ara Ödeme Tutarı</label>
+                                            <label for="">Ara Ödeme </label>
                                             <input type="text" value="{{ isset($tempData->{"pay_desc_price1".$i}) ? $tempData->{"pay_desc_price1".$i} : ""  }}" class="price-only pay-desc-price form-control">
                                         </div>
                                         <div class="flex-10">
@@ -1823,7 +1823,7 @@
                                                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                                         </div>
                                                                         <div class="flex-10">
-                                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                                            <label for="">Ara Ödeme </label>
                                                                             <input type="text" value="${data2['pay_desc_price'+newOrderx+'0'] ? data2['pay_desc_price'+newOrderx+'0'] : ""}" class="price-only form-control pay-desc-price">
                                                                         </div>
                                                                         <div class="flex-10">
@@ -1844,7 +1844,7 @@
                                                                         <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                                     </div>
                                                                     <div class="flex-10">
-                                                                        <label for="">Ara Ödeme Tutarı</label>
+                                                                        <label for="">Ara Ödeme </label>
                                                                         <input type="text" value="${data2['pay_desc_price'+newOrderx+i] ? data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
                                                                     </div>
                                                                     <div class="flex-10">
@@ -1870,7 +1870,7 @@
                                                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                                         </div>
                                                                         <div class="flex-10">
-                                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                                            <label for="">Ara Ödeme </label>
                                                                             <input type="text" value="" class="price-only form-control pay-desc-price">
                                                                         </div>
                                                                         <div class="flex-10">
@@ -2409,7 +2409,7 @@
                                                     <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                 </div>
                                                 <div class="flex-10">
-                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <label for="">Ara Ödeme </label>
                                                     <input type="text" value="${data.data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
                                                 </div>
                                                 <div class="flex-10">
@@ -2430,7 +2430,7 @@
                                                 <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                             </div>
                                             <div class="flex-10">
-                                                <label for="">Ara Ödeme Tutarı</label>
+                                                <label for="">Ara Ödeme </label>
                                                 <input type="text" value="${data.data2['pay_desc_price'+newOrderx+i]}" class="price-only pay-desc-price form-control">
                                             </div>
                                             <div class="flex-10">
@@ -2455,7 +2455,7 @@
                                                     <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                 </div>
                                                 <div class="flex-10">
-                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <label for="">Ara Ödeme </label>
                                                     <input type="text" value="" class="price-only form-control pay-desc-price">
                                                 </div>
                                                 <div class="flex-10">
@@ -2645,7 +2645,7 @@
                                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                         </div>
                                                         <div class="flex-10">
-                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <label for="">Ara Ödeme </label>
                                                             <input type="text" value="${data.data2['pay_desc_price'+newOrderx+'0']}" class="price-only form-control pay-desc-price">
                                                         </div>
                                                         <div class="flex-10">
@@ -2666,7 +2666,7 @@
                                                         <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                     </div>
                                                     <div class="flex-10">
-                                                        <label for="">Ara Ödeme Tutarı</label>
+                                                        <label for="">Ara Ödeme </label>
                                                         <input type="text" value="${data.data2['pay_desc_price'+newOrderx+i] ? data.data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
                                                     </div>
                                                     <div class="flex-10">
@@ -2693,7 +2693,7 @@
                                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                         </div>
                                                         <div class="flex-10">
-                                                            <label for="">Ara Ödeme Tutarı</label>
+                                                            <label for="">Ara Ödeme </label>
                                                             <input type="text" value="" class="price-only form-control pay-desc-price">
                                                         </div>
                                                         <div class="flex-10">
@@ -2724,7 +2724,7 @@
                                 <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                             </div>
                             <div class="flex-10">
-                                <label for="">Ara Ödeme Tutarı</label>
+                                <label for="">Ara Ödeme </label>
                                 <input type="text" class="price-only pay-desc-price form-control">
                             </div>
                             <div class="flex-10">
@@ -3631,7 +3631,7 @@
                                                                     <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                                 </div>
                                                                 <div class="flex-10">
-                                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                                    <label for="">Ara Ödeme </label>
                                                                     <input type="text" value="${data2['pay_desc_price'+newOrderx+'0'] ? data2['pay_desc_price'+newOrderx+'0'] : ""}" class="price-only form-control pay-desc-price">
                                                                 </div>
                                                                 <div class="flex-10">
@@ -3652,7 +3652,7 @@
                                                                 <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                             </div>
                                                             <div class="flex-10">
-                                                                <label for="">Ara Ödeme Tutarı</label>
+                                                                <label for="">Ara Ödeme </label>
                                                                 <input type="text" value="${data2['pay_desc_price'+newOrderx+i] ? data2['pay_desc_price'+newOrderx+i] : ""}" class="price-only pay-desc-price form-control">
                                                             </div>
                                                             <div class="flex-10">
@@ -3678,7 +3678,7 @@
                                                                     <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                                 </div>
                                                                 <div class="flex-10">
-                                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                                    <label for="">Ara Ödeme </label>
                                                                     <input type="text" value="" class="price-only form-control pay-desc-price">
                                                                 </div>
                                                                 <div class="flex-10">
@@ -3900,7 +3900,7 @@
                                                     <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                 </div>
                                                 <div class="flex-10">
-                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <label for="">Ara Ödeme </label>
                                                     <input type="text" value="{{isset($tempData->pay_desc_price10) ? $tempData->pay_desc_price10 : ''}}" class="price-only form-control pay-desc-price">
                                                 </div>
                                                 <div class="flex-10">
@@ -3922,7 +3922,7 @@
                                                     <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                                 </div>
                                                 <div class="flex-10">
-                                                    <label for="">Ara Ödeme Tutarı</label>
+                                                    <label for="">Ara Ödeme </label>
                                                     <input type="text" value="{{ isset($tempData->{"pay_desc_price1".$i}) ? $tempData->{"pay_desc_price1".$i} : ""  }}" class="price-only pay-desc-price form-control">
                                                 </div>
                                                 <div class="flex-10">

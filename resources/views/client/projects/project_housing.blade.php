@@ -2309,7 +2309,7 @@ if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l + 1) +
-                                                            ". Ara Ödeme Tutarı:</strong> <br>" : "") +
+                                                            ". Ara Ödeme :</strong> <br>" : "") +
                                                         formatPrice(parseFloat(getDataJS(response,
                                                             "pay_desc_price" + (orderHousing +
                                                                 1) + l, response.room_info[i]

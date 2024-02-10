@@ -782,7 +782,7 @@
                                                 <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                             </div>
                                             <div class="flex-10">
-                                                <label for="">Ara Ödeme Tutarı</label>
+                                                <label for="">Ara Ödeme </label>
                                                 <input type="text" name="pay-dec-price[]" value="${getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}0") ? priceFormat(getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}0")) : ""}" class="price-only form-control pay-desc-price">
                                             </div>
                                             <div class="flex-10">
@@ -805,7 +805,7 @@
                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                         </div>
                                         <div class="flex-10">
-                                            <label for="">Ara Ödeme Tutarı</label>
+                                            <label for="">Ara Ödeme </label>
                                             <input type="text" name="pay-dec-price[]" value="${getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}"+i) ? priceFormat(getOldData({{$roomOrder}}, "pay_desc_price{{$roomOrder}}"+i)) : ""}" class="price-only pay-desc-price form-control">
                                         </div>
                                         <div class="flex-10">
@@ -826,7 +826,7 @@
                                             <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
                                         </div>
                                         <div class="flex-10">
-                                            <label for="">Ara Ödeme Tutarı</label>
+                                            <label for="">Ara Ödeme </label>
                                             <input type="text" name="pay-dec-price[]" class="price-only pay-desc-price form-control">
                                         </div>
                                         <div class="flex-10">

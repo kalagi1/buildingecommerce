@@ -741,7 +741,7 @@
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l +
                                                                 1) +
-                                                            ". Ara Ödeme Tutarı:</strong> <br>" :
+                                                            ". Ara Ödeme :</strong> <br>" :
                                                             "") +
                                                         formatPrice(parseFloat(getDataJS(response,
                                                             "pay_desc_price" + (
