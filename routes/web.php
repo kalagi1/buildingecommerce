@@ -123,11 +123,11 @@ Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])-
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
 Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
-Route::get('/magaza/{slug}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
+Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('instituional.dashboard.filter');
 Route::get('/emlak-kulup/{slug}', [ClubController::class, "dashboard"])->name('club.dashboard');
 
-Route::get('/magaza/{slug}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
+Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
 Route::get('/magaza/{slug}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
 Route::get('/magaza/{slug}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('instituional.housings');
 Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('instituional.teams');

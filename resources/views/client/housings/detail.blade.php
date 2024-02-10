@@ -56,7 +56,7 @@
                             <img src="{{ url('storage/profile_images/' . $housing->user->profile_image) }}" alt=""
                                 class="brand-logo">
                             <p class="brand-name"><a
-                                    href="{{ route('instituional.profile', Str::slug($housing->user->name)) }}"
+                                    href="{{ route('instituional.profile', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}"
                                     style="color:White;">
                                     {{ $housing->user->name }}
                                     <style type="text/css">
@@ -108,9 +108,9 @@
                         <nav class="navbar" style="padding: 0 !important">
                             <div class="navbar-items">
                                 <a class="navbar-item"
-                                    href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">Anasayfa</a>
+                                    href="{{ route('instituional.dashboard', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Anasayfa</a>
                                 <a class="navbar-item"
-                                    href="{{ route('instituional.profile', Str::slug($housing->user->name)) }}">Mağaza
+                                    href="{{ route('instituional.profile',["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Mağaza
                                     Profili</a>
                                 <a class="navbar-item"
                                     href="{{ route('instituional.projects.detail', Str::slug($housing->user->name)) }}">Proje
@@ -509,7 +509,7 @@
                                                 alt="author-image" class="author__img">
                                             <div>
                                                 <a
-                                                    href="{{ route('instituional.dashboard', Str::slug($housing->user->name)) }}">
+                                                    href="{{ route('instituional.dashboard', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
 

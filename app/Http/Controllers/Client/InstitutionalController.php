@@ -12,31 +12,22 @@ use Illuminate\Support\Str;
 
 class InstitutionalController extends Controller
 {
-    public function dashboard($slug)
+    public function dashboard($slug, $userID)
     {
 
-        $users = User::all();
-        foreach ($users as $institutional) {
-          
-            $slugName = Str::slug($institutional->name);
-            if ($slugName === $slug) {
-                if (!$institutional || $institutional->type != 2) {
-                    abort(404);
-                }
-                $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
-                $projects = Project::where("user_id", $store->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->where("status", "1")->limit(3)->get();
-                
+                $store = User::where("id", $userID)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
+                $projects = Project::where("user_id", $userID)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->where("status", "1")->limit(3)->get();
                 $finishProjects = Project::whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '2');
-                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
+                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $userID)->get();
 
                 $continueProjects = Project::whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '3');
-                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
+                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $userID)->get();
 
                 $soilProjects = Project::with("city", "county")->whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '5');
-                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $store->id)->get();
+                })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $userID)->get();
                
                 $secondhandHousings =  Housing::with('images')
                 ->select(
@@ -73,7 +64,7 @@ class InstitutionalController extends Controller
                 ->where('project_list_items.item_type', 2)
                 ->orderByDesc('doping_time')
                 ->orderByDesc('housings.created_at')
-                ->where("user_id",$institutional->id)
+                ->where("user_id",$userID)
                 ->get();
                 $pageInfo = [
                     "meta_title" => $store->name,
@@ -85,8 +76,7 @@ class InstitutionalController extends Controller
                 $pageInfo = json_encode($pageInfo);
                 $pageInfo = json_decode($pageInfo);
                 return view("client.institutional.dashboard", compact("pageInfo","store","slug", "soilProjects", 'projects', 'finishProjects', 'continueProjects', 'secondhandHousings'));
-            }
-        }
+           
     }
 
     public function getFilterInstitutionalData(Request $request,$slug){
@@ -166,14 +156,10 @@ class InstitutionalController extends Controller
         }
     }
 
-    public function profile($slug)
+    public function profile($slug, $userID)
     {
 
-        $users = User::all();
-        foreach ($users as $institutional) {
-            $slugName = Str::slug($institutional->name);
-            if ($slugName === $slug) {
-                $institutional = User::where("id", $institutional->id)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
+                $institutional = User::where("id", $userID)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
                 
                 $pageInfo = [
                     "meta_title" => $institutional->name,
@@ -185,9 +171,7 @@ class InstitutionalController extends Controller
                 $pageInfo = json_encode($pageInfo);
                 $pageInfo = json_decode($pageInfo);
                 return view("client.institutional.detail", compact("institutional","pageInfo"));
-            }
-        }
-
+       
     }
 
     public function housingList($slug)

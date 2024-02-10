@@ -8,7 +8,7 @@
                     <div class="brands-square">
                         <img src="{{ url('storage/profile_images/' . $institutional->profile_image) }}" alt=""
                             class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($institutional->name)) }}"
+                        <p class="brand-name"><a href="{{ route('instituional.profile', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}"
                                 style="color:White">{{ $institutional->name }}
                                 <style type="text/css">
                                     .st0 {
@@ -55,9 +55,9 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item"
-                                href="{{ route('instituional.dashboard', Str::slug($institutional->name)) }}">Anasayfa</a>
+                                href="{{ route('instituional.dashboard', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($institutional->name)) }}">Mağaza
+                                href="{{ route('instituional.profile', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item active"
                                 href="{{ route('instituional.projects.detail', Str::slug($institutional->name)) }}">Proje

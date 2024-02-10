@@ -1448,11 +1448,12 @@
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
-                            $('.header-search-box').append(`
-                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${formattedName}</span>
-                                    </a>
-                                `);
+                                $('.header-search-box').append(`
+    <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
+
                         });
                     }
 
@@ -1593,11 +1594,12 @@
                                 const formattedName = e.name.charAt(0)
                                     .toUpperCase() + e.name.slice(1);
 
-                                $('.header-search-box-mobile').append(`
-                                    <a href="{{ route('instituional.dashboard', '') }}/${e.slug}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${formattedName}</span>
-                                    </a>
-                                `);
+                                    $('.header-search-box').append(`
+    <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+        <span>${formattedName}</span>
+    </a>
+`);
+
                             });
                         }
 

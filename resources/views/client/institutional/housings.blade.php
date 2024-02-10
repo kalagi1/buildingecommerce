@@ -54,7 +54,7 @@ return $a;
             <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
                 <div class="brands-square w-100">
                     <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt="" class="brand-logo">
-                    <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($store->name)) }}" style="color:White">
+                    <p class="brand-name"><a href="{{ route('instituional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}" style="color:White">
                             {{ $store->name }}
                             <style type="text/css">
                                 .st0 {
@@ -113,8 +113,8 @@ return $a;
             <div class="card-body">
                 <nav class="navbar" style="padding: 0 !important">
                     <div class="navbar-items">
-                        <a class="navbar-item " href="{{ route('instituional.dashboard', Str::slug($store->name)) }}">Anasayfa</a>
-                        <a class="navbar-item" href="{{ route('instituional.profile', Str::slug($store->name)) }}">Mağaza
+                        <a class="navbar-item " href="{{ route('instituional.dashboard',  ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Anasayfa</a>
+                        <a class="navbar-item" href="{{ route('instituional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Mağaza
                             Profili</a>
                         <a class="navbar-item" href="{{ route('instituional.projects.detail', Str::slug($store->name)) }}">Proje
                             İlanları</a>

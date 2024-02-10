@@ -45,7 +45,7 @@
                     <div class="brands-square">
                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
                             class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('instituional.profile', Str::slug($project->user->name)) }}"
+                        <p class="brand-name"><a href="{{ route('instituional.profile', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}"
                                 style="color:White;">
                                 {{ $project->user->name }}
                                 <style type="text/css">
@@ -97,9 +97,9 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item"
-                                href="{{ route('instituional.dashboard', Str::slug($project->user->name)) }}">Anasayfa</a>
+                                href="{{ route('instituional.dashboard',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">Mağaza
+                                href="{{ route('instituional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item"
                                 href="{{ route('instituional.projects.detail', Str::slug($project->user->name)) }}">Proje
@@ -886,7 +886,7 @@
                                                                                                         <div
                                                                                                             class="footer">
                                                                                                             <a
-                                                                                                                href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">
+                                                                                                                href="{{ route('instituional.profile', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">
                                                                                                                 <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
                                                                                                                     alt=""
                                                                                                                     class="mr-2">
@@ -1512,7 +1512,7 @@
                                                                             </div>
                                                                             <div class="footer">
                                                                                 <a
-                                                                                    href="{{ route('instituional.profile', Str::slug($project->user->name)) }}">
+                                                                                    href="{{ route('instituional.profile', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">
                                                                                     <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
                                                                                         alt="" class="mr-2">
                                                                                     {{ $project->user->name }}
