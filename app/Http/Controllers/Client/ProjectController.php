@@ -667,13 +667,8 @@ class ProjectController extends Controller
         }
       
         
-        $pageInfoJson = json_encode($pageInfo);
+        $pageInfo = json_encode($pageInfo);
         
-        if ($pageInfoJson === false) {
-            echo "JSON formatına çevirme hatası!";
-        } else {
-            echo $pageInfoJson;
-        }
         
 
         return view('client.projects.project_housing', compact('pageInfo','projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
