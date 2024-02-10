@@ -177,7 +177,7 @@
                                                 {{ $menuItem['text'] }}
                                                 {{ $applicationCount != null ? "($applicationCount)" : null }}
                                                 {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
-                                                {{ $pendingProjects != null &&  $pendingProjects != 0 ? "(". $pendingProjects->count() .")" : null }}
+                                                {{ $pendingProjects != null &&  $pendingProjects->count() != 0 ? "(". $pendingProjects->count() .")" : null }}
                                                 {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
 
                                             </span>
