@@ -657,10 +657,20 @@
                                     }
 
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<td><strong>" + (isMobile ? paymentPlanDatax[
+
+                                        if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
+                                            html += "<td><strong>" + installementData + " Ay " + (isMobile ? paymentPlanDatax[
                                                 paymentPlanData[j]] + " " +
                                             "Fiyat:</strong> " : "") + formatPrice(
                                             priceData) + "₺</td>";
+                                        }else{
+                                            html += "<td><strong>" + (isMobile ? paymentPlanDatax[
+                                                paymentPlanData[j]] + " " +
+                                            "Fiyat:</strong> " : "") + formatPrice(
+                                            priceData) + "₺</td>";
+                                        }
+
+                                       
                                     }
 
 

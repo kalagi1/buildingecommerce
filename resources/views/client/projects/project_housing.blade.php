@@ -2229,14 +2229,22 @@
                                             "<strong>Ödeme Türü:</strong> " :
                                             "") + paymentPlanDatax[paymentPlanData[j]] + "</td>";
                                     }
-
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
-                                        html += "<td><strong>" + (isMobile ? paymentPlanDatax[
-                                                paymentPlanData[j]] + " " +
-                                            "Fiyat:</strong> " : "") + formatPrice(
-                                            priceData) + "₺</td>";
-                                    }
 
+if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
+    html += "<td><strong>" + installementData + " Ay " + (isMobile ? paymentPlanDatax[
+        paymentPlanData[j]] + " " +
+    "Fiyat:</strong> " : "") + formatPrice(
+    priceData) + "₺</td>";
+}else{
+    html += "<td><strong>" + (isMobile ? paymentPlanDatax[
+        paymentPlanData[j]] + " " +
+    "Fiyat:</strong> " : "") + formatPrice(
+    priceData) + "₺</td>";
+}
+
+
+}
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
                                         html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
