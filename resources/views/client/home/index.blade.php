@@ -110,13 +110,28 @@
                 <div class="slick-lancers">
                     @foreach ($brands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                            <a href="{{ route('instituional.dashboard', ["slug" => Str::slug($brand->name), "userID" => $brand->id]) }}" class="homes-img">
+                            <a href="{{ route('instituional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
+                                class="homes-img">
                                 <div class="landscapes">
                                     <div class="project-single">
                                         <div class="project-inner project-head">
                                             <div class="homes">
-                                                <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                    alt="home-1" class="img-responsive brand-image-pp">
+                                                @if ($brand->profile_image == 'indir.png')
+                                                    @php
+                                                        $nameInitials = collect(preg_split('/\s+/', $brand->name))
+                                                            ->map(function ($word) {
+                                                                return mb_strtoupper(mb_substr($word, 0, 1));
+                                                            })
+                                                            ->take(2)
+                                                            ->implode('');
+                                                    @endphp
+
+                                                    <div class="profile-initial">{{ $nameInitials }}</div>
+                                                @else
+                                                    <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                        alt="{{ $brand->name }}" style="object-fit: contain !important;"
+                                                        class="img-responsive">
+                                                @endif
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
                                             </div>
@@ -1160,37 +1175,36 @@
     @endif --}}
 
     @if (Auth::check() && Auth::user()->has_club == 0)
-    <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document"
-            style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
-            <div class="modal-content" style="height: 400px">
-                <div class="modal-header">
-                    <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> 
-                        <i class="fa fa-close"></i>
-                    </button>
+        <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document"
+                style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
+                <div class="modal-content" style="height: 400px">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
 
-                </div>
-                <div class="modal-body p-0">
-                    <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
-                        style="cursor: pointer;width:100%;height:400px;object-fit:cover"
-                        src="{{ asset('popup.jpeg') }}" alt="">
+                    </div>
+                    <div class="modal-body p-0">
+                        <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
+                            style="cursor: pointer;width:100%;height:400px;object-fit:cover"
+                            src="{{ asset('popup.jpeg') }}" alt="">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                $('#customModal').modal('show');
-            }, 30000);
-        });
-    </script>
-@endif
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                setTimeout(function() {
+                    $('#customModal').modal('show');
+                }, 30000);
+            });
+        </script>
+    @endif
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
