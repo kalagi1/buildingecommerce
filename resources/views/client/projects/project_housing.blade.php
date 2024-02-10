@@ -2301,12 +2301,12 @@
                                                 if (paymentPlanDatax[paymentPlanData[j]] ==
                                                     "Taksitli") {
                                                     html += "<td>" + (isMobile ? "<strong>" + (l + 1) +
-                                                            ". Ara Ödeme Tutarı ve Tarihi:</strong> <br>" : "") +
+                                                            ". Ara Ödeme Tutarı:</strong> <br>" : "") +
                                                         formatPrice(parseFloat(getDataJS(response,
                                                             "pay_desc_price" + (orderHousing +
                                                                 1) + l, response.room_info[i]
                                                             .room_order))) + "₺" +
-                                                        (isMobile ? " " : "<br>") +
+                                                        (isMobile ? "<br>" : "<br>") +
                                                         (months[payDescDate.getMonth()] + ' ' +
                                                             payDescDate.getDate() + ', ' + payDescDate
                                                             .getFullYear()) + "</td>";
