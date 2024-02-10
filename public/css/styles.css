@@ -5955,8 +5955,8 @@ element.style {
     background: transparent !important;
 }
 
-.img-responsive{
-    width:100%;
+.img-responsive {
+    width: 100%;
 }
 
 .homepage-2 .featured .project-single .button-effect-div {
@@ -6034,7 +6034,7 @@ element.style {
     padding: 0;
     margin-right: 15px;
     border-radius: 3px;
-    margin-right:10px !important;
+    margin-right: 10px !important;
     width: 28px;
     height: 28px !important;
     line-height: 33px;
@@ -13227,7 +13227,7 @@ section.visited-cities {
     background-repeat: no-repeat;
 }
 
-.heithree{
+.heithree {
     height: 250px !important;
     width: 500px !important;
     margin: 0 auto;
@@ -20001,11 +20001,12 @@ ul.the-agents-details li a {
 .inner-pages .featured .compare {
     margin-top: 1.1rem;
 }
-.modal-header{
+
+.modal-header {
     align-items: center;
 }
 
-.modal-header .btn-close{
+.modal-header .btn-close {
     border: none;
     background: white;
     font-size: 15px;
@@ -20940,10 +20941,6 @@ body.dashboard-bd {
 .password-section {
     margin-top: 20px;
 }
-
-#pages a {
-color: #007bff
- }
 
 .password-section h6 {
     margin-bottom: 10px;
@@ -25405,7 +25402,7 @@ h5.uppercase {
 
 .accordion-1 .title span {
     font-size: 11px;
-    width:90%
+    width: 90%
 }
 
 .accordion-1 .active .title {

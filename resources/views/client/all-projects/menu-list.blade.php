@@ -858,7 +858,7 @@
 
                     for (var i = 1; i <= response.last_page; ++i) {
                         $('#pages').append(`
-                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.current_page == i ? 'style="color: white;"' : 'style="background: transparent;"'}>${i}</a>
+                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
                         `);
                     }
 
