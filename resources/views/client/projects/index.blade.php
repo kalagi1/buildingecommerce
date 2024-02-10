@@ -741,11 +741,14 @@
                                                                                                             <div
                                                                                                                 class="homes position-relative">
                                                                                                                 <!-- homes img -->
+                                                                                                                @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
+                                                                                                                    
+                                                                                                              
                                                                                                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                                     alt="home-1"
                                                                                                                     class="img-responsive"
                                                                                                                     style="height: 100px !important;object-fit:cover">
-
+                                                                                                                    @endif
 
                                                                                                             </div>
                                                                                                         </div>
@@ -1059,10 +1062,12 @@
                                                                                         <!-- homes img -->
                                                                                         <div class="homes-img h-100 d-flex align-items-center"
                                                                                             style="width: 100px; height: 128px;">
+                                                                                            @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
                                                                                             <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                                 alt="{{ $project->housingType->title }}"
                                                                                                 class="img-responsive"
                                                                                                 style="height: 95px !important;">
+                                                                                                @endif
                                                                                         </div>
 
                                                                                         <span class="mobileNoStyle">
@@ -1371,10 +1376,12 @@
                                                                                     </div>
                                                                                     <div class="homes position-relative">
                                                                                         <!-- homes img -->
+                                                                                        @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
                                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                                             alt="home-1"
                                                                                             class="img-responsive"
                                                                                             style="height: 100px !important;object-fit:cover">
+                                                                                            @endif
 
                                                                                     </div>
 
@@ -1655,10 +1662,12 @@
                                                                     <!-- homes img -->
                                                                     <div class="homes-img h-100 d-flex align-items-center"
                                                                         style="width: 100px; height: 128px;">
+                                                                        @if (isset( $projectHousingsList[$i + 1]) && isset($projectHousingsList[$i + 1]['image[]'] ))
                                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
                                                                             alt="{{ $project->housingType->title }}"
                                                                             class="img-responsive"
                                                                             style="height: 95px !important;">
+                                                                            @endif
                                                                     </div>
 
                                                                     <span class="mobileNoStyle">
