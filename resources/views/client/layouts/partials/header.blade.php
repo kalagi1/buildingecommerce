@@ -596,7 +596,7 @@
                                                 $text = 'İlan Ekle';
                                                 break;
                                             case 3:
-                                                $link = url('admin/');
+                                                $link = url('1a2b3c4d5e6f/secured/');
                                                 $text = 'Yönetim';
                                                 break;
                                             default:

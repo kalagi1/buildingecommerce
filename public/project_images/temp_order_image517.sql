@@ -2263,14 +2263,14 @@ CREATE TABLE `document_notifications` (
 --
 
 INSERT INTO `document_notifications` (`id`, `text`, `readed`, `created_at`, `updated_at`, `user_id`, `item_id`, `owner_id`, `link`, `is_visible`) VALUES
-(29, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: masterrealtorturkiye@gmail.com', 0, '2023-11-04 10:46:57', '2023-11-04 10:46:57', 74, 74, 4, 'https://emlaksepette.com/admin/show-corporate-account/74', 1),
-(30, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: masterrealtorturkiye@gmail.com', 1, '2023-11-04 10:47:02', '2023-11-04 10:47:20', 74, 74, 4, 'https://emlaksepette.com/admin/show-corporate-account/74', 1),
+(29, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: masterrealtorturkiye@gmail.com', 0, '2023-11-04 10:46:57', '2023-11-04 10:46:57', 74, 74, 4, 'https://emlaksepette.com/1a2b3c4d5e6f/secured/show-corporate-account/74', 1),
+(30, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: masterrealtorturkiye@gmail.com', 1, '2023-11-04 10:47:02', '2023-11-04 10:47:20', 74, 74, 4, 'https://emlaksepette.com/1a2b3c4d5e6f/secured/show-corporate-account/74', 1),
 (31, 'Üzgünüz, hesabınız onaylanamadı. Lütfen belgelerinizi kontrol ederek tekrar deneyin. Yardıma ihtiyacınız olursa bizimle iletişime geçebilirsiniz.', 0, '2023-11-04 10:47:28', '2023-11-04 10:47:28', 4, 74, 74, 'https://emlaksepette.com/institutional', 1),
 (32, 'Hesabınız başarıyla onaylandı. Artık platformumuzu kullanmaya başlayabilirsiniz. İyi günler dileriz!', 0, '2023-11-04 10:47:34', '2023-11-04 10:47:34', 4, 74, 74, 'https://emlaksepette.com/institutional', 1),
 (33, 'Hesabınız başarıyla onaylandı. Artık platformumuzu kullanmaya başlayabilirsiniz. İyi günler dileriz!', 0, '2023-11-04 10:48:01', '2023-11-04 10:48:01', 4, 74, 74, 'https://emlaksepette.com/institutional', 1),
-(34, 'Yeni bir proje eklendi. Detayları incelemek için <a href=\"https://emlaksepette.com/ikinci-el-konutlar/157\">buraya tıklayın</a>', 0, '2023-11-04 11:14:42', '2023-11-04 11:14:42', 74, 74, 4, 'https://emlaksepette.com/admin/project/157', 1),
-(35, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: 123456ata@gmail.com', 1, '2023-11-04 11:38:24', '2023-11-04 11:44:19', 76, 76, 4, 'https://emlaksepette.com/admin/show-corporate-account/76', 1),
-(36, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: 123456ata@gmail.com', 1, '2023-11-04 11:38:31', '2023-11-04 11:44:08', 76, 76, 4, 'https://emlaksepette.com/admin/show-corporate-account/76', 1),
+(34, 'Yeni bir proje eklendi. Detayları incelemek için <a href=\"https://emlaksepette.com/ikinci-el-konutlar/157\">buraya tıklayın</a>', 0, '2023-11-04 11:14:42', '2023-11-04 11:14:42', 74, 74, 4, 'https://emlaksepette.com/1a2b3c4d5e6f/secured/project/157', 1),
+(35, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: 123456ata@gmail.com', 1, '2023-11-04 11:38:24', '2023-11-04 11:44:19', 76, 76, 4, 'https://emlaksepette.com/1a2b3c4d5e6f/secured/show-corporate-account/76', 1),
+(36, 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: 123456ata@gmail.com', 1, '2023-11-04 11:38:31', '2023-11-04 11:44:08', 76, 76, 4, 'https://emlaksepette.com/1a2b3c4d5e6f/secured/show-corporate-account/76', 1),
 (37, 'Hesabınız başarıyla onaylandı. Artık platformumuzu kullanmaya başlayabilirsiniz. İyi günler dileriz!', 0, '2023-11-04 11:44:15', '2023-11-04 11:44:15', 4, 76, 76, 'https://emlaksepette.com/institutional', 1);
 
 -- --------------------------------------------------------

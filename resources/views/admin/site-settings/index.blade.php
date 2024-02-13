@@ -61,7 +61,7 @@
                 var input = $(this);
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('admin/site-settings/update') }}",
+                    url: "{{ url('1a2b3c4d5e6f/secured/site-settings/update') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         key: input.attr("name"),
@@ -103,7 +103,7 @@
                 var value = $("#newSettingValue").val();
                 $.ajax({
                     type: "post",
-                    url: "{{ url('admin/site-settings/create') }}",
+                    url: "{{ url('1a2b3c4d5e6f/secured/site-settings/create') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         key: key,
@@ -119,7 +119,7 @@
                 var button = $(this);
                 $.ajax({
                     type: "post",
-                    url: "{{ url('admin/site-settings/delete') }}",
+                    url: "{{ url('1a2b3c4d5e6f/secured/site-settings/delete') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         key: button.data("key")

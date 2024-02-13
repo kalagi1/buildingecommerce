@@ -12,7 +12,7 @@
                                 <div class="p-4 code-to-copy">
                                     <div class="d-flex align-items-center justify-content-end my-3">
                                         <div id="bulk-select-replace-element">
-                                            <a href="{{url('/admin/housing_types/create')}}">
+                                            <a href="{{url('/1a2b3c4d5e6f/secured/housing_types/create')}}">
                                                 <button class="btn btn-phoenix-success btn-sm"
                                                 type="button"><span class="fas fa-plus"
                                                     data-fa-transform="shrink-3 down-2"></span><span class="ms-1">Yeni
@@ -111,7 +111,7 @@
             dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
             var exportLink = document.createElement("a");
             exportLink.className = "btn btn-warning";
-            exportLink.href = "{{URL::to('/')}}/admin/housing_types/"+housingType.id+'/edit';
+            exportLink.href = "{{URL::to('/')}}/1a2b3c4d5e6f/secured/housing_types/"+housingType.id+'/edit';
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";

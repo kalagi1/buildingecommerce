@@ -40,7 +40,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href='{{ URL::to('/') }}/admin/projects/{{ $project['project']->id }}/orders'
+                            <a href='{{ URL::to('/') }}/1a2b3c4d5e6f/secured/projects/{{ $project['project']->id }}/orders'
                                 class='badge badge-phoenix badge-phoenix-warning'>
                                 Siparişleri Gör ({{ $project['orderCount'] }})
                             </a>

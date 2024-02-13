@@ -41,6 +41,6 @@ class LoginController extends Controller
         Auth::logout();
         session()->forget('cart');
 
-        return redirect('/admin/login');
+        return redirect('/1a2b3c4d5e6f/secured/login');
     }
 }

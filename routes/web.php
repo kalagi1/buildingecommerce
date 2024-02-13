@@ -168,9 +168,9 @@ Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "get
 
 Route::get('{property}-projeler', [ClientProjectController::class, 'propertyProjects'])->name('propertyProjects');
 
-Route::get('/admin/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
-Route::post('/admin/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
-Route::get('/admin/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
+Route::get('/1a2b3c4d5e6f/secured/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
+Route::post('/1a2b3c4d5e6f/secured/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
+Route::get('/1a2b3c4d5e6f/secured/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
 
 Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
@@ -213,7 +213,7 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
-Route::group(['prefix' => 'admin', "as" => "admin.", 'middleware' => ['admin']], function () {
+Route::group(['prefix' => '1a2b3c4d5e6f/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');

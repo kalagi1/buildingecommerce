@@ -708,7 +708,7 @@
                 var itemId = $(this).attr('reservation_id')
                 $.ajax({
                     type: 'GET',
-                    url: "{{ URL::to('/') }}/admin/reservation_info/"+itemId, // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
+                    url: "{{ URL::to('/') }}/1a2b3c4d5e6f/secured/reservation_info/"+itemId, // Filtreleme işlemi yapıldıktan sonra sonuçların nasıl getirileceği URL
                     success: function(data) {
                         data = JSON.parse(data);
                         var reservation = data.reservation;
@@ -771,8 +771,8 @@
                             $('.customer-name').html(reservation.cancel_request.iban_name)
                         }
 
-                        $('.cancel-rezervation-admin').attr('href','{{URL::to("/")}}/admin/reservation/unapprove/'+itemId)
-                        $('.cancel-rezervation-admin-cancel').attr('href','{{URL::to("/")}}/admin/reservation/delete_cancel_request/'+itemId)
+                        $('.cancel-rezervation-admin').attr('href','{{URL::to("/")}}/1a2b3c4d5e6f/secured/reservation/unapprove/'+itemId)
+                        $('.cancel-rezervation-admin-cancel').attr('href','{{URL::to("/")}}/1a2b3c4d5e6f/secured/reservation/delete_cancel_request/'+itemId)
                     },
                     error: function(error) {
                         console.log(error);

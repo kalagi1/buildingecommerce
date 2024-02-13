@@ -126,7 +126,7 @@
             viewLink.textContent = "View";
             var exportLink = document.createElement("a");
             exportLink.className = "dropdown-item";
-            exportLink.href = "{{URL::to('/')}}/admin/housing_status/"+housingStatus.id+'/edit';
+            exportLink.href = "{{URL::to('/')}}/1a2b3c4d5e6f/secured/housing_status/"+housingStatus.id+'/edit';
             exportLink.textContent = "Düzenle";
             var divider = document.createElement("div");
             divider.className = "dropdown-divider";
