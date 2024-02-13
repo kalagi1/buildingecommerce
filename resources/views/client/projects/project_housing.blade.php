@@ -2175,8 +2175,10 @@
                                 paymentPlanData.splice(indexOfPesin + 1, 0, "taksitli");
                             }
 
-                            // Şimdi diziyi tersine çevir
+                            if (paymentPlanData[0] != "pesin") {
                             paymentPlanData.reverse();
+                                
+                            }
 
 
                             var html = "";

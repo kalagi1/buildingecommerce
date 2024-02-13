@@ -570,8 +570,10 @@
                                 paymentPlanData.splice(indexOfPesin + 1, 0, "taksitli");
                             }
 
-                            // Şimdi diziyi tersine çevir
+                            if (paymentPlanData[0] != "pesin") {
                             paymentPlanData.reverse();
+                                
+                            }
 
 
                             var html = "";
@@ -661,9 +663,10 @@
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
 
                                         if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
-                                            html += "<td><strong>" + installementData + " Ay " + (
+                                            html += "<td><strong>"  + (
                                                 isMobile ? paymentPlanDatax[
-                                                    paymentPlanData[j]] + " " +
+                                                    paymentPlanData[j]] + " " 
+                                                    + installementData + " Ay " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
                                         } else {
@@ -789,7 +792,7 @@
         }
 
     })
-
+   
     $(document).ready(function() {
         const searchInput = $(".search-input");
         const suggestions = $(".header-search__suggestions");
