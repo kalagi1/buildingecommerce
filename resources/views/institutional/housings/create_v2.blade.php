@@ -1959,7 +1959,6 @@ $('.rulesOpen').click(function(){
             var selectedCounty = $(this).val(); // Seçilen şehir değerini al
             console.log(selectedCounty);
             var selectedCountyKey = $('#counties option[value="' + selectedCounty + '"]').attr("key_x");
-            console.log($('#counties option[value="' + selectedCounty + '"]'));
             // AJAX isteği yap
             $.ajax({
                 url: '{{ route('institutional.get.neighbourhood') }}', // Endpoint URL'si (get.counties olarak varsayalım)
@@ -1973,6 +1972,10 @@ $('.rulesOpen').click(function(){
                     var countiesSelect = $('#neighbourhood'); // counties id'li select'i seç
                     countiesSelect.empty(); // Select içeriğini temizle
 
+                    countiesSelect.append($('<option>', {
+                        value: "", // İlçe ID'si
+                        text: "Mahalle Seç" // İlçe adı
+                    }));
                     // Dönen yanıttaki ilçeleri döngüyle ekleyin
                     for (var i = 0; i < response.length; i++) {
                         countiesSelect.append($('<option>', {
