@@ -74,19 +74,25 @@ class HomeController extends Controller
             
 
 
-        $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
-            ->where('end_date', ">=", date("Y-m-d"))
-            ->where('item_type', 1)
-            ->where('housing_type_id', 0)
-            ->join('doping_orders','doping_orders.stand_out_id','=','stand_out_users.id')
-            ->where('doping_orders.status', 1)
-            ->whereHas('project', function ($query) {
-                $query->where('status', 1);
-            })
-            ->orderByDesc("stand_out_users.created_at")
-            ->get();
+        // $dashboardProjects = StandOutUser::where('start_date', "<=", date("Y-m-d"))
+        //     ->where('end_date', ">=", date("Y-m-d"))
+        //     ->where('item_type', 1)
+        //     ->where('housing_type_id', 0)
+        //     ->join('doping_orders','doping_orders.stand_out_id','=','stand_out_users.id')
+        //     ->where('doping_orders.status', 1)
+        //     ->whereHas('project', function ($query) {
+        //         $query->where('status', 1);
+        //     })
+        //     ->orderByDesc("stand_out_users.created_at")
+        //     ->get();
 
             
+            $dashboardProjects = Project::select('projects.*')
+            ->with("city", "county",'user')
+            ->with( 'brand', 'roomInfo','listItemValues', 'housingType')
+            ->orderBy("created_at", "desc")
+            ->where('projects.status', 1)
+            ->get();
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();

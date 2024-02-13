@@ -191,22 +191,22 @@
                                         <div class="project-single no-mb aos-init aos-animate" style="height:100%"
                                             data-aos="zoom-in" data-aos-delay="150">
                                             <div class="listing-item compact" style="height:100%">
-                                                <a href="{{ route('project.detail', ['slug' => $project->project->slug, 'id' => $project->project->id]) }}"
+                                                <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
                                                     class="listing-img-container">
                                                     <img class="project_brand_profile_image"
-                                                        src="{{ URL::to('/') . '/storage/profile_images/' . $project->project->user->profile_image }}"
+                                                        src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
                                                         alt="">
                                                     <div class="listing-img-content"
                                                         style="padding-left:10px;text-transform:uppercase;">
                                                         <span
-                                                            class="badge badge-phoenix text-left">{{ $project->project->project_title }}
-                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->project->city->title }}
+                                                            class="badge badge-phoenix text-left">{{ $project->project_title }}
+                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
                                                                     /
-                                                                    {{ $project->project->county->ilce_title }}
-                                                                    {{ $project->project->neighbourhood ? '/ ' . $project->project->neighbourhood->mahalle_title : null }}</small></span></span>
+                                                                    {{ $project->county->ilce_title }}
+                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
 
                                                     </div>
-                                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
+                                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                                         alt="" style="height:100%;object-fit:contain">
                                                 </a>
                                             </div>
@@ -228,18 +228,18 @@
                                     <div class="small-category-2">
                                         <div class="small-category-2-thumb img-1">
                                             <a
-                                                href="{{ route('project.detail', ['slug' => $project->project->slug, 'id' => $project->project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->project->image) }}"
+                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
+                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                                     alt=""></a>
                                         </div>
                                         <div class="sc-2-detail">
                                             <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->project->slug, 'id' => $project->project->id]) }}">{{ $project->project->project_title }}</a>
+                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
                                             </h4>
-                                            <span>{{ $project->project->city->title }}
+                                            <span>{{ $project->city->title }}
                                                 /
-                                                {{ $project->project->county->ilce_title }}
-                                                {{ $project->project->neighbourhood ? '/ ' . $project->project->neighbourhood->mahalle_title : null }}</span>
+                                                {{ $project->county->ilce_title }}
+                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
                                         </div>
                                     </div>
                                 </div>
