@@ -107,7 +107,7 @@
         })
         function listChange(order = 0){
             $.ajax({
-                url: "{{URL::to('/')}}/1a2b3c4d5e6f/secured/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
+                url: "{{URL::to('/')}}/qR9zLp2xS6y/secured/get_housing_type_childrens/"+itemSlug, // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
@@ -163,7 +163,7 @@
                         itemOrder = clickItem.index();
                         itemSlug = $(this).parent('li').attr('slug')
                             $.ajax({
-                                url: "{{URL::to('/')}}/1a2b3c4d5e6f/secured/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
+                                url: "{{URL::to('/')}}/qR9zLp2xS6y/secured/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
                                 dataType: "json", // Gelen veri tipi JSON
                                 success: function (data) {
@@ -313,7 +313,7 @@
 
         function listChange2(order = 0){
             $.ajax({
-                url: "{{URL::to('/')}}/1a2b3c4d5e6f/secured/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
+                url: "{{URL::to('/')}}/qR9zLp2xS6y/secured/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
                 type: "GET", // GET isteği
                 dataType: "json", // Gelen veri tipi JSON
                 success: function (data) {
@@ -369,7 +369,7 @@
                         itemOrder = clickItem.index();
                         itemSlug = $(this).parent('li').attr('slug')
                             $.ajax({
-                                url: "{{URL::to('/')}}/1a2b3c4d5e6f/secured/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
+                                url: "{{URL::to('/')}}/qR9zLp2xS6y/secured/get_housing_type_childrens/"+itemSlug+'?parent_slug='+(areasSlugs[0] ? areasSlugs[0].slug : ''), // AJAX isteği yapılacak URL
                                 type: "GET", // GET isteği
                                 dataType: "json", // Gelen veri tipi JSON
                                 success: function (data) {

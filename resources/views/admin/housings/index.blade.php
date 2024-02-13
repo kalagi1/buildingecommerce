@@ -91,11 +91,11 @@
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
             var exportLink = document.createElement("a");
             exportLink.className = "badge badge-phoenix badge-phoenix-primary";
-            exportLink.href = "{{ URL::to('/') }}/1a2b3c4d5e6f/secured/housings/" + housingType.id + '/detail';
+            exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/detail';
             exportLink.textContent = "Görüntüle";
             var viewLink = document.createElement("a");
             viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
-            viewLink.href = "{{ URL::to('/') }}/1a2b3c4d5e6f/secured/housings/" + housingType.id + '/logs';
+            viewLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/logs';
             viewLink.textContent = "Loglar";
             actionsCell.appendChild(exportLink);
             actionsCell.appendChild(viewLink);

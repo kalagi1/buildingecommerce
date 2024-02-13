@@ -168,9 +168,9 @@ Route::get('/get-housing-favorite-status/{id}', [FavoriteController::class, "get
 
 Route::get('{property}-projeler', [ClientProjectController::class, 'propertyProjects'])->name('propertyProjects');
 
-Route::get('/1a2b3c4d5e6f/secured/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
-Route::post('/1a2b3c4d5e6f/secured/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
-Route::get('/1a2b3c4d5e6f/secured/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
+Route::get('/qR9zLp2xS6y/secured/login', [AdminLoginController::class, "showLoginForm"])->name('admin.login');
+Route::post('/qR9zLp2xS6y/secured/login', [AdminLoginController::class, "login"])->name('admin.submit.login');
+Route::get('/qR9zLp2xS6y/secured/logout', [AdminLoginController::class, "logout"])->name('admin.logout');
 
 Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
@@ -213,7 +213,7 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
-Route::group(['prefix' => '1a2b3c4d5e6f/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');
@@ -1057,17 +1057,13 @@ Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client
 
 });
 
-// Route::get('kategori/{slug}', [ClientProjectController::class, "allProjects"])
-//     ->name('all.project.list');
 
 Route::get('kategori/{slug?}/{type?}/{optional?}/{title?}/{check?}', [ClientProjectController::class, "allMenuProjects"])
     ->name('all.menu.project.list');
 
-// Kullanıcı sayfası
 Route::get('/user-chat', [SupportChatController::class, 'userChat']);
 Route::post('/messages/store', [SupportChatController::class, 'store'])->name('messages.store');
 
 
-// Admin sayfası
 Route::get('/admin-chat', [SupportChatController::class, 'adminChat']);
 Route::get('/chat/history', [SupportChatController::class, 'getChatHistory']);
