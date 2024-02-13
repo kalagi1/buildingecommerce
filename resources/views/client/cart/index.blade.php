@@ -46,16 +46,27 @@
                             <table class="table-responsive">
                                 <tbody>
                                     <tr>
-                                        <td><strong>Peşinat</strong> <br>{{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺</td>
+                                        <td><strong>Peşinat</strong>
+                                            <br>{{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺</td>
                                         <td><strong>Taksit Sayısı</strong> <br>{{ $cart['item']['taksitSayisi'] }}</td>
-                                        <td><strong>Aylık Ödenecek Tutar</strong><br>{{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺</td>
-                                        <td><strong>Ara Ödeme Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : "" }}</td>
-                                        <td><strong>Toplam Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }} ₺</td>
+                                        <td><strong>Aylık Ödenecek
+                                                Tutar</strong><br>{{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺
+                                        </td>
+                                        <td><strong>Ara Ödeme
+                                                Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : '' }}
+                                        </td>
+                                        <td><strong>Toplam
+                                                Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                            ₺</td>
                                     </tr>
-                                    @if(isset($cart['item']['pay_decs']))
+                                    @if (isset($cart['item']['pay_decs']))
                                         <tr>
-                                            @for($i = 0; $i < count($cart['item']['pay_decs']); $i++)
-                                                <td><strong>{{$i + 1}}. Ara Ödeme</strong> <br>{{number_format($cart['item']['pay_decs'][$i]['pay_dec_price'.$i], 0, ',', '.')}} ₺ <br> {{$months[date('n',strtotime($cart['item']['pay_decs'][$i]['pay_dec_date'.$i])) -1].', '.date('d Y',strtotime($cart['item']['pay_decs'][$i]['pay_dec_date'.$i]))}}</td>
+                                            @for ($i = 0; $i < count($cart['item']['pay_decs']); $i++)
+                                                <td><strong>{{ $i + 1 }}. Ara Ödeme</strong>
+                                                    <br>{{ number_format($cart['item']['pay_decs'][$i]['pay_dec_price' . $i], 0, ',', '.') }}
+                                                    ₺ <br>
+                                                    {{ $months[date('n', strtotime($cart['item']['pay_decs'][$i]['pay_dec_date' . $i])) - 1] . ', ' . date('d Y', strtotime($cart['item']['pay_decs'][$i]['pay_dec_date' . $i])) }}
+                                                </td>
                                             @endfor
                                         </tr>
                                     @endif
@@ -74,28 +85,28 @@
                                         <td colspan="4">Sepette Ürün Bulunmuyor</td>
                                     </tr>
                                 @else
-                                @php
-                                $housingDiscountAmount= 0;
-                                $projectDiscountAmount = 0;
-                                if ($cart['type'] == 'housing') {
-                                    $housingOffer = App\Models\Offer::where('type', 'housing')
-                                        ->where('housing_id', $cart['item']['id'])
-                                        ->where('start_date', '<=', now())
-                                        ->where('end_date', '>=', now())
-                                        ->first();
-                                    $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
-                                } else {
-                                    // Project için indirim kontrolü
-                                    $projectOffer = App\Models\Offer::where('type', 'project')
-                                        ->where('project_id', $cart['item']['id'])
-                                        ->where('project_housings', 'LIKE', '%' . $cart['item']['housing'] . '%')
-                                        ->where('start_date', '<=', now())
-                                        ->where('end_date', '>=', now())
-                                        ->first();
-                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                }
-                            @endphp
-                            
+                                    @php
+                                        $housingDiscountAmount = 0;
+                                        $projectDiscountAmount = 0;
+                                        if ($cart['type'] == 'housing') {
+                                            $housingOffer = App\Models\Offer::where('type', 'housing')
+                                                ->where('housing_id', $cart['item']['id'])
+                                                ->where('start_date', '<=', now())
+                                                ->where('end_date', '>=', now())
+                                                ->first();
+                                            $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
+                                        } else {
+                                            // Project için indirim kontrolü
+                                            $projectOffer = App\Models\Offer::where('type', 'project')
+                                                ->where('project_id', $cart['item']['id'])
+                                                ->where('project_housings', 'LIKE', '%' . $cart['item']['housing'] . '%')
+                                                ->where('start_date', '<=', now())
+                                                ->where('end_date', '>=', now())
+                                                ->first();
+                                            $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                        }
+                                    @endphp
+
 
                                     <tr>
                                         <td class="image myelist">
@@ -124,7 +135,6 @@
                                         </td>
                                         @php
                                             $itemPrice = $cart['item']['amount'];
-                                            
 
                                             if ($cart['hasCounter']) {
                                                 if ($cart['type'] == 'housing') {
@@ -149,7 +159,7 @@
                                                 }
                                             } else {
                                                 $discountedPrice = $itemPrice;
-                                                $discountRate= 0;
+                                                $discountRate = 0;
                                             }
 
                                             $selectedPaymentOption = request('paymentOption');
@@ -162,11 +172,12 @@
 
                                         <td>
                                             @if (isset($discountRate) && $discountRate != 0)
-                                            <span>
-                                                <del style="color:#EA2B2E">   {{ number_format($itemPrice, 0, ',', '.') }} ₺</del>
-                                            </span>
+                                                <span>
+                                                    <del style="color:#EA2B2E">
+                                                        {{ number_format($itemPrice, 0, ',', '.') }} ₺</del>
+                                                </span>
                                             @endif
-                                           
+
                                             <span class="discounted-price-x" id="itemPrice"
                                                 data-original-price="{{ $cart['item']['price'] }}"
                                                 data-installment-price="{{ $cart['item']['installmentPrice'] }}"
@@ -191,123 +202,6 @@
                     </div>
 
 
-
-                    {{-- @if ($cart || (!empty($cart['item']) && !empty($cart['item']['installmentPrice'])))
-                    <div class="my-properties p-0 mt-3">
-                        <table class="table-responsive">
-                            <tbody>
-                                @if (!$cart || empty($cart['item']))
-                                    <tr>
-                                        <td colspan="4">Sepette Ürün Bulunmuyor</td>
-                                    </tr>
-                                @else
-                                    @php
-                                        $housingOffer = App\Models\Offer::where('type', 'housing')
-                                            ->where('housing_id', $cart['item']['id'])
-                                            ->where('start_date', '<=', now())
-                                            ->where('end_date', '>=', now())
-                                            ->first();
-                                        $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
-
-                                        // Project için indirim kontrolü
-                                        $projectOffer = App\Models\Offer::where('type', 'project')
-                                            ->where('project_id', $cart['item']['id'])
-                                            ->where('start_date', '<=', now())
-                                            ->where('end_date', '>=', now())
-                                            ->first();
-                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                    @endphp
-
-
-                                    <tr>
-                                        <td class="image myelist">
-                                            <a
-                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
-                                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                    style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="inner">
-                                                <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
-                                                    <h2 style="font-weight: 600;text-align: left !important">
-                                                        {{ $cart['type'] == 'housing'
-                                                            ? 'İlan No: ' . $cart['item']['id'] + 2000000
-                                                            : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
-                                                        <br>
-
-                                                        {{ $cart['item']['title'] }}
-                                                        <br>
-                                                        {{ $cart['type'] == 'project' ?   $cart['item']['housing'] . " No'lu İlan" : null  }}
-                                                    </h2>
-                                                </a>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span style="color:#e54242; font-weight:600">
-                                                @if ($cart['hasCounter'])
-                                                    @if ($cart['type'] == 'housing')
-                                                        @php
-                                                            $housing = App\Models\Housing::find($cart['item']['id']);
-                                                            $housingData = json_decode($housing->housing_type_data);
-                                                            $discountRate = $housingData->discount_rate[0] ?? 0;
-
-                                                            $housingAmount = $cart['item']["installmentPrice"] - $housingDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
-
-                                                            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
-
-                                                        @endphp
-                                                    @else
-                                                        @php
-                                                            $project = App\Models\Project::find($cart['item']['id']);
-                                                            $roomOrder = $cart['item']['housing'];
-                                                            $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
-                                                                ->where('room_order', $roomOrder)
-                                                                ->get()
-                                                                ->keyBy('name');
-
-                                                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                                            $projectAmount = $cart['item']["installmentPrice"] - $projectDiscountAmount; // Assuming $projectDiscountAmount is defined elsewhere
-                                                            $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
-
-                                                        @endphp
-                                                    @endif
-
-                                                    <del style="color: #EA2B2E;">
-                                                        {{ number_format($cart['item']["installmentPrice"]) }} ₺
-                                                    </del><br>
-                                                    <span class="discounted-price-x"
-                                                        style="color: green; font-size:14px !important">
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                    </span>
-                                                @else
-                                                    @php
-                                                        $discountedPrice = $cart['item']["installmentPrice"];
-
-                                                    @endphp
-                                                    <span style="color: green; font-size:14px !important">
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                    </span>
-                                                @endif
-
-                                            </span>
-                                        </td>
-
-                                        <td class="actions">
-                                            <a href="#" class="remove-from-cart" style="float: left"><i
-                                                    class="far fa-trash-alt"></i></a>
-                                        </td>
-                                    </tr>
-
-
-
-                                @endif
-                            </tbody>
-                        </table>
-
-                    </div>
-                    @endif --}}
                 </div>
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
@@ -373,7 +267,7 @@
                             </div>
                             <div class="coupon-cart-area mb-3">
                                 <div class="d-flex">
-                                    <input type="text" placeholder="Kupon Kodu" style="height: 40px;"
+                                    <input type="text" placeholder="İndirim Kupon Kodu" style="height: 40px;"
                                         class="form-control coupon-code">
                                     <button class="btn btn-primary coupon-apply">Uygula</button>
                                 </div>
@@ -479,7 +373,7 @@
                         <div class="modal-body">
                             <div class="container">
                                 <span>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</span> <br>
-                                <span>1. <strong style="color:#EA2B2E;font-size:15px;font-weight:bold"
+                                <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
                                         id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                     alanına yazdığınızdan emin olun.</span>
 
@@ -880,19 +774,19 @@
 
 
     <script>
-        $(document).ready(function() {
-            $(".paymentButton").on("click", function() {
-                var uniqueCode = generateUniqueCode();
-                $('#uniqueCode').text(uniqueCode);
-                $('#uniqueCodeRetry').text(uniqueCode);
-                $("#orderKey").val(uniqueCode);
-            });
+      $(document).ready(function() {
+        var $cart = <?php echo json_encode($cart); ?>; // Örnek: PHP tarafından $cart değişkenini JavaScript'e geçirme
 
-            // Rastgele bir benzersiz kod oluşturan fonksiyon
-            function generateUniqueCode() {
-                return Math.random().toString(36).substring(2, 10).toUpperCase();
-            }
-        });
+    $(".paymentButton").on("click", function() {
+        var uniqueCode = ($cart['type'] === 'housing')
+            ? $cart['item']['id'] + 2000000
+            : $cart['item']['housing'] + $cart['item']['id'] + 1000000;
+
+        $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
+        $("#orderKey").val(uniqueCode);
+    });
+});
+
     </script>
 
     <script>
