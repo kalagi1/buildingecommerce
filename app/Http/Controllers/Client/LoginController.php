@@ -142,7 +142,7 @@ class LoginController extends Controller {
                 session()->flash( 'warning', 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.' );
                 return redirect()->route( 'client.login' );
             } elseif ( $user->status == 1 ) {
-                if ( Auth::attempt( $credentials ) ) {
+                if ( Auth::attempt( $credentials , $request->filled('remember')) ) {
                     $user = Auth::user();
                     $updateUser = User::where( 'id', Auth::user()->id )->first();
 
