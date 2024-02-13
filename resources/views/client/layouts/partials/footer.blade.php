@@ -556,10 +556,11 @@
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
                 data: cart,
                 success: function(response) {
-
                     for (var i = 0; i < response.room_info.length; i++) {
                         if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
-                            .room_order == parseInt(order) + 1) {
+                            .room_order == parseInt(order)) {
+
+                                console.log("asasas");
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
                             if (!paymentPlanData.includes("pesin")) {
                                 // "peşin" not present, add it to the beginning of the array
@@ -575,6 +576,7 @@
                                 
                             }
 
+                            console.log(paymentPlanData);
 
                             var html = "";
 
