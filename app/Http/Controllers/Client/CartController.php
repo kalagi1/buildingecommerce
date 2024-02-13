@@ -775,46 +775,30 @@ if ( json_decode( $o->cart )->type == 'housing' ) {
                             }
                         }
                     }
-                    $price = isset( $projectHousing[ 'Peşin Fiyat' ]->value ) ? $projectHousing[ 'Peşin Fiyat' ]->value : $projectHousing[ 'Fiyat' ]->value;
-                    $installmentPrice = null;
-                    $pesinat = null;
-                    $taksitsayisi =null;
-                    $aylik = null;
-
-                    if ( isset( $projectHousing[ 'Taksitli Toplam Fiyat' ] ) ) {
-                        $installmentPrice = $projectHousing['Taksitli Toplam Fiyat']->value;
+                    $price = $projectHousing['Peşin Fiyat']->value ?? $projectHousing['Fiyat']->value;
+                    $installmentPrice = $pesinat = $taksitSayisi = $aylik = null;
+                    
+                    if (isset($projectHousing['Taksitli Toplam Fiyat']) || isset($projectHousing['Taksitli Fiyat'])) {
+                        $installmentPrice = $newPrice = ($projectHousing['Taksitli Toplam Fiyat'] ?? $projectHousing['Taksitli Fiyat'])->value;
                         $pesinat = $projectHousing['Peşinat']->value;
-                        $newPrice = $projectHousing['Taksitli Toplam Fiyat']->value;
-
                         $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
-
-                        for ($k = 0; $k < $projectHousing['pay-dec-count' . $request->input('id')]->value; $k++) {
-                            $newPrice -= $projectHousing['pay_desc_price' . $request->input('id') . $k]->value;
+                    
+                        for ($k = 0; $k < $projectHousing["pay-dec-count{$request->input('id')}"]->value; $k++) {
+                            $newPrice -= $projectHousing["pay_desc_price{$request->input('id')}{$k}"]->value;
                         }
+                    
                         $aylik = ($newPrice - $pesinat) / $taksitSayisi;
-
-                        
-                    } elseif ( isset( $projectHousing[ 'Taksitli Fiyat' ] ) ) {
-                        $installmentPrice = $projectHousing[ 'Taksitli Fiyat' ]->value;
-                        $pesinat = $projectHousing['Peşinat']->value;
-                        $newPrice = $projectHousing['Taksitli Toplam Fiyat']->value;
-
-                        $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
-
-                        for ($k = 0; $k < $projectHousing['pay-dec-count' . $request->input('id')]->value; $k++) {
-                            $newPrice -= $projectHousing['pay_desc_price' . $request->input('id') . $k]->value;
-                        }
-                        $aylik = ($newPrice - $pesinat) / $taksitSayisi;
-
                     }
-                    $image = $projectHousing[ 'Kapak Resmi' ]->value;
+                    
+                    $image = $projectHousing['Kapak Resmi']->value;
                     $payDecs = [];
-                    if(isset($projectHousing['pay-dec-count'.$request->input('id')])){
-                        for($k = 0 ; $k < $projectHousing['pay-dec-count'.$request->input('id')]->value; $k++){
-                            array_push($payDecs,[
-                                "pay_dec_price".$k => $projectHousing['pay_desc_price'.$request->input('id').$k]->value,
-                                "pay_dec_date".$k => $projectHousing['pay_desc_date'.$request->input('id').$k]->value,
-                            ]);
+                    
+                    if (isset($projectHousing["pay-dec-count{$request->input('id')}"])) {
+                        for ($k = 0; $k < $projectHousing["pay-dec-count{$request->input('id')}"]->value; $k++) {
+                            $payDecs[] = [
+                                "pay_dec_price{$k}" => $projectHousing["pay_desc_price{$request->input('id')}{$k}"]->value,
+                                "pay_dec_date{$k}" => $projectHousing["pay_desc_date{$request->input('id')}{$k}"]->value,
+                            ];
                         }
                     }
 
