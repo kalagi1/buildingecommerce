@@ -560,7 +560,6 @@
                         if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                             .room_order == parseInt(order)) {
 
-                                console.log("asasas");
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
                             if (!paymentPlanData.includes("pesin")) {
                                 // "peşin" not present, add it to the beginning of the array
@@ -576,7 +575,6 @@
                                 
                             }
 
-                            console.log(paymentPlanData);
 
                             var html = "";
 
@@ -636,7 +634,7 @@
                                             " Ay Taksitli Fiyat</th><th>Peşinat</th><th>Aylık Ödenecek Miktar</th>";
 
                                         for (var l = 1; l <= getDataJS(response,
-                                                "pay-dec-count" + (orderHousing + 1), response
+                                                "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
                                             html += "<th>" +
                                                 l + ". Ara Ödeme</th>";
@@ -725,23 +723,22 @@
 
 
                                     var payDecPrice = 0;
-                                    if (getDataJS(response, "pay-dec-count" + (orderHousing + 1),
+                                    if (getDataJS(response, "pay-dec-count" + (orderHousing),
                                             response.room_info[i].room_order)) {
 
                                         for (var l = 0; l < getDataJS(response,
-                                                "pay-dec-count" + (orderHousing + 1), response
+                                                "pay-dec-count" + (orderHousing), response
                                                 .room_info[i].room_order); l++) {
 
                                             if (getDataJS(response, "pay_desc_price" + (
-                                                        orderHousing +
-                                                        1) + l, response.room_info[i]
+                                                        orderHousing) + l, response.room_info[i]
                                                     .room_order)) {
                                                 payDecPrice += parseFloat(getDataJS(response,
-                                                    "pay_desc_price" + (orderHousing + 1) +
+                                                    "pay_desc_price" + (orderHousing) +
                                                     l,
                                                     response.room_info[i].room_order));
                                                 var payDescDate = new Date(getDataJS(response,
-                                                    "pay_desc_date" + (orderHousing + 1) +
+                                                    "pay_desc_date" + (orderHousing) +
                                                     l,
                                                     response.room_info[i].room_order));
 
@@ -753,8 +750,7 @@
                                                             "") +
                                                         formatPrice(parseFloat(getDataJS(response,
                                                             "pay_desc_price" + (
-                                                                orderHousing +
-                                                                1) + l, response.room_info[
+                                                                orderHousing) + l, response.room_info[
                                                                 i]
                                                             .room_order))) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
