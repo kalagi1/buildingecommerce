@@ -561,15 +561,17 @@
                         if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                             .room_order == parseInt(order) + 1) {
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
-
                             if (!paymentPlanData.includes("pesin")) {
-                                // Add "pesin" to the beginning of the array
+                                // "peşin" not present, add it to the beginning of the array
                                 paymentPlanData.unshift("pesin");
                             } else if (!paymentPlanData.includes("taksitli")) {
-                                // If "pesin" is already present but "taksitli" is not, add "taksitli" to the end
-                                paymentPlanData.push("taksitli");
+                                // "peşin" already present, but "taksitli" is not, add "taksitli" to the end
+                                const indexOfPesin = paymentPlanData.indexOf("pesin");
+                                paymentPlanData.splice(indexOfPesin + 1, 0, "taksitli");
                             }
 
+                            // Şimdi diziyi tersine çevir
+                            paymentPlanData.reverse();
 
 
                             var html = "";
@@ -659,18 +661,19 @@
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
 
                                         if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
-                                            html += "<td><strong>" + installementData + " Ay " + (isMobile ? paymentPlanDatax[
-                                                paymentPlanData[j]] + " " +
-                                            "Fiyat:</strong> " : "") + formatPrice(
-                                            priceData) + "₺</td>";
-                                        }else{
+                                            html += "<td><strong>" + installementData + " Ay " + (
+                                                isMobile ? paymentPlanDatax[
+                                                    paymentPlanData[j]] + " " +
+                                                "Fiyat:</strong> " : "") + formatPrice(
+                                                priceData) + "₺</td>";
+                                        } else {
                                             html += "<td><strong>" + (isMobile ? paymentPlanDatax[
-                                                paymentPlanData[j]] + " " +
-                                            "Fiyat:</strong> " : "") + formatPrice(
-                                            priceData) + "₺</td>";
+                                                    paymentPlanData[j]] + " " +
+                                                "Fiyat:</strong> " : "") + formatPrice(
+                                                priceData) + "₺</td>";
                                         }
 
-                                       
+
                                     }
 
 
@@ -1448,7 +1451,7 @@
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
-                                $('.header-search-box').append(`
+                            $('.header-search-box').append(`
     <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
         <span>${formattedName}</span>
     </a>
@@ -1594,7 +1597,7 @@
                                 const formattedName = e.name.charAt(0)
                                     .toUpperCase() + e.name.slice(1);
 
-                                    $('.header-search-box').append(`
+                                $('.header-search-box').append(`
     <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
         <span>${formattedName}</span>
     </a>
