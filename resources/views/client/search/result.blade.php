@@ -80,7 +80,7 @@
                                 <div class="slick-lancers">
                                     @foreach ($results['merchants'] as $result)
                                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                                            <a href="{{ route('instituional.dashboard', ["slug" => $result['slug'], "userID" =>$result['id']]) }}"
+                                            <a href="{{ route('institutional.dashboard', ["slug" => $result['slug'], "userID" =>$result['id']]) }}"
                                                 class="homes-img">
                                                 <div class="landscapes">
                                                     <div class="project-single">

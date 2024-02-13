@@ -110,7 +110,7 @@
                 <div class="slick-lancers">
                     @foreach ($brands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                            <a href="{{ route('instituional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
+                            <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
                                 class="homes-img">
                                 <div class="landscapes">
                                     <div class="project-single">

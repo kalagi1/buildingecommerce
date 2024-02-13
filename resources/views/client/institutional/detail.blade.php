@@ -24,7 +24,7 @@
                     <div class="brands-square">
                         <img src="{{ url('storage/profile_images/' . $institutional->profile_image) }}" alt=""
                             class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('instituional.profile',["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}"
+                        <p class="brand-name"><a href="{{ route('institutional.profile',["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}"
                                 style="color:White">
                                 {{ $institutional->name }}
                                 <style type="text/css">
@@ -75,20 +75,20 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item"
-                                href="{{ route('instituional.dashboard', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Anasayfa</a>
+                                href="{{ route('institutional.dashboard', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Anasayfa</a>
                             <a class="navbar-item active"
-                                href="{{ route('instituional.profile', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Mağaza
+                                href="{{ route('institutional.profile', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Proje
+                                href="{{ route('institutional.projects.detail', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Proje
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.housings', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Emlak
+                                href="{{ route('institutional.housings', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Emlak
                                 İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('instituional.teams', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ["slug" => Str::slug($institutional->name), "userID" => $institutional->id]) }}">Ekip</a>
                         </div>
-                        <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
+                        <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf
                             <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project"
                                 aria-label="Search" name="q">

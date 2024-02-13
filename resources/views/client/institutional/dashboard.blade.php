@@ -57,7 +57,7 @@
                             class="brand-logo">
                         <div style="display: flex;margin-left:5px">
 
-                            <p class="brand-name"><a href="{{ route('instituional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}"
+                            <p class="brand-name"><a href="{{ route('institutional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}"
                                     style="color:White">
                                     {{ $store->name }}</a>
                             </p>
@@ -108,16 +108,16 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item active"
-                                href="{{ route('instituional.dashboard', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Anasayfa</a>
+                                href="{{ route('institutional.dashboard', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Mağaza Profili</a>
+                                href="{{ route('institutional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Mağaza Profili</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Proje
+                                href="{{ route('institutional.projects.detail', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Proje
                                 İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('instituional.housings',["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Emlak İlanları</a>
+                                href="{{ route('institutional.housings',["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Emlak İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('instituional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
                             
                         </div>
                         <div class="search-form">

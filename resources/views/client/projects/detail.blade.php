@@ -8,7 +8,7 @@
                     <div class="brands-square">
                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
                             class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('instituional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}"
+                        <p class="brand-name"><a href="{{ route('institutional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}"
                                 style="color:White">{{ $project->user->name }}
                                 <style type="text/css">
                                     .st0 {
@@ -60,20 +60,20 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item"
-                                href="{{ route('instituional.dashboard', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Anasayfa</a>
+                                href="{{ route('institutional.dashboard', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Mağaza
+                                href="{{ route('institutional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.projects.detail', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Proje
+                                href="{{ route('institutional.projects.detail', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Proje
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('instituional.housings', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Emlak
+                                href="{{ route('institutional.housings', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Emlak
                                 İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('instituional.teams', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Ekip</a>
                         </div>
-                        <form class="search-form" action="{{ route('instituional.search') }}" method="GET">
+                        <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf
                             <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project"
                                 aria-label="Search" name="q">
@@ -369,7 +369,7 @@
                                                 </div>
                                                 <div class="footer">
                                                     <a
-                                                        href="{{ route('instituional.profile',["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">
+                                                        href="{{ route('institutional.profile',["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">
                                                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
                                                             alt="" class="mr-2"> {{ $project->user->name }}
                                                     </a>

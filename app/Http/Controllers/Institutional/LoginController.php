@@ -38,7 +38,7 @@ class LoginController extends Controller
                     $user = Auth::user();
                     if ($user->type == 3) {
                         // Giriş başarılı
-                        return redirect()->intended('/admin'); // Admin paneline yönlendir
+                        return redirect()->intended('/qR9zLp2xS6y/secured/admin'); // Admin paneline yönlendir
                     } elseif ($user->type != "1" && $user->type != "3") {
                         return redirect()->intended(route('index'));
                     } else {

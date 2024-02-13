@@ -202,7 +202,7 @@ class LoginController extends Controller {
                     }
 
                     if ( $user->type == 3 ) {
-                        return redirect()->intended( '/admin' );
+                        return redirect()->intended( '/qR9zLp2xS6y/secured/admin' );
                     } elseif ( $user->type != '3' ) {
                         return redirect()->intended( route( 'index' ) );
                     }
@@ -343,7 +343,7 @@ class LoginController extends Controller {
                         if ( Auth::login($user) ) {
                             $user = Auth::user();
                             if ( $user->type == 3 ) {
-                                return redirect()->intended( '/admin' );
+                                return redirect()->intended( '/qR9zLp2xS6y/secured/admin' );
                             } elseif ( $user->type != 1 && $user->type != '3' ) {
                                 return redirect()->intended( route( 'index' ) );
                             } else {
@@ -384,7 +384,7 @@ class LoginController extends Controller {
                             if ( Auth::login($user) ) {
                                 $user = Auth::user();
                                 if ( $user->type == 3 ) {
-                                    return redirect()->intended( '/admin' );
+                                    return redirect()->intended( '/qR9zLp2xS6y/secured/admin' );
                                 } elseif ( $user->type != 1 && $user->type != '3' ) {
                                     return redirect()->intended( route( 'index' ) );
                                 } else {

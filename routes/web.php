@@ -96,11 +96,8 @@ Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController:
 
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
-// Route::get('/sat-kirala', [HomeController::class, "satKirala"])->name('satKirala');
-Route::get('/admin', [AdminHomeController::class, "index"]);
 Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
-Route::get('/admin', [AdminHomeController::class, "index"]);
-Route::get('/instituional/search', [InstitutionalController::class, 'search'])->name('instituional.search');
+Route::get('/institutional/search', [InstitutionalController::class, 'search'])->name('institutional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
@@ -123,14 +120,14 @@ Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])-
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
 Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
-Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('instituional.dashboard');
-Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('instituional.dashboard.filter');
+Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
+Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
 Route::get('/emlak-kulup/{slug}', [ClubController::class, "dashboard"])->name('club.dashboard');
 
-Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('instituional.profile');
-Route::get('/magaza/{slug}/{userID}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('instituional.projects.detail');
-Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('instituional.housings');
-Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('instituional.teams');
+Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
+Route::get('/magaza/{slug}/{userID}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('institutional.projects.detail');
+Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('institutional.housings');
+Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('institutional.teams');
 
 Route::get('/projeler', [ClientProjectController::class, "projectList"])->name('project.list');
 
@@ -215,6 +212,7 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
+    Route::get('/admin', [AdminHomeController::class, "index"]);
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');
     Route::get('/projects/{project_id}/orders', [AdminEstateClubController::class, 'orders'])->name('projects.orders');
