@@ -1110,7 +1110,7 @@
                                                                                         </span>
                                                                                     </div>
                                                                                 </a>
-                                                                                <div class="d-flex align-items-end">
+                                                                                <div class="d-flex align-items-end projectItemFlex">
                                                                                     <div
                                                                                         style="width: 50%;
                                                                                                     align-items: center;">
@@ -1702,7 +1702,7 @@
                                                                     </span>
                                                                 </div>
                                                             </a>
-                                                            <div class="d-flex align-items-end">
+                                                            <div class="d-flex align-items-end projectItemFlex">
                                                                 <div
                                                                     style="width: 50%;
                                                                                     align-items: center;">

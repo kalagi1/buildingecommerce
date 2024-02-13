@@ -2,11 +2,11 @@
 
 @section('content')
     <section class="loginItems">
-        <div class="container"> <!-- Genişlik container-fluid ile değiştirildi -->
+        <div class="container"> 
             <div class="row">
                 <div class="col-md-7 mx-auto">
                     <div class="login-container">
-                        <!-- Sekme Seçenekleri -->
+
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
@@ -274,6 +274,7 @@
                                                     <span class="error-message">{{ $errors->first('phone') }}</span>
                                                 @endif
                                             </div>
+                                            
                                             <div class="mt-3">
                                                 <label class="q-label">Iban</label>
                                                 <input type="text" name="iban"

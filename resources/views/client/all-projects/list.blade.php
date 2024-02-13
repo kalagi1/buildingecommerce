@@ -624,20 +624,20 @@
                                                     <ul class="homes-list clearfix pb-0" style="display: flex; justify-content: center;">
                                                         ${res.sold ?
                                                             `<button
-                                                                                                                style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
-                                                                                                            </button>`
+                                                                                                                    style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı
+                                                                                                                </button>`
                                                             :
 
                                                             `
-                                                                    <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
-                                                                    data-id='${res.id}'>
-                                                                    <span class="IconContainer">
-                                                                        <img src="{{ asset('sc.png') }}" alt="">
+                                                                        <button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing'
+                                                                        data-id='${res.id}'>
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}" alt="">
 
-                                                                    </span>
-                                                                    <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
-                                                                </button>
-                                                                    `
+                                                                        </span>
+                                                                        <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
+                                                                    </button>
+                                                                        `
                                                             }
                                                     </ul>
                                                 </div>
@@ -852,7 +852,6 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-
         .brand-head .brands-square {
             padding-left: 0 !important
         }
