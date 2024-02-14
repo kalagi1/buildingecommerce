@@ -20,7 +20,25 @@
         <div id="products">
 
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
-
+                <div class="table-collective-transactions">
+                    <div class="updates-buttons d-none my-2">
+                        <span class="price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
+                            Fiyatları Güncelle
+                        </span>
+                        <span class="installments-price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
+                            Taksitli Fiyatları Güncelle
+                        </span>
+                        <span class="pay-dec-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
+                            Ara Ödemeleri Güncelle
+                        </span>
+                        <span class="installments-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
+                            Taksit Sayılarını Güncelle
+                        </span>
+                        <span class="advance-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
+                            Peşinatları Güncelle
+                        </span>
+                    </div>
+                </div>
                 @if ($project->have_blocks == 1)
                     <ul class="nav nav-underline" id="myTab" role="tablist">
                         @foreach ($project->blocks as $block)
@@ -54,6 +72,7 @@
                                 <table class="table fs--1 mb-0">
                                     <thead>
                                         <tr>
+                                            <th><input type="checkbox"></th>
                                             <th>No.</th>
                                             <th>Görsel</th>
                                             <th class="sort" data-sort="room_count">İlan Adı</th>
@@ -74,6 +93,7 @@
                                             @endphp
 
                                             <tr>
+                                                <td><input type="checkbox"></td>
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
                                                     <div class="image-with-hover">
@@ -309,6 +329,7 @@
                         <table class="table fs--1 mb-0">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" class="all-select"></th>
                                     <th>No.</th>
                                     <th>Görsel</th>
                                     <th class="sort" data-sort="room_count">İlan Adı</th>
@@ -328,6 +349,7 @@
                                     @endphp
 
                                     <tr>
+                                        <td><input type="checkbox" class="item-checkbox" item-id="{{$i+1}}" name="" id=""></td>
                                         <td>{{ $i + 1 }}</td>
                                         <td class="image">
                                             <div class="image-with-hover">
@@ -602,6 +624,45 @@
         </div>
     </div>
 
+    <div class="total-change-modal-with-input d-none">
+        <div class="bg"></div>
+        <div class="model-content">
+            <div class="close"><i class="fa fa-times"></i></div>
+            <h4 class="total-change-title">
+                Toplu/Tekil seçim
+            </h4>
+
+            <form action="{{route('institutional.set.selected.data',$project->id)}}" method="post">
+                @csrf
+                <div class="kvkk mt-1">
+                    <input type="hidden" name="selected-items" class="selected-items">
+                    <input type="hidden" name="transaction-type" class="transaction-type">
+                    <div class="input">
+                        <label for="">Yeni <span class="show-text-selected"></span></label>
+                        <input type="text" name="new_data" class="form-control price-only" id="">
+                    </div>
+                    <div class="finish-tick " style="float:none;padding-left: 0;">
+                        <input type="checkbox" id="rules_confirmx" value="1" class="rules_confirm">
+                        <label for="rules_confirmx">
+                            <span class="rulesOpen">İlan verme kurallarını</span>
+                            <span>okudum, kabul ediyorum</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="mt-1">
+                    <div class="d-flex">
+                        <button type="submit" style="width: auto;display:block;border-radius: .25rem;"
+                            class="single-adv-do buyUserRequest">
+                            <span class="buyUserRequest__text">
+                                <div>Güncelle</div>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <div class="modal fade" id="rulesOpenModal" tabindex="-1" role="dialog"
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
@@ -800,12 +861,103 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+        @if(Session::has('status') == 'update_selected_items')
+            console.log("asd");
+            $.toast({
+                heading: 'Başarılı',
+                text: 'Başarıyla güncellediniz , proje yönetici onayının ardından aktife alınacaktır.',
+                position: 'top-right',
+                stack: false
+            })
+        @endif
+
         function priceFormat(price) {
             let inputValue = price;
             inputValue = inputValue.replace(/\D/g, '');
             inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             return inputValue;
         }
+
+        var targetObj = {};
+        
+        var targetProxy = new Proxy(targetObj, {
+            set: function (target, key, value) {
+                target[key] = value;
+                console.log(selectedItems.join(','));
+                $('.selected-items').val(selectedItems.join(','))
+                $('.item_order').val(selectedItems.join(','))
+                if(selectedItems.length > 0){
+                    $('.updates-buttons').removeClass('d-none')
+                }else{
+                    $('.updates-buttons').addClass('d-none')
+                }
+                return true;
+            }
+        });
+
+        let selectedItems = [];
+        $('.item-checkbox').change(function(){
+            if($(this).is(':checked')){
+                selectedItems.push($(this).attr('item-id'))
+                targetProxy.hello_world = 1;
+            }else{
+                const index = selectedItems.indexOf($(this).attr('item-id'));
+                if (index > -1) {
+                    selectedItems.splice(index, 1);
+                }
+                targetProxy.hello_world = 1;
+            }
+        })
+
+        $('.all-select').change(function(){
+            if($(this).is(':checked')){
+                $('.item-checkbox').prop('checked',true)
+                for(var i = 0 ; i < $('.item-checkbox').length; i++){
+                    selectedItems.push($('.item-checkbox').eq(i).attr('item-id'))
+                    $('.updates-buttons').removeClass('d-none')
+                }
+                targetProxy.hello_world = 1;
+            }else{
+                $('.item-checkbox').prop('checked',false)
+                for(var i = 0 ; i < $('.item-checkbox').length; i++){
+                    selectedItems = [];
+                    $('.updates-buttons').addClass('d-none')
+                }
+                targetProxy.hello_world = 0;
+            }
+        })
+
+
+
+        $('.price-update').click(function(){
+            $('.total-change-modal-with-input').removeClass('d-none')
+            $('.show-text-selected').html('Fiyat')
+            $('.transaction-type').val('price')
+        })
+
+        $('.installments-price-update').click(function(){
+            $('.total-change-modal-with-input').removeClass('d-none')
+            $('.transaction-type').val('installments-price')
+            $('.show-text-selected').html('Taksitli Fiyat')
+        })
+
+        $('.installments-update').click(function(){
+            $('.total-change-modal-with-input').removeClass('d-none')
+            $('.transaction-type').val('installments')
+            $('.show-text-selected').html('Taksit Sayısını')
+        })
+
+        $('.advance-update').click(function(){
+            $('.total-change-modal-with-input').removeClass('d-none')
+            $('.transaction-type').val('advance')
+            $('.show-text-selected').html('Peşinat')
+        })
+
+        $('.pay-dec-update').click(function(){
+            $('.batch-update-pop-up').removeClass('d-none')
+        })
+
+
         $('.batch_update_button').click(function(){
             $('.batch-update-pop-up').removeClass('d-none')
             var roomOrder = $(this).attr('room-order');
@@ -938,6 +1090,15 @@
 
         $('.total-change-modal .bg').click(function() {
             $('.total-change-modal').addClass('d-none');
+        })
+
+        $('.total-change-modal-with-input .close').click(function() {
+            $('.total-change-modal-with-input').addClass('d-none');
+        })
+
+
+        $('.total-change-modal-with-input .bg').click(function() {
+            $('.total-change-modal-with-input').addClass('d-none');
         })
 
         $('.edit-button-table').click(function() {
