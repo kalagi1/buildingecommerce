@@ -25,8 +25,6 @@
                                     <th
                                      class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_name">İsim Soyisim</th>
-                                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_name">İnstagram Kullanıcı Adı</th>
                                         <th
                                         class="sort white-space-nowrap align-middle pe-3" scope="col"
                                            data-sort="order_name">Banka Bilgileri</th>
