@@ -107,6 +107,8 @@
 <script>
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
+        $('.fa-info-circle').tooltip()
+
     });
 </script>
 

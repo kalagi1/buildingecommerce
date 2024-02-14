@@ -61,8 +61,9 @@
                                     @enderror
                                 </div>
                                 <div class="mt-3">
-                                    <label class="q-label">Iban Numarası <i class="fa fa-info-circle ml-2" style="font-size: 18px;" aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
-                                        data-bs-original-title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
+                                    <label class="q-label">Iban Numarası
+                                         <i class="fa fa-info-circle ml-2"  data-toggle="tooltip" style="font-size: 18px;" aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
+                                        title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
                                     <input type="text" name="iban"
                                         class="form-control @error('iban') is-invalid @enderror"
                                         value="{{ old('iban', $user->iban) }}">
@@ -108,11 +109,7 @@
         </div>
     </div>
 
-    <script>
-          $(function() {
-            $('.fa-info-circle').tooltip()
-        })
-    </script>
+  
 @endsection
 
 
