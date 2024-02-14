@@ -27569,6 +27569,9 @@ input[type="checkbox"] {
 input[type="checkbox"] {
     display: grid;
     place-content: center;
+    width: 15px !important;
+    height: 15px !important;
+    margin-left:3px !important;
 }
 
 input[type="checkbox"]::before {
