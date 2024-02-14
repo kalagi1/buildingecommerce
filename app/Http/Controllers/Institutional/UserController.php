@@ -25,7 +25,7 @@ class UserController extends Controller {
             die( 'Belge yok.' );
         }
 
-        $file = file_get_contents( storage_path( "/app/{$tax_document}" ) );
+        $file = file_get_contents( public_path( "/storage/tax_document/{$tax_document}" ) );
         preg_match( '@\.(\w+)$@', $tax_document, $match );
         $extension = $match[ 1 ] ?? 'png';
 
@@ -41,7 +41,7 @@ class UserController extends Controller {
             die( 'Belge yok.' );
         }
 
-        $file = file_get_contents( storage_path( "/app/{$record_document}" ) );
+        $file = file_get_contents( public_path( "/storage/record_document/{$record_document}" ) );
         preg_match( '@\.(\w+)$@', $record_document, $match );
         $extension = $match[ 1 ] ?? 'png';
 
@@ -57,7 +57,7 @@ class UserController extends Controller {
             die( 'Belge yok.' );
         }
 
-        $file = file_get_contents( storage_path( "/app/{$identity_document}" ) );
+        $file = file_get_contents( public_path( "/storage/identity_document/{$identity_document}" ) );
         preg_match( '@\.(\w+)$@', $identity_document, $match );
         $extension = $match[ 1 ] ?? 'png';
 
@@ -73,7 +73,7 @@ class UserController extends Controller {
             die( 'Belge yok.' );
         }
 
-        $file = file_get_contents( storage_path( "/app/{$company_document}" ) );
+        $file = file_get_contents( public_path( "/storage/company_document/{$company_document}" ) );
         preg_match( '@\.(\w+)$@', $company_document, $match );
         $extension = $match[ 1 ] ?? 'png';
 

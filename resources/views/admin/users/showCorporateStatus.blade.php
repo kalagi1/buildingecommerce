@@ -42,7 +42,7 @@
                                                 @if (!is_null($user_e->tax_document))
                                                     <div class="ml-2 mr-2">
                                                         <a target="_blank"
-                                                            href="{{ route('admin.get.tax-document', ['user' => $user_e->id]) }}"
+                                                            href="{{ url('storage/tax_document/'. $user_e->tax_document) }}"
                                                             download><i class="fa fa-download"></i></a>
                                                     </div>
                                                 @endif
@@ -69,7 +69,7 @@
                                                 @if (!is_null($user_e->record_document))
                                                     <div class="ml-2 mr-2">
                                                         <a target="_blank"
-                                                            href="{{ route('admin.get.record-document', ['user' => $user_e->id]) }}"
+                                                            href="{{ url('storage/record_document/'. $user_e->record_document) }}"
                                                             download><i class="fa fa-download"></i></a>
                                                     </div>
                                                 @endif
@@ -98,7 +98,7 @@
                                                 @if (!is_null($user_e->identity_document))
                                                     <div class="ml-2 mr-2">
                                                         <a target="_blank"
-                                                            href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}"
+                                                            href="{{ url('storage/identity_document/'. $user_e->identity_document) }}"
                                                             download><i class="fa fa-download"></i></a>
                                                     </div>
                                                 @endif
@@ -127,7 +127,7 @@
                                                 @if (!is_null($user_e->identity_document))
                                                     <div class="ml-2 mr-2">
                                                         <a target="_blank"
-                                                            href="{{ route('admin.get.identity-document', ['user' => $user_e->id]) }}"
+                                                            href="{{ url('storage/identity_document/'. $user_e->identity_document) }}"
                                                             download><i class="fa fa-download"></i></a>
                                                     </div>
                                                 @endif
@@ -154,7 +154,7 @@
                                                 @if (!is_null($user_e->company_document))
                                                     <div class="ml-2 mr-2">
                                                         <a target="_blank"
-                                                            href="{{ route('admin.get.company-document', ['user' => $user_e->id]) }}"
+                                                            href="{{ url('storage/company_document/'. $user_e->company_document) }}"
                                                             download><i class="fa fa-download"></i></a>
                                                     </div>
                                                 @else
