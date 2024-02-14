@@ -738,6 +738,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/my-earnings', [SharerController::class,"earnings"])->name('sharer.earnings');
     Route::get('/my-collections/{id}', [SharerController::class,"showLinks"])->name('sharer.links.index');
     Route::get('/my-collections/{id}/views', [SharerController::class,"viewsLinks"])->name('sharer.viewsLinks.index');
+    Route::post('set_selected_data/{item_id}', [InstitutionalProjectController::class, 'setSelectedData'])->name('set.selected.data');
 
     Route::delete('/collection/{id}/delete', [SharerController::class, 'deleteCollection'])->name('collection.delete');
     Route::put('/collection/{id}/edit', [SharerController::class, 'editCollection'])->name('collection.edit');

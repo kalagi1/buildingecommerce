@@ -42882,3 +42882,47 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .situations{
     margin-top: 10px;
 }
+
+.total-change-modal-with-input{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.total-change-modal-with-input .bg{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: #333333d1;
+}
+
+.total-change-modal-with-input .model-content{
+    z-index: 99999;
+    width: 50%;
+    background: #fff;
+    border-radius: 0.25rem;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.total-change-modal-with-input .model-content .close{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    background: #f1f1f1;
+    top: -12.5px;
+    right: -12.5px;
+    border-radius: 100%;
+    cursor: pointer;
+}
