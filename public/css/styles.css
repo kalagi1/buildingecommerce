@@ -17652,6 +17652,7 @@ section.headings-2 {
 
 .reservation-list {
     width: 100%;
+    margin-bottom:0 !important
 }
 
 .reservation-list li {
