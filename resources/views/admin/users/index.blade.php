@@ -228,7 +228,7 @@
                                                 </td>
                                                 <td
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
-                                                    {{ isset($user->city) && $user->city->title ? $user->city->title.' & '.$user->district->ilce_title : "İl Belirtilmemiş" }}
+                                                    {{ isset($user->city) && isset($user->district) && $user->city->title ? $user->city->title.' & '.$user->district->ilce_title : "İl Belirtilmemiş" }}
                                                 </td>
                                                 <td>
                                                     @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
