@@ -114,28 +114,27 @@
                                         <td>
                                             <span class="ml-auto text-success priceFont">
                                                 @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                   
                                                 @if ($item['item_type'] == 2)
                                                 @php
                                                     $sharePercent = 0.25;
-                                                    $priceData = isset($discountedPrice) ? $discountedPrice : json_decode($item['housing']['housing_type_data'])->price;
-                                                    $discountedPrice = isset($priceData[0]) ? $priceData[0] : json_decode($item['housing']['housing_type_data'])->daily_rent;
+                                                    $discountedPrice = (isset($discountedPrice) ? $discountedPrice : isset(json_decode($item['housing']['housing_type_data'])->price[0])) ? json_decode($item['housing']['housing_type_data'])->price[0] : json_decode($item['housing']['housing_type_data'])->daily_rent[0];
                                                     $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                 @endphp
                                                 <strong>
+
                                                     {{ number_format($earningAmount / 2, 0, ',', '.') }} ₺
                                                 </strong>
                                             @elseif ($item['item_type'] == 1)
                                                 @php
                                                     $sharePercent = 0.5;
-                                                    $priceData = isset($discountedPrice) ? $discountedPrice : $item['project_values']['price[]'];
-                                                    $discountedPrice = isset($priceData[0]) ? $priceData[0] : $item['project_values']['daily_rent'];
+                                                    $discountedPrice = (isset($discountedPrice) ? $discountedPrice : isset($item['project_values']['price[]'])) ? $item['project_values']['price[]'] : $item['project_values']['daily_rent[]'];
                                                     $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                 @endphp
                                                 <strong>
                                                     {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                 </strong>
                                             @endif
-                                            
                                                 @else
                                                     @if (isset($item['share_price']['balance']) && $item['share_price']['status'] == '0')
                                                         <strong style="color: orange">
@@ -298,18 +297,17 @@
                                                 @if ($item['item_type'] == 2)
                                                     @php
                                                         $sharePercent = 0.25;
-                                                        $priceData = isset($discountedPrice) ? $discountedPrice : json_decode($item['housing']['housing_type_data'])->price;
-                                                        $discountedPrice = isset($priceData[0]) ? $priceData[0] : json_decode($item['housing']['housing_type_data'])->daily_rent;
+                                                        $discountedPrice = (isset($discountedPrice) ? $discountedPrice : isset(json_decode($item['housing']['housing_type_data'])->price[0])) ? json_decode($item['housing']['housing_type_data'])->price[0] : json_decode($item['housing']['housing_type_data'])->daily_rent[0];
                                                         $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                     @endphp
                                                     <strong>
+
                                                         {{ number_format($earningAmount / 2, 0, ',', '.') }} ₺
                                                     </strong>
                                                 @elseif ($item['item_type'] == 1)
                                                     @php
                                                         $sharePercent = 0.5;
-                                                        $priceData = isset($discountedPrice) ? $discountedPrice : $item['project_values']['price[]'];
-                                                        $discountedPrice = isset($priceData[0]) ? $priceData[0] : $item['project_values']['daily_rent'];
+                                                        $discountedPrice = (isset($discountedPrice) ? $discountedPrice : isset($item['project_values']['price[]'])) ? $item['project_values']['price[]'] : $item['project_values']['daily_rent[]'];
                                                         $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                     @endphp
                                                     <strong>
