@@ -178,7 +178,17 @@
                                     action="{{ route('admin.users.update', $userDetail->id) }}">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
-
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
+                                                type="file" accept=".jpeg, .jpg, .png"><label
+                                                class="avatar avatar-4xl status-online cursor-pointer"
+                                                for="upload-settings-porfile-picture"><img
+                                                    class="rounded-circle img-thumbnail shadow-sm border-0"
+                                                    src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                                                    width="200" alt=""></label>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
