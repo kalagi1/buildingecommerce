@@ -126,6 +126,9 @@ class RegisterController extends Controller
         $user->save();
 
         if ($request->input("type") == 2) {
+            $maxOrder = User::where("type", 2)->max("order");
+            $user->order = $maxOrder + 1;
+            $user->save();
             UserPlan::create([
                 "user_id" => $user->id,
                 "subscription_plan_id" => null,
