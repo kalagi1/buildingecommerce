@@ -355,12 +355,13 @@ return view('admin.users.orders', compact('brands'));
         $user->type = $validatedData['type'];
         $user->status = $request->has('is_active') ? 1 : 0;
 
+
         
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('profile_images', $imageFileName, 'public');
-            $user->profile_image = $imageFileName; // Vergi Dairesi İli güncellendi
+            $user->profile_image = $imageFileName; 
         }
         
 

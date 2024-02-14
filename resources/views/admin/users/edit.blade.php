@@ -175,13 +175,14 @@
                                     </div>
                                 @endif
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('admin.users.update', $userDetail->id) }}">
+                                    action="{{ route('admin.users.update', $userDetail->id) }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
                                     <div class="col-lg-12">
                                         <div>
-                                            <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
-                                                type="file" accept=".jpeg, .jpg, .png"><label
+                                            <input class="d-none" id="upload-settings-porfile-picture"
+                                                name="profile_image" type="file" accept=".jpeg, .jpg, .png"><label
                                                 class="avatar avatar-4xl status-online cursor-pointer"
                                                 for="upload-settings-porfile-picture"><img
                                                     class="rounded-circle img-thumbnail shadow-sm border-0"
