@@ -15,7 +15,7 @@
                                     {{ $store->name }}
                                     <style type="text/css">
                                         .st0 {
-                                            fill: #e54242;
+                                            fill: #274abb;
                                         }
 
                                         .st1 {
