@@ -945,7 +945,7 @@
                                                                     </p>
                                                                 </span>
                                                                 <!-- homes List -->
-                                                                <ul class="homes-list clearfix pb-3 pt-3"
+                                                                <ul class="homes-list clearfix pb-3"
                                                                     style="display: flex;justify-content:space-between">
                                                                     <li class="sude-the-icons"
                                                                         style="width:auto !important">
@@ -993,7 +993,7 @@
                                                                         </li>
                                                                     @endif
                                                                 </ul>
-                                                                <ul class="homes-list clearfix pb-3 pt-3"
+                                                                <ul class="homes-list clearfix pb-3"
                                                                 style="display: flex; justify-content: space-between;">
                                                                 <li
                                                                     style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">

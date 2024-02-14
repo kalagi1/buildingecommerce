@@ -992,7 +992,7 @@
                                                                 <i class="fa fa-map-marker"></i><span>${res.city} ${" / "} ${res.county} </span>
                                                             </a>
                                                         </p>
-                                                        <ul class="homes-list clearfix pb-3 pt-3" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
+                                                        <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
                                                             ${res.column1 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column1)} ${res.column1_additional ? res.column1_additional : " "}</span></li>` : ''}
                                                             ${res.column2 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column2)} ${res.column2_additional ? res.column2_additional : " "}</span></li>` : ''}
                                                             ${res.column3 ? `<li class="d-flex align-items-center itemCircleFont" style='width:auto !important'><i class='fa fa-circle circleIcon mr-1'></i><span>${toTitleCase(res.column3)} ${res.column3_additional ? res.column3_additional : " "}</span></li>` : ''}
@@ -1007,7 +1007,7 @@
                                                                 }
                                                             </li>
                                                         </ul>
-                                                        <ul class="homes-list clearfix pb-3 pt-3" style="display: flex; justify-content: center;">
+                                                        <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: center;">
                                                             ${res.step2_slug !== "gunluk-kiralik" ?
                                                                 res.offSale ?
                                                                     `<button

@@ -597,7 +597,7 @@
                                                         </a>
                                                     </p>
                                                     <!-- homes List -->
-                                                    <ul class="homes-list clearfix pb-3 pt-3" style="display: flex;justify-content:space-between">
+                                                    <ul class="homes-list clearfix pb-3" style="display: flex;justify-content:space-between">
                                                         <li class="sude-the-icons" style="width:auto !important">
                                                             <i class="fa fa-circle circleIcon mr-1"></i>
                                                             <span>${res.housing_type.title} </span>
@@ -611,7 +611,7 @@
                                                             <span>${res.housing_type.squaremeters} m2</span>
                                                         </li>
                                                     </ul>
-                                                    <ul class="homes-list clearfix pb-3 pt-3" style="display: flex; justify-content: space-between;">
+                                                    <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-between;">
                                                         <li style="font-size: 16px; font-weight: 700;" class="priceFont">
                                                             ${numberFormat(res.housing_type.price)} ₺
 
@@ -621,7 +621,7 @@
 
                                                         </li>
                                                     </ul>
-                                                    <ul class="homes-list clearfix pb-3 pt-3" style="display: flex; justify-content: center;">
+                                                    <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: center;">
                                                         ${res.sold ?
                                                             `<button
                                                                                                                     style="width: 100%; border: none; background-color: #EA2B2E; border-radius: 10px; padding: 5px 0px; color: white;">Satıldı

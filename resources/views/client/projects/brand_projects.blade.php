@@ -217,7 +217,7 @@
                                                 </a>
                                             </p>
                                             <!-- homes List -->
-                                            <ul class="homes-list clearfix pb-3 pt-3"
+                                            <ul class="homes-list clearfix pb-3"
                                                 style="display: flex;justify-content:space-between">
                                                 <li class="sude-the-icons" style="width:auto !important">
                                                     <i class="fa fa-circle circleIcon mr-1"></i>
@@ -232,7 +232,7 @@
                                                     <span>{{ getData($housing, 'squaremeters') }} m2</span>
                                                 </li>
                                             </ul>
-                                            <ul class="homes-list clearfix pb-3 pt-3"
+                                            <ul class="homes-list clearfix pb-3"
                                                 style="display: flex; justify-content: space-between;">
                                                 <li style="font-size: 16px; font-weight: 700;">
                                                     {{ getData($housing, 'price') }}TL
@@ -242,7 +242,7 @@
                                                     {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
                                                 </li>
                                             </ul>
-                                            <ul class="homes-list clearfix pb-3 pt-3"
+                                            <ul class="homes-list clearfix pb-3"
                                                 style="display: flex; justify-content: center;margin-top:20px !important;">
                                                 <button id="addToCart"
                                                     style="width: 100%; border: none; background-color: black; border-radius: 10px; padding: 5px 0px; color: white;"
