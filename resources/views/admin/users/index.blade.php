@@ -114,6 +114,16 @@
                                                 </div>
                                             </th>
                                             <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
+                                                data-sort="company" style="width:15%;">
+                                                <div class="d-inline-flex flex-center">
+                                                    <div
+                                                        class="d-flex align-items-center px-1 py-1 bg-danger-100 rounded me-2">
+                                                        <span class="text-danger-600 dark__text-danger-300"
+                                                            data-feather="grid"></span>
+                                                    </div><span>İl & İlçe</span>
+                                                </div>
+                                            </th>
+                                            <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
                                                 data-sort="contact" style="width:15%;">İşlemler</th>
 
                                         </tr>
@@ -215,6 +225,10 @@
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
                                                     {{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}
 
+                                                </td>
+                                                <td
+                                                    class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
+                                                    {{ isset($user->city) && $user->city->title ? $user->city->title.' & '.$user->district->ilce_title : "İl Belirtilmemiş" }}
                                                 </td>
                                                 <td>
                                                     @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
