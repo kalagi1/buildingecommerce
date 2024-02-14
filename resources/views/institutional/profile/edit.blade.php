@@ -3,7 +3,7 @@
 @section('content')
     <div class="content">
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-12">
                 <div class="card shadow-sm border-300 border-bottom mb-4">
 
                     <div class="card-body">
@@ -27,83 +27,87 @@
                             @csrf
                             @method('PUT')
 
-                            <!-- Diğer giriş alanlarını buraya ekleyin -->
-                            <div class="corporate-form" id="corporateForm">
-                                <!-- İsim -->
-                                <!-- Profil Resmi -->
-                                <div>
-                                    <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
-                                        type="file" accept=".jpeg, .jpg, .png"><label
-                                        class="avatar avatar-4xl status-online cursor-pointer"
-                                        for="upload-settings-porfile-picture"><img
-                                            class="rounded-circle img-thumbnail shadow-sm border-0"
-                                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
-                                            width="200" alt=""></label>
-                                </div>
+                            <div class="corporate-form row" id="corporateForm">
 
-                                <div class="mt-3">
-                                    <label class="q-label">İsim</label>
-                                    <input type="text" name="name" class="form-control"
-                                        value="{{ old('name', $user->name) }}">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
+                                            type="file" accept=".jpeg, .jpg, .png"><label
+                                            class="avatar avatar-4xl status-online cursor-pointer"
+                                            for="upload-settings-porfile-picture"><img
+                                                class="rounded-circle img-thumbnail shadow-sm border-0"
+                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                                                width="200" alt=""></label>
+                                    </div>
                                 </div>
-                                <div class="mt-3">
-                                    <label class="q-label">Cep Telefon</label>
-                                    <input type="number" name="mobile_phone" class="form-control"
-                                        value="{{ old('mobile_phone', $user->mobile_phone) }}">
-                                </div>
+                                <div class="col-lg-6">
+                                
+                                    <div class="mt-3">
+                                        <label class="q-label">İsim</label>
+                                        <input type="text" name="name" class="form-control"
+                                            value="{{ old('name', $user->name) }}">
+                                    </div>
+                                    <div class="mt-3">
+                                        <label class="q-label">Cep Telefon</label>
+                                        <input type="number" name="mobile_phone" class="form-control"
+                                            value="{{ old('mobile_phone', $user->mobile_phone) }}">
+                                    </div>
 
-                                <div class="mt-3">
-                                    <label class="q-label">Iban Numarası</label>
-                                    <input type="text" name="iban" class="form-control"
-                                        value="{{ old('iban', $user->iban) }}">
-                                </div>
-                                <div class="mt-3">
-                                    <label class="q-label">İnstagram Kullanıcı Adı</label>
-                                    <input type="text" name="instagramusername" class="form-control"
-                                        value="{{ old('instagramusername', $user->instagramusername) }}">
+                                    <div class="mt-3">
+                                        <label class="q-label">Iban Numarası</label>
+                                        <input type="text" name="iban" class="form-control"
+                                            value="{{ old('iban', $user->iban) }}">
+                                    </div>
+                                    <div class="mt-3">
+                                        <label class="q-label">İnstagram Kullanıcı Adı</label>
+                                        <input type="text" name="instagramusername" class="form-control"
+                                            value="{{ old('instagramusername', $user->instagramusername) }}">
+                                    </div>
+
+                                    @if (Auth::check() && Auth::user()->type == 2)
+                                        <div class="mt-3">
+                                            <label class="q-label">Sabit Telefon</label>
+                                            <input type="number" name="phone" class="form-control"
+                                                value="{{ old('phone', $user->phone) }}">
+                                        </div>
+                                        <div class="mt-3">
+                                            <label class="q-label">Kaç yıldır sektördesiniz ?</label>
+                                            <input type="text" name="year" class="form-control"
+                                                value="{{ old('year', $user->year) }}">
+                                        </div>
+                                    @endif
+
+                                    <div class="mt-3">
+                                        <label class="q-label">
+                                            @if (Auth::check() && Auth::user()->type == 2)
+                                                Mağaza
+                                            @else
+                                                Profil
+                                            @endif
+                                            arka plan rengi
+                                        </label><br>
+                                        <input type="color" name="banner_hex_code" class="form-control"
+                                            value="{{ old('banner_hex_code', $user->banner_hex_code) }}">
+                                    </div>
                                 </div>
 
                                 @if (Auth::check() && Auth::user()->type == 2)
-                                    <div class="mt-3">
-                                        <label class="q-label">Sabit Telefon</label>
-                                        <input type="number" name="phone" class="form-control"
-                                            value="{{ old('phone', $user->phone) }}">
-                                    </div>
-                                    <div class="mt-3">
-                                        <label class="q-label">Kaç yıldır sektördesiniz ?</label>
-                                        <input type="text" name="year" class="form-control"
-                                            value="{{ old('year', $user->year) }}">
-                                    </div>
-                                    <div class="mt-3">
-                                        <label class="q-label">Konum (Lütfen haritadan konumunuzu seçiniz.)</label>
-                                        <input type="hidden" name="latitude" id="latitude"
-                                            value="{{ old('latitude', $user->latitude) }}">
-                                        <input type="hidden" name="longitude" id="longitude"
-                                            value="{{ old('longitude', $user->longitude) }}">
-                                        <div id="mapContainer" style="height: 350px;"></div>
+                                    <div class="col-lg-6">
+                                        <div class="mt-3">
+                                            <label class="q-label">Konum (Lütfen haritadan konumunuzu seçiniz.)</label>
+                                            <input type="hidden" name="latitude" id="latitude"
+                                                value="{{ old('latitude', $user->latitude) }}">
+                                            <input type="hidden" name="longitude" id="longitude"
+                                                value="{{ old('longitude', $user->longitude) }}">
+                                            <div id="mapContainer" style="height: 350px;"></div>
+                                        </div>
                                     </div>
                                 @endif
 
-
-
-                                <div class="mt-3">  
-                                    <label class="q-label">
-                                        @if (Auth::check() && Auth::user()->type == 2)
-                                            Mağaza
-                                        @else
-                                            Profil
-                                        @endif
-
-
-                                        arka plan rengi
-                                    </label><br>
-                                    <input type="color" name="banner_hex_code" class="form-control"
-                                        value="{{ old('banner_hex_code', $user->banner_hex_code) }}">
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-primary mt-5">Güncelle</button>
                                 </div>
                             </div>
-
-
-                            <button type="submit" class="btn btn-primary mt-5">Güncelle</button>
                         </form>
                     </div>
                 </div>

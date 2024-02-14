@@ -16,26 +16,28 @@ class ChangePasswordController extends Controller
 
     public function update(Request $request)
     {
-
-        $user = User::where("id", auth()->user()->id)->first();
-
+        $user = User::findOrFail(auth()->user()->id);
+    
         $request->validate([
             'current_password' => 'required|string',
-            'new_password' => 'required|string|min:5|confirmed',
+            'new_password' => 'required|string|min:6|confirmed',
         ], [
             'current_password.required' => 'Mevcut şifre alanı zorunludur.',
             'new_password.required' => 'Yeni şifre alanı zorunludur.',
             'new_password.min' => 'Yeni şifre en az :min karakter olmalıdır.',
             'new_password.confirmed' => 'Yeni şifreler uyuşmuyor.',
         ]);
-
+    
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->route('institutional.password.edit')->with('error', 'Mevcut şifre hatalı.');
+            return redirect()->route('institutional.password.edit')
+                ->withErrors(['current_password' => 'Mevcut şifre hatalı.'])
+                ->withInput();
         }
-
+    
         $user->password = Hash::make($request->new_password);
         $user->save();
-
+    
         return redirect()->route('institutional.password.edit')->with('success', 'Şifreniz başarıyla değiştirildi.');
     }
+    
 }
