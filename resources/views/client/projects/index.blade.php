@@ -674,6 +674,7 @@
                                                                 }
                                                                 $pageCount = $currentBlockHouseCount / 10;
                                                                 $count = $pageCount > 1 ? 10 : $blockHousingCount;
+                                                                dd($blockHousingCount)
                                                             @endphp
 
                                                             <div class="mobile-hidden">
