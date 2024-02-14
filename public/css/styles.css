@@ -27904,6 +27904,16 @@ font {
 
 }
 
+.mobile-left-width{
+    width:65%;
+}
+.mobile-right-width{
+    align-items: center;
+    width: 35%;
+    display: flex;
+    justify-content: space-between;
+}
+
 @media (max-width: 768px) {
 
     .homes-img {

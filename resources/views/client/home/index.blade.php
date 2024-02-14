@@ -279,7 +279,7 @@
                                             <a href="{{ route('housing.show', $housing->id) }}">
                                                 <div class="homes">
                                                     <div class="homes-img h-100 d-flex align-items-center"
-                                                        style="width: 130px; height: 128px;">
+                                                        style="width: 115px; height: 128px;">
                                                         <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                                                             alt="{{ $housing->housing_title }}" class="img-responsive"
                                                             style="height: 80px !important;">
@@ -294,10 +294,11 @@
                                             <a style="text-decoration: none;height:100%"
                                                 href="{{ route('housing.show', $housing->id) }}">
                                                 <div class="d-flex"
-                                                    style="gap: 8px;justify-content:space-between;align-items:center">
-                                                    <h4>{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                    style="gap: 8px;justify-content:space-between;align-items:start">
+                                                    <h4 class="mobile-left-width">{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                                     </h4>
-                                                    <span
+                                                    <div class="mobile-right-width">
+                                                        <span
                                                         class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "
                                                         data-type='housing' data-id="{{ $housing->id }}">
                                                         <i class="fa fa-bookmark-o"></i>
@@ -306,6 +307,8 @@
                                                         data-housing-id="{{ $housing->id }}" style="color: white;">
                                                         <i class="fa fa-heart-o"></i>
                                                     </span>
+                                                    </div>
+                                                 
                                                 </div>
                                             </a>
                                             <div class="d-flex" style="align-items:Center">

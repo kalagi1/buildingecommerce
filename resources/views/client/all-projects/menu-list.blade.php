@@ -1063,18 +1063,21 @@
                                     <div class="w-100" style="padding-left:0;">
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                             <a style="text-decoration: none;height:100%" href="${res.housing_url}">
-                                                <div class="d-flex justify-content-between align-items-center"
-                                                style="gap:8px">
-                                                    <h4>
+                                                <div class="d-flex"
+                                                    style="gap: 8px;justify-content:space-between;align-items:start">
+                                                    <h4  class="mobile-left-width">
                                                     ${res.title}
                                                 </h4>
-                                                <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
+                                                <div class="mobile-right-width">
+                                                    <span ${res.action != 'sold' || res.offSale  ? `class="btn addCollection mobileAddCollection "  data-type="housing" data-id="${res.id}"` :
                                                                                         `class="btn  mobileAddCollection  disabledShareButton"`}>
                                                                             <i class="fa fa-bookmark-o"></i>
                                                                         </span>
                                                 <span class="btn toggle-favorite bg-white" data-housing-id="${res.id}" style="color: white;">
                                                         <i class="fa fa-heart-o"></i>
                                                     </span>
+                                                    </div>
+                                              
                                                     </div>
                                               
                                             </a>
