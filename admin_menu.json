@@ -45,6 +45,15 @@
         "activePath": "qR9zLp2xS6y/secured/accounting"
     },
     {
+        "id": "order",
+        "label": "Yönetim",
+        "icon": "wind",
+        "text": "Mağaza Sıralama",
+        "key": "ViewDashboard",
+        "url": "admin.users.orders",
+        "activePath": "qR9zLp2xS6y/secured/users/orders"
+    },
+    {
         "id": "projects",
         "label": "Yönetim",
         "icon": "plus",

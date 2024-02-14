@@ -96,7 +96,7 @@ class HomeController extends Controller
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
-        $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status","1")->get();
+        $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status","1")->orderBy("order","asc")->get();
         $sliders =  Slider::all();
         $footerSlider = FooterSlider::all();
 

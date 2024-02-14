@@ -56,6 +56,23 @@ class UserController extends Controller
         }
     }
 
+    public function orders(Request $request)
+    {
+        $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status","1")->orderBy("order","asc")->get();
+return view('admin.users.orders', compact('brands'));
+
+
+    }
+
+    public function updateOrder(Request $request)
+    {
+        foreach ($request->input('orders') as $key => $order) {
+            User::where('id', $order['id'])->update(['order' => $key +1]);
+        }
+
+        return response()->json(['message' => 'Order updated successfully']);
+    }
+
     public function index(Request $request)
     {
         $query = User::with("role");

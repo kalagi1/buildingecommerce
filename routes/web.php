@@ -418,6 +418,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::middleware(['checkPermission:GetUsers'])->group(function () {
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/orders', [UserController::class, 'orders'])->name('users.orders');
+        Route::post('/update-brand-order',  [UserController::class, 'updateOrder'])->name('users.update.order');
+
     });
 
     Route::middleware(['checkPermission:DeleteUser'])->group(function () {
