@@ -683,7 +683,7 @@
                                                                     <div
                                                                         class="row project-filter-reverse blog-pots ajax-list">
                                                                         @if ($key == 0)
-                                                                            @for ($i = 0; $i < $count; $i++)
+                                                                            @for ($i = 0; $i < ($count -1); $i++)
                                                                                 @php
                                                                                     $j++;
                                                                                     if (isset($projectCartOrders[$i + 1])) {
