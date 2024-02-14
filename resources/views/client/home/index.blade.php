@@ -1119,6 +1119,7 @@
             dots: false,
             arrows: true,
             adaptiveHeight: true,
+            rows: 2,
             responsive: [{
                     breakpoint: 1024,
                     settings: {
