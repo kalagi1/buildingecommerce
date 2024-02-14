@@ -1030,10 +1030,11 @@
                                                                     $i = 0;
                                                                 }
                                                                 $pageCount = $currentBlockHouseCount / 10;
+                                                                $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
 
                                                             @endphp
                                                             <div class="mobile-show">
-                                                                @for ($i = $startIndex; $i < $endIndex; $i++)
+                                                                @for ($i = $startIndex; $i <($count -1); $i++)
                                                                     @php
                                                                         $j++;
                                                                         if (isset($projectCartOrders[$i + 1])) {
