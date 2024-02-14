@@ -234,7 +234,6 @@ class ProfileController extends Controller
                     "idNumber" => "required",
                     "phone" => "required",
                     "bank_name" => "required",
-                    "instagramusername" => "required",
                     "iban" => "required",
                     "check-d" => "required"
                 ],
@@ -242,7 +241,6 @@ class ProfileController extends Controller
                     "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
                     "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
-                    "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
                     "iban.required" => "IBAN alanı zorunludur.",
                     "check-d.required" => "Onay kutusu zorunludur."
                 ]
@@ -252,14 +250,12 @@ class ProfileController extends Controller
                 [
                     "phone" => "required",
                     "bank_name" => "required",
-                    "instagramusername" => "required",
                     "iban" => "required",
                     "check-d" => "required"
                 ],
                 [
                     "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
-                    "instagramusername.required" => "Instagram Kullanıcı Adı alanı zorunludur.",
                     "iban.required" => "IBAN alanı zorunludur.",
                     "check-d.required" => "Onay kutusu zorunludur."
                 ]

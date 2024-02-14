@@ -71,16 +71,6 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="mt-3">
-                                    <label class="q-label">İnstagram Kullanıcı Adı <span
-                                            style="font-size: 14px;color:#e54242 ">( Profilinizin herkese
-                                            açık olduğundan emin olun! )</span></label>
-                                    <input type="text" name="instagramusername" class="form-control"
-                                        value="{{ old('instagramusername', $user->instagramusername) }}">
-                                    @error('instagramusername')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
     
     
     

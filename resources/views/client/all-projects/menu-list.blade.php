@@ -299,6 +299,7 @@
 
                                     @if ($housingTypeParentSlug != 'mustakil-tatil')
                                         @if ($filter['label'] != 'Günlük Fiyat' && $filter['label'] != 'Konaklayacak Maksimum Kişi Sayısı')
+                                        
                                             @if ($filter['type'] != 'text')
                                                 <div id="room_count_field" class="room_count_field">
                                                     <div class="trip-search mt-md-2">
@@ -360,9 +361,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-
-
-
 
                                             @if ($filter['type'] == 'text')
                                                 <div id="room_count_field" class="room_count_field">
@@ -476,9 +474,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-
-
-
 
                                             @if ($filter['type'] == 'text')
                                                 <div id="room_count_field" class="room_count_field">

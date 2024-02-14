@@ -58,11 +58,6 @@
                                         <input type="text" name="iban" class="form-control"
                                             value="{{ old('iban', $user->iban) }}">
                                     </div>
-                                    <div class="mt-3">
-                                        <label class="q-label">İnstagram Kullanıcı Adı</label>
-                                        <input type="text" name="instagramusername" class="form-control"
-                                            value="{{ old('instagramusername', $user->instagramusername) }}">
-                                    </div>
 
                                     @if (Auth::check() && Auth::user()->type == 2)
                                         <div class="mt-3">

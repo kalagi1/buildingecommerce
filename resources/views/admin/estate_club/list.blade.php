@@ -45,7 +45,6 @@
 
                                             <td class="order_no">{{ 1000000 + $user->id }}</td>
                                             <td class="order_name">{{ $user->name }}</td>
-                                            <td class="order_name">{{ $user->instagramusername }}</td>
                                             <td class="order_name">
                                                 <span><strong>Banka Alıcı Adı:</strong> {{$user->bank_name}}</span> <br>
                                                 <span><strong>IBAN:</strong> {{$user->iban}}</span>
