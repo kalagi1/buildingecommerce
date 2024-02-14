@@ -718,8 +718,7 @@
                                                                     $i = 0;
                                                                 }
                                                                 $pageCount = $currentBlockHouseCount / 10;
-                                                                $count = $pageCount > 1 ? 10 : $blockHousingCount;
-
+                                                                $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
                                                             @endphp
 
                                                             <div class="mobile-hidden">
@@ -727,7 +726,7 @@
                                                                     <div
                                                                         class="row project-filter-reverse blog-pots ajax-list">
                                                                         @if ($key == 0)
-                                                                        @for ($i = 0; $i < $count ; $i++)
+                                                                        @for ($i = 0; $i < ($count-1) ; $i++)
                                                                         @php
                                                                                     $j++;
                                                                                     if (isset($projectCartOrders[$i + 1])) {
@@ -1075,10 +1074,10 @@
                                                                     $i = 0;
                                                                 }
                                                                 $pageCount = $currentBlockHouseCount / 10;
-
+                                                                $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
                                                             @endphp
                                                             <div class="mobile-show">
-                                                                @for ($i = $startIndex; $i < $endIndex; $i++)
+                                                                @for ($i = $startIndex; $i < ($count-1); $i++)
                                                                     @php
                                                                         $j++;
                                                                         if (isset($projectCartOrders[$i + 1])) {
