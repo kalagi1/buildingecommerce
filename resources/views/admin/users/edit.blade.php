@@ -186,7 +186,7 @@
                                                 class="avatar avatar-4xl status-online cursor-pointer"
                                                 for="upload-settings-porfile-picture"><img
                                                     class="rounded-circle img-thumbnail shadow-sm border-0"
-                                                    src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                                                    src="{{ asset('storage/profile_images/' . $userDetail->profile_image) }}"
                                                     width="200" alt=""></label>
                                         </div>
                                     </div>
