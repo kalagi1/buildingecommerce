@@ -45,7 +45,8 @@
                     <div class="brands-square">
                         <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}" alt=""
                             class="brand-logo">
-                        <p class="brand-name"><a href="{{ route('institutional.profile', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}"
+                        <p class="brand-name"><a
+                                href="{{ route('institutional.profile', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}"
                                 style="color:White;">
                                 {{ $project->user->name }}
                                 <style type="text/css">
@@ -97,18 +98,18 @@
                     <nav class="navbar" style="padding: 0 !important">
                         <div class="navbar-items">
                             <a class="navbar-item"
-                                href="{{ route('institutional.dashboard',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Anasayfa</a>
+                                href="{{ route('institutional.dashboard', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Anasayfa</a>
                             <a class="navbar-item"
-                                href="{{ route('institutional.profile',  ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Mağaza
+                                href="{{ route('institutional.profile', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Mağaza
                                 Profili</a>
                             <a class="navbar-item"
-                                href="{{ route('institutional.projects.detail', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Proje
+                                href="{{ route('institutional.projects.detail', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Proje
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('institutional.housings',["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Emlak
+                                href="{{ route('institutional.housings', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Emlak
                                 İlanları</a>
-                                <a class="navbar-item"
-                                href="{{ route('institutional.teams', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">Ekip</a>
+                            <a class="navbar-item"
+                                href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekip</a>
                         </div>
                         <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf
@@ -673,8 +674,8 @@
                                                                     $i = 0;
                                                                 }
                                                                 $pageCount = $currentBlockHouseCount / 10;
-                                                                $count = $pageCount > 1 ? 10 : $blockHousingCount;
-                                                                
+                                                                $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
+
                                                             @endphp
 
                                                             <div class="mobile-hidden">
@@ -682,8 +683,8 @@
                                                                     <div
                                                                         class="row project-filter-reverse blog-pots ajax-list">
                                                                         @if ($key == 0)
-                                                                        @for ($i = 0; $i < $count-1; $i++)
-                                                                        @php
+                                                                            @for ($i = 0; $i < $count; $i++)
+                                                                                @php
                                                                                     $j++;
                                                                                     if (isset($projectCartOrders[$i + 1])) {
                                                                                         $sold = $projectCartOrders[$i + 1];
@@ -888,7 +889,7 @@
                                                                                                         <div
                                                                                                             class="footer">
                                                                                                             <a
-                                                                                                                href="{{ route('institutional.profile', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">
+                                                                                                                href="{{ route('institutional.profile', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">
                                                                                                                 <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
                                                                                                                     alt=""
                                                                                                                     class="mr-2">
@@ -1112,7 +1113,8 @@
                                                                                         </span>
                                                                                     </div>
                                                                                 </a>
-                                                                                <div class="d-flex align-items-end projectItemFlex">
+                                                                                <div
+                                                                                    class="d-flex align-items-end projectItemFlex">
                                                                                     <div
                                                                                         style="width: 50%;
                                                                                                     align-items: center;">
@@ -1514,7 +1516,7 @@
                                                                             </div>
                                                                             <div class="footer">
                                                                                 <a
-                                                                                    href="{{ route('institutional.profile', ["slug" => Str::slug($project->user->name), "userID" => $project->user->id]) }}">
+                                                                                    href="{{ route('institutional.profile', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">
                                                                                     <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
                                                                                         alt="" class="mr-2">
                                                                                     {{ $project->user->name }}
