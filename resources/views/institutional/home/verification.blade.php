@@ -41,7 +41,7 @@
 
                         @if (!is_null(auth()->user()->record_document))
                             <div class="ml-2 mr-2">
-                                <a target="_blank" href="{{ route('institutional.get.record-document') }}" download><i
+                                <a target="_blank" href="{{ url("record_documents/". auth()->user()->record_document)  }}" download><i
                                         class="fa fa-download"></i></a>
                             </div>
                         @endif
@@ -60,7 +60,7 @@
 
                         @if (!is_null(auth()->user()->tax_document))
                             <div class="ml-2 mr-2">
-                                <a target="_blank" href="{{ route('institutional.get.tax-document') }}" download><i
+                                <a target="_blank" href="{{ url("tax_documents/". auth()->user()->tax_document)  }}" download><i
                                         class="fa fa-download"></i></a>
                             </div>
                         @endif
@@ -82,7 +82,7 @@
 
                             @if (!is_null(auth()->user()->identity_document))
                                 <div class="ml-2 mr-2">
-                                    <a target="_blank" href="{{ route('institutional.get.identity-document') }}" download><i
+                                    <a target="_blank" href="{{ url("identity_documents/". auth()->user()->identity_document)  }}" download><i
                                             class="fa fa-download"></i></a>
                                 </div>
                             @endif
@@ -103,7 +103,7 @@
 
                             @if (!is_null(auth()->user()->identity_document))
                                 <div class="ml-2 mr-2">
-                                    <a target="_blank" href="{{ route('institutional.get.identity-document') }}"
+                                    <a target="_blank" href="{{ url("identity_documents/". auth()->user()->identity_document)  }}"
                                         download><i class="fa fa-download"></i></a>
                                 </div>
                             @endif
@@ -123,7 +123,7 @@
 
                             @if (!is_null(auth()->user()->company_document))
                                 <div class="ml-2 mr-2">
-                                    <a target="_blank" href="{{ route('institutional.get.company-document') }}"
+                                    <a target="_blank" href="{{ url("company_documents/". auth()->user()->company_document)  }}"
                                         class=" mb-2"><i class="fa fa-download"></i></a>
                                 </div>
                             @endif

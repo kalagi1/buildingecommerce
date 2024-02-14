@@ -41,9 +41,9 @@
 
                                                 @if (!is_null($user_e->tax_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('storage/tax_document/'. $user_e->tax_document) }}"
-                                                            download><i class="fa fa-download"></i></a>
+                                                        <a target="_blank" href="{{ url("tax_documents/". $user_e->tax_document)  }}" download>
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
                                                     </div>
                                                 @endif
 
@@ -68,9 +68,9 @@
 
                                                 @if (!is_null($user_e->record_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('storage/record_document/'. $user_e->record_document) }}"
-                                                            download><i class="fa fa-download"></i></a>
+                                                        <a target="_blank" href="{{ url("record_documents/". $user_e->record_document)  }}" download>
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
                                                     </div>
                                                 @endif
 
@@ -97,9 +97,9 @@
 
                                                 @if (!is_null($user_e->identity_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('storage/identity_document/'. $user_e->identity_document) }}"
-                                                            download><i class="fa fa-download"></i></a>
+                                                        <a target="_blank" href="{{ url("identity_documents/". $user_e->identity_document)  }}" download>
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
                                                     </div>
                                                 @endif
 
@@ -126,9 +126,10 @@
 
                                                 @if (!is_null($user_e->identity_document))
                                                     <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('storage/identity_document/'. $user_e->identity_document) }}"
-                                                            download><i class="fa fa-download"></i></a>
+                                                        <a target="_blank" href="{{ url("identity_documents/". $user_e->identity_document)  }}" download>
+                                                            <i class="fa fa-download"></i>
+                                                        </a>
+                                                        
                                                     </div>
                                                 @endif
                                                 @if ($user_e->identity_document_approve)
@@ -152,11 +153,9 @@
                                                 Belgesi (Opsiyonel):
 
                                                 @if (!is_null($user_e->company_document))
-                                                    <div class="ml-2 mr-2">
-                                                        <a target="_blank"
-                                                            href="{{ url('storage/company_document/'. $user_e->company_document) }}"
-                                                            download><i class="fa fa-download"></i></a>
-                                                    </div>
+                                                <a target="_blank" href="{{ url("company_documents/". $user_e->company_document)  }}" download>
+                                                    <i class="fa fa-download"></i>
+                                                </a>
                                                 @else
                                                     <span style="color: red;margin-left:5px"> Belge Yüklenmedi</span>
                                                 @endif

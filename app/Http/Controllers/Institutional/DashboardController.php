@@ -123,23 +123,33 @@ class DashboardController extends Controller
         $array = [];
 
         if ($request->hasFile('vergi_levhasi')) {
-            $file1 = $request->vergi_levhasi->store('tax_documents');
-            $array = array_merge($array, ['tax_document' => $file1]);
+            $image = $request->file('vergi_levhasi');
+            $imageFileName = 'tax_document_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/tax_documents', $imageFileName);
+            $image->move(public_path('tax_documents'), $imageFileName);
+            $array = array_merge($array, ['tax_document' => $imageFileName]);
         }
 
         if ($request->hasFile('sicil_belgesi')) {
-            $file2 = $request->sicil_belgesi->store('record_documents');
-            $array = array_merge($array, ['record_document' => $file2]);
+            $image = $request->file('sicil_belgesi');
+            $imageFileName = 'record_document_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/record_documents', $imageFileName);
+            $image->move(public_path('record_documents'), $imageFileName);
+            $array = array_merge($array, ['record_document' => $imageFileName]);
         }
 
         if ($request->hasFile('kimlik_belgesi')) {
-            $file3 = $request->kimlik_belgesi->store('identity_documents');
-            $array = array_merge($array, ['identity_document' => $file3]);
+            $image = $request->file('kimlik_belgesi');
+            $imageFileName = 'identity_document_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('identity_documents'), $imageFileName);
+            $array = array_merge($array, ['identity_document' => $imageFileName]);
         }
 
         if ($request->hasFile('insaat_belgesi')) {
-            $file4 = $request->insaat_belgesi->store('company_documents');
-            $array = array_merge($array, ['company_document' => $file4]);
+            $image = $request->file('insaat_belgesi');
+            $imageFileName = 'company_document_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('company_documents'), $imageFileName);
+            $array = array_merge($array, ['company_document' => $imageFileName]);
         }
 
         auth()->user()->update($array);
