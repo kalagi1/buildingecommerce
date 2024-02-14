@@ -674,7 +674,7 @@
                                                                 }
                                                                 $pageCount = $currentBlockHouseCount / 10;
                                                                 $count = $pageCount > 1 ? 10 : $blockHousingCount;
-                                                                dd($count);
+                                                                
                                                             @endphp
 
                                                             <div class="mobile-hidden">
@@ -682,7 +682,7 @@
                                                                     <div
                                                                         class="row project-filter-reverse blog-pots ajax-list">
                                                                         @if ($key == 0)
-                                                                        @for ($i = 0; $i < $count; $i++)
+                                                                        @for ($i = 0; $i < $count-1; $i++)
                                                                         @php
                                                                                     $j++;
                                                                                     if (isset($projectCartOrders[$i + 1])) {
