@@ -166,32 +166,30 @@
     <!-- category banner headers ends-->
 
     @if ($dashboardProjects->isNotEmpty())
-    <section class="popular-places home18 mb-5 mt-5">
-        <div class="container">
-            <div class="mb-5" style="display: flex; justify-content: space-between; align-items:center">
-                <div class="section-title">
-                    <h2>Öne Çıkan Projeler</h2>
-                </div>
-                <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
-                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
-                        Tüm Projeleri Gör
-                    </button>
-                </a>
-            </div>
-            <div class="row">
-                <div class="container">
-                    <div class="row">
-                        @foreach ($dashboardProjects as $project)
-                            <x-project-card :project="$project" />
-                        @endforeach
+        <section class="popular-places home18 mb-5 mt-5">
+            <div class="container">
+                <div class="mb-5" style="display: flex; justify-content: space-between; align-items:center">
+                    <div class="section-title">
+                        <h2>Öne Çıkan Projeler</h2>
                     </div>
+                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                        <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
+                            class="w-100">
+                            Tüm Projeleri Gör
+                        </button>
+                    </a>
                 </div>
+                <div class="row">
+                    @foreach ($dashboardProjects as $project)
+                        <x-project-card :project="$project" />
+                    @endforeach
+                </div>
+
             </div>
-        </div>
-    </section>
-@else
-    <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
-@endif
+        </section>
+    @else
+        <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
+    @endif
 
     @if (count($secondhandHousings))
         <!-- START SECTION RECENTLY PROPERTIES -->
@@ -236,20 +234,21 @@
                                                 href="{{ route('housing.show', $housing->id) }}">
                                                 <div class="d-flex"
                                                     style="gap: 8px;justify-content:space-between;align-items:start">
-                                                    <h4 class="mobile-left-width">{{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                    <h4 class="mobile-left-width">
+                                                        {{ mb_convert_case($housing->housing_title, MB_CASE_TITLE, 'UTF-8') }}
                                                     </h4>
                                                     <div class="mobile-right-width">
                                                         <span
-                                                        class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "
-                                                        data-type='housing' data-id="{{ $housing->id }}">
-                                                        <i class="fa fa-bookmark-o"></i>
-                                                    </span>
-                                                    <span class="btn toggle-favorite bg-white"
-                                                        data-housing-id="{{ $housing->id }}" style="color: white;">
-                                                        <i class="fa fa-heart-o"></i>
-                                                    </span>
+                                                            class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif "
+                                                            data-type='housing' data-id="{{ $housing->id }}">
+                                                            <i class="fa fa-bookmark-o"></i>
+                                                        </span>
+                                                        <span class="btn toggle-favorite bg-white"
+                                                            data-housing-id="{{ $housing->id }}" style="color: white;">
+                                                            <i class="fa fa-heart-o"></i>
+                                                        </span>
                                                     </div>
-                                                 
+
                                                 </div>
                                             </a>
                                             <div class="d-flex" style="align-items:Center">
@@ -1098,19 +1097,19 @@
 
 @section('styles')
     <style>
- .profile-initial {
-    font-size: 20px;
-    color: #e54242;
-    background: white;
-    padding: 5px;
-    border: 2px solid #e6e6e6;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin: 0 auto;
+        .profile-initial {
+            font-size: 20px;
+            color: #e54242;
+            background: white;
+            padding: 5px;
+            border: 2px solid #e6e6e6;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto;
         }
     </style>
 @endsection

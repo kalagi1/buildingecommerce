@@ -16,7 +16,7 @@ class InstitutionalController extends Controller
     {
 
                 $store = User::where("id", $userID)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
-                $projects = Project::where("user_id", $userID)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->where("status", "1")->limit(3)->get();
+                $projects = Project::where("user_id", $userID)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->orderBy("id", "desc")->where("status", "1")->get();
                 $finishProjects = Project::whereHas('housingStatus', function ($query) {
                     $query->where('housing_type_id', '2');
                 })->with("housings", 'brand', 'roomInfo', 'housingType')->where('status', 1)->orderBy("created_at", "desc")->where("user_id", $userID)->get();
