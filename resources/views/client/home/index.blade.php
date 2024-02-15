@@ -165,69 +165,33 @@
 
     <!-- category banner headers ends-->
 
-
-    @if (count($dashboardProjects))
-        <!-- START SECTION POPULAR PLACES -->
-        <section class="popular-places home18 mb-5 mt-5">
-            <div class="container">
-                <div class="mb-5" style="display: flex; justify-content: space-between;align-items:center">
-                    <div class="section-title">
-                        <h2>Öne Çıkan Projeler</h2>
-                    </div>
-                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
-                        <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                            class="w-100">
-                            Tüm Projeleri Gör
-                        </button>
-                    </a>
+    @if ($dashboardProjects->isNotEmpty())
+    <section class="popular-places home18 mb-5 mt-5">
+        <div class="container">
+            <div class="mb-5" style="display: flex; justify-content: space-between; align-items:center">
+                <div class="section-title">
+                    <h2>Öne Çıkan Projeler</h2>
                 </div>
-                <div class="row">
-                    <div class="container">
-                        @if (count($dashboardProjects))
-                            <div class="row">
-                                @foreach ($dashboardProjects as $project)
-                                    <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in"
-                                        data-aos-delay="150" style="height:200px">
-                                        <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                            data-aos="zoom-in" data-aos-delay="150">
-                                            <div class="listing-item compact" style="height:100%">
-                                                <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
-                                                    class="listing-img-container">
-                                                    <span class="project_brand_profile_image">
-                                                        <img 
-                                                        src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                        alt="">
-                                                        <span class="country">{{ $project->city->title }}/
-                                                            {{ $project->county->ilce_title }}</span>
-                                                    </span>
-                                                  
-                                                    <div class="listing-img-content"
-                                                        style="padding-left:10px;text-transform:uppercase;background-color:rgba({{ implode(',', array_rand(range(0, 255), 3)) }}, 0.8);">
-                                                        <span
-                                                            class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            {{-- <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                                    /
-                                                                    {{ $project->county->ilce_title }}
-                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span> --}}
-
-                                                    </div>
-                                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                        alt="" style="height:100%;object-fit:contain">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @else
-                            <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
-                        @endif
+                <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                    <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;" class="w-100">
+                        Tüm Projeleri Gör
+                    </button>
+                </a>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        @foreach ($dashboardProjects as $project)
+                            <x-project-card :project="$project" />
+                        @endforeach
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- END SECTION RECENTLY PROPERTIES -->
-    @endif
+        </div>
+    </section>
+@else
+    <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
+@endif
 
     @if (count($secondhandHousings))
         <!-- START SECTION RECENTLY PROPERTIES -->
