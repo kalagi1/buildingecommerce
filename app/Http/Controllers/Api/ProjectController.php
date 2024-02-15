@@ -11,7 +11,7 @@ class ProjectController extends Controller
     public function getFeaturedProjects()
     {
         $featuredProjects = Project::select('projects.*')
-        ->with("city", "county",'user')
+        ->with("city", "county",'user',"neighbourhood")
         ->with( 'brand', 'roomInfo','listItemValues', 'housingType')
         ->orderBy("created_at", "desc")
         ->where('projects.status', 1)
