@@ -224,34 +224,6 @@
                         @endif
                     </div>
                 </div>
-                {{-- <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
-                            @foreach ($dashboardProjects as $project)
-                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                                    data-aos-delay="150">
-                                    <div class="small-category-2">
-                                        <div class="small-category-2-thumb img-1">
-                                            <a
-                                                href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                    alt=""></a>
-                                        </div>
-                                        <div class="sc-2-detail">
-                                            <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
-                                            </h4>
-                                            <span>{{ $project->city->title }}
-                                                /
-                                                {{ $project->county->ilce_title }}
-                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </section>
         <!-- END SECTION RECENTLY PROPERTIES -->
