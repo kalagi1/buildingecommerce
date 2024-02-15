@@ -181,7 +181,7 @@
                         </button>
                     </a>
                 </div>
-                <div class="row mt-2" style="margin-top: 20px">
+                <div class="row" style="margin-top: 20px !important">
                     <div class="container">
                         @if (count($dashboardProjects))
                             <div class="row">
