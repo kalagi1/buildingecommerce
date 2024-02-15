@@ -202,7 +202,7 @@
                                                     </span>
                                                   
                                                     <div class="listing-img-content"
-                                                        style="padding-left:10px;text-transform:uppercase;background-color:rgba({{ implode(',', array_rand(range(0, 255), 3)) }}, 0.7);">
+                                                        style="padding-left:10px;text-transform:uppercase;background-color:rgba({{ implode(',', array_rand(range(0, 255), 3)) }}, 0.8);">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
                                                             {{-- <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
