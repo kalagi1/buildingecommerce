@@ -99,74 +99,20 @@
     <section class="featured portfolio rec-pro disc bg-white">
         <div class="container">
             @if (count($institutional->projects))
-                <div class="row mobile-show homepage-9">
-                    <div class="container">
-                        <div class="row">
-                            @foreach ($institutional->projects as $project)
-                                <div class="col-xl-3 col-lg-6 col-sm-6 aos-init aos-animate" data-aos="fade-up"
-                                    data-aos-delay="150">
-                                    <div class="small-category-2">
-                                        <div class="small-category-2-thumb img-1">
-                                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"><img
-                                                    src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}""
-                                                    alt=""></a>
-                                        </div>
-                                        <div class=" sc-2-detail">
-                                            <h4 class="sc-jb-title"><a
-                                                    href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}">{{ $project->project_title }}</a>
-                                            </h4>
-                                            <span>{{ $project->city->title }}
-                                                /
-                                                {{ $project->county->ilce_title }}
-                                                {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+            @if (count($institutional->projects))
+            <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                <div class="container">
+                    <div class="row project-filter-reverse blog-pots finish-projects-web">
+                        @foreach ($institutional->projects as $project)
+                        <x-project-card :project="$project" />
+
+                        @endforeach
                     </div>
                 </div>
-
-                <div class="mobile-hidden">
-                    @if (count($institutional->projects))
-                        <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots finish-projects-web">
-                                    @foreach ($institutional->projects as $project)
-                                        <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin"
-                                            data-aos="zoom-in" data-aos-delay="150" style="height:200px">
-                                            <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                                data-aos="zoom-in" data-aos-delay="150">
-                                                <div class="listing-item compact" style="height:100%">
-                                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
-                                                        class="listing-img-container">
-                                                        <img class="project_brand_profile_image"
-                                                            src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                            alt="">
-                                                        <div class="listing-img-content"
-                                                            style="padding-left:10px;text-transform:uppercase;">
-                                                            <span
-                                                                class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                                <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
-                                                                        /
-                                                                        {{ $project->county->ilce_title }}
-                                                                        {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
-
-                                                        </div>
-                                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                                            alt="" style="height:100%;object-fit:contain">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <p>Henüz İlan Yayınlanmadı</p>
-                    @endif
-                </div>
+            </div>
+        @else
+            <p>Henüz İlan Yayınlanmadı</p>
+        @endif
             @else
                 <div class="section-title">
                     <h2>Proje İlanları</h2> 
