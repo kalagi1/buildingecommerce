@@ -170,7 +170,7 @@
         <!-- START SECTION POPULAR PLACES -->
         <section class="popular-places home18 mb-5 mt-5">
             <div class="container">
-                <div style="display: flex; justify-content: space-between;align-items:center">
+                <div class="mb-5" style="display: flex; justify-content: space-between;align-items:center">
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
@@ -181,7 +181,7 @@
                         </button>
                     </a>
                 </div>
-                <div class="row mt-2 ">
+                <div class="row mt-2" style="margin-top: 20px">
                     <div class="container">
                         @if (count($dashboardProjects))
                             <div class="row">
