@@ -643,7 +643,7 @@
                                                                         @endif
                                                                     </ul>
                                                                     <ul class="homes-list clearfix pb-3"
-                                                                        style="display: flex; justify-content: space-between;">
+                                                                        style="display: flex; justify-content: space-between;align-items:center">
                                                                         <li
                                                                             style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
                                                                             @if ($housing->discount_amount)
