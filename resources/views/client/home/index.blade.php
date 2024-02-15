@@ -170,7 +170,7 @@
         <!-- START SECTION POPULAR PLACES -->
         <section class="popular-places home18 mb-5 mt-5">
             <div class="container">
-                <div style="display: flex; justify-content: space-between;">
+                <div style="display: flex; justify-content: space-between;align-items:center">
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
