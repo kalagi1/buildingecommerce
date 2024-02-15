@@ -193,9 +193,14 @@
                                             <div class="listing-item compact" style="height:100%">
                                                 <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}"
                                                     class="listing-img-container">
-                                                    <img class="project_brand_profile_image"
+                                                    <span class="project_brand_profile_image">
+                                                        <img 
                                                         src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
                                                         alt="">
+                                                        <span class="country">{{ $project->city->title }}/
+                                                            {{ $project->county->ilce_title }}</span>
+                                                    </span>
+                                                  
                                                     <div class="listing-img-content"
                                                         style="padding-left:10px;text-transform:uppercase;background-color: {{ $project->user->banner_hex_code }}">
                                                         <span
