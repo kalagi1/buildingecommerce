@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string("order")->nullable();
+            $table->enum("is_show", ['yes', 'no'])->default('no')->after('id');
         });
     }
 

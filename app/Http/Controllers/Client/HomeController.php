@@ -28,6 +28,27 @@ use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
+
+    public function updateBrandStatus(Request $request)
+    {
+        $brandId = $request->input('brandId');
+        $isShow = $request->input('isShow');
+
+        try {
+            // Find the brand by ID
+            $brand = User::findOrFail($brandId);
+
+            // Update the 'is_show' field
+            $brand->is_show = $isShow;
+            $brand->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Handle any errors, log or return an error response
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
     public function index()
     {
         $start = microtime(true);
@@ -96,7 +117,7 @@ class HomeController extends Controller
 
 
         $dashboardStatuses = HousingStatus::where('in_dashboard', 1)->orderBy("dashboard_order")->where("status", "1")->get();
-        $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status","1")->orderBy("order","asc")->get();
+        $brands = User::where("type", "2")->where("status", "1")->where("is_show", "yes")->where("corporate_account_status","1")->orderBy("order","asc")->get();
         $sliders =  Slider::all();
         $footerSlider = FooterSlider::all();
 
