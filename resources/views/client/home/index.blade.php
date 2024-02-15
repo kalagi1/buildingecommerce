@@ -163,12 +163,10 @@
     </section>
 
 
-    <!-- category banner headers ends-->
-
     @if ($dashboardProjects->isNotEmpty())
-        <section class="popular-places home18 mb-5 mt-5">
+        <section class="popular-places home18 mb-3 mt-5">
             <div class="container">
-                <div class="mb-5" style="display: flex; justify-content: space-between; align-items:center">
+                <div class="mb-3" style="display: flex; justify-content: space-between; align-items:center">
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
@@ -184,18 +182,16 @@
                         <x-project-card :project="$project" />
                     @endforeach
                 </div>
-
             </div>
         </section>
     @else
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
 
-    @if (count($secondhandHousings))
-        <!-- START SECTION RECENTLY PROPERTIES -->
+    @if ($secondhandHousings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white">
             <div class="container">
-                <div class="featured-heads">
+                <div class="featured-heads mb-3">
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
                     </div>
@@ -206,43 +202,35 @@
                         </button>
                     </a>
                 </div>
+
                 <div class="mobile-show">
                     @foreach ($secondhandHousings as $housing)
                         @php($sold = $housing->sold)
-
-                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                            @if (($sold && $sold != '1') || !$sold)
+                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
                             <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                            @endif
                         @endif
                     @endforeach
                 </div>
 
                 <div class="mobile-hidden" style="margin-top: 20px">
-                    @if (count($secondhandHousings))
-                        <section class="properties-right list featured portfolio blog  pb-5 bg-white">
-                            <div class="container">
-                                <div class="row project-filter-reverse blog-pots secondhand-housings-web">
-                                    @foreach ($secondhandHousings as $housing)
-                                        @php($sold = $housing->sold)
-
-                                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                            @if (($sold && $sold != '1') || !$sold)
-                                            <x-housing-card :housing="$housing" :sold="$sold" />
-                                            @endif
-                                        @endif
-                                    @endforeach
-                                </div>
+                    <section class="properties-right list featured portfolio blog pb-5 bg-white">
+                        <div class="container">
+                            <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                                @forelse ($secondhandHousings as $housing)
+                                    @php($sold = $housing->sold)
+                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                        <x-housing-card :housing="$housing" :sold="$sold" />
+                                    @endif
+                                @empty
+                                    <p>Henüz İlan Yayınlanmadı</p>
+                                @endforelse
                             </div>
-                        </section>
-                    @else
-                        <p>Henüz İlan Yayınlanmadı</p>
-                    @endif
+                        </div>
+                    </section>
                 </div>
             </div>
         </section>
     @endif
-
 
 
 
