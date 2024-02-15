@@ -181,7 +181,7 @@
                         </button>
                     </a>
                 </div>
-                <div class="row mt-2 mobile-hidden">
+                <div class="row mt-2 ">
                     <div class="container">
                         @if (count($dashboardProjects))
                             <div class="row">
@@ -224,7 +224,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="row mobile-show homepage-9">
+                {{-- <div class="row mobile-show homepage-9">
                     <div class="container">
                         <div class="row">
                             @foreach ($dashboardProjects as $project)
@@ -251,7 +251,7 @@
                             @endforeach
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </section>
         <!-- END SECTION RECENTLY PROPERTIES -->
