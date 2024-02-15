@@ -197,13 +197,13 @@
                                                         src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
                                                         alt="">
                                                     <div class="listing-img-content"
-                                                        style="padding-left:10px;text-transform:uppercase;">
+                                                        style="padding-left:10px;text-transform:uppercase;background-color: {{ $project->user->banner_hex_code }}">
                                                         <span
                                                             class="badge badge-phoenix text-left">{{ $project->project_title }}
-                                                            <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
+                                                            {{-- <span class="d-block mt-1 mb-1"><small>{{ $project->city->title }}
                                                                     /
                                                                     {{ $project->county->ilce_title }}
-                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span>
+                                                                    {{ $project->neighbourhood ? '/ ' . $project->neighbourhood->mahalle_title : null }}</small></span></span> --}}
 
                                                     </div>
                                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"

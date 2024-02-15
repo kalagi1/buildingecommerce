@@ -10835,8 +10835,10 @@ a.int_btn,
     position: absolute;
     z-index: 99;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
+    padding: 0 !important;
+    height: 200px;
+    width: 35%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 25px 30px;
@@ -10943,7 +10945,14 @@ a.int_btn,
 .listing-img-content span {
     color: #fff;
     font-size: 11px;
+    width: 100%;
     font-weight: 500;
+    height: 100%;
+    white-space: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align:center !important;
 }
 
 .listing-img-content .listing-price i {
