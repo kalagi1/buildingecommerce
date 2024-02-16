@@ -277,7 +277,7 @@
                                         @if ($filter['label'] != 'Günlük Fiyat' && $filter['label'] != 'Konaklayacak Maksimum Kişi Sayısı')
                                             @if ($filter['type'] != 'text')
                                                 <div id="room_count_field" class="room_count_field
-                                                @if ($optName && $optName == "satilik" &&  $filter['label'] == "Kira Bedeli")
+                                                @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli")
                                                 d-none
                                                     
                                                 @endif">
@@ -341,7 +341,7 @@
                                             @endif
 
                                             @if ($filter['type'] == 'text')
-                                                <div id="room_count_field" class="room_count_field  @if ($optName && $optName == "satilik" &&  $filter['label'] == "Kira Bedeli")
+                                                <div id="room_count_field" class="room_count_field  @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli")
                                                 d-none
                                                     
                                                 @endif">
@@ -394,7 +394,7 @@
                                     @else
                                         @if ($filter['label'] != 'Peşin Fiyat')
                                             @if ($filter['type'] != 'text')
-                                                <div id="room_count_field" class="room_count_field  @if ($optName && $optName == "satilik" &&  $filter['label'] == "Kira Bedeli")
+                                                <div id="room_count_field" class="room_count_field  @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli")
                                                 d-none
                                                     
                                                 @endif">
@@ -461,7 +461,7 @@
                                             @endif
 
                                             @if ($filter['type'] == 'text')
-                                                <div id="room_count_field" class="room_count_field  @if ($optName && $optName == "satilik" &&  $filter['label'] == "Kira Bedeli")
+                                                <div id="room_count_field" class="room_count_field  @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli")
                                                 d-none
                                                     
                                                 @endif">
