@@ -277,9 +277,12 @@
                                         @if ($filter['label'] != 'Günlük Fiyat' && $filter['label'] != 'Konaklayacak Maksimum Kişi Sayısı')
                                             @if ($filter['type'] != 'text')
                                                 <div id="room_count_field" class="room_count_field
-                                                @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli" || $optName && $optName == "Kiralık" &&  $filter['label'] == "Fiyat" &&  $filter['label'] == "Peşin Fiyat")
-                                                    d-none
-                                                @endif">
+                                                @if (($optName == "Satılık" && $filter['label'] == "Kira Bedeli") ||
+                                                ($optName == "Kiralık" && ($filter['label'] == "Fiyat" || $filter['label'] == "Peşin Fiyat"))
+                                            )
+                                                d-none
+                                            @endif
+                                            ">
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilter(this)">
@@ -340,9 +343,12 @@
                                             @endif
 
                                             @if ($filter['type'] == 'text')
-                                                <div id="room_count_field" class="room_count_field @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli" || $optName && $optName == "Kiralık" &&  $filter['label'] == "Fiyat" &&  $filter['label'] == "Peşin Fiyat")
-                                                d-none
-                                            @endif">
+                                                <div id="room_count_field" class="room_count_field  @if (($optName == "Satılık" && $filter['label'] == "Kira Bedeli") ||
+    ($optName == "Kiralık" && ($filter['label'] == "Fiyat" || $filter['label'] == "Peşin Fiyat"))
+)
+    d-none
+@endif
+">
 
                                                     <div class="trip-search mt-md-2">
                                                         <div class="widget-boxed-header mobile-title widget-boxed-header"
@@ -392,9 +398,12 @@
                                     @else
                                         @if ($filter['label'] != 'Peşin Fiyat')
                                             @if ($filter['type'] != 'text')
-                                                <div id="room_count_field" class="room_count_field @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli" || $optName && $optName == "Kiralık" &&  $filter['label'] == "Fiyat" &&  $filter['label'] == "Peşin Fiyat")
-                                                d-none
-                                            @endif">
+                                                <div id="room_count_field" class="room_count_field  @if (($optName == "Satılık" && $filter['label'] == "Kira Bedeli") ||
+    ($optName == "Kiralık" && ($filter['label'] == "Fiyat" || $filter['label'] == "Peşin Fiyat"))
+)
+    d-none
+@endif
+">
 
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
@@ -458,9 +467,12 @@
                                             @endif
 
                                             @if ($filter['type'] == 'text')
-                                                <div id="room_count_field" class="room_count_field @if ($optName && $optName == "Satılık" &&  $filter['label'] == "Kira Bedeli" || $optName && $optName == "Kiralık" &&  $filter['label'] == "Fiyat" &&  $filter['label'] == "Peşin Fiyat")
-                                                d-none
-                                            @endif">
+                                                <div id="room_count_field" class="room_count_field  @if (($optName == "Satılık" && $filter['label'] == "Kira Bedeli") ||
+    ($optName == "Kiralık" && ($filter['label'] == "Fiyat" || $filter['label'] == "Peşin Fiyat"))
+)
+    d-none
+@endif
+">
 
                                                     <div class="trip-search mt-md-2">
                                                         <div class="widget-boxed-header mobile-title widget-boxed-header"
