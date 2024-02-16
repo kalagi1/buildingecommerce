@@ -10,7 +10,7 @@
                 <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;background-color: rgba({{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, 0.8);">
                     <span class="badge badge-phoenix text-left">{{ $project->project_title }}</span>
                 </div>
-                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt="" style="height:100%;object-fit:contain">
+                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" alt="" style="height:100%;object-fit:cover">
             </a>
         </div>
     </div>
