@@ -1208,71 +1208,73 @@
 
         $(function() {
             drawList();
-
             function filterNow() {
-                let room_count = [];
-                $('#room_count_field .mb-2').each(function() {
-                    let i = $(this).find('.form-check-input');
-                    if (i.is(':checked')) {
-                        room_count.push(i.attr('id').replace('_', '+'));
-                    }
-                });
+    let room_count = [];
+    $('#room_count_field .mb-2').each(function() {
+        let i = $(this).find('.form-check-input');
+        if (i.is(':checked')) {
+            room_count.push(i.attr('id').replace('_', '+'));
+        }
+    });
 
-                let post_date;
-                $('#post_date_field .mb-2').each(function() {
-                    let i = $(this).find('input[type=radio]');
-                    if (i.is(':checked')) {
-                        post_date = i.attr('id');
-                        return false;
-                    }
-                });
+    let post_date;
+    $('#post_date_field .mb-2').each(function() {
+        let i = $(this).find('input[type=radio]');
+        if (i.is(':checked')) {
+            post_date = i.attr('id');
+            return false;
+        }
+    });
 
-                let from_owner;
-                $('#from_owner_field .mb-2').each(function() {
-                    let i = $(this).find('input[type=radio]');
-                    if (i.is(':checked')) {
-                        from_owner = i.attr('id');
-                        return false;
-                    }
-                });
-                var filterValues = {}
-                @foreach ($filters as $filter)
-                    @if ($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
-                        var checkedValues = [];
-                        $('input[name="{{ $filter['name'] }}[]').each(function() {
-                            if ($(this).is(':checked')) {
-                                checkedValues.push($(this).val());
-                            }
-                        });
+    let from_owner;
+    $('#from_owner_field .mb-2').each(function() {
+        let i = $(this).find('input[type=radio]');
+        if (i.is(':checked')) {
+            from_owner = i.attr('id');
+            return false;
+        }
+    });
 
-                        filterValues["{{ $filter['name'] }}"] = checkedValues;
-                    @else
+    function getCheckedValues(selector) {
+    return $(selector + ':checked').map(function() {
+        return $(this).val();
+    }).get();
+}
 
-                        @if ($filter['text_style'] == 'min-max')
-                            filterValues["{{ $filter['name'] }}-min"] = $(
-                                'input[name="{{ $filter['name'] }}-min"]').val().replace('.', "").replace('.',
-                                "").replace('.', "").replace('.', "").replace('.', "").replace('.', "");
-                            filterValues["{{ $filter['name'] }}-max"] = $(
-                                "input[name='{{ $filter['name'] }}-max']").val().replace('.', "").replace('.',
-                                "").replace('.', "").replace('.', "").replace('.', "").replace('.', "");
-                        @else
-                            filterValues["{{ $filter['name'] }}"] = $('input[name="{{ $filter['name'] }}"]')
-                                .val();
-                        @endif
-                    @endif
-                @endforeach
-                drawList({
-                    page: current_page,
-                    city: $('#city').val(),
-                    county: $('#county').val(),
-                    project_type: $("#project_type").val(),
-                    neighborhood: $('#neighborhood').val(),
-                    filterDate: $(".filter-date:checked").val(),
-                    zoning: $("#zoning").val(),
-                    sort: sortSelectFilters($('#sort-select').val()),
-                    ...filterValues
-                });
-            }
+function getInputValue(selector) {
+    var input = $(selector);
+    return input.length ? input.val() : '';
+}
+
+var filterValues = {};
+
+@foreach ($filters as $filter)
+    @if ($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
+        filterValues["{{ $filter['name'] }}"] = getCheckedValues('input[name="{{ $filter['name'] }}[]"]');
+    @else
+        @if ($filter['text_style'] == 'min-max')
+            filterValues["{{ $filter['name'] }}-min"] = getInputValue('input[name="{{ $filter['name'] }}-min"]').replace(/\./g, "");
+            filterValues["{{ $filter['name'] }}-max"] = getInputValue('input[name="{{ $filter['name'] }}-max"]').replace(/\./g, "");
+        @else
+            filterValues["{{ $filter['name'] }}"] = getInputValue('input[name="{{ $filter['name'] }}"]');
+        @endif
+    @endif
+@endforeach
+
+drawList({
+    page: current_page,
+    city: $('#city').val(),
+    county: $('#county').val(),
+    project_type: $("#project_type").val(),
+    neighborhood: $('#neighborhood').val(),
+    filterDate: $(".filter-date:checked").val(),
+    zoning: $("#zoning").val(),
+    sort: sortSelectFilters($('#sort-select').val()),
+    ...filterValues
+});
+
+}
+
 
             $('#sort-select').on('change', filterNow);
             $("#submit-filters").on("change", filterNow);
