@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
         $this->composeAdminView();
         $this->composeClientView();
         $this->composeInstitutionalView();
+        Validator::extend('iban', function ($attribute, $value, $parameters, $validator) {
+            return strpos($value, 'TR') === 0;
+        });
     }
 
     private function composeAdminView()

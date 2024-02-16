@@ -171,12 +171,13 @@ class ProfileController extends Controller
         $request->validate([
             "name" => "required",
             "mobile_phone" => "required",
-            "iban" => "required",
+            "iban" => "required|iban",
             "banner_hex_code" => "required",
         ],[
             "name.required" => "İsim alanı zorunludur",
             "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
+            "iban.iban" => "Lütfen geçerli bir iban giriniz.",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
 
@@ -234,13 +235,14 @@ class ProfileController extends Controller
                     "idNumber" => "required",
                     "phone" => "required",
                     "bank_name" => "required",
-                    "iban" => "required",
+                    "iban" => "required|iban",
                     "check-d" => "required"
                 ],
                 [
                     "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
                     "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
+                    "iban.iban" => "Lütfen geçerli bir iban giriniz.",
                     "iban.required" => "IBAN alanı zorunludur.",
                     "check-d.required" => "Onay kutusu zorunludur."
                 ]
@@ -250,12 +252,13 @@ class ProfileController extends Controller
                 [
                     "phone" => "required",
                     "bank_name" => "required",
-                    "iban" => "required",
+                    "iban" => "required|iban",
                     "check-d" => "required"
                 ],
                 [
                     "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
+                    "iban.iban" => "Lütfen geçerli bir iban giriniz.",
                     "iban.required" => "IBAN alanı zorunludur.",
                     "check-d.required" => "Onay kutusu zorunludur."
                 ]

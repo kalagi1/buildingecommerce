@@ -12,6 +12,13 @@
                             style="background-image: url(images/emlakkulupmobilslider.png);"></div>
 
                     </a>
+                    <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
+                        <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
+                            style="background-image: url(images/banner2.png)"></div>
+                        <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
+                            style="background-image: url(images/emlakkulupmobilslider.png);"></div>
+
+                    </a>
                 </div>
             </div>
         </div>
