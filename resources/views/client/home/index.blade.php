@@ -108,6 +108,24 @@
         <div class="container">
             <div class="portfolio ">
                 <div class="slick-lancers">
+                    <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
+                        <a href="https://emlaksepette.com/kategori/al-sat-acil"
+                            class="homes-img">
+                            <div class="landscapes">
+                                <div class="project-single">
+                                    <div class="project-inner project-head">
+                                        <div class="homes">
+                                            <img src="{{asset('images/al-sat-acil.png')}}"
+                                            alt="Al Sat Acil" class="img-responsive brand-image-pp"
+                                            style="border:5px solid #F4A226">
+                                            <span
+                                                style="font-size:9px !important;border:none !important">Al Sat Acil</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                     @foreach ($brands as $brand)
                         <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                             <a href="{{ route('institutional.dashboard', ['slug' => Str::slug($brand->name), 'userID' => $brand->id]) }}"
