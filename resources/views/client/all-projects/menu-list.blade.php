@@ -879,7 +879,6 @@
                             const randomColor =
                                 `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`;
 
-
                             @if (!$secondhandHousings)
                                 $('.pp-row').append(
                                     `
@@ -888,7 +887,7 @@
                                             <div class="listing-item compact" style="height:100%">
                                                 <a href="${res.url}" class="listing-img-container">
                                                     <span class="project_brand_profile_image">
-                                                        <img src="${res.image}" alt="">
+                                                        <img src="${res.profile_user_image}" alt="">
                                                         <span class="country">${res.city.title} / ${res.county.ilce_title}</span>
                                                     </span>
 
@@ -912,7 +911,7 @@
                                             <div class="listing-item compact" style="height:100%">
                                                 <a href="${res.url}" class="listing-img-container">
                                                     <span class="project_brand_profile_image">
-                                                            <img src="${res.image}" alt="">
+                                                            <img src="${res.profile_user_image}" alt="">
                                                             <span class="country">${res.city.title} / ${res.county.ilce_title}</span>
                                                         </span>
 
