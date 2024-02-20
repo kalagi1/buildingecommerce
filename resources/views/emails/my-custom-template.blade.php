@@ -125,7 +125,7 @@
                 <td>
                     <table class="header-table" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr class="header"
-                            style="background-color: #f7f7f7;display: flex;align-items: center;justify-content: space-between;width: 100%;">
+                            style="background-color: #f7f7f7;display: flex;flex-wrap:wrap;align-items: center;justify-content: space-between;width: 100%;">
                             <td class="header-logo" style="padding: 10px 32px;">
                                 <a href="{{url('/')}}" style="display: block; text-align: left;">
                                     <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
