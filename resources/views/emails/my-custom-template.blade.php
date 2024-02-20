@@ -11,7 +11,7 @@
                     <tr>
                         <td align="center"
                             style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
-                            <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+                            <table  width="570" cellpadding="0" cellspacing="0" role="presentation"
                                 style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0;padding:0;width:100%">
                                 <tbody>
                                     <tr>
