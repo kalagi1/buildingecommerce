@@ -233,11 +233,13 @@
                 <div class="mobile-hidden" style="margin-top: 20px">
                     <section class="properties-right list featured portfolio blog pb-5 bg-white">
                         <div class="container">
-                            <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                            <div class="row">
                                 @forelse ($secondhandHousings as $housing)
                                     @php($sold = $housing->sold)
                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                       <div class="col-md-3">
                                         <x-housing-card :housing="$housing" :sold="$sold" />
+                                       </div>
                                     @endif
                                 @empty
                                     <p>Henüz İlan Yayınlanmadı</p>
