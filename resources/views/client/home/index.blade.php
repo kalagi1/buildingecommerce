@@ -109,17 +109,14 @@
             <div class="portfolio ">
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="https://emlaksepette.com/kategori/al-sat-acil"
-                            class="homes-img">
+                        <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
-                                            <img src="{{asset('images/al-sat-acil.png')}}"
-                                            alt="Al Sat Acil" class="img-responsive brand-image-pp"
-                                            style="border:5px solid #F4A226">
-                                            <span
-                                                style="font-size:9px !important;border:none !important">Al Sat Acil</span>
+                                            <img src="{{ asset('images/al-sat-acil.png') }}" alt="Al Sat Acil"
+                                                class="img-responsive brand-image-pp" style="border:5px solid #F4A226">
+                                            <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
                                     </div>
                                 </div>
@@ -237,9 +234,9 @@
                                 @forelse ($secondhandHousings as $housing)
                                     @php($sold = $housing->sold)
                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                       <div class="col-md-3">
-                                        <x-housing-card :housing="$housing" :sold="$sold" />
-                                       </div>
+                                        <div class="col-md-3">
+                                            <x-housing-card :housing="$housing" :sold="$sold" />
+                                        </div>
                                     @endif
                                 @empty
                                     <p>Henüz İlan Yayınlanmadı</p>
@@ -322,20 +319,41 @@
     @if (Auth::check() && Auth::user()->has_club == 0)
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog" role="document"
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
                 style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
-                <div class="modal-content" style="height: 400px">
-                    <div class="modal-header">
+                <div class="modal-content">
+                    {{-- <div class="modal-header">
                         <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-close"></i>
                         </button>
 
-                    </div>
-                    <div class="modal-body p-0">
-                        <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
+                    </div> --}}
+                    <div class="modal-body modal12">
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="modal-bg">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                        <div class="offer-content"><img src="{{ asset('popup.png') }}"
+                                                class="img-fluid blur-up lazyloaded" alt="">
+                                            <h2>EMLAK KULÜP BAŞVURUSU YAP</h2>
+                                            <a href="{{ route('institutional.sharer.index') }}" style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
+                                                <button style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
+                                                   SEN DE KATIL !
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
                             style="cursor: pointer;width:100%;height:400px;object-fit:cover"
-                            src="{{ asset('popup.jpeg') }}" alt="">
+                            src="{{ asset('popup.jpeg') }}" alt=""> --}}
                     </div>
                 </div>
             </div>
@@ -346,7 +364,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     $('#customModal').modal('show');
-                }, 30000);
+                }, 1000);
             });
         </script>
     @endif
@@ -597,6 +615,38 @@
             justify-content: center;
             border-radius: 50%;
             margin: 0 auto;
+        }
+
+        .modal12 {
+            background-image: linear-gradient(135deg, #e54242 5.77%, #fff 5.77%, #fff 25%, #111 25%, #111 30.77%, #fff 30.77%, #fff 50%, #e54242 50%, #e54242 55.77%, #fff 55.77%, #fff 75%, #111 75%, #111 80.77%, #fff 80.77%, #fff 100%);
+            background-size: 36.77px 36.77px;
+            background-color: white;
+        }
+
+        .modal-body .modal-bg {
+            background-color: #fff;
+            padding: 45px;
+        }
+
+        .modal-bg .offer-content h2 {
+            margin-bottom: 30px;
+            text-align: center;
+            color: #222;
+        }
+
+        .modal-bg .btn-close {
+            padding-right: 10px;
+            padding-top: 5px;
+            position: absolute;
+            right: 26px;
+            top: 12px;
+            background: transparent;
+            border: none;
+            font-size: 15px;
+        }
+
+        .modal-bg .offer-content img {
+            margin-bottom: 40px;
         }
     </style>
 @endsection
