@@ -351,9 +351,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <img onclick="window.location.href='{{ route('institutional.sharer.index') }}'"
-                            style="cursor: pointer;width:100%;height:400px;object-fit:cover"
-                            src="{{ asset('popup.jpeg') }}" alt=""> --}}
                     </div>
                 </div>
             </div>
@@ -364,7 +361,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     $('#customModal').modal('show');
-                }, 1000);
+                }, 3000);
             });
         </script>
     @endif
