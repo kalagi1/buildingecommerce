@@ -24,6 +24,7 @@ class CustomMail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.my-custom-template')->subject($this->subject)->with($this->content, $this->subject);
+        return $this->view('emails.my-custom-template')->subject($this->subject)->with(['content' => $this->content, 'subject' => $this->subject]);
     }
 }
+

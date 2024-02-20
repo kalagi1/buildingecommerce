@@ -361,7 +361,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     $('#customModal').modal('show');
-                }, 3000);
+                }, 30000);
             });
         </script>
     @endif
