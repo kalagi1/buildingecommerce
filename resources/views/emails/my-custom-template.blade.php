@@ -1,190 +1,91 @@
+<div id=":18q" class="ii gt"
+    jslog="20277; u014N:xr6bB; 1:WyIjdGhyZWFkLWY6MTc5MDUwODI3MjAxNTQ1NTA2NSJd; 4:WyIjbXNnLWY6MTc5MDUwODI3MjAxNTQ1NTA2NSJd">
+    <div id=":18r" class="a3s aiL msg-4554695697553144873"><u></u>
 
-<!DOCTYPE html>
-<html lang="en">
+        <div
+            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;color:#718096;height:100%;line-height:1.4;margin:0;padding:0;width:100%!important">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
-    <title>Fastkart | Email template </title>
+            <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;margin:0;padding:0;width:100%">
+                <tbody>
+                    <tr>
+                        <td align="center"
+                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
+                            <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0;padding:0;width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';padding:25px 0;text-align:center">
+                                            <a href="https://emlaksepette.com"
+                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:19px;font-weight:bold;text-decoration:none;display:inline-block"
+                                                target="_blank"
+                                                data-saferedirecturl="https://www.google.com/url?q=https://emlaksepette.com&amp;source=gmail&amp;ust=1708527222602000&amp;usg=AOvVaw3Z7TNn9C6dL5vdxRWvzPJb">
+                                                <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
+                                                    alt="Emlak Sepette Logo"
+                                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100%;border:none;height:40px;max-height:40px;width:200px"
+                                                    class="CToWUd" data-bit="iit">
+                                            </a>
+                                        </td>
+                                    </tr>
 
-    <!-- Google Font css -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&display=swap"
-        rel="stylesheet">
 
-    <style type="text/css">
-        body {
-            text-align: center;
-            margin: 0 auto;
-            width: 650px;
-            font-family: 'Public Sans', sans-serif;
-            background-color: #e2e2e2;
-            display: block;
-        }
+                                    <tr>
+                                        <td width="100%" cellpadding="0" cellspacing="0"
+                                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;border-bottom:1px solid #edf2f7;border-top:1px solid #edf2f7;margin:0;padding:0;width:100%;border:hidden!important">
+                                            <table class="m_-4554695697553144873inner-body" align="center"
+                                                width="570" cellpadding="0" cellspacing="0" role="presentation"
+                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;border-color:#e8e5ef;border-radius:2px;border-width:1px;margin:0 auto;padding:0;width:570px">
 
-        .mb-3 {
-            margin-bottom: 30px;
-        }
+                                                <tbody>
+                                                    <tr>
+                                                        <td
+                                                            style="box-sizing:border-box;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
+                                                            <h1
+                                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:18px;font-weight:bold;margin-top:0;text-align:center">
+                                                                {!! $subject !!}</h1>
+                                                            {!! $content !!}
 
-        ul {
-            margin: 0;
-            padding: 0;
-        }
 
-        li {
-            display: inline-block;
-            text-decoration: unset;
-        }
 
-        a {
-            text-decoration: none;
-        }
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-        h5 {
-            margin: 10px;
-            color: #777;
-        }
+                                    <tr>
+                                        <td
+                                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
+                                            <table class="m_-4554695697553144873footer" align="center" width="570"
+                                                cellpadding="0" cellspacing="0" role="presentation"
+                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0 auto;padding:0;text-align:center;width:570px">
+                                                <tbody>
+                                                    <tr>
+                                                        <td align="center"
+                                                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
+                                                            <p
+                                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';line-height:1.5em;margin-top:0;color:#b0adc5;font-size:12px;text-align:center">
+                                                                © 2024 Emlak Sepette. Tüm hakları saklıdır.</p>
 
-        .text-center {
-            text-align: center
-        }
-
-        .header-menu ul li+li {
-            margin-left: 20px;
-        }
-
-        .header-menu ul li a {
-            font-size: 14px;
-            color: #252525;
-            font-weight: 500;
-        }
-
-        .password-button {
-            background-color: #ea2a28;
-            border: none;
-            color: #fff;
-            padding: 14px 26px;
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'Nunito Sans', sans-serif;
-        }
-
-        .password-button u{
-            text-decoration: none !important
-        }
-
-        .footer-table {
-            position: relative;
-        }
-
-        .footer-table::before {
-            position: absolute;
-            content: "";
-            background-image: url(images/footer-left.svg);
-            background-position: top right;
-            top: 0;
-            left: -71%;
-            width: 100%;
-            height: 100%;
-            background-repeat: no-repeat;
-            z-index: -1;
-            background-size: contain;
-            opacity: 0.3;
-        }
-
-        .footer-table::after {
-            position: absolute;
-            content: "";
-            background-image: url(images/footer-right.svg);
-            background-position: top right;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background-repeat: no-repeat;
-            z-index: -1;
-            background-size: contain;
-            opacity: 0.3;
-        }
-
-        .theme-color {
-            color: #0DA487;
-        }
-    </style>
-</head>
-
-<body style="margin: 20px auto;">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-        style="background-color: white; width: 100%; box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);-webkit-box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.2705882353);">
-        <tbody>
-            <tr>
-                <td>
-                    <table class="header-table" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr class="header"
-                            style="background-color: #f7f7f7;display: flex;flex-wrap:wrap;align-items: center;justify-content: space-between;width: 100%;">
-                            <td class="header-logo" style="padding: 10px 32px;">
-                                <a href="{{url('/')}}" style="display: block; text-align: left;">
-                                    <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
-                                    style="width: 200px" class="main-logo" alt="logo">
-                                </a>
-                            </td>
-                            <td class="header-menu" style="display: block; padding: 10px 32px;text-align: right;">
-                                <ul>
-                                    <li>
-                                        <a href="{{url('/')}}">Anasayfa</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{url('/sayfa/hakkimizda')}}">Hakkımızda</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{url('/sayfa/kvkk_politikasi')}}">KVKK</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <table class="content-table" style="margin-bottom: -6px;" align="center" border="0" cellpadding="0"
-                        cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <td>
-                                    <img src="images/welcome-poster.jpg" alt="">
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-
-                    <table class="content-table" style="margin-top: 40px;" align="center" border="0" cellpadding="0"
-                        cellspacing="0" width="100%">
-                        <thead>
-                            <tr style="display: block;">
-                                <td style="display: block;">
-                                    <h3
-                                        style="font-weight: 700; font-size: 20px; margin: 0; text-transform: uppercase;">
-                                        {!! $subject !!}</h3>
-                                </td>
-
-                                <td>
-                                    <p
-                                        style="font-size: 14px;font-weight: 600;width: 82%;margin: 8px auto 0;line-height: 1.5;color: #939393;font-family: 'Nunito Sans', sans-serif;">
-                                        {!! $content !!}
-                                    </p>
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-
-                 
-
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
-
-</html>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="yj6qo"></div>
+            <div class="adL">
+            </div>
+        </div>
+        <div class="adL">
+        </div>
+    </div>
+</div>
