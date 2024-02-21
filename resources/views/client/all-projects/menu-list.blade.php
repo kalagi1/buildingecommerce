@@ -337,12 +337,7 @@
                                             @endif
 
                                             @if ($filter['type'] == 'text')
-                                                <div id="room_count_field"
-                                                    class="room_count_field  @if (
-                                                        ($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||
-                                                            ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif
-">
-
+                                                <div id="room_count_field"class="room_count_field  @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif">
                                                     <div class="trip-search mt-md-2">
                                                         <div class="widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilterDiv(this)">
@@ -391,12 +386,7 @@
                                     @else
                                         @if ($filter['label'] != 'Peşin Fiyat')
                                             @if ($filter['type'] != 'text')
-                                                <div id="room_count_field"
-                                                    class="room_count_field  @if (
-                                                        ($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||
-                                                            ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif
-">
-
+                                                <div id="room_count_field"class="room_count_field  @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif">
                                                     <div class="trip-search mt-md-2">
                                                         <div class="head widget-boxed-header mobile-title widget-boxed-header"
                                                             onclick="toggleFilter(this)">
@@ -462,8 +452,7 @@
                                                 <div id="room_count_field"
                                                     class="room_count_field  @if (
                                                         ($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||
-                                                            ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif
-">
+                                                            ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif ">
 
                                                     <div class="trip-search mt-md-2">
                                                         <div class="widget-boxed-header mobile-title widget-boxed-header"
@@ -713,16 +702,15 @@
         });
 
         $('.price-only').keyup(function() {
-            $('.price-only .error-text').remove();
-            if ($('.price-only').val().replace('.', '').replace('.', '').replace('.', '').replace('.', '') !=
-                parseInt($('.price-only').val().replace('.', '').replace('.', '').replace('.', '').replace('.', '')
+            if ($(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '') !=
+                parseInt($(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '')
                     .replace('.', ''))) {
-                if ($('.price-only').closest('.form-group').find('.error-text').length > 0) {
-                    $('.price-only').val("");
+                if ($(this).closest('.form-group').find('.error-text').length > 0) {
+                    $(this).val("");
                 } else {
                     $(this).closest('.form-group').append(
                         '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
-                    $('.price-only').val("");
+                    $(this).val("");
                 }
 
             } else {
