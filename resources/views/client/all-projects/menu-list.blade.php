@@ -271,116 +271,117 @@
                                     @if ($housingTypeParentSlug != 'mustakil-tatil')
                                         @if ($filter['label'] != 'Günlük Fiyat' && $filter['label'] != 'Konaklayacak Maksimum Kişi Sayısı')
                                             @if ($filter['type'] != 'text')
-                                                <div id="room_count_field"
-                                                    class="room_count_field
-                                                @if (
-                                                    ($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||
-                                                        ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif
-                                            ">
-                                                    <div class="trip-search mt-md-2">
-                                                        <div class="head widget-boxed-header mobile-title widget-boxed-header"
-                                                            onclick="toggleFilter(this)">
-                                                            <span>
-                                                                @if ($filter['label'] == 'Peşin Fiyat')
-                                                                    Fiyat
-                                                                @else
-                                                                    {{ $filter['label'] }}
-                                                                @endif
-                                                            </span>
-                                                        </div>
-                                                        <div class="mt-md-2 filtreArea"
-                                                            @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
-                                                    @else
-                                                    style="display: none !important;" @endif>
-                                                            @foreach ($filter['values'] as $key => $value)
-                                                                @if (isset($filter['toggle']) && $filter['toggle'] == true)
-                                                                    <!-- Switch-slider öğesi -->
-                                                                    <div class="mb-2 d-flex align-items-center">
-                                                                        <label class="switch-slider">
-                                                                            <input name="{{ $filter['name'] }}[]"
-                                                                                type="checkbox" value="{{ $value->value }}"
-                                                                                class="filter-now form-control switch"
-                                                                                id="{{ $filter['name'] . $key }}">
-                                                                            <span class="slider"></span>
-                                                                        </label>
-                                                                        <label for="{{ $filter['name'] . $key }}"
-                                                                            class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                    </div>
-                                                                @else
-                                                                    @if ($filter['type'] == 'select')
-                                                                        @if ($key != 0)
+                                                @if ( ($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat')))
+                                                @else
+                                                    <div id="room_count_field" class="room_count_field ">
+                                                        <div class="trip-search mt-md-2">
+                                                            <div class="head widget-boxed-header mobile-title widget-boxed-header"
+                                                                onclick="toggleFilter(this)">
+                                                                <span>
+                                                                    @if ($filter['label'] == 'Peşin Fiyat')
+                                                                        Fiyat
+                                                                    @else
+                                                                        {{ $filter['label'] }}
+                                                                    @endif
+                                                                </span>
+                                                            </div>
+                                                            <div class="mt-md-2 filtreArea"
+                                                                @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
+                                                        @else
+                                                        style="display: none !important;" @endif>
+                                                                @foreach ($filter['values'] as $key => $value)
+                                                                    @if (isset($filter['toggle']) && $filter['toggle'] == true)
+                                                                        <!-- Switch-slider öğesi -->
+                                                                        <div class="mb-2 d-flex align-items-center">
+                                                                            <label class="switch-slider">
+                                                                                <input name="{{ $filter['name'] }}[]"
+                                                                                    type="checkbox" value="{{ $value->value }}"
+                                                                                    class="filter-now form-control switch"
+                                                                                    id="{{ $filter['name'] . $key }}">
+                                                                                <span class="slider"></span>
+                                                                            </label>
+                                                                            <label for="{{ $filter['name'] . $key }}"
+                                                                                class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                        </div>
+                                                                    @else
+                                                                        @if ($filter['type'] == 'select')
+                                                                            @if ($key != 0)
+                                                                                <div class="mb-2 d-flex align-items-center">
+                                                                                    <input name="{{ $filter['name'] }}[]"
+                                                                                        type="checkbox"
+                                                                                        value="{{ $value->value }}"
+                                                                                        class="filter-now form-control"
+                                                                                        id="{{ $filter['name'] . $key }}">
+                                                                                    <label for="{{ $filter['name'] . $key }}"
+                                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                                </div>
+                                                                            @endif
+                                                                        @elseif($filter['type'] == 'checkbox-group')
                                                                             <div class="mb-2 d-flex align-items-center">
                                                                                 <input name="{{ $filter['name'] }}[]"
-                                                                                    type="checkbox"
-                                                                                    value="{{ $value->value }}"
+                                                                                    type="checkbox" value="{{ $value->value }}"
                                                                                     class="filter-now form-control"
                                                                                     id="{{ $filter['name'] . $key }}">
                                                                                 <label for="{{ $filter['name'] . $key }}"
                                                                                     class="form-check-label w-100 ml-4">{{ $value->label }}</label>
                                                                             </div>
                                                                         @endif
-                                                                    @elseif($filter['type'] == 'checkbox-group')
-                                                                        <div class="mb-2 d-flex align-items-center">
-                                                                            <input name="{{ $filter['name'] }}[]"
-                                                                                type="checkbox" value="{{ $value->value }}"
-                                                                                class="filter-now form-control"
-                                                                                id="{{ $filter['name'] . $key }}">
-                                                                            <label for="{{ $filter['name'] . $key }}"
-                                                                                class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                        </div>
                                                                     @endif
-                                                                @endif
-                                                            @endforeach
+                                                                @endforeach
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             @endif
 
                                             @if ($filter['type'] == 'text')
-                                                <div id="room_count_field"class="room_count_field  @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat'))) d-none @endif">
-                                                    <div class="trip-search mt-md-2">
-                                                        <div class="widget-boxed-header mobile-title widget-boxed-header"
-                                                            onclick="toggleFilterDiv(this)">
-                                                            <span>
-                                                                @if ($filter['label'] == 'Peşin Fiyat')
-                                                                    Fiyat
-                                                                @else
-                                                                    {{ $filter['label'] }}
-                                                                @endif
-                                                            </span>
-                                                        </div>
+                                                @if (($optName == 'Satılık' && $filter['label'] == 'Kira Bedeli') || ($optName == 'Günlük Kiralık' && $filter['label'] == 'Kira Bedeli') ||($optName == 'Kiralık' && ($filter['label'] == 'Fiyat' || $filter['label'] == 'Peşin Fiyat')))
+                                                @else
+                                                    <div id="room_count_field"class="room_count_field ">
+                                                        <div class="trip-search mt-md-2">
+                                                            <div class="widget-boxed-header mobile-title widget-boxed-header"
+                                                                onclick="toggleFilterDiv(this)">
+                                                                <span>
+                                                                    @if ($filter['label'] == 'Peşin Fiyat')
+                                                                        Fiyat
+                                                                    @else
+                                                                        {{ $filter['label'] }}
+                                                                    @endif
+                                                                </span>
+                                                            </div>
 
-                                                        <div class="d-flex align-items-center mt-md-2"
-                                                            @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
-                                                        @else
-                                                        style="display: none !important;" @endif>
-                                                            @if ($filter['text_style'] == 'min-max')
-                                                                <span id="slider-range-value1">
-                                                                    <input type="text"
-                                                                        name="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                        id="{{ str_replace('[]', '', $filter['name']) }}-min"
-                                                                        min="0" placeholder="En Düşük"
-                                                                        class="filter-now form-control price-only">
-                                                                </span>
-                                                                <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
-                                                                <span id="slider-range-value2">
-                                                                    <input type="text"
-                                                                        id="{{ str_replace('[]', '', $filter['name']) }}-max"
-                                                                        min="0" placeholder="En Yüksek"
-                                                                        class="filter-now form-control price-only"
-                                                                        name="{{ str_replace('[]', '', $filter['name']) }}-max">
-                                                                </span>
+                                                            <div class="d-flex align-items-center mt-md-2"
+                                                                @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
                                                             @else
-                                                                <span class="w-100">
-                                                                    <input type="text"
-                                                                        name="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                        id="{{ str_replace('[]', '', $filter['name']) }}"
-                                                                        class="filter-now form-control">
-                                                                </span>
-                                                            @endif
+                                                            style="display: none !important;" @endif>
+                                                                @if ($filter['text_style'] == 'min-max')
+                                                                    <span id="slider-range-value1">
+                                                                        <input type="text"
+                                                                            name="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                            id="{{ str_replace('[]', '', $filter['name']) }}-min"
+                                                                            min="0" placeholder="En Düşük"
+                                                                            class="filter-now form-control price-only">
+                                                                    </span>
+                                                                    <i class="fa fa-solid fa-minus mx-2 dark-color icon"></i>
+                                                                    <span id="slider-range-value2">
+                                                                        <input type="text"
+                                                                            id="{{ str_replace('[]', '', $filter['name']) }}-max"
+                                                                            min="0" placeholder="En Yüksek"
+                                                                            class="filter-now form-control price-only"
+                                                                            name="{{ str_replace('[]', '', $filter['name']) }}-max">
+                                                                    </span>
+                                                                @else
+                                                                    <span class="w-100">
+                                                                        <input type="text"
+                                                                            name="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                            id="{{ str_replace('[]', '', $filter['name']) }}"
+                                                                            class="filter-now form-control">
+                                                                    </span>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             @endif
                                         @endif
                                     @else
