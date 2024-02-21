@@ -377,6 +377,7 @@
                                     @php
                                         $notifications = App\Models\DocumentNotification::with('user')
                                             ->orderBy('created_at', 'desc')
+                                            ->where("readed",0)
                                             ->where('owner_id', Auth::user()->id)
                                             ->limit(10)
                                             ->get();

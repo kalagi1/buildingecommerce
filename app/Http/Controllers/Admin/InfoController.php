@@ -28,7 +28,7 @@ class InfoController extends Controller
 
     public function markAllAsRead()
 {
-    $unreadNotifications = DocumentNotification::where("user_id",Auth::user()->id)->where("readed",0)->get();
+    $unreadNotifications = DocumentNotification::where("owner_id",Auth::user()->id)->get();
     foreach ($unreadNotifications as  $value) {
         $value->update(['readed' => 1]);
     }
