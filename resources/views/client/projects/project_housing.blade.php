@@ -407,7 +407,7 @@
                                         </button>
                                     @else
                                         @if ($soldStatus && $soldStatus != '2')
-                                            <button class="btn second-btn  "
+                                            <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White;height: auto !important" @endif>
                                                 @if ($soldStatus == '0')
                                                     <span class="text">Rezerve Edildi</span>
