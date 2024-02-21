@@ -7,7 +7,9 @@ use App\Models\CartPrice;
 use App\Models\ContactInfo;
 use App\Models\DocumentNotification;
 use App\Models\SharerPrice;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InfoController extends Controller
 {
@@ -23,6 +25,16 @@ class InfoController extends Controller
             return response()->json(['error' => 'Bildirim bulunamadı.'], 404);
         }
     }
+
+    public function markAllAsRead()
+{
+    $unreadNotifications = DocumentNotification::where("user_id",Auth::user()->id)->where("readed",0)->get();
+    foreach ($unreadNotifications as  $value) {
+        $value->update(['readed' => 1]);
+    }
+
+    return redirect()->back();
+}
 
     public function setReadedDn(Request $request, DocumentNotification $dn)
     {
