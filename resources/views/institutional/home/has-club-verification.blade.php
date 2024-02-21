@@ -15,13 +15,14 @@
                         eksiksiz doldurun ve
                         üyelik
                         sözleşmesini onaylayın.
-                        <form action="{{ route('institutional.club.update') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('institutional.club.update') }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-    
+
                             <!-- Diğer giriş alanlarını buraya ekleyin -->
                             <div class="corporate-form" id="corporateForm">
-    
+
                                 {{-- <div class="mt-3">
                                     <label class="q-label">İsim</label>
                                     <input type="text" name="name" disabled readonly
@@ -39,18 +40,18 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                @if (Auth::check() && Auth::user()->type == "1")
-                                <div class="mt-3">
-                                    <label class="q-label">Tc Kimlik No</label>
-                                    <input type="number" name="idNumber"
-                                        class="form-control @error('idNumber') is-invalid @enderror"
-                                        value="{{ old('idNumber', $user->idNumber) }}">
-                                    @error('idNumber')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                @if (Auth::check() && Auth::user()->type == '1')
+                                    <div class="mt-3">
+                                        <label class="q-label">Tc Kimlik No</label>
+                                        <input type="number" name="idNumber"
+                                            class="form-control @error('idNumber') is-invalid @enderror"
+                                            value="{{ old('idNumber', $user->idNumber) }}">
+                                        @error('idNumber')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 @endif
-                                
+
                                 <div class="mt-3">
                                     <label class="q-label">Banka Alıcı Adı</label>
                                     <input type="text" name="bank_name"
@@ -62,8 +63,9 @@
                                 </div>
                                 <div class="mt-3">
                                     <label class="q-label">Iban Numarası
-                                         <i class="fa fa-info-circle ml-2"  data-toggle="tooltip" style="font-size: 18px;" aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
-                                        title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
+                                        <i class="fa fa-info-circle ml-2" data-toggle="tooltip" style="font-size: 18px;"
+                                            aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
+                                            title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
                                     <input type="text" name="iban"
                                         class="form-control @error('iban') is-invalid @enderror"
                                         value="{{ old('iban', $user->iban) }}">
@@ -71,9 +73,9 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-    
-    
-    
+
+
+
                             </div>
                             <div class="filter-tags-wrap  mt-3" id="corporateFormCheck">
                                 <input id="check-d" class="@error('check-d') is-invalid @enderror" type="checkbox"
@@ -89,17 +91,15 @@
                                 @enderror
                                 <br>
                             </div>
-    
+
                             <button type="submit" class="btn btn-primary mt-5">Üye Ol </button>
                         </form>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>
-
-  
 @endsection
 
 
