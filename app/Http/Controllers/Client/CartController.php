@@ -637,7 +637,7 @@ class CartController extends Controller
                 "price" =>  $order->amount . ' ₺',
                 'orderNo' => $order->id,
                 'customerName' => $user->name,
-                'paymentDate' => $productDetails->created_at,
+                'paymentDate' => $order->created_at,
                 'paymentTotalAmount' => $productDetails->amount,
                 'bankAccount' => $cartOrder->bank->receipent_full_name,
                 'companyName' => 'Emlak Sepette',
