@@ -91,7 +91,7 @@
                             </div>
                             <div class="order-status-change mt-2">
                                 <select name="" class="form-control" id="">
-                                    <option value="" @if(isset($order->share))>Hakediş Durumu Bekleniyor</option>
+                                    <option value="" >Hakediş Durumu Bekleniyor</option>
                                     <option value="">Hakediş Onaylandı</option>
                                     <option value="">Hakediş Reddedildi</option>
                                 </select>
@@ -185,10 +185,10 @@
                 <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                     <div class="title">
                         <i class="fa fa-edit"></i>
-                        <h4>Sipariş Notları (0)</h4>
+                        <h4>Sipariş Notları </h4>
                     </div>
                     <div class="row py-3 px-3">
-                        <textarea name="" class="form-control" style="height: 150px" id="" cols="30" rows="10"></textarea>
+                        <textarea name="" class="form-control" style="height: 150px" id="" cols="30" rows="10">{{$order->notes}}</textarea>
                     </div>
                 </div>
             </div>

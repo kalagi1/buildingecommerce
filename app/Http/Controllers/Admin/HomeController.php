@@ -34,10 +34,10 @@ class HomeController extends Controller {
         return view( 'admin.home.index', compact( 'comments', 'countUser', 'passiveProjects', 'clients', 'institutionals', 'projects', 'secondhandHousings', 'descProjects' ) );
     }
 
-    public function orderDetail($id){
-        $order = CartOrder::where('id',$id)->first();
+    public function orderDetail( $id ) {
+        $order = CartOrder::where( 'id', $id )->first();
 
-        return view('admin.orders.detail',compact('order'));
+        return view( 'admin.orders.detail', compact( 'order' ) );
     }
 
     public function getPackageOrders() {
@@ -46,74 +46,73 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->get();
+        $cartOrders = CartOrder::with( 'user', 'share', 'price' )->orderByDesc( 'created_at' )->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
-   
-
     public function getReservations() {
-        $housingReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','=',1)->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->whereNull('cancel_requests.id')
+        $housingReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'status', '=', 1 )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )->whereNull( 'cancel_requests.id' )
         ->get();
-        $confirmReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','!=',3)->where('status','!=',1)->where('check_in_date','>=',date('Y-m-d'))->where('status','!=',3)->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->whereNull('cancel_requests.id')
-        ->get();
-
-        $expiredReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('check_in_date','<=',date('Y-m-d'))->where('status','!=',3)
+        $confirmReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'status', '!=', 3 )->where( 'status', '!=', 1 )->where( 'check_in_date', '>=', date( 'Y-m-d' ) )->where( 'status', '!=', 3 )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )->whereNull( 'cancel_requests.id' )
         ->get();
 
-        $cancelReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->where('status','=',3)
+        $expiredReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'check_in_date', '<=', date( 'Y-m-d' ) )->where( 'status', '!=', 3 )
         ->get();
 
-        $cancelRequestReservations = Reservation::select("reservations.*")->with( 'user', 'housing', 'owner' )->leftJoin('cancel_requests','cancel_requests.reservation_id','=','reservations.id')->where('status','!=',3)->whereNotNull('cancel_requests.id')
+        $cancelReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->where( 'status', '=', 3 )
         ->get();
 
-        return view( 'admin.reservations.index', compact( 'housingReservations','cancelReservations',"expiredReservations","confirmReservations","cancelRequestReservations" ) );
+        $cancelRequestReservations = Reservation::select( 'reservations.*' )->with( 'user', 'housing', 'owner' )->leftJoin( 'cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id' )->where( 'status', '!=', 3 )->whereNotNull( 'cancel_requests.id' )
+        ->get();
+
+        return view( 'admin.reservations.index', compact( 'housingReservations', 'cancelReservations', 'expiredReservations', 'confirmReservations', 'cancelRequestReservations' ) );
     }
 
-    public function deleteCancelRequest($id){
-        $reservation = Reservation::where('id',$id)->first();
+    public function deleteCancelRequest( $id ) {
+        $reservation = Reservation::where( 'id', $id )->first();
         $cancelRequest = $reservation->cancelRequest;
         $cancelRequest->delete();
 
-        return redirect()->route('admin.reservations',["status" => "cancel_cancel_request"]);
+        return redirect()->route( 'admin.reservations', [ 'status' => 'cancel_cancel_request' ] );
     }
 
-    public function reservationInfo($id){
-        $reservation = Reservation::with("user","owner","cancelRequest")->where('id',$id)->first();
+    public function reservationInfo( $id ) {
+        $reservation = Reservation::with( 'user', 'owner', 'cancelRequest' )->where( 'id', $id )->first();
 
-        return json_encode([
-            "reservation" => $reservation
-        ]);
+        return json_encode( [
+            'reservation' => $reservation
+        ] );
     }
 
     public function approveShare( $share ) {
-        $sharePrice = SharerPrice::where("id",$share)->first();
-        $sharePrice->update([
-            "status" => "1"
-        ]);
-        return redirect()->back();
-    }
-    public function unapproveShare( $share ) {
-        $sharePrice = SharerPrice::where("id",$share)->first();
-        $sharePrice->update([
-            "status" => "2"
-        ]);
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
         return redirect()->back();
     }
 
+    public function unapproveShare( $share ) {
+        $sharePrice = SharerPrice::where( 'id', $share )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
+        return redirect()->back();
+    }
 
     public function approvePrice( $price ) {
-        $sharePrice = CartPrice::where("id",$price)->first();
-        $sharePrice->update([
-            "status" => "1"
-        ]);
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '1'
+        ] );
         return redirect()->back();
     }
-    public function unapprovePrice ( $price ) {
-        $sharePrice = CartPrice::where("id",$price)->first();
-        $sharePrice->update([
-            "status" => "2"
-        ]);
+
+    public function unapprovePrice( $price ) {
+        $sharePrice = CartPrice::where( 'id', $price )->first();
+        $sharePrice->update( [
+            'status' => '2'
+        ] );
         return redirect()->back();
     }
 
@@ -127,7 +126,11 @@ class HomeController extends Controller {
         // Fatura numarası oluşturabilirsiniz.
         $fatura->save();
 
-        $project = Project::where( 'id', $cart->item->id )->with( 'user' )->first();
+        if ( $cart->type == 'housing' ) {
+            $estate = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+        } else {
+            $estate = Project::where( 'id', $cart->item->id )->with( 'user' )->first();
+        }
 
         $user = User::where( 'id', $cartOrder->user_id )->first();
         $newSeller = EmailTemplate::where( 'slug', 'new-seller' )->first();
@@ -146,11 +149,13 @@ class HomeController extends Controller {
             'customerName' => $user->name,
             'customerEmail' => $user->email,
             'salesAmount' => $cartOrder->amount,
-            'salesDate' => $cartOrder->created_at,
+            'salesDate' => $cartOrder->created_at->format( 'd/m/Y' ),
             'companyName' => 'Emlak Sepette',
+            "orderNo" =>  $cartOrder->id,
+            "housingNo" => $cartOrder->key,
             'email' => $user->email,
             'token' => $user->email_verification_token,
-            'storeOwnerName' => $project ? $project->user->name : '',
+            'storeOwnerName' => $estate ? $estate->user->name : '',
             'invoiceLink' => route( 'institutional.invoice.show', $cartOrder->id ),
         ];
 
@@ -158,18 +163,48 @@ class HomeController extends Controller {
             $newSellerContent = str_replace( '{{' . $key . '}}', $value, $newSellerContent );
         }
 
-        Mail::to( $user->email )->send( new CustomMail( $newSeller->subject, $newSellerContent ) );
+        Mail::to( $estate->user->email )->send( new CustomMail( $newSeller->subject, $newSellerContent ) );
 
         DocumentNotification::create( [
             'user_id' => $user->id,
             'text' => '#' . $cartOrder->id . " No'lu siparişiniz onaylandı. Fatura detayları için tıklayın.",
             'item_id' => $cartOrder->id,
-            'link' => $user->type == "1" ? route( 'client.invoice.show', $cartOrder->id ) : route('institutional.invoice.show', $cartOrder->id),
+            'link' => $user->type == '1' ? route( 'client.invoice.show', $cartOrder->id ) : route( 'institutional.invoice.show', $cartOrder->id ),
             'owner_id' => $user->id,
             'is_visible' => true,
         ] );
 
-        // DocumentNotification for Admin
+        // Apply Payment Order Email to User
+        $applyPaymentOrder = EmailTemplate::where( 'slug', 'apply-payment-order' )->first();
+
+        if ( !$applyPaymentOrder ) {
+            return response()->json( [
+                'message' => 'Apply Payment Order email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203 );
+        }
+
+        $applyPaymentOrderContent = $applyPaymentOrder->body;
+
+        $applyPaymentOrderVariables = [
+            'salesAmount' => $cartOrder->amount  . ' ₺',
+            'orderNo' => $cartOrder->id,
+            'username' => $user->name,
+            'salesDate' => $cartOrder->created_at->format( 'd/m/Y' ),
+            'companyName' => 'Emlak Sepette',
+            'email' => $user->email,
+            'invoiceLink' =>   route( 'institutional.invoice.show', $cartOrder->id ),
+            'token' => $user->email_verification_token,
+            'invoiceLink' => route( 'institutional.invoice.show', $cartOrder->id ),
+        ];
+
+        foreach ( $applyPaymentOrderVariables as $key => $value ) {
+            $applyPaymentOrderContent = str_replace( '{{' . $key . '}}', $value, $applyPaymentOrderContent );
+        }
+
+        Mail::to( $user->email )->send( new CustomMail( $applyPaymentOrder->subject, $applyPaymentOrderContent ) );
+
         $admins = User::where( 'type', '3' )->get();
         foreach ( $admins as $admin ) {
             DocumentNotification::create( [
@@ -193,12 +228,42 @@ class HomeController extends Controller {
             'user_id' => $user->id,
             'text' => '#' . $cartOrder->id . " No'lu siparişiniz maalesef onaylanmadı. Ödeme alınamadı ve ilan tekrar satışa çıkarılacaktır. ",
             'item_id' => $cartOrder->id,
-            'link' => $user->type == "1" ? route( 'client.invoice.show', $cartOrder->id ) : route('institutional.invoice.show', $cartOrder->id),
+            'link' => $user->type == '1' ? route( 'client.invoice.show', $cartOrder->id ) : route( 'institutional.invoice.show', $cartOrder->id ),
             'owner_id' => $user->id,
             'is_visible' => true,
         ] );
 
-        // Notify Admin about the unapproved order
+        // Apply Payment Order Email to User
+        $applyPaymentOrder = EmailTemplate::where( 'slug', 'reject-payment-order' )->first();
+
+        if ( !$applyPaymentOrder ) {
+            return response()->json( [
+                'message' => 'Apply Payment Order email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203 );
+        }
+
+        $applyPaymentOrderContent = $applyPaymentOrder->body;
+
+        $applyPaymentOrderVariables = [
+            'salesAmount' => $cartOrder->amount  . ' ₺',
+            'orderNo' => $cartOrder->id,
+            'username' => $user->name,
+            'salesDate' => $cartOrder->created_at->format( 'd/m/Y' ),
+            'companyName' => 'Emlak Sepette',
+            'email' => $user->email,
+            'invoiceLink' =>   route( 'institutional.invoice.show', $cartOrder->id ),
+            'token' => $user->email_verification_token,
+            'invoiceLink' => route( 'institutional.invoice.show', $cartOrder->id ),
+        ];
+
+        foreach ( $applyPaymentOrderVariables as $key => $value ) {
+            $applyPaymentOrderContent = str_replace( '{{' . $key . '}}', $value, $applyPaymentOrderContent );
+        }
+
+        Mail::to( $user->email )->send( new CustomMail( $applyPaymentOrder->subject, $applyPaymentOrderContent ) );
+
         $admins = User::where( 'type', '3' )->get();
         foreach ( $admins as $admin ) {
             DocumentNotification::create( [
@@ -230,8 +295,7 @@ class HomeController extends Controller {
 
     public function unapproveReservation( Reservation $reservation ) {
         $reservation->update( [ 'status' => '3' ] );
-        CancelRequest::where('reservation_id',$reservation->id)->delete();
+        CancelRequest::where( 'reservation_id', $reservation->id )->delete();
         return redirect()->back();
     }
-
 }
