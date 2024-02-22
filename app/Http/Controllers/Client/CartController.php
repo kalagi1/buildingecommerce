@@ -273,6 +273,7 @@ class CartController extends Controller {
             $neighborhood = Housing::find( $productDetails->id ?? 0 )->neighborhood->mahalle_title ? Housing::find( $productDetails->id ?? 0 )->neighborhood->mahalle_title : null;
             $code = Housing::find( $productDetails->id ?? 0 )->id + 2000000;
             $store = Housing::find( $productDetails->id ?? 0 )->user->name;
+            $storeID = Housing::find( $productDetails->id ?? 0 )->user->id;
             $room = null;
 
             if ( $haveDiscount ) {
@@ -442,6 +443,8 @@ class CartController extends Controller {
             $housingTypeImage = URL::to( '/' ) . '/project_housing_images/' . $housingImage;
             $code = $project->id + $productDetails->housing + 1000000;
             $store = $project->user->name;
+            $storeID = $project->user->id;
+
             $room = $productDetails->housing;
             $shareOpen = isset( getHouse( $project, 'share-open[]', $productDetails->housing )->value ) ? getHouse( $project, 'share-open[]', $productDetails->housing )->value : null;
 
@@ -544,6 +547,10 @@ class CartController extends Controller {
                 }
             }
         }
+        
+        $order->update([
+            "store_id" => $storeID
+        ]);
 
         $productTable = '<table style="width:100%;border-collapse: collapse;">
                 <tr>

@@ -339,7 +339,7 @@
                                     style="width:150px;float:right">Satın Al
                                 </button>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                    style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                    style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                             </div>
 
 
@@ -450,7 +450,7 @@
                                             </svg>
                                         </button>
                                         <button type="button" class="btn btn-secondary btn-lg btn-block"
-                                            style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                                     </div>
 
 
@@ -537,7 +537,7 @@
         });
         $(document).ready(function() {
             $('.paySuccess').on('click', function() {
-                $('#loadingIndicator').show();
+                $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
 
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
                     toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
@@ -588,8 +588,7 @@
                         toastr.error('Ödeme işlemi sırasında bir hata oluştu.')
                     },
                     complete: function() {
-                        // Yüklenme göstergesini gizle
-                        $('#loadingIndicator').hide();
+                        $("#loadingOverlay").css("visibility", "hidden"); // Visible olarak ayarla
                     }
                 });
             });

@@ -50,6 +50,7 @@ use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RealEstateController;
 use App\Http\Controllers\Admin\RealEstateController as AdminRealEstateController;
 use App\Http\Controllers\Client\ForgotPasswordController;
+use App\Http\Controllers\Client\NeighborViewController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\ResetPasswordController;
 use App\Http\Controllers\Client\SharerController;
@@ -92,6 +93,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
+Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
 
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 

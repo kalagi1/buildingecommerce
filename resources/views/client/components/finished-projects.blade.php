@@ -1,63 +1,63 @@
 @php
-if (!function_exists('getHouse')) {
-    function getHouse($project, $key, $roomOrder)
-    {
-        foreach ($project->roomInfo as $room) {
-            if ($room->room_order == $roomOrder && $room->name == $key) {
-                return $room;
+    if (!function_exists('getHouse')) {
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
             }
         }
     }
-}
 @endphp
 
 @php
 
-        function convertMonthToTurkishCharacter($date)
-        {
-            $aylar = [
-                'January' => 'Ocak',
-                'February' => 'Şubat',
-                'March' => 'Mart',
-                'April' => 'Nisan',
-                'May' => 'Mayıs',
-                'June' => 'Haziran',
-                'July' => 'Temmuz',
-                'August' => 'Ağustos',
-                'September' => 'Eylül',
-                'October' => 'Ekim',
-                'November' => 'Kasım',
-                'December' => 'Aralık',
-                'Monday' => 'Pazartesi',
-                'Tuesday' => 'Salı',
-                'Wednesday' => 'Çarşamba',
-                'Thursday' => 'Perşembe',
-                'Friday' => 'Cuma',
-                'Saturday' => 'Cumartesi',
-                'Sunday' => 'Pazar',
-                'Jan' => 'Oca',
-                'Feb' => 'Şub',
-                'Mar' => 'Mar',
-                'Apr' => 'Nis',
-                'May' => 'May',
-                'Jun' => 'Haz',
-                'Jul' => 'Tem',
-                'Aug' => 'Ağu',
-                'Sep' => 'Eyl',
-                'Oct' => 'Eki',
-                'Nov' => 'Kas',
-                'Dec' => 'Ara',
-            ];
-            return strtr($date, $aylar);
-        }
+    function convertMonthToTurkishCharacter($date)
+    {
+        $aylar = [
+            'January' => 'Ocak',
+            'February' => 'Şubat',
+            'March' => 'Mart',
+            'April' => 'Nisan',
+            'May' => 'Mayıs',
+            'June' => 'Haziran',
+            'July' => 'Temmuz',
+            'August' => 'Ağustos',
+            'September' => 'Eylül',
+            'October' => 'Ekim',
+            'November' => 'Kasım',
+            'December' => 'Aralık',
+            'Monday' => 'Pazartesi',
+            'Tuesday' => 'Salı',
+            'Wednesday' => 'Çarşamba',
+            'Thursday' => 'Perşembe',
+            'Friday' => 'Cuma',
+            'Saturday' => 'Cumartesi',
+            'Sunday' => 'Pazar',
+            'Jan' => 'Oca',
+            'Feb' => 'Şub',
+            'Mar' => 'Mar',
+            'Apr' => 'Nis',
+            'May' => 'May',
+            'Jun' => 'Haz',
+            'Jul' => 'Tem',
+            'Aug' => 'Ağu',
+            'Sep' => 'Eyl',
+            'Oct' => 'Eki',
+            'Nov' => 'Kas',
+            'Dec' => 'Ara',
+        ];
+        return strtr($date, $aylar);
+    }
 
-        function getImage($housing, $key)
-        {
-            $housing_type_data = json_decode($housing->housing_type_data);
-            $a = $housing_type_data->$key;
-            return $a;
-        }
-    @endphp
+    function getImage($housing, $key)
+    {
+        $housing_type_data = json_decode($housing->housing_type_data);
+        $a = $housing_type_data->$key;
+        return $a;
+    }
+@endphp
 
 <section class="featured portfolio rec-pro disc bg-white finish-projects">
     <div class="container">
@@ -83,9 +83,9 @@ if (!function_exists('getHouse')) {
                 @for ($i = 0; $i < 1; $i++)
                     @php($room_order = $i + 1)
                     @php(
-                        $discount_amount =
-                            App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                    )
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+)
                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                     <div class="d-flex" style="flex-wrap: nowrap">
@@ -131,7 +131,7 @@ if (!function_exists('getHouse')) {
                                             <i class="fa fa-heart-o"></i>
                                         </span>
 
-                                       @if (getHouse($project, 'off_sale[]', $i + 1)->value != "[]")
+                                        @if (getHouse($project, 'off_sale[]', $i + 1)->value != '[]')
                                             <button class="btn   mobileBtn  second-btn CartBtn" disabled
                                                 style="background: #EA2B2E !important;width:100%;color:White">
                                                 <span class="IconContainer">
@@ -168,14 +168,14 @@ if (!function_exists('getHouse')) {
                                     </div>
                                     <span class="ml-auto text-primary priceFont">
                                         @if ($discount_amount)
-                                            <svg viewBox="0 0 24 24" width="24" height="24"
-                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="2" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
                                                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                             </svg>
                                         @endif
-                                        @if (getHouse($project, 'off_sale[]', $i + 1)->value == "[]")
+                                        @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                             @if ($sold)
                                                 @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                     {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
@@ -261,9 +261,9 @@ if (!function_exists('getHouse')) {
                                 @for ($i = 0; $i < 1; $i++)
                                     @php($room_order = $i + 1)
                                     @php(
-                                        $discount_amount =
-                                            App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0
-                                            )
+    $discount_amount =
+        App\Models\Offer::where('type', 'project')->where('project_id', $project->id)->where('project_housings', 'LIKE', "%\"{$room_order}\"%")->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0,
+)
                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getHouse($project, 'price[]', $i + 1)->room_order, $project->id]))
 
                                     <div data-aos="fade-up" data-aos-delay="150">
@@ -399,7 +399,7 @@ if (!function_exists('getHouse')) {
                                                                         </polyline>
                                                                     </svg>
                                                                 @endif
-                                                                @if (getHouse($project, 'off_sale[]', $i + 1)->value == "[]")
+                                                                @if (getHouse($project, 'off_sale[]', $i + 1)->value == '[]')
                                                                     @if ($sold)
                                                                         @if ($sold[0]->status != '1' && $sold[0]->status != '0')
                                                                             {{ number_format(getHouse($project, 'price[]', $i + 1)->value - $discount_amount, 0, ',', '.') }}
@@ -417,7 +417,7 @@ if (!function_exists('getHouse')) {
                                                                 {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) }}
                                                             </li>
                                                         </ul>
-                                                        @if (getHouse($project, 'off_sale[]', $i + 1)->value != "[]")
+                                                        @if (getHouse($project, 'off_sale[]', $i + 1)->value != '[]')
                                                             <button class="btn second-btn CartBtn" disabled
                                                                 style="background: #EA2B2E !important;width:100%;color:White">
 
@@ -464,5 +464,3 @@ if (!function_exists('getHouse')) {
 
     </div>
 </section>
-
-

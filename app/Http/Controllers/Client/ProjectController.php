@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\Brand;
 use App\Models\CartOrder;
@@ -31,20 +32,22 @@ class ProjectController extends Controller
             return Menu::getMenuItems();
         });
 
+        $bankAccounts = BankAccount::all();
+
         $project = Project::where('slug', $slug)->where("id",$id)
         ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
         ->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
 
-
         $projectCartOrders = DB::table('cart_orders')
-        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+        ->leftJoin('users', 'cart_orders.store_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
         ->get()
         ->keyBy("housing_id");
-
+    
         $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $lastHousingCount = 0;
 
@@ -90,8 +93,8 @@ class ProjectController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
-        
-        return view('client.projects.index', compact("pageInfo",'projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+
+        return view('client.projects.index', compact("pageInfo",'bankAccounts','projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
     
@@ -691,6 +694,7 @@ class ProjectController extends Controller
             ->groupBy('project_id')
             ->where("status", "1")
             ->get();
+
 
         $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
         $selectedPage = $request->input('selected_page') ?? 0;
