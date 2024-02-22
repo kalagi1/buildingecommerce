@@ -1,5 +1,5 @@
-<table width="600" cellpadding="0" cellspacing="0" role="presentation"
-    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;margin:0;padding:0;width:600px">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;margin:0;padding:0;width:100%">
     <tbody>
         <tr>
             <td align="center"
