@@ -4,7 +4,7 @@
         <tr>
             <td align="center"
                 style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
-                <table width="600" cellpadding="0" cellspacing="0" role="presentation"
+                <table width="600" cellpadding="0" cellspacing="0" role="presentation" class="parentTable"
                     style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0 auto;padding:0;width:600px;display: flex;align-items: center;justify-content: center;">
                     <tbody>
                         <tr>
@@ -75,3 +75,16 @@
         </tr>
     </tbody>
 </table>
+
+
+<style>
+    @media (max-width: 768px) {
+
+        .m_-4554695697553144873footer,
+        .parentTable {
+            width: 100% !important;
+            margin: 0 auto;
+
+        }
+    }
+</style>
