@@ -3,16 +3,16 @@
     <div id=":18r" class="a3s aiL msg-4554695697553144873"><u></u>
 
         <div
-            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;color:#718096;height:100%;line-height:1.4;margin:0;padding:0;width:570px!important;margin:0 auto">
+            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;color:#718096;height:100%;line-height:1.4;margin:0;padding:0;width:600px!important;margin:0 auto">
 
-            <table width="570" cellpadding="0" cellspacing="0" role="presentation"
-                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;margin:0;padding:0;width:570px">
+            <table width="600" cellpadding="0" cellspacing="0" role="presentation"
+                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;margin:0;padding:0;width:600px">
                 <tbody>
                     <tr>
                         <td align="center"
                             style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
-                            <table width="570" cellpadding="0" cellspacing="0" role="presentation"
-                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0;padding:0;width:570px">
+                            <table width="600" cellpadding="0" cellspacing="0" role="presentation"
+                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0;padding:0;width:600px">
                                 <tbody>
                                     <tr>
                                         <td
@@ -23,7 +23,7 @@
                                                 data-saferedirecturl="https://www.google.com/url?q=https://emlaksepette.com&amp;source=gmail&amp;ust=1708527222602000&amp;usg=AOvVaw3Z7TNn9C6dL5vdxRWvzPJb">
                                                 <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
                                                     alt="Emlak Sepette Logo"
-                                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:570px;border:none;height:40px;max-height:40px;width:200px"
+                                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:600px;border:none;height:40px;max-height:40px;width:200px"
                                                     class="CToWUd" data-bit="iit">
                                             </a>
                                         </td>
@@ -32,10 +32,10 @@
 
                                     <tr>
                                         <td width="100%" cellpadding="0" cellspacing="0"
-                                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;border-bottom:1px solid #edf2f7;border-top:1px solid #edf2f7;margin:0;padding:0;width:570px;border:hidden!important">
+                                            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;border-bottom:1px solid #edf2f7;border-top:1px solid #edf2f7;margin:0;padding:0;width:600px;border:hidden!important">
                                             <table class="m_-4554695697553144873inner-body" align="center"
-                                                width="570" cellpadding="0" cellspacing="0" role="presentation"
-                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;border-color:#e8e5ef;border-radius:2px;border-width:1px;margin:0 auto;padding:0;width:570px">
+                                                width="600" cellpadding="0" cellspacing="0" role="presentation"
+                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;border-color:#e8e5ef;border-radius:2px;border-width:1px;margin:0 auto;padding:0;width:600px">
 
                                                 <tbody>
                                                     <tr>
@@ -58,9 +58,9 @@
                                     <tr>
                                         <td
                                             style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
-                                            <table class="m_-4554695697553144873footer" align="center" width="570"
+                                            <table class="m_-4554695697553144873footer" align="center" width="600"
                                                 cellpadding="0" cellspacing="0" role="presentation"
-                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0 auto;padding:0;text-align:center;width:570px">
+                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0 auto;padding:0;text-align:center;width:600px">
                                                 <tbody>
                                                     <tr>
                                                         <td align="center"
