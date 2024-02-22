@@ -14,6 +14,7 @@ use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\HousingType;
 use App\Models\Menu;
+use App\Models\NeighborView;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -49,6 +50,13 @@ class EstateClubController extends Controller {
             ->get();
     
         return view('admin.estate_club.list', compact('estateClubUsers'));
+    }
+
+    public function seeApplications() {
+        $estateClubUsers = NeighborView::orderBy("id","desc")
+            ->get();
+    
+        return view('admin.estate_club.see_neighbor', compact('estateClubUsers'));
     }
     
 
