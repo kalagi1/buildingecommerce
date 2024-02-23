@@ -3,32 +3,75 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
+use App\Models\CartOrder;
+use App\Models\EmailTemplate;
+use App\Models\Housing;
 use App\Models\NeighborView;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class NeighborViewController extends Controller {
-    public function store(Request $request) {
-        $userId = $request->input('user_id');
-        $orderId = $request->input('order_id');
+    public function store( Request $request ) {
+        $userId = $request->input( 'user_id' );
+        $orderId = $request->input( 'order_id' );
 
-        // user_id ve order_id'ye göre veritabanında kayıt var mı kontrol et
-        $existingRecord = NeighborView::where('user_id', $userId)
-            ->where('order_id', $orderId)
-            ->first();
+        $existingRecord = NeighborView::where( 'user_id', $userId )
+        ->where( 'order_id', $orderId )
+        ->first();
 
-        if (!$existingRecord) {
-            // Kayıt yoksa yeni kayıt oluştur
-            NeighborView::create([
+        if ( !$existingRecord ) {
+            NeighborView::create( [
                 'user_id' => $userId,
                 'order_id' => $orderId,
-                'status' => $request->input('status'),
-                'key' => $request->input('key'),
-                'amount' => $request->input('amount'),
-            ]);
+                'status' => $request->input( 'status' ),
+                'key' => $request->input( 'key' ),
+                'amount' => $request->input( 'amount' ),
+            ] );
 
-            return response()->json(['success' => true, 'message' => 'Successfully saved.'], 200);
+            $user =  User::where( 'id', $userId )->first();
+            $order = CartOrder::where( 'id', $orderId )->first();
+            $cart = json_decode( $order->cart );
+            $project = null;
+            $roomOrder = null;
+
+            if ( $cart->type == 'project' ) {
+                $project = Project::where( 'id', $cart->item->id )->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )->first();
+                $roomOrder = $cart->item->housing_id;
+            } else {
+                $project = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+            }
+
+            $applyPaymentOrder = EmailTemplate::where( 'slug', 'neighbor-payment-confirmation' )->first();
+
+            if ( !$applyPaymentOrder ) {
+                return response()->json( [
+                    'message' => 'Apply Payment Order email template not found.',
+                    'status' => 203,
+                    'success' => true,
+                ], 203 );
+            }
+
+            $applyPaymentOrderContent = $applyPaymentOrder->body;
+
+            $applyPaymentOrderVariables = [
+                'username' => $user->name,
+                'project' => $project->project_title,
+                'housingNo' => $roomOrder,
+                'companyName' => 'Emlak Sepette'
+            ];
+
+            foreach ( $applyPaymentOrderVariables as $key => $value ) {
+                $applyPaymentOrderContent = str_replace( '{{' . $key . '}}', $value, $applyPaymentOrderContent );
+            }
+
+            Mail::to( $user->email )->send( new CustomMail( $applyPaymentOrder->subject, $applyPaymentOrderContent ) );
+
+            return response()->json( [ 'success' => true, 'message' => 'Successfully saved.' ], 200 );
         } else {
-            return response()->json(['success' => false, 'message' => 'Record already exists.'], 400);
+            return response()->json( [ 'success' => false, 'message' => 'Record already exists.' ], 400 );
         }
     }
 }
