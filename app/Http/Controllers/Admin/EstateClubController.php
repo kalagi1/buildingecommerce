@@ -53,9 +53,10 @@ class EstateClubController extends Controller {
     }
 
     public function seeApplications() {
-        $estateClubUsers = NeighborView::with("user","store")->orderBy("id","desc")
+        $estateClubUsers = NeighborView::with("user","owner","project")->orderBy("id","desc")
             ->get();
     
+
         return view('admin.estate_club.see_neighbor', compact('estateClubUsers'));
     }
     
@@ -147,7 +148,7 @@ class EstateClubController extends Controller {
         $emailSubject = '';
     
         if ($action == 'approve') {
-            $user->update(['status' => "1"]); 
+            $user->update(['status' => 1]); 
             $message = 'Kullanıcının başvurusu onaylandı.';
             $emailTemplateSlug = 'approve-neighbor-confirmation';
             $statusText = 'onaylandı';
@@ -163,7 +164,7 @@ class EstateClubController extends Controller {
             
 
         } elseif ($action == 'reject') {
-            $user->update(['status' => "2"]);
+            $user->update(['status' => 2]);
             $message = 'Kullanıcının başvurusu reddedildi.';
             $emailTemplateSlug = 'reject-neighbor-confirmation';
             $statusText = 'reddedildi';

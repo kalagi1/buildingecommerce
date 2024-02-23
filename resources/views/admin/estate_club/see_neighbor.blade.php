@@ -25,6 +25,8 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_no">Proje</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_no">Paylaşılacak Bilgiler</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_name">Tutar</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_date">Başvuru Tarihi</th>
@@ -41,11 +43,13 @@
 
                                             <td class="order_name">{{ $user->user->name }}</td>
                                             <td class="order_name">
-                                                {{$user->project->id + 1000000 + $user->housing}} <br>
+                                                {{ $user->project->id + 1000000 + $user->housing }} <br>
                                                 {{ $user->project->project_title }} projesinde
                                                 {{ $user->housing }} No'lu Daire</td>
 
-                    
+                                            <td class="order_name">
+                                                Alıcı Adı: {{ $user->owner->name }} <br>
+                                                Alıcı İletişim No: {{ $user->owner->phone }}</td>
 
                                             <td class="order_name">250 TL</td>
                                             <td class="order_date">
@@ -75,7 +79,9 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="confirmationModalLabel{{ $user->id }}">Komşu bilgilerinin paylaşılması adına durum güncellemesi yapıyorsunuz. </h5>
+                                                                    id="confirmationModalLabel{{ $user->id }}">Komşu
+                                                                    bilgilerinin paylaşılması adına durum güncellemesi
+                                                                    yapıyorsunuz. </h5>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>

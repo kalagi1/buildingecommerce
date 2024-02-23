@@ -724,6 +724,7 @@
                                                                             $sold = null;
                                                                         }
                                                                         $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
+                                                                        $room_order = $i + 1;
 
                                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                                             ->where('project_id', $project->id)

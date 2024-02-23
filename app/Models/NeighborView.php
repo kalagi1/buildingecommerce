@@ -13,8 +13,8 @@ class NeighborView extends Model {
         return $this->hasOne( User::class, 'id', 'user_id' );
     }
 
-    public function store() {
-        return $this->hasOne( User::class, 'id', 'store_id' );
+    public function owner() {
+        return $this->hasOne( User::class, 'id', 'owner_id' );
     }
 
     public function project() {
