@@ -2198,7 +2198,7 @@ out center;`;
                         if (response.success) {
                             toastr.success(
                                 'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                            location.reload();
+                            // location.reload();
                         }
                     },
                     error: function(error) {
