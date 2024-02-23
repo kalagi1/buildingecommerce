@@ -705,10 +705,10 @@
                                                                                 @endphp
 
                                                                                 <x-project-item-card :project="$project"
-                                                                                :isUserSame="$isUserSame"
-                                                                                    :bankAccounts="$bankAccounts" :i="$i"
-                                                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
+                                                                                    :i="$i" :projectHousingsList="$projectHousingsList"
+                                                                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                                                    :lastHousingCount="$lastHousingCount" />
                                                                             @endfor
                                                                         @endif
                                                                     </div>
@@ -738,10 +738,9 @@
 
                                                                     <x-project-item-mobile-card :project="$project"
                                                                         :bankAccounts="$bankAccounts" :room_order="$room_order"
-                                                                        :isUserSame="$isUserSame"
-                                                                        :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                        :lastHousingCount="$lastHousingCount" />
+                                                                        :isUserSame="$isUserSame" :i="$i"
+                                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                 @endfor
 
                                                             </div>
@@ -777,9 +776,8 @@
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :i="$i"
-                                                    :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList"
+                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
 
                                             </div>
@@ -806,9 +804,9 @@
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
                                                 <x-project-item-mobile-card :project="$project" :room_order="$room_order"
-                                                :isUserSame="$isUserSame"
-                                                    :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                    :lastHousingCount="$lastHousingCount" />
                                             @endfor
                                         </div>
 
@@ -1726,12 +1724,12 @@
                         if (response.success) {
                             toastr.success(
                                 'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                                location.reload();
+                            location.reload();
                         }
                     },
                     error: function(error) {
                         toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                            location.reload();
+                        location.reload();
                     }
                 });
             }
@@ -1750,6 +1748,16 @@
             return randomCode;
         }
         $(".see-my-neighbor").on("click", function() {
+
+
+            if (!{{ Auth::check() ? 'true' : 'false' }}) {
+                // User is not authenticated, show error toast
+                // You can use a library like toastr.js or any other method to display a toast
+                // Example using toastr.js
+                toastr.error('Lütfen giriş yapın!');
+                return;
+            }
+
             var uniqueCode = generateRandomCode();
 
 

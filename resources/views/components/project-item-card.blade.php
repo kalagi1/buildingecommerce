@@ -177,8 +177,11 @@ if (Auth::check()) {
                                 @endphp
 
                                 @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
-                                    <span class="first-btn see-my-neighbor" data-bs-toggle="modal"
-                                        data-bs-target="#paymentModal" data-order="{{ $sold->id }}">
+                                    <span class="first-btn see-my-neighbor" @if (Auth::check())
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#paymentModal" data-order="{{ $sold->id }}"
+                                    
+                                    @endif >
                                         <span><svg viewBox="0 0 24 24" width="18" height="18"
                                                 stroke="currentColor" stroke-width="2" fill="none"
                                                 stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
