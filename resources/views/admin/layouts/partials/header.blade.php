@@ -134,9 +134,12 @@
                                     $pendingHousingTypes = null;
                                     $pendingProjects = null;
                                     $orderCount = null;
+                                    $neighborCount = null;
                         
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
+                                    } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
+                                        $neighborCount = \App\Models\NeighborView::where("status", "0")->count() ?: null;
                                     } elseif ($menuItem['key'] == 'Housings') {
                                         $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
                                             ->where('status', 2)
@@ -176,9 +179,12 @@
                                             <span class="nav-link-text">
                                                 {{ $menuItem['text'] }}
                                                 {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                                {{ $neighborCount != null ? "($neighborCount)" : null }}
+
                                                 {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
                                                 {{ $pendingProjects != null &&  $pendingProjects->count() != 0 ? "(". $pendingProjects->count() .")" : null }}
                                                 {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
+
 
                                             </span>
                         
