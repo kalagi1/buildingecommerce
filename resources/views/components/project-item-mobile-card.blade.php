@@ -150,7 +150,8 @@
 
                         if (Auth::check()) {
                             $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
-                                ->where('order_id', $sold->id)
+                                ->where('project_id', $project->id)
+                                 ->where('housing', $room_order)
                                 ->first();
                         }
                     @endphp
@@ -178,7 +179,7 @@
                                     <line x1="12" y1="16" x2="12.01" y2="16">
                                     </line>
                                 </svg>
-                                250 TL </span>
+                                Ödeme Onayı </span>
                         </button>
                     @elseif($neighborView && $neighborView->status == '1')
                         <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"

@@ -18,31 +18,37 @@ class NeighborViewController extends Controller {
         $userId = $request->input( 'user_id' );
         $orderId = $request->input( 'order_id' );
 
+        $cartOrder = CartOrder::where( 'id', $request->input( 'order_id' ) )->first();
+
+        $user =  User::where( 'id', $userId )->first();
+        $order = CartOrder::where( 'id', $orderId )->first();
+        $cart = json_decode( $order->cart );
+        $project = null;
+        $roomOrder = null;
+
+        if ( $cart->type == 'project' ) {
+            $project = Project::where( 'id', $cart->item->id )->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )->first();
+            $roomOrder = $cart->item->housing;
+        } else {
+            $project = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+        }
+
         $existingRecord = NeighborView::where( 'user_id', $userId )
-        ->where( 'order_id', $orderId )
+        ->where( 'project_id', $project->id )
+        ->where( 'housing', $roomOrder )
         ->first();
 
         if ( !$existingRecord ) {
+
             NeighborView::create( [
                 'user_id' => $userId,
-                'order_id' => $orderId,
+                'owner_id' => $cartOrder->user_id,
+                'housing' => $roomOrder,
+                'project_id' => $project->id,
                 'status' => $request->input( 'status' ),
                 'key' => $request->input( 'key' ),
                 'amount' => $request->input( 'amount' ),
             ] );
-
-            $user =  User::where( 'id', $userId )->first();
-            $order = CartOrder::where( 'id', $orderId )->first();
-            $cart = json_decode( $order->cart );
-            $project = null;
-            $roomOrder = null;
-
-            if ( $cart->type == 'project' ) {
-                $project = Project::where( 'id', $cart->item->id )->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )->first();
-                $roomOrder = $cart->item->housing;
-            } else {
-                $project = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
-            }
 
             $applyPaymentOrder = EmailTemplate::where( 'slug', 'neighbor-payment-confirmation' )->first();
 

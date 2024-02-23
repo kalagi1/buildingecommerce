@@ -222,6 +222,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/admin', [AdminHomeController::class, "index"]);
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');
+    Route::post('/changeStatusNeighbor/{applyId}/{action}',  [AdminEstateClubController::class,"changeStatusNeighbor"])->name('changeStatusNeighbor');
+
     Route::get('/projects/{project_id}/orders', [AdminEstateClubController::class, 'orders'])->name('projects.orders');
 
     Route::get('/estate_club_users', [AdminEstateClubController::class,"index"])->name('estate.club.users');

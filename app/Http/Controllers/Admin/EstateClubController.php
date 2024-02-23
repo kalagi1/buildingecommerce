@@ -53,7 +53,7 @@ class EstateClubController extends Controller {
     }
 
     public function seeApplications() {
-        $estateClubUsers = NeighborView::orderBy("id","desc")
+        $estateClubUsers = NeighborView::with("user","store")->orderBy("id","desc")
             ->get();
     
         return view('admin.estate_club.see_neighbor', compact('estateClubUsers'));
@@ -121,6 +121,80 @@ class EstateClubController extends Controller {
             'username' => $user->name,
             'statusText' => $statusText,
             'companyName' => "Emlak Sepette",
+        ];
+    
+        foreach ($variables as $key => $value) {
+            $content = str_replace("{{" . $key . "}}", $value, $content);
+        }
+    
+        // E-posta gönder
+        Mail::to($user->email)->send(new CustomMail($emailSubject, $content));
+    
+        return redirect()->back()->with('success', $message);
+    }
+    
+
+    public function changeStatusNeighbor(Request $request, $userId, $action)
+    {
+        $user = NeighborView::with("project","user","store")->find($userId);
+    
+        if (!$user) {
+            return redirect()->back()->with('error', 'Kullanıcı bulunamadı.');
+        }
+    
+        $emailTemplateSlug = '';
+        $statusText = '';
+        $emailSubject = '';
+    
+        if ($action == 'approve') {
+            $user->update(['status' => "1"]); 
+            $message = 'Kullanıcının başvurusu onaylandı.';
+            $emailTemplateSlug = 'approve-neighbor-confirmation';
+            $statusText = 'onaylandı';
+            $emailSubject = 'Emlak Kulüp Başvurunuz Onaylandı';
+            DocumentNotification::create([
+                'user_id' => 4,
+                'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz onaylandı!',
+                'item_id' => $user->parent_id ?? $user->id,
+                'link' => route('project.housings.detail', ["projectSlug" => $user->project->slug, "id" => $user->housing]),
+                'owner_id' => $user->parent_id ?? $user->id,
+                'is_visible' => true,
+            ]);
+            
+
+        } elseif ($action == 'reject') {
+            $user->update(['status' => "2"]);
+            $message = 'Kullanıcının başvurusu reddedildi.';
+            $emailTemplateSlug = 'reject-neighbor-confirmation';
+            $statusText = 'reddedildi';
+            $emailSubject = 'Emlak Kulüp Başvurunuz Reddedildi';
+
+            DocumentNotification::create([
+                'user_id' => 4,
+                'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz reddeildi!',
+                'item_id' => $user->parent_id ?? $user->id,
+                'link' => route('project.housings.detail', ["projectSlug" => $user->project->slug, "id" => $user->housing]),
+                'owner_id' => $user->parent_id ?? $user->id,
+                'is_visible' => true,
+            ]);
+        } else {
+            return redirect()->back()->with('error', 'Geçersiz işlem.');
+        }
+    
+        // Gönderilecek e-posta içeriğini hazırla
+        $emailTemplate = EmailTemplate::where('slug', $emailTemplateSlug)->first();
+    
+        if (!$emailTemplate) {
+            return redirect()->back()->with('error', 'E-posta şablonu bulunamadı.');
+        }
+    
+        $content = $emailTemplate->body;
+    
+        $variables = [
+            'username' => $user->user->name,
+            'project' => $user->project->project_title,
+            'housingNo' => $user->housing,
+            'companyName' => 'Emlak Sepette'
         ];
     
         foreach ($variables as $key => $value) {

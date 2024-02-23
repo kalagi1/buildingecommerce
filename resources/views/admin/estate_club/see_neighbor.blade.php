@@ -5,7 +5,7 @@
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0">Emlak Kulüp Başvuruları</h2>
+                    <h2 class="mb-0">Komşumu Gör Başvuruları</h2>
                 </div>
             </div>
             <div id="orderTable"
@@ -17,19 +17,17 @@
                         <table class="table table-sm fs--1 mb-0">
                             <thead>
                                 <tr>
-                                    
+
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_no">Başvuru No</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_no">Üye numarası</th>
-                                    <th
-                                     class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_name">İsim Soyisim</th>
-                                        <th
-                                        class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                           data-sort="order_name">Banka Bilgileri</th>
+                                        data-sort="order_no">Başvuran Üye</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_date">Katılma Tarihi</th>
+                                        data-sort="order_no">Proje</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_name">Tutar</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_date">Başvuru Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_ok">İşlemler</th>
                                 </tr>
@@ -41,28 +39,28 @@
                                         <tr>
                                             <td class="order_no">{{ $key + 1 }}</td>
 
-                                            <td class="order_no">{{ 1000000 + $user->id }}</td>
-                                            <td class="order_name">{{ $user->name }}</td>
+                                            <td class="order_name">{{ $user->user->name }}</td>
                                             <td class="order_name">
-                                                <span><strong>Banka Alıcı Adı:</strong> {{$user->bank_name}}</span> <br>
-                                                <span><strong>IBAN:</strong> {{$user->iban}}</span>
+                                                {{$user->project->id + 1000000 + $user->housing}} <br>
+                                                {{ $user->project->project_title }} projesinde
+                                                {{ $user->housing }} No'lu Daire</td>
 
-                                            </td>
+                    
 
-
+                                            <td class="order_name">250 TL</td>
                                             <td class="order_date">
                                                 {{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}</td>
                                             <!-- Tablo içindeki onay butonları -->
                                             <td class="order_ok">
-                                                @if ($user->has_club == 1)
+                                                @if ($user->status == 1)
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-success btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">Onaylandı</button>
-                                                @elseif ($user->has_club == 2)
+                                                @elseif ($user->status == 0)
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-warning btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">İnceleniyor</button>
-                                                @elseif ($user->has_club == 3)
+                                                @elseif ($user->status == 3)
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-danger btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">Reddedildi</button>
@@ -77,8 +75,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title"
-                                                                    id="confirmationModalLabel{{ $user->id }}">Durum
-                                                                    Değiştirme Onayı</h5>
+                                                                    id="confirmationModalLabel{{ $user->id }}">Komşu bilgilerinin paylaşılması adına durum güncellemesi yapıyorsunuz. </h5>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
@@ -86,19 +83,23 @@
                                                                 Kullanıcının durumunu değiştirmek istediğinize emin misiniz?
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="badge badge-phoenix fs-10 badge-phoenix-secondary"
+                                                                <button type="button"
+                                                                    class="badge badge-phoenix fs-10 badge-phoenix-secondary"
                                                                     data-bs-dismiss="modal">Vazgeç</button>
                                                                 <form
-                                                                    action="{{ route('admin.changeStatus', ['userId' => $user->id, 'action' => 'approve']) }}"
+                                                                    action="{{ route('admin.changeStatusNeighbor', ['applyId' => $user->id, 'action' => 'approve']) }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button type="submit" class="badge badge-phoenix fs-10 badge-phoenix-success">Evet, Onayla</button>
+                                                                    <button type="submit"
+                                                                        class="badge badge-phoenix fs-10 badge-phoenix-success">Evet,
+                                                                        Onayla</button>
                                                                 </form>
                                                                 <form
-                                                                    action="{{ route('admin.changeStatus', ['userId' => $user->id, 'action' => 'reject']) }}"
+                                                                    action="{{ route('admin.changeStatusNeighbor', ['applyId' => $user->id, 'action' => 'reject']) }}"
                                                                     method="POST">
                                                                     @csrf
-                                                                    <button type="submit" class="badge badge-phoenix fs-10 badge-phoenix-danger">Reddet</button>
+                                                                    <button type="submit"
+                                                                        class="badge badge-phoenix fs-10 badge-phoenix-danger">Reddet</button>
                                                                 </form>
                                                             </div>
                                                         </div>
