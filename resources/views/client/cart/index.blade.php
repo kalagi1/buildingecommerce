@@ -366,6 +366,8 @@
                                     <input type="hidden" name="banka_id" id="bankaID">
                                     <input type="hidden" name="have_discount" class="have_discount">
                                     <input type="hidden" name="discount" class="discount">
+                                    <input type="hidden" name="is_swap" class="is_swap" value="{{ $cart['item']['payment-plan']}}">
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -421,9 +423,24 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="notes">Referans Kodu (Opsiyonel):</label>
-                                                <input type="text" class="form-control" name="reference_code">
+                                                <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
+                                        @if (isset($cart['item']['neighborProjects']) &&  count($cart['item']['neighborProjects']) > 0)
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın alıyorsunuz?</label>
+                                                <select class="form-control" id="is_reference" name="is_reference">
+                                                    <option value="" selected >Komşu Seçiniz</option>
+                                                    @foreach ($cart['item']['neighborProjects'] as $neighborProject)
+                                                        <option value="{{ $neighborProject->owner->id }}">{{ $neighborProject->owner->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>    
+                                        @endif
+                                     
+                                        
                                     </div>
 
                                     @if ($cart['type'] == 'project')
@@ -574,6 +591,7 @@
                         address: $('#address').val(),
                         notes: $('#notes').val(),
                         reference_code: $('#reference_code').val(),
+                        is_reference: $("#is_reference").val(),
                         is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
                     },
                     success: function(response) {
@@ -588,7 +606,8 @@
                         toastr.error('Ödeme işlemi sırasında bir hata oluştu.')
                     },
                     complete: function() {
-                        $("#loadingOverlay").css("visibility", "hidden"); // Visible olarak ayarla
+                        $("#loadingOverlay").css("visibility",
+                        "hidden"); // Visible olarak ayarla
                     }
                 });
             });

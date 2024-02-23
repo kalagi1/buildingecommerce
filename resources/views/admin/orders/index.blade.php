@@ -50,6 +50,8 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_amount">Tutar</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_amount">Ödeme Türü</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_date">Sipariş Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_status">Durum</th>
@@ -86,8 +88,16 @@
                                                 @else
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
+                                                @if (isset($order->is_reference))
+                                                <br>
+                                                    <strong class="text-success">Bu ilan komşumu gör referansı ile satılmıştır. <br>
+                                                    Referans: {{ $order->isReference->name}} - {{$order->isReference->phone}}</strong>
+                                                @endif
                                             </td>
                                             <td class="order_amount">{{ $order->amount }} <br>
+
+                                            </td>
+                                            <td class="order_amount">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br>
 
                                             </td>
                                             <td class="order_date">{{ $order->created_at }}</td>

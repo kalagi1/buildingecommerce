@@ -12,6 +12,8 @@ use App\Models\EmailTemplate;
 use App\Models\Housing;
 use App\Models\HousingComment;
 use App\Models\Invoice;
+use App\Models\NeighborPayment;
+use App\Models\NeighborView;
 use App\Models\Order;
 use App\Models\Project;
 use App\Models\Reservation;
@@ -46,7 +48,7 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user', 'share', 'price' )->orderByDesc( 'created_at' )->get();
+        $cartOrders = CartOrder::with( 'user', 'share', 'price' ,"isReference")->orderByDesc( 'created_at' )->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
@@ -130,6 +132,20 @@ class HomeController extends Controller {
             $estate = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
         } else {
             $estate = Project::where( 'id', $cart->item->id )->with( 'user' )->first();
+            $isNeighbor = NeighborView::where( 'owner_id', $cartOrder->is_reference )
+            ->where( 'project_id', $estate->id )
+            ->where( 'user_id', $cartOrder->user_id )
+            ->where( 'status', 1 )
+            ->first();
+
+            $neighborPaymentData = [
+                'user_id' => $cartOrder->is_reference,
+                'payment' => '125', // Ödeme miktarını uygun bir şekilde güncelleyin
+                'neighborview_id' => $isNeighbor ? $isNeighbor->id : null,
+            ];
+
+            NeighborPayment::create( $neighborPaymentData );
+
         }
 
         $user = User::where( 'id', $cartOrder->user_id )->first();
@@ -151,8 +167,8 @@ class HomeController extends Controller {
             'salesAmount' => $cartOrder->amount,
             'salesDate' => $cartOrder->created_at->format( 'd/m/Y' ),
             'companyName' => 'Emlak Sepette',
-            "orderNo" =>  $cartOrder->id,
-            "housingNo" => $cartOrder->key,
+            'orderNo' =>  $cartOrder->id,
+            'housingNo' => $cartOrder->key,
             'email' => $user->email,
             'token' => $user->email_verification_token,
             'storeOwnerName' => $estate ? $estate->user->name : '',
