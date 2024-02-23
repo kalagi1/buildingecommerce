@@ -1728,8 +1728,8 @@
                         }
                     },
                     error: function(error) {
-                        // toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                        // location.reload();
+                        toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
+                        location.reload();
                     }
                 });
             }

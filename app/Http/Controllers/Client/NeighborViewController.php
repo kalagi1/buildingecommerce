@@ -39,7 +39,7 @@ class NeighborViewController extends Controller {
 
             if ( $cart->type == 'project' ) {
                 $project = Project::where( 'id', $cart->item->id )->with( 'brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images' )->first();
-                $roomOrder = $cart->item->housing_id;
+                $roomOrder = $cart->item->housing;
             } else {
                 $project = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
             }

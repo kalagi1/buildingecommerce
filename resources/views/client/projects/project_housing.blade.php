@@ -2198,12 +2198,12 @@ out center;`;
                         if (response.success) {
                             toastr.success(
                                 'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                            // location.reload();
+                            location.reload();
                         }
                     },
                     error: function(error) {
-                        // toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                        // location.reload();
+                        toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
+                        location.reload();
                     }
                 });
             }
