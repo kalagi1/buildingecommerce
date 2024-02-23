@@ -14,7 +14,7 @@
         "icon": "bell",
         "text": "Başvurular",
         "key": "NeighborSeeApplications",
-        "url": "estate.see.users.list",
+        "url": "admin.estate.see.users.list",
         "activePath": "qR9zLp2xS6y/secured/see_neighbor_applications"
     },
     {
