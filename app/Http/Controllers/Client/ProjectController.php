@@ -41,7 +41,7 @@ class ProjectController extends Controller
 
         $projectCartOrders = DB::table('cart_orders')
         ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
-        ->leftJoin('users', 'cart_orders.store_id', '=', 'users.id')
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
@@ -633,7 +633,7 @@ class ProjectController extends Controller
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
         $projectCartOrders = DB::table('cart_orders')
         ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
-        ->leftJoin('users', 'cart_orders.store_id', '=', 'users.id')
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
