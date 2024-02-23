@@ -1712,7 +1712,7 @@
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        user_id: "{{ Auth::user()->id }}",
+                        user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
                         order_id: $(this).data('order'),
                         status: 0,
                         key: $("#uniqueCode").html(),

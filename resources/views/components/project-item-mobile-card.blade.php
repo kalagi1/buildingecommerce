@@ -146,15 +146,20 @@
 
                 @if (isset($sold) && $sold->status == '1')
                     @php
-                        $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
-                            ->where('order_id', $sold->id)
-                            ->first();
+                        $neighborView = null;
+
+                        if (Auth::check()) {
+                            $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
+                                ->where('order_id', $sold->id)
+                                ->first();
+                        }
                     @endphp
 
                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
-                        <button class="btn payment-plan-button first-btn payment-plan-mobile-btn mobileCBtn see-my-neighbor"
-                        style="width:50% !important;color:#274abb !important" data-bs-toggle="modal" data-bs-target="#paymentModal"
-                            data-order="{{ $sold->id }}">
+                        <button
+                            class="btn payment-plan-button first-btn payment-plan-mobile-btn mobileCBtn see-my-neighbor"
+                            style="width:50% !important;color:#274abb !important" data-bs-toggle="modal"
+                            data-bs-target="#paymentModal" data-order="{{ $sold->id }}">
                             <span>Komşumu Gör</span>
                         </button>
                     @elseif($neighborView && $neighborView->status == '0')
@@ -194,7 +199,7 @@
                     @elseif($isUserSame == true)
                         <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important"> <span>
-                               Size Ait Ürün
+                                Size Ait Ürün
                             </span>
 
                         </button>

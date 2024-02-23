@@ -167,9 +167,13 @@
                         <div class="homes-button" style="width: 100%; height: 100%">
                             @if ($sold_check && $sold->status == '1')
                                 @php
-                                    $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
-                                        ->where('order_id', $sold->id)
-                                        ->first();
+                                  $neighborView = null;
+
+if (Auth::check()) {
+    $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
+                                           ->where('order_id', $sold->id)
+                                           ->first();
+}
                                 @endphp
 
                                 @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
