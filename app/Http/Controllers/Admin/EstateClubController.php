@@ -203,7 +203,7 @@ class EstateClubController extends Controller {
         }
     
         // E-posta gönder
-        Mail::to($user->email)->send(new CustomMail($emailSubject, $content));
+        Mail::to($user->user->email)->send(new CustomMail($emailSubject, $content));
     
         return redirect()->back()->with('success', $message);
     }
