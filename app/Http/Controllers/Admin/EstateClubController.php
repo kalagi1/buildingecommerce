@@ -137,7 +137,7 @@ class EstateClubController extends Controller {
 
     public function changeStatusNeighbor(Request $request, $userId, $action)
     {
-        $user = NeighborView::with("project","user","store")->find($userId);
+        $user = NeighborView::with("project","user","owner")->find($userId);
     
         if (!$user) {
             return redirect()->back()->with('error', 'Kullanıcı bulunamadı.');
