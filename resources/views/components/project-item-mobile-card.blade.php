@@ -1,4 +1,12 @@
-@props(['room_order', 'i','projectHousingsList','lastHousingCount','sold','projectDiscountAmount'])
+@props([
+    'room_order',
+    'i',
+    'projectHousingsList',
+    'isUserSame',
+    'lastHousingCount',
+    'sold',
+    'projectDiscountAmount',
+])
 
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
@@ -60,7 +68,6 @@
                                 Kapatıldı</span>
                         </button>
                     @else
-                    
                         @if ($sold && $sold->status != '2')
                             <button class="btn second-btn  mobileCBtn"
                                 @if ($sold->status == '0') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;" @endif>
@@ -135,25 +142,71 @@
 
                 </div>
 
-               
 
-                @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                    @if ($sold)
-                        <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                            style="width:50% !important" project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                            order="{{ $i + 1 + $lastHousingCount }}">
-                            Ödeme Detayı
+
+                @if (isset($sold) && $sold->status == '1')
+                    @php
+                        $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
+                            ->where('order_id', $sold->id)
+                            ->first();
+                    @endphp
+
+                    @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
+                        <button class="btn payment-plan-button first-btn payment-plan-mobile-btn mobileCBtn see-my-neighbor"
+                        style="width:50% !important;color:#274abb !important" data-bs-toggle="modal" data-bs-target="#paymentModal"
+                            data-order="{{ $sold->id }}">
+                            <span>Komşumu Gör</span>
                         </button>
-                    @else
-                        <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                            style="width:50% !important" project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                            order="{{ $i + 1 + $lastHousingCount }}">
-                            Ödeme Detayı
+                    @elseif($neighborView && $neighborView->status == '0')
+                        <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                            style="width:50% !important">
+                            <span> <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor"
+                                    stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                    class="css-i6dzq1">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12">
+                                    </line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16">
+                                    </line>
+                                </svg>
+                                250 TL </span>
+                        </button>
+                    @elseif($neighborView && $neighborView->status == '1')
+                        <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                            style="width:50% !important">
+                            <a href="tel: {{ $sold->phone }}" style="color:#274abb">
+                                <span>
+                                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor"
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        class="css-i6dzq1">
+                                        <polyline points="19 1 23 5 19 9"></polyline>
+                                        <line x1="15" y1="5" x2="23" y2="5">
+                                        </line>
+                                        <path
+                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                        </path>
+                                    </svg>
+                                    {{ $sold->phone }}
+                                </span>
+                            </a>
+
+                        </button>
+                    @elseif($isUserSame == true)
+                        <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                            style="width:50% !important"> <span>
+                               Size Ait Ürün
+                            </span>
 
                         </button>
                     @endif
+                @else
+                    <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                        style="width:50% !important" project-id="{{ $project->id }}"
+                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                        order="{{ $i + 1 + $lastHousingCount }}">
+                        Ödeme Detayı
+
+                    </button>
                 @endif
             </div>
         </div>

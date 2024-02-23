@@ -30268,8 +30268,8 @@ a {
     padding: 10px;
     border: none;
     border: solid 1px #e6e6e6;
-    width: 48px;
-    height: 48px;
+    width: 35px;
+    height: 35px;
     border-radius: 50% !important;
     display: flex;
     align-items: center;
@@ -30292,8 +30292,8 @@ a {
     border: none;
     z-index: 99999 !important;
     border: solid 1px #e6e6e6;
-    width: 48px;
-    height: 48px;
+    width: 35px;
+    height: 35px;
     border-radius: 50% !important;
     display: flex;
     align-items: center;
@@ -30368,8 +30368,8 @@ a {
 
 
 .button-effect {
-    width: 48px;
-    height: 48px !important;
+    width: 35px !important; 
+    height: 35px !important;
     border-radius: 50%;
     display: flex;
     align-items: center;

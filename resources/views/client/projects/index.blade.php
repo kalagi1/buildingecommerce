@@ -691,6 +691,7 @@
                                                                                     } else {
                                                                                         $sold = null;
                                                                                     }
+                                                                                    $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
 
                                                                                     $projectOffer = App\Models\Offer::where('type', 'project')
                                                                                         ->where('project_id', $project->id)
@@ -704,6 +705,7 @@
                                                                                 @endphp
 
                                                                                 <x-project-item-card :project="$project"
+                                                                                :isUserSame="$isUserSame"
                                                                                     :bankAccounts="$bankAccounts" :i="$i"
                                                                                     :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                                                     :sold="$sold" :lastHousingCount="$lastHousingCount" />
@@ -721,6 +723,7 @@
                                                                         } else {
                                                                             $sold = null;
                                                                         }
+                                                                        $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
 
                                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                                             ->where('project_id', $project->id)
@@ -735,6 +738,7 @@
 
                                                                     <x-project-item-mobile-card :project="$project"
                                                                         :bankAccounts="$bankAccounts" :room_order="$room_order"
+                                                                        :isUserSame="$isUserSame"
                                                                         :i="$i" :projectHousingsList="$projectHousingsList"
                                                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
                                                                         :lastHousingCount="$lastHousingCount" />
@@ -758,6 +762,7 @@
                                                 @for ($i = 0; $i < $project->room_count; $i++)
                                                     @php
                                                         $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
+                                                        $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
                                                             ->where(function ($query) use ($i) {
@@ -772,6 +777,7 @@
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :i="$i"
+                                                    :isUserSame="$isUserSame"
                                                         :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                         :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
@@ -787,6 +793,7 @@
                                                     $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
 
                                                     $room_order = $i + 1;
+                                                    $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
 
                                                     $projectOffer = App\Models\Offer::where('type', 'project')
                                                         ->where('project_id', $project->id)
@@ -799,6 +806,7 @@
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                                 @endphp
                                                 <x-project-item-mobile-card :project="$project" :room_order="$room_order"
+                                                :isUserSame="$isUserSame"
                                                     :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
                                                     :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                             @endfor
@@ -855,7 +863,7 @@
                     <div class="invoice">
                         <div class="invoice-header mb-3">
                             <span>Ödeme Tarihi: {{ date('d.m.Y') }}</span> <br>
-                            <span style="color:#e54242;font-weight:700">Tutar: 100 TL</span>
+                            <span style="color:#e54242;font-weight:700">Tutar: 250 TL</span>
 
                         </div>
 
@@ -902,7 +910,7 @@
                         <button type="button"
                             class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
                             id="completePaymentButton" style="width:150px;float:right">
-                            100 TL Öde
+                            250 TL Öde
                         </button>
                         <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
                             style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
