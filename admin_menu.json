@@ -9,6 +9,15 @@
         "activePath": "qR9zLp2xS6y/secured/club_user_applications"
     },
     {
+        "id": "EmlakClubGift",
+        "label": "Komşumu Gör",
+        "icon": "bell",
+        "text": "Başvurular",
+        "key": "NeighborSeeApplications",
+        "url": "admin.estate.see.users.list",
+        "activePath": "qR9zLp2xS6y/secured/see_neighbor_applications"
+    },
+    {
         "id": "EmlakClubUsers",
         "label": "Emlak Kulüp",
         "icon": "users",

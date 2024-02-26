@@ -50,6 +50,7 @@ use App\Http\Controllers\Client\ProjectController as ClientProjectController;
 use App\Http\Controllers\Client\RealEstateController;
 use App\Http\Controllers\Admin\RealEstateController as AdminRealEstateController;
 use App\Http\Controllers\Client\ForgotPasswordController;
+use App\Http\Controllers\Client\NeighborViewController;
 use App\Http\Controllers\Client\RegisterController;
 use App\Http\Controllers\Client\ResetPasswordController;
 use App\Http\Controllers\Client\SharerController;
@@ -92,6 +93,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
+Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
 
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 
@@ -176,6 +178,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 
 });
+Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
+
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
 
@@ -213,9 +217,13 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
+    Route::get('/see_neighbor_applications', [AdminEstateClubController::class,"seeApplications"])->name('estate.see.users.list');
+
     Route::get('/admin', [AdminHomeController::class, "index"]);
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class,"changeStatus"])->name('changeStatus');
+    Route::post('/changeStatusNeighbor/{applyId}/{action}',  [AdminEstateClubController::class,"changeStatusNeighbor"])->name('changeStatusNeighbor');
+
     Route::get('/projects/{project_id}/orders', [AdminEstateClubController::class, 'orders'])->name('projects.orders');
 
     Route::get('/estate_club_users', [AdminEstateClubController::class,"index"])->name('estate.club.users');

@@ -8,6 +8,7 @@ use App\Models\BankAccount;
 use App\Models\City;
 use App\Models\County;
 use App\Models\District;
+use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Neighborhood;
 use App\Models\SubscriptionPlan;
@@ -275,6 +276,41 @@ class ProfileController extends Controller
 
         $data['has_club'] = "2"; 
         $user->update($data);
+
+        $emailTemplate = EmailTemplate::where('slug', "apply-emlak-kulup")->first();
+
+        if (!$emailTemplate) {
+            return response()->json([
+                'message' => 'Email template not found.',
+                'status' => 203,
+                'success' => true,
+            ], 203);
+        }
+
+        $content = $emailTemplate->body;
+
+        $variables = [
+            'username' => $user->name,
+            'companyName' => "Emlak Sepette",
+            "email" => $user->email,
+            "token" => $user->email_verification_token,
+        ];
+
+        foreach ($variables as $key => $value) {
+            $content = str_replace("{{" . $key . "}}", $value, $content);
+        }
+
+        Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
+        $notificationText = "Emlak Kulüp başvurunuz alındı. Başvurunuz inceleniyor, en kısa sürede size geri dönüş yapılacaktır. Teşekkür ederiz!";
+
+        DocumentNotification::create([
+            'user_id' => 4,
+            'text' => $notificationText,
+            'item_id' => $user->parent_id ?? $user->id,
+            'link' => route('institutional.index'),
+            'owner_id' => $user->parent_id ?? $user->id,
+            'is_visible' => true,
+        ]);
 
         return  view("institutional.home.has-club-status");
     }

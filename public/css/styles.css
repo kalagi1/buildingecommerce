@@ -10951,7 +10951,7 @@ a.int_btn,
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align:center !important;
+    text-align: center !important;
 }
 
 .listing-img-content .listing-price i {
@@ -16449,7 +16449,8 @@ a.button {
 
 
 .homes-button .first-btn {
-    padding: 15px;
+    height: 50px;
+    /* padding: 15px; */
     color: white;
     font-size: 11px;
     background-color: black;
@@ -16459,6 +16460,9 @@ a.button {
     position: absolute;
     top: 0;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slick-initialized .slick-slide {
@@ -17660,7 +17664,7 @@ section.headings-2 {
 
 .reservation-list {
     width: 100%;
-    margin-bottom:0 !important
+    margin-bottom: 0 !important
 }
 
 .reservation-list li {
@@ -20949,6 +20953,7 @@ body.dashboard-bd {
     margin-bottom: 10px;
     color: #18ba60;
 }
+
 .my-properties {
     background: #FFFFFF;
     -webkit-box-shadow: 0 0 20px rgba(38, 38, 38, 0.2);
@@ -24478,6 +24483,38 @@ form label.error {
     height: 40px !important;
 }
 
+.see-my-neighbor {
+    background: #274abb !important;
+    color: #ffffff !important;
+    width: 120px;
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px;
+}
+.see-my-neighbor.payment {
+    background: orange !important;
+}
+.see-my-neighbor.success {
+    background: green !important;
+}
+
+
+.see-my-neighbor .animation {
+    border-radius: 100%;
+    animation: ripple 0.6s linear infinite;
+}
+
+@keyframes ripple {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1), 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1);
+    }
+
+    100% {
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1), 0 0 0 80px rgba(255, 255, 255, 0);
+    }
+}
+
 .status-mes {
     background: none;
     left: 0;
@@ -27569,7 +27606,7 @@ input[type="checkbox"] {
     place-content: center;
     width: 15px !important;
     height: 15px !important;
-    margin-left:3px !important;
+    margin-left: 3px !important;
 }
 
 input[type="checkbox"]::before {
@@ -27905,10 +27942,11 @@ font {
 
 }
 
-.mobile-left-width{
-    width:65%;
+.mobile-left-width {
+    width: 65%;
 }
-.mobile-right-width{
+
+.mobile-right-width {
     align-items: center;
     width: 35%;
     display: flex;
@@ -27928,8 +27966,8 @@ font {
     }
 
 
-    .projectItemFlex .mobileCBtn{
-        width:100% !important;
+    .projectItemFlex .mobileCBtn {
+        width: 100% !important;
     }
 
     .mobileCBtn {
@@ -30157,14 +30195,14 @@ a {
     }
 }
 
-.project_brand_profile_image img{
+.project_brand_profile_image img {
     width: 100%;
     height: 55px;
     object-fit: contain;
 
 }
 
-.project_brand_profile_image .country{
+.project_brand_profile_image .country {
     width: 100%;
     height: 15px;
     color: white;
@@ -30230,8 +30268,8 @@ a {
     padding: 10px;
     border: none;
     border: solid 1px #e6e6e6;
-    width: 48px;
-    height: 48px;
+    width: 35px;
+    height: 35px;
     border-radius: 50% !important;
     display: flex;
     align-items: center;
@@ -30254,8 +30292,8 @@ a {
     border: none;
     z-index: 99999 !important;
     border: solid 1px #e6e6e6;
-    width: 48px;
-    height: 48px;
+    width: 35px;
+    height: 35px;
     border-radius: 50% !important;
     display: flex;
     align-items: center;
@@ -30330,8 +30368,8 @@ a {
 
 
 .button-effect {
-    width: 48px;
-    height: 48px !important;
+    width: 35px !important; 
+    height: 35px !important;
     border-radius: 50%;
     display: flex;
     align-items: center;

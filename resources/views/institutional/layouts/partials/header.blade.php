@@ -450,6 +450,9 @@
                                 <div class="card-header p-2">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="text-black mb-0">Bildirimler</h5>
+                                        <a href="{{ route('markAllAsRead') }}" >
+                                            Tümünü Oku
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="card-body p-0">

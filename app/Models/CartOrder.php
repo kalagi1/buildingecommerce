@@ -20,6 +20,12 @@ class CartOrder extends Model
         return $this->belongsTo(User::class, 'reference_id');
     }
 
+
+    public function isReference()
+    {
+        return $this->belongsTo(User::class, 'is_reference');
+    }
+
     public function share()
     {
         return $this->belongsTo(SharerPrice::class, 'id', 'cart_id');

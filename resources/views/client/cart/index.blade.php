@@ -14,7 +14,6 @@
                                     data-value="pesin">
                                     Peşin Fiyat ile Ödeme
                                 </div>
-
                                 <div class="custom-option taksitli-option {{ $cart['item']['payment-plan'] === 'taksitli' ? 'selected' : '' }}"
                                     data-value="taksitli">
                                     Taksitli Fiyat ile Ödeme
@@ -28,18 +27,18 @@
                                     <i class="fa fa-times"></i> Sepeti Temizle
                                 </button>
                             @endif
-
                             <button type="button" class="btn btn-close-cart"
                                 style="background: black;padding:5px;height:auto !important; color: white; font-size: 12px;"
                                 onclick="window.location.href='{{ route('index') }}'">
                                 <i class="fa fa-times"></i> Kapat
                             </button>
-
                         </div>
                     </div>
+
                     @php
                         $months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
                     @endphp
+
                     @if (isset($cart['item']) && isset($cart['item']['payment-plan']))
                         <div
                             class="my-properties p-0 my-choose mb-3 {{ $cart['item']['payment-plan'] === 'pesin' ? 'd-none' : 'd-block' }}">
@@ -47,7 +46,8 @@
                                 <tbody>
                                     <tr>
                                         <td><strong>Peşinat</strong>
-                                            <br>{{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺</td>
+                                            <br>{{ number_format($cart['item']['pesinat'], 0, ',', '.') }} ₺
+                                        </td>
                                         <td><strong>Taksit Sayısı</strong> <br>{{ $cart['item']['taksitSayisi'] }}</td>
                                         <td><strong>Aylık Ödenecek
                                                 Tutar</strong><br>{{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺
@@ -57,25 +57,24 @@
                                         </td>
                                         <td><strong>Toplam
                                                 Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
-                                            ₺</td>
+                                            ₺
+                                        </td>
                                     </tr>
                                     @if (isset($cart['item']['pay_decs']))
                                         <tr>
-                                            @for ($i = 0; $i < count($cart['item']['pay_decs']); $i++)
-                                                <td><strong>{{ $i + 1 }}. Ara Ödeme</strong>
-                                                    <br>{{ number_format($cart['item']['pay_decs'][$i]['pay_dec_price' . $i], 0, ',', '.') }}
+                                            @foreach ($cart['item']['pay_decs'] as $index => $payDec)
+                                                <td><strong>{{ $index + 1 }}. Ara Ödeme</strong>
+                                                    <br>{{ number_format($payDec['pay_dec_price' . $index], 0, ',', '.') }}
                                                     ₺ <br>
-                                                    {{ $months[date('n', strtotime($cart['item']['pay_decs'][$i]['pay_dec_date' . $i])) - 1] . ', ' . date('d Y', strtotime($cart['item']['pay_decs'][$i]['pay_dec_date' . $i])) }}
+                                                    {{ $months[date('n', strtotime($payDec['pay_dec_date' . $index])) - 1] . ', ' . date('d Y', strtotime($payDec['pay_dec_date' . $index])) }}
                                                 </td>
-                                            @endfor
+                                            @endforeach
                                         </tr>
                                     @endif
                                 </tbody>
                             </table>
                         </div>
                     @endif
-
-
 
                     <div class="my-properties p-0">
                         <table class="table-responsive">
@@ -88,25 +87,26 @@
                                     @php
                                         $housingDiscountAmount = 0;
                                         $projectDiscountAmount = 0;
+
                                         if ($cart['type'] == 'housing') {
                                             $housingOffer = App\Models\Offer::where('type', 'housing')
                                                 ->where('housing_id', $cart['item']['id'])
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
+
                                             $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
                                         } else {
-                                            // Project için indirim kontrolü
                                             $projectOffer = App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $cart['item']['id'])
                                                 ->where('project_housings', 'LIKE', '%' . $cart['item']['housing'] . '%')
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
+
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
                                     @endphp
-
 
                                     <tr>
                                         <td class="image myelist">
@@ -121,11 +121,8 @@
                                                 <a
                                                     href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug, 'id' => $cart['item']['housing']]) }}">
                                                     <h2 style="font-weight: 600;text-align: left ">
-                                                        {{ $cart['type'] == 'housing'
-                                                            ? 'İlan No: ' . $cart['item']['id'] + 2000000
-                                                            : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                                                        {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                                         <br>
-
                                                         {{ $cart['item']['title'] }}
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
@@ -143,7 +140,6 @@
                                                     $discountRate = $housingData->discount_rate[0] ?? 0;
 
                                                     $housingAmount = $itemPrice - $housingDiscountAmount;
-
                                                     $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
                                                 } else {
                                                     $project = App\Models\Project::find($cart['item']['id']);
@@ -163,18 +159,16 @@
                                             }
 
                                             $selectedPaymentOption = request('paymentOption');
-                                            if ($selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])) {
-                                                $itemPrice = $cart['item']['installmentPrice'];
-                                            }
+                                            $itemPrice = $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice']) ? $cart['item']['installmentPrice'] : $discountedPrice;
 
-                                            $displayedPrice = $selectedPaymentOption === 'taksitli' ? $cart['item']['installmentPrice'] : $discountedPrice;
+                                            $displayedPrice = number_format($itemPrice, 0, ',', '.');
                                         @endphp
 
                                         <td>
-                                            @if (isset($discountRate) && $discountRate != 0)
+                                            @if ($discountRate != 0)
                                                 <span>
-                                                    <del style="color:#EA2B2E">
-                                                        {{ number_format($itemPrice, 0, ',', '.') }} ₺</del>
+                                                    <del style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}
+                                                        ₺</del>
                                                 </span>
                                             @endif
 
@@ -182,27 +176,16 @@
                                                 data-original-price="{{ $cart['item']['price'] }}"
                                                 data-installment-price="{{ $cart['item']['installmentPrice'] }}"
                                                 style="color: green; font-size:14px !important">
-                                                {{ number_format($displayedPrice, 0, ',', '.') }} ₺
+                                                {{ $displayedPrice }} ₺
                                             </span>
                                         </td>
-
-
-
-
-
-
-
-
-
                                     </tr>
                                 @endif
                             </tbody>
                         </table>
-
                     </div>
-
-
                 </div>
+
                 <div class="col-md-4 mt-5">
                     <div class="tr-single-box mb-0" style="background: white !important;">
                         <div class="tr-single-body">
@@ -356,7 +339,7 @@
                                     style="width:150px;float:right">Satın Al
                                 </button>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                    style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                    style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                             </div>
 
 
@@ -377,12 +360,14 @@
                                         id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                     alanına yazdığınızdan emin olun.</span>
 
-                                <form action="{{ route('pay.cart') }}" method="POST">
+                                <form method="POST" id="paymentForm">
                                     @csrf
                                     <input type="hidden" name="key" id="orderKey">
                                     <input type="hidden" name="banka_id" id="bankaID">
                                     <input type="hidden" name="have_discount" class="have_discount">
                                     <input type="hidden" name="discount" class="discount">
+                                    <input type="hidden" name="is_swap" class="is_swap" value="{{ $cart['item']['payment-plan']}}">
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -411,7 +396,7 @@
                                                 var maxLength = 11;
                                                 if (input.value.length > maxLength) {
                                                     input.value = input.value.slice(0, maxLength);
-                                                    alert("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                    toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
                                                 }
                                             }
                                         </script>
@@ -438,13 +423,41 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="notes">Referans Kodu (Opsiyonel):</label>
-                                                <input type="text" class="form-control" name="reference_code">
+                                                <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
+                                        @if (isset($cart['item']['neighborProjects']) &&  count($cart['item']['neighborProjects']) > 0)
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın alıyorsunuz?</label>
+                                                <select class="form-control" id="is_reference" name="is_reference">
+                                                    <option value="" selected >Komşu Seçiniz</option>
+                                                    @foreach ($cart['item']['neighborProjects'] as $neighborProject)
+                                                        <option value="{{ $neighborProject->owner->id }}">{{ $neighborProject->owner->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>    
+                                        @endif
+                                     
+                                        
                                     </div>
 
+                                    @if ($cart['type'] == 'project')
+                                        <div class="d-flex align-items-center mb-3">
+                                            <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
+                                            <i class="fa fa-info-circle ml-2"
+                                                title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                style="font-size: 18px; color: black;"></i>
+                                            <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı kabul ediyorum.
+                                            </label>
+                                        </div>
+                                    @endif
+
+
                                     <div class="d-flex">
-                                        <button type="submit" class="btn btn-secondary paySuccess"
+                                        <button type="button" class="btn btn-secondary paySuccess"
                                             style="float:right">Ödemeyi
                                             Tamamla
                                             <svg viewBox="0 0 576 512" class="svgIcon">
@@ -454,7 +467,7 @@
                                             </svg>
                                         </button>
                                         <button type="button" class="btn btn-secondary btn-lg btn-block"
-                                            style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                                     </div>
 
 
@@ -473,9 +486,12 @@
         </div>
 
     </section>
+
+
 @endsection
+
+
 @section('scripts')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
@@ -495,7 +511,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
         $(document).ready(function() {
-            // Initial setup - store original and installment prices
+
             var displayedPriceSpan = $('#itemPrice');
             var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
             var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
@@ -536,9 +552,68 @@
                 return parts.join(dec_point);
             }
         });
-    </script>
-    <script>
         $(document).ready(function() {
+            $('.paySuccess').on('click', function() {
+                $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
+
+                if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
+                    toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
+                    return;
+                }
+
+                if ($('#fullName').val() === '') {
+                    toastr.warning('Ad Soyad alanı zorunludur.')
+                    return;
+                }
+
+                if ($('#tc').val() === '') {
+                    toastr.warning('TC alanı zorunludur.')
+                    return;
+                }
+
+                if ($('#email').val() === '') {
+                    toastr.warning('E-posta alanı zorunludur.')
+                    return;
+                }
+                $.ajax({
+                    url: "{{ route('pay.cart') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        key: $('#orderKey').val(),
+                        banka_id: $('#bankaID').val(),
+                        have_discount: $('.have_discount').val(),
+                        discount: $('.discount').val(),
+                        fullName: $('#fullName').val(),
+                        email: $('#email').val(),
+                        tc: $('#tc').val(),
+                        phone: $('#phone').val(),
+                        address: $('#address').val(),
+                        notes: $('#notes').val(),
+                        reference_code: $('#reference_code').val(),
+                        is_reference: $("#is_reference").val(),
+                        is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
+                    },
+                    success: function(response) {
+                        toastr.success('Siparişiniz başarıyla oluşturuldu.');
+                        var cartOrderId = response.cart_order;
+                        var redirectUrl =
+                            "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
+                        window.location.href = redirectUrl.replace(':cartOrderId', cartOrderId);
+
+                    },
+                    error: function(error) {
+                        toastr.error('Ödeme işlemi sırasında bir hata oluştu.')
+                    },
+                    complete: function() {
+                        $("#loadingOverlay").css("visibility",
+                        "hidden"); // Visible olarak ayarla
+                    }
+                });
+            });
+
+
+
 
             $('#completePaymentButton').prop('disabled', false);
 
@@ -556,9 +631,10 @@
                 $('#bankaID').val(selectedBankIbanID);
 
 
-                // IBAN bilgisini ekranda göster
-                $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
-                // Ödeme düğmesini etkinleştir
+                var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
+                    selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
+                $('#ibanInfo').html(ibanInfo);
+
             });
 
             $('#completePaymentButton').on('click', function() {
@@ -574,222 +650,23 @@
             });
         });
 
-        $('.coupon-apply').click(function() {
-            @if (isset($discountRate))
-                Swal.fire({
-                    title: "Kupon indirimini uygularsanız emlak kulüp üyesi indirimi kalkacaktır. Uygulamak istediğinize emin misiniz?",
-                    showDenyButton: false,
-                    showCancelButton: true,
-                    cancelButtonText: "İptal",
-                    confirmButtonText: "Evet",
-                    denyButtonText: `Hayır`
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('check.coupon') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                            type: "POST",
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                coupon_code: $('.coupon-code').val()
-                            }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                            success: function(response) {
-                                // İşlem başarılı olduğunda buraya gelir
-                                response = JSON.parse(response)
-                                if (response.status) {
-                                    if (response.discount_type == 1) {
-                                        @if (isset($housingOffer))
-                                            var newPrice = parseFloat(response.cart.item
-                                                    .price) -
-                                                {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0 }} -
-                                                (parseFloat(response.cart.item.price) * response
-                                                    .discount_amount / 100);
-                                        @else
-                                            var newPrice = parseFloat(response.cart.item
-                                                .price) - (parseFloat(response.cart.item
-                                                    .price) * response.discount_amount /
-                                                100);
-                                        @endif
-                                        var newCapora = newPrice * 2 / 100;
-
-                                        @if (isset($housingOffer))
-                                            $('.booking-price-detail>ul>li').eq(2).css('color',
-                                                '#EA2B2E').html(
-                                                'İndirim Tutarı<strong class="pull-right">' +
-                                                (formatPrice(parseFloat(response.cart.item
-                                                        .price) * response
-                                                    .discount_amount / 100)) +
-                                                ' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(3).css('color',
-                                                'green').html(
-                                                'Yeni Fiyat<strong class="pull-right">' + (
-                                                    formatPrice(newPrice)) + ' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(4).html(
-                                                'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' +
-                                                (formatPrice(newCapora)) + ' TL</strong>')
-                                        @else
-                                            $('.booking-price-detail>ul>li').eq(1).css('color',
-                                                '#EA2B2E').html(
-                                                'İndirim Tutarı<strong class="pull-right">' +
-                                                (formatPrice(parseFloat(response.cart.item
-                                                        .price) * response
-                                                    .discount_amount / 100)) +
-                                                ' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(2).css('color',
-                                                'green').html(
-                                                'Yeni Fiyat<strong class="pull-right">' + (
-                                                    formatPrice(newPrice)) + ' TL</strong>')
-                                            $('.booking-price-detail>ul>li').eq(3).html(
-                                                'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' +
-                                                (formatPrice(newCapora)) + ' TL</strong>')
-                                            $('.discounted-price-x').html((formatPrice(
-                                                newPrice)) + ' ₺')
-                                        @endif
-
-                                        $('.button-price-inner').html(formatPrice(newCapora))
-                                        $('.capora-button-price').html((formatPrice(newCapora)))
-                                        $('.have_discount').val(1);
-                                        $('.discount').val($('.coupon-code').val());
-                                        $('.discounted-price-x').html((formatPrice(newPrice)) +
-                                            ' ₺')
-                                    } else {
-                                        var newPrice = parseFloat(response.cart.item.price) -
-                                            parseFloat(response.discount_amount);
-
-                                        var newCapora = newPrice * 2 / 100;
-
-                                        $('.booking-price-detail ul li').eq(1).after(
-                                            '<li style="color:#EA2B2E;">İndirim Tutarı<strong class="pull-right">' +
-                                            (formatPrice(response.discount_amount)) +
-                                            ' TL</strong></li>')
-                                        $('.booking-price-detail ul li').eq(2).after(
-                                            '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
-                                            (formatPrice(newPrice)) + ' TL</strong></li>')
-                                        $('.booking-price-detail ul li').eq(4).html(
-                                            'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' +
-                                            (formatPrice(newCapora)) + ' TL</strong>')
-                                        $('.button-price-inner').html(formatPrice(newCapora))
-                                        $('.capora-button-price').html((formatPrice(newCapora)))
-                                        $('.have_discount').val(1);
-                                        $('.discount').val($('.coupon-code').val());
-                                    }
-                                } else {
-                                    toastr.error(response.message)
-                                }
-
-                            },
-                            error: function(error) {
-                                // Hata durumunda buraya gelir
-                                toast.error(error)
-                                console.error("Hata oluştu: " + error);
-                            }
-                        });
-                    }
-                });
-            @else
-                $.ajax({
-                    url: "{{ route('check.coupon') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        coupon_code: $('.coupon-code').val()
-                    }, // Veriyi göndermek için POST kullanabilirsiniz, // Sepete eklemek istediğiniz ürün verilerini gönderin
-                    success: function(response) {
-                        // İşlem başarılı olduğunda buraya gelir
-                        response = JSON.parse(response)
-                        if (response.status) {
-                            if (response.discount_type == 1) {
-                                @if (isset($housingOffer))
-                                    var newPrice = parseFloat(response.cart.item.price) -
-                                        {{ isset($housingOffer) && $housingOffer ? $housingOffer->discount_amount : 0 }} -
-                                        (parseFloat(response.cart.item.price) * response
-                                            .discount_amount / 100);
-                                @else
-                                    var newPrice = parseFloat(response.cart.item.price) - (parseFloat(
-                                            response.cart.item.price) * response.discount_amount /
-                                        100);
-                                @endif
-
-                                if (response.sale_item_type == "kiralik") {
-                                    var newCapora = newPrice;
-                                } else {
-                                    var newCapora = newPrice * 2 / 100;
-                                }
-
-                                $('.booking-price-detail ul li').eq(1).after(
-                                    '<li style="color:#EA2B2E;">İndirim Tutarı<strong class="pull-right">' +
-                                    (formatPrice(parseFloat(response.cart.item.price) * response
-                                        .discount_amount / 100)) + ' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(2).after(
-                                    '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
-                                    (formatPrice(newPrice)) + ' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(4).html(
-                                    'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' + (
-                                        formatPrice(newCapora)) + ' TL</strong>')
-                                $('.button-price-inner').html(formatPrice(newCapora))
-                                $('.capora-button-price').html((formatPrice(newCapora)))
-                                $('.have_discount').val(1);
-                                $('.discount').val($('.coupon-code').val());
-                            } else {
-                                var newPrice = parseFloat(response.cart.item.price) - parseFloat(
-                                    response.discount_amount);
-
-                                var newCapora = newPrice * 2 / 100;
-
-                                $('.booking-price-detail ul li').eq(1).after(
-                                    '<li style="color:#EA2B2E;">İndirim Tutarı<strong class="pull-right">' +
-                                    (formatPrice(response.discount_amount)) + ' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(2).after(
-                                    '<li style="color:green;">Yeni Fiyat<strong class="pull-right">' +
-                                    (formatPrice(newPrice)) + ' TL</strong></li>')
-                                $('.booking-price-detail ul li').eq(4).html(
-                                    'Toplam Fiyatın %2 Kaporası :<strong class="pull-right">' + (
-                                        formatPrice(newCapora)) + ' TL</strong>')
-                                $('.button-price-inner').html(formatPrice(newCapora))
-                                $('.capora-button-price').html((formatPrice(newCapora)))
-                                $('.have_discount').val(1);
-                                $('.discount').val($('.coupon-code').val());
-                            }
-                        } else {
-                            toastr.error(response.message)
-                        }
-
-                    },
-                    error: function(error) {
-                        // Hata durumunda buraya gelir
-                        toast.error(error)
-                        console.error("Hata oluştu: " + error);
-                    }
-                });
-            @endif
-
-        })
 
         function formatPrice(price) {
             var parts = price.toString().split(".");
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             return parts.join(".");
         }
-    </script>
+        $(document).ready(function() {
+            var $cart = <?php echo json_encode($cart); ?>;
+            $(".paymentButton").on("click", function() {
+                var uniqueCode = ($cart['type'] === 'housing') ?
+                    $cart['item']['id'] + 2000000 :
+                    $cart['item']['housing'] + $cart['item']['id'] + 1000000;
 
-
-    <script>
-      $(document).ready(function() {
-        var $cart = <?php echo json_encode($cart); ?>; // Örnek: PHP tarafından $cart değişkenini JavaScript'e geçirme
-
-    $(".paymentButton").on("click", function() {
-        var uniqueCode = ($cart['type'] === 'housing')
-            ? $cart['item']['id'] + 2000000
-            : $cart['item']['housing'] + $cart['item']['id'] + 1000000;
-
-        $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
-        $("#orderKey").val(uniqueCode);
-    });
-});
-
-    </script>
-
-    <script>
+                $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
+                $("#orderKey").val(uniqueCode);
+            });
+        });
         $("#createOrder").click(function() {
             // Sepete eklenecek verileri burada hazırlayabilirsiniz
 
@@ -814,11 +691,6 @@
                 }
             });
         });
-    </script>
-    <!-- HTML kısmı -->
-
-    <!-- JavaScript kısmı -->
-    <script>
         $(".remove-from-cart").click(function() {
             var productId = $(this).data('id');
             var confirmation = confirm("Ürünü sepetten kaldırmak istiyor musunuz?");
@@ -854,7 +726,13 @@
 
 
 @section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <style>
+        #loadingIndicator {
+            color: #007bff;
+        }
+
         .my-choose td {
             padding: 15px 20px 15px 0 !important;
         }

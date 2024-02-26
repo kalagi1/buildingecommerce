@@ -340,8 +340,8 @@
                                         </button>
                                         <div class="offer-content"><img src="{{ asset('popup.png') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
-                                            <h2>EMLAK KULÜP BAŞVURUSU YAP</h2>
-                                            <a href="{{ route('institutional.sharer.index') }}" style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
+                                                <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin kadar paylaş; paylaştıkça kazan!</h2>
+                                                <a href="{{ route('institutional.sharer.index') }}" style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
                                                 <button style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
                                                    SEN DE KATIL !
                                                 </button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\Brand;
 use App\Models\CartOrder;
@@ -30,6 +31,7 @@ class ProjectController extends Controller
         $menu = Cache::rememberForever('menu', function() {
             return Menu::getMenuItems();
         });
+        $bankAccounts = BankAccount::all();
 
         $project = Project::where('slug', $slug)->where("id",$id)
         ->with("brand","blocks",'listItemValues', "neighbourhood","roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
@@ -38,12 +40,14 @@ class ProjectController extends Controller
 
 
         $projectCartOrders = DB::table('cart_orders')
-        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
         ->get()
         ->keyBy("housing_id");
+
 
         $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
         $lastHousingCount = 0;
@@ -91,7 +95,7 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
         
-        return view('client.projects.index', compact("pageInfo",'projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact("pageInfo","bankAccounts",'projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
     
@@ -621,12 +625,15 @@ class ProjectController extends Controller
     public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
+        $bankAccounts = BankAccount::all();
+
         $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
         $projectCartOrders = DB::table('cart_orders')
-        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
@@ -674,7 +681,7 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-        return view('client.projects.project_housing', compact('pageInfo','projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        return view('client.projects.project_housing', compact('pageInfo',"bankAccounts",'projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)
