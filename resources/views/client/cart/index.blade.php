@@ -366,7 +366,7 @@
                                     <input type="hidden" name="banka_id" id="bankaID">
                                     <input type="hidden" name="have_discount" class="have_discount">
                                     <input type="hidden" name="discount" class="discount">
-                                    <input type="hidden" name="is_swap" class="is_swap" value="{{ isset( $cart['item']['payment-plan']) ?  $cart['item']['payment-plan']: null}}">
+                                    <input type="hidden" name="is_swap" class="is_swap" value="{{ $cart['item']['payment-plan'] ?? null }}">
 
                                     <div class="row">
                                         <div class="col-md-6">
