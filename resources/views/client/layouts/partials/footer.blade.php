@@ -131,7 +131,7 @@
     </a>
 
 
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'real.estate.index' : 'real.estate.index'))) : route('client.login') }}"
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? route("real.estate.index") : route("real.estate.index")))) : route('client.login') }}"
         class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
         <button class="button">
             <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2"
