@@ -587,7 +587,6 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-
                         <li class="nav-item" role="presentation">
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
@@ -1052,7 +1051,9 @@
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-
+                                                                                        <div class="sharer-button">
+                                                                                            <button class="add-to-collection-button-wrapper">Hisseleri Gör</button>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             @endfor
@@ -1670,6 +1671,12 @@
                                                                 </div>
                                                             </div>
 
+                                                        </div>
+                                                        <div class="sharer-button">
+                                                            <button>Hisseleri Gör <i class="fa fa-chevron-down mx-1"></i></button>
+                                                        </div>
+                                                        <div class="sharers">
+                                                            asdasd
                                                         </div>
                                                     </div>
                                                 @endfor
