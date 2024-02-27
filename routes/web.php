@@ -1002,8 +1002,9 @@ Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('chec
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
-Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => [ 'checkAccountStatus']], function () {
     Route::get('/reservations', [ClientPanelProfileController::class, 'getReservations'])->name('reservations');
+    
 
     Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
     Route::post('/verify', [ClientPanelProfileController::class, 'verifyAccount'])->name('verify-account');
