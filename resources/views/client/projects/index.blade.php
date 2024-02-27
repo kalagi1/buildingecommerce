@@ -2,25 +2,29 @@
 
 @section('content')
 
-    @php
+@php
+    function implodeData($array)
+    {
+        $html = '';
 
-        function implodeData($array)
-        {
-            $html = '';
+        foreach ($array as $value) {
+            // Convert the value to string before concatenation
+            $stringValue = strval($value);
 
-            for ($i = 0; $i < count($array); $i++) {
-                if ($i == 0) {
-                    $html .= ' ' . $array[$i];
-                } else {
-                    $html .= ', ' . $array[$i];
-                }
+            if (!empty($html)) {
+                $html .= ', ';
             }
 
-            return $html;
+            $html .= ' ' . $stringValue;
         }
-        $projectHousings = [];
-        $projectDiscountAmount = null;
-    @endphp
+
+        return $html;
+    }
+
+    $projectHousings = [];
+    $projectDiscountAmount = null;
+@endphp
+
 
 
     @foreach ($offer as $item)

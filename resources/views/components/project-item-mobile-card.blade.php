@@ -45,7 +45,9 @@
                         @endif
                     </h3>
                     <span
-                        class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                        class="btn @if (
+                            ($sold && $sold->status == '1') ||
+                                $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]') disabledShareButton @else addCollection mobileAddCollection @endif"
                         data-type='project' data-project='{{ $project->id }}'
                         data-id='{{ $i + 1 + $lastHousingCount }}'>
                         <i class="fa fa-bookmark-o"></i>
@@ -60,13 +62,20 @@
             <div class="d-flex align-items-end projectItemFlex">
                 <div style="width: 50%;
                                 align-items: center;">
-                    @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
-                        <button class="btn second-btn  mobileCBtn"
-                            style="background: #EA2B2E !important;width:100%;color:White">
+                    @if ($projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                        @if ($projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
+                            <button class="btn second-btn  mobileCBtn"
+                                style="background: #EA2B2E !important;width:100%;color:White">
 
-                            <span class="text">Satışa
-                                Kapatıldı</span>
-                        </button>
+                                <span class="text">Satışa
+                                    Kapatıldı</span>
+                            </button>
+                        @elseif ($projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131ld\u0131"]')
+                            <button class="btn second-btn  mobileCBtn"
+                                style="background: #EA2B2E !important;color:White;">
+                                <span class="text">Satıldı</span>
+                            </button>
+                        @endif
                     @else
                         @if ($sold && $sold->status != '2')
                             <button class="btn second-btn  mobileCBtn"
@@ -151,7 +160,7 @@
                         if (Auth::check()) {
                             $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
                                 ->where('project_id', $project->id)
-                                 ->where('housing', $room_order)
+                                ->where('housing', $room_order)
                                 ->first();
                         }
                     @endphp
@@ -160,11 +169,8 @@
                         <button
                             class="btn payment-plan-button first-btn payment-plan-mobile-btn mobileCBtn see-my-neighbor"
                             style="width:50% !important;color:#274abb !important"
-                            @if (Auth::check())
-                            data-bs-toggle="modal"
-                            data-bs-target="#paymentModal" data-order="{{ $sold->id }}"
-                            
-                            @endif >
+                            @if (Auth::check()) data-bs-toggle="modal"
+                            data-bs-target="#paymentModal" data-order="{{ $sold->id }}" @endif>
                             <span>Komşumu Gör</span>
                         </button>
                     @elseif($neighborView && $neighborView->status == '0')
@@ -212,7 +218,7 @@
                 @else
                     <button class="btn  payment-plan-button payment-plan-mobile-btn mobileCBtn"
                         style="width:50% !important" project-id="{{ $project->id }}"
-                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' ? '1' : '0' }}"
                         order="{{ $i + 1 + $lastHousingCount }}">
                         Ödeme Detayı
 
