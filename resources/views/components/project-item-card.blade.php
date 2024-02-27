@@ -243,14 +243,8 @@
                                     Ödeme Detayı
                                 </button>
                             @endif
-                            @if (
-                                $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' &&
-                                    $projectHousingsList[$i + 1]['off_sale[]'] != '[]' &&
-                                    $projectHousingsList[$i + 1]['off_sale[]'] != 'Satışa Açık')
-                                @if (
-                                    $projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]' ||
-                                        $projectHousingsList[$i + 1]['off_sale[]'] == 'Satışa Kapalı' ||
-                                        $projectHousingsList[$i + 1]['off_sale[]'] == '["Satışa Kapalı"]')
+                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                @if ($projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
                                     <button class="btn second-btn"
                                         style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
                                         <span class="text">Satışa Kapatıldı</span>

@@ -62,14 +62,8 @@
             <div class="d-flex align-items-end projectItemFlex">
                 <div style="width: 50%;
                                 align-items: center;">
-                    @if (
-                        $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' &&
-                            $projectHousingsList[$i + 1]['off_sale[]'] != '[]' &&
-                            $projectHousingsList[$i + 1]['off_sale[]'] != 'Satışa Açık')
-                        @if (
-                            $projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]' ||
-                                $projectHousingsList[$i + 1]['off_sale[]'] == 'Satışa Kapalı' ||
-                                $projectHousingsList[$i + 1]['off_sale[]'] == '["Satışa Kapalı"]')
+                    @if ($projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                        @if ($projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
                             <button class="btn second-btn  mobileCBtn"
                                 style="background: #EA2B2E !important;width:100%;color:White">
 
