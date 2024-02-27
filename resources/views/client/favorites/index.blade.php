@@ -54,16 +54,13 @@
                                                 ->where('end_date', '>=', now())
                                                 ->first()->discount_amount ?? 0;
 
-                                             
-
                                         $soldQuery = 'SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1';
                                         $sold = DB::select($soldQuery, [$housingId, $project->id]);
                                     @endphp
 
                                     <tr>
                                         <td class="image myelist">
-                                            <a
-                                                href="{{ route('project.housings.detail', [$project->slug, $housingId]) }}">
+                                            <a href="{{ route('project.housings.detail', [$project->slug, $housingId]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingId)->value }}"
                                                     class="img-fluid">
@@ -73,8 +70,9 @@
                                             <div class="inner">
                                                 <a
                                                     href="{{ route('project.housings.detail', [$project->slug, $housingId]) }}">
-                                               
-                                                    <h2>{{ $project->project_title }} Projesinde {{$housingId }} No'lu {{$project->step1_slug}}<br>
+
+                                                    <h2>{{ $project->project_title }} Projesinde {{ $housingId }} No'lu
+                                                        {{ $project->step1_slug }}<br>
                                                         <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                             @if ($project->neighbourhood)
                                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
@@ -108,14 +106,22 @@
                                             </a>
                                         </td>
                                         <td>
-                                            @if (getHouse($project, 'off_sale[]', $housingId)->value != '[]')
-                                                <button class="btn mobileBtn second-btn"
-                                                    style="background: #EA2B2E !important;width:100%;color:White">
-                                                    <span class="IconContainer">
-                                                        <img src="{{ asset('sc.png') }}" alt="">
-                                                    </span>
-                                                    <span class="text">Satışa Kapatıldı</span>
-                                                </button>
+                                            @if (getHouse($project, 'off_sale[]', $housingId)->value != '[]' &&
+                                                    getHouse($project, 'off_sale[]', $housingId)->value != 'Satışa Açık' &&
+                                                    getHouse($project, 'off_sale[]', $housingId)->value != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                                @if (getHouse($project, 'off_sale[]', $housingId)->value == '["Sat\u0131\u015fa Kapal\u0131"]' ||
+                                                        getHouse($project, 'off_sale[]', $housingId)->value == 'Satışa Kapalı' ||
+                                                        getHouse($project, 'off_sale[]', $housingId)->value == '["Satışa Kapalı"]')
+                                                    <button class="btn second-btn "
+                                                        style="background: #EA2B2E !important; width: 100%; color: White;">
+                                                        <span class="text">Satışa Kapatıldı</span>
+                                                    </button>
+                                                @elseif (getHouse($project, 'off_sale[]', $housingId)->value == '["Sat\u0131ld\u0131"]')
+                                                    <button class="btn second-btn"
+                                                        style=" background: #EA2B2E !important;width:100%;color:White">
+                                                        <span class="text">Satıldı</span>
+                                                    </button>
+                                                @endif
                                             @else
                                                 @if ($sold && $sold[0]->status != '2')
                                                     <button class="btn second-btn"
