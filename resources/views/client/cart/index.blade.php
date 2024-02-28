@@ -126,12 +126,13 @@
                                                         {{ $cart['item']['title'] }}
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
-                                                        @if (isset($share_sale) && $share_sale != '[]')
-                                                        <br><br>
-                                                        <span style="color:#EA2B2E"
-                                                            class="mt-3">{{ $cart['item']['qt'] }} adet hisse sepetinizde
-                                                            !</span>
-                                                            @endif
+                                                        @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                                            <br><br>
+                                                            <span style="color:#EA2B2E"
+                                                                class="mt-3">{{ $cart['item']['qt'] }} adet hisse
+                                                                sepetinizde
+                                                                !</span>
+                                                        @endif
                                                     </h2>
                                                 </a>
                                             </div>
@@ -174,7 +175,7 @@
 
                                         <td>
                                             <span style="width:100%;text-align:center">
-                                                @if (isset($share_sale) && $share_sale != '[]')
+                                                @if (isset($share_sale) && !empty($share_sale))
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
@@ -197,7 +198,7 @@
                                                     data-original-price="{{ $cart['item']['price'] }}"
                                                     data-installment-price="{{ $cart['item']['installmentPrice'] }}"
                                                     style="color: green; font-size:14px !important">
-                                                    {{ isset($share_sale) && $share_sale != '[]' && is_numeric($displayedPrice) && is_numeric($number_of_share) && $number_of_share != 0 ? $displayedPrice / $number_of_share : $displayedPrice }}
+                                                    {{ isset($share_sale) && !empty($share_sale) && is_numeric($displayedPrice) && is_numeric($number_of_share) && $number_of_share != 0 ? $displayedPrice / $number_of_share : $displayedPrice }}
                                                     ₺
                                                 </span>
                                             </span>
@@ -663,8 +664,12 @@
                         change: "azalt"
                     },
                     success: function(response) {
-                        toastr.success(response.response);
-                        console.log(response);
+                        if (response.response) {
+                            toastr.warning(response.response);
+                        } else {
+                            location.reload();
+                            console.log(response);
+                        }
                     },
                     error: function(error) {
                         console.error(error);

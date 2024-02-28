@@ -1207,7 +1207,7 @@
                                 if (sold && sold['status'] != 2) {
                                     html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
                                                                     ${
-                                                                        sold['status'] == 0 ? '<span class="text">Onay Bekleniyor</span>' : '<span class="text">Satıldı</span>'
+                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
                                                                     }
                                                                 </button>`
                                 } else {
@@ -1634,7 +1634,7 @@
                             if (sold && sold['status'] != 2) {
                                 html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
                                                                     ${
-                                                                        sold['status'] == 0 ? '<span class="text">Onay Bekleniyor</span>' : '<span class="text">Satıldı</span>'
+                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
                                                                     }
                                                                 </button>`
                             } else {

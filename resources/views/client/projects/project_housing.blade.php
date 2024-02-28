@@ -246,35 +246,37 @@
                                     @else
                                     @endif
                                 @else
-                                <div class="single detail-wrapper mr-2">
-                                    <div class="detail-wrapper-body">
-                                        <div class="listing-title-bar mobileMovePrice">
-                                            <div style="white-space: nowrap">
-                                                <div class="discountAmountStyle">
-                                    @if ($projectDiscountAmount)
-                                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="#e54242"
-                                            stroke-width="2" fill="#e54242" stroke-linecap="round"
-                                            stroke-linejoin="round" class="css-i6dzq1">
-                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                            <polyline points="17 18 23 18 23 12"></polyline>
-                                        </svg>
-                                        <h6
-                                            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        </h6>
-                                        <br>
-                                    @else
-                                        <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        </h4>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    <div class="single detail-wrapper mr-2">
+                                        <div class="detail-wrapper-body">
+                                            <div class="listing-title-bar mobileMovePrice">
+                                                <div style="white-space: nowrap">
+                                                    <div class="discountAmountStyle">
+                                                        @if ($projectDiscountAmount)
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#e54242" stroke-width="2" fill="#e54242"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                                            </svg>
+                                                            <h6
+                                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
+                                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                                ₺
+                                                            </h6>
+                                                            <br>
+                                                        @else
+                                                            <h4
+                                                                style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                                ₺
+                                                            </h4>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 @endif
                             @endif
@@ -365,7 +367,7 @@
                                         <button class="twitter-button button"
                                             style="transition-delay: 0.1s, 0s, 0.1s; transition-property: translate, background, box-shadow;">
                                             <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}">
-                                                <svg viewBox="0 0 24 24" width="20" height="20" 
+                                                <svg viewBox="0 0 24 24" width="20" height="20"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <path
@@ -377,7 +379,7 @@
                                             style="transition-delay: 0.2s, 0s, 0.2s; transition-property: translate, background, box-shadow;">
                                             <a href="whatsapp://send?text={{ $shareUrl }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor"  width="20" height="20" >
+                                                    fill="currentColor" width="20" height="20">
                                                     <path
                                                         d="M19.001 4.908A9.817 9.817 0 0 0 11.992 2C6.534 2 2.085 6.448 2.08 11.908c0 1.748.458 3.45 1.321 4.956L2 22l5.255-1.377a9.916 9.916 0 0 0 4.737 1.206h.005c5.46 0 9.908-4.448 9.913-9.913A9.872 9.872 0 0 0 19 4.908h.001ZM11.992 20.15A8.216 8.216 0 0 1 7.797 19l-.3-.18-3.117.818.833-3.041-.196-.314a8.2 8.2 0 0 1-1.258-4.381c0-4.533 3.696-8.23 8.239-8.23a8.2 8.2 0 0 1 5.825 2.413 8.196 8.196 0 0 1 2.41 5.825c-.006 4.55-3.702 8.24-8.24 8.24Zm4.52-6.167c-.247-.124-1.463-.723-1.692-.808-.228-.08-.394-.123-.556.124-.166.246-.641.808-.784.969-.143.166-.29.185-.537.062-.247-.125-1.045-.385-1.99-1.23-.738-.657-1.232-1.47-1.38-1.716-.142-.247-.013-.38.11-.504.11-.11.247-.29.37-.432.126-.143.167-.248.248-.413.082-.167.043-.31-.018-.433-.063-.124-.557-1.345-.765-1.838-.2-.486-.404-.419-.557-.425-.142-.009-.309-.009-.475-.009a.911.911 0 0 0-.661.31c-.228.247-.864.845-.864 2.067 0 1.22.888 2.395 1.013 2.56.122.167 1.742 2.666 4.229 3.74.587.257 1.05.408 1.41.523.595.19 1.13.162 1.558.1.475-.072 1.464-.6 1.673-1.178.205-.58.205-1.075.142-1.18-.061-.104-.227-.165-.475-.29Z">
                                                     </path>
@@ -388,7 +390,7 @@
                                         <button class="messenger-button button"
                                             style="transition-delay: 0.3s, 0s, 0.3s; transition-property: translate, background, box-shadow;">
                                             <a href="https://telegram.me/share/url?url={{ $shareUrl }}">
-                                                <svg viewBox="0 0 24 24" width="20" height="20" 
+                                                <svg viewBox="0 0 24 24" width="20" height="20"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <line x1="22" y1="2" x2="11" y2="13">
@@ -408,6 +410,8 @@
                                     @php
                                         $offSaleValue = $projectHousingsList[$housingOrder]['off_sale[]'] ?? null;
                                         $soldStatus = optional($sold)->status;
+                                        $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
+                                        $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
                                     @endphp
 
 
@@ -417,19 +421,24 @@
                                             <span class="text">Satışa Kapatıldı</span>
                                         </button>
                                     @else
-                                        @if (isset($soldStatus) && $soldStatus != '2')
-                                        
+                                        @if (
+                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == "[]") ||
+                                                (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                             <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White" @endif>
-                                                @if ($soldStatus == '0')
+                                                @if ($soldStatus == '0' && $share_sale == "[]")
                                                     <span class="text">Rezerve Edildi</span>
-                                                @else
+                                                @elseif (
+                                                    ($soldStatus == '1' && $share_sale == "[]") ||
+                                                        (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                                     <span class="text">Satıldı</span>
                                                 @endif
                                             </button>
                                         @else
                                             <button class="CartBtn second-btn soldBtn" data-type='project'
-                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'>
+                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
+                                                data-share="{{ $share_sale }}"
+                                                data-number-share="{{ $number_of_share }}">
                                                 <span class="IconContainer">
                                                     <img src="{{ asset('sc.png') }}" alt="">
                                                 </span>
@@ -697,130 +706,160 @@
                             role="tabpanel" aria-labelledby="contact-tab">
 
                             @if ($project->have_blocks == 1)
-                            <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
-                                <div class="container">
+                                <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
+                                    <div class="container">
 
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 ">
-                                            <div class="tabbed-content button-tabs">
-                                                <ul class="tabs">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 ">
+                                                <div class="tabbed-content button-tabs">
+                                                    <ul class="tabs">
+                                                        @foreach ($project->blocks as $key => $block)
+                                                            <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
+                                                                role="presentation"
+                                                                onclick="changeTabContent('{{ $block['id'] }}')">
+                                                                <div class="tab-title">
+                                                                    <span>{{ $block['block_name'] }}</span>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
                                                     @foreach ($project->blocks as $key => $block)
-                                                        <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
-                                                            role="presentation"
-                                                            onclick="changeTabContent('{{ $block['id'] }}')">
-                                                            <div class="tab-title">
-                                                                <span>{{ $block['block_name'] }}</span>
-                                                            </div>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                                @foreach ($project->blocks as $key => $block)
-                                                    <div id="contentblock-{{ $block['id'] }}"
-                                                        class="tab-content-block{{ $loop->first ? ' active' : '' }}"
-                                                        block-id="{{ $block['id'] }}">
-                                                        @php
-                                                            $j = -1;
-                                                            $blockHousingCount = $block['housing_count'];
-                                                            if ($key > 0) {
-                                                                $previousBlockHousingCount = $project->blocks[$key - 1]['housing_count'];
-                                                                $i = $previousBlockHousingCount;
-                                                                $lastHousingCount = $project->blocks[$key - 1]['housing_count'];
-                                                                $j = -1; // Bir önceki bloğun housing_count değerinden başlat
-                                                                $blockHousingCount = $previousBlockHousingCount + $project->blocks[$key]['housing_count'];
-                                                            } else {
-                                                                $i = 0;
-                                                            }
-                                                            $pageCount = $currentBlockHouseCount / 10;
-                                                            $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
+                                                        <div id="contentblock-{{ $block['id'] }}"
+                                                            class="tab-content-block{{ $loop->first ? ' active' : '' }}"
+                                                            block-id="{{ $block['id'] }}">
+                                                            @php
+                                                                $j = -1;
+                                                                $blockHousingCount = $block['housing_count'];
+                                                                if ($key > 0) {
+                                                                    $previousBlockHousingCount = $project->blocks[$key - 1]['housing_count'];
+                                                                    $i = $previousBlockHousingCount;
+                                                                    $lastHousingCount = $project->blocks[$key - 1]['housing_count'];
+                                                                    $j = -1; // Bir önceki bloğun housing_count değerinden başlat
+                                                                    $blockHousingCount = $previousBlockHousingCount + $project->blocks[$key]['housing_count'];
+                                                                } else {
+                                                                    $i = 0;
+                                                                }
+                                                                $pageCount = $currentBlockHouseCount / 10;
+                                                                $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
 
-                                                        @endphp
+                                                            @endphp
 
-                                                        <div class="mobile-hidden">
-                                                            <div class="container">
-                                                                <div
-                                                                    class="row project-filter-reverse blog-pots ajax-list">
-                                                                    @if ($key == 0)
-                                                                        @for ($i = 0; $i < $count - 1; $i++)
-                                                                            @php
-                                                                                $j++;
-                                                                                if (isset($projectCartOrders[$i + 1])) {
-                                                                                    $sold = $projectCartOrders[$i + 1];
-                                                                                } else {
-                                                                                    $sold = null;
-                                                                                }
-                                                                                $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
+                                                            <div class="mobile-hidden">
+                                                                <div class="container">
+                                                                    <div
+                                                                        class="row project-filter-reverse blog-pots ajax-list">
+                                                                        @if ($key == 0)
+                                                                            @for ($i = 0; $i < $count - 1; $i++)
+                                                                                @php
+                                                                                    $j++;
+                                                                                    if (isset($projectCartOrders[$i + 1])) {
+                                                                                        $sold = $projectCartOrders[$i + 1];
+                                                                                    } else {
+                                                                                        $sold = null;
+                                                                                    }
+                                                                                    $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
 
-                                                                                $projectOffer = App\Models\Offer::where('type', 'project')
-                                                                                    ->where('project_id', $project->id)
-                                                                                    ->where(function ($query) use ($i) {
-                                                                                        $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                                                    })
-                                                                                    ->where('start_date', '<=', now())
-                                                                                    ->where('end_date', '>=', now())
-                                                                                    ->first();
-                                                                                $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                                                            @endphp
+                                                                                    $projectOffer = App\Models\Offer::where('type', 'project')
+                                                                                        ->where('project_id', $project->id)
+                                                                                        ->where(function ($query) use ($i) {
+                                                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                                                        })
+                                                                                        ->where('start_date', '<=', now())
+                                                                                        ->where('end_date', '>=', now())
+                                                                                        ->first();
+                                                                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                                                                @endphp
 
-                                                                            <x-project-item-card :project="$project"
-                                                                            :isUserSame="$isUserSame"
-                                                                            :sumCartOrderQt="$sumCartOrderQt"
-                                                                                :bankAccounts="$bankAccounts" :i="$i"
-                                                                                :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                                                        @endfor
-                                                                    @endif
+                                                                                <x-project-item-card :project="$project"
+                                                                                    :isUserSame="$isUserSame" :sumCartOrderQt="$sumCartOrderQt"
+                                                                                    :bankAccounts="$bankAccounts" :i="$i"
+                                                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                                            @endfor
+                                                                        @endif
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="mobile-show">
-                                                            @for ($i = 0; $i < $count - 1; $i++)
-                                                                @php
-                                                                    $j++;
-                                                                    if (isset($projectCartOrders[$i + 1])) {
-                                                                        $sold = $projectCartOrders[$i + 1];
-                                                                    } else {
-                                                                        $sold = null;
-                                                                    }
-                                                                    $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
-                                                                    $room_order = $i + 1;
-                                                                    $projectOffer = App\Models\Offer::where('type', 'project')
-                                                                        ->where('project_id', $project->id)
-                                                                        ->where(function ($query) use ($i) {
-                                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                                        })
-                                                                        ->where('start_date', '<=', now())
-                                                                        ->where('end_date', '>=', now())
-                                                                        ->first();
-                                                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                                                @endphp
+                                                            <div class="mobile-show">
+                                                                @for ($i = 0; $i < $count - 1; $i++)
+                                                                    @php
+                                                                        $j++;
+                                                                        if (isset($projectCartOrders[$i + 1])) {
+                                                                            $sold = $projectCartOrders[$i + 1];
+                                                                        } else {
+                                                                            $sold = null;
+                                                                        }
+                                                                        $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
+                                                                        $room_order = $i + 1;
+                                                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                                                            ->where('project_id', $project->id)
+                                                                            ->where(function ($query) use ($i) {
+                                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                                            })
+                                                                            ->where('start_date', '<=', now())
+                                                                            ->where('end_date', '>=', now())
+                                                                            ->first();
+                                                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                                                    @endphp
 
-                                                                <x-project-item-mobile-card :project="$project"
-                                                                    :bankAccounts="$bankAccounts" :room_order="$room_order"
-                                                                    :isUserSame="$isUserSame"
-                                                                    :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                    :lastHousingCount="$lastHousingCount" />
-                                                            @endfor
+                                                                    <x-project-item-mobile-card :project="$project"
+                                                                        :bankAccounts="$bankAccounts" :room_order="$room_order"
+                                                                        :isUserSame="$isUserSame" :i="$i"
+                                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                                @endfor
 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endforeach
+                                                    @endforeach
+                                                </div>
+
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @else
-                            <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                                <div class="mobile-hidden">
-                                    <div class="container">
+                            @else
+                                <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                                    <div class="mobile-hidden">
+                                        <div class="container">
 
-                                        <div class="row project-filter-reverse blog-pots">
+                                            <div class="row project-filter-reverse blog-pots">
+                                                @for ($i = 0; $i < $project->room_count; $i++)
+                                                    @php
+                                                        $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
+                                                        $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
+                                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                                            ->where('project_id', $project->id)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                            })
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
+
+                                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+
+                                                    @endphp
+
+                                                    <x-project-item-card :project="$project" :i="$i"
+                                                        :isUserSame="$isUserSame" :sumCartOrderQt="$sumCartOrderQt" :bankAccounts="$bankAccounts"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
+                                                @endfor
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mobile-show">
+                                        <div class="container">
+
                                             @for ($i = 0; $i < $project->room_count; $i++)
                                                 @php
                                                     $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
+
+                                                    $room_order = $i + 1;
                                                     $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
+
                                                     $projectOffer = App\Models\Offer::where('type', 'project')
                                                         ->where('project_id', $project->id)
                                                         ->where(function ($query) use ($i) {
@@ -829,54 +868,21 @@
                                                         ->where('start_date', '<=', now())
                                                         ->where('end_date', '>=', now())
                                                         ->first();
-
                                                     $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-
                                                 @endphp
-
-                                                <x-project-item-card :project="$project" :i="$i"
-                                                :isUserSame="$isUserSame"
-                                                :sumCartOrderQt="$sumCartOrderQt"
-                                                    :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                <x-project-item-mobile-card :project="$project" :room_order="$room_order"
+                                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                    :lastHousingCount="$lastHousingCount" />
                                             @endfor
-
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="mobile-show">
-                                    <div class="container">
 
-                                        @for ($i = 0; $i < $project->room_count; $i++)
-                                            @php
-                                                $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
-
-                                                $room_order = $i + 1;
-                                                $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
-
-                                                $projectOffer = App\Models\Offer::where('type', 'project')
-                                                    ->where('project_id', $project->id)
-                                                    ->where(function ($query) use ($i) {
-                                                        $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                    })
-                                                    ->where('start_date', '<=', now())
-                                                    ->where('end_date', '>=', now())
-                                                    ->first();
-                                                $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                            @endphp
-                                            <x-project-item-mobile-card :project="$project" :room_order="$room_order"
-                                            :isUserSame="$isUserSame"
-                                                :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                        @endfor
                                     </div>
 
+
+
                                 </div>
-
-
-
-                            </div>
-                        @endif
+                            @endif
 
                         </div>
                         <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
@@ -1822,7 +1828,7 @@ out center;`;
                             if (sold && sold['status'] != 2) {
                                 html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
                                                                     ${
-                                                                        sold['status'] == 0 ? '<span class="text">Onay Bekleniyor</span>' : '<span class="text">Satıldı</span>'
+                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
                                                                     }
                                                                 </button>`
                             } else {
@@ -2114,7 +2120,7 @@ out center;`;
                                 if (sold && sold['status'] != 2) {
                                     html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
                                                                     ${
-                                                                        sold['status'] == 0 ? '<span class="text">Onay Bekleniyor</span>' : '<span class="text">Satıldı</span>'
+                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
                                                                     }
                                                                 </button>`
                                 } else {
