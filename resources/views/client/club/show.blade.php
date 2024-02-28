@@ -80,7 +80,7 @@
 
                                                 <td>
                                                     <a
-                                                        href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                        href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['id'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                         <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                             alt="home-1" class="img-responsive"
                                                             style="height: 70px !important; object-fit: cover;width:100px">
@@ -318,7 +318,7 @@
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                         <div class="project-inner project-head">
                                             <a
-                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['id'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                 <div class="homes">
                                                     <div class="homes-img h-100 d-flex align-items-center"
                                                         style="width: 130px; height: 128px;">
@@ -334,7 +334,7 @@
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                             <a style="text-decoration: none;height:100%"
-                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['id'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                 <div class="d-flex" style="gap: 8px;justify-content:space-between">
 
                                                     <h4>

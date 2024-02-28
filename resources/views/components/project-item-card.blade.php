@@ -14,7 +14,7 @@
     <div class="project-card mb-3">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}" style="height: 100%">
+                <a href="{{ route('project.housings.detail', [$project->id, $i + 1]) }}" style="height: 100%">
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                             <p

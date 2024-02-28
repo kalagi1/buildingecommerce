@@ -661,12 +661,12 @@ class ProjectController extends Controller
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
+    public function projectHousingDetail($projectID, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
-        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('id', $projectID)->with("brand","neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
