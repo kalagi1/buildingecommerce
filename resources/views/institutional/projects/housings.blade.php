@@ -25,7 +25,8 @@
                         <span class="price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
                             Fiyatları Güncelle
                         </span>
-                        <span class="installments-price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
+                        <span
+                            class="installments-price-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
                             Taksitli Fiyatları Güncelle
                         </span>
                         <span class="pay-dec-update cursor-pointer badge badge-phoenix badge-phoenix-primary btn-sm">
@@ -245,7 +246,7 @@
                                                 </td>
                                                 <td class="sold">
                                                     @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                    <div class="input d-none d-flex" style="align-items: center">
+                                                        <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
                                                                 <option value="[]">Satışa Açık</option>
                                                                 <option value='["Satışa Kapalı"]' selected>Satışa Kapalı
@@ -349,7 +350,8 @@
                                     @endphp
 
                                     <tr>
-                                        <td><input type="checkbox" class="item-checkbox" item-id="{{$i+1}}" name="" id=""></td>
+                                        <td><input type="checkbox" class="item-checkbox" item-id="{{ $i + 1 }}"
+                                                name="" id=""></td>
                                         <td>{{ $i + 1 }}</td>
                                         <td class="image">
                                             <div class="image-with-hover">
@@ -378,9 +380,12 @@
                                                 <div class="text d-flex" style="align-items: flex-start;">
                                                     <span
                                                         class="value-text">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</span>
-                                                    <span
-                                                        class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                            class="fa fa-edit"></i></span>
+                                                    @if ($sold && $sold[0]->status == 1)
+                                                    @else
+                                                        <span
+                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
+                                                                class="fa fa-edit"></i></span>
+                                                    @endif
                                                 </div>
 
                                             </div>
@@ -403,9 +408,12 @@
                                                 <div class="text d-flex" style="align-items: flex-start;">
                                                     <span
                                                         class="value-text">{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
-                                                    <span
-                                                        class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                            class="fa fa-edit"></i></span>
+                                                    @if ($sold && $sold[0]->status == 1)
+                                                    @else
+                                                        <span
+                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
+                                                                class="fa fa-edit"></i></span>
+                                                    @endif
                                                 </div>
 
                                             </div>
@@ -429,9 +437,12 @@
                                                     <div class="text d-flex" style="align-items: flex-start;">
                                                         <span
                                                             class="value-text">{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
-                                                        <span
-                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span>
+                                                        @if ($sold && $sold[0]->status == 1)
+                                                        @else
+                                                            <span
+                                                                class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
+                                                                    class="fa fa-edit"></i></span>
+                                                        @endif
                                                     </div>
 
                                                 </div>
@@ -441,12 +452,17 @@
                                         </td>
 
                                         <td class="price">
-                                            <div class="pop-up-edit">
-                                                <span room-order="{{$i+1}}" class="badge badge-phoenix badge-phoenix-primary batch_update_button">
-                                                    Ara ödemeleri güncelle <br>
-                                                    {{ getData($project, 'pay-dec-count'.$i + 1, $i + 1) ? getData($project, 'pay-dec-count'.$i + 1, $i + 1)->value : 0}} Adet ara ödeme bulunmakta
-                                                </span>
-                                            </div>
+                                            @if ($sold && $sold[0]->status == 1)
+                                            @else
+                                                <div class="pop-up-edit">
+                                                    <span room-order="{{ $i + 1 }}"
+                                                        class="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                        Ara ödemeleri güncelle <br>
+                                                        {{ getData($project, 'pay-dec-count' . $i + 1, $i + 1) ? getData($project, 'pay-dec-count' . $i + 1, $i + 1)->value : 0 }}
+                                                        Adet ara ödeme bulunmakta
+                                                    </span>
+                                                </div>
+                                            @endif
                                         </td>
 
                                         <td class="price">
@@ -468,9 +484,12 @@
                                                     <div class="text d-flex" style="align-items: flex-start;">
                                                         <span
                                                             class="value-text">{{ getData($project, 'installments[]', $i + 1)->value }}</span>
-                                                        <span
-                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span>
+                                                        @if ($sold && $sold[0]->status == 1)
+                                                        @else
+                                                            <span
+                                                                class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
+                                                                    class="fa fa-edit"></i></span>
+                                                        @endif
                                                     </div>
 
                                                 </div>
@@ -498,9 +517,12 @@
                                                     <div class="text d-flex" style="align-items: flex-start;">
                                                         <span
                                                             class="value-text">{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}₺</span>
-                                                        <span
-                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span>
+                                                        @if ($sold && $sold[0]->status == 1)
+                                                        @else
+                                                            <span
+                                                                class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
+                                                                    class="fa fa-edit"></i></span>
+                                                        @endif
                                                     </div>
 
                                                 </div>
@@ -510,7 +532,7 @@
                                         </td>
                                         <td class="sold">
                                             @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                            <div class="input d-none d-flex" style="align-items: center">
+                                                <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]">Satışa Açık</option>
                                                         <option value='["Satışa Kapalı"]' selected>Satışa Kapalı</option>
@@ -571,13 +593,22 @@
                                                 @endif
                                             @endif
                                         </td>
+                                        @if ($sold && $sold[0]->status == 1)
+                                            <td class="price">
+                                                @if (isset($sold[0]))
+                                                    <a href="{{ route('institutional.invoice.show', ['order' => $sold[0]->id]) }}"
+                                                        class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
+                                                @endif
 
-                                        <td class="price">
-                                            <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
-                                            <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                class="badge badge-phoenix badge-phoenix-danger">Sil</a>
-                                        </td>
+                                            </td>
+                                        @else
+                                            <td class="price">
+                                                <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                                                    class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
+                                                <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                                                    class="badge badge-phoenix badge-phoenix-danger">Sil</a>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endfor
                             </tbody>
@@ -632,7 +663,7 @@
                 Toplu/Tekil seçim
             </h4>
 
-            <form action="{{route('institutional.set.selected.data',$project->id)}}" method="post">
+            <form action="{{ route('institutional.set.selected.data', $project->id) }}" method="post">
                 @csrf
                 <div class="kvkk mt-1">
                     <input type="hidden" name="selected-items" class="selected-items">
@@ -809,11 +840,11 @@
                 <i class="fa fa-times"></i>
             </div>
             <div class="content-batch">
-                
-                <form action="{{route('institutional.set.pay.decs')}}" method="post">
+
+                <form action="{{ route('institutional.set.pay.decs') }}" method="post">
                     @csrf
 
-                    <input type="hidden" name="project_id" value="{{$project->id}}">
+                    <input type="hidden" name="project_id" value="{{ $project->id }}">
                     <input type="hidden" name="item_order" class="item_order">
                     <div class="dec-pay-area">
                         <div class="top">
@@ -824,15 +855,18 @@
                             <div class="pay-desc-item">
                                 <div class="row" style="align-items: flex-end;">
                                     <div class="flex-1">
-                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-primary remove-pay-dec"><i
+                                                class="fa fa-trash"></i></button>
                                     </div>
                                     <div class="flex-10">
                                         <label for="">Ara Ödeme </label>
-                                        <input type="text" value="" name="pay-dec-price[]" class="price-only form-control pay-desc-price">
+                                        <input type="text" value="" name="pay-dec-price[]"
+                                            class="price-only form-control pay-desc-price">
                                     </div>
                                     <div class="flex-10">
                                         <label for="">Ara Ödeme Tarihi</label>
-                                        <input type="date" value="" name="pay-dec-date[]" class="form-control pay-desc-date">
+                                        <input type="date" value="" name="pay-dec-date[]"
+                                            class="form-control pay-desc-date">
                                     </div>
                                 </div>
                             </div>
@@ -840,8 +874,10 @@
                     </div>
 
                     <div class="mt-3">
-                        <input type="submit" name="current-item" value="Sadece Belirtilen İlana Uygula" class="btn btn-primary btn-sm"/>
-                        <input type="submit" name="all-items" value="Tüm İlanlara Uygula" class="btn btn-primary btn-sm"/>
+                        <input type="submit" name="current-item" value="Sadece Belirtilen İlana Uygula"
+                            class="btn btn-primary btn-sm" />
+                        <input type="submit" name="all-items" value="Tüm İlanlara Uygula"
+                            class="btn btn-primary btn-sm" />
                     </div>
                 </form>
             </div>
@@ -861,7 +897,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-        @if(Session::has('status') == 'update_selected_items')
+        @if (Session::has('status') == 'update_selected_items')
             console.log("asd");
             $.toast({
                 heading: 'Başarılı',
@@ -879,16 +915,16 @@
         }
 
         var targetObj = {};
-        
+
         var targetProxy = new Proxy(targetObj, {
-            set: function (target, key, value) {
+            set: function(target, key, value) {
                 target[key] = value;
                 console.log(selectedItems.join(','));
                 $('.selected-items').val(selectedItems.join(','))
                 $('.item_order').val(selectedItems.join(','))
-                if(selectedItems.length > 0){
+                if (selectedItems.length > 0) {
                     $('.updates-buttons').removeClass('d-none')
-                }else{
+                } else {
                     $('.updates-buttons').addClass('d-none')
                 }
                 return true;
@@ -896,11 +932,11 @@
         });
 
         let selectedItems = [];
-        $('.item-checkbox').change(function(){
-            if($(this).is(':checked')){
+        $('.item-checkbox').change(function() {
+            if ($(this).is(':checked')) {
                 selectedItems.push($(this).attr('item-id'))
                 targetProxy.hello_world = 1;
-            }else{
+            } else {
                 const index = selectedItems.indexOf($(this).attr('item-id'));
                 if (index > -1) {
                     selectedItems.splice(index, 1);
@@ -909,17 +945,17 @@
             }
         })
 
-        $('.all-select').change(function(){
-            if($(this).is(':checked')){
-                $('.item-checkbox').prop('checked',true)
-                for(var i = 0 ; i < $('.item-checkbox').length; i++){
+        $('.all-select').change(function() {
+            if ($(this).is(':checked')) {
+                $('.item-checkbox').prop('checked', true)
+                for (var i = 0; i < $('.item-checkbox').length; i++) {
                     selectedItems.push($('.item-checkbox').eq(i).attr('item-id'))
                     $('.updates-buttons').removeClass('d-none')
                 }
                 targetProxy.hello_world = 1;
-            }else{
-                $('.item-checkbox').prop('checked',false)
-                for(var i = 0 ; i < $('.item-checkbox').length; i++){
+            } else {
+                $('.item-checkbox').prop('checked', false)
+                for (var i = 0; i < $('.item-checkbox').length; i++) {
                     selectedItems = [];
                     $('.updates-buttons').addClass('d-none')
                 }
@@ -929,51 +965,51 @@
 
 
 
-        $('.price-update').click(function(){
+        $('.price-update').click(function() {
             $('.total-change-modal-with-input').removeClass('d-none')
             $('.show-text-selected').html('Fiyat')
             $('.transaction-type').val('price')
         })
 
-        $('.installments-price-update').click(function(){
+        $('.installments-price-update').click(function() {
             $('.total-change-modal-with-input').removeClass('d-none')
             $('.transaction-type').val('installments-price')
             $('.show-text-selected').html('Taksitli Fiyat')
         })
 
-        $('.installments-update').click(function(){
+        $('.installments-update').click(function() {
             $('.total-change-modal-with-input').removeClass('d-none')
             $('.transaction-type').val('installments')
             $('.show-text-selected').html('Taksit Sayısını')
         })
 
-        $('.advance-update').click(function(){
+        $('.advance-update').click(function() {
             $('.total-change-modal-with-input').removeClass('d-none')
             $('.transaction-type').val('advance')
             $('.show-text-selected').html('Peşinat')
         })
 
-        $('.pay-dec-update').click(function(){
+        $('.pay-dec-update').click(function() {
             $('.batch-update-pop-up').removeClass('d-none')
         })
 
 
-        $('.batch_update_button').click(function(){
+        $('.batch_update_button').click(function() {
             $('.batch-update-pop-up').removeClass('d-none')
             var roomOrder = $(this).attr('room-order');
 
             $.ajax({
-                    method: "GET",
-                    url: "{{ route('institutional.get.pay.decs') }}",
-                    data: {
-                        item_order: roomOrder,
-                        project_id : {{$project->id}}
-                    },
-                    success : function(response){
-                        response = JSON.parse(response);
-                        var html = "";
-                        for(var i = 0 ; i < response.pay_dec_count.value; i++){
-                            html += `
+                method: "GET",
+                url: "{{ route('institutional.get.pay.decs') }}",
+                data: {
+                    item_order: roomOrder,
+                    project_id: {{ $project->id }}
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    var html = "";
+                    for (var i = 0; i < response.pay_dec_count.value; i++) {
+                        html += `
                             <div class="pay-desc-item">
                                 <div class="row" style="align-items: flex-end;">
                                     <div class="flex-1">
@@ -989,15 +1025,15 @@
                                     </div>
                                 </div>
                             </div>`
-                        }
-
-                        $('.pay-desc').html(html);
-
-                    },
-                    error: function(error) {
-                        console.log(error)
                     }
-                })
+
+                    $('.pay-desc').html(html);
+
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            })
             $('.item_order').val($(this).attr('room-order'))
         })
 
@@ -1006,15 +1042,15 @@
             $('#rulesOpenModal').addClass('d-block')
         })
 
-        $('.batch-update-pop-up-bg').click(function(){
+        $('.batch-update-pop-up-bg').click(function() {
             $('.batch-update-pop-up').addClass('d-none')
         })
 
-        $('.batch-update-pop-up-content .close').click(function(){
+        $('.batch-update-pop-up-content .close').click(function() {
             $('.batch-update-pop-up').addClass('d-none')
         })
 
-        $('.add-pay-dec').click(function(e){
+        $('.add-pay-dec').click(function(e) {
             e.preventDefault();
             $('.pay-desc').append(`
                 <div class="pay-desc-item">
@@ -1036,17 +1072,20 @@
 
         })
 
-        $(document).on("keyup",".price-only",function(){
+        $(document).on("keyup", ".price-only", function() {
             $('.price-only .error-text').remove();
-            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                if($(this).closest('.form-group').find('.error-text').length > 0){
+            if ($(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '') != parseInt($(
+                    this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '').replace('.',
+                    ''))) {
+                if ($(this).closest('.form-group').find('.error-text').length > 0) {
                     $(this).val("");
-                }else{
-                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                } else {
+                    $(this).closest('.form-group').append(
+                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
                     $(this).val("");
                 }
-                
-            }else{
+
+            } else {
                 let inputValue = $(this).val();
 
                 // Sadece sayı karakterlerine izin ver
@@ -1061,10 +1100,10 @@
         })
 
 
-        $(document).on("click",".remove-pay-dec",function(e){
+        $(document).on("click", ".remove-pay-dec", function(e) {
             e.preventDefault();
             $(this).closest('.pay-desc-item').remove();
-            
+
         })
 
         $('#rulesOpenModal').click(function() {
