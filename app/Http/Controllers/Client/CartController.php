@@ -62,11 +62,17 @@ class CartController extends Controller
             $isReference = User::where('id', $request->input('is_reference'))->first();
         }
 
+        $lastClick = Click::where('user_id', auth()->user()->id)
+        ->where('created_at', '>=', now()->subDays(24))
+        ->latest('created_at')
+        ->first();
+
         $cartJson = $request->session()->get('cart');
         $order = new CartOrder;
+
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input('banka_id');
-        $amountWithoutDiscount = floatval(str_replace('.', '', $cartJson['item']['price'] - $cartJson['item']['discount_amount']));
+        $amountWithoutDiscount =  $cartJson['item']['amount'] - $cartJson['item']['discount_amount'];
         $haveDiscount = false;
         if ($request->input('have_discount')) {
             $coupon = Coupon::where(
@@ -244,11 +250,11 @@ class CartController extends Controller
 
             if ($saleType == 'kiralik') {
                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * $lastClick ?  ($discountRate / 100): 0);
                 $amount = number_format($amount, 2, ',', '.');
             } else {
                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
+                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * $lastClick ?  ($discountRate / 100): 0);
                 $amount = number_format($amount * 0.02, 2, ',', '.');
             }
         }
@@ -269,10 +275,7 @@ class CartController extends Controller
         $order->is_swap = $request->input('is_swap') == 'pesin' ? 0 : 1;
         $order->save();
 
-        $lastClick = Click::where('user_id', auth()->user()->id)
-            ->where('created_at', '>=', now()->subDays(24))
-            ->latest('created_at')
-            ->first();
+      
 
         $cartOrder = CartOrder::where('id', $order->id)->with('bank')->first();
         $o = json_decode($cartOrder);
@@ -737,15 +740,15 @@ class CartController extends Controller
 
             $change = $request->input('change');
 
-            // Retrieve 'housing' and 'id' from $cart['item']
+            // Retrieve 'housing' and 'id' from $cart[ 'item' ]
             $housingId = $cart['item']['housing'] ?? null;
             $itemId = $cart['item']['id'] ?? null;
 
-            // Retrieve qt and numbershare from $cart['item']
+            // Retrieve qt and numbershare from $cart[ 'item' ]
             $qt = $cart['item']['qt'] ?? 0;
             $numbershare = $cart['item']['numbershare'] ?? 0;
 
-            // Retrieve defaultPrice from $cart['item']
+            // Retrieve defaultPrice from $cart[ 'item' ]
             $defaultPrice = $cart['item']['defaultPrice'] ?? 0;
 
             // Retrieve sumCartOrderQt for the given 'housing' and 'id'
@@ -760,14 +763,16 @@ class CartController extends Controller
                 ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
                 ->get()
                 ->groupBy('housing_id')
-                ->mapWithKeys(function ($group) {
-                    return [
-                        $group->first()->housing_id => [
-                            'housing_id' => $group->first()->housing_id,
-                            'qt_total' => $group->sum('qt'),
-                        ],
-                    ];
-                })
+                ->mapWithKeys(
+                    function ($group) {
+                        return [
+                            $group->first()->housing_id => [
+                                'housing_id' => $group->first()->housing_id,
+                                'qt_total' => $group->sum('qt'),
+                            ],
+                        ];
+                    }
+                )
                 ->all();
 
             if ($change == 'artir') {
@@ -797,7 +802,6 @@ class CartController extends Controller
         }
     }
 
-
     public function update(Request $request)
     {
         try {
@@ -822,28 +826,148 @@ class CartController extends Controller
             return response(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
-
     public function add(Request $request)
     {
         try {
-            $user = auth()->user();
-            $now = now();
-            $cart = $request->session()->get('cart', []);
+            $lastClick = Click::where('user_id', auth()->user()->id)
+                ->where('created_at', '>=', now()->subDays(24))
+                ->latest('created_at')
+                ->first();
+
             $type = $request->input('type');
             $id = $request->input('id');
             $project = $request->input('project');
+            $neighborProjects  = [];
 
-            $hasCounter = $this->checkHasCounter($user, $id, $type);
-
-            if ($this->isItemInCart($cart, $type, $id)) {
+            $cartItem = [];
+            $hasCounter = false;
+            $cart = $request->session()->get('cart', []);
+            http_response_code(500);
+            if ($cart && (($type == 'housing' && isset($cart['item']['id']) &&  $cart['item']['id'] == $id) || ($type == 'project' && isset($cart['item']['housing']) && $cart['item']['housing'] == $id))) {
                 $request->session()->forget('cart');
             } else {
-                $discount_amount = $this->getDiscountAmount($type, $project, $id);
-
                 if ($type == 'project') {
-                    $cartItem = $this->prepareProjectCartItem($user, $request, $id, $project, $now, $hasCounter, $discount_amount);
-                } elseif ($type == 'housing') {
-                    $cartItem = $this->prepareHousingCartItem($user, $request, $id, $now, $hasCounter, $discount_amount);
+
+                    $discount_amount = Offer::where('type', 'project')->where('project_id', $project)
+                        ->where('project_housings', 'LIKE', '%' . $id . '%')->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+
+                    $project = Project::find($project);
+                    $projectHousing = ProjectHousing::where('project_id', $project->id)
+                        ->where('room_order', $id)
+                        ->get()
+                        ->keyBy('key');
+                    $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $project->id)->where('user_id', Auth::user()->id)->get();
+
+                    if ($lastClick) {
+                        $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
+
+                        if (isset($collection)) {
+                            foreach ($collection->links as $link) {
+                                if (($link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id && $link->user_id != Auth::user()->id)) {
+                                    $hasCounter = true;
+                                }
+                            }
+                        }
+                    }
+                    $price = $projectHousing['Peşin Fiyat']->value ?? $projectHousing['Fiyat']->value;
+                    $installmentPrice = $pesinat = $taksitSayisi = $aylik = null;
+
+                    if (isset($projectHousing['Taksitli Toplam Fiyat']) || isset($projectHousing['Taksitli Fiyat'])) {
+                        $installmentPrice = $newPrice = ($projectHousing['Taksitli Toplam Fiyat'] ?? $projectHousing['Taksitli Fiyat'])->value;
+                        $pesinat = $projectHousing['Peşinat']->value;
+                        $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
+
+                        $newPrice = 0;
+
+                        if (isset($projectHousing["pay-dec-count{$request->input('id')}"])) {
+                            $count = $projectHousing["pay-dec-count{$request->input('id')}"]->value;
+                        
+                            for ($k = 0; $k < $count; $k++) {
+                                $payDescPriceKey = "pay_desc_price{$request->input('id')}{$k}";
+                        
+                                if (isset($projectHousing[$payDescPriceKey])) {
+                                    $newPrice -= $projectHousing[$payDescPriceKey]->value;
+                                }
+                            }
+                        }
+                                                
+
+                        $aylik = ($newPrice - $pesinat) / $taksitSayisi;
+                    }
+
+                    $image = $projectHousing['Kapak Resmi']->value;
+                    $payDecs = [];
+
+                    if (isset($projectHousing["pay-dec-count{$request->input('id')}"])) {
+                        $count = $projectHousing["pay-dec-count{$request->input('id')}"]->value;
+                    
+                        for ($k = 0; $k < $count; $k++) {
+                            $payDescPriceKey = "pay_desc_price{$request->input('id')}{$k}";
+                    
+                            if (isset($projectHousing[$payDescPriceKey])) {
+                                $payDecs[] = [
+                                    "pay_dec_price{$k}" => $projectHousing[$payDescPriceKey]->value,
+                                    "pay_dec_date{$k}" => $projectHousing["pay_desc_date{$request->input('id')}{$k}"]->value,
+                                ];
+                            }
+                        }
+                    }
+                    
+                    
+
+                    $cartItem = [
+                        'id' => $project->id,
+                        'housing' => $id,
+                        'neighborProjects' => $neighborProjects,
+                        'city' => $project->city->title,
+                        'address' => $project->address,
+                        'title' => $project->project_title,
+                        'price' => $price,
+                        'isShare' => $request->input('isShare'),
+                        'numbershare' => $request->input('numbershare'),
+                        'qt' => $request->input('qt'),
+                        'amount' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($price / $request->input('numbershare')) : $price,
+                        'defaultPrice' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($price / $request->input('numbershare')) : $price,
+                        'image' => asset('project_housing_images/' . $image),
+                        'discount_amount' => $hasCounter ? $discount_amount : 0,
+                        'share_open' => $projectHousing['Paylaşıma Açık']->value ?? false,
+                        'share_percent' => 0.5,
+                        'discount_rate' => $projectHousing['İndirim Oranı %']->value ?? 0,
+                        'installmentPrice' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($installmentPrice / $request->input('numbershare')) : $installmentPrice,
+                        'payment-plan' => 'pesin',
+                        'pesinat' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($pesinat / $request->input('numbershare')) : $pesinat,
+                        'taksitSayisi' => $taksitSayisi,
+                        'aylik' => $aylik,
+                        'pay_decs' => $payDecs,
+                    ];
+                } else if ($type == 'housing') {
+                    if ($lastClick) {
+                        $collection = Collection::with('links')->where('id', $lastClick->collection_id)->first();
+                        if (isset($collection)) {
+                            foreach ($collection->links as $link) {
+                                if (($link->item_type == 2 && $link->item_id == $id && $link->user_id != Auth::user()->id)) {
+                                    $hasCounter = true;
+                                }
+                            }
+                        }
+                    }
+                    $discount_amount = Offer::where('type', 'housing')->where('housing_id', $id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->first()->discount_amount ?? 0;
+                    $housing = Housing::find($id);
+                    $housingData = json_decode($housing->housing_type_data);
+                    $cartItem = [
+                        'id' => $housing->id,
+                        'city' => $housing->city['title'],
+                        'address' => $housing->address,
+                        'title' => $housing->title,
+                        'amount' => $housingData->price[0],
+                        'price' => $housingData->price[0],
+                        'image' => asset('housing_images/' . $housingData->images[0]),
+                        'discount_amount' => $hasCounter ? $discount_amount : 0,
+                        'share_open' => $housingData->{'share-open'}[0] ?? null,
+                        'installmentPrice' => null,
+                        'share_percent' => 0.5,
+                        'discount_rate' => $housingData->{'discount_rate'}[0] ?? 0,
+                    ];
                 }
 
                 if (!$cartItem) {
@@ -853,7 +977,7 @@ class CartController extends Controller
                 $cart = [
                     'item' => $cartItem,
                     'type' => $type,
-                    'hasCounter' => $hasCounter,
+                    'hasCounter' => $hasCounter
                 ];
 
                 $request->session()->put('cart', $cart);
@@ -866,171 +990,6 @@ class CartController extends Controller
         }
     }
 
-    private function checkHasCounter($user, $id, $type)
-    {
-        $lastClick = Click::where('user_id', $user->id)
-            ->where('created_at', '>=', now()->subDays(24))
-            ->latest('created_at')
-            ->first();
-
-        if (!$lastClick) {
-            return false;
-        }
-
-        $collection = Collection::with('links')->find($lastClick->collection_id);
-
-        if (!$collection) {
-            return false;
-        }
-
-        foreach ($collection->links as $link) {
-            if ($link->item_type == ($type == 'project' ? 1 : 2) && $link->item_id == $id && $link->user_id != $user->id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function isItemInCart($cart, $type, $id)
-    {
-        return $cart && (
-            ($type == 'housing' && isset($cart['item']['id']) && $cart['item']['id'] == $id) ||
-            ($type == 'project' && isset($cart['item']['housing']) && $cart['item']['housing'] == $id)
-        );
-    }
-
-    private function getDiscountAmount($type, $project, $id)
-    {
-        return Offer::where('type', $type)
-            ->where($type == 'project' ? 'project_id' : 'housing_id', $project)
-            ->where($type == 'project' ? 'project_housings' : null, 'LIKE', '%' . $id . '%')
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->first()->discount_amount ?? 0;
-    }
-
-    private function prepareProjectCartItem($user, $request, $id, $project, $now, $hasCounter, $discount_amount)
-    {
-        $discount_amount = Offer::where('type', 'project')
-            ->where('project_id', $project)
-            ->where('project_housings', 'LIKE', '%' . $id . '%')
-            ->where('start_date', '<=', $now)
-            ->where('end_date', '>=', $now)
-            ->first()->discount_amount ?? 0;
-
-        $project = Project::find($project);
-        $projectHousing = ProjectHousing::where('project_id', $project->id)
-            ->where('room_order', $id)
-            ->get()
-            ->keyBy('key');
-        $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $project->id)->where('user_id', $user->id)->get();
-
-        $price = $projectHousing['Peşin Fiyat']->value ?? $projectHousing['Fiyat']->value;
-        $installmentPrice = $pesinat = $taksitSayisi = $aylik = null;
-
-        if (isset($projectHousing['Taksitli Toplam Fiyat']) || isset($projectHousing['Taksitli Fiyat'])) {
-            $installmentPrice = $newPrice = ($projectHousing['Taksitli Toplam Fiyat'] ?? $projectHousing['Taksitli Fiyat'])->value;
-            $pesinat = $projectHousing['Peşinat']->value;
-            $taksitSayisi = $projectHousing['Taksit Sayısı']->value;
-
-            if (isset($projectHousing) && isset($projectHousing["pay-dec-count{$id}"]) && isset($projectHousing["pay-dec-count{$id}"]->value)) {
-                for ($k = 0; $k < $projectHousing["pay-dec-count{$id}"]->value; $k++) {
-                    $payDescKey = "pay_desc_price{$id}{$k}";
-
-                    // Check if the key exists in the array before accessing it
-                    if (isset($projectHousing[$payDescKey])) {
-                        $newPrice -= $projectHousing[$payDescKey]->value;
-                    }
-                }
-            }
-            $aylik = ($newPrice - $pesinat) / $taksitSayisi;
-        }
-
-        $image = $projectHousing['Kapak Resmi']->value;
-        $payDecs = [];
-
-        if (isset($projectHousing) && isset($projectHousing["pay-dec-count{$id}"]) && isset($projectHousing["pay-dec-count{$id}"]->value)) {
-            for ($k = 0; $k < $projectHousing["pay-dec-count{$id}"]->value; $k++) {
-                $payDecPriceKey = "pay_desc_price{$id}{$k}";
-                $payDecDateKey = "pay_desc_date{$id}{$k}";
-
-                // Check if the keys exist in the array before accessing their values
-                if (isset($projectHousing[$payDecPriceKey]) && isset($projectHousing[$payDecDateKey])) {
-                    $payDecs[] = [
-                        "pay_dec_price{$k}" => $projectHousing[$payDecPriceKey]->value,
-                        "pay_dec_date{$k}" => $projectHousing[$payDecDateKey]->value,
-                    ];
-                } else {
-                    // Handle the case where the keys are not defined
-                    // You can log an error, throw an exception, or take appropriate action
-                }
-            }
-        }
-
-        $cartItem = [
-            'id' => $project->id,
-            'housing' => $id,
-            'neighborProjects' => $neighborProjects,
-            'city' => $project->city->title,
-            'address' => $project->address,
-            'title' => $project->project_title,
-            'price' => $price,
-            'isShare' => $request->input('isShare'),
-            'numbershare' => $request->input('numbershare'),
-            'qt' => $request->input('qt'),
-            'amount' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($price / $request->input('numbershare')) : $price,
-            'defaultPrice' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($price / $request->input('numbershare')) : $price,
-            'image' => asset('project_housing_images/' . $image),
-            'discount_amount' => $hasCounter ? $discount_amount : 0,
-            'share_open' => $projectHousing['Paylaşıma Açık']->value ?? false,
-            'share_percent' => 0.5,
-            'discount_rate' => $projectHousing['İndirim Oranı %']->value ?? 0,
-            'installmentPrice' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($installmentPrice / $request->input('numbershare')) : $installmentPrice,
-            'payment-plan' => 'pesin',
-            'pesinat' => $request->input('isShare') && $request->input('isShare') != '[]' ? ($pesinat / $request->input('numbershare')) : $pesinat,
-            'taksitSayisi' => $taksitSayisi,
-            'aylik' => $aylik,
-            'pay_decs' => $payDecs,
-        ];
-
-        return $cartItem;
-    }
-
-    private function prepareHousingCartItem($user, $request, $id, $now, $hasCounter, $discount_amount)
-    {
-        $discount_amount = Offer::where('type', 'housing')
-            ->where('housing_id', $id)
-            ->where('start_date', '<=', $now)
-            ->where('end_date', '>=', $now)
-            ->first()->discount_amount ?? 0;
-
-        $housing = Housing::find($id);
-
-        if (!$housing) {
-            return null;
-            // Handle the case when the housing is not found
-        }
-
-        $housingData = json_decode($housing->housing_type_data);
-
-        $cartItem = [
-            'id' => $housing->id,
-            'city' => $housing->city['title'],
-            'address' => $housing->address,
-            'title' => $housing->title,
-            'amount' => $housingData->price[0],
-            'price' => $housingData->price[0],
-            'image' => asset('housing_images/' . $housingData->images[0]),
-            'discount_amount' => $hasCounter ? $discount_amount : 0,
-            'share_open' => $housingData->{'share-open'}[0] ?? null,
-            'installmentPrice' => null,
-            'share_percent' => 0.5,
-            'discount_rate' => $housingData->{'discount_rate'}[0] ?? 0,
-        ];
-
-        return $cartItem;
-    }
 
     public function clear(Request $request)
     {

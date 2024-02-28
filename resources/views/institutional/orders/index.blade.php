@@ -103,6 +103,7 @@
                                                 @if (isset($order->reference))
                                                     <span style="font-weight:700 !important">Prim Kazanan Üye: {{$order->reference->name}}</span>
                                                 @endif
+                                                
                                             </td>
                                             <td class="order_amount">{{ $order->amount }}</td>
                                             <td class="order_date">{{ $order->created_at }}</td>
