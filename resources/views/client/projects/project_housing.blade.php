@@ -763,6 +763,7 @@
 
                                                                             <x-project-item-card :project="$project"
                                                                             :isUserSame="$isUserSame"
+                                                                            :sumCartOrderQt="$sumCartOrderQt"
                                                                                 :bankAccounts="$bankAccounts" :i="$i"
                                                                                 :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                                                 :sold="$sold" :lastHousingCount="$lastHousingCount" />
@@ -835,6 +836,7 @@
 
                                                 <x-project-item-card :project="$project" :i="$i"
                                                 :isUserSame="$isUserSame"
+                                                :sumCartOrderQt="$sumCartOrderQt"
                                                     :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                     :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                             @endfor

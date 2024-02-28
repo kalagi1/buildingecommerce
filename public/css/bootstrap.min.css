@@ -7346,7 +7346,7 @@ button.bg-secondary:hover {
 }
 
 .bg-success {
-    background-color: #28a745 !important
+    background-color: green!important
 }
 
 a.bg-success:focus,
@@ -7468,7 +7468,7 @@ button.bg-dark:hover {
 }
 
 .border-success {
-    border-color: #28a745 !important
+    border-color: green!important
 }
 
 .border-info {
@@ -11258,7 +11258,7 @@ a.text-secondary:hover {
 }
 
 .text-success {
-    color: #28a745 !important
+    color: green!important
 }
 
 a.text-success:focus,

@@ -2,28 +2,28 @@
 
 @section('content')
 
-@php
-    function implodeData($array)
-    {
-        $html = '';
+    @php
+        function implodeData($array)
+        {
+            $html = '';
 
-        foreach ($array as $value) {
-            // Convert the value to string before concatenation
-            $stringValue = strval($value);
+            foreach ($array as $value) {
+                // Convert the value to string before concatenation
+                $stringValue = strval($value);
 
-            if (!empty($html)) {
-                $html .= ', ';
+                if (!empty($html)) {
+                    $html .= ', ';
+                }
+
+                $html .= ' ' . $stringValue;
             }
 
-            $html .= ' ' . $stringValue;
+            return $html;
         }
 
-        return $html;
-    }
-
-    $projectHousings = [];
-    $projectDiscountAmount = null;
-@endphp
+        $projectHousings = [];
+        $projectDiscountAmount = null;
+    @endphp
 
 
 
@@ -709,10 +709,10 @@
                                                                                 @endphp
 
                                                                                 <x-project-item-card :project="$project"
-                                                                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                                    :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                                    :lastHousingCount="$lastHousingCount" />
+                                                                                    :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                                    :bankAccounts="$bankAccounts" :i="$i"
+                                                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                             @endfor
                                                                         @endif
                                                                     </div>
@@ -781,6 +781,7 @@
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :i="$i"
+                                                    :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList"
                                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor

@@ -126,6 +126,10 @@
                                                         {{ $cart['item']['title'] }}
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
+                                                        <br><br>
+                                                        <span style="color:#EA2B2E"
+                                                            class="mt-3">{{ $cart['item']['qt'] }} adet hisse sepetinizde
+                                                            !</span>
                                                     </h2>
                                                 </a>
                                             </div>
@@ -162,21 +166,38 @@
                                             $itemPrice = $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice']) ? $cart['item']['installmentPrice'] : $discountedPrice;
 
                                             $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                                            $share_sale = $cart['item']['isShare'] ?? null;
+                                            $number_of_share = $cart['item']['numbershare'] ?? null;
                                         @endphp
 
                                         <td>
-                                            @if ($discountRate != 0)
-                                                <span>
-                                                    <del style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}
-                                                        ₺</del>
-                                                </span>
-                                            @endif
+                                            <span style="width:100%;text-align:center">
+                                                @if (isset($share_sale) && $share_sale != '[]')
+                                                    <div
+                                                        class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
+                                                        <button
+                                                            class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
+                                                        <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
+                                                    </div>
+                                                @endif
 
-                                            <span class="discounted-price-x" id="itemPrice"
-                                                data-original-price="{{ $cart['item']['price'] }}"
-                                                data-installment-price="{{ $cart['item']['installmentPrice'] }}"
-                                                style="color: green; font-size:14px !important">
-                                                {{ $displayedPrice }} ₺
+
+                                                @if ($discountRate != 0)
+                                                    <span>
+                                                        <del style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}
+                                                            ₺</del>
+                                                    </span>
+                                                @endif
+
+                                                <span class="discounted-price-x" id="itemPrice"
+                                                    data-original-price="{{ $cart['item']['price'] }}"
+                                                    data-installment-price="{{ $cart['item']['installmentPrice'] }}"
+                                                    style="color: green; font-size:14px !important">
+                                                    {{ isset($share_sale) && $share_sale != '[]' && is_numeric($displayedPrice) && is_numeric($number_of_share) && $number_of_share != 0 ? $displayedPrice / $number_of_share : $displayedPrice }}
+                                                    ₺
+                                                </span>
                                             </span>
                                         </td>
                                     </tr>
@@ -366,7 +387,8 @@
                                     <input type="hidden" name="banka_id" id="bankaID">
                                     <input type="hidden" name="have_discount" class="have_discount">
                                     <input type="hidden" name="discount" class="discount">
-                                    <input type="hidden" name="is_swap" class="is_swap" value="{{ $cart['item']['payment-plan'] ?? null }}">
+                                    <input type="hidden" name="is_swap" class="is_swap"
+                                        value="{{ $cart['item']['payment-plan'] ?? null }}">
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -426,21 +448,23 @@
                                                 <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
-                                        @if (isset($cart['item']['neighborProjects']) &&  count($cart['item']['neighborProjects']) > 0)
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın alıyorsunuz?</label>
-                                                <select class="form-control" id="is_reference" name="is_reference">
-                                                    <option value="" selected >Komşu Seçiniz</option>
-                                                    @foreach ($cart['item']['neighborProjects'] as $neighborProject)
-                                                        <option value="{{ $neighborProject->owner->id }}">{{ $neighborProject->owner->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0)
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="neighborProjects">Komşunuzun referansıyla mı satın
+                                                        alıyorsunuz?</label>
+                                                    <select class="form-control" id="is_reference" name="is_reference">
+                                                        <option value="" selected>Komşu Seçiniz</option>
+                                                        @foreach ($cart['item']['neighborProjects'] as $neighborProject)
+                                                            <option value="{{ $neighborProject->owner->id }}">
+                                                                {{ $neighborProject->owner->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>    
                                         @endif
-                                     
-                                        
+
+
                                     </div>
 
                                     @if ($cart['type'] == 'project')
@@ -490,6 +514,91 @@
 
 @endsection
 
+@section('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        #loadingIndicator {
+            color: #007bff;
+        }
+
+        .my-choose td {
+            padding: 15px 20px 15px 0 !important;
+        }
+
+        /* Style for custom option container */
+        .payment-options {
+            display: flex;
+        }
+
+        .shopping-cart__totals {
+            border: 1px solid #e4e4e4;
+            margin-bottom: 1.25rem;
+            max-width: 100%;
+        }
+
+
+
+        /* Style for custom option */
+        .custom-option {
+            display: flex;
+            cursor: pointer;
+            font-size: 11px !important;
+            color: black;
+
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e4e4e4;
+            padding: 10px;
+        }
+
+        /* Style for selected option */
+        .custom-option.selected {
+            background-color: #5cb85c;
+            /* Adjust color as needed */
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .my-choose {
+                flex-direction: column-reverse;
+            }
+
+            .clearButtons {
+                margin-bottom: 10px;
+            }
+
+            .my-properties table h2 {
+                text-align: center !important;
+                margin: 9px 0 9px 0
+            }
+
+            .payment-options {
+                width: 100%;
+            }
+
+            .clearButtons {
+                width: 100%;
+            }
+
+            .custom-option {
+                width: 50%;
+            }
+
+
+        }
+
+        .updateNumberShareMinus,
+        .updateNumberSharePlus {
+            width: 20px;
+            height: 20px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+@endsection
+
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -518,6 +627,47 @@
             $('.custom-option').on('click', function() {
                 var selectedOption = $(this).data('value');
                 updateCart(selectedOption);
+            });
+
+
+            $(".updateNumberSharePlus").on("click", function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-cart-qt',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        change: "artir"
+                    },
+                    success: function(response) {
+                        if (response.response) {
+                            toastr.warning(response.response);
+                        } else {
+                            location.reload();
+                            console.log(response);
+                        }
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+
+            $(".updateNumberShareMinus").on("click", function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/update-cart-qt',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        change: "azalt"
+                    },
+                    success: function(response) {
+                        toastr.success(response.response);
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
             });
 
 
@@ -607,7 +757,7 @@
                     },
                     complete: function() {
                         $("#loadingOverlay").css("visibility",
-                        "hidden"); // Visible olarak ayarla
+                            "hidden"); // Visible olarak ayarla
                     }
                 });
             });
@@ -722,79 +872,4 @@
             }
         });
     </script>
-@endsection
-
-
-@section('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    <style>
-        #loadingIndicator {
-            color: #007bff;
-        }
-
-        .my-choose td {
-            padding: 15px 20px 15px 0 !important;
-        }
-
-        /* Style for custom option container */
-        .payment-options {
-            display: flex;
-        }
-
-        .shopping-cart__totals {
-            border: 1px solid #e4e4e4;
-            margin-bottom: 1.25rem;
-            max-width: 100%;
-        }
-
-
-
-        /* Style for custom option */
-        .custom-option {
-            display: flex;
-            cursor: pointer;
-            font-size: 11px !important;
-            color: black;
-
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #e4e4e4;
-            padding: 10px;
-        }
-
-        /* Style for selected option */
-        .custom-option.selected {
-            background-color: #5cb85c;
-            /* Adjust color as needed */
-            color: #fff;
-        }
-
-        @media (max-width: 768px) {
-            .my-choose {
-                flex-direction: column-reverse;
-            }
-
-            .clearButtons {
-                margin-bottom: 10px;
-            }
-
-            .my-properties table h2 {
-                text-align: center !important;
-                margin: 9px 0 9px 0
-            }
-
-            .payment-options {
-                width: 100%;
-            }
-
-            .clearButtons {
-                width: 100%;
-            }
-
-            .custom-option {
-                width: 50%;
-            }
-        }
-    </style>
 @endsection

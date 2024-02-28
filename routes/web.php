@@ -150,6 +150,8 @@ Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('hou
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
 Route::post('/update-cart', [CartController::class, 'update'])->name('cart.update');
+Route::post('/update-cart-qt', [CartController::class, 'updateqt'])->name('cart.update.qt');
+
 
 Route::post('addLink/', [CartController::class, 'addLink'])->name('add.to.link');
 
