@@ -90,7 +90,10 @@
 
                                             <span class="text-center w-100">
                                                 @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
-                                                    {{ $sumCartOrderQt[$i + 1]['qt_total'] }} @else 0 @endif / {{ $number_of_share }}
+                                                    {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
+                                                @else
+                                                    0
+                                                @endif / {{ $number_of_share }}
                                             </span>
                                         @endif
 
@@ -240,10 +243,16 @@
                                         </span>
 
                                     </span>
+                                    @else
+                                    <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && !$share_sale) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        order="{{ $i + 1 }}">
+                                        Ödeme Detayı
+                                    </button>
                                 @endif
                             @else
                                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) && !$sumCartOrderQt[$i+1]['qt_total'] || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && !$share_sale) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                     order="{{ $i + 1 }}">
                                     Ödeme Detayı
                                 </button>
@@ -256,14 +265,14 @@
                                 </button>
                             @else
                                 @if (
-                                    ($sold && $sold->status != '2' && !$sumCartOrderQt[$i + 1]['qt_total']) ||
+                                    ($sold && $sold->status != '2' && !$share_sale) ||
                                         (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                     <button class="btn second-btn"
                                         @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
-                                        @if ($sold->status == '0' && !$sumCartOrderQt[$i + 1]['qt_total'])
+                                        @if ($sold->status == '0' && !$share_sale)
                                             <span class="text">Onay Bekleniyor</span>
                                         @elseif (
-                                            ($sold->status == '1' && !$sumCartOrderQt[$i + 1]['qt_total']) ||
+                                            ($sold->status == '1' && !$share_sale) ||
                                                 (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                             <span class="text">Satıldı</span>
                                         @endif

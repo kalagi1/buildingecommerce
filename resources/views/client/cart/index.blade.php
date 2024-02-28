@@ -126,10 +126,12 @@
                                                         {{ $cart['item']['title'] }}
                                                         <br>
                                                         {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
+                                                        @if (isset($share_sale) && $share_sale != '[]')
                                                         <br><br>
                                                         <span style="color:#EA2B2E"
                                                             class="mt-3">{{ $cart['item']['qt'] }} adet hisse sepetinizde
                                                             !</span>
+                                                            @endif
                                                     </h2>
                                                 </a>
                                             </div>
