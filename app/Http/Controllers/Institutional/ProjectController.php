@@ -70,10 +70,41 @@ class ProjectController extends Controller
         $project->user->housings = $project->user->housings;
         $project->user->brands = $project->user->brands;
         $project->images = $project->images;
+
+        
+        $sumCartOrderQt = DB::table('cart_orders')
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+        )
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get();
+
+    
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+        ->mapWithKeys(function ($group) {
+            return [
+                $group->first()->housing_id => [
+                    'housing_id' => $group->first()->housing_id,
+                    'qt_total' => $group->sum('qt'),
+                ]
+            ];
+        })
+        ->all();
+    
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
 
         
-        return view('institutional.projects.housings', compact('menu', "offer", 'project'));
+        return view('institutional.projects.housings', compact('menu', "sumCartOrderQt","projectHousingsList","offer", 'project'));
 
     }
 

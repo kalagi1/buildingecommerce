@@ -91,6 +91,8 @@
                                             @php
                                                 $j++;
                                                 $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
+                                                $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
+                                                $number_of_share = $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
                                             @endphp
 
                                             <tr>
@@ -245,6 +247,15 @@
                                                     @endif
                                                 </td>
                                                 <td class="sold">
+                                                    @if (isset($share_sale) && $share_sale != '[]' && $share_sale == '["Var"]')
+                                                        <span class=" d-block mb-2">
+                                                            @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
+                                                                {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
+                                                            @else
+                                                                0
+                                                            @endif / {{ $number_of_share }}
+                                                        </span>
+                                                    @endif 
                                                     @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                         <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
@@ -274,7 +285,9 @@
                                                             olarak
                                                             gözükecektir.</p>
                                                     @else
-                                                        @if ($sold && $sold[0]->status == 1)
+                                                        @if (
+                                                            ($sold && $sold[0]->status == 1 && $share_sale == '[]') ||
+                                                                (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
                                                         @elseif ($sold && $sold[0]->status == 0)
@@ -347,6 +360,8 @@
                                 @for ($i = 0; $i < $project->room_count; $i++)
                                     @php
                                         $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
+                                        $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
+                                        $number_of_share = $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
                                     @endphp
 
                                     <tr>
@@ -385,7 +400,7 @@
                                                         <span
                                                             class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                                 class="fa fa-edit"></i></span>
-                                                    @endif
+                                                    @endif <br>
                                                 </div>
 
                                             </div>
@@ -413,7 +428,7 @@
                                                         <span
                                                             class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                                 class="fa fa-edit"></i></span>
-                                                    @endif
+                                                    @endif <br>
                                                 </div>
 
                                             </div>
@@ -531,6 +546,15 @@
                                             @endif
                                         </td>
                                         <td class="sold">
+                                            @if (isset($share_sale) && $share_sale != '[]' && $share_sale == '["Var"]')
+                                                <span class=" d-block mb-2">
+                                                    @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
+                                                        {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
+                                                    @else
+                                                        0
+                                                    @endif / {{ $number_of_share }}
+                                                </span>
+                                            @endif
                                             @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                 <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
@@ -559,64 +583,65 @@
                                                     olarak
                                                     gözükecektir.</p>
                                             @else
-                                                @if ($sold && $sold[0]->status == 1)
-                                                    <button
-                                                        class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
-                                                @elseif ($sold && $sold[0]->status == 0)
-                                                    <button class="badge badge-phoenix badge-phoenix-warning">Ödeme
-                                                        Bekleniyor</button>
-                                                @elseif ($sold && $sold[0]->status == 2)
-                                                    <button class="badge badge-phoenix badge-phoenix-success">Tekrar
-                                                        Satışta</button>
-                                                @else
-                                                    <div class="input d-none d-flex" style="align-items: center">
-                                                        <select name="off_sale[]" id="">
-                                                            <option value="[]" selected>Satışa Açık</option>
-                                                            <option value='["Satışa Kapalı"]'>Satışa Kapalı</option>
-                                                        </select>
-                                                        <span
-                                                            class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex"
-                                                            input-type="select" room-order="{{ $i + 1 }}"><i
-                                                                class="fa fa-check"></i></span>
-                                                        <span
-                                                            class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i
-                                                                class="fa fa-times"></i></span>
-                                                    </div>
-                                                    <div class="text d-flex">
-                                                        <button
-                                                            class="badge badge-phoenix badge-phoenix-success value-text">Satışa
-                                                            Açık</button>
-                                                        <span
-                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        </td>
-                                        @if ($sold && $sold[0]->status == 1)
-                                            <td class="price">
-                                                @if (isset($sold[0]))
-                                                    <a href="{{ route('institutional.invoice.show', ['order' => $sold[0]->id]) }}"
-                                                        class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
-                                                @endif
-
-                                            </td>
-                                        @else
-                                            <td class="price">
-                                                <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                    class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
-                                                <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                    class="badge badge-phoenix badge-phoenix-danger">Sil</a>
-                                            </td>
-                                        @endif
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
+                                                @if (
+                                                    ($sold && $sold[0]->status == 1 && empty($share_sale)) ||
+                                                        (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
+                                                    <button class="badge badge-phoenix badge-phoenix-danger">Satıldı
+                                                    </button>
+                    </div>
+                @elseif ($sold && $sold[0]->status == 0 && empty($share_sale))
+                    <button class="badge badge-phoenix badge-phoenix-warning">Ödeme
+                        Bekleniyor</button>
+                @elseif ($sold && $sold[0]->status == 2 && empty($share_sale))
+                    <button class="badge badge-phoenix badge-phoenix-success">Tekrar
+                        Satışta</button>
+                @else
+                    <div class="input d-none d-flex" style="align-items: center">
+                        <select name="off_sale[]" id="">
+                            <option value="[]" selected>Satışa Açık</option>
+                            <option value='["Satışa Kapalı"]'>Satışa Kapalı</option>
+                        </select>
+                        <span
+                            class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex"
+                            input-type="select" room-order="{{ $i + 1 }}"><i class="fa fa-check"></i></span>
+                        <span
+                            class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i
+                                class="fa fa-times"></i></span>
+                    </div>
+                    <div class="text d-flex">
+                        <button class="badge badge-phoenix badge-phoenix-success value-text">Satışa
+                            Açık</button>
+                        <span
+                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
+                                class="fa fa-edit"></i></span>
                     </div>
                 @endif
+                @endif
+                </td>
+                @if ($sold && $sold[0]->status == 1)
+                    <td class="price">
+                        @if (isset($sold[0]))
+                            <a href="{{ route('institutional.invoice.show', ['order' => $sold[0]->id]) }}"
+                                class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
+                        @endif
+
+                    </td>
+                @else
+                    <td class="price">
+                        <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                            class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
+                        <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                            class="badge badge-phoenix badge-phoenix-danger">Sil</a>
+                    </td>
+                @endif
+                </tr>
+                @endfor
+                </tbody>
+                </table>
             </div>
+            @endif
         </div>
+    </div>
     </div>
 
     <div class="total-change-modal d-none">
