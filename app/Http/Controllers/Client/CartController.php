@@ -250,11 +250,11 @@ class CartController extends Controller
 
             if ($saleType == 'kiralik') {
                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * $lastClick ?  ($discountRate / 100): 0);
+                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * isset($lastClick) ?  ($discountRate / 100): 0);
                 $amount = number_format($amount, 2, ',', '.');
             } else {
                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
-                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * $lastClick ?  ($discountRate / 100): 0);
+                $amount = $amountWithoutDiscount - ($amountWithoutDiscount * isset($lastClick) ?  ($discountRate / 100): 0);
                 $amount = number_format($amount * 0.02, 2, ',', '.');
             }
         }
