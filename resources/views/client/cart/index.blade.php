@@ -451,7 +451,7 @@
                                                 <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
-                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0)
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="neighborProjects">Komşunuzun referansıyla mı satın
