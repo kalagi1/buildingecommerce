@@ -195,6 +195,8 @@ class EstateClubController extends Controller {
             'username' => $user->user->name,
             'project' => $user->project->project_title,
             'housingNo' => $user->housing,
+            "neighborName" => $user->order->user->name,
+            "neighborPhone" => $user->order->user->phone,
             'companyName' => 'Emlak Sepette'
         ];
     
