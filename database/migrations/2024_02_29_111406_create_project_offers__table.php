@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('project_offers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('store_id')->nullable();
-            $table->unsignedBigInteger('project_id')->nullable();
-            $table->unsignedBigInteger('room_id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('store_id')->nullable();
+            $table->bigInteger('project_id')->nullable();
+            $table->bigInteger('room_id');
             $table->string('email', 150)->nullable();
             $table->string('offer_price_range', 100)->nullable();
             $table->string('offer_description', 500)->nullable();
@@ -25,11 +25,6 @@ return new class extends Migration
             $table->integer('sales_status')->nullable()->comment('0 - Satın alınamaz, 1 - Satın Alınabilir');
             $table->tinyInteger('offer_response')->nullable()->comment('0 - yanıtlanmadı, 1 - Yanıtlandı');
             $table->timestamps();
-    
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('store_id')->references('id')->on('stores');
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->foreign('room_id')->references('id')->on('rooms');
         });
     }
     
