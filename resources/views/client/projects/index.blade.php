@@ -1147,6 +1147,14 @@
                             lastBlockHousingCount += blocks[i]['housing_count']
                         }
                     }
+                    
+                    if(!Array.isArray(res)){
+                        var result = Object.keys(res).map((key) => res[key]);
+
+                        res = result;
+                    }
+                    
+
                     for (var i = 0; i < res.length; i++) {
                         if (cartOrders[startIndex + 1 + i]) {
                             var sold = cartOrders[startIndex + 1 + i];
