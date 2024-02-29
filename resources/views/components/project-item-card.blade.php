@@ -127,18 +127,7 @@
                                         @elseif ($off_sale_check)
                                             <h6
                                                 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                @if (isset($share_sale) && !empty($share_sale))
-                                                    @php
-                                                        $price = $projectHousingsList[$i + 1]['price[]'];
-                                                        $formatted_price =
-                                                            $number_of_share != 0
-                                                                ? number_format($price / $number_of_share, 0, ',', '.')
-                                                                : 'N/A';
-                                                    @endphp
-                                                    {{ $formatted_price }}
-                                                @else
-                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                                @endif
+                                                {{ isset($share_sale) && !empty($share_sale) ? number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') : number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                 ₺
                                             </h6>
                                         @endif
