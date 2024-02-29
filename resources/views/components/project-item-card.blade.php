@@ -138,34 +138,7 @@
 
                             </ul>
                         </div>
-                        <div class="footer">
-                            <a
-                                href="{{ route('institutional.profile', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">
-                                <img src="{{ url('storage/profile_images/' . $project->user->profile_image) }}"
-                                    alt="" class="mr-2">
-                                {{ $project->user->name }}
-                            </a>
-                            <span class="price-mobile">
-                                @if ($projectHousingsList[$i + 1]['off_sale[]'] == '[]')
-                                    @php $price = $projectHousingsList[$i + 1]['price[]']; @endphp
-                                    @if ($sold && $sold->status != '1' && $sold->status != '0' && $projectDiscountAmount)
-                                        <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 600; font-size: 11px; text-decoration: line-through; margin-right: 5px;">
-                                            {{ number_format($price, 0, ',', '.') }} ₺
-                                        </h6>
-                                        <h6
-                                            style="color: #274abb; position: relative; top: 4px; font-weight: 600; font-size: 20px;">
-                                            {{ number_format($price - $projectDiscountAmount, 0, ',', '.') }} ₺
-                                        </h6>
-                                    @else
-                                        <h6
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 600;">
-                                            {{ number_format($price, 0, ',', '.') }} ₺
-                                        </h6>
-                                    @endif
-                                @endif
-                            </span>
-                        </div>
+                      
                         @php
                             // Example: Set a default value for $maxQtTotal
                             $maxQtTotal = 100; // Set the appropriate default value
@@ -343,9 +316,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="exampleModalLabel">Teklif Ver</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                
             </div>
             <div class="modal-body">
                 <!-- Modal içeriği -->
@@ -382,8 +353,8 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
                                 <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
                             </div>
                         </form>
                
