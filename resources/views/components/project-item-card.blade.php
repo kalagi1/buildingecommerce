@@ -257,10 +257,21 @@
                                 @endif
                             @else
                                 @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
-                                    <button class="first-btn payment-plan-button" data-toggle="modal"
+                                    {{-- <button class="first-btn payment-plan-button" data-toggle="modal"
                                         data-target="#exampleModal{{ $i + 1 }}">
                                         Teklif Ver
-                                    </button>
+                                    </button> --}}
+                                    @if (Auth::user())
+                                        <button class="first-btn payment-plan-button" data-toggle="modal" data-target="#exampleModal{{ $i + 1 }}">
+                                            Teklif Ver
+                                        </button>
+                                    @else
+                                        <a href="{{ route('client.login') }}" class="first-btn payment-plan-button">
+                                            Teklif Ver
+                                        </a>
+                                    @endif
+
+
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
@@ -379,11 +390,5 @@
 
 @section('css')
     <style>
-        .form-control {
-            border-width: 9px;
-            /* Kenarlık kalınlığını ayarla */
-            border-radius: 5px;
-            /* Kenarlık köşe yarıçapını ayarla */
-        }
     </style>
 @endsection
