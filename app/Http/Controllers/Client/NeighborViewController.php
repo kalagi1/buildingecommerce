@@ -43,6 +43,7 @@ class NeighborViewController extends Controller {
             NeighborView::create( [
                 'user_id' => $userId,
                 'owner_id' => $cartOrder->user_id,
+                "order_id" => $orderId,
                 'housing' => $roomOrder,
                 'project_id' => $project->id,
                 'status' => $request->input( 'status' ),

@@ -152,7 +152,7 @@ class EstateClubController extends Controller {
             $message = 'Kullanıcının başvurusu onaylandı.';
             $emailTemplateSlug = 'approve-neighbor-confirmation';
             $statusText = 'onaylandı';
-            $emailSubject = 'Emlak Kulüp Başvurunuz Onaylandı';
+            $emailSubject = 'Emlak Sepette | Komşumu Gör Ödemeniz Onaylandı';
             DocumentNotification::create([
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz onaylandı!',
@@ -165,7 +165,7 @@ class EstateClubController extends Controller {
 
         } elseif ($action == 'reject') {
             $user->update(['status' => 2]);
-            $message = 'Kullanıcının başvurusu reddedildi.';
+            $message = 'Emlak Sepette | Komşumu Gör Başvurunuz Reddedildi';
             $emailTemplateSlug = 'reject-neighbor-confirmation';
             $statusText = 'reddedildi';
             $emailSubject = 'Emlak Kulüp Başvurunuz Reddedildi';
