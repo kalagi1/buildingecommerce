@@ -91,6 +91,7 @@
                                                 $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
                                         @endphp
 
+{{empty($share_sale)}}
                                         @if (isset($share_sale) && !empty($share_sale))
 
                                             <span class="text-center w-100">
@@ -103,28 +104,34 @@
                                         @endif
 
                                         @if ($off_sale_check && $projectDiscountAmount)
-                                        <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
-                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                                {{ number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') }} ₺
-                                            @else
-                                                {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }} ₺
-                                            @endif
-                                        </h6>
-                                        
+                                            <h6
+                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
+                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    ₺
+                                                @else
+                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            </h6>
+
                                             <h6
                                                 style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                 {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
                                                 ₺
                                             </h6>
                                         @elseif ($off_sale_check)
-                                        <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
-                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                                {{ number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') }} ₺
-                                            @else
-                                                {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }} ₺
-                                            @endif
-                                        </h6>
-                                        
+                                            <h6
+                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
+                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    ₺
+                                                @else
+                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                            </h6>
+
                                         @endif
                                     </span>
                                 </li>
@@ -268,7 +275,8 @@
                                         Teklif Ver
                                     </button> --}}
                                     @if (Auth::user())
-                                        <button class="first-btn payment-plan-button" data-toggle="modal" data-target="#exampleModal{{ $i + 1 }}">
+                                        <button class="first-btn payment-plan-button" data-toggle="modal"
+                                            data-target="#exampleModal{{ $i + 1 }}">
                                             Teklif Ver
                                         </button>
                                     @else
@@ -276,8 +284,6 @@
                                             Teklif Ver
                                         </a>
                                     @endif
-
-
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
