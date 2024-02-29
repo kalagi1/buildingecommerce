@@ -298,7 +298,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/order_detail/{order_id}', [AdminHomeController::class, 'orderDetail'])->name('order.detail');
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
-        Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info');
+        Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
 
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
@@ -911,7 +911,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/projects/{project_id}/housings/edit/{room_order}/delete', [InstitutionalProjectController::class, 'deleteHousingPost'])->name('projects.delete.housing');
     Route::post('/projects/passive/{id}', [InstitutionalProjectController::class, 'passive'])->name('projects.passive');
     Route::post('/projects/active/{id}', [InstitutionalProjectController::class, 'active'])->name('projects.active');
-    Route::delete('/projects/{id}', [InstitutionalProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::delete('/projects/{id}', [InstitutionalProjectController::class, 'destroy'])->name('projects.id.destroy');
     Route::post('/housings/active/{id}', [InstitutionalProjectController::class, 'housingActive'])->name('housings.active');
     Route::post('/housings/passive/{id}', [InstitutionalProjectController::class, 'housingPassive'])->name('housings.passive');
     Route::delete('/housings/{id}', [InstitutionalProjectController::class, 'housingDestroy'])->name('housings.destroy');

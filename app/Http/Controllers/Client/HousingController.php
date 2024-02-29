@@ -92,6 +92,7 @@ class HousingController extends Controller {
                 "owner_id" => $housing->user_id,
             ]
         );
+        
 
         return redirect()->back();
     }
