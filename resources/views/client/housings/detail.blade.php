@@ -56,7 +56,7 @@
                             <img src="{{ url('storage/profile_images/' . $housing->user->profile_image) }}" alt=""
                                 class="brand-logo">
                             <p class="brand-name"><a
-                                    href="{{ route('institutional.profile', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}"
+                                    href="{{ route('institutional.profile', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}"
                                     style="color:White;">
                                     {{ $housing->user->name }}
                                     <style type="text/css">
@@ -108,18 +108,18 @@
                         <nav class="navbar" style="padding: 0 !important">
                             <div class="navbar-items">
                                 <a class="navbar-item"
-                                    href="{{ route('institutional.dashboard', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Anasayfa</a>
+                                    href="{{ route('institutional.dashboard', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Anasayfa</a>
                                 <a class="navbar-item"
-                                    href="{{ route('institutional.profile',["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Mağaza
+                                    href="{{ route('institutional.profile', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Mağaza
                                     Profili</a>
                                 <a class="navbar-item"
-                                    href="{{ route('institutional.projects.detail', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Proje
+                                    href="{{ route('institutional.projects.detail', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Proje
                                     İlanları</a>
                                 <a class="navbar-item"
-                                    href="{{ route('institutional.housings',["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Emlak
+                                    href="{{ route('institutional.housings', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Emlak
                                     İlanları</a>
-                                    <a class="navbar-item"
-                                href="{{ route('institutional.teams', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">Ekip</a>
+                                <a class="navbar-item"
+                                    href="{{ route('institutional.teams', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Ekip</a>
                             </div>
                             <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                                 @csrf
@@ -509,7 +509,7 @@
                                                 alt="author-image" class="author__img">
                                             <div>
                                                 <a
-                                                    href="{{ route('institutional.dashboard', ["slug" => Str::slug($housing->user->name), "userID" => $housing->user->id]) }}">
+                                                    href="{{ route('institutional.dashboard', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
 
@@ -748,7 +748,8 @@
                                                                         </span>
                                                                         <input type="number" name="person_count"
                                                                             class="border-0 text-center form-control input-number"
-                                                                            data-min="1" data-max="10" value="1">
+                                                                            data-min="1" data-max="10" value="1"
+                                                                            readonly>
                                                                         <span class="input-group-btn">
                                                                             <button type="button"
                                                                                 class="btn counter-btn theme-cl btn-number"
@@ -886,9 +887,10 @@
                                             <div class="head d-flex w-full">
                                                 <div>
                                                     <div>{{ $comment->user->name }}</div>
-                                                    <i class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
+                                                    <i
+                                                        class="small">{{ \Carbon\Carbon::parse($comment->created_at)->locale('tr')->isoFormat('DD MMMM dddd') }}</i>
                                                 </div>
-                                                
+                                                {{-- {{dd($comment)}} --}}
                                                 <div class="ml-auto order-2">
                                                     @for ($i = 0; $i < $comment->rate; ++$i)
                                                         <svg enable-background="new 0 0 50 50" height="24px"
@@ -937,8 +939,7 @@
                                 <span class="mb-3">Bu konut için henüz yorum yapılmadı.</span>
                             @endif
 
-                            <form action="{{ route('housing.send-comment', ['id' => $id]) }}" method="POST"
-                                enctype="multipart/form-data" class="mt-5">
+                            <form id="commentForm" enctype="multipart/form-data" class="mt-5">
                                 @csrf
                                 <input type="hidden" name="rate" id="rate" />
                                 <h5>Yeni Yorum Ekle</h5>
@@ -996,14 +997,11 @@
                                             multiple accept="image/*" />
                                         <button type="button" class="btn btn-primary q-button"
                                             id="selectImageButton">Resimleri Seç</button>
-
-
                                     </div>
-
-
                                 </div>
-                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..."></textarea>
-                                <button type="submit" class="ud-btn btn-white2 mt-3">Yorumu Gönder<i
+                                <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
+                                <button type="button" class="ud-btn btn-white2 mt-3"
+                                    onclick="submitForm()">Yorumu Gönder<i
                                         class="fal fa-arrow-right-long"></i></button>
 
                             </form>
@@ -1179,11 +1177,7 @@
                             <button type="button" class="btn btn-secondary btn-lg btn-block" style="width:150px"
                                 data-bs-dismiss="modal">İptal</button>
                         </div>
-
-
-
-
-                    </div>
+                   </div>
                 </div>
             </div>
         </div>
@@ -1219,11 +1213,13 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
+
+
     <script>
-         $('#selectImageButton').on('click', function () {
-                console.log("a");
-                $('.fileinput').click();
-            });
+        $('#selectImageButton').on('click', function() {
+            console.log("a");
+            $('.fileinput').click();
+        });
         $(function() {
             $('.fa-info-circle').tooltip()
         })
@@ -1276,9 +1272,15 @@
         }
 
         function submitForm() {
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            console.log(csrfToken);
             var formData = new FormData($('#commentForm')[0]);
+
+            // Append CSRF token to form data
+            formData.append('_token', csrfToken);
+
             $.ajax({
-                url: $('#commentForm').attr('action'),
+                url: "{{ route('housing.send-comment', ['id' => $id]) }}",
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -1288,14 +1290,17 @@
                         icon: 'success',
                         title: 'Yorum Gönderildi',
                         text: 'Yorumunuz admin onayladıktan sonra yayınlanacaktır.',
+                    }).then(function() {
+                        location.reload(); // Reload the page
                     });
                 },
                 error: function(error) {
-                    window.location.href = "/giris-yap";
+                    // window.location.href = "/giris-yap";
                     console.log(error);
                 }
             });
         }
+
         $(document).ready(function() {
             $('.listingDetailsSliderNav').slick({
                 slidesToShow: 5,
@@ -1342,7 +1347,11 @@
 
             $('#rate').val($(this).index() + 1);
         });
-
+        jQuery('form').submit(function(event) {
+            if ($('#rate').val() === '') {
+                $('#rate').val('1'); // Rate değerini 1 olarak ayarla
+            }
+        });
 
 
         function showLocation() {
@@ -1391,6 +1400,7 @@
                 function updateQuantity(change) {
                     var currentValue = parseInt(inputElement.value);
                     var newValue = currentValue + change;
+
 
                     if (currentValue > maxUser) {
                         plusButton.disabled = true;
@@ -1936,7 +1946,6 @@
                 onChange: applyClassesToDates,
                 onMonthChange: applyClassesToDates
             });
-           
         </script>
     @endif
 @endsection

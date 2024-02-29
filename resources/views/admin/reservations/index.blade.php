@@ -129,9 +129,13 @@
                                                         {{ $order->owner->email }}</td>
                                                         <td class="order_details">
                                                             @if ($order->status == 0 || $order->status == 2)
+                                                                <!-- Eğer sipariş durumu 0 veya 2 ise -->
                                                                 <a onclick="return confirm('Rezervasyonu onaylamak istediğinize emin misiniz?')" href="{{ route('admin.approve-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-success">Rezervasyonu onayla</a>
+                                                                <!-- Ayrıca, rezervasyonu onaylamadan iptal etmek için bağlantı ekle -->
+                                                                <a onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Rezervasyonu reddet</a>
                                                             @else
-                                                                <a onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger" >Rezervasyonu reddet</a>
+                                                                <!-- Diğer durumlarda, yani sipariş durumu 0 veya 2 değilse -->
+                                                                <a onclick="return confirm('Rezervasyonu iptal etmek istediğinize emin misiniz?')" href="{{ route('admin.unapprove-reservation', ['reservation' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger">Rezervasyonu reddet</a>
                                                             @endif
 
                                                             <br>
