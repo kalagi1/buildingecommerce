@@ -230,7 +230,7 @@
                     if (confirmDelete) {
                         var csrfToken = "{{ csrf_token() }}";
                         // Laravel route ismi
-                        var routeName = "{{ route('institutional.projects.destroy', ['id' => ':id']) }}";
+                        var routeName = "{{ route('institutional.projects.id.destroy', ['id' => ':id']) }}";
                         // API Endpoint'i oluştur
                         var apiUrl = routeName.replace(':id', project.id);
 
@@ -444,7 +444,7 @@
                 if (willDelete.isConfirmed) {
                     // Silme işlemi için Ajax isteği gönder
                     $.ajax({
-                        url: '{{ route('institutional.projects.destroy', ':projectId') }}'.replace(
+                        url: '{{ route('institutional.projects.id.destroy', ':projectId') }}'.replace(
                             ':projectId', projectId),
                         type: 'post',
                         data: {
