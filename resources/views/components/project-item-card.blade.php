@@ -105,21 +105,7 @@
                                         @if ($off_sale_check && $projectDiscountAmount)
                                             <h6
                                                 style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                @if (isset($share_sale) && !empty($share_sale))
-                                                @php
-                                                    $price = $projectHousingsList[$i + 1]['price[]'];
-                                                    $formatted_price = number_format(
-                                                        $price / $number_of_share,
-                                                        0,
-                                                        ',',
-                                                        '.',
-                                                    );
-
-                                                @endphp
-                                                {{ $formatted_price }}
-                                            @else
-                                                {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                            @endif ₺
+                                                {{ isset($share_sale) && $share_sale != '[]' ? number_format($discounted_price / $number_of_share, 0, ',', '.') : number_format($discounted_price, 0, ',', '.') }}
                                                 ₺
                                             </h6>
                                             <h6
@@ -130,21 +116,8 @@
                                         @elseif ($off_sale_check)
                                             <h6
                                                 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                @if (isset($share_sale) && !empty($share_sale))
-                                                    @php
-                                                        $price = $projectHousingsList[$i + 1]['price[]'];
-                                                        $formatted_price = number_format(
-                                                            $price / $number_of_share,
-                                                            0,
-                                                            ',',
-                                                            '.',
-                                                        );
-
-                                                    @endphp
-                                                    {{ $formatted_price }}
-                                                @else
-                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                                @endif ₺
+                                                {{ isset($share_sale) && $share_sale != '[]' ? number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') : number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                ₺
                                             </h6>
                                         @endif
                                     </span>
@@ -289,8 +262,7 @@
                                         Teklif Ver
                                     </button> --}}
                                     @if (Auth::user())
-                                        <button class="first-btn payment-plan-button" data-toggle="modal"
-                                            data-target="#exampleModal{{ $i + 1 }}">
+                                        <button class="first-btn payment-plan-button" data-toggle="modal" data-target="#exampleModal{{ $i + 1 }}">
                                             Teklif Ver
                                         </button>
                                     @else
@@ -298,6 +270,8 @@
                                             Teklif Ver
                                         </a>
                                     @endif
+
+
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                                         data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
