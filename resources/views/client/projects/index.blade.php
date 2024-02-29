@@ -164,9 +164,9 @@
                     <div class="headings-2 pt-0 pb-0">
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                            <div class="homes-tag button alt featured mobileTagProject">
+                            {{-- <div class="homes-tag button alt featured mobileTagProject">
                                 <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                            </div>
+                            </div> --}}
                             <div class="carousel-inner">
 
                                 {{-- Kapak Görseli --}}
