@@ -687,7 +687,7 @@
                                                                     <div
                                                                         class="row project-filter-reverse blog-pots ajax-list">
                                                                         @if ($key == 0)
-                                                                            @for ($i = 0; $i < $count - 1; $i++)
+                                                                            @for ($i = 0; $i < 12; $i++)
                                                                                 @php
                                                                                     $j++;
                                                                                     if (isset($projectCartOrders[$i + 1])) {
@@ -965,281 +965,7 @@
             return inputValue;
         }
         var isLoading = false;
-        $(window).scroll(function() {
-            var windowBottom = $(this).scrollTop() + $(this).innerHeight();
-            var documentHeight = $(document).height();
-            var blockIndex = $('.nav-item-block.active').index();
-            var startIndex = $('.ajax-list').eq(blockIndex).children('div').length;
-            var endIndex = startIndex + 10;
-            if (windowBottom >= (documentHeight - 500)) {
-                if (!isLoading) {
-                    isLoading = true;
-                    $.ajax({
-                        url: "{{ route('project.get.housings.by.start.and.end', [$project->id, 1]) }}?start=" +
-                            startIndex + "&end=" + endIndex + "&block_index=" + blockIndex,
-                    }).done(function(response) {
-                        isLoading = false;
-                        var res = response.projectHousingsList;
-                        var cartOrders = response.projectCartOrders;
-                        var html = "";
-                        var blocks = response.blocks;
-                        var lastBlockHousingCount = 0;
-                        for (var i = 0; i < blocks.length; i++) {
-                            if (i < blockIndex) {
-                                lastBlockHousingCount += blocks[i]['housing_count']
-                            }
-                        }
-                        for (var i = 0; i < res.length; i++) {
-                            if (cartOrders[startIndex + 1 + i]) {
-                                var sold = cartOrders[startIndex + 1 + i];
-                            } else {
-                                var sold = null;
-                            }
-                            html +=
-                                `<div class="col-md-12 col-12">
-                                <div class="project-card mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->slug }}/${startIndex+1+i+lastBlockHousingCount}" style="height: 100%">
-                                                <div class="d-flex" style="height: 100%;">
-                                                    <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
-                                                        <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                            No
-                                                            <br>${lastBlockHousingCount+1+i+startIndex}
-                                                        </p>
-                                                    </div>
-                                                    <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                                        <div class="project-inner project-head">
-
-                                                            <div class="button-effect-div">
-                                                                <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
-    data-type='project'
-    data-project='{{ $project->id }}'
-    data-id='${startIndex+1+i+lastBlockHousingCount}'>
-    <i class="fa fa-bookmark-o"></i>
-</span>
-
-                                                                <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
-                                                                    <i class="fa fa-heart-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="homes position-relative">
-                                                                <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover;width:100%">`
-                            var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
-                                lastBlockHousingCount);
-                            if (checkOfferX) {
-                                var newPercent = Math.round((checkOfferX['discount_amount'] / res[i][
-                                    "price[]"
-                                ]) * 100);
-                                html += `
-                                                                    <div style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                        <div style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                            % ${newPercent}
-                                                                            <svg viewBox="0 0 24 24"
-                                                                                width="16"
-                                                                                height="16"
-                                                                                stroke="currentColor"
-                                                                                stroke-width="2"
-                                                                                fill="none"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="css-i6dzq1"
-                                                                                style="transform: rotate(45deg);">
-                                                                                <polyline
-                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                </polyline>
-                                                                                <polyline
-                                                                                    points="17 18 23 18 23 12">
-                                                                                </polyline>
-                                                                            </svg>
-                                                                        </div>
-                                                                    </div>`
-                            }
-                            html += `</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position"
-                                            style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
-
-                                                <div class="col-md-9">
-                                                    <div class="homes-list-div">
-                                                        <ul class="homes-list clearfix pb-3 d-flex">
-                                                            
-                                                            <li class="d-flex align-items-center itemCircleFont">
-                                                                <i class="fa fa-circle circleIcon mr-1" style="color: black;" aria-hidden="true"></i>
-                                                                <span>Daire</span>
-                                                            </li>
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column1_name) &&
-                                                                    $project->listItemValues->column1_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column1_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column1_additional) &&
-                                                                                $project->listItemValues->column1_additional)
-                                                                            {{ $project->listItemValues->column1_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column2_name) &&
-                                                                    $project->listItemValues->column2_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column2_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column2_additional) &&
-                                                                                $project->listItemValues->column2_additional)
-                                                                            {{ $project->listItemValues->column2_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column3_name) &&
-                                                                    $project->listItemValues->column3_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column3_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column3_additional) &&
-                                                                                $project->listItemValues->column3_additional)
-                                                                            {{ $project->listItemValues->column3_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                                                            <li
-                                                                class="the-icons mobile-hidden">
-                                                                <span>
-                                                            `
-                            if (res[i]['off_sale[]'] == "[]") {
-                                var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
-                                    lastBlockHousingCount);
-                                if (sold) {
-                                    if (sold['status'] != 1 && sold['status'] != 0) {
-                                        if (checkOfferX) {
-                                            var newPrice = res[i]["price[]"] - checkOfferX[
-                                                'discount_amount'];
-                                            html += `
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                        ${priceFormat(res[i]["price[]"])} ₺
-                                                                                    </h6>
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                        ${priceFormat(""+newPrice+"")} ₺
-                                                                                    </h6>
-                                                                                `
-                                        } else {
-                                            html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>`
-                                        }
-                                    } else {
-                                        html += `
-                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                ${priceFormat(res[i]["price[]"])} ₺
-                                                                            </h6>`
-                                    }
-                                } else {
-                                    if (checkOfferX) {
-                                        var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                        html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                    ${priceFormat(""+newPrice+"")} ₺
-                                                                                </h6>
-                                                                            `
-                                    } else {
-                                        html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                            `
-                                    }
-                                }
-                            }
-                            html += `</span>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                    <div class="footer">
-                                                        <a href="https://emlaksepette.com/magaza/maliyetine-ev/profil">
-                                                            <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
-                                                            Maliyetine Ev
-                                                        </a>
-                                                        <span class="price-mobile">
-                                                            1.190.000₺
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
-                                                    <div class="homes-button" style="width:100%;height:100%">
-                                                        <button class="first-btn payment-plan-button" 
-                                                        project-id="{{ $project->id }}"
-                                                        data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
-                                                        order="${startIndex+i+lastBlockHousingCount+1}">
-                                                            Ödeme Detayı
-                                                        </button>`
-                            if (res[i]['off_sale[]'] != "[]") {
-                                html += `<button
-                                                                class="btn second-btn"
-                                                                style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
-
-                                                                <span
-                                                                    class="text">Satışa
-                                                                    Kapatıldı</span>
-                                                            </button>`
-                            } else {
-                                if (sold && sold['status'] != 2) {
-                                    html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
-                                                                    ${
-                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
-                                                                    }
-                                                                </button>`
-                                } else {
-                                    html += `<button class="CartBtn second-btn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
-                                                                    <span
-                                                                        class="IconContainer">
-                                                                        <img src="{{ asset('sc.png') }}"
-                                                                            alt="">
-                                                                    </span>
-                                                                    <span class="text">Sepete Ekle</span>
-                                                                </button>`
-                                }
-                            }
-                            html += `
-                                                    </div>
-                                                </div>
-
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>`
-                        }
-
-                        $('.ajax-list').eq(blockIndex).append(html);
-                    });
-                }
-
-            }
-        })
+        
 
         function initMap() {
             // İlk harita görüntüsü
@@ -1404,10 +1130,10 @@
             console.log($('#contentblock-' + tabName).index())
             var blockIndex = $('#contentblock-' + tabName).index() - 1;
             var startIndex = 0;
-            var endIndex = 10;
+            var endIndex = 12;
             if ($('#contentblock-' + tabName).find('.ajax-list').children('div').length == 0) {
                 $.ajax({
-                    url: "{{ route('project.get.housings.by.start.and.end', [$project->id, 1]) }}?start=0&end=10&block_index=" +
+                    url: "{{ route('project.get.housings.by.start.and.end', [$project->id, 1]) }}?start=0&end=12&block_index=" +
                         blockIndex,
                 }).done(function(response) {
                     isLoading = false;
@@ -1437,7 +1163,7 @@
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
                                                             No
-                                                            <br>${lastBlockHousingCount+1+i+startIndex}
+                                                            <br>${1+i}
                                                         </p>
                                                     </div>
                                                     <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
@@ -1501,24 +1227,20 @@
                                                                 <i class="fa fa-circle circleIcon mr-1" style="color: black;" aria-hidden="true"></i>
                                                                 <span>Daire</span>
                                                             </li>
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column1_name) &&
-                                                                    $project->listItemValues->column1_name)
+                                                            @if(isset($project->listItemValues) && isset($project->listItemValues->column1_name) && $project->listItemValues->column1_name)
                                                                 <li class="d-flex align-items-center itemCircleFont">
                                                                     <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                                     <span>
                                                                         ${res[i]["{{ $project->listItemValues->column1_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column1_additional) &&
-                                                                                $project->listItemValues->column1_additional)
+
+                                                                        @if(isset($project->listItemValues) && isset($project->listItemValues->column1_additional) && $project->listItemValues->column1_additional)
                                                                             {{ $project->listItemValues->column1_additional }}
                                                                         @endif
                                                                     </span>
                                                                 </li>
                                                             @endif
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column2_name) &&
-                                                                    $project->listItemValues->column2_name)
+
+                                                            @if (isset($project->listItemValues) && isset($project->listItemValues->column2_name) && $project->listItemValues->column2_name)
                                                                 <li class="d-flex align-items-center itemCircleFont">
                                                                     <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                                     <span>
@@ -1531,6 +1253,7 @@
                                                                     </span>
                                                                 </li>
                                                             @endif
+
                                                             @if (isset($project->listItemValues) &&
                                                                     isset($project->listItemValues->column3_name) &&
                                                                     $project->listItemValues->column3_name)
@@ -1550,54 +1273,54 @@
                                                                 class="the-icons mobile-hidden">
                                                                 <span>
                                                             `
-                        if (res[i]['off_sale[]'] == "[]") {
-                            var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
-                                lastBlockHousingCount);
-                            if (sold) {
-                                if (sold['status'] != 1 && sold['status'] != 0) {
-                                    if (checkOfferX) {
-                                        var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                        html += `
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                        ${priceFormat(res[i]["price[]"])} ₺
-                                                                                    </h6>
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                        ${priceFormat(""+newPrice+"")} ₺
-                                                                                    </h6>
-                                                                                `
-                                    } else {
-                                        html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>`
-                                    }
-                                } else {
-                                    html += `
-                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                ${priceFormat(res[i]["price[]"])} ₺
-                                                                            </h6>`
-                                }
-                            } else {
-                                if (checkOfferX) {
-                                    var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                    html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                    ${priceFormat(""+newPrice+"")} ₺
-                                                                                </h6>
-                                                                            `
-                                } else {
-                                    html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                            `
-                                }
-                            }
-                        }
-                        html += `</span>
+                                                                if (res[i]['off_sale[]'] == "[]") {
+                                                                    var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
+                                                                        lastBlockHousingCount);
+                                                                    if (sold) {
+                                                                        if (sold['status'] != 1 && sold['status'] != 0) {
+                                                                            if (checkOfferX) {
+                                                                                var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
+                                                                                html += `
+                                                                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                                                                                                                                ${priceFormat(res[i]["price[]"])} ₺
+                                                                                                                            </h6>
+                                                                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
+                                                                                                                                ${priceFormat(""+newPrice+"")} ₺
+                                                                                                                            </h6>
+                                                                                                                        `
+                                                                            } else {
+                                                                                html += `
+                                                                                                                        <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                                                                            ${priceFormat(res[i]["price[]"])} ₺
+                                                                                                                        </h6>`
+                                                                            }
+                                                                        } else {
+                                                                            html += `
+                                                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                                                                        ${priceFormat(res[i]["price[]"])} ₺
+                                                                                                                    </h6>`
+                                                                        }
+                                                                    } else {
+                                                                        if (checkOfferX) {
+                                                                            var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
+                                                                            html += `
+                                                                                                                        <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                                                                                                                            ${priceFormat(res[i]["price[]"])} ₺
+                                                                                                                        </h6>
+                                                                                                                        <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
+                                                                                                                            ${priceFormat(""+newPrice+"")} ₺
+                                                                                                                        </h6>
+                                                                                                                    `
+                                                                        } else {
+                                                                            html += `
+                                                                                                                        <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                                                                            ${priceFormat(res[i]["price[]"])} ₺
+                                                                                                                        </h6>
+                                                                                                                    `
+                                                                        }
+                                                                    }
+                                                                }
+                                                                html += `</span>
                                                             </li>
                                                         </ul>
 
@@ -1621,8 +1344,8 @@
                                                         order="${lastBlockHousingCount+1+i+startIndex}">
                                                             Ödeme Detayı
                                                         </button>`
-                        if (res[i]['off_sale[]'] != "[]") {
-                            html += `<button
+                                                if (res[i]['off_sale[]'] != "[]") {
+                                                    html += `<button
                                                                 class="btn second-btn"
                                                                 style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
