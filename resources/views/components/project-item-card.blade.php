@@ -251,12 +251,30 @@
                                     </button>
                                 @endif
                             @else
+
+                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                <button class="first-btn payment-plan-button" data-toggle="modal" data-target="#exampleModal{{ $i+1 }}">
+                                   Teklif Ver
+                                </button>
+
+                            @else
                                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+<<<<<<< HEAD
+                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+=======
                                     data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == "[]") || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+>>>>>>> aa918b1f14c5038606b1dc858a697e4ef3b142c8
                                     order="{{ $i + 1 }}">
                                     Ödeme Detayı
-                                </button>
+                                </button> 
                             @endif
+<<<<<<< HEAD
+                            
+
+                              
+                            @endif
+=======
+>>>>>>> aa918b1f14c5038606b1dc858a697e4ef3b142c8
 
                             @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                 <button class="btn second-btn"
@@ -298,6 +316,74 @@
 </div>
 
 
+<<<<<<< HEAD
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{ $i+1 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Teklif Ver</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Modal içeriği -->
+          <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{route('give_offer')}}">
+                    @csrf
+                    {{-- {{ $i+1 }} --}}
+                    <input type="hidden" value="{{ $i+1 }}" name="roomId">
+                    <input type="hidden" value="{{ $project->id }}" name="projectId">
+                    <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
+                    <div class="form-group">
+                        <label for="surname">Emailiniz : </label>
+                        <input type="text" class="form-control" id="email" name="email" style="border: 1px solid gray">
+                    </div>
+                    <div class="form-group">
+                        <label for="offer_price">Fiyat Aralığı (TL):</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" style="border: 1px solid gray" id="offer_price_min" name="offer_price_min" placeholder="Minimum" aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">-</span>
+                            </div>
+                            <input type="text" class="form-control" style="border: 1px solid gray" id="offer_price_max" name="offer_price_max" placeholder="Maksimum" aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="comment">Açıklama:</label>
+                        <textarea class="form-control" style="border: 1px solid gray" id="offer_description" rows="5" name="offer_description"></textarea>
+                    </div>
+           
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                      </div>
+                  </form>
+            </div>
+          </div>
+          
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+
+  @section('css')
+     <style>
+        .form-control {
+            border-width: 9px; /* Kenarlık kalınlığını ayarla */
+            border-radius: 5px; /* Kenarlık köşe yarıçapını ayarla */
+        }
+     </style>
+ 
+  @endsection   
+=======
 <style>
     .bar-chart {
         width: 100%;
@@ -378,3 +464,4 @@
         background: rgba(0, 0, 0, 0.25);
     }
 </style>
+>>>>>>> aa918b1f14c5038606b1dc858a697e4ef3b142c8
