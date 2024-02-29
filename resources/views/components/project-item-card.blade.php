@@ -342,15 +342,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Teklif Ver</h5>
+                <h3 class="modal-title" id="exampleModalLabel">Teklif Ver</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- Modal içeriği -->
-                <div class="card">
-                    <div class="card-body">
                         <form method="POST" action="{{ route('give_offer') }}">
                             @csrf
                             {{-- {{ $i+1 }} --}}
@@ -358,20 +356,19 @@
                             <input type="hidden" value="{{ $project->id }}" name="projectId">
                             <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
                             <div class="form-group">
-                                <label for="surname">Emailiniz : </label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    style="border: 1px solid gray">
+                                <label for="surname" class="modal-label">Emailiniz : </label>
+                                <input type="text" class="modal-input" id="email" name="email">
                             </div>
                             <div class="form-group">
-                                <label for="offer_price">Fiyat Aralığı (TL):</label>
+                                <label for="offer_price" class="modal-label">Fiyat Aralığı (TL):</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" style="border: 1px solid gray"
+                                    <input type="text" class="modal-input" 
                                         id="offer_price_min" name="offer_price_min" placeholder="Minimum"
                                         aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">-</span>
-                                    </div>
-                                    <input type="text" class="form-control" style="border: 1px solid gray"
+                                    {{-- <div class="input-group-append">
+                                        <span class="input-group-text modal-input" style="height: 10px" id="basic-addon2">-</span>
+                                    </div> --}}
+                                    <input type="text" class="modal-input"
                                         id="offer_price_max" name="offer_price_max" placeholder="Maksimum"
                                         aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
                                 </div>
@@ -379,18 +376,18 @@
 
 
                             <div class="form-group">
-                                <label for="comment">Açıklama:</label>
-                                <textarea class="form-control" style="border: 1px solid gray" id="offer_description" rows="5"
+                                <label for="comment" class="modal-label">Açıklama:</label>
+                                <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
                                     name="offer_description"></textarea>
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-                                <button type="submit" class="btn btn-primary">Gönder</button>
+                                <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                                <button type="submit" class="modal-btn-gonder">Gönder</button>
                             </div>
                         </form>
-                    </div>
-                </div>
+               
+              
 
             </div>
 
@@ -399,7 +396,59 @@
 </div>
 
 
-@section('css')
+@section('styles')
     <style>
+        .modal-label{
+            margin: 0.3em 0em;
+            font-size: 13px;
+            font: bold;
+            color: #000000 !important;
+        }
+        .modal-input{
+            padding: 1em !important;
+            border: 1px solid #ccc !important;
+            border-radius: 0.4em !important;
+            margin: 0.5em 0em;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: space-between; 
+        }
+
+        .modal-btn-gonder, .modal-btn-kapat {
+            padding: 0.8em 2em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            transition: background-color 0.3s;
+            width: 45%;
+            border: none;
+            height: 45px;
+        }
+
+        .modal-btn-gonder {
+            background-color: #ea2b2e; 
+            color: #fff;
+        }
+
+        .modal-btn-kapat {
+            background-color: #1e1e1e; 
+            color: #fff;
+        }
+        form{
+            margin: 1em;
+        }
+      
+
+        .modal-title {
+            font-size: 2.5rem;
+            margin-right: 30%; 
+            margin-left: 43%; 
+            font-size: 15px !important;
+            margin-top: 0.8em; 
+            margin-bottom: 0.8em; 
+        }
+
     </style>
 @endsection
