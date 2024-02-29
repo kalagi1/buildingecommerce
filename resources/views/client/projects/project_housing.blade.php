@@ -422,14 +422,14 @@
                                         </button>
                                     @else
                                         @if (
-                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == "[]") ||
+                                            (isset($soldStatus) && $soldStatus != '2' && empty($share_sale)) ||
                                                 (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                             <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White" @endif>
-                                                @if ($soldStatus == '0' && $share_sale == "[]")
+                                                @if ($soldStatus == '0' && empty($share_sale))
                                                     <span class="text">Rezerve Edildi</span>
                                                 @elseif (
-                                                    ($soldStatus == '1' && $share_sale == "[]") ||
+                                                    ($soldStatus == '1' && empty($share_sale)) ||
                                                         (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                                     <span class="text">Satıldı</span>
                                                 @endif

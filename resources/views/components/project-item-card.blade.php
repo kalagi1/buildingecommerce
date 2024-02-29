@@ -91,7 +91,7 @@
                                                 $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
                                         @endphp
 
-                                        @if (isset($share_sale) && $share_sale != '[]' && $share_sale == '["Var"]')
+                                        @if (isset($share_sale) && !empty($share_sale))
 
                                             <span class="text-center w-100">
                                                 @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
@@ -250,7 +250,7 @@
                                     </span>
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == '[]') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && empty($share_sale)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                         order="{{ $i + 1 }}">
                                         Ödeme Detayı
                                     </button>
