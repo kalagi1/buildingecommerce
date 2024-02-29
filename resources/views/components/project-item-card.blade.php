@@ -91,8 +91,7 @@
                                                 $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
                                         @endphp
 
-{{empty($share_sale)}}
-                                        @if (isset($share_sale) && !empty($share_sale))
+                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
 
                                             <span class="text-center w-100">
                                                 @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
@@ -177,7 +176,7 @@
                             }
                         @endphp
 
-                        @if (isset($share_sale) && !empty($share_sale))
+                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
                             <div class="bar-chart">
                                 <div class="progress">
                                     <div class="progress-bar"
