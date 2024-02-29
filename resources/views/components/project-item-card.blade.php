@@ -290,16 +290,15 @@
                                     <span class="text">Satışa Kapatıldı</span>
                                 </button>
                             @else
-                            {{$share_sale}} adsds
                                 @if (
-                                    ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                    ($sold && $sold->status != '2' && empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                     <button class="btn second-btn"
                                         @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
-                                        @if ($sold->status == '0' && $share_sale == '[]')
+                                        @if ($sold->status == '0' && empty($share_sale))
                                             <span class="text">Rezerve Edildi</span>
                                         @elseif (
-                                            ($sold->status == '1' && $share_sale == '[]') ||
+                                            ($sold->status == '1' && empty($share_sale)) ||
                                                 (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                             <span class="text">Satıldı</span>
                                         @endif
