@@ -2,28 +2,28 @@
 
 @section('content')
 
-@php
-    function implodeData($array)
-    {
-        $html = '';
+    @php
+        function implodeData($array)
+        {
+            $html = '';
 
-        foreach ($array as $value) {
-            // Convert the value to string before concatenation
-            $stringValue = strval($value);
+            foreach ($array as $value) {
+                // Convert the value to string before concatenation
+                $stringValue = strval($value);
 
-            if (!empty($html)) {
-                $html .= ', ';
+                if (!empty($html)) {
+                    $html .= ', ';
+                }
+
+                $html .= ' ' . $stringValue;
             }
 
-            $html .= ' ' . $stringValue;
+            return $html;
         }
 
-        return $html;
-    }
-
-    $projectHousings = [];
-    $projectDiscountAmount = null;
-@endphp
+        $projectHousings = [];
+        $projectDiscountAmount = null;
+    @endphp
 
 
 
@@ -709,10 +709,10 @@
                                                                                 @endphp
 
                                                                                 <x-project-item-card :project="$project"
-                                                                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                                    :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                                    :lastHousingCount="$lastHousingCount" />
+                                                                                    :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                                    :bankAccounts="$bankAccounts" :i="$i"
+                                                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                             @endfor
                                                                         @endif
                                                                     </div>
@@ -781,6 +781,7 @@
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :i="$i"
+                                                    :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :projectHousingsList="$projectHousingsList"
                                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
@@ -1206,7 +1207,7 @@
                                 if (sold && sold['status'] != 2) {
                                     html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
                                                                     ${
-                                                                        sold['status'] == 0 ? '<span class="text">Onay Bekleniyor</span>' : '<span class="text">Satıldı</span>'
+                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
                                                                     }
                                                                 </button>`
                                 } else {
@@ -1633,7 +1634,7 @@
                             if (sold && sold['status'] != 2) {
                                 html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
                                                                     ${
-                                                                        sold['status'] == 0 ? '<span class="text">Onay Bekleniyor</span>' : '<span class="text">Satıldı</span>'
+                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
                                                                     }
                                                                 </button>`
                             } else {

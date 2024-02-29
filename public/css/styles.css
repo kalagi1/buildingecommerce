@@ -18415,7 +18415,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     font-size: 11px;
     line-height: 18px;
     list-style: none;
-    justify-content: center;
+    justify-content: start;
     color: #274abb;
 }
 

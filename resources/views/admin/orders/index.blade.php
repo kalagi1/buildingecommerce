@@ -89,9 +89,18 @@
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
                                                 @if (isset($order->is_reference))
-                                                <br>
-                                                    <strong class="text-success">Bu ilan komşumu gör referansı ile satılmıştır. <br>
-                                                    Referans: {{ $order->isReference->name}} - {{$order->isReference->phone}}</strong>
+                                                    <br>
+                                                    <strong class="text-success">Bu ilan komşumu gör referansı ile
+                                                        satılmıştır. <br>
+                                                        Referans: {{ $order->isReference->name }} -
+                                                        {{ $order->isReference->phone }}</strong>
+                                                @endif
+                                                @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
+                                                    <br>
+                                                    <span style="color:#EA2B2E"
+                                                        class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
+                                                        satın alındı
+                                                        !</span>
                                                 @endif
                                             </td>
                                             <td class="order_amount">{{ $order->amount }} <br>

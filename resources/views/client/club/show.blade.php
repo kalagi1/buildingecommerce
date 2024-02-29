@@ -80,7 +80,7 @@
 
                                                 <td>
                                                     <a
-                                                        href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                        href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['id'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                         <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                             alt="home-1" class="img-responsive"
                                                             style="height: 70px !important; object-fit: cover;width:100px">
@@ -166,7 +166,6 @@
 
 
                                                 <td>
-
                                                     @if ($item['item_type'] != 1)
                                                         @if ($item['housing']->step2_slug != 'gunluk-kiralik')
                                                             @if (isset(json_decode($item['housing']['housing_type_data'])->off_sale1[0]))
@@ -225,13 +224,23 @@
                                                             </script>
                                                         @endif
                                                     @else
-                                                        @if ($item['project_values']['off_sale[]'] != '[]')
-                                                            <button class="btn second-btn  mobileCBtn"
-                                                                style="background: #EA2B2E !important;width:100%;height:40px !important;color:White">
+                                                        @if (
+                                                            $item['project_values']['off_sale[]'] != '[]' &&
+                                                                $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                                            @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
+                                                                <button class="btn second-btn  mobileCBtn"
+                                                                    style="background: #EA2B2E !important;width:100%;height:40px !important;color:White">
 
-                                                                <span class="text">Satışa
-                                                                    Kapatıldı</span>
-                                                            </button>
+                                                                    <span class="text">Satışa
+                                                                        Kapatıldı</span>
+                                                                </button>
+                                                            @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
+                                                                <button class="btn second-btn  mobileCBtn"
+                                                                    style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%">
+                                                                    <span class="text">Satıldı</span>
+
+                                                                </button>
+                                                            @endif
                                                         @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                             <button class="btn second-btn  mobileCBtn"
                                                                 @if ($item['action'] == 'payment_await') style="background: orange !important;color:White;width:100%;height:40px !important;" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
@@ -309,7 +318,7 @@
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                         <div class="project-inner project-head">
                                             <a
-                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['id'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                 <div class="homes">
                                                     <div class="homes-img h-100 d-flex align-items-center"
                                                         style="width: 130px; height: 128px;">
@@ -325,7 +334,7 @@
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                             <a style="text-decoration: none;height:100%"
-                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['slug'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', [$item['project']['id'], $item['room_order']]) : route('housing.show', [$item['housing']['id']]) }}">
                                                 <div class="d-flex" style="gap: 8px;justify-content:space-between">
 
                                                     <h4>
@@ -409,17 +418,26 @@
                                                             </script>
                                                         @endif
                                                     @else
-                                                        @if ($item['project_values']['off_sale[]'] != '[]')
-                                                            <button class="btn second-btn  mobileCBtn"
-                                                                style="background: #EA2B2E !importantcolor:White">
+                                                        @if (
+                                                            $item['project_values']['off_sale[]'] != '[]' &&
+                                                                $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                                            @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
+                                                                <button class="btn second-btn  mobileCBtn"
+                                                                    style="background: #EA2B2E !importantcolor:White">
 
-                                                                <span class="text">Satışa Kapatıldı</span>
-                                                            </button>
+                                                                    <span class="text">Satışa Kapatıldı</span>
+                                                                </button>
+                                                            @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
+                                                                <button class="btn second-btn"
+                                                                    style="background: #EA2B2E !important; color: White; height: auto !important">
+                                                                    <span class="text">Satıldı</span>
+                                                                </button>
+                                                            @endif
                                                         @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                             <button class="btn second-btn  mobileCBtn"
                                                                 @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
                                                                 @if ($item['action'] == 'payment_await')
-                                                                    <span class="text">Onay Bekleniyor</span>
+                                                                    <span class="text">Rezerve Edildi</span>
                                                                 @else
                                                                     <span class="text">Satıldı</span>
                                                                 @endif
