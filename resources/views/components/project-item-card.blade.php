@@ -59,8 +59,11 @@
                                     @foreach (['column1', 'column2', 'column3'] as $column)
                                         @php
                                             $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                                            $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
-                                            $column_name_exists = $column_name && isset($projectHousingsList[$i + 1][$column_name . '[]']);
+                                            $column_additional =
+                                                $project->listItemValues->{$column . '_additional'} ?? '';
+                                            $column_name_exists =
+                                                $column_name &&
+                                                isset($projectHousingsList[$i + 1][$column_name . '[]']);
                                         @endphp
 
                                         @if ($column_name_exists)
@@ -81,9 +84,11 @@
                                         @php
                                             $off_sale_check = $projectHousingsList[$i + 1]['off_sale[]'] == '[]';
                                             $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
-                                            $number_of_share = $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
+                                            $number_of_share =
+                                                $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
                                             $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                            $discounted_price = $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
+                                            $discounted_price =
+                                                $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
                                         @endphp
 
                                         @if (isset($share_sale) && $share_sale != '[]' && $share_sale == '["Var"]')
@@ -245,36 +250,28 @@
                                     </span>
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == "[]") || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == '[]') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                         order="{{ $i + 1 }}">
                                         Ödeme Detayı
                                     </button>
                                 @endif
                             @else
+                                @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                    <button class="first-btn payment-plan-button" data-toggle="modal"
+                                        data-target="#exampleModal{{ $i + 1 }}">
+                                        Teklif Ver
+                                    </button>
+                                @else
+                                    <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        order="{{ $i + 1 }}">
+                                        Ödeme Detayı
+                                    </button>
+                                @endif
 
-                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
-                                <button class="first-btn payment-plan-button" data-toggle="modal" data-target="#exampleModal{{ $i+1 }}">
-                                   Teklif Ver
-                                </button>
 
-                            @else
-                                <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-<<<<<<< HEAD
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-=======
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == "[]") || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
->>>>>>> aa918b1f14c5038606b1dc858a697e4ef3b142c8
-                                    order="{{ $i + 1 }}">
-                                    Ödeme Detayı
-                                </button> 
+
                             @endif
-<<<<<<< HEAD
-                            
-
-                              
-                            @endif
-=======
->>>>>>> aa918b1f14c5038606b1dc858a697e4ef3b142c8
 
                             @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
                                 <button class="btn second-btn"
@@ -283,14 +280,14 @@
                                 </button>
                             @else
                                 @if (
-                                    ($sold && $sold->status != '2' && $share_sale == "[]") ||
+                                    ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                         (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                     <button class="btn second-btn"
                                         @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
-                                        @if ($sold->status == '0' && $share_sale == "[]")
+                                        @if ($sold->status == '0' && $share_sale == '[]')
                                             <span class="text">Rezerve Edildi</span>
                                         @elseif (
-                                            ($sold->status == '1' && $share_sale == "[]") ||
+                                            ($sold->status == '1' && $share_sale == '[]') ||
                                                 (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                             <span class="text">Satıldı</span>
                                         @endif
@@ -316,152 +313,77 @@
 </div>
 
 
-<<<<<<< HEAD
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal{{ $i+1 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal{{ $i + 1 }}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Teklif Ver</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- Modal içeriği -->
-          <div class="card">
-            <div class="card-body">
-                <form method="POST" action="{{route('give_offer')}}">
-                    @csrf
-                    {{-- {{ $i+1 }} --}}
-                    <input type="hidden" value="{{ $i+1 }}" name="roomId">
-                    <input type="hidden" value="{{ $project->id }}" name="projectId">
-                    <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
-                    <div class="form-group">
-                        <label for="surname">Emailiniz : </label>
-                        <input type="text" class="form-control" id="email" name="email" style="border: 1px solid gray">
-                    </div>
-                    <div class="form-group">
-                        <label for="offer_price">Fiyat Aralığı (TL):</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" style="border: 1px solid gray" id="offer_price_min" name="offer_price_min" placeholder="Minimum" aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon2">-</span>
-                            </div>
-                            <input type="text" class="form-control" style="border: 1px solid gray" id="offer_price_max" name="offer_price_max" placeholder="Maksimum" aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
-                        </div>
-                    </div>
-                    
-                    
-                    <div class="form-group">
-                        <label for="comment">Açıklama:</label>
-                        <textarea class="form-control" style="border: 1px solid gray" id="offer_description" rows="5" name="offer_description"></textarea>
-                    </div>
-           
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-                        <button type="submit" class="btn btn-primary">Gönder</button>
-                      </div>
-                  </form>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Teklif Ver</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-          </div>
-          
+            <div class="modal-body">
+                <!-- Modal içeriği -->
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('give_offer') }}">
+                            @csrf
+                            {{-- {{ $i+1 }} --}}
+                            <input type="hidden" value="{{ $i + 1 }}" name="roomId">
+                            <input type="hidden" value="{{ $project->id }}" name="projectId">
+                            <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
+                            <div class="form-group">
+                                <label for="surname">Emailiniz : </label>
+                                <input type="text" class="form-control" id="email" name="email"
+                                    style="border: 1px solid gray">
+                            </div>
+                            <div class="form-group">
+                                <label for="offer_price">Fiyat Aralığı (TL):</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" style="border: 1px solid gray"
+                                        id="offer_price_min" name="offer_price_min" placeholder="Minimum"
+                                        aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">-</span>
+                                    </div>
+                                    <input type="text" class="form-control" style="border: 1px solid gray"
+                                        id="offer_price_max" name="offer_price_max" placeholder="Maksimum"
+                                        aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="comment">Açıklama:</label>
+                                <textarea class="form-control" style="border: 1px solid gray" id="offer_description" rows="5"
+                                    name="offer_description"></textarea>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                                <button type="submit" class="btn btn-primary">Gönder</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-      
-      </div>
     </div>
-  </div>
+</div>
 
 
-  @section('css')
-     <style>
+@section('css')
+    <style>
         .form-control {
-            border-width: 9px; /* Kenarlık kalınlığını ayarla */
-            border-radius: 5px; /* Kenarlık köşe yarıçapını ayarla */
+            border-width: 9px;
+            /* Kenarlık kalınlığını ayarla */
+            border-radius: 5px;
+            /* Kenarlık köşe yarıçapını ayarla */
         }
-     </style>
- 
-  @endsection   
-=======
-<style>
-    .bar-chart {
-        width: 100%;
-        text-align: center;
-        margin-top: -16px !important;
-    }
-
-    .bar-chart .progress {
-        margin: 0 auto;
-        width: 400px;
-    }
-
-    .bar-chart .progress {
-        height: 15px !important;
-        width: 100% !important;
-        background: rgba(0, 0, 0, 0.25);
-        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
-    }
-
-    .bar-chart .progress-bar {
-        height: 15px;
-        background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
-        background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
-        background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
-        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
-        -webkit-transition: 0.4s linear;
-        -moz-transition: 0.4s linear;
-        -o-transition: 0.4s linear;
-        transition: 0.4s linear;
-        -webkit-transition-property: width, background-color;
-        -moz-transition-property: width, background-color;
-        -o-transition-property: width, background-color;
-        transition-property: width, background-color;
-        -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
-        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
-    }
-
-
-    .bar-chart .progress-bar {
-        width: 0%;
-        background-color: #274abb !important;
-    }
-
-    .bar-chart #twentyfive:checked~.progress>.progress-bar {
-        width: 25%;
-        background-color: #f27011;
-    }
-
-    .bar-chart #fifty:checked~.progress>.progress-bar {
-        width: 50%;
-        background-color: #f2b01e;
-    }
-
-    .bar-chart #seventyfive:checked~.progress>.progress-bar {
-        width: 75%;
-        background-color: #f2d31b;
-    }
-
-    .bar-chart #onehundred:checked~.progress>.progress-bar {
-        width: 100%;
-        background-color: #86e01e;
-    }
-
-    .bar-chart .radio {
-        display: none;
-    }
-
-    .bar-chart .label {
-        display: inline-block;
-        color: #aaa;
-        text-shadow: 0 1px black;
-        cursor: pointer;
-    }
-
-    .bar-chart .radio:checked+.label {
-        color: white;
-        background: rgba(0, 0, 0, 0.25);
-    }
-</style>
->>>>>>> aa918b1f14c5038606b1dc858a697e4ef3b142c8
+    </style>
+@endsection
