@@ -290,7 +290,7 @@
                                     <span class="text">Satışa Kapatıldı</span>
                                 </button>
                             @else
-                            {{$share_sale}}
+                            {{$share_sale}} adsds
                                 @if (
                                     ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                         (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
