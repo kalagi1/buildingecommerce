@@ -52,16 +52,19 @@
                             </li>
                         @endforeach
                     </ul>
+                    @php 
+                        $lastCountx = 0;
+                    @endphp
                     @foreach ($project->blocks as $key => $block)
                         <div class="tab-pane fade{{ $loop->first ? ' active show' : '' }}" id="tab-{{ $block['id'] }}"
                             role="tabpanel" aria-labelledby="{{ $block['id'] }}-tab">
                             @php
                                 $j = -1;
                                 $blockHousingCount = $block['housing_count'];
-
+                                
                                 if ($key > 0) {
                                     $previousBlockHousingCount = $project->blocks[$key - 1]['housing_count'];
-                                    $i = $previousBlockHousingCount;
+                                    $i = $lastCountx;
                                     $j = -1;
                                     $blockHousingCount += $previousBlockHousingCount;
                                 } else {
@@ -73,7 +76,7 @@
                                 <table class="table fs--1 mb-0">
                                     <thead>
                                         <tr>
-                                            <th><input type="checkbox"></th>
+                                            <th><input type="checkbox" class="all-select"></th>
                                             <th>No.</th>
                                             <th>Görsel</th>
                                             <th class="sort" data-sort="room_count">İlan Adı</th>
@@ -87,7 +90,7 @@
                                     </thead>
 
                                     <tbody class="list" id="products-table-body">
-                                        @for (; $i < $blockHousingCount; $i++)
+                                        @for (; $i < $lastCountx + $block['housing_count']; $i++)
                                             @php
                                                 $j++;
                                                 $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
@@ -96,7 +99,8 @@
                                             @endphp
 
                                             <tr>
-                                                <td><input type="checkbox"></td>
+                                                <td><input type="checkbox" class="item-checkbox" item-id="{{  $i + 1 }}"
+                                                    name="" id=""></td>
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
                                                     <div class="image-with-hover">
@@ -337,6 +341,9 @@
                                 </table>
                             </div>
                         </div>
+                        @php 
+                            $lastCountx += isset($previousBlockHousingCount) ? $previousBlockHousingCount :  $block['housing_count'];
+                        @endphp
                     @endforeach
                 @else
                     <div class="table-responsive scrollbar mx-n1 px-1">

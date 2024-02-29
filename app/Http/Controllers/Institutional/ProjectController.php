@@ -49,9 +49,21 @@ class ProjectController extends Controller
     public function setSelectedData(Request $request,$projectId){
         $orders = explode(',',$request->input('selected-items'));
         foreach($orders as $order){
-            ProjectHousing::where('project_id',$projectId)->where('room_order',$order)->where('name',$request->input('transaction-type')."[]")->update([
-                "value" => str_replace('.','',$request->input('new_data'))
-            ]);
+            $hasData = ProjectHousing::where('project_id',$projectId)->where('room_order',$order)->where('name',$request->input('transaction-type')."[]")->first();
+
+            if($hasData){
+                ProjectHousing::where('project_id',$projectId)->where('room_order',$order)->where('name',$request->input('transaction-type')."[]")->update([
+                    "value" => str_replace('.','',$request->input('new_data'))
+                ]);
+            }else{
+                ProjectHousing::create([
+                    "project_id" => $projectId,
+                    "room_order" => $order,
+                    "name" => $request->input('transaction-type')."[]",
+                    "value" => str_replace('.','',$request->input('new_data')),
+                    "key" => $request->input('transaction-type')."[]"
+                ]);
+            }
         }
         Session::flash('status', 'update_selected_items');
         return redirect()->route('institutional.projects.housings',$projectId);
