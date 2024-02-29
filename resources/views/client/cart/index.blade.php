@@ -470,7 +470,7 @@
 
                                     </div>
 
-                                    @if ($cart['type'] == 'project')
+                                    @if ($cart['type'] == 'project' && empty($share_sale) && isset($share_sale))
                                         <div class="d-flex align-items-center mb-3">
                                             <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
                                             <i class="fa fa-info-circle ml-2"
