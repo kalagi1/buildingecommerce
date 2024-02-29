@@ -157,7 +157,7 @@ class EstateClubController extends Controller {
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz onaylandı!',
                 'item_id' => $user->parent_id ?? $user->id,
-                'link' => route('project.housings.detail', ["projectSlug" => $user->project->slug, "id" => $user->housing]),
+                'link' => route('project.housings.detail', ["projectID" => $user->project->id, "id" => $user->housing]),
                 'owner_id' => $user->parent_id ?? $user->id,
                 'is_visible' => true,
             ]);
@@ -174,7 +174,7 @@ class EstateClubController extends Controller {
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz reddeildi!',
                 'item_id' => $user->parent_id ?? $user->id,
-                'link' => route('project.housings.detail', ["projectSlug" => $user->project->slug, "id" => $user->housing]),
+                'link' => route('project.housings.detail', ["projectID" => $user->project->id, "id" => $user->housing]),
                 'owner_id' => $user->parent_id ?? $user->id,
                 'is_visible' => true,
             ]);

@@ -226,7 +226,7 @@
                             <div class="project-card mb-3">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}"
+                                        <a href="{{ route('project.housings.detail', [$project->id, $i + 1]) }}"
                                             style="height: 100%">
                                             <div class="d-flex" style="height: 100%;">
                                                 <div
@@ -405,7 +405,7 @@
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
                                                     <button class="first-btn payment-plan-button"
-                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}
+                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' ? '1' : '0' }}
                                                         project-id="{{ $project->id }}"
                                                         order="{{ $i }}">
                                                         Ödeme Detayları </button>
@@ -463,7 +463,7 @@
                     <div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
-                                <a href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                <a href="{{ route('project.housings.detail', [$project->id, $room_order]) }}">
                                     <div class="homes">
                                         <!-- homes img -->
                                         <div class="homes-img h-100 d-flex align-items-center"
@@ -479,7 +479,7 @@
                         <div class="w-100" style="padding-left:0;">
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
-                                    href="{{ route('project.housings.detail', [$project->slug, $room_order]) }}">
+                                    href="{{ route('project.housings.detail', [$project->id, $room_order]) }}">
                                     <h3>
                                         @php($advertiseTitle = $projectHousingsList[$i + 1]['advertise_title[]'] ?? null)
 

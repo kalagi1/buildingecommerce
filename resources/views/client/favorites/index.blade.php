@@ -63,7 +63,7 @@
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ route('project.housings.detail', [$project->slug, $housingId]) }}">
+                                                href="{{ route('project.housings.detail', [$project->id, $housingId]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingId)->value }}"
                                                     class="img-fluid">
@@ -72,7 +72,7 @@
                                         <td>
                                             <div class="inner">
                                                 <a
-                                                    href="{{ route('project.housings.detail', [$project->slug, $housingId]) }}">
+                                                    href="{{ route('project.housings.detail', [$project->id, $housingId]) }}">
                                                
                                                     <h2>{{ $project->project_title }} Projesinde {{$housingId }} No'lu {{$project->step1_slug}}<br>
                                                         <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}

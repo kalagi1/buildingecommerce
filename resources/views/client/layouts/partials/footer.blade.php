@@ -101,7 +101,7 @@
 
 <div class="button-container">
 
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('client.login')))) : route('client.login') }}"
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? route('institutional.index') : (Auth::user()->type == 3 ? route('admin.index') : route('institutional.index')))) : route('client.login') }}"
         class="button">
         <button class="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 1024 1024"
@@ -131,7 +131,7 @@
     </a>
 
 
-    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? 'javascript:void(0)' : 'javascript:void(0)'))) : route('client.login') }}"
+    <a href="{{ Auth::check() ? (Auth::user()->type == 1 ? route('institutional.index') : (Auth::user()->type == 2 ? url('institutional/create_project_v2') : (Auth::user()->type == 3 ? route('real.estate.index') : route('real.estate.index')))) : route('client.login') }}"
         class="button" class="{{ Auth::check() ? (Auth::user()->type != 3 ? 'd-block' : 'd-none') : '' }}">
         <button class="button">
             <svg viewBox="0 0 24 24" width="1em" height="1em" stroke="currentColor" stroke-width="2"
@@ -571,8 +571,8 @@
                             }
 
                             if (paymentPlanData[0] != "pesin") {
-                            paymentPlanData.reverse();
-                                
+                                paymentPlanData.reverse();
+
                             }
 
 
@@ -663,10 +663,10 @@
                                     if (!isMobile || isNotEmpty(formatPrice(priceData))) {
 
                                         if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
-                                            html += "<td><strong>"  + (
+                                            html += "<td><strong>" + (
                                                 isMobile ? paymentPlanDatax[
-                                                    paymentPlanData[j]] + " " 
-                                                    + installementData + " Ay " +
+                                                    paymentPlanData[j]] + " " +
+                                                installementData + " Ay " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
                                         } else {
@@ -750,7 +750,8 @@
                                                             "") +
                                                         formatPrice(parseFloat(getDataJS(response,
                                                             "pay_desc_price" + (
-                                                                orderHousing) + l, response.room_info[
+                                                                orderHousing) + l, response
+                                                            .room_info[
                                                                 i]
                                                             .room_order))) + "₺" +
                                                         (isMobile ? " <br>" : "<br>") +
@@ -790,7 +791,7 @@
         }
 
     })
-   
+
     $(document).ready(function() {
         const searchInput = $(".search-input");
         const suggestions = $(".header-search__suggestions");
@@ -1046,6 +1047,8 @@
 
             var button = event.target;
             var productId = $(this).data("id");
+            var isShare = $(this).data("share");
+            var numbershare = $(this).data("number-share");
             var project = null;
 
             if ($(this).data("type") == "project") {
@@ -1055,11 +1058,15 @@
 
             var cart = {
                 id: productId,
+                isShare: isShare,
+                numbershare: parseInt(numbershare, 10), // Parse numbershare to an integer
+                qt: 1,
                 type: $(this).data("type"),
                 project: project,
                 _token: "{{ csrf_token() }}",
-                clear_cart: "no" // Varsayılan olarak sepeti temizleme işlemi yok
+                clear_cart: "no"
             };
+
 
 
             if (isProductInCart(productId, project)) {

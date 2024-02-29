@@ -47,7 +47,7 @@
                             <div class="project-card mb-3">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a href="{{ route('project.housings.detail', [$project->slug, $items[$i]->room_order]) }}" style="height: 100%">
+                                        <a href="{{ route('project.housings.detail', [$project->id, $items[$i]->room_order]) }}" style="height: 100%">
                                             <div class="d-flex" style="height: 100%;">
                                                 <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                                     <div class="project-inner project-head">

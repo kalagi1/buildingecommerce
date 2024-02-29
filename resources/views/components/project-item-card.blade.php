@@ -7,13 +7,14 @@
     'lastHousingCount',
     'projectDiscountAmount',
     'bankAccounts',
+    'sumCartOrderQt',
 ])
 
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route('project.housings.detail', [$project->slug, $i + 1]) }}" style="height: 100%">
+                <a href="{{ route('project.housings.detail', [$project->id, $i + 1]) }}" style="height: 100%">
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                             <p
@@ -75,61 +76,48 @@
                                 @endif
                                 @endforeach
 
-
                                 <li class="the-icons mobile-hidden">
-                                    <span>
+                                    <span style="width:100%;text-align:center">
                                         @php
                                             $off_sale_check = $projectHousingsList[$i + 1]['off_sale[]'] == '[]';
+                                            $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
+                                            $number_of_share = $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
                                             $sold_check = $sold && in_array($sold->status, ['1', '0']);
                                             $discounted_price = $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
                                         @endphp
 
-                                        @if ($off_sale_check)
-                                            @if ($sold_check)
-                                                @if ($sold->status != '1' && $sold->status != '0')
-                                                    @if ($projectDiscountAmount)
-                                                        <h6
-                                                            style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                            {{ number_format($discounted_price, 0, ',', '.') }} ₺
-                                                        </h6>
-                                                        <h6
-                                                            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                                            ₺
-                                                        </h6>
-                                                    @else
-                                                        <h6
-                                                            style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                            {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                                            ₺
-                                                        </h6>
-                                                    @endif
-                                                @else
-                                                @endif
-                                            @else
-                                                @if ($projectDiscountAmount)
-                                                    <h6
-                                                        style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
-                                                        {{ number_format($discounted_price, 0, ',', '.') }} ₺
-                                                    </h6>
-                                                    <h6
-                                                        style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                                        ₺
-                                                    </h6>
-                                                @else
-                                                    <h6
-                                                        style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                        {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
-                                                        ₺
-                                                    </h6>
-                                                @endif
+                                        @if (isset($share_sale) && $share_sale != '[]' && $share_sale == '["Var"]')
 
+                                            <span class="text-center w-100">
+                                                @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
+                                                    {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
+                                                @else
+                                                    0
+                                                @endif / {{ $number_of_share }}
+                                            </span>
+                                        @endif
 
-                                            @endif
+                                        @if ($off_sale_check && $projectDiscountAmount)
+                                            <h6
+                                                style="color: #274abb;position: relative;top:4px;font-weight:600;font-size:15px;">
+                                                {{ isset($share_sale) && $share_sale != '[]' ? number_format($discounted_price / $number_of_share, 0, ',', '.') : number_format($discounted_price, 0, ',', '.') }}
+                                                ₺
+                                            </h6>
+                                            <h6
+                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                                                {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </h6>
+                                        @elseif ($off_sale_check)
+                                            <h6
+                                                style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                {{ isset($share_sale) && $share_sale != '[]' ? number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') : number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </h6>
                                         @endif
                                     </span>
                                 </li>
+
 
                             </ul>
                         </div>
@@ -161,6 +149,30 @@
                                 @endif
                             </span>
                         </div>
+                        @php
+                            // Example: Set a default value for $maxQtTotal
+                            $maxQtTotal = 100; // Set the appropriate default value
+
+                            // OR check if $maxQtTotal is defined
+                            if (!isset($maxQtTotal)) {
+                                $maxQtTotal = 100; // Set the appropriate default value
+                            }
+                        @endphp
+
+                        @if (isset($share_sale) && $share_sale != '[]')
+                            <div class="bar-chart">
+                                <div class="progress">
+                                    <div class="progress-bar"
+                                        @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$i + 1]['qt_total'] }}% !important"
+                                    @else
+                                        style="width: 0% !important" @endif>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+
+
                     </div>
 
                     <div class="col-md-3 mobile-hidden" style="height: 100px; padding: 0">
@@ -231,10 +243,16 @@
                                         </span>
 
                                     </span>
+                                @else
+                                    <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == "[]") || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        order="{{ $i + 1 }}">
+                                        Ödeme Detayı
+                                    </button>
                                 @endif
                             @else
                                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == "[]") || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                     order="{{ $i + 1 }}">
                                     Ödeme Detayı
                                 </button>
@@ -246,19 +264,24 @@
                                     <span class="text">Satışa Kapatıldı</span>
                                 </button>
                             @else
-                                @if ($sold && $sold->status != '2')
+                                @if (
+                                    ($sold && $sold->status != '2' && $share_sale == "[]") ||
+                                        (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                     <button class="btn second-btn"
                                         @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
-                                        @if ($sold->status == '0')
-                                            <span class="text">Onay Bekleniyor</span>
-                                        @else
+                                        @if ($sold->status == '0' && $share_sale == "[]")
+                                            <span class="text">Rezerve Edildi</span>
+                                        @elseif (
+                                            ($sold->status == '1' && $share_sale == "[]") ||
+                                                (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                             <span class="text">Satıldı</span>
                                         @endif
                                     </button>
                                 @else
                                     <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                         data-project='{{ $project->id }}' style="height: auto !important"
-                                        data-id='{{ $i + 1 }}'>
+                                        data-id='{{ $i + 1 }}' data-share="{{ $share_sale }}"
+                                        data-number-share="{{ $number_of_share }}">
                                         <span class="IconContainer">
                                             <img src="{{ asset('sc.png') }}" alt="">
                                         </span>
@@ -273,3 +296,85 @@
         </div>
     </div>
 </div>
+
+
+<style>
+    .bar-chart {
+        width: 100%;
+        text-align: center;
+        margin-top: -16px !important;
+    }
+
+    .bar-chart .progress {
+        margin: 0 auto;
+        width: 400px;
+    }
+
+    .bar-chart .progress {
+        height: 15px !important;
+        width: 100% !important;
+        background: rgba(0, 0, 0, 0.25);
+        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .bar-chart .progress-bar {
+        height: 15px;
+        background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+        -webkit-transition: 0.4s linear;
+        -moz-transition: 0.4s linear;
+        -o-transition: 0.4s linear;
+        transition: 0.4s linear;
+        -webkit-transition-property: width, background-color;
+        -moz-transition-property: width, background-color;
+        -o-transition-property: width, background-color;
+        transition-property: width, background-color;
+        -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+
+    .bar-chart .progress-bar {
+        width: 0%;
+        background-color: #274abb !important;
+    }
+
+    .bar-chart #twentyfive:checked~.progress>.progress-bar {
+        width: 25%;
+        background-color: #f27011;
+    }
+
+    .bar-chart #fifty:checked~.progress>.progress-bar {
+        width: 50%;
+        background-color: #f2b01e;
+    }
+
+    .bar-chart #seventyfive:checked~.progress>.progress-bar {
+        width: 75%;
+        background-color: #f2d31b;
+    }
+
+    .bar-chart #onehundred:checked~.progress>.progress-bar {
+        width: 100%;
+        background-color: #86e01e;
+    }
+
+    .bar-chart .radio {
+        display: none;
+    }
+
+    .bar-chart .label {
+        display: inline-block;
+        color: #aaa;
+        text-shadow: 0 1px black;
+        cursor: pointer;
+    }
+
+    .bar-chart .radio:checked+.label {
+        color: white;
+        background: rgba(0, 0, 0, 0.25);
+    }
+</style>

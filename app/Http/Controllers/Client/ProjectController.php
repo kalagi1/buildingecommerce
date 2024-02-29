@@ -38,15 +38,54 @@ class ProjectController extends Controller
         ->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
 
+        $sumCartOrderQt = DB::table('cart_orders')
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+        )
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get();
+
+    
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+        ->mapWithKeys(function ($group) {
+            return [
+                $group->first()->housing_id => [
+                    'housing_id' => $group->first()->housing_id,
+                    'qt_total' => $group->sum('qt'),
+                ]
+            ];
+        })
+        ->all();
+    
+    
+
+    
 
         $projectCartOrders = DB::table('cart_orders')
-        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+            'cart_orders.status',
+            'cart_orders.user_id',
+            'cart_orders.store_id',
+            'cart_orders.is_show_user',
+            'cart_orders.id',
+            'users.name',
+            'users.phone'
+        )
         ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
         ->get()
         ->keyBy("housing_id");
+    
+
 
 
         $salesCloseProjectHousingCount = ProjectHousing::where('name','off_sale[]')->where('project_id',$project->id)->where('value','!=','[]')->count();
@@ -95,7 +134,7 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
         
-        return view('client.projects.index', compact("pageInfo","bankAccounts",'projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
+        return view('client.projects.index', compact("pageInfo","sumCartOrderQt","bankAccounts",'projectHousingsList','projectHousing','projectHousingSetting','parent','status','salesCloseProjectHousingCount','lastHousingCount','currentBlockHouseCount','menu', "offer", 'project','projectCartOrders','startIndex','blockIndex','endIndex'));
 
     }
     
@@ -622,23 +661,47 @@ class ProjectController extends Controller
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectSlug, $housingOrder,Request $request)
+    public function projectHousingDetail($projectID, $housingOrder,Request $request)
     {
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
-        $project = Project::where('slug', $projectSlug)->with("brand","neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project = Project::where('id', $projectID)->with("brand","neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
         $projectHousing = $project->roomInfo->keyBy('name');
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
         $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+
         $projectCartOrders = DB::table('cart_orders')
-        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+        ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, JSON_EXTRACT(cart, "$.item.qt") as qt, JSON_EXTRACT(cart, "$.item.qt") as qt, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
         ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
         ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
         ->get()
         ->keyBy("housing_id");
+        $sumCartOrderQt = DB::table('cart_orders')
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+        )
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get();
+
+    
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+        ->mapWithKeys(function ($group) {
+            return [
+                $group->first()->housing_id => [
+                    'housing_id' => $group->first()->housing_id,
+                    'qt_total' => $group->sum('qt'),
+                ]
+            ];
+        })
+        ->all();
+
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
@@ -681,7 +744,7 @@ class ProjectController extends Controller
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
 
-        return view('client.projects.project_housing', compact('pageInfo',"bankAccounts",'projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        return view('client.projects.project_housing', compact('pageInfo',"sumCartOrderQt","bankAccounts",'projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
 
     public function projectHousingDetailAjax($projectSlug,$housingOrder,Request $request)

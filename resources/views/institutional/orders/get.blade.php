@@ -87,6 +87,13 @@
                                                 {{ ' ' }}
                                                 {{ $project->step1_slug }}
                                             @endif
+                                            @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
+                                            <br>
+                                            <span style="color:#EA2B2E"
+                                                class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
+                                                satın alındı
+                                                !</span>
+                                        @endif
                                         </td>
                                         <td
                                             class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
