@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     @if (isset($pageInfo))
@@ -11,15 +11,11 @@
         <meta name="description" content="{{ $pageInfo->meta_description }}">
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
-    @else
-        <meta name="description" content="Maliyetine Ev">
-        <meta name="author" content="">
-        <title>Maliyetine Ev</title>
     @endif
 
 
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800" rel="stylesheet">
@@ -41,28 +37,299 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
     @yield('styles')
+
+
+    <style>
+        .notification-card.unread {
+            background-color: #eff2f6;
+        }
+
+        .notification-card {
+            cursor: pointer;
+        }
+
+        .box::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+            border-radius: 5px
+        }
+
+        .box::-webkit-scrollbar {
+            width: 7px;
+            background-color: #F5F5F5;
+            border-radius: 5px
+        }
+
+        .box::-webkit-scrollbar-thumb {
+            background-color: #787373;
+            border: 1px solid rgba(0, 0, 0, .03);
+            border-radius: 5px
+        }
+
+
+        .icons {
+            display: inline;
+            float: right
+        }
+
+        .notification {
+            padding-top: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .number {
+            height: 22px;
+            width: 22px;
+            background-color: #d63031;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            position: absolute;
+            top: 1px;
+            left: 27px;
+            display: flex;
+            padding: 0;
+            font-size: 10px;
+            border-style: solid;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number:empty {
+            display: none;
+        }
+
+        .notBtn {
+            transition: 0.5s;
+            cursor: pointer
+        }
+
+        .fa-bell {
+            font-size: 18px;
+            padding-bottom: 10px;
+            color: black;
+            margin-left: 20px;
+            margin-right: 20px;
+
+        }
+
+        .fs--1 {
+            text-align: left;
+            font-size: 11px !important;
+            line-height: 11px;
+            margin-bottom: 0 !important;
+        }
+
+        .box {
+            width: 300px;
+            z-index: 9999;
+            height: 300px !important;
+            height: 200px;
+            border-radius: 10px;
+            transition: 0.5s;
+            position: absolute;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 0px;
+            left: -74px;
+            margin-top: 5px;
+            background-color: #F4F4F4;
+            -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+            box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+            cursor: context-menu;
+        }
+
+        .fas:hover {
+            color: #d63031;
+        }
+
+
+        .gry {
+            background-color: #F4F4F4;
+        }
+
+        .top {
+            color: black;
+            padding: 10px
+        }
+
+
+        .cont {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #F4F4F4;
+        }
+
+        .cont:empty {
+            display: none;
+        }
+
+        .stick {
+            text-align: center;
+            display: block;
+            font-size: 50pt;
+            padding-top: 70px;
+            padding-left: 80px
+        }
+
+        .stick:hover {
+            color: black;
+        }
+
+        .cent {
+            text-align: center;
+            display: block;
+        }
+
+        .sec {
+            padding: 25px 10px;
+            background-color: #F4F4F4;
+            transition: 0.5s;
+        }
+
+        .profCont {
+            padding-left: 15px;
+        }
+
+        .profile {
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            width: 75px;
+            float: left;
+        }
+
+        .txt {
+            vertical-align: top;
+            font-size: 1.25rem;
+            padding: 5px 10px 0px 115px;
+        }
+
+        .sub {
+            font-size: 1rem;
+            color: grey;
+        }
+
+        .new {
+            border-style: none none solid none;
+            border-color: red;
+        }
+
+        .sec:hover {
+            background-color: #BFBFBF;
+        }
+
+        .filter-date {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .collectionTitle {
+            width: 100%;
+            display: block;
+            color: black;
+            font-size: 13px !important;
+        }
+
+        .circleIcon {
+            font-size: 5px !important;
+            color: #e54242 !important;
+            padding-right: 5px
+        }
+
+        .button-container {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .pro-wrapper {
+                text-align: center
+            }
+
+            .button-container {
+                z-index: 9999999;
+                position: fixed;
+                width: 100%;
+                bottom: 0;
+                display: flex;
+                background-color: #F7F7F7;
+                height: 60px;
+                align-items: center;
+                justify-content: space-around;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+                    rgba(245, 73, 144, 0.5) 5px 10px 15px;
+            }
+
+            .button-container .button {
+                outline: 0 !important;
+                border: 0 !important;
+                padding: 0 !important;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: black;
+                transition: all ease-in-out 0.3s;
+                cursor: pointer;
+                flex-direction: column;
+
+            }
+
+            .button-container .button span {
+                margin-top: 5px;
+                font-size: 11px
+            }
+
+            .button-container .button:hover {
+                transform: translateY(-3px);
+            }
+
+            .button-container .icon {
+                font-size: 18px;
+            }
+        }
+    </style>
+
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
     <!-- Wrapper -->
     <div id="wrapper">
-        <div class="home-top-banner d-xl-block d-none d-lg-block">
-            <img src="https://cdn.dsmcdn.com/mrktng/crm/2023/top/jul/t1.jpg" alt="Home Top Banner Görseli">
-        </div>
+        @if (request()->routeIs('index'))
+            <div class="slick-lancersl">
+                @foreach ($adBanners as $adBanner)
+                    <div class="home-top-banner d-xl-block d-none d-lg-block"
+                        style="background-color: {{ $adBanner->background_color }};padding:0 !important">
+                        <img src="{{ asset("storage/{$adBanner->image}") }}" alt="Reklam Bannerı">
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
         <!-- START SECTION HEADINGS -->
         <!-- Header Container
         ================================================== -->
+
         <header id="header-container">
             <div class="container">
                 <div class="header-center">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center" style="padding-top:12px !important">
                         <div class="leftSide">
                             <div class="mmenu-trigger d-xl-none d-block d-lg-none ">
                                 <button class="hamburger hamburger--collapse" type="button">
@@ -72,124 +339,395 @@
                                 </button>
                             </div>
                             <div id="logo">
-                                <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
-                                        alt=""></a>
+                                <a href="{{ route('index') }}"><img
+                                        src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt=""></a>
+                            </div>
+
+                        </div>
+                        <div class="center position-relative searchInput">
+                            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+                                @csrf
+                                <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
+                                    <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
+                                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"
+                                        onclick="return validateForm()"></button>
+                                </div>
+                            </form>
+
+                            <script>
+                                function validateForm() {
+                                    var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;
+                                    if (searchTerm.trim() === "") {
+                                        return false; // Form post edilmez
+                                    }
+                                    return true; // Form post edilir
+                                }
+                            </script>
+
+
+                            <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
+                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px;z-index:9999;max-height: 269px;
+                                overflow-y: scroll;">
                             </div>
                         </div>
-                        <div class="center">
-                            <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
-                                <input type="text" placeholder="Ara ..">
-                                <i class="fa fa-search"></i>
-                            </div>
-                        </div>
-                        <div class="rightSide">
+                        <div class="rightSide d-xl-block d-none d-lg-block ">
                             <div class="header-widget d-flex">
-                                @if (Auth::user())
-                                    @if (Auth::user()->type == 1)
-                                        <a href="{{ route('client.index') }}"  class="userIcon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                                stroke-width="2" fill="none" stroke-linecap="round"
-                                                stroke-linejoin="round" class="css-i6dzq1">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
-                                    @elseif (Auth::user()->type == 2)
-                                        <a href="{{ route('institutional.index') }}" target="_blank" class="userIcon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24"
-                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
-                                    @elseif (Auth::user()->type == 3)
-                                        <a href="{{ route('admin.index') }}" target="_blank" class="userIcon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24"
-                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                            <span class="d-xl-block d-none d-lg-block rightNavText">Hesabım</span> </a>
+
+                                @auth
+                                    @php
+                                        $notifications = App\Models\DocumentNotification::with('user')
+                                            ->orderBy('created_at', 'desc')
+                                            ->where("readed",0)
+                                            ->where('owner_id', Auth::user()->id)
+                                            ->limit(10)
+                                            ->get();
+                                    @endphp
+
+
+                                    @if (auth()->user()->type == 1)
+                                        @include('client.layouts.partials.dropdown_user_icon', [
+                                            'mainLink' => 'Hesabım',
+                                            'links' => [
+                                                [
+                                                    'url' => route('institutional.index'),
+                                                    'icon' => 'fa-user',
+                                                    'text' => 'Hesabım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.sharer.index'),
+                                                    'icon' => 'fa-bookmark',
+                                                    'text' => 'Koleksiyonlarım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.profile.cart-orders'),
+                                                    'icon' => 'fa-shopping-cart',
+                                                    'text' => 'Siparişlerim',
+                                                ],
+                                                [
+                                                    'url' => route('favorites'),
+                                                    'icon' => 'fa-heart',
+                                                    'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('client.logout'),
+                                                    'icon' => 'fa-sign-out',
+                                                    'text' => 'Çıkış Yap',
+                                                ],
+                                            ],
+                                        ])
+
+                                        <a href="{{ route('cart') }}"
+                                            style="    border-left: 1px solid #666;
+                                        padding-left: 15px;
+                                        border-right: 1px solid #666;
+                                        padding-right: 15px;
+                                    }">
+                                            @include('client.layouts.partials.cart_icon', [
+                                                'text' => 'Sepetim',
+                                            ])
+                                        </a>
+                                    @elseif (auth()->user()->type != 1 && auth()->user()->parent_id != 4 && auth()->user()->type != 3 && auth()->user()->type != 21)
+                                        @include('client.layouts.partials.dropdown_user_icon', [
+                                            'mainLink' => 'Mağazam',
+                                            'links' => [
+                                                [
+                                                    'url' => route('institutional.index'),
+                                                    'icon' => 'fa-user',
+                                                    'text' => 'Hesabım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.projects.index'),
+                                                    'icon' => 'fa-home',
+                                                    'text' => 'İlanlarım',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.sharer.index'),
+                                                    'icon' => 'fa-bookmark',
+                                                    'text' => 'Koleksiyonlarım',
+                                                ],
+                                                [
+                                                    'url' => url('institutional/ilan-tipi-sec'),
+                                                    'icon' => 'fa-plus',
+                                                    'text' => 'İlan Ekle',
+                                                ],
+                                                [
+                                                    'url' => route('institutional.profile.cart-orders'),
+                                                    'icon' => 'fa-shopping-cart',
+                                                    'text' => 'Siparişlerim',
+                                                ],
+                                                [
+                                                    'url' => route('favorites'),
+                                                    'icon' => 'fa-heart',
+                                                    'text' => 'Favorilerim',
+                                                ],
+                                                [
+                                                    'url' => route('client.logout'),
+                                                    'icon' => 'fa-sign-out',
+                                                    'text' => 'Çıkış Yap',
+                                                ],
+                                            ],
+                                        ])
+                                        <a href="{{ route('cart') }}"
+                                            style="border-left: 1px solid #666;
+                                         padding-left: 15px;
+                                         border-right: 1px solid #666;
+                                         padding-right: 15px;">
+                                            @include('client.layouts.partials.cart_icon', [
+                                                'text' => 'Sepetim',
+                                            ])
+                                        </a>
+                                    @elseif (auth()->user()->type == 3 || auth()->user()->parent_id == 4)
+                                    @include('client.layouts.partials.dropdown_user_icon', [
+                                        'mainLink' => 'Yönetim',
+                                        'links' => [
+                                            [
+                                                'url' => route('admin.index'),
+                                                'icon' => 'fa-user',
+                                                'text' => 'Hesabım',
+                                            ],
+                                            [
+                                                'url' => route('client.logout'),
+                                                'icon' => 'fa-sign-out',
+                                                'text' => 'Çıkış Yap',
+                                            ],
+                                        ],
+                                    ])
                                     @endif
                                 @else
-                                    <a href="{{ route('client.login') }}" class="userIcon"><svg viewBox="0 0 24 24"
-                                            width="24" height="24" stroke="currentColor" stroke-width="2"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                            class="css-i6dzq1">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                            <circle cx="12" cy="7" r="4"></circle>
-                                        </svg>
-                                        <span class="d-xl-block d-none d-lg-block rightNavText">Giriş Yap</span></a>
+                                    <a href="{{ route('client.login') }}" class="userIcon">
+                                        @include('client.layouts.partials.user_icon', [
+                                            'text' => 'Giriş Yap',
+                                        ])
+                                    </a>
+                                    <a href="{{ route('cart') }}"
+                                        style="border-left: 1px solid #666;
+                                    padding-left: 15px;">
+                                        @include('client.layouts.partials.cart_icon', [
+                                            'text' => 'Sepetim',
+                                        ])
+                                    </a>
+                                @endauth
+
+
+                                @if (Auth::check())
+                                    <div class="notification">
+                                        <div class="notBtn">
+                                            @php
+                                                $unreadNotifications = $notifications->where('readed', 0);
+                                                $unreadCount = $unreadNotifications->count();
+                                            @endphp
+
+                                            @if ($unreadCount)
+                                                <div class="number">{{ $unreadCount }}</div>
+                                            @endif
+
+
+                                            <i class="fas fa-bell"></i>
+                                            <div class="box">
+                                                <div class="display">
+                                                    <div class="card position-relative border-0">
+                                                        <div class="card-header p-2">
+                                                            <div class="d-flex justify-content-between">
+                                                                <h5 class="text-black mb-0" style="font-size:12px">
+                                                                    Bildirimler</h5>
+                                                                    <a href="{{ route('markAllAsRead') }}" >
+                                                                        Tümünü Oku
+                                                                    </a>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="card-body p-0">
+                                                            <div class="scrollbar-overlay" style="height: 27rem;">
+                                                                <div class="border-300">
+                                                                    @if (count($notifications) == 0)
+                                                                        <span class="p-3 text-center">Bildirim
+                                                                            Yok</span>
+                                                                    @else
+                                                                        @foreach ($notifications as $notification)
+                                                                            <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{ $notification->readed == 0 ? 'unread' : 'read' }} border-bottom"
+                                                                                data-id="{{ $notification->id }}"
+                                                                                data-link="{{ $notification->link }}">
+                                                                                <div
+                                                                                    class="d-flex align-items-center justify-content-between position-relative">
+                                                                                    <div class="d-flex">
+                                                                                        <div class="avatar avatar-m status-online me-3"
+                                                                                            style="width:45px !important">
+                                                                                            <img class="rounded-circle avatar-placeholder"
+                                                                                                style="max-width:40px !important"
+                                                                                                src="https://prium.github.io/phoenix/v1.14.0/assets/img/team/40x40/avatar.webp"
+                                                                                                alt="">
+                                                                                        </div>
+                                                                                        <div class="flex-1 me-sm-3">
+                                                                                            <h4 class="fs-9 text-body-emphasis"
+                                                                                                style="font-size: 11px;text-align:left;margin-bottom:0 !important">
+                                                                                                {{ Auth::user()->name }}
+                                                                                            </h4>
+                                                                                            <p
+                                                                                                class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
+                                                                                                {!! $notification->text !!}
+                                                                                            </p>
+                                                                                            @php
+                                                                                                $notificationCreatedAt = $notification->created_at;
+                                                                                                date_default_timezone_set('Europe/Istanbul');
+                                                                                                $notificationCreatedAtDate = date('d.m.Y', strtotime($notificationCreatedAt));
+                                                                                                $notificationCreatedAtTime = date('H:i', strtotime($notificationCreatedAt));
+                                                                                                $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedAt));
+                                                                                            @endphp
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @php
+                                        $userType = Auth::user()->type;
+                                    @endphp
+
+                                    @php
+                                        $link = '';
+                                        $text = '';
+
+                                        switch ($userType) {
+                                            case 2:
+                                                $link = url('institutional/ilan-tipi-sec');
+                                                $text = 'İlan Ekle';
+                                                break;
+                                            case 3:
+                                                $link = url('qR9zLp2xS6y/secured/');
+                                                $text = 'Yönetim';
+                                                break;
+                                            default:
+                                                $link = url('sat-kirala/');
+                                                $text = 'Sat Kirala';
+                                        }
+                                    @endphp
+
+                                    <a href="{{ $link }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text">{{ $text }}</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button>
+                                    </a>
+                                @else
+                                    <a href="{{ route('real.estate.index') }}">
+                                        <button type="button" class="buyUserRequest ml-3">
+                                            <span class="buyUserRequest__text"> Sat Kirala</span>
+                                            <span class="buyUserRequest__icon">
+                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                            </span>
+                                        </button>
+                                    </a>
                                 @endif
 
-                                <a href="{{ route('favorites') }}" class="heartIcon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1">
-                                        <path
-                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                        </path>
-                                    </svg>
-                                    <span class="d-xl-block d-none d-lg-block rightNavText">Favoriler</span></a>
-                                <a href="{{ route('cart') }}">
-                                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
-                                        stroke-width="2" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" class="css-i6dzq1">
-                                        <circle cx="9" cy="21" r="1"></circle>
-                                        <circle cx="20" cy="21" r="1"></circle>
-                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6">
-                                        </path>
-                                    </svg>
-                                    <span class="d-xl-block d-none d-lg-block rightNavText">Sepetim</span></a>
+
+
+
                             </div>
                         </div>
-                    </div>
-                    <div class="input-group search d-xl-none d-lg-none d-flex">
-                        <input type="text" placeholder="Ara ..">
-                        <i class="fa fa-search"></i>
+
                     </div>
                 </div>
-                <div class="header-bottom d-xl-block d-none d-lg-block">
+                <div class="header-bottom d-xl-block d-none d-lg-block mb-0">
                     <nav id="navigation" class="style-1">
                         <ul id="responsive">
-                            @foreach ($menu as $key => $menuItem)
+                            @foreach ($menu as $menuItem)
                                 <li>
                                     <a href="{{ $menuItem['href'] }}">
                                         @if (!empty($menuItem['icon']))
-                                            <i class="{{ $menuItem['icon'] }}"></i> <!-- İkonu eklemek için -->
+                                            <i class="{{ $menuItem['icon'] }}"></i>
                                         @endif
                                         {{ $menuItem['text'] }}
-                                        @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
+                                        @if (!empty($menuItem['children']))
                                             <span class="caret"></span>
                                         @endif
-                                        @if ($key == 0 || $key == 3 || $key == 7)
-                                            <span class="new-badge">Yeni</span>
-                                        @endif
                                     </a>
-                                    @if (isset($menuItem['children']) && count($menuItem['children']) > 0)
-                                        <ul>
-                                            @foreach ($menuItem['children'] as $childItem)
-                                                <li>
-                                                    <a href="{{ $childItem['href'] }}">
-                                                        @if (!empty($childItem['icon']))
-                                                            <i class="{{ $childItem['icon'] }}"></i>
-                                                            <!-- İkonu eklemek için -->
-                                                        @endif
-                                                        {{ $childItem['text'] }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
+
+                                    @if (!empty($menuItem['children']))
+                                        @include('client.layouts.partials.menu-item', [
+                                            'items' => $menuItem['children'],
+                                        ])
                                     @endif
                                 </li>
                             @endforeach
+
+                            @foreach ($headerLinks as $link)
+                                <li>
+                                    <a href="{{ url('sayfa/' . $link->slug) }}">
+                                        {{ $link->meta_title }}
+                                    </a>
+                                </li>
+                            @endforeach
+                            <li class="club-items">
+                                <a href="{{ url('/emlak-kulup') }}">
+                                    <b style="font-weight:800 !important;display:flex">
+                                        <img style="" class="lazy entered loading clubStyles"
+                                            src="{{ url('emlakkulüplogo.png') }}" alt="Yeniler"
+                                            data-ll-status="loading">
+                                        EMLAK KULÜP</b>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
+
+
             </div>
 
 
         </header>
+        <div class=" d-lg-none search-style">
+            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+                @csrf
+                <div class="input-group search ml-3 d-xl-flex d-lg-flex"
+                    style="
+                    width: 100%;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+                padding: 0;
+                margin-left: 0 !important;">
+                    <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
+                    <button type="submit" class="fa fa-search btn btn-primary" id="search-icon"
+                        onclick="return validateForm()"></button>
+                </div>
+            </form>
+
+
+            <script>
+                function validateForm() {
+                    var searchTerm = document.getElementById("search-form").elements["searchTerm"].value;
+                    if (searchTerm.trim() === "") {
+                        return false; // Form post edilmez
+                    }
+                    return true; // Form post edilir
+                }
+            </script>
+
+            <div class="header-search-box flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
+                style="    top: 100%;
+                z-index: 100;
+                width: 100%;
+                gap: 12px;
+                max-height: 296px;
+                overflow-y: scroll;
+                margin-left: 0 !important;">
+            </div>
+
+        </div>
         <div class="clearfix"></div>
+
+        <div id="preloader">
+            <div id="status">
+                <div class="status-mes"></div>
+            </div>
+        </div>

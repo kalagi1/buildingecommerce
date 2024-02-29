@@ -25,7 +25,7 @@ class LoginController extends Controller
             // Check if the user's type is 3 (or the desired type)
             if ($user->type == 3) {
                 // Giriş başarılı
-                return redirect()->intended('/admin'); // Admin paneline yönlendir
+                return redirect()->intended('/qR9zLp2xS6y/secured/admin'); // Admin paneline yönlendir
             } else {
                 // Type 3 user restriction
                 Auth::logout();
@@ -39,6 +39,8 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/admin/login');
+        session()->forget('cart');
+
+        return redirect('/qR9zLp2xS6y/secured/login');
     }
 }

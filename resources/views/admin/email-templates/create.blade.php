@@ -9,13 +9,13 @@
                 <div class="mb-9">
                     <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                         @if (session()->has('success'))
-                            <div class="alert alert-success">
+                            <div class="alert alert-success text-white">
                                 {{ session()->get('success') }}
                             </div>
                         @endif
 
                         @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger text-white">
                                 <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -42,7 +42,7 @@
 
                                     <div class="col-md-12">
                                         <label class="form-label" for="body">Şablon İçeriği</label>
-                                        <textarea name="body" class="form-control" id="body" rows="20" required></textarea>
+                                        <textarea name="body" class="form-control" id="content" rows="20" required></textarea>
                                     </div>
 
                                     <div class="col-12">
@@ -61,14 +61,20 @@
 @endsection
 
 @section('scripts')
+<script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
+
 <script src="https://cdn.tiny.cloud/1/uzaxwtnfjkyj1l9egzl3mea3go0cq6xgmlkoanf5eb2jry8u/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-     tinymce.init({
-        selector: 'textarea#body', // Hedef elementin id'si
-        plugins: 'link code anchor autolink charmap codesample emoticons image lists media searchreplace table visualblocks wordcount', // İhtiyacınıza göre eklentileri ayarlayabilirsiniz
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        menubar: true,
-        branding: true
-    });
+     CKEDITOR.replace('content', {
+            filebrowserUploadUrl: "{{ route('admin.ckeditor.upload', ['_token' => csrf_token()]) }}",
+            filebrowserUploadMethod: 'form'
+        });
+    //  tinymce.init({
+    //     selector: 'textarea#body', // Hedef elementin id'si
+    //     plugins: 'link code anchor autolink charmap codesample emoticons image lists media searchreplace table visualblocks wordcount', // İhtiyacınıza göre eklentileri ayarlayabilirsiniz
+    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    //     menubar: true,
+    //     branding: true
+    // });
 </script>
 @endsection

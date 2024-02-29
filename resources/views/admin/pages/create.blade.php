@@ -7,13 +7,13 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Create Page</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Sayfa Oluştur</h4>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     @if ($errors->any())
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger text-white">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -25,35 +25,50 @@
                         <form action="{{ route('admin.pages.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="title">Page Title</label>
+                                <label class="form-label" for="title">Sayfa Başlığı</label>
                                 <input class="form-control" id="title" name="title" type="text"
-                                    placeholder="Page Title">
+                                    placeholder="Sayfa Başlığı">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="content">Page Content</label>
+                                <label class="form-label" for="content">Sayfa İçeriği</label>
                                 <textarea id="editor" name="content"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_title">Meta Title</label>
+                                <label class="form-label" for="meta_title">Meta Başlık</label>
                                 <input class="form-control" id="meta_title" name="meta_title" type="text"
-                                    placeholder="Meta Title">
+                                    placeholder="Meta Başlık">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_description">Meta Description</label>
+                                <label class="form-label" for="meta_description">Meta Açıklama</label>
                                 <textarea class="form-control" id="meta_description" name="meta_description" rows="3"
-                                    placeholder="Meta Description"></textarea>
+                                    placeholder="Meta Açıklama"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_keywords">Meta Keywords</label>
+                                <label class="form-label" for="meta_keywords">Meta Anahtar Kelimeler</label>
                                 <input class="form-control" id="meta_keywords" name="meta_keywords" type="text"
-                                    placeholder="Meta Keywords">
+                                    placeholder="Meta Anahtar Kelimeler">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="meta_author">Meta Author</label>
+                                <label class="form-label" for="meta_author">Meta Yazarı</label>
                                 <input class="form-control" id="meta_author" name="meta_author" type="text"
-                                    placeholder="Meta Author">
+                                    placeholder="Meta Yazarı">
                             </div>
-                            <button type="submit" class="btn btn-primary">Create Page</button>
+                            <div class="mb-3">
+                                <label class="form-label" for="loc">Konum</label>
+                                <select name="location" id="loc" class="form-control">
+                                    <option value="header">Header</option>
+                                    <option value="footer">Footer</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 footer-link-area" style="display: none;">
+                                <label for="link" class="form-label">Footer Widget:</label>
+                                <select name="widget" id="link" class="form-control">
+                                    @foreach ($footerLinks as $link)
+                                    <option value="{{$link->widget}}">{{$link->widget}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Sayfa Oluştur</button>
                         </form>
                     </div>
                 </div>
@@ -66,6 +81,15 @@
     <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor');
+    </script>
+    <script>
+        $('#loc').on('change', function()
+        {
+            if ($(this).val() == 'footer')
+                $('.footer-link-area').slideDown();
+            else
+                $('.footer-link-area').slideUp();
+        });
     </script>
     @stack('scripts')
 @endsection

@@ -1,12 +1,58 @@
 [
     {
-        "id": "account",
-        "label": "Hesabım & Yardım",
+        "id": "EmlakClubUsers",
+        "label": "Emlak Kulüp",
+        "icon": "users",
+        "text": "Üyelere Kupon Tanımla",
+        "key": "EmlakClubUsers",
+        "url": "institutional.estate.club.users",
+        "activePath": "/institutional/estate_club_users"
+    },
+    {
+        "id": "EmlakClubGift",
+        "label": "Emlak Kulüp",
+        "icon": "gift",
+        "text": "Kuponlarım",
+        "key": "EmlakClubGift",
+        "url": "institutional.estate.coupons",
+        "activePath": "/institutional/coupons"
+    },    {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
         "icon": "home",
-        "text": "Hesabım",
+        "text": "Gösterge Paneli",
         "key": "ViewDashboard",
         "url": "institutional.index",
-        "activePath": "institutional/"
+        "activePath": "/institutional"
+    },
+    {
+        "id": "projects",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "plus",
+        "text": "Proje İlanlarım",
+        "key": "Projects",
+        "url": "institutional.projects.index",
+        "activePath": "/institutional/projects"
+    },
+
+    {
+        "id": "projects",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "plus",
+        "text": "Emlak İlanlarım",
+        "key": "Housings",
+        "url": "institutional.housing.list",
+        "activePath": "/institutional/housings"
+    },
+
+    {
+        "id": "shopping-bag",
+        "label": "Emlak Kulüp",
+        "icon": "bookmark",
+        "text": "Koleksiyonlarım",
+        "key": "GetMyCollection",
+        "url": "institutional.sharer.index",
+        "activePath": "/institutional/my-collections*"
     },
     {
         "id": "EditProfile",
@@ -15,7 +61,7 @@
         "text": "Profili Güncelle",
         "key": "EditProfile",
         "url": "institutional.profile.edit",
-        "activePath": "institutional/profile/edit"
+        "activePath": "/institutional/profile/edit"
     },
     {
         "id": "ChangePassword",
@@ -24,28 +70,132 @@
         "text": "Şifreyi Değiştir",
         "key": "ChangePassword",
         "url": "institutional.password.edit",
-        "activePath": "institutional/password/edit"
+        "activePath": "/institutional/password/edit"
     },
+  
     {
-        "id": "projects",
-        "label": "Uygulama",
-        "icon": "plus-square",
-        "text": "Projeler",
-        "key": "Projects",
-        "url": "#nv-projects",
-        "activePath": "institutional/projects*",
+        "id": "role",
+        "label": "Hesabım & Yardım",
+        "icon": "user",
+        "text": "Kullanıcı Tipi Oluştur",
+        "key": "Roles",
+        "url": "#nv-role",
+        "activePath": "/institutional/roles*",
         "subMenu": [
             {
-                "text": "Oluştur",
-                "key": "CreateProject",
-                "url": "institutional.projects.create",
-                "activePath": "institutional/projects/create"
+                "text": "Yeni Ekle",
+                "key": "CreateRole",
+                "url": "institutional.roles.create",
+                "activePath": "/institutional/roles/create"
             },
             {
                 "text": "Listele",
-                "key": "GetProjects",
-                "url": "institutional.projects.index",
-                "activePath": "institutional/projects"
+                "key": "GetRoles",
+                "url": "institutional.roles.index",
+                "activePath": "/institutional/roles"
+            }
+        ]
+    },
+    {
+        "id": "realestate",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "info",
+        "text": "Sat Kirala Formlarım",
+        "key": "RealEstate",
+        "url": "institutional.real.estates",
+        "activePath": "/institutional/real_estates"
+    },
+    {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "shopping-bag",
+        "text": "Satış",
+        "key": "Orders",
+        "url": "#nv-shopping",
+        "activePath": ["/institutional/orders*","/institutional/my-orders"],
+        "subMenu": [
+            {
+                "text": "Gayrimenkul Alış",
+                "key": "ShowCartOrders",
+                "url": "institutional.profile.cart-orders",
+                "activePath": "/institutional/my-orders"
+            },
+            {
+                "text": "Gayrimenkul Satış",
+                "key": "GetOrders",
+                "url": "institutional.orders",
+                "activePath": "/institutional/orders"
+            }
+        ]
+    },
+    {
+        "id": "shopping-bag",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "shopping-bag",
+        "text": "Kiralık",
+        "key": "Reservations",
+        "url": "#nv-shopping",
+        "activePath": ["/institutional/my-reservations*","/institutional/reservations"],
+        "subMenu": [
+            {
+                "text": "Kiraya Verdiklerim",
+                "key": "GetReservations",
+                "url": "institutional.reservations",
+                "activePath": "/institutional/reservations"
+            },
+            {
+                "text": "Kiraladıklarım",
+                "key": "MyReservations",
+                "url": "institutional.myreservations",
+                "activePath": "/institutional/my-reservations"
+            }
+        ]
+    },
+    {
+        "id": "user",
+        "label": "Hesabım & Yardım",
+        "icon": "user",
+        "text": "Alt Kullanıcı Oluştur",
+        "key": "Users",
+        "url": "#nv-users",
+        "activePath": "/institutional/users*",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateUser",
+                "url": "institutional.users.create",
+                "activePath": "/institutional/users/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetUsers",
+                "url": "institutional.users.index",
+                "activePath": "/institutional/users"
+            }
+        ]
+    },
+   
+ 
+    {
+        "id": "offers",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "arrow-down",
+        "text": "İlanda Kampanya Yap",
+        "key": "Offers",
+        "url": "#nv-offers",
+        "activePath": "/institutional/offers*",
+        "subMenu": [
+            {
+                "text": "Oluştur",
+                "key": "CreateOffer",
+                "url": "institutional.offers.create",
+                "activePath": "/institutional/offers/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetOffers",
+                "url": "institutional.offers.index",
+                "activePath": "/institutional/offers"
             }
         ]
     },
@@ -56,42 +206,42 @@
         "text": "Markalar",
         "key": "Brands",
         "url": "#nv-brands",
-        "activePath": "institutional/brands*",
+        "activePath": "/institutional/brands*",
         "subMenu": [
             {
                 "text": "Oluştur",
                 "key": "CreateBrand",
                 "url": "institutional.brands.create",
-                "activePath": "institutional/brands/create"
+                "activePath": "/institutional/brands/create"
             },
             {
                 "text": "Listele",
                 "key": "GetBrands",
                 "url": "institutional.brands.index",
-                "activePath": "institutional/brands"
+                "activePath": "/institutional/brands"
             }
         ]
     },
     {
         "id": "store-banners",
-        "label": "Mağaza Bannerları",
+        "label": "Hesabım & Yardım",
         "icon": "image",
-        "text": "Mağaza Bannerları",
+        "text": "Reklam Görselleri",
         "key": "StoreBanners",
         "url": "#nv-store-banners",
-        "activePath": "institutional/store-banners*",
+        "activePath": "/institutional/store-banners*",
         "subMenu": [
             {
                 "text": "Oluştur",
                 "key": "CreateStoreBanner",
                 "url": "institutional.storeBanners.create",
-                "activePath": "institutional/store-banners/create"
+                "activePath": "/institutional/store-banners/create"
             },
             {
                 "text": "Listele",
                 "key": "GetStoreBanners",
                 "url": "institutional.storeBanners.index",
-                "activePath": "institutional/store-banners"
+                "activePath": "/institutional/store-banners"
             }
         ]
     }

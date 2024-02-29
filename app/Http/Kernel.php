@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\SessionLinkMiddleware::class,
         ],
 
         'api' => [
@@ -49,9 +50,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AdminMiddleware::class, // Admin yetkisi kontrolü için kendi middleware'inizi oluşturabilirsiniz
         ],
 
-        'client' => [
-            \App\Http\Middleware\ClientMiddleware::class,
-        ],
 
         'institutional' => [
             \App\Http\Middleware\InstitutionalMiddleware::class,
@@ -78,5 +76,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkPermission' => \App\Http\Middleware\CheckPermission::class,
+        'checkCorporateAccount' => \App\Http\Middleware\CheckCorporateAccount::class,
+        'checkHasClubAccount' => \App\Http\Middleware\CheckHasClubAccount::class,
+        'checkAccountStatus' => \App\Http\Middleware\CheckAccountStatus::class,
     ];
 }

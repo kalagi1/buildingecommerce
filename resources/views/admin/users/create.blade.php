@@ -7,19 +7,19 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Kullanıcı Oluştur
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Üye Oluştur
                             </h4>
                         </div>
                     </div>
                 </div>
                 @if (session()->has('success'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success text-white">
                         {{ session()->get('success') }}
                     </div>
                 @endif
 
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger text-white">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -87,19 +87,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer position-absolute">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span
-                            class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br
-                            class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a>
-                    </p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
-                    <p class="mb-0 text-600">v1.13.0</p>
-                </div>
-            </div>
-        </footer>
+
     </div>
 @endsection
 @section('scripts')

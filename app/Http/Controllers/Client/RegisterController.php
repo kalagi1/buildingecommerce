@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\Chat;
 use App\Models\City;
+use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
@@ -20,10 +22,67 @@ class RegisterController extends Controller
     {
 
         $rules = [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:3',
-            'type' => 'required|in:1,2',
+            'name1' => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->input('type') == 1 && empty($value)) {
+                        $fail('İsim alanı zorunludur.');
+                    }
+                },
+            ],
+            'name' => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($request->input('type') == 2 && empty($value)) {
+                        $fail('İsim alanı zorunludur.');
+                    }
+                },
+            ],
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'mobile_phone' =>  'required',
+            'type' => 'required|in:1,2,21',
+            'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
+            'activity' => 'required_if:type,2',
+            'iban' => 'required_if:type,2',
+            'check-a' => 'required_if:type,1',
+            'check-d' => 'required_if:type,2',
+            'check-b' => 'required',
+            'check-c' => 'required',
+            'county_id' => "required_if:type,2",
+            'city_id' => "required_if:type,2",
+            'neighborhood_id' => "required_if:type,2",
+            'username' => "required_if:type,2",
+            'taxOffice' => "required_if:type,2",
+            "taxOfficeCity" => "required_if:type,2",
+            'taxNumber' => "required_if:type,2",
+            'idNumber' => "required_if:account_type,1",
+        ];
+
+        $msgs = [
+            'email.required' => 'E-posta adresi alanı zorunludur.',
+            'mobile_phone.required' => 'Cep telefonu zorunludur.',
+            'check-a.required_if' => "Hesap açmak için Bireysel Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
+            'check-d.required_if' => "Hesap açmak için Kurumsal Hesap Sözleşmesini kabul etmeniz gerekmektedir.",
+            'check-b.required' => 'Hesap açmak için Kvkk metinini okuyup onaylamanız gerekmektedir.',
+            'check-c.required' => 'Hesap açmak için Gizlilik sözleşmesi ve aydınlatma metnini okuyup onaylamanız gerekmektedir.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.unique' => 'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.',
+            'password.required' => 'Şifre alanı zorunludur.',
+            'password.min' => 'Şifre en az 6 karakter uzunluğunda olmalıdır.',
+            'type.required' => 'Kullanıcı türü seçimi zorunludur.',
+            'type.in' => 'Geçerli bir kullanıcı türü seçiniz.',
+            'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
+            'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
+            'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
+            'iban.required_if' => 'Iban zorunludur.',
+            'county_id.required_if' => 'İlçe seçimi zorunludur.',
+            'city_id.required_if' => 'Şehir seçimi zorunludur.',
+            'neighborhood_id.required_if' => 'Mahalle seçimi zorunludur.',
+            'username.required_if' => 'Kullanıcı adı zorunludur.',
+            'taxOffice.required_if' => 'Vergi dairesi adı zorunludur.',
+            'taxOfficeCity.required_if' => 'Vergi dairesi ili zorunludur.',
+            'taxNumber.required_if' => 'Vergi numarası zorunludur.',
+            'idNumber.required_if' => 'T.C. kimlik numarası zorunludur.',
+            'subscription_plan_id.nullable' => 'Abonelik planı seçimi yapılmışsa geçerli bir abonelik planı seçiniz.',
         ];
 
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
@@ -35,36 +94,54 @@ class RegisterController extends Controller
         }
 
         // Form doğrulama işlemini gerçekleştirin
-        $validatedData = $request->validate($rules);
+        $validatedData = $request->validate($rules, $msgs);
         // Yeni kullanıcıyı oluşturun
         $user = new User();
-        $user->email = $validatedData['email'];
+        $user->email = $request->input("email");
         $user->subscription_plan_id = $request->input("subscription_plan_id");
 
         $subscriptionPlan = SubscriptionPlan::where("id", $request->input("subscription_plan_id"))->first();
 
-
-        $user->name = $validatedData['name'];
-        $user->password = bcrypt($validatedData['password']);
-        $user->type = $validatedData['type'];
+        $user->name = $request->input("name") ? $request->input("name") : $request->input("name1");
+        $user->profile_image = "indir.png";
+        $user->banner_hex_code = "black";
+        $user->password = bcrypt($request->input("password"));
+        $user->type = $request->input("type") ? $request->input("type") : 1;
         $user->activity = $request->input("activity");
+        $user->iban = $request->input("iban");
         $user->county_id = $request->input("county_id");
+        $user->city_id = $request->input("city_id");
+        $user->phone = $request->input("phone");
+        $user->mobile_phone = $request->input("mobile_phone");
+        $user->neighborhood_id = $request->input("neighborhood_id");
+        $user->username = $request->input("username");
         $user->account_type = $accountType;
-        $user->taxOfficeCity = $city->id;
+        $user->taxOfficeCity = $city->id ?? 0;
         $user->taxOffice = $request->input("taxOffice");
         $user->taxNumber = $request->input("taxNumber");
         $user->idNumber = $request->input("idNumber");
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
+        $user->corporate_type = $request->input("corporate-account-type");
         $user->save();
 
-        UserPlan::create([
-            "user_id" => $user->id,
-            "subscription_plan_id" => $subscriptionPlan->id,
-            "project_limit" => $subscriptionPlan->project_limit,
-            "user_limit" => $subscriptionPlan->user_limit,
-            "housing_limit" => $subscriptionPlan->housing_limit,
-        ]);
+        if ($request->input("type") == 2) {
+            $maxOrder = User::where("type", 2)->max("order");
+            $user->order = $maxOrder + 1;
+            $user->save();
+            UserPlan::create([
+                "user_id" => $user->id,
+                "subscription_plan_id" => null,
+                "project_limit" => 0,
+                "user_limit" => 0,
+                "housing_limit" => 0,
+            ]);
+        } else {
+            $user->update([
+                "corporate_account_status" => 1,
+            ]);
+        }
+
         $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
 
         if (!$emailTemplate) {
@@ -78,9 +155,9 @@ class RegisterController extends Controller
         $content = $emailTemplate->body;
 
         $variables = [
-            'username' => $validatedData['name'],
-            'companyName' => "Emlak Sepeti",
-            "email" => $validatedData['email'],
+            'username' => $user->name,
+            'companyName' => "Emlak Sepette",
+            "email" => $request->input("email"),
             "token" => $user->email_verification_token,
             "verificationLink" => URL::to("/verify-email/{$user->email_verification_token}"),
         ];
@@ -89,16 +166,21 @@ class RegisterController extends Controller
             $content = str_replace("{{" . $key . "}}", $value, $content);
         }
 
-        try {
-            Mail::to($request->input('email'))->send(new CustomMail($emailTemplate->subject, $content));
+        Chat::create([
+            "user_id" => $user->id
+        ]);
+
+
+        try
+        {
+            Mail::to($request->input("email"))->send(new CustomMail($emailTemplate->subject, $content));
             session()->flash('success', 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
-            return redirect()->route('client.login');
 
         } catch (\Exception $e) {
-            session()->flash('error', 'Hata');
-            return redirect()->route('client.login');
-
+            return redirect()->back()->withErrors(['status' => 'Onay e-postası gönderilemedi.']);
         }
+
+        return redirect()->route('client.login');
 
     }
 }

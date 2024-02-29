@@ -29,12 +29,21 @@
                                 <input class="form-control" id="project_limit" name="project_limit" type="number" placeholder="Proje Limiti" value="{{ $subscriptionPlan->project_limit }}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="user_limit">Kullanıcı Limiti</label>
-                                <input class="form-control" id="user_limit" name="user_limit" type="number" placeholder="Kullanıcı Limiti" value="{{ $subscriptionPlan->user_limit }}" required>
+                                <label class="form-label" for="user_limit">Alt Kullanıcı Limiti</label>
+                                <input class="form-control" id="user_limit" name="user_limit" type="number" placeholder="Alt Kullanıcı Limiti" value="{{ $subscriptionPlan->user_limit }}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="housing_limit">Konut Limiti</label>
-                                <input class="form-control" id="housing_limit" name="housing_limit" type="number" placeholder="Konut Limiti" value="{{ $subscriptionPlan->housing_limit }}" required>
+                                <label class="form-label" for="housing_limit">Emlak Limiti</label>
+                                <input class="form-control" id="housing_limit" name="housing_limit" type="number" placeholder="Emlak Limiti" value="{{ $subscriptionPlan->housing_limit }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="plan_type">Plan Türü</label>
+                                <select name="plan_type" id="plan_type" class="form-control">
+                                    <option value="Bireysel"{{ $subscriptionPlan->plan_type == 'Bireysel' ? ' selected' : null }}>Bireysel</option>
+                                    <option value="Emlakçı"{{ $subscriptionPlan->plan_type == 'Emlakçı' ? ' selected' : null }}>Emlakçı</option>
+                                    <option value="Banka"{{ $subscriptionPlan->plan_type == 'Banka' ? ' selected' : null }}>Banka</option>
+                                    <option value="İnşaat"{{ $subscriptionPlan->plan_type == 'İnşaat' ? ' selected' : null }}>İnşaat</option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Güncelle</button>
                         </form>

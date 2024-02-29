@@ -8,6 +8,7 @@
         "url": "client.index",
         "activePath": "client"
     },
+ 
     {
         "id": "EditProfile",
         "label": "Hesabım & Yardım",
@@ -16,6 +17,33 @@
         "key": "EditProfile",
         "url": "client.profile.edit",
         "activePath": "client/profile/edit"
+    },
+    {
+        "id": "order",
+        "label": "Hesabım & Yardım",
+        "icon": "calendar",
+        "text": "Rezervasyonlarım",
+        "key": "GetReservations",
+        "url": "client.reservations",
+        "activePath": "client/reservations"
+    },
+    {
+        "id": "UpgradeProfile",
+        "label": "Hesabım & Yardım",
+        "icon": "arrow-up",
+        "text": "Aboneliği Yükselt",
+        "key": "UpgradeProfile",
+        "url": "client.profile.upgrade",
+        "activePath": "client/profile/upgrade"
+    },
+    {
+        "id": "UpgradeProfile",
+        "label": "Hesabım & Yardım",
+        "icon": "list",
+        "text": "Siparişlerim",
+        "key": "ShowCartOrders",
+        "url": "client.profile.cart-orders",
+        "activePath": "client/profile/cart-orders"
     },
     {
         "id": "ChangePassword",

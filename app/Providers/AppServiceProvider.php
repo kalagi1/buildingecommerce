@@ -2,16 +2,19 @@
 
 namespace App\Providers;
 
+use App\Models\AdBanner;
 use App\Models\FooterLink;
 use App\Models\Menu;
+use App\Models\Page;
+use App\Models\ShareLink;
 use App\Models\SocialMediaIcon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-
-// Kullanıcı modelinizin namespace'ini ekleyin
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,205 +28,99 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
-        View::composer("client*", function ($view) {
-            $footerLinks = FooterLink::all();
-            $socialMediaIcons = SocialMediaIcon::all();
-            $menu = Menu::getMenuItems();
-            $widgetGroups = FooterLink::select('widget')
-                ->distinct()
-                ->get();
-            $view->with('footerLinks', $footerLinks);
-            $view->with('widgetGroups', $widgetGroups);
-            $view->with("socialMediaIcons", $socialMediaIcons);
-            $view->with("menu", $menu);
-        });
-
-        View::composer(["admin*"], function ($view) {
-
-            if (Auth::check()) {
-                $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
-                if ($user) {
-                    $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-                        return $rolePermission->permissions->pluck('key');
-                    })->unique()->toArray();
-
-                    $jsonFilePath = base_path('admin_menu.json');
-
-                    // JSON dosyasının varlığını kontrol etmek için File sınıfını kullanabilirsiniz
-                    if (File::exists($jsonFilePath)) {
-                        $menuJson = File::get($jsonFilePath); // JSON dosyasını oku
-                        $menuData = json_decode($menuJson, true); // JSON verisini bir diziye çevir
-
-                        // Her menü öğesinin izinlerini kontrol et ve "visible" değerini ayarla
-                        foreach ($menuData as &$menuItem) {
-                            if (in_array($menuItem['key'], $permissions)) {
-                                $menuItem['visible'] = true;
-                            } else {
-                                $menuItem['visible'] = false;
-                            }
-
-                            // Alt menü öğelerini kontrol et
-                            if (isset($menuItem['subMenu'])) {
-                                foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                                    if (in_array($subMenuItem['key'], $permissions)) {
-                                        $subMenuItem['visible'] = true;
-                                    } else {
-                                        $subMenuItem['visible'] = false;
-                                    }
-                                }
-                            }
-                        }
-
-                        $view->with('menuData', $menuData);
-
-                    }
-
-                    // View'a kullanıcıyı, izinleri ve güncellenmiş JSON verisini taşı
-                    $view->with('user', $user);
-                    $view->with('userPermissions', $permissions);
-                }
-            }else if(Auth::guard("institutional")->check()){
-                $user = User::with('role.rolePermissions.permissions')->find(Auth::guard("institutional")->user()->id);
-                if ($user) {
-                    $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-                        return $rolePermission->permissions->pluck('key');
-                    })->unique()->toArray();
-
-                    $jsonFilePath = base_path('institutional_menu.json');
-
-                    // JSON dosyasının varlığını kontrol etmek için File sınıfını kullanabilirsiniz
-                    if (File::exists($jsonFilePath)) {
-                        $menuJson = File::get($jsonFilePath); // JSON dosyasını oku
-                        $menuData = json_decode($menuJson, true); // JSON verisini bir diziye çevir
-
-                        // Her menü öğesinin izinlerini kontrol et ve "visible" değerini ayarla
-                        foreach ($menuData as &$menuItem) {
-                            if (in_array($menuItem['key'], $permissions)) {
-                                $menuItem['visible'] = true;
-                            } else {
-                                $menuItem['visible'] = false;
-                            }
-
-                            // Alt menü öğelerini kontrol et
-                            if (isset($menuItem['subMenu'])) {
-                                foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                                    if (in_array($subMenuItem['key'], $permissions)) {
-                                        $subMenuItem['visible'] = true;
-                                    } else {
-                                        $subMenuItem['visible'] = false;
-                                    }
-                                }
-                            }
-                        }
-
-                        $view->with('menuData', $menuData);
-
-                    }
-
-                    // View'a kullanıcıyı, izinleri ve güncellenmiş JSON verisini taşı
-                    $view->with('user', $user);
-                    $view->with('userPermissions', $permissions);
-                }
-            }
-        });
-
-        View::composer(["client*"], function ($view) {
-
-            if (Auth::check()) {
-                $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
-
-                if ($user) {
-                    $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-                        return $rolePermission->permissions->pluck('key');
-                    })->unique()->toArray();
-
-                    $jsonFilePath = base_path('client_menu.json');
-
-                    // JSON dosyasının varlığını kontrol etmek için File sınıfını kullanabilirsiniz
-                    if (File::exists($jsonFilePath)) {
-                        $menuJson = File::get($jsonFilePath); // JSON dosyasını oku
-                        $menuData = json_decode($menuJson, true); // JSON verisini bir diziye çevir
-
-                        // Her menü öğesinin izinlerini kontrol et ve "visible" değerini ayarla
-                        foreach ($menuData as &$menuItem) {
-                            if (in_array($menuItem['key'], $permissions)) {
-                                $menuItem['visible'] = true;
-                            } else {
-                                $menuItem['visible'] = false;
-                            }
-
-                            // Alt menü öğelerini kontrol et
-                            if (isset($menuItem['subMenu'])) {
-                                foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                                    if (in_array($subMenuItem['key'], $permissions)) {
-                                        $subMenuItem['visible'] = true;
-                                    } else {
-                                        $subMenuItem['visible'] = false;
-                                    }
-                                }
-                            }
-                        }
-
-                        $view->with('menuData', $menuData);
-
-                    }
-
-                    // View'a kullanıcıyı, izinleri ve güncellenmiş JSON verisini taşı
-                    $view->with('user', $user);
-                    $view->with('userPermissions', $permissions);
-                }
-            }
-        });
-
-
-        View::composer(["institutional*"], function ($view) {
-
-            if (Auth::check()) {
-                $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
-
-                if ($user) {
-                    $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
-                        return $rolePermission->permissions->pluck('key');
-                    })->unique()->toArray();
-
-                    $jsonFilePath = base_path('institutional_menu.json');
-
-                    // JSON dosyasının varlığını kontrol etmek için File sınıfını kullanabilirsiniz
-                    if (File::exists($jsonFilePath)) {
-                        $menuJson = File::get($jsonFilePath); // JSON dosyasını oku
-                        $menuData = json_decode($menuJson, true); // JSON verisini bir diziye çevir
-
-                        // Her menü öğesinin izinlerini kontrol et ve "visible" değerini ayarla
-                        foreach ($menuData as &$menuItem) {
-                            if (in_array($menuItem['key'], $permissions)) {
-                                $menuItem['visible'] = true;
-                            } else {
-                                $menuItem['visible'] = false;
-                            }
-
-                            // Alt menü öğelerini kontrol et
-                            if (isset($menuItem['subMenu'])) {
-                                foreach ($menuItem['subMenu'] as &$subMenuItem) {
-                                    if (in_array($subMenuItem['key'], $permissions)) {
-                                        $subMenuItem['visible'] = true;
-                                    } else {
-                                        $subMenuItem['visible'] = false;
-                                    }
-                                }
-                            }
-                        }
-
-                        $view->with('menuData', $menuData);
-
-                    }
-
-                    // View'a kullanıcıyı, izinleri ve güncellenmiş JSON verisini taşı
-                    $view->with('user', $user);
-                    $view->with('userPermissions', $permissions);
-                }
-            }
+        $this->composeAdminView();
+        $this->composeClientView();
+        $this->composeInstitutionalView();
+        Validator::extend('iban', function ($attribute, $value, $parameters, $validator) {
+            return strpos($value, 'TR') === 0;
         });
     }
 
+    private function composeAdminView()
+    {
+        View::composer(["admin*"], function ($view) {
+            $this->composeView($view, 'admin_menu.json');
+        });
+    }
+
+    private function composeClientView()
+    {
+        $cacheKey = 'client_view_data';
+    
+        $cachedData = Cache::get($cacheKey);
+    
+        if (!$cachedData) {
+            $cachedData = [
+                'fl' => FooterLink::all(),
+                'widgetGroups' => FooterLink::select('widget')->distinct()->get(),
+                'socialMediaIcons' => SocialMediaIcon::all(),
+                'headerLinks' => Page::where('location', 'header')->get(),
+                'footerLinks' => FooterLink::all(),
+                'menu' => Menu::getMenuItems(),
+                'adBanners' => AdBanner::where("is_visible", "1")->get(),
+            ];
+    
+            Cache::put($cacheKey, $cachedData, now()->addHours(1));
+        }
+    
+        View::composer(["client.layouts.partials.header","client.layouts.partials.footer", "client.client-panel*"], function ($view) use ($cachedData) {
+            if (Auth::check()) {
+                $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->get();
+                $view->with("sharerLinks", $sharerLinks);
+
+            }
+            $view->with($cachedData);
+            $this->composeView($view, 'client_menu.json');
+        });
+    }
+    
+
+    private function composeInstitutionalView()
+    {
+        View::composer(["institutional*"], function ($view) {
+            $this->composeView($view, 'institutional_menu.json');
+        });
+    }
+
+    private function composeView($view, $jsonFileName)
+    {
+        if (Auth::check()) {
+            $user = User::with('role.rolePermissions.permissions')->find(Auth::user()->id);
+
+            if ($user) {
+                $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
+                    return $rolePermission->permissions->pluck('key');
+                })->unique()->toArray();
+
+                $jsonFilePath = base_path($jsonFileName);
+
+                if (File::exists($jsonFilePath)) {
+                    $menuJson = File::get($jsonFilePath);
+                    $menuData = json_decode($menuJson, true);
+
+                    foreach ($menuData as &$menuItem) {
+                        $this->setMenuVisibility($menuItem, $permissions);
+
+                        if (isset($menuItem['subMenu'])) {
+                            foreach ($menuItem['subMenu'] as &$subMenuItem) {
+                                $this->setMenuVisibility($subMenuItem, $permissions);
+                            }
+                        }
+                    }
+
+                    $view->with('menuData', $menuData);
+                }
+
+                $view->with([
+                    'user' => $user,
+                    'userPermissions' => $permissions,
+                ]);
+            }
+        }
+    }
+
+    private function setMenuVisibility(&$menuItem, $permissions)
+    {
+        $menuItem['visible'] = in_array($menuItem['key'], $permissions);
+    }
 }

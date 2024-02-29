@@ -2,107 +2,170 @@
 
 @section('content')
 
-<div class="content">
-    <h2 class="mb-2 lh-sm">{{ucfirst($project->project_title)}} adlı projeyi öne çıkar</h2>
-    <div class="form-area card p-5">
-        <div class="row">
-            <div class="col-md-4">
-                <label for="">Hangi Başlıkta Öne Çıksın</label>
-                <select name="housing_status_id" id="housing_status_id" class="form-control project" id="">
-                    <option value="">Başlık Seçiniz</option>
-                    <option value="full">Tüm Projeler</option>
-                    @foreach($project->housingStatus as $statue)
-                      <option value="{{$statue->housingStatus->id}}">{{$statue->housingStatus->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="">Öne Çıkarım Başlangıç Tarihi</label>
-                <input type="date" class="form-control start_date" >
-            </div>
-            <div class="col-md-4">
-                <label for="">Öne Çıkarım Bitiş Tarihi</label>
-                <input type="date" class="form-control end_date" >
-            </div>
-            <div class="col-md-12">
-                <button class="btn btn-success mt-4 list-pricing">Fiyatları Listele</button>
-            </div>
-        </div>
-    </div>
-    <div class="mt-4">
-      <div class="row g-4">
-        <div class="col-12 col-xl-12 order-1 order-xl-0">
-          <div class="mb-9">
-            <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
-              <div class="card-body p-0">
-                <div class="p-4 code-to-copy">
-                  
-                  <div id="tableExample" data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
-                    @if (session()->has('success'))
-                        <div class="alert alert-success">
-                            {{ session()->get('success') }}
-                        </div>
-                    @endif
-                    <div class="table-responsive mx-n1 px-1">
-                      <table class="table table-sm border-top border-200 fs--1 mb-0">
-                        <thead>
-                          <tr>
-                            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
-                              <div class="form-check mb-0 fs-0"><input class="form-check-input" id="bulk-select-example" type="checkbox" data-bulk-select='{"body":"bulk-select-body","actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' /></div>
-                            </th>
-                            <th>Proje Adı</th>
-                            <th>Sıra</th>
-                            <th>Fiyat</th>
-                            <th>Statü</th>
-                            <th>İşlemler</th>
-                          </tr>
-                        </thead>
-                        <tbody class="list" id="bulk-select-body"></tbody>  
-                      </table>
-                    </div>
-                    <div class="d-flex flex-between-center pt-3 mb-3">
-                      <div class="pagination d-none"></div>
-                      <p class="mb-0 fs--1">
-                        <span class="d-none d-sm-inline-block" data-list-info="data-list-info"></span>
-                        <span class="d-none d-sm-inline-block"> &mdash; </span>
-                        <a class="fw-semi-bold" href="#!" data-list-view="*">
-                          View all
-                          <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                        </a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">
-                          View Less
-                          <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
-                        </a>
-                      </p>
-                      <div class="d-flex">
-                        <button class="btn btn-sm btn-primary" type="button" data-list-pagination="prev"><span>Previous</span></button>
-                        <button class="btn btn-sm btn-primary px-4 ms-2" type="button" data-list-pagination="next"><span>Next</span></button>
-                      </div>
-                    </div>
+  <div class="content">
+    <form action="{{route('institutional.stand.out.post',$projectId)}}" method="post">
+        @csrf 
+        <input type="hidden" name="key">
+        <input type="hidden" name="bank_id">
+        <input type="hidden" name="price">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="doping-square" data-id="1">
+              <input type="checkbox" name="is_featured" class="d-none" value="1">
+              <div class="row" style="align-items: center">
+                  <div class="col-md-12">
+                      <span class="doping-is-selected"> Seçilmedi</span>
+                      <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
+                      <h4 class="mt-3">Öne Çıkarılanlar Vitrini</h4>
+                      <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
+                      <select name="selected_featured_price" id="" class="form-control mt-3">
+                          @foreach($featuredPrices as $price)
+                              <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->featured_data_day) && $tempData->featured_data_day == $price->day) selected @endif value="{{$price->day}}">{{$price->day / 7}} Hafta ({{$price->price}} TL)</option>
+                          @endforeach
+                      </select>
                   </div>
-                </div>
               </div>
-            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-      <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-          <div class="toast-body p-3"></div><button class="btn-close btn-close-white me-2 m-auto" type="button" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="col-md-4">
+          <div class="doping-square @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) selected @endif" data-id="2">
+                <input type="checkbox" name="is_top_row" class="d-none" value="1">
+              <div class="row" style="align-items: center">
+                  <div class="col-md-12">
+                      <span class="doping-is-selected">@if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row) && $tempData->top_row) Seçildi @else Seçilmedi @endif</span>
+                      <img src="{{ URL::to('/') }}/images/emlaksepettelogo.png" alt="">
+                      <h4 class="mt-3">Üst Sıradayım</h4>
+                      <span>İlanınız anasayfamızda önce çıkan emlak ilanları sekmesinde yer alsın.</span>
+                      <select name="selected_top_row_price" id="" class="form-control mt-3">
+                          @foreach($topRowPrices as $price)
+                              <option @if(isset($tempDataFull) && isset($tempData) && isset($tempData->top_row_data_day) && $tempData->top_row_data_day == $price->day) selected @endif value="{{$price->day}}">{{$price->day / 7}} Hafta ({{$price->price}} TL)</option>
+                          @endforeach
+                      </select>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <span class="payment-area d-flex btn btn-info mt-3" style="display: inline-block !important">Devam</span>
         </div>
       </div>
-    </div>
-    <footer class="footer position-absolute">
-      <div class="row g-0 justify-content-between align-items-center h-100">
-        <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 mt-2 mt-sm-0 text-900">Thank you for creating with Phoenix<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 &copy;<a class="mx-1" href="https://themewagon.com/">Themewagon</a></p>
+      
+        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Emlak Sepette Ödeme Adımı</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="invoice">
+                            <div class="invoice-header mb-3">
+                                <strong>Fatura Tarihi: {{ date('d.m.Y') }}</strong>
+                            </div>
+
+                            <div class="invoice-body">
+                                <table class="table table-bordered d-none d-md-table"> <!-- Tabloyu sadece tablet ve daha büyük ekranlarda göster -->
+                                    <thead>
+                                        <tr>
+                                            <th>Ürün Adı</th>
+                                            <th>Miktar</th>
+                                            <th>Fiyat</th>
+                                            <th>Toplam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Doping Ücreti</td>
+                                            <td>1</td>
+                                            <td>2500 ₺</td>
+                                            <td>2500 ₺</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                    
+                                <!-- Mobilde sadece alt alta liste göster -->
+                                <div class="d-md-none">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <strong>Ürün Adı:</strong> Doping Ücreti
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Miktar:</strong> 1
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Fiyat:</strong> 2500 ₺
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Toplam:</strong> 2500 ₺
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="invoice-total mt-3">
+                                <strong class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</strong>
+                                <div class="row mb-3 px-5 mt-3">
+                                    @foreach ($bankAccounts as $bankAccount)
+                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
+                                            data-iban="{{ $bankAccount->iban }}"
+                                            data-title="{{ $bankAccount->receipent_full_name }}">
+                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div id="ibanInfo"></div>
+                                <strong>Ödeme işlemini tamamlamak için, lütfen bu
+                                    <span style="color:red" id="uniqueCode"></span> kodu kullanarak ödemenizi
+                                    yapın. IBAN açıklama
+                                    alanına
+                                    bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak işlemi
+                                    bitirin.</strong>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
+                            class="btn btn-primary btn-lg btn-block mb-3" id="completePaymentButton">Satın Al
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-12 col-sm-auto text-center">
-          <p class="mb-0 text-600">v1.13.0</p>
-        </div>
+      <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
+          aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="finalConfirmationModalLabel">Ödeme Onayı</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Ödemeniz başarıyla tamamlamak için lütfen aşağıdaki adımları takip edin:</p>
+                      <ol>
+                          <li>
+                              <strong style="color:red" id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                              alanına yazdığınızdan emin olun.
+                          </li>
+                          <li>
+                              Son olarak, işlemi bitirmek için aşağıdaki butona tıklayın: <br>
+                              <button type="submit" class="btn btn-primary without-doping mt-3">Ödemeyi Tamamla
+                                  <svg viewBox="0 0 576 512" style="width: 16px;color: #fff;fill: #fff;" class="svgIcon">
+                                      <path
+                                          d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                      </path>
+                                  </svg></button>
+                          </li>
+                      </ol>
+                  </div>
+              </div>
+          </div>
       </div>
-    </footer>
+    </form>
   </div>
 
   @endsection
@@ -117,270 +180,120 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js" integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
     <script>
-        var projects = [];
+        
+        function generateUniqueCode() {
+            return Math.random().toString(36).substring(2, 10).toUpperCase();
+        }
 
-        var tbody = document.getElementById("bulk-select-body");
-        projects.forEach(function(project) {
-            var row = document.createElement("tr");
+        $('.bank-account').on('click', function() {
+            // Tüm banka görsellerini seçim olmadı olarak ayarla
+            $('.bank-account').removeClass('selected');
 
-            var checkboxCell = document.createElement("td");
-            var checkboxDiv = document.createElement("div");
-            checkboxDiv.className = "form-check mb-0 fs-0";
-            var checkboxInput = document.createElement("input");
-            checkboxInput.className = "form-check-input";
-            checkboxInput.type = "checkbox";
-            checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(project));
-            checkboxDiv.appendChild(checkboxInput);
-            checkboxCell.appendChild(checkboxDiv);
+            // Seçilen banka görselini işaretle
+            $(this).addClass('selected');
 
-            var titleCell = document.createElement("td");
-            titleCell.className = "align-middle ps-3 title";
-            titleCell.textContent = project.project_title;
+            // İlgili IBAN bilgisini al
+            var selectedBankIban = $(this).data('iban');
+            var selectedBankIbanID = $(this).data('id');
+            var selectedBankTitle = $(this).data('title');
+            $('input[name="bank_id"]').val(selectedBankIbanID);
 
-            var slugCell = document.createElement("td");
-            slugCell.className = "align-middle logo";
-            slugCell.innerHTML =  "<img style='max-width:100px;max-height:50px;' src='{{ URL::to('/') }}/"+project.image.replace("public", "storage")+"'  />";
-
-
-            var standOutCell = document.createElement("td");
-            standOutCell.className = "align-middle status";
-            standOutCell.innerHTML =  "<a href='{{URL::to('/')}}/institutional/project_stand_out/"+project.id+"' class='btn btn-info'>Öne Çıkar</a>";
-
-            var activeCell = document.createElement("td");
-            activeCell.className = "align-middle status";
-            activeCell.innerHTML = project.status == 1 ? "<span class='btn btn-success'>Aktif</span>" : "<span class='btn btn-danger'>Pasif</span>";
-
-            var actionsCell = document.createElement("td");
-            actionsCell.className = "align-middle white-space-nowrap     pe-0";
-            var actionsDiv = document.createElement("div");
-            actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-            var actionsButton = document.createElement("button");
-            actionsButton.className = "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
-            actionsButton.type = "button";
-            actionsButton.setAttribute("data-bs-toggle", "dropdown");
-            actionsButton.setAttribute("data-bs-boundary", "window");
-            actionsButton.setAttribute("aria-haspopup", "true");
-            actionsButton.setAttribute("aria-expanded", "false");
-            actionsButton.setAttribute("data-bs-reference", "parent");
-            var actionsIcon = document.createElement("span");
-            actionsIcon.className = "fas fa-ellipsis-h fs--2";
-            actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
-            var dropdownMenu = document.createElement("div");
-            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
-            var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
-            viewLink.href = "#!";
-            viewLink.textContent = "View";
-            var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
-            exportLink.href = "{{URL::to('/')}}/institutional/brands/"+project.id+'/edit';
-            exportLink.textContent = "Düzenle";
-            var divider = document.createElement("div");
-            divider.className = "dropdown-divider";
-            var removeLink = document.createElement("a");
-            removeLink.className = "dropdown-item text-danger";
-            removeLink.href = "#!";
-            removeLink.textContent = "Sil";
-            removeLink.setAttribute("data-brand-id", project.id);
-            dropdownMenu.appendChild(viewLink);
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(divider);
-            dropdownMenu.appendChild(removeLink);
-            actionsDiv.appendChild(dropdownMenu);
-            actionsCell.appendChild(actionsDiv);
-
-            row.appendChild(checkboxCell);
-            row.appendChild(titleCell);
-            row.appendChild(slugCell);
-            row.appendChild(standOutCell);
-            row.appendChild(activeCell);
-            row.appendChild(actionsCell);
-
-            tbody.appendChild(row);
+            // IBAN bilgisini ekranda göster
+            $('#ibanInfo').text(selectedBankTitle + " : " + selectedBankIban);
+            // Ödeme düğmesini etkinleştir
+            $('#completePaymentButton').prop('disabled', false);
         });
 
-        $('body').on('click', '.dropdown-item.text-danger', function(e) {
-            e.preventDefault(); // Sayfa yenilemeyi engellemek için
+        $('#completePaymentButton').on('click', function() {
+            $('#paymentModal').removeClass('show');
+            $('#paymentModal').css('display','none');
+            $('#finalConfirmationModal').modal('show');
+        });
 
-            var brandId = $(this).data('brand-id');
+        $('.payment-area').click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            var totalPrice = '';
+            $(this).append('<div class="loading-icon"><i class="fa fa-spinner"></i></div>')
             var thisx = $(this);
-            // Silme işlemi için bir onay kutusu (Swal) göster
-            Swal.fire({
-                title: 'Emin misiniz?',
-                text: 'Bu markayı silmek istediğinizden emin misiniz?',
-                icon: 'warning',
-                showCancelButton: true,
-                cancelButtonText:'İptal',
-                buttons: ['İptal', 'Sil'],
-                dangerMode: true,
-            }).then(function (willDelete) {
-                // Silme işlemi onaylandıysa
-                if (willDelete.isConfirmed) {
-                    // Silme işlemi için Ajax isteği gönder
-                    $.ajax({
-                        url: '{{ route("institutional.brands.destroy", ":brandId") }}'.replace(':brandId', brandId),
-                        type: 'post',
-                        data: {
-                            _method:"DELETE",
-                            _token: '{{ csrf_token() }}',
-                        },
-                        success: function (response) {
-                            // Başarılı silme işlemi sonrası yapılacak işlemler burada
-                            // Örneğin, kullanıcıyı tablodan kaldırabilirsiniz
-                            thisx.closest('tr').remove();
-                            // Silme başarılı mesajı göster
-                            Swal.fire('Başarılı!', 'Marka başarıyla silindi.', 'success');
-                        },
-                        error: function (xhr) {
-                            // Hata durumunda yapılacak işlemler burada
-                            swal('Hata!', 'Marka silinirken bir hata oluştu.', 'error');
-                        }
-                    });
+            var data = {
+                featured : $('input[name="is_featured"]').is(':checked') ? 1 : 0,
+                top_row : $('input[name="is_top_row"]').is(':checked') ? 1 : 0,
+                featured_id : $('select[name="selected_featured_price"]').val(),
+                top_row_id : $('select[name="selected_top_row_price"]').val(),
+            }
+
+            $.ajax({
+                url: '{{route("institutional.project.stand.out.total.price")}}',
+                data : data,
+                type: 'GET',
+                success: function(response) {
+                    response = response;
+                    var totalPrice = 0;
+                    for(var i = 0 ; i < response.length; i++){
+                        totalPrice += response[i].price; 
+                    }
+                    $('input[name="price"]').val(totalPrice);
+                    if(totalPrice == 0){
+                        $('.without-doping').trigger("click")
+                    }else{
+                        $('#paymentModal').addClass('show')
+                        $('#paymentModal').addClass('d-block')
+                        
+                        var uniqueCode = generateUniqueCode();
+                        $('#uniqueCode').text(uniqueCode);
+                        $('#uniqueCodeRetry').text(uniqueCode);
+                        $("#orderKey").val(uniqueCode);
+                        $('input[name="key"]').val(uniqueCode);
+                        thisx.find('.loading-icon').remove();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax isteği sırasında bir hata oluştu: " + error);
                 }
             });
+          
+      })
+        $('#paymentModal').click(function(){
+          $(this).removeClass('show')
+          $(this).removeClass('d-block')
+        })
+
+        $('#paymentModal .close').click(function(){
+          $(this).removeClass('show')
+          $(this).removeClass('d-block')
+        })
+
+        $('#paymentModal .modal-dialog').click(function(e){
+          if(!$(event.target).hasClass('close')){
+              e.stopPropagation();
+          }
+        })
+
+        $('#completePaymentButton').on('click', function() {
+            $('#paymentModal').removeClass('show');
+            $('#paymentModal').css('display','none');
+            $('#finalConfirmationModal').modal('show');
         });
 
-        $('.list-pricing').click(function(){
-
-            if(!$('#housing_status_id').val()){
-              $.toast({
-                heading: 'Hata',
-                text: 'Hangi Başlıkta Öne Çıksın Seçeneğini Lütfen Seçiniz',
-                position: 'top-right',
-                stack: false
-              })
-            }else{
-              if(!$('.start_date').val()){
-                $.toast({
-                  heading: 'Hata',
-                  text: 'Öne Çıkarım Başlangıç Tarihini Lütfen Seçiniz',
-                  position: 'top-right',
-                  stack: false
-                })
-              }else{
-                if(!$('.end_date').val()){
-                  $.toast({
-                    heading: 'Hata',
-                    text: 'Öne Çıkarım Bitiş Tarihini Lütfen Seçiniz',
-                    position: 'top-right',
-                    stack: false
-                  })
-                }else{
-                  var startDate = $('.start_date').val();
-                  var endDate = $('.end_date').val();
-                  var tarih1 = new Date(startDate);
-                  var tarih2 = new Date(endDate);
-
-                  // İki tarih arasındaki milisaniye farkını hesaplayın
-                  var milisaniyeFarki = tarih2 - tarih1;
-
-                  // Milisaniyeyi gün olarak çevirin (1 gün = 24 * 60 * 60 * 1000 milisaniye)
-                  var gunFarki = Math.floor(milisaniyeFarki / (1000 * 60 * 60 * 24));
-                  var params = {
-                      type: '1',
-                  };
-
-                  $.ajax({
-                      url: '{{route("institutional.project.pricing.list")}}?housing_status_id='+$('#housing_status_id').val(), // AJAX isteği gönderilecek URL
-                      type: 'GET', // GET veya POST olarak isteği ayarlayabilirsiniz
-                      dataType: 'json', // Yanıt veri türü (json, xml, text, vb.)
-                      data: params, // Parametreleri gönder
-                      success: function(data) {
-                          var projects = data.data;
-
-                          var tbody = document.getElementById("bulk-select-body");
-                          projects.forEach(function(project) {
-                              var row = document.createElement("tr");
-
-                              var checkboxCell = document.createElement("td");
-                              var checkboxDiv = document.createElement("div");
-                              checkboxDiv.className = "form-check mb-0 fs-0";
-                              var checkboxInput = document.createElement("input");
-                              checkboxInput.className = "form-check-input";
-                              checkboxInput.type = "checkbox";
-                              checkboxInput.setAttribute("data-bulk-select-row", JSON.stringify(project));
-                              checkboxDiv.appendChild(checkboxInput);
-                              checkboxCell.appendChild(checkboxDiv);
-
-                              var titleCell = document.createElement("td");
-                              titleCell.className = "align-middle ps-3 title";
-                              titleCell.textContent = "{{$project->project_title}}";
-
-                              var orderCell = document.createElement("td");
-                              orderCell.className = "align-middle ps-3 title";
-                              orderCell.textContent = project.order;
-
-                              var slugCell = document.createElement("td");
-                              slugCell.className = "align-middle logo";
-                              slugCell.textContent = (project.price*gunFarki)+' ₺';
-
-                              var activeCell = document.createElement("td");
-                              activeCell.className = "align-middle status";
-                              activeCell.innerHTML = project.status == 0 ? "<span class='btn btn-info'>Boşta</span>" : "<span class='btn btn-secondary'>Dolu</span>";
-
-                              var actionsCell = document.createElement("td");
-                              actionsCell.className = "align-middle status";
-                              actionsCell.innerHTML = project.status == 0 ? "<button class='btn btn-success buy-order' order='"+project.id+"'>Satın Al</button>" : "<button class='btn btn-secondary'>Dolu</button>";
-
-                              row.appendChild(checkboxCell);
-                              row.appendChild(titleCell);
-                              row.appendChild(orderCell);
-                              row.appendChild(slugCell);
-                              row.appendChild(activeCell);
-                              row.appendChild(actionsCell);
-
-                              tbody.appendChild(row);
-                          });
-
-                          $('.buy-order').click(function(){
-                            var csrfToken = $('meta[name="csrf-token"]').attr('content'); 
-                            $.ajax({
-                              url: '{{URL::to("/")}}/institutional/buy_order', // API URL
-                              method: 'POST', // GET isteği
-                              data:{
-                                project_id : {{$project->id}},
-                                order : $(this).attr('order'),
-                                start_date : $('.start_date').val(),
-                                end_date : $('.end_date').val(),
-                              },
-                              headers: {
-                                'X-CSRF-TOKEN': csrfToken // CSRF token'ını başlık olarak ekleyin
-                              },
-                              dataType: 'json', // Yanıtın JSON formatında olacağını belirtin
-                              success: function (data) {
-                                if(data.status){
-                                  $.toast({
-                                    heading: 'Hata',
-                                    text: data.message,
-                                    position: 'top-right',
-                                    stack: false
-                                  })
-                                }else{
-                                  $.toast({
-                                    heading: 'Hata',
-                                    text: data.message,
-                                    position: 'top-right',
-                                    stack: false
-                                  })
-                                }
-                              },
-                              error: function () {
-                                  // İstek başarısız olduğunda burası çalışır
-                                  $('#sonuc').html('İstek başarısız oldu.');
-                              }
-                            });
-                              console.log($(this).attr('order'))
-                          })
-                      },
-                      error: function(xhr, status, error) {
-                          // İstek başarısız olduğunda bu fonksiyon çalışır
-                          console.error(xhr.responseText);
-                      }
-                  });
-                }
-              }
-            }
+        $('.doping-square').click(function(){
+          if($(this).hasClass('selected')){
+              $(this).find('input[type="checkbox"]').prop("checked", false);
+              $(this).removeClass('selected')
+              $(this).find('.doping-is-selected').html('Seçilmedi')
+          }else{
+              $(this).find('input[type="checkbox"]').prop("checked", true);
+              $(this).addClass('selected')
+              $(this).find('.doping-is-selected').html('Seçildi')
+          }
+        })
+        $('.doping-square select').click(function(e){
+            e.stopPropagation();
+        })
+        $('.doping-square select').change(function(e) {
+            var dataId = $(this).closest('.doping-square').attr('data-id')
+            $(this).closest('.doping-square').find('input[type="checkbox"]').prop("checked", true);
+            $(this).closest('.doping-square').addClass('selected');
             
         })
     </script>

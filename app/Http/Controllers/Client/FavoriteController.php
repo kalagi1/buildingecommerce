@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Housing;
 use App\Models\HousingFavorite;
 use App\Models\Project;
+use App\Models\ProjectFavorite;
+use App\Models\ProjectHousing;
 use App\Models\User;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
@@ -14,6 +17,36 @@ class FavoriteController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function addProjectHousingToFavorites($id, HttpRequest $request)
+    {
+        $user = User::where("id", Auth::user()->id)->first();
+        $housing = ProjectHousing::where("room_order", $id)->where("project_id", $request->input("project_id"))->get();
+
+        $existingFavorite = ProjectFavorite::where('user_id', $user->id)
+            ->where('housing_id', $id)
+            ->where("project_id", $request->input("project_id"))
+            ->first();
+
+        if ($existingFavorite) {
+            $existingFavorite->delete();
+            $message = "Ürün favorilerden kaldırıldı";
+            $status = "removed";
+        } else {
+            ProjectFavorite::create([
+                "user_id" => $user->id,
+                'housing_id' =>  $request->input("housing_id"),
+                "project_id" => $request->input("project_id"),
+            ]);
+            $message = "Ürün favorilere eklendi.";
+            $status = "added";
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+        ]);
     }
 
     public function addProjectToFavorites($id)
@@ -39,14 +72,14 @@ class FavoriteController extends Controller
 
         if ($existingFavorite) {
             $existingFavorite->delete();
-            $message = "Konut favorilerden kaldırıldı";
+            $message = "Ürün favorilerden kaldırıldı";
             $status = "removed";
         } else {
             HousingFavorite::create([
                 "user_id" => $user->id,
                 'housing_id' => $housing->id,
             ]);
-            $message = "Konut favorilere eklendi.";
+            $message = "Ürün favorilere eklendi.";
             $status = "added";
         }
 
@@ -60,7 +93,26 @@ class FavoriteController extends Controller
     {
         $user = User::where("id", Auth::user()->id)->with("housingFavorites.housing", 'housingFavorites.housing.city', 'housingFavorites.housing.brand')->first();
         $favorites = $user->housingFavorites;
-        return view('client.favorites.index', compact('user', 'favorites'));
+        $projectFavorites = ProjectFavorite::where("user_id", Auth::user()->id)
+            ->with('project.roomInfo', 'projectHousing')
+            ->orderBy("created_at", "desc")
+            ->get();
+        
+        $mergedFavorites = $favorites->merge($projectFavorites);
+        
+        $mergedFavorites = $mergedFavorites->sortByDesc('created_at');
+                
+        $pageInfo = [
+            "meta_title" => "Favorilerim",
+            "meta_keywords" => "Favorilerim",
+            "meta_description" => "Emlak Sepette Favorilerim",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+        
+        return view('client.favorites.index', compact("pageInfo",'user', 'favorites', 'projectFavorites','mergedFavorites'));
     }
 
     public function getHousingFavoriteStatus($id)
@@ -73,6 +125,26 @@ class FavoriteController extends Controller
         return response()->json([
             'is_favorite' => $isFavorite,
         ]);
+    }
+
+    public function getProjectHousingFavoriteStatus(HttpRequest $request)
+    {
+        $projectHousingPairs = $request->input('projectHousingPairs');
+        $result = [];
+        $user = User::where("id", Auth::user()->id)->first();
+        foreach ($projectHousingPairs as $pair) {
+            $projectId = $pair['projectId'];
+            $housingId = $pair['housingId'];
+
+            $housing = ProjectFavorite::where("user_id", $user->id)
+                ->where("housing_id", $housingId)
+                ->where("project_id", $projectId)
+                ->first();
+
+            $result[$projectId][$housingId] = $housing !== null;
+        }
+
+        return response()->json($result);
     }
 
 }

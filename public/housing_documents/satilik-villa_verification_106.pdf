@@ -1,0 +1,113 @@
+
+                            <div class="invoice-top">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="invoice">
+                                            <h4 class="inv-header-1">Fatura<br> FTR-1704310314183
+                                            </h4>
+                                            <span> Tarih: 2024-01-03 19:31:54</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="invoice-name text-end">
+                                            <div class="logo">
+                                                <img class="logo" src="https://emlaksepette.com/images/emlaksepettelogo.png" alt="logo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                        <div class="invoice-center">
+                                <div class="table-section table-responsive clearfix">
+                                    <table class="table caption-top invoice-table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img src="https://emlaksepette.com/housing_images/yatirim-firsati-cevizli-tamirhane-konumu-islek-satilik-dukkan-1.jpg" style="width:200px">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Alıcı Bilgileri</strong>
+                                                    <ul style="list-style: none">
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            İsim Soyisim: Zehra Sena Akgül
+                                                        </li>
+
+                                                        <li>                                                        <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            E-Mail: zehrasenakgul@gmail.com </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Satıcı Bilgileri</strong>
+                                                    <ul style="list-style: none">
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            Mağaza: Master Realtor </li>
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            E-Mail: masterrealtorturkiye@gmail.com </li>
+                                                        <li> 
+                                                            <i class="fa fa-circle circleIcon mr-1"></i>
+                                                            Vergi No: 123 </li>
+                                                                                                            </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    İSTANBUL  / 
+                                                    KARTAL  / 
+                                                    KARAOVA
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end">
+                                                                                                            YATIRIM FIRSATI *CEVİZLİ TAMİRHANE KONUMU İŞLEK SATILIK DÜKKAN
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end fw-bold">Ara Tutar</td>
+                                                <td class="text-right fw-bold">
+                                                   <strong style="font-weight: 600 !important"> 1,200,000.00 ₺</strong></td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td colspan="3" class="text-end fw-bold">%2 Kapora Tutarı</td>
+                                                <td class="text-right fw-bold">
+                                                    <strong style="font-weight: 600 !important">12.000 ₺</strong>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="invoice-bottom">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="bank-transfer">
+                                            <h3 class="inv-title-1">Banka Havalesi</h3>
+                                            <ul class="bank-transfer-list-1">
+                                                <li><strong>Hesap:</strong>
+                                                    Garanti Bankası</li>
+                                                <li><strong>Ödeme Şekli</strong> EFT/HAVALE</li>
+                                                <li><strong>Web Adresi</strong> <a href="https://emlaksepette.com/">https://emlaksepette.com/</a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="amount text-end">
+                                            <h3 class="inv-title-1">Toplam Tutar</h3>
+                                            <h1>12.000 ₺</h1>
+                                            <p class="mb-0">KDV Dahil</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        

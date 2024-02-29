@@ -74,7 +74,7 @@
                     <div class="ps-page__content">
                         <div class="ps-page__dashboard">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger text-white">
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -83,7 +83,7 @@
                             </div>
                         @endif
                         @if (session('success'))
-                            <div class="alert alert-success">
+                            <div class="alert alert-success text-white">
                                 {{ session('success') }}
                             </div>
                         @endif
@@ -95,12 +95,6 @@
                                 <label for="name" class="form-label">İsim</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="{{ $user->name }}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $user->email }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Telefon</label>

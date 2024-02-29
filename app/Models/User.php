@@ -38,6 +38,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'order' => 'integer',
+
     ];
 
     public function subscriptionPlan()
@@ -50,9 +52,29 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(HousingComment::class, 'user_id');
+    }
+
+    public function owners()
+    {
+        return $this->hasMany(HousingComment::class, 'owner_id');
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, "type");
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(User::class, "parent_id");
+    }
+
+    public function child()
+    {
+        return $this->hasMany(User::class, "parent_id");
     }
 
     public function hasPermission($permission)
@@ -75,12 +97,27 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->hasMany(Project::class, 'user_id');
+        return $this->hasMany(Project::class, 'user_id')->where("status","1")->where("deleted_at",null);
     }
 
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function town()
+    {
+        return $this->belongsTo(Town::class, 'city_id', 'sehir_key');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, "county_id", 'ilce_key');
+    }
+
+    public function neighborhood()
+    {
+        return $this->belongsTo(Neighborhood::class, "neighborhood_id", 'mahalle_key');
     }
 
     public function housings()
@@ -93,9 +130,19 @@ class User extends Authenticatable
         return $this->hasMany(Brand::class, 'user_id');
     }
 
+    public function collections()
+    {
+        return $this->hasMany(Collection::class, 'user_id');
+    }
+
+    public function shares()
+    {
+        return $this->hasMany(SharerPrice::class, 'user_id');
+    }
+
     public function banners()
     {
-        return $this->hasMany(StoreBanner::class, 'user_id');
+        return $this->hasMany(StoreBanner::class, 'user_id')->orderBy('order', 'asc');
     }
 
     public function housingFavorites()
@@ -103,9 +150,14 @@ class User extends Authenticatable
         return $this->hasMany(HousingFavorite::class);
     }
 
+    public function projectFavorites()
+    {
+        return $this->hasMany(ProjectFavorite::class);
+    }
+
     public function plan()
     {
-        return $this->belongsTo(UserPlan::class, "subscription_plan_id");
+        return $this->belongsTo(UserPlan::class, "id", "user_id");
     }
 
 }

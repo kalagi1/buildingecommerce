@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('stand_out_users', function (Blueprint $table) {
-            $table->unsignedBigInteger('housing_status_id')->after('item_order');
+            $table->unsignedBigInteger('housing_status_id');
         });
     }
 
@@ -22,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('stand_out_users', function (Blueprint $table) {
-            $table->dropColumn('housing_status_id');
         });
     }
 };

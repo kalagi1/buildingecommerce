@@ -12,24 +12,25 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Phoenix</title>
+    <title>Yönetim Paneli</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/apple-touch-icon.png">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon-32x32.png">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon-16x16.png">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="shortcut icon" type="image/x-icon"
-        href="{{ URL::to('/') }}/adminassets/assets/img/favicons/favicon.ico">
+        href="{{ URL::to('/') }}/favicon.png">
     <link rel="manifest" href="{{ URL::to('/') }}/adminassets/assets/img/favicons/manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <meta name="msapplication-TileImage"
-        content="{{ URL::to('/') }}/adminassets/assets/img/favicons/mstile-150x150.png">
+        content="{{ URL::to('/') }}/favicon.png">
     <meta name="theme-color" content="#ffffff">
     <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.js"></script>
@@ -43,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap"
         rel="stylesheet">
     <link href="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme-rtl.min.css" type="text/css" rel="stylesheet"
         id="style-rtl">
     <link href="{{ URL::to('/') }}/adminassets/assets/css/theme.min.css" type="text/css" rel="stylesheet"
@@ -72,7 +73,11 @@
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
     <link href="{{ URL::to('/') }}/adminassets/vendors/leaflet.markercluster/MarkerCluster.Default.css"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     @yield('css')
+    @yield('csss')
+
 </head>
 
 <body>
@@ -122,55 +127,100 @@
                             <hr class="navbar-vertical-line" />
 
                             @foreach ($groupedMenu as $menuItem)
-                                @if ($menuItem['visible'])
-                                    @php
-                                        $hasVisibleMenus = true;
-                                    @endphp
-                                    <!-- Parent Menü -->
-                                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1"
-                                            href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
-                                            role="button"
-                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
-                                            <div class="d-flex align-items-center">
+                            @if ($menuItem['visible'])
+                                @php
+                                    $hasVisibleMenus = true;
+                                    $applicationCount = null;
+                                    $pendingHousingTypes = null;
+                                    $pendingProjects = null;
+                                    $orderCount = null;
+                                    $neighborCount = null;
+                        
+                                    if ($menuItem['key'] == 'EmlakClubApplications') {
+                                        $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
+                                    } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
+                                        $neighborCount = \App\Models\NeighborView::where("status", "0")->count() ?: null;
+                                    } elseif ($menuItem['key'] == 'Housings') {
+                                        $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
+                                            ->where('status', 2)
+                                            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                                            ->select(
+                                                'housings.id',
+                                                'housings.title AS housing_title',
+                                                'housings.status AS status',
+                                                'housings.address',
+                                                'housings.created_at',
+                                                'housing_types.title as housing_type',
+                                                'housing_types.slug',
+                                                'housings.deleted_at',
+                                                'housings.city_id',
+                                                'housings.county_id',
+                                                'housings.neighborhood_id',
+                                                'housing_types.form_json'
+                                            )
+                                            ->orderByDesc('housings.updated_at')
+                                            ->count() ?: null;
+                                    } elseif ($menuItem['key'] == "Projects") {
+                                        $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
+                                    } elseif ($menuItem['key'] == "GetOrders") {
+                                        $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
+                                    };
+                                @endphp
+                        
+                                <div class="nav-item-wrapper">
+                                    <a class="nav-link dropdown-indicator label-1 {{ request()->is($menuItem['activePath']) ? 'active' : '' }}"
+                                        href="@if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) #nv-{{ $menuItem['key'] }} @else {{ route($menuItem['url']) }} @endif "
+                                        role="button"
+                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
+                                        <div class="d-flex align-items-center">
+                                            <span class="nav-link-icon">
+                                                <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+                                            </span>
+                                            <span class="nav-link-text">
+                                                {{ $menuItem['text'] }}
+                                                {{ $applicationCount != null ? "($applicationCount)" : null }}
+                                                {{ $neighborCount != null ? "($neighborCount)" : null }}
 
-                                                <span class="nav-link-icon"><span
-                                                        data-feather="{{ $menuItem['icon'] }}"></span></span>
-                                                <span class="nav-link-text">{{ $menuItem['text'] }}
-                                                </span>
-                                                @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                                    <div class="dropdown-indicator-icon" style="margin-left: 1px">
-                                                        <span class="fas fa-caret-right"></span>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </a>
-                                        @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
-                                            <div class="parent-wrapper label-1">
-                                                <ul class="nav collapse parent @if (request()->is($menuItem['activePath'])) show @endif"
-                                                    data-bs-parent="#navbarVerticalCollapse"
-                                                    id="nv-{{ $menuItem['key'] }}">
-                                                    @foreach ($menuItem['subMenu'] as $subMenuItem)
-                                                        @if ($subMenuItem['visible'])
-                                                            <!-- Alt Menü Öğeleri -->
-                                                            <li class="nav-item">
-                                                                <a class="nav-link @if (request()->is($subMenuItem['activePath'])) active @endif"
-                                                                    href="{{ route($subMenuItem['url']) }}"
-                                                                    data-bs-toggle="" aria-expanded="false">
-                                                                    <div class="d-flex align-items-center"><span
-                                                                            class="nav-link-text">{{ $subMenuItem['text'] }}</span>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
+                                                {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
+                                                {{ $pendingProjects != null &&  $pendingProjects->count() != 0 ? "(". $pendingProjects->count() .")" : null }}
+                                                {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
 
-                                    </div>
-                                @endif
-                            @endforeach
 
+                                            </span>
+                        
+                                            @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                                <div class="dropdown-indicator-icon" style="margin-left: 1px">
+                                                    <span class="fas fa-caret-right"></span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </a>
+                        
+                                    @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
+                                        <div class="parent-wrapper label-1">
+                                            <ul class="nav collapse parent {{ request()->is($menuItem['activePath']) ? 'show' : '' }}"
+                                                data-bs-parent="#navbarVerticalCollapse"
+                                                id="nv-{{ $menuItem['key'] }}">
+                                                @foreach ($menuItem['subMenu'] as $subMenuItem)
+                                                    @if ($subMenuItem['visible'])
+                                                        <li class="nav-item">
+                                                            <a class="nav-link {{ request()->is($subMenuItem['activePath']) ? 'active' : '' }}"
+                                                                href="{{ route($subMenuItem['url']) }}"
+                                                                data-bs-toggle="" aria-expanded="false">
+                                                                <div class="d-flex align-items-center">
+                                                                    <span class="nav-link-text">{{ $subMenuItem['text'] }}</span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+                        @endforeach
+                        
                             @if (!$hasVisibleMenus)
                                 <!-- Eğer bu label'a ait görüntülenecek menü yoksa, label'ı kaldır -->
                                 <script>
@@ -200,185 +250,150 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
-                                <div class="d-flex align-items-center">
-                                    <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/logo.png"
-                                            class="logo" alt=""></a>
-                                    <p class="logo-text ms-2 d-none d-sm-block">Master Realtor</p>
-                                </div>
-                </div>
-                <div class="search-box navbar-top-search-box d-none d-lg-block" data-list='{"valueNames":["title"]}'
-                    style="width:25rem;">
-                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
-                            class="form-control search-input fuzzy-search rounded-pill form-control-sm" type="search"
-                            placeholder="Search..." aria-label="Search" />
-                        <span class="fas fa-search search-box-icon"></span>
-                    </form>
-                    <div class="btn-close position-absolute end-0 top-50 translate-middle cursor-pointer shadow-none"
-                        data-bs-dismiss="search"><button class="btn btn-link btn-close-falcon p-0"
-                            aria-label="Close"></button></div>
-                    <div class="dropdown-menu border border-300 font-base start-0 py-0 overflow-hidden w-100">
-                        <div class="scrollbar-overlay" style="max-height: 30rem;">
-                            <div class="list pb-3">
-                                <h6 class="dropdown-header text-1000 fs--2 py-2">24 <span
-                                        class="text-500">results</span></h6>
-                                <hr class="text-200 my-0" />
-                                <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">
-                                    Recently Searched </h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"><span
-                                                    class="fa-solid fa-clock-rotate-left"
-                                                    data-fa-transform="shrink-2"></span> Store Macbook</div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"> <span
-                                                    class="fa-solid fa-clock-rotate-left"
-                                                    data-fa-transform="shrink-2"></span> MacBook Air - 13″</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <hr class="text-200 my-0" />
-                                <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">
-                                    Products</h6>
-                                <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="h-100 w-100 fit-cover rounded-3"
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/products/60x60/3.png"
-                                                alt="" /></div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-1000 title">MacBook Air - 13″</h6>
-                                            <p class="fs--2 mb-0 d-flex text-700"><span class="fw-medium text-600">8GB
-                                                    Memory - 1.6GHz - 128GB
-                                                    Storage</span></p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="apps/e-commerce/landing/product-details.html">
-                                        <div class="file-thumbnail me-2"><img class="img-fluid"
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/products/60x60/3.png"
-                                                alt="" /></div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-1000 title">MacBook Pro - 13″</h6>
-                                            <p class="fs--2 mb-0 d-flex text-700"><span
-                                                    class="fw-medium text-600 ms-2">30 Sep at 12:30 PM</span></p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <hr class="text-200 my-0" />
-                                <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Quick
-                                    Links</h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"><span
-                                                    class="fa-solid fa-link text-900"
-                                                    data-fa-transform="shrink-2"></span> Support MacBook House</div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"> <span
-                                                    class="fa-solid fa-link text-900"
-                                                    data-fa-transform="shrink-2"></span> Store MacBook″</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <hr class="text-200 my-0" />
-                                <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">Files
-                                </h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"><span
-                                                    class="fa-solid fa-file-zipper text-900"
-                                                    data-fa-transform="shrink-2"></span> Library MacBook folder.rar
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"> <span
-                                                    class="fa-solid fa-file-lines text-900"
-                                                    data-fa-transform="shrink-2"></span> Feature MacBook
-                                                extensions.txt</div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"> <span
-                                                    class="fa-solid fa-image text-900"
-                                                    data-fa-transform="shrink-2"></span> MacBook Pro_13.jpg</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <hr class="text-200 my-0" />
-                                <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">
-                                    Members</h6>
-                                <div class="py-2"><a class="dropdown-item py-2 d-flex align-items-center"
-                                        href="pages/members.html">
-                                        <div class="avatar avatar-l status-online  me-2 text-900">
-                                            <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/10.webp"
-                                                alt="" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-1000 title">Carry Anna</h6>
-                                            <p class="fs--2 mb-0 d-flex text-700">anna@technext.it</p>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item py-2 d-flex align-items-center" href="pages/members.html">
-                                        <div class="avatar avatar-l  me-2 text-900">
-                                            <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/12.webp"
-                                                alt="" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-0 text-1000 title">John Smith</h6>
-                                            <p class="fs--2 mb-0 d-flex text-700">smith@technext.it</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <hr class="text-200 my-0" />
-                                <h6 class="dropdown-header text-1000 fs--1 border-bottom border-200 py-2 lh-sm">
-                                    Related Searches</h6>
-                                <div class="py-2"><a class="dropdown-item"
-                                        href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"><span
-                                                    class="fa-brands fa-firefox-browser text-900"
-                                                    data-fa-transform="shrink-2"></span> Search in the Web MacBook
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="dropdown-item" href="apps/e-commerce/landing/product-details.html">
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-normal text-1000 title"> <span
-                                                    class="fa-brands fa-chrome text-900"
-                                                    data-fa-transform="shrink-2"></span> Store MacBook″</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <p class="fallback fw-bold fs-1 d-none">No Result Found.</p>
-                            </div>
-                        </div>
+                    <div class="d-flex align-items-center">
+                        <a href="{{ route('index') }}"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
+                                class="logo" alt=""></a>
                     </div>
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
+
+
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
                                 data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
-                                class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
+                                title="Switch theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon icon">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                                title="Switch theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun icon">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg></label></div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        @php
+                            $notifications = App\Models\DocumentNotification::with('user')
+                                ->orderBy('created_at', 'desc')
+                                ->where('owner_id', '4')
+                                ->where('readed', '0')
+                                ->limit(10)
+                                ->get();
+                        @endphp
+
+                        <a class="nav-link" href="#" style="min-width: 2.5rem" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            data-bs-auto-close="outside">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"
+                                style="height:20px;width:20px;">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            @php
+                                $unreadNotifications = $notifications->where('readed', 0);
+                                $unreadCount = $unreadNotifications->count();
+                            @endphp
+
+                            @if ($unreadCount > 0)
+                                <span class="badge bg-danger position-absolute"
+                                    style="bottom: 31px; right: 0;">{{ $unreadCount }}</span>
+                            @endif
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret"
+                            id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+                            <div class="card position-relative border-0">
+                                <div class="card-header p-2">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="text-black mb-0">Bildirimler</h5>
+                                        <a href="{{ route('markAllAsRead') }}" >
+                                            Tümünü Oku
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="scrollbar-overlay" style="height: 27rem;">
+                                        <div class="border-300">
+                                            @if (count($notifications) == 0)
+                                                <span class="p-3 text-center">Bildirim Yok</div>
+                                            @else
+                                                @foreach ($notifications as $notification)
+                                                    <div class="px-2 px-sm-3 py-3 border-300 notification-card position-relative {{ $notification->readed == 0 ? 'unread' : 'read' }} border-bottom"
+                                                        data-id="{{ $notification->id }}"
+                                                        data-link="{{ $notification->link }}">
+                                                        <div
+                                                            class="d-flex align-items-center justify-content-between position-relative">
+                                                            <div class="d-flex">
+                                                                <div class="avatar avatar-m status-online me-3">
+                                                                    <svg viewBox="0 0 24 24" width="24"
+                                                                        height="24" stroke="currentColor"
+                                                                        stroke-width="2" fill="none"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="css-i6dzq1">
+                                                                        <circle cx="12" cy="12" r="10">
+                                                                        </circle>
+                                                                        <line x1="12" y1="16"
+                                                                            x2="12" y2="12"></line>
+                                                                        <line x1="12" y1="8"
+                                                                            x2="12.01" y2="8"></line>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="flex-1 me-sm-3">
+                                                                    <h4 class="fs--1 text-black">
+                                                                        {{ $notification->user->name }}</h4>
+                                                                    <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
+                                                                        {!! $notification->text !!}</p>
+                                                                    @php
+                                                                                                // Örnek bir tarih zamanı, notification->created_at'ı buraya ekleyin
+                                                                            $notificationCreatedAt = $notification->created_at;
+
+                                                                            // Saat dilimini ayarlayın
+                                                                            date_default_timezone_set('Europe/Istanbul');
+
+                                                                            // Tarih formatını Türkiye biçimine dönüştürme
+                                                                            $notificationCreatedAtDate = date('d.m.Y', strtotime($notificationCreatedAt));
+                                                                            $notificationCreatedAtTime = date('H:i', strtotime($notificationCreatedAt)); // 24 saatlik saat biçimi
+
+                                                                            // Saati 12 saatlik biçime dönüştürme (AM/PM eklemek için)
+                                                                            $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedAt));
+                                                                    @endphp
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+
+                                                <div class="bg-white border-top p-3 text-center">
+                                                    <a href="{{ route('admin.notification-history') }}">Bildirim
+                                                        Geçmişi</a>
+                                                </div>
+                                            @endif
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -458,7 +473,7 @@
                         aria-controls="navbarVerticalCollapse" aria-expanded="false"
                         aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                 class="toggle-line"></span></span></button>
-                    <a class="navbar-brand navbar-brand" href="index.html">phoenix <span
+                    <a class="navbar-brand navbar-brand" href="{{ URL::to('/') }}">phoenix <span
                             class="text-1000 d-none d-sm-inline">slim</span></a>
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
@@ -900,11 +915,11 @@
                     data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse"
                     aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                <a class="navbar-brand me-1 me-sm-3" href="{{ URL::to('/') }}">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -918,7 +933,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -957,33 +972,33 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/add-product.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/add-product.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/products.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/customers.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customers</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customer-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customer-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/orders.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/order-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/order-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/refund.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -2199,7 +2214,7 @@
                     data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse"
                     aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span
                         class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                <a class="navbar-brand navbar-brand" href="index.html">phoenix <span
+                <a class="navbar-brand navbar-brand" href="{{ URL::to('/') }}">phoenix <span
                         class="text-1000 d-none d-sm-inline">slim</span></a>
             </div>
             <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
@@ -2210,7 +2225,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -2249,34 +2264,34 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/add-product.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/add-product.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/products.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customers.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customers</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customer-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customer-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/orders.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/order-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/order-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/refund.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -3495,11 +3510,11 @@
                     aria-controls="navbarVerticalCollapse" aria-expanded="false"
                     aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                <a class="navbar-brand me-1 me-sm-3" href="{{ URL::to('/') }}">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img
-                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png" alt="phoenix"
-                                width="27" />
+                                src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
+                                alt="phoenix" width="27" />
                             <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                         </div>
                     </div>
@@ -3513,7 +3528,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -3552,34 +3567,34 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/add-product.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/add-product.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/products.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customers.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customers</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customer-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customer-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/orders.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/order-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/order-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/refund.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -4802,7 +4817,7 @@
                     aria-controls="navbarVerticalCollapse" aria-expanded="false"
                     aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                             class="toggle-line"></span></span></button>
-                <a class="navbar-brand navbar-brand" href="index.html">phoenix <span
+                <a class="navbar-brand navbar-brand" href="{{ URL::to('/') }}">phoenix <span
                         class="text-1000 d-none d-sm-inline">slim</span></a>
             </div>
             <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center"
@@ -4813,7 +4828,7 @@
                             aria-haspopup="true" aria-expanded="false"><span
                                 class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                         <ul class="dropdown-menu navbar-dropdown-caret">
-                            <li><a class="dropdown-item active" href="index.html">
+                            <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                     <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                             data-feather="shopping-cart"></span>E commerce</div>
                                 </a></li>
@@ -4852,34 +4867,34 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/add-product.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/add-product.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Add product</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/products.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Products</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customers.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customers</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/customer-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/customer-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Customer details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/orders.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Orders</div>
                                                 </a></li>
                                             <li><a class="dropdown-item"
-                                                    href="apps/e-commerce/admin/order-details.html">
+                                                    href="apps/e-commerce/qR9zLp2xS6y/secured/order-details.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Order details</div>
                                                 </a></li>
-                                            <li><a class="dropdown-item" href="apps/e-commerce/admin/refund.html">
+                                            <li><a class="dropdown-item" href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                     <div class="dropdown-item-wrapper"><span
                                                             class="me-2 uil"></span>Refund</div>
                                                 </a></li>
@@ -6099,17 +6114,17 @@
                             aria-controls="navbarTopCollapse" aria-expanded="false"
                             aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                                     class="toggle-line"></span></span></button>
-                        <a class="navbar-brand me-1 me-sm-3" href="index.html">
+                        <a class="navbar-brand me-1 me-sm-3" href="{{ URL::to('/') }}">
                             <div class="d-flex align-items-center">
                                 <div class="d-flex align-items-center"><img
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/logo.png"
+                                        src="{{ URL::to('/') }}/adminassets/assets/img/icons/emlaksepettelogo.png"
                                         alt="phoenix" width="27" />
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>
                             </div>
                         </a>
                     </div>
-                    <div class="search-box navbar-top-search-box d-none d-lg-block"
+                    {{-- <div class="search-box navbar-top-search-box d-none d-lg-block"
                         data-list='{"valueNames":["title"]}' style="width:25rem;">
                         <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
                                 class="form-control search-input fuzzy-search rounded-pill form-control-sm"
@@ -6278,7 +6293,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <ul class="navbar-nav navbar-nav-icons flex-row">
                         <li class="nav-item">
                             <div class="theme-control-toggle fa-icon-wait px-2"><input
@@ -6753,7 +6768,7 @@
                                 aria-haspopup="true" aria-expanded="false"><span
                                     class="uil fs-0 me-2 uil-chart-pie"></span>Home</a>
                             <ul class="dropdown-menu navbar-dropdown-caret">
-                                <li><a class="dropdown-item active" href="index.html">
+                                <li><a class="dropdown-item active" href="{{ URL::to('/') }}">
                                         <div class="dropdown-item-wrapper"><span class="me-2 uil"
                                                 data-feather="shopping-cart"></span>E commerce</div>
                                     </a></li>
@@ -6793,37 +6808,37 @@
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/add-product.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/add-product.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Add product</div>
                                                     </a></li>
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/products.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/products.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Products</div>
                                                     </a></li>
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/customers.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/customers.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Customers</div>
                                                     </a></li>
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/customer-details.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/customer-details.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Customer details</div>
                                                     </a></li>
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/orders.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/orders.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Orders</div>
                                                     </a></li>
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/order-details.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/order-details.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Order details</div>
                                                     </a></li>
                                                 <li><a class="dropdown-item"
-                                                        href="apps/e-commerce/admin/refund.html">
+                                                        href="apps/e-commerce/qR9zLp2xS6y/secured/refund.html">
                                                         <div class="dropdown-item-wrapper"><span
                                                                 class="me-2 uil"></span>Refund</div>
                                                     </a></li>
@@ -7923,15 +7938,86 @@
                 navbarVertical.classList.add('navbar-darker');
             }
         </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Bildirimlere tıklama işlemi
+                $('.notification-click').on('click', function(e) {
+                    e.preventDefault();
+                    var notificationId = $(this).data('id');
+                    var notificationLink = $(this).data('link');
+
+                    // AJAX isteği ile bildirimin "readed" değerini güncelleyin
+                    $.ajax({
+                        url: "{{ route('notification.read') }}", // Bildirim güncelleme rotası, bu rotayı belirlemeniz gerekiyor
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}', // CSRF koruması için gereken token
+                            id: notificationId, // Güncellenecek bildirimin kimliği
+                            link: notificationLink
+                        },
+                        success: function(response) {
+                            window.location.href =
+                            notificationLink; // Kullanıcıyı ilgili sayfaya yönlendirin
 
 
-<style>
-    .navbar-logo .logo {
-        height: 70px !important;
-        padding: 5px;
-    }
+                        }
+                    });
+                });
+            });
 
-    .navbar-logo .logo-text {
-        width: 300px
-    }
-</style>
+
+            document.addEventListener("DOMContentLoaded", function() {
+    // Bildirim kartlarını bul
+    var notificationCards = document.querySelectorAll(".notification-card");
+
+    // Her kart için tıklama etkinleyici ekleyin
+    notificationCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            var notificationId = card.getAttribute("data-id");
+            var notificationLink = $(this).data('link');
+              
+            console.log(notificationId);
+            
+            // AJAX ile bildirimi işaretle
+            fetch('/mark-notification-as-read/' + notificationId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                }
+            })
+            .then(function(response) {
+             
+                    if (notificationLink) {
+                    window.location.href = notificationLink;
+                }
+                    card.classList.remove("unread");
+                    card.classList.add("read");
+                
+            })
+            .catch(function(error) {
+                console.error('Bir hata oluştu:', error);
+            });
+        });
+    });
+});
+            
+        </script>
+
+
+
+        <style>
+            .notification-card {
+                cursor: pointer
+            }
+
+            .navbar-logo .logo {
+                height: 35px !important;
+                padding: 5px;
+            }
+
+            .navbar-logo .logo-text {
+                width: 300px
+            }
+        </style>

@@ -22,7 +22,7 @@
             <div class="table-responsive">
 
                 @if (session()->has('alertSuccessMessage'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success text-white">
                         {{ session()->get('alertSuccessMessage') }}
                     </div>
                 @endif
@@ -61,7 +61,7 @@
                 var input = $(this);
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('admin/site-settings/update') }}",
+                    url: "{{ url('qR9zLp2xS6y/secured/site-settings/update') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         key: input.attr("name"),
@@ -103,7 +103,7 @@
                 var value = $("#newSettingValue").val();
                 $.ajax({
                     type: "post",
-                    url: "{{ url('admin/site-settings/create') }}",
+                    url: "{{ url('qR9zLp2xS6y/secured/site-settings/create') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         key: key,
@@ -119,7 +119,7 @@
                 var button = $(this);
                 $.ajax({
                     type: "post",
-                    url: "{{ url('admin/site-settings/delete') }}",
+                    url: "{{ url('qR9zLp2xS6y/secured/site-settings/delete') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         key: button.data("key")

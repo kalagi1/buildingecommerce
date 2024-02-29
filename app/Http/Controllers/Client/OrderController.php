@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\HousingStatus;
+use App\Models\HousingTypeParent;
 use App\Models\Order;
+use App\Models\SinglePrice;
+use App\Models\TempOrder;
+use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +23,7 @@ class OrderController extends Controller
         }
         return $user->orders->leftJoin();
     }
+    
     public function createOrder(Request $request)
     {
         $userId = Auth::user()->id;
@@ -51,5 +58,32 @@ class OrderController extends Controller
         $order->status = 0;
         $order->save();
         return 'Sipariş İptal Edildi';
+    }
+
+    public function createHousing(){
+        $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
+        $prices = SinglePrice::where('item_type',2)->get();
+        $cities = City::get();
+        $housing_status = HousingStatus::all();
+        $tempDataFull = TempOrder::where('item_type',2)->where('user_id',auth()->guard()->user()->id)->first();
+        if($tempDataFull){
+            $tempData = json_decode($tempDataFull->data);
+        }else{
+            $tempData = json_decode("{}");
+        }
+
+        if($tempDataFull && isset($tempData->statuses)){
+            $selectedStatuses = HousingStatus::whereIn("id",$tempData->statuses)->get();
+        }else{
+            $selectedStatuses = [];
+        }
+        if($tempDataFull){
+            $tempDataFull = $tempDataFull;
+        }else{
+            $tempDataFull = json_decode('{"step_order" : 1}');
+        }
+
+        $userPlan = UserPlan::where('user_id',auth()->user()->id)->where("status","1")->first();
+        return view('client.client-panel.order.create_housing',compact('housingTypeParent','cities','prices','tempData','housing_status','tempDataFull','selectedStatuses','userPlan'));
     }
 }

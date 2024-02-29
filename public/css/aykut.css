@@ -53,19 +53,19 @@
 .aykut .header-content .header-info .login i {
     margin-right: 10px;
     font-size: 25px;
-    color: #446BB6;
+    color: black;
 }
 
 .aykut .header-content .header-info .favorite i {
     margin-right: 10px;
     font-size: 25px;
-    color: #446BB6;
+    color: black;
 }
 
 .aykut .header-content .header-info .sepet i {
     margin-right: 10px;
     font-size: 25px;
-    color: #446BB6;
+    color: black;
 }
 
 .aykut .header-content .header-info .favorite {
@@ -174,7 +174,7 @@
     list-style: none;
     color: #000000;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 11px;
 }
 
 .aykut .brand-slider ul li {
@@ -306,7 +306,7 @@
 }
 
 .aykut .footer p {
-    font-size: 14px;
+    font-size: 11px;
     color: #484848;
 }
 
@@ -350,7 +350,7 @@
 .aykut .mobile-nav-design .header-info {}
 
 .aykut .mobile-nav-design .header-info i {
-    color: #446BB6;
+    color: black;
 }
 
 .aykut .mobile-nav-design .login {

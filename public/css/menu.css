@@ -9,8 +9,9 @@
     margin-top: 1px;
 }
 
+
 #logo img {
-    width: 60px;
+    width: 200px;
     height: auto;
     transform: translate3d(0, 0, 0);
 }
@@ -45,13 +46,14 @@ img {
     height: 100%;
     width: 100%;
     justify-content: end;
+    align-items: center;
 }
 
 .header-widget a {
     color: black;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 11px;
 }
 
 .header-widget a svg {
@@ -246,7 +248,7 @@ a.button.border {
 
 a.button.border,
 a.button {
-    background-color: #446BB6;
+    background-color: black;
     top: 0;
     padding: 10px 20px;
     color: #fff;
@@ -337,7 +339,7 @@ a.button {
     }
 
     .popular-places .img-box {
-        height: 250px !important;
+        height: 150px !important;
     }
 }
 
@@ -447,7 +449,7 @@ a.button {
 .header-bottom {
     width: 100%;
     height: 33px;
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
     margin-top: 10px;
 }
 
@@ -469,6 +471,7 @@ a.button {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 #navigation ul a {
@@ -489,14 +492,14 @@ a.button {
     visibility: hidden;
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -40px;
     padding: 0;
     z-index: 99999;
 }
 
 #navigation ul ul li {
     float: none;
-    width: 208px;
+    width: 130px;
 }
 
 #navigation ul ul ul {
@@ -505,9 +508,6 @@ a.button {
     margin: 0 0 0 10px;
 }
 
-#navigation ul ul {
-    margin: 10px 0 0 0;
-}
 
 #navigation ul ul ul:after {
     content: "";
@@ -540,12 +540,12 @@ a.button {
 #navigation ul ul li a:after {
     font-family: "FontAwesome";
 }
-
+/* 
 #navigation ul ul li a:after {
     content: '\f105';
     position: absolute;
     right: 15px;
-}
+} */
 
 #navigation ul li a:after:hover {
     color: #fff;
@@ -582,7 +582,7 @@ a.button {
 #navigation ul li:hover ul a,
 #navigation ul ul a {
     line-height: 27px !important;
-    padding: 10px 30px 10px 15px !important;
+    padding:  5px 10px !important;
     color: #707070 !important;
 }
 
@@ -653,17 +653,17 @@ a.button {
 
 #navigation.style-1 ul li:hover {
     background-color: transparent !important;
-    color: #446BB6 !important;
+    color: black !important;
 }
 
 #navigation.style-1 ul li:hover a {
-    color: #446BB6 !important;
+    color: black !important;
 }
 
 #navigation.style-1 ul a {
     font-weight: 600;
     color: #333;
-    font-size: 13px;
+    font-size: 11px;
     line-height: 34px;
     padding: 0;
     display: flex;
@@ -893,9 +893,11 @@ a.button {
 @media (min-width: 992px) and (max-width: 1239px) {
     .header-widget {
         height: auto;
-        position: absolute;
         right: 0;
-        width: 150%;
+    }
+
+    .input-group.search {
+        width: 91% !important
     }
 
     .header-style-2 .header-widget {
@@ -989,7 +991,6 @@ a.button {
     padding: 0;
     margin: 0;
     position: absolute;
-    left: 0;
     right: 0;
     top: 0;
     bottom: 0;
@@ -1251,7 +1252,7 @@ li.mm-vertical.mm-opened>.mm-panel {
 
 .mm-listview {
     font: inherit;
-    font-size: 14px;
+    font-size: 11px;
     line-height: 20px
 }
 
@@ -1330,7 +1331,7 @@ li.mm-vertical.mm-opened>.mm-panel {
 }
 
 .mm-listview .mm-next.mm-fullsubopen {
-    width: 100%
+    width: 100%;
 }
 
 .mm-listview .mm-next.mm-fullsubopen:before {
@@ -1363,7 +1364,7 @@ li.mm-vertical.mm-opened>.mm-panel {
     color: #fff;
     text-transform: uppercase;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .mm-menu .mm-btn:after,
@@ -1453,7 +1454,7 @@ html.mm-blocking #mm-blocker {
 }
 
 .mm-menu.mm-offcanvas {
-    z-index: 0;
+    z-index: 999999;
     display: none;
     position: fixed
 }
@@ -1475,9 +1476,7 @@ html.mm-blocking #mm-blocker {
 html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     -webkit-transform: translate(80%, 0);
     -ms-transform: translate(80%, 0);
-    transform: translate(80%, 0);
-    -webkit-transform: translate3d(80%, 0, 0);
-    transform: translate3d(80%, 0, 0)
+    transform: translate(-80%, 0);
 }
 
 @media all and (max-width:175px) {
@@ -1500,6 +1499,10 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
     }
 }
 
+.mm-counter {
+    display: none !important;
+}
+
 .mm-sronly {
     border: 0 !important;
     clip: rect(1px, 1px, 1px, 1px) !important;
@@ -1515,7 +1518,7 @@ html.mm-opening .mm-menu.mm-opened~.mm-slideout {
 
 em.mm-counter {
     font: inherit;
-    font-size: 14px;
+    font-size: 11px;
     font-style: normal;
     text-indent: 0;
     line-height: 20px;
@@ -1570,7 +1573,7 @@ em.mm-counter+a.mm-fullsubopen+span {
     border-radius: 50%;
     color: #fff;
     line-height: 23px;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
 }
 
@@ -1592,7 +1595,7 @@ em.mm-counter+a.mm-fullsubopen+span {
 
 .hamburger {
     padding: 0;
-    top: 13px;
+    top: 18px;
     left: 12px;
     transform: scale(0.72);
     -moz-transform: scale(0.72) translateY(3px);
@@ -1628,7 +1631,7 @@ em.mm-counter+a.mm-fullsubopen+span {
 .hamburger-inner::after {
     width: 34px;
     height: 4px;
-    background-color: #555;
+    background-color: black;
     border-radius: 4px;
     position: absolute;
     transition-property: transform;

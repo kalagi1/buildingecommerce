@@ -22,13 +22,13 @@
                     </div>
 
                     @if (session('success'))
-                        <div class="alert alert-success text-white">
+                        <div class="alert alert-success text-white text-white">
                             {{ session('success') }}
                         </div>
                     @endif
 
                     @if (session('error'))
-                        <div class="alert alert-danger text-white">
+                        <div class="alert alert-danger text-white text-white">
                             {{ session('error') }}
                         </div>
                     @endif
@@ -43,7 +43,7 @@
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="footerLinkUrl">URL</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
-                                            data-sort="footerLinkWidget">WIDGET</th>
+                                            data-sort="footerLinkWidget">GRUP</th>
                                         <th>İŞLEMLER</th>
                                     </tr>
                                 </thead>

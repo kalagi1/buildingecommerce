@@ -1,93 +1,79 @@
-<table class="content_section_xs ui-resizable" role="presentation" align="center" width="100%" cellspacing="0"
-    cellpadding="0" border="0"
-    style="max-width: 416px;margin: 0 auto;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation"
+    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;margin:0;padding:0;width:100%">
     <tbody>
         <tr>
-            <td class="content_cell bg_white brounded bt_primary px py_md" data-bgcolor="White"
-                data-border-top-color="Border Primary"
-                style="font-size: 0;text-align: center;background-color: #ffffff;border-top: 4px solid #064E3B;border-radius: 4px;padding-top: 32px;padding-bottom: 32px;padding-left: 16px;padding-right: 16px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                <div class="column_row" style="font-size: 0;text-align: center;max-width: 624px;margin: 0 auto;">
-                    <!--[if (mso)|(IE)]>
-            <table role="presentation" width="312" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
-              <tbody>
-                <tr>
-                  <td align="center" style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;vertical-align:top;">
-            <![endif]-->
-                    <div class="col_2" style="vertical-align: top;display: inline-block;width: 100%;max-width: 312px;">
-                        <table class="column" role="presentation" align="center" width="100%" cellspacing="0"
-                            cellpadding="0" border="0"
-                            style="vertical-align: top;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                            <tbody>
-                                <tr>
-                                    <td class="column_cell bb_light" height="32"
-                                        data-border-bottom-color="Border Light"
-                                        style="vertical-align: top;border-bottom: 1px solid #dee0e1;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                        &nbsp;</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--[if (mso)|(IE)]>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <![endif]-->
-                </div>
-                <table class="column" role="presentation" align="center" width="100%" cellspacing="0" cellpadding="0"
-                    border="0"
-                    style="vertical-align: top;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+            <td align="center"
+                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
+                <table width="600" cellpadding="0" cellspacing="0" role="presentation" class="parentTable"
+                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0 auto;padding:0;width:600px;display: flex;align-items: center;justify-content: center;">
                     <tbody>
                         <tr>
-                            <td class="column_cell px py_md text_dark text_center" data-color="Dark"
-                                style="vertical-align: top;color: #333333;text-align: center;padding-top: 32px;padding-bottom: 32px;padding-left: 16px;padding-right: 16px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                            <td
+                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';padding:25px 0;text-align:center">
+                                <a href="https://emlaksepette.com"
+                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:#3d4852;font-size:19px;font-weight:bold;text-decoration:none;display:inline-block"
+                                    target="_blank"
+                                    data-saferedirecturl="https://www.google.com/url?q=https://emlaksepette.com&amp;source=gmail&amp;ust=1708527222602000&amp;usg=AOvVaw3Z7TNn9C6dL5vdxRWvzPJb">
+                                    <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
+                                        alt="Emlak Sepette Logo"
+                                        style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:600px;border:none;height:40px;max-height:40px;width:200px"
+                                        class="CToWUd" data-bit="iit">
+                                </a>
+                            </td>
+                        </tr>
 
-                                <h2 class="mt mb_xs"
-                                    style="color: inherit;font-family: Arial, Helvetica, sans-serif;margin-top: 16px;margin-bottom: 8px;word-break: break-word;font-size: 28px;line-height: 38px;font-weight: bold;">
-                                    {!! $subject !!}</h2>
-                                <p class="text_lead text_secondary mb_md selected-element" data-color="Secondary"
-                                    style="color: #959ba0;font-family: Arial, Helvetica, sans-serif;margin-top: 0px;margin-bottom: 32px;word-break: break-word;font-size: 19px;line-height: 31px;"
-                                    contenteditable="true">{!! $content !!}</p>
+
+                        <tr>
+                            <td width="100%" cellpadding="0" cellspacing="0"
+                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;border-bottom:1px solid #ffffff;border-top:1px solid #ffffff;margin:0;padding:0;width:600px;border:hidden!important">
+                                <table class="m_-4554695697553144873inner-body" align="center" width="600"
+                                    cellpadding="0" cellspacing="0" role="presentation"
+                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;border-color:#e8e5ef;border-radius:2px;border-width:1px;margin:0 auto;padding:0;width:600px">
+
+                                    <tbody>
+                                        <tr>
+                                            <td
+                                                style="box-sizing:border-box;text-align:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
+                                                <h1
+                                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';color:black;font-size:18px;font-weight:bold;margin-top:0;text-align:center">
+                                                    <strong>{!! $subject !!}</strong>
+                                                </h1>
+                                                {!! $content !!}
+
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td
+                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">
+                                <table class="m_-4554695697553144873footer" align="center" width="600"
+                                    cellpadding="0" cellspacing="0" role="presentation"
+                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';margin:0 auto;padding:0;text-align:center;width:600px">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center"
+                                                style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
+                                                <p
+                                                    style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';line-height:1.5em;margin-top:0;color:#b0adc5;font-size:12px;text-align:center">
+                                                    © 2024 Emlak Sepette. Tüm hakları saklıdır.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </td>
         </tr>
-        <tr>
-            <td class="content_cell"
-                style="font-size: 0;text-align: center;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                <div class="column_row" style="font-size: 0;text-align: center;max-width: 624px;margin: 0 auto;">
-                    <!--[if (mso)|(IE)]>
-            <table role="presentation" width="624" border="0" cellspacing="0" cellpadding="0" align="center" style="vertical-align:top;Margin:0 auto;">
-              <tbody>
-                <tr>
-                  <td align="center" style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;vertical-align:top;">
-            <![endif]-->
-                    <table class="column" role="presentation" align="center" width="100%" cellspacing="0"
-                        cellpadding="0" border="0"
-                        style="vertical-align: top;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                        <tbody>
-                            <tr>
-                                <td class="column_cell px py_md text_secondary text_center" data-color="Secondary"
-                                    style="vertical-align: top;color: #959ba0;text-align: center;padding-top: 32px;padding-bottom: 32px;padding-left: 16px;padding-right: 16px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-                                    <p class="mb_xs text_link"
-                                        style="color: inherit;font-family: Arial, Helvetica, sans-serif;margin-top: 0px;margin-bottom: 8px;word-break: break-word;font-size: 16px;line-height: 26px;">
-                                        @2023<br>
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!--[if (mso)|(IE)]>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <![endif]-->
-                </div>
-            </td>
-        </tr>
     </tbody>
-    <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
 </table>
+
+

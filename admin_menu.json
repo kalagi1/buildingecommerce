@@ -1,12 +1,189 @@
 [
     {
+        "id": "EmlakClubGift",
+        "label": "Emlak Kulüp",
+        "icon": "bell",
+        "text": "Başvurular",
+        "key": "EmlakClubApplications",
+        "url": "admin.estate.club.users.list",
+        "activePath": "qR9zLp2xS6y/secured/club_user_applications"
+    },
+    {
+        "id": "EmlakClubGift",
+        "label": "Komşumu Gör",
+        "icon": "bell",
+        "text": "Başvurular",
+        "key": "NeighborSeeApplications",
+        "url": "admin.estate.see.users.list",
+        "activePath": "qR9zLp2xS6y/secured/see_neighbor_applications"
+    },
+    {
+        "id": "EmlakClubUsers",
+        "label": "Emlak Kulüp",
+        "icon": "users",
+        "text": "Üyelere Kupon Tanımla",
+        "key": "EmlakClubUsers",
+        "url": "admin.estate.club.users",
+        "activePath": "qR9zLp2xS6y/secured/estate_club_users"
+    },
+    {
+        "id": "EmlakClubGift",
+        "label": "Emlak Kulüp",
+        "icon": "gift",
+        "text": "Kuponlarım",
+        "key": "EmlakClubGift",
+        "url": "admin.estate.coupons",
+        "activePath": "qR9zLp2xS6y/secured/coupons"
+    },
+    {
+        "id": "home",
+        "label": "Yönetim",
+        "icon": "home",
+        "text": "Gösterge Paneli",
+        "key": "ViewDashboard",
+        "url": "admin.index",
+        "activePath": "qR9zLp2xS6y/secured/"
+    },
+    {
+        "id": "home",
+        "label": "Yönetim",
+        "icon": "dollar-sign",
+        "text": "Muhasabe",
+        "key": "ViewAccounting",
+        "url": "admin.accounting",
+        "activePath": "qR9zLp2xS6y/secured/accounting"
+    },
+    {
+        "id": "order",
+        "label": "Yönetim",
+        "icon": "wind",
+        "text": "Mağaza Sıralama",
+        "key": "ViewDashboard",
+        "url": "admin.users.orders",
+        "activePath": "qR9zLp2xS6y/secured/users/orders"
+    },
+    {
+        "id": "projects",
+        "label": "Yönetim",
+        "icon": "plus",
+        "text": "Proje İlanları",
+        "key": "Projects",
+        "url": "admin.projects.index",
+        "activePath": "qR9zLp2xS6y/secured/projects"
+    },
+    {
+        "id": "housing",
+        "label": "Yönetim",
+        "icon": "plus",
+        "text": "Emlak İlanları",
+        "key": "Housings",
+        "url": "admin.housings.index",
+        "activePath": "qR9zLp2xS6y/secured/housing"
+    },
+    {
+        "id": "housing",
+        "label": "Yönetim",
+        "icon": "plus",
+        "text": "Sat Kirala Form Verileri",
+        "key": "sellRent",
+        "url": "admin.real.estates",
+        "activePath": "qR9zLp2xS6y/secured/real_estate*"
+    },
+    {
+        "id": "user",
+        "label": "Yönetim",
+        "icon": "user",
+        "text": "Üyeler",
+        "key": "Users",
+        "url": "#nv-users",
+        "activePath": "qR9zLp2xS6y/secured/users",
+        "subMenu": [
+            {
+                "text": "Yeni Ekle",
+                "key": "CreateUser",
+                "url": "admin.users.create",
+                "activePath": "qR9zLp2xS6y/secured/users/create"
+            },
+            {
+                "text": "Listele",
+                "key": "GetUsers",
+                "url": "admin.users.index",
+                "activePath": "qR9zLp2xS6y/secured/users"
+            }
+        ]
+    },
+    
+    {
+        "id": "order",
+        "label": "Yönetim",
+        "icon": "calendar",
+        "text": "Konut Rezervasyonları",
+        "key": "GetReservations",
+        "url": "admin.reservations",
+        "activePath": "qR9zLp2xS6y/secured/reservations"
+    },
+    {
+        "id": "order",
+        "label": "Yönetim",
+        "icon": "shopping-bag",
+        "text": "Konut Siparişleri",
+        "key": "GetOrders",
+        "url": "admin.orders",
+        "activePath": "qR9zLp2xS6y/secured/orders"
+    },
+    {
+        "id": "order",
+        "label": "Yönetim",
+        "icon": "shopping-bag",
+        "text": "Paket Siparişleri",
+        "key": "GetPackageOrders",
+        "url": "admin.packageOrders",
+        "activePath": "qR9zLp2xS6y/secured/package-orders"
+    },
+    {
+        "id": "order",
+        "label": "Yönetim",
+        "icon": "shopping-bag",
+        "text": "Doping Siparişleri",
+        "key": "DopingOrders",
+        "url": "admin.doping.orders",
+        "activePath": "qR9zLp2xS6y/secured/doping_orders"
+    },
+    {
+        "id": "comment",
+        "label": "Yönetim",
+        "icon": "comments",
+        "text": "Yorumlar",
+        "key": "GetHousingComments",
+        "url": "admin.housings.comments",
+        "activePath": "qR9zLp2xS6y/secured/housing/comments"
+    },
+    {
+        "id": "comment",
+        "label": "Yönetim",
+        "icon": "comments",
+        "text": "Canlı Destek",
+        "key": "GetMessages",
+        "url": "admin.messages",
+        "activePath": "qR9zLp2xS6y/secured/messages"
+    },
+    {
+        "id": "ad-banners",
+        "label": "Yönetim",
+        "icon": "ad",
+        "text": "Reklam Görselleri",
+        "key": "AdBanners",
+        "url": "admin.adBanners.index",
+        "activePath": "qR9zLp2xS6y/secured/ad-banners"
+    },
+    {
         "id": "menu",
         "label": "Yönetim",
-        "icon": "menu",
+        "icon": "list",
         "text": "Menü",
         "key": "Menus",
         "url": "admin.menu_management",
-        "activePath": "admin/menus*"
+        "activePath": "qR9zLp2xS6y/secured/menus"
     },
     {
         "id": "role",
@@ -15,19 +192,19 @@
         "text": "Roller",
         "key": "Roles",
         "url": "#nv-role",
-        "activePath": "admin/roles*",
+        "activePath": "qR9zLp2xS6y/secured/roles",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreateRole",
                 "url": "admin.roles.create",
-                "activePath": "admin/roles/create"
+                "activePath": "qR9zLp2xS6y/secured/roles/create"
             },
             {
                 "text": "Listele",
                 "key": "GetRoles",
                 "url": "admin.roles.index",
-                "activePath": "admin/roles"
+                "activePath": "qR9zLp2xS6y/secured/roles"
             }
         ]
     },
@@ -38,19 +215,19 @@
         "text": "Sayfalar",
         "key": "Pages",
         "url": "#nv-page",
-        "activePath": "admin/pages*",
+        "activePath": "qR9zLp2xS6y/secured/pages",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreatePage",
                 "url": "admin.pages.create",
-                "activePath": "admin/pages/create"
+                "activePath": "qR9zLp2xS6y/secured/pages/create"
             },
             {
                 "text": "Listele",
                 "key": "GetPages",
                 "url": "admin.pages.index",
-                "activePath": "admin/pages"
+                "activePath": "qR9zLp2xS6y/secured/pages"
             }
         ]
     },
@@ -61,19 +238,19 @@
         "text": "İzin Grupları",
         "key": "PermissionGroups",
         "url": "#nv-permission-group",
-        "activePath": "admin/permission_groups*",
+        "activePath": "qR9zLp2xS6y/secured/permission_groups",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreatePermissionGroup",
                 "url": "admin.permission_groups.create",
-                "activePath": "admin/permission_groups/create"
+                "activePath": "qR9zLp2xS6y/secured/permission_groups/create"
             },
             {
                 "text": "Listele",
                 "key": "GetPermissionGroups",
                 "url": "admin.permission_groups.index",
-                "activePath": "admin/permission_groups"
+                "activePath": "qR9zLp2xS6y/secured/permission_groups"
             }
         ]
     },
@@ -84,230 +261,160 @@
         "text": "İzinler",
         "key": "Permissions",
         "url": "#nv-permissions",
-        "activePath": "admin/permissions*",
+        "activePath": "qR9zLp2xS6y/secured/permissions",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreatePermission",
                 "url": "admin.permissions.create",
-                "activePath": "admin/permissions/create"
+                "activePath": "qR9zLp2xS6y/secured/permissions/create"
             },
             {
                 "text": "Listele",
                 "key": "GetPermissions",
                 "url": "admin.permissions.index",
-                "activePath": "admin/permissions"
+                "activePath": "qR9zLp2xS6y/secured/permissions"
             }
         ]
     },
     {
         "id": "subscriptionPlans",
-        "label": "Abonelik Planları",
+        "label": "Yönetim",
         "icon": "credit-card",
         "text": "Abonelik Planları",
         "key": "SubscriptionPlans",
-        "url": "#nv-subscriptionPlans",
-        "activePath": "admin/subscription-plans*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateSubscriptionPlan",
-                "url": "admin.subscriptionPlans.create",
-                "activePath": "admin/subscription-plans/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetSubscriptionPlans",
-                "url": "admin.subscriptionPlans.index",
-                "activePath": "admin/subscription-plans"
-            }
-        ]
+        "url": "admin.subscriptionPlans.index",
+        "activePath": "qR9zLp2xS6y/secured/subscription-plans"
     },
     {
         "id": "sliders",
-        "label": "Slider",
+        "label": "Yönetim",
         "icon": "image",
         "text": "Slider",
         "key": "Sliders",
         "url": "#nv-sliders",
-        "activePath": "admin/sliders*",
+        "activePath": "qR9zLp2xS6y/secured/sliders",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreateSlider",
                 "url": "admin.sliders.create",
-                "activePath": "admin/sliders/create"
+                "activePath": "qR9zLp2xS6y/secured/sliders/create"
             },
             {
                 "text": "Listele",
                 "key": "GetSliders",
                 "url": "admin.sliders.index",
-                "activePath": "admin/sliders"
+                "activePath": "qR9zLp2xS6y/secured/sliders"
             }
         ]
     },
     {
-        "id": "user",
+        "id": "footerSlider",
         "label": "Yönetim",
-        "icon": "user",
-        "text": "Kullanıcılar",
-        "key": "Users",
-        "url": "#nv-users",
-        "activePath": "admin/users*",
+        "icon": "image",
+        "text": "Footer Slider",
+        "key": "FooterSliders",
+        "url": "#nv-footer-slider",
+        "activePath": "qR9zLp2xS6y/secured/footer-sliders",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
-                "key": "CreateUser",
-                "url": "admin.users.create",
-                "activePath": "admin/users/create"
+                "key": "CreateFooterSlider",
+                "url": "admin.footer-sliders.create",
+                "activePath": "qR9zLp2xS6y/secured/footer-sliders/create"
             },
             {
                 "text": "Listele",
-                "key": "GetUsers",
-                "url": "admin.users.index",
-                "activePath": "admin/users"
-            }
-        ]
-    },
-    {
-        "id": "housing",
-        "label": "Uygulama",
-        "icon": "home",
-        "text": "Konutlar",
-        "key": "Housings",
-        "url": "#nv-housing",
-        "activePath": "admin/housing/*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousing",
-                "url": "admin.housings.create",
-                "activePath": "admin/housing/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousings",
-                "url": "admin.housings.index",
-                "activePath": "admin/housing"
+                "key": "GetFooterSliders",
+                "url": "admin.footer-sliders.index",
+                "activePath": "qR9zLp2xS6y/secured/footer-sliders"
             }
         ]
     },
     {
         "id": "housing_types",
-        "label": "Uygulama",
+        "label": "Yönetim",
         "icon": "info",
-        "text": "Konut Tipleri",
+        "text": "İlan Form Yönetimi",
         "key": "HousingTypes",
-        "url": "#nv-housing-types",
-        "activePath": "admin/housing_types*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousingType",
-                "url": "admin.housing_types.create",
-                "activePath": "admin/housing_types/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousingTypes",
-                "url": "admin.housing_types.index",
-                "activePath": "admin/housing_types"
-            }
-        ]
+        "url": "admin.housing.status.parent.management",
+        "activePath": "qR9zLp2xS6y/secured/housing_status_parent_management"
+    },
+    {
+        "id": "housing_types",
+        "label": "Yönetim",
+        "icon": "info",
+        "text": "İlan Formları",
+        "key": "HousingTypes",
+        "url": "admin.housing_types.index",
+        "activePath": "qR9zLp2xS6y/secured/housing_types"
     },
     {
         "id": "housing_status",
-        "label": "Uygulama",
+        "label": "Yönetim",
         "icon": "bar-chart",
-        "text": "Konut Durumları",
+        "text": "Konut Tipleri",
         "key": "HousingStatuses",
-        "url": "#nv-housing-status",
-        "activePath": "admin/housing_status*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateHousingStatus",
-                "url": "admin.housing_statuses.index",
-                "activePath": "admin/housing_status/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetHousingStatuses",
-                "url": "admin.housing_statuses.index",
-                "activePath": "admin/housing_status"
-            }
-        ]
-    },
-    {
-        "id": "projects",
-        "label": "Uygulama",
-        "icon": "globe",
-        "text": "Projeler",
-        "key": "Projects",
-        "url": "#nv-projects",
-        "activePath": "admin/projects*",
-        "subMenu": [
-            {
-                "text": "Yeni Ekle",
-                "key": "CreateProject",
-                "url": "admin.projects.create",
-                "activePath": "admin/projects/create"
-            },
-            {
-                "text": "Listele",
-                "key": "GetProjects",
-                "url": "admin.projects.index",
-                "activePath": "admin/projects"
-            }
-        ]
+        "url": "admin.housing_statuses.index",
+        "activePath": "qR9zLp2xS6y/secured/housing_status"
     },
     {
         "id": "general_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "lock",
         "text": "Genel Ayarlar",
         "key": "GetSiteSettings",
         "url": "admin.site-settings.index",
-        "activePath": "admin/site-settings*"
+        "activePath": "qR9zLp2xS6y/secured/site-settings"
+    },
+    {
+        "id": "bank_accounts",
+        "label": "Yönetim",
+        "icon": "credit-card",
+        "text": "Banka Hesapları",
+        "key": "GetBankAccounts",
+        "url": "admin.bank_account.index",
+        "activePath": "qR9zLp2xS6y/secured/bank_accounts"
     },
     {
         "id": "smtp_settings",
-        "label": "Ayarlar",
-        "icon": "send",
+        "label": "Yönetim",
+        "icon": "envelope",
         "text": "SMTP Ayarları",
         "key": "GetSmtpSettingById",
         "url": "admin.smtp.edit",
-        "activePath": "admin/smtp/edit*"
+        "activePath": "qR9zLp2xS6y/secured/smtp/edit"
     },
     {
         "id": "contact_settings",
-        "label": "Ayarlar",
+        "label": "Yönetim",
         "icon": "phone",
         "text": "İletişim Ayarları",
         "key": "GetContactSettingById",
         "url": "admin.info.contact.index",
-        "activePath": "admin/info/contact*"
+        "activePath": "qR9zLp2xS6y/secured/info/contact"
     },
     {
         "id": "marketings",
-        "label": "Uygulama",
+        "label": "Yönetim",
         "icon": "shopping-bag",
         "text": "Pazarlama",
         "key": "Marketings",
         "url": "#nv-marketings",
-        "activePath": "admin/marketings*",
+        "activePath": "qR9zLp2xS6y/secured/marketings",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreateMarketing",
                 "url": "admin.marketing.projects.index",
-                "activePath": "admin/marketing/project"
+                "activePath": "qR9zLp2xS6y/secured/marketing/project"
             },
             {
                 "text": "Listele",
                 "key": "GetMarketings",
                 "url": "admin.marketing.projects.marketed",
-                "activePath": "admin/marketing/project/marketed"
+                "activePath": "qR9zLp2xS6y/secured/marketing/project/marketed"
             }
         ]
     },
@@ -318,65 +425,65 @@
         "text": "Footer Bağlantıları",
         "key": "FooterLinks",
         "url": "#nv-footer-links",
-        "activePath": "admin/footer_links*",
+        "activePath": "qR9zLp2xS6y/secured/footer_links",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreateFooterLink",
                 "url": "admin.footer_links.create",
-                "activePath": "admin/footer_links/create"
+                "activePath": "qR9zLp2xS6y/secured/footer_links/create"
             },
             {
                 "text": "Listele",
                 "key": "GetFooterLinks",
                 "url": "admin.footer_links.index",
-                "activePath": "admin/footer_links"
+                "activePath": "qR9zLp2xS6y/secured/footer_links"
             }
         ]
     },
     {
         "id": "social_media_icons",
         "label": "Yönetim",
-        "icon": "instagram",
+        "icon": "share-square",
         "text": "Sosyal Medya İkonları",
         "key": "SocialMediaIcons",
         "url": "#nv-social-media-icons",
-        "activePath": "admin/social_media_icons*",
+        "activePath": "qR9zLp2xS6y/secured/social_media_icons",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreateSocialMediaIcon",
                 "url": "admin.social_media_icons.create",
-                "activePath": "admin/social_media_icons/create"
+                "activePath": "qR9zLp2xS6y/secured/social_media_icons/create"
             },
             {
                 "text": "Listele",
                 "key": "GetSocialMediaIcons",
                 "url": "admin.social_media_icons.index",
-                "activePath": "admin/social_media_icons"
+                "activePath": "qR9zLp2xS6y/secured/social_media_icons"
             }
         ]
     },
     {
         "id": "email_templates",
         "label": "E-posta Şablonları",
-        "icon": "mail",
+        "icon": "reply",
         "text": "E-posta Şablonları",
         "key": "EmailTemplates",
         "url": "#nv-email-templates",
-        "activePath": "admin/email_templates*",
+        "activePath": "qR9zLp2xS6y/secured/email_templates",
         "subMenu": [
             {
                 "text": "Yeni Ekle",
                 "key": "CreateEmailTemplate",
                 "url": "admin.email-templates.create",
-                "activePath": "admin/email-templates/create"
+                "activePath": "qR9zLp2xS6y/secured/email-templates/create"
             },
             {
                 "text": "Listele",
                 "key": "GetEmailTemplates",
                 "url": "admin.email-templates.index",
-                "activePath": "admin/email-templates"
+                "activePath": "qR9zLp2xS6y/secured/email-templates"
             }
         ]
     }
