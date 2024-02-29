@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CustomMail;
 use App\Models\BankAccount;
 use App\Models\Block;
 use App\Models\Brand;
@@ -19,10 +20,15 @@ use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
+use App\Models\ProjectOffers;
+use App\Models\ProjectOffersGiven;
+use App\Models\ProjectOffersReceived;
 use App\Models\StandOutUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -813,4 +819,86 @@ class ProjectController extends Controller
             "blocks" => $blocks
         ];
     }
+
+    //Mağazanın Alınan Tekliflerin listesi
+    public function get_received_offers(){
+        $data = ProjectOffers::where('store_id', auth()->id())->get();
+        return view('institutional.project_offers.get_received_offers',compact('data'));
+    }//End
+
+     //Kullanıcının Verdiği Tekliflerin listesi
+    public function get_given_offers(){
+        $data = ProjectOffers::where('user_id', auth()->id())->get();
+        return view('institutional.project_offers.get_given_offers',compact('data'));
+    }//End
+
+
+    //Teklif ver fonksiyonu
+    public function give_offer(Request $request){   
+        // print_r($request->all());die;
+        $offer_price_range = $request->offer_price_min." ".$request->offer_price_max;
+
+        $data = [
+            'user_id'           => auth()->id(),
+            'store_id'          => $request->projectUserId,
+            'project_id'        => $request->projectId,
+            'room_id'           => $request->roomId,
+            'email'             => $request->email,
+            'offer_price_range' => $offer_price_range,
+            'offer_description' => $request->offer_description,
+            'approval_status'   => 0,
+            'response_status'   => 0,
+            'sales_status'      => 0,
+            'offer_response'    => 0,
+            'created_at'        => now()
+        ];
+
+        ProjectOffers::create($data);
+
+        return redirect()->back()->with('success', 'Veri başarıyla eklendi!');
+
+    }//End
+
+    //Teklif Yanıtı
+    public function offer_response(Request $request){
+        // print_r($request->all());die;
+
+        $response         = $request->input('response');
+        $positiveResponse = $request->input('positive_response');
+        $negativeResponse = $request->input('negative_response');
+        $email            = $request->input('email');
+        $username         = $request->input('username');
+        $status = null;
+        if ($positiveResponse == 'on') {
+            $status = 'Positive Response';
+        } elseif ($negativeResponse == 'on') {
+            $status = 'Negative Response';
+        }
+
+
+         // Update the ProjectOffers model
+        $offer = ProjectOffers::findOrFail($request->input('offer_id'));
+       
+
+        if($status == 'Positive Response'){
+            $offer->response_status = 1;
+            $offer->sales_status = 1;
+        }elseif($status == 'Negative Response'){
+            $offer->response_status = 0;
+        }
+
+        $offer->offer_response = 1;
+        $offer->save();
+
+       // Send email to the offerer
+       $subject = 'Teklif Geri Dönüş';
+        Mail::to($email)->send(new CustomMail($subject,$response));
+
+
+        print_r('asda');die;
+        return redirect()->back()->with('success','Yanıtlandı.');
+
+    }//End
+
+
 }

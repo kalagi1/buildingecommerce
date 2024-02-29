@@ -732,6 +732,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
+    Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers');//Mağazanın aldıgı tekliflerin listesi
+    Route::get('get_given_offers',[ClientProjectController::class,'get_given_offers'])->name('get_given_offers');//Kullanıcınn veridiği tekliflerin listesi
     Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
@@ -1002,7 +1004,7 @@ Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('chec
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
-Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => [ 'checkAccountStatus']], function () { //midd update
     Route::get('/reservations', [ClientPanelProfileController::class, 'getReservations'])->name('reservations');
 
     Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
@@ -1078,3 +1080,11 @@ Route::post('/messages/store', [SupportChatController::class, 'store'])->name('m
 
 Route::get('/admin-chat', [SupportChatController::class, 'adminChat']);
 Route::get('/chat/history', [SupportChatController::class, 'getChatHistory']);
+
+
+//TEKLİF ver 
+Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
+
+//Teklif Yanıtı
+Route::post('offer_response',[ClientProjectController::class,'offer_response'])->name('offer_response');
+

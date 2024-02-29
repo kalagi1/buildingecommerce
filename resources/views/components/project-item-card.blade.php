@@ -25,9 +25,7 @@
                             <div class="button-effect-div">
                                 <span
                                     class="btn 
-                                    @if (
-                                        ($sold && $sold->status == '1') ||
-                                            $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                    @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
                                     data-type='project' data-project='{{ $project->id }}'
                                     data-id='{{ $i + 1 }}'>
                                     <i class="fa fa-bookmark-o"></i>
@@ -49,9 +47,7 @@
 
             <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                 <div class="row align-items-center justify-content-between mobile-position"
-                    @if (
-                        ($sold && $sold->status != '2') ||
-                            $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]') style="background: #EEE !important;" @endif>
+                    @if (($sold && $sold->status != '2') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
                         <div class="homes-list-div">
                             <ul class="homes-list clearfix pb-3 d-flex">
@@ -237,24 +233,29 @@
                                     </span>
                                 @endif
                             @else
+
+                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                <button class="first-btn payment-plan-button" data-toggle="modal" data-target="#exampleModal{{ $i+1 }}">
+                                   Teklif Ver
+                                </button>
+
+                            @else
                                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' ? '1' : '0' }}"
+                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                     order="{{ $i + 1 }}">
                                     Ödeme Detayı
-                                </button>
+                                </button> 
                             @endif
-                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
-                                @if ($projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
-                                    <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
-                                        <span class="text">Satışa Kapatıldı</span>
-                                    </button>
-                                @elseif ($projectHousingsList[$i + 1]['off_sale[]'] == '["Sat\u0131ld\u0131"]')
-                                    <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; color: White; height: auto !important">
-                                        <span class="text">Satıldı</span>
-                                    </button>
-                                @endif
+                            
+
+                              
+                            @endif
+
+                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                <button class="btn second-btn"
+                                    style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
+                                    <span class="text">Satışa Kapatıldı</span>
+                                </button>
                             @else
                                 @if ($sold && $sold->status != '2')
                                     <button class="btn second-btn"
@@ -283,3 +284,71 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{ $i+1 }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Teklif Ver</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Modal içeriği -->
+          <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{route('give_offer')}}">
+                    @csrf
+                    {{-- {{ $i+1 }} --}}
+                    <input type="hidden" value="{{ $i+1 }}" name="roomId">
+                    <input type="hidden" value="{{ $project->id }}" name="projectId">
+                    <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
+                    <div class="form-group">
+                        <label for="surname">Emailiniz : </label>
+                        <input type="text" class="form-control" id="email" name="email" style="border: 1px solid gray">
+                    </div>
+                    <div class="form-group">
+                        <label for="offer_price">Fiyat Aralığı (TL):</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" style="border: 1px solid gray" id="offer_price_min" name="offer_price_min" placeholder="Minimum" aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">-</span>
+                            </div>
+                            <input type="text" class="form-control" style="border: 1px solid gray" id="offer_price_max" name="offer_price_max" placeholder="Maksimum" aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label for="comment">Açıklama:</label>
+                        <textarea class="form-control" style="border: 1px solid gray" id="offer_description" rows="5" name="offer_description"></textarea>
+                    </div>
+           
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                      </div>
+                  </form>
+            </div>
+          </div>
+          
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+
+  @section('css')
+     <style>
+        .form-control {
+            border-width: 9px; /* Kenarlık kalınlığını ayarla */
+            border-radius: 5px; /* Kenarlık köşe yarıçapını ayarla */
+        }
+     </style>
+ 
+  @endsection   
