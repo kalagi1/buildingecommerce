@@ -58,6 +58,7 @@
                                                 <input type="hidden" name="email" value="{{$item->email}}">
                                                 <input type="hidden" name="username" value="{{ \App\Models\User::find($item->user_id)->name }}">
                                                 <input type="hidden" name="offer_id" value="{{ $item->id }}">
+                                                <input type="hidden" name="offer_info" value="{{ $item->project->project_title. " Projesindeki ". $item->room_id ." No'lu İlan" }}">
                                                 <div class="form-group">                                          
                                                         <label class="form-label" for="response">Yanıtınız</label>
                                                         <textarea class="form-control" id="content_{{ $item->id }}" name="response" rows="10" required></textarea>
