@@ -138,7 +138,7 @@
 
                             </ul>
                         </div>
-                      
+
                         @php
                             // Example: Set a default value for $maxQtTotal
                             $maxQtTotal = 100; // Set the appropriate default value
@@ -211,11 +211,9 @@
                                                 {{ $sold->name }} <br>
                                                 <svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="css-i6dzq1">
+                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                     <polyline points="19 1 23 5 19 9"></polyline>
-                                                    <line x1="15" y1="5" x2="23"
-                                                        y2="5">
+                                                    <line x1="15" y1="5" x2="23" y2="5">
                                                     </line>
                                                     <path
                                                         d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
@@ -242,10 +240,6 @@
                                 @endif
                             @else
                                 @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
-                                    {{-- <button class="first-btn payment-plan-button" data-toggle="modal"
-                                        data-target="#exampleModal{{ $i + 1 }}">
-                                        Teklif Ver
-                                    </button> --}}
                                     @if (Auth::user())
                                         <button class="first-btn payment-plan-button" data-toggle="modal"
                                             data-target="#exampleModal{{ $i + 1 }}">
@@ -316,54 +310,50 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title" id="exampleModalLabel">Teklif Ver</h3>
-                
+
             </div>
             <div class="modal-body">
                 <!-- Modal içeriği -->
-                        <form method="POST" action="{{ route('give_offer') }}">
-                            @csrf
-                            {{-- {{ $i+1 }} --}}
-                            <input type="hidden" value="{{ $i + 1 }}" name="roomId">
-                            <input type="hidden" value="{{ $project->id }}" name="projectId">
-                            <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
-                            <div class="form-group">
-                                <label for="surname" class="modal-label">Emailiniz : </label>
-                                <input type="text" class="modal-input" id="email" name="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="offer_price" class="modal-label">Fiyat Aralığı (TL):</label>
-                                <div class="input-group">
-                                    <input type="text" class="modal-input" 
-                                        id="offer_price_min" name="offer_price_min" placeholder="Minimum"
-                                        aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
-                                    {{-- <div class="input-group-append">
+                <form method="POST" action="{{ route('give_offer') }}">
+                    @csrf
+                    {{-- {{ $i+1 }} --}}
+                    <input type="hidden" value="{{ $i + 1 }}" name="roomId">
+                    <input type="hidden" value="{{ $project->id }}" name="projectId">
+                    <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
+                    <div class="form-group">
+                        <label for="surname" class="modal-label">Emailiniz : </label>
+                        <input type="text" class="modal-input" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="offer_price" class="modal-label">Fiyat Aralığı (TL):</label>
+                        <div class="input-group">
+                            <input type="text" class="modal-input" id="offer_price_min" name="offer_price_min"
+                                placeholder="Minimum" aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
+                            {{-- <div class="input-group-append">
                                         <span class="input-group-text modal-input" style="height: 10px" id="basic-addon2">-</span>
                                     </div> --}}
-                                    <input type="text" class="modal-input"
-                                        id="offer_price_max" name="offer_price_max" placeholder="Maksimum"
-                                        aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
-                                </div>
-                            </div>
+                            <input type="text" class="modal-input" id="offer_price_max" name="offer_price_max"
+                                placeholder="Maksimum" aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
 
 
-                            <div class="form-group">
-                                <label for="comment" class="modal-label">Açıklama:</label>
-                                <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
-                                    name="offer_description"></textarea>
-                            </div>
+                    <div class="form-group">
+                        <label for="comment" class="modal-label">Açıklama:</label>
+                        <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
+                            name="offer_description"></textarea>
+                    </div>
 
-                            <div class="modal-footer">
-                                <button type="submit" class="modal-btn-gonder">Gönder</button>
-                                <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
-                            </div>
-                        </form>
-               
-              
+                    <div class="modal-footer">
+                        <button type="submit" class="modal-btn-gonder">Gönder</button>
+                        <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                    </div>
+                </form>
+
+
 
             </div>
 
         </div>
     </div>
 </div>
-
-
