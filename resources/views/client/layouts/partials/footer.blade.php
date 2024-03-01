@@ -1320,6 +1320,8 @@
                             "fa-heart");
                         button.querySelector("i").classList.add(
                             "fa-heart-o");
+                    } else if (response.status == 'notLogin') {
+                        window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
                     }
                 },
                 error: function(error) {
@@ -1358,6 +1360,8 @@
                             "fa-heart");
                         button.querySelector("i").classList.add(
                             "fa-heart-o");
+                    } else if (response.status == 'notLogin') {
+                        window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
                     }
                 },
                 error: function(error) {

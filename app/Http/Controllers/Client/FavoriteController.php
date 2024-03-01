@@ -23,7 +23,13 @@ class FavoriteController extends Controller
     {
         $user = User::where("id", Auth::user()->id)->first();
         if(!$user){
-            return redirect()->route('client.login');
+            $status="notLogin";
+            $message="Giriş Yapınız";
+
+            return response()->json([
+                'status'  => $status,
+                'message' => $message
+            ]);
         }
         $housing = ProjectHousing::where("room_order", $id)->where("project_id", $request->input("project_id"))->get();
 
@@ -67,7 +73,13 @@ class FavoriteController extends Controller
     {
         $user = User::where("id", Auth::user()->id)->first();
         if(!$user){
-            return redirect()->route('client.login');
+              $status="notLogin";
+                $message="Giriş Yapınız";
+            
+            return response()->json([
+                'status'  => $status,
+                'message' => $message
+            ]);
         }
         $housing = Housing::findOrFail($id);
 
