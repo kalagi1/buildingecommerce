@@ -1326,10 +1326,16 @@
         }
 
         function submitForm() {
+             // Rate değerini al
+            var rateValue = $('#rate').val();
+
+            // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
+            if (rateValue === '' || rateValue === '0') {
+                $('#rate').val('1');
+            }
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             console.log(csrfToken);
             var formData = new FormData($('#commentForm')[0]);
-
             // Append CSRF token to form data
             formData.append('_token', csrfToken);
 
@@ -1401,11 +1407,13 @@
 
             $('#rate').val($(this).index() + 1);
         });
-        jQuery('form').submit(function(event) {
-            if ($('#rate').val() === '') {
-                $('#rate').val('1'); // Rate değerini 1 olarak ayarla
-            }
-        });
+        // jQuery('form').submit(function(event) {
+        //     if ($('#rate').val() === '') {
+        //         $('#rate').val('1'); // Rate değerini 1 olarak ayarla
+        //     }
+        // });
+
+        
 
 
         function showLocation() {
