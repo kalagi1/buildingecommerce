@@ -1283,93 +1283,86 @@
             });
         }
 
-        $('body').on('click', '.toggle-project-favorite', function(event) {
-            event.preventDefault();
-            console.log("s");
-            var button = event.target;
-            console.log(button);
-            var housingId = this.getAttribute("data-project-housing-id");
-            var projectId = this.getAttribute("data-project-id");
+function toggleProjectFavorite(event) {
+    event.preventDefault();
+    var button = event.target;
+    var housingId = button.getAttribute("data-project-housing-id");
+    var projectId = button.getAttribute("data-project-id");
 
-            $.ajax({
-                url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}"
-                    .replace(':id',
-                        housingId),
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    project_id: projectId,
-                    housing_id: housingId
-                },
-                success: function(response) {
-                    if (response.status == 'added') {
-                        toastr.success("Konut Favorilere Eklendi");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart-o");
-                        button.querySelector("i").classList.add(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "text-danger");
-                        button.classList.add("bg-white");
-                    } else if (response.status == 'removed') {
-                        toastr.warning(
-                            "Konut Favorilerden Kaldırıldı");
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
-                    } else if (response.status == 'notLogin') {
-                        window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
-                    }
-                },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                }
-            });
-        });
+    $.ajax({
+        url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}".replace(':id', housingId),
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            project_id: projectId,
+            housing_id: housingId
+        },
+        success: function(response) {
+            if (response.status == 'added') {
+                toastr.success("Konut Favorilere Eklendi");
+                updateFavoriteButton(button, true);
+            } else if (response.status == 'removed') {
+                toastr.warning("Konut Favorilerden Kaldırıldı");
+                updateFavoriteButton(button, false);
+            } else if (response.status == 'notLogin') {
+                window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
+            }
+        },
+        error: function(error) {
+            // window.location.href = "/giris-yap";
+        }
+    });
+}
 
-        $('body').on("click", ".toggle-favorite", function(event) {
-            event.preventDefault();
-            var housingId = this.getAttribute("data-housing-id");
-            var button = this;
-            $.ajax({
-                url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}"
-                    .replace(':id',
-                        housingId),
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    if (response.status == 'added') {
-                        toastr.success("Konut Favorilere Eklendi");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart-o");
-                        button.querySelector("i").classList.add(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "text-danger");
-                        button.classList.add("bg-white");
-                    } else if (response.status == 'removed') {
-                        toastr.warning("Konut Favorilerden Kaldırıldı");
-                        button.querySelector("i").classList.remove(
-                            "text-danger");
-                        button.querySelector("i").classList.remove(
-                            "fa-heart");
-                        button.querySelector("i").classList.add(
-                            "fa-heart-o");
-                    } else if (response.status == 'notLogin') {
-                        window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
-                    }
-                },
-                error: function(error) {
-                    window.location.href = "/giris-yap";
-                    console.error(error);
-                }
-            });
-        });
+// Function to handle the click event for generic favorite toggle
+function toggleFavorite(event) {
+    event.preventDefault();
+    var housingId = event.currentTarget.getAttribute("data-housing-id");
+    var button = event.currentTarget;
+
+    $.ajax({
+        url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}".replace(':id', housingId),
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}"
+        },
+        success: function(response) {
+            if (response.status == 'added') {
+                toastr.success("Konut Favorilere Eklendi");
+                updateFavoriteButton(button, true);
+            } else if (response.status == 'removed') {
+                toastr.warning("Konut Favorilerden Kaldırıldı");
+                updateFavoriteButton(button, false);
+            } else if (response.status == 'notLogin') {
+                window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
+            }
+        },
+        error: function(error) {
+            window.location.href = "/giris-yap";
+            console.error(error);
+        }
+    });
+}
+
+// Function to update the favorite button styles
+function updateFavoriteButton(button, isAdded) {
+    var heartIconClassList = button.querySelector("i").classList;
+    heartIconClassList.remove("text-danger", "fa-heart", "fa-heart-o");
+
+    if (isAdded) {
+        heartIconClassList.add("fa-heart", "text-danger");
+        button.classList.add("bg-white");
+    } else {
+        heartIconClassList.add("fa-heart-o");
+        button.classList.remove("bg-white");
+    }
+}
+
+// Event delegation for project favorite toggle
+$('body').on('click', '.toggle-project-favorite', toggleProjectFavorite);
+
+// Event delegation for generic favorite toggle
+$('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
     const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
