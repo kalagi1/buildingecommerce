@@ -136,6 +136,7 @@
                                     $orderCount = null;
                                     $neighborCount = null;
                                     $reservationsCount = null;
+                                    $commentCount = null;
 
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
@@ -167,7 +168,10 @@
                                         $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
                                     }elseif ($menuItem['key'] == "GetReservations") {
                                         $reservationsCount = \App\Models\Reservation::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
+                                    }elseif ($menuItem['key'] == "GetHousingComments") {
+                                        $commentCount = \App\Models\HousingComment::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
                                     };
+                                    
                                     
                                 @endphp
                         
@@ -189,7 +193,7 @@
                                                 {{ $pendingProjects != null &&  $pendingProjects->count() != 0 ? "(". $pendingProjects->count() .")" : null }}
                                                 {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
                                                 {{ $reservationsCount != null ? "(". $reservationsCount->count() .")" : null }}   
-
+                                                {{ $commentCount != null ? "(". $commentCount->count() .")" : null }}     
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
