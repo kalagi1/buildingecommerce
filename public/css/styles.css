@@ -200,10 +200,6 @@ button {
 
 @media (max-width: 768px) {
 
-    .bank-account {
-        margin: 20px;
-    }
-
     #orders-container .order .order-item .order-item-status {
         width: 60% !important;
     }
