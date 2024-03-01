@@ -885,13 +885,13 @@ class ProjectController extends Controller
 
     //Mağazanın Alınan Tekliflerin listesi
     public function get_received_offers(){
-        $data = ProjectOffers::where('store_id', auth()->id())->get();
+        $data = ProjectOffers::with('project')->where('store_id', auth()->id())->get();
         return view('institutional.project_offers.get_received_offers',compact('data'));
     }//End
 
      //Kullanıcının Verdiği Tekliflerin listesi
     public function get_given_offers(){
-        $data = ProjectOffers::where('user_id', auth()->id())->get();
+        $data = ProjectOffers::with('project')->where('user_id', auth()->id())->get();
         return view('institutional.project_offers.get_given_offers',compact('data'));
     }//End
 
@@ -904,7 +904,7 @@ class ProjectController extends Controller
         $data = [
             'user_id'           => auth()->id(),
             'store_id'          => $request->projectUserId,
-            'project_id'        => $request->projectId,
+            'project_id'      => $request->project_id,
             'room_id'           => $request->roomId,
             'email'             => $request->email,
             'offer_price_range' => $offer_price_range,
