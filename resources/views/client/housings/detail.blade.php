@@ -1355,8 +1355,8 @@
                     });
                 },
                 error: function(error) {
-                    // window.location.href = "/giris-yap";
-                    console.log(error);
+                    window.location.href = "/giris-yap";
+                    //console.log(error);
                 }
             });
         }
