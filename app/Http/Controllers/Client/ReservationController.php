@@ -34,6 +34,7 @@ class ReservationController extends Controller {
         }
 
         $existingReservation = Reservation::where( 'housing_id', $request->input( 'housing_id' ) )
+        ->where("status","!=", "3")
         ->where( function ( $query ) use ( $request ) {
             $query->whereBetween( 'check_in_date', [ $request->input( 'check_in_date' ), $request->input( 'check_out_date' ) ] )
             ->orWhereBetween( 'check_out_date', [ $request->input( 'check_in_date' ), $request->input( 'check_out_date' ) ] );

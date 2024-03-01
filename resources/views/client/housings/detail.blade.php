@@ -1,7 +1,10 @@
 @extends('client.layouts.master')
 
 @php
-    $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$housing->id]);
+    $sold = DB::select(
+        'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
+        [$housing->id],
+    );
 @endphp
 @php
 
@@ -420,10 +423,12 @@
                                                         $buttonStyle = '';
                                                         $buttonText = '';
                                                         if ($sold[0]->status == '0') {
-                                                            $buttonStyle = 'background: orange !important; width: 100%; color: white;';
+                                                            $buttonStyle =
+                                                                'background: orange !important; width: 100%; color: white;';
                                                             $buttonText = 'Rezerve Edildi';
                                                         } else {
-                                                            $buttonStyle = 'background: #EA2B2E !important; width: 100%; color: white;';
+                                                            $buttonStyle =
+                                                                'background: #EA2B2E !important; width: 100%; color: white;';
                                                             $buttonText = 'Satıldı';
                                                         }
                                                     @endphp
@@ -1000,9 +1005,8 @@
                                     </div>
                                 </div>
                                 <textarea name="comment" rows="10" class="form-control mt-4" placeholder="Yorum girin..." required></textarea>
-                                <button type="button" class="ud-btn btn-white2 mt-3"
-                                    onclick="submitForm()">Yorumu Gönder<i
-                                        class="fal fa-arrow-right-long"></i></button>
+                                <button type="button" class="ud-btn btn-white2 mt-3" onclick="submitForm()">Yorumu
+                                    Gönder<i class="fal fa-arrow-right-long"></i></button>
 
                             </form>
 
@@ -1025,42 +1029,91 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <input type="hidden" name="key" id="orderKey">
-                    <div class="tr-single-box mb-0">
-                        <div class="tr-single-body">
-                            <div class="booking-price-detail side-list no-border mb-3">
-                                <h5 style="color:black;font-size:15px !important">Rezervasyon Detayları</h5>
-                                <ul>
-                                    <li>İlan: <strong class="pull-right">{{ $housing->title }} </strong></li>
-                                    <li>İlan No: <strong class="pull-right"
-                                            style="color:#007bff">{{ $housing->id + 1000000 }} </strong></li>
+                    <div class="tr-single-box mb-0 shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                        <div class="row">
+                            <div class="col-md-12 pt-4">
+                                <h2 class="font-weight-bold">Rezervasyon Detayları</h2>
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light">İlan: <span
+                                            class="float-right font-weight-bold">{{ $housing->title }} </span></li>
+                                    <li class="list-group-item bg-light">İlan No: <span
+                                            class="float-right font-weight-bold"
+                                            style="color:#007bff">{{ $housing->id + 2000000 }} </span></li>
+                                    <li class="list-group-item bg-light">Rezervasyon Tarihi:<span
+                                            class="float-right font-weight-bold">{{ date('d.m.Y') }}</span></li>
+                                    <li class="list-group-item bg-light">Giriş Tarihi:<span
+                                            class="float-right font-weight-bold inDate">9pm 10pm</span></li>
+                                    <li class="list-group-item bg-light">Kişi Sayısı:<span
+                                            class="float-right font-weight-bold userCount">9pm 10pm</span></li>
+                                    <li class="list-group-item bg-light">Çıkış Tarihi:<span
+                                            class="float-right font-weight-bold outDate">10 jan 2019</span></li>
+                                </ul>
+                            </div>
+                            
+                                <div class="col-md-12 pt-4">
+                                    <h2 class="font-weight-bold">Ödeme Detayları</h2>
+                                    <ul class="list-group">
+                                        <li class="list-group-item bg-light ">
+                                            <span class="font-weight-bold">&nbsp;X Gece</span>
+                                            <span class="dayCount float-left font-weight-bold">
+                                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                    @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                        {{ getData($housing, 'daily_rent') - $discountAmount }} ₺
+                                                    @else
+                                                        {{ number_format(getData($housing, 'price') - $discountAmount, 0, ',', '.') }} ₺
+                                                    @endif
+                                                @endif
+                                            </span>
+                                            <span
+                                                class="float-right font-weight-bold totalPrice">$263</span>
+                                        </li>
+                                        
 
-                                    <li>Rezervasyon Tarihi:<strong class="pull-right">{{ date('d.m.Y') }}</strong>
-                                    </li>
-                                    <li>Giriş Tarihi:<strong class="pull-right inDate">9pm 10pm</strong></li>
-                                    <li>Çıkış Tarihi:<strong class="pull-right outDate">10 jan 2019</strong></li>
-                                    <li>Kişi Sayısı:<strong class="pull-right userCount">9pm 10pm</strong></li>
-                                </ul>
-                            </div>
-                            <div class="booking-price-detail side-list no-border reservation-form-add-area">
-                                <h5 style="color:black;font-size:15px !important">Ödeme Detayları</h5>
-                                <ul>
-                                    <li>EFT/Havale Kodu<strong class="pull-right totalPriceCode">$60</strong></li>
-                                    <li>Toplam Tutar<strong class="pull-right totalPrice">$150</strong></li>
-                                    <li class="red pb-0">Ödenecek Tutar %50<strong
-                                            class="pull-right newTotalPrice">$263</strong> </li>
-                                </ul>
-                            </div>
-                            <div class="booking-price-detail side-list no-border">
-                                @foreach ($bankAccounts as $bankAccount)
-                                    <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                        data-iban="{{ $bankAccount->iban }}"
-                                        data-title="{{ $bankAccount->receipent_full_name }}">
-                                        <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
-                                            style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="booking-price-detail side-list no-border">
+                                               
+                                        <li class="list-group-item bg-light">Şimdi Ödenecek Tutar:&nbsp;<span
+                                                class="float-right font-weight-bold newTotalPrice">$263</span> </li>
+                                        <li class="list-group-item bg-light">Kapıda Ödenecek Tutar<span
+                                                class="float-right font-weight-bold newTotalPrice">$263</span> </li>
+                                        <li class="list-group-item bg-light">Toplam Tutar<span
+                                                class="float-right font-weight-bold totalPrice">$150</span></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-12 pt-4">
+                                    <h2 class="font-weight-bold">Destek Detayları</h2>
+                                    <ul class="list-group">
+                                        <li class="list-group-item bg-light">
+                                            <i class=" float-left fas fa-phone-alt mt-1 mr-4"></i> <span
+                                                class="float-left font-weight-bold"></span> 444 3 284
+                                        </li>
+                                        <li class="list-group-item bg-light">
+                                            <i class=" float-left fas fa-envelope mt-1 mr-3"></i> <span
+                                                class="float-left font-weight-bold"></span> destek@emlaksepette.com
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-12 pt-4">
+                                    <h2 class="font-weight-bold">EFT/Havale Detayları</h2>
+                                    <ul class="list-group">
+                                        <li class="list-group-item bg-light">EFT/Havale Kodu<span
+                                                class="float-right font-weight-bold  totalPriceCode">$60<span>
+                                        </li>
+                                    </ul>
+                                </div>
+    
+                            
+
+                            @foreach ($bankAccounts as $bankAccount)
+                                <div class="col-md-4 pt-4 px-4 pb-4  bank-account" data-id="{{ $bankAccount->id }}"
+                                    data-iban="{{ $bankAccount->iban }}"
+                                    data-title="{{ $bankAccount->receipent_full_name }}">
+                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                        style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                </div>
+                            @endforeach
+
+                            <div class="col-md-12 pt-4">
                                 <span id="ibanInfo"></span>
                                 <span>Ödeme işlemini tamamlamak için, lütfen bu
                                     <span style="color:red;font-size:15px !important;font-weight:bold"
@@ -1085,13 +1138,13 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                <div class="d-flex"> <button type="button"
-                                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif
-                                        class="btn btn-secondary btn-lg btn-block mt-3" id="completePaymentButton"
-                                        style="width:150px">Satın Al
+                                <div class="modal-footer"> <button type="button"
+                                        @if ((Auth::check() && Auth::user()->type == '2') || (Auth::check() && Auth::user()->parent_id)) disabled @endif class="btn btn-primary"
+                                        id="completePaymentButton" style="width:150px">Satın Al
                                     </button>
-                                    <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                        style="width:150px" data-bs-dismiss="modal">İptal</button>
+                                    <button type="button" class="btn btn-secondary " style="width:150px"
+                                        data-bs-dismiss="modal">İptal</button>
+
                                 </div>
 
                             </div>
@@ -1104,6 +1157,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="finalConfirmationModal" tabindex="-1" role="dialog"
         aria-labelledby="finalConfirmationModalLabel" aria-hidden="true">
@@ -1167,17 +1221,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <button type="button" id="submitBtn" class="btn btn-secondary paySuccess">Ödemeyi Tamamla
+                        <div class="modal-footer">
+                            <button type="button" id="submitBtn" class="btn btn btn-primary paySuccess">Ödemeyi Tamamla
                                 <svg viewBox="0 0 576 512" class="svgIcon">
                                     <path
                                         d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
                                     </path>
                                 </svg></button>
-                            <button type="button" class="btn btn-secondary btn-lg btn-block" style="width:150px"
+                            <button type="button" class="btn btn-secondary " style="width:150px"
                                 data-bs-dismiss="modal">İptal</button>
                         </div>
-                   </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1488,6 +1542,7 @@
                         // Minimum 7 gün tarih aralığı kontrolü
                         var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                        console.log(diffDays)
 
                         if (diffDays < 7) {
                             Swal.fire({
@@ -1502,6 +1557,7 @@
 
                         } else {
                             $(".showPrice").removeClass("d-none");
+                            $(".dayCount").html(diffDays);
                             $("#totalPrice").html(price * diffDays + " ₺");
                             $(".totalPrice").html(price * diffDays + " ₺");
                             $("#completePaymentButton").html((price * diffDays / 2) + " ₺" + " Öde");
@@ -1554,7 +1610,7 @@
                     // Minimum 7 gün tarih aralığı kontrolü
                     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
+                    
                     // Gerekli alanları kontrol et
                     if (!fullName || !email || !tc || !phone || !address) {
                         toastr.error("Lütfen tüm zorunlu alanları doldurun.")
@@ -1595,15 +1651,27 @@
                             money_trusted: moneyTrusted
                         },
                         success: function(response) {
-                            $('#finalConfirmationModal').modal('hide');
-                            $('.modal-backdrop').remove();
-                            toastr.success(response.message);
-                            location.reload();
+                            // $('#finalConfirmationModal').modal('hide');
+                            // $('.modal-backdrop').remove();
+                            // location.reload();
+
+                            if (!response.success) {
+                                toastr.error(response.message);
+                                // location.reload();
+                            } else {
+                                $('#finalConfirmationModal').modal('hide');
+                                $('.modal-backdrop').remove();
+                                toastr.success(response.message);
+                                location.reload();
+                            }
+
                         },
-                        error: function(error) {
-                            // Hata durumunda burada gerekli işlemleri yapabilirsiniz
-                            console.log(error);
+                        error: function(xhr, status, error) {
+                            toastr.error(
+                                'İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin veya destek ekibimizle iletişime geçin.'
+                                );
                         }
+
                     });
                 });
 
@@ -1866,6 +1934,7 @@
                             var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                             var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
+                            console.log(diffDays)
                             if (diffDays < 7) {
                                 Swal.fire({
                                     icon: 'warning',
@@ -1879,6 +1948,7 @@
 
                             } else {
                                 $(".showPrice").removeClass("d-none");
+                                $(".dayCount").html(diffDays);
                                 $("#totalPrice").html(price * diffDays + " ₺");
                                 $(".totalPrice").html(price * diffDays + " ₺");
                                 $(".newTotalPrice").html((price * diffDays / 2) + " ₺");
