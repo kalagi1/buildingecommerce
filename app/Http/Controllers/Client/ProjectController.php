@@ -927,29 +927,19 @@ class ProjectController extends Controller
         // print_r($request->all());die;
 
         $response         = $request->input('response');
-        $positiveResponse = $request->input('positive_response');
-        $negativeResponse = $request->input('negative_response');
         $email            = $request->input('email');
         $username         = $request->input('username');
         $offerInfo        = $request->input('offer_info');
         $offerId          = $request->input('offer_id');
-
-        $status = null;
-        if ($positiveResponse == 'on') {
-            $status = 'Positive Response';
-        } elseif ($negativeResponse == 'on') {
-            $status = 'Negative Response';
-        }
-
-
+        
          // Update the ProjectOffers model
         $offer = ProjectOffers::findOrFail($request->input('offer_id'));
        
 
-        if($status == 'Positive Response'){
+        if($request->response_toggle == 'on'){
             $offer->response_status = 1;
             $offer->sales_status = 1;
-        }elseif($status == 'Negative Response'){
+        }elseif($request->response_toggle == 'off'){
             $offer->response_status = 0;
         }
 
@@ -957,14 +947,10 @@ class ProjectController extends Controller
         $offer->save();
 
        // Send email to the offerer
-        //$subject = 'Teklif Geri Dönüş';
-
         $message = $offerInfo."a yapmış olduğunuz teklifin yanıtlandı.";
 
         Mail::to($email)->send(new CustomMail($message,$response));
 
-
-        // print_r('mail gönderildi');die;
         return redirect()->back()->with('success','Yanıtlandı.');
 
     }//End

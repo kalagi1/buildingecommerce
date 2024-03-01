@@ -20,6 +20,7 @@
                 </thead>
                 <tbody>
                     @foreach($data as $item)
+                       @if($item->offer_response == 0) 
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
@@ -80,6 +81,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                     @endforeach
                 </tbody>
             </table>
@@ -97,7 +99,6 @@
                     <tr>
                         <th>Teklif Eden</th>
                         <th>Proje Başlığı</th>
-                        <th>Oda No</th>
                         <th>E-mail</th>
                         <th>Teklif Aralığı</th>
                         <th>Açıklama</th>
@@ -108,9 +109,17 @@
                     @foreach($data as $item)
                         @if($item->offer_response == 1)
                             <tr>
-                                <td>{{ \App\Models\User::find($item->user_id)->name }}</td>
-                                <td>{{ \App\Models\Project::find($item->project_id)->project_title }}</td>
-                                <td>{{ $item->room_id }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-xl mr-2">
+                                            <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}" class="avatar-img rounded-circle" alt="">
+                                        </div>
+                                        <div>
+                                            {{ $item->user->name }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ $item->project->project_title. " Projesindeki ". $item->room_id ." No'lu İlan" }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->offer_price_range }}</td>
                                 <td>{{ $item->offer_description }}</td>
