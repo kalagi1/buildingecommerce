@@ -2051,6 +2051,9 @@
         }
 
         @media (max-width:768px) {
+            .list-group-item.bg-light{
+                width:100%
+            }
             .mobile-action {
                 margin-left: 10px
             }
