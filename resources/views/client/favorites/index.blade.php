@@ -311,7 +311,8 @@
 
                     },
                     error: function(error) {
-                        // Hata durumunda buraya gelir
+                        window.location.href = "/giris-yap";
+
                         toastr.error("Hata oluştu: " + error.responseText, "Hata");
                         console.error("Hata oluştu: " + error);
                     }
