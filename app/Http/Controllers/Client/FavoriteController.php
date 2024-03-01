@@ -22,6 +22,9 @@ class FavoriteController extends Controller
     public function addProjectHousingToFavorites($id, HttpRequest $request)
     {
         $user = User::where("id", Auth::user()->id)->first();
+        if(!$user){
+            return redirect()->route('client.login');
+        }
         $housing = ProjectHousing::where("room_order", $id)->where("project_id", $request->input("project_id"))->get();
 
         $existingFavorite = ProjectFavorite::where('user_id', $user->id)
@@ -63,6 +66,9 @@ class FavoriteController extends Controller
     public function addHousingToFavorites($id)
     {
         $user = User::where("id", Auth::user()->id)->first();
+        if(!$user){
+            return redirect()->route('client.login');
+        }
         $housing = Housing::findOrFail($id);
 
         // Kullanıcının favorileri içinde bu konut zaten var mı kontrol et
