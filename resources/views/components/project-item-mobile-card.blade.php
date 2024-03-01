@@ -223,7 +223,7 @@
                     @if ($projectHousingsList[$room_order + $lastHousingCount]['off_sale[]'] != '[]')
                         @if (Auth::user())
                             <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                data-toggle="modal" data-target="#exampleModal{{ $room_order }}"
+                                data-toggle="modal" data-target="#offerModal{{ $room_order + $lastHousingCount  }}"
                                 style="width:50% !important">
                                 Teklif Ver
                             </button>
@@ -291,12 +291,12 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal{{ $room_order + $lastHousingCount }}" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="offerModal{{ $room_order + $lastHousingCount }}" tabindex="-1" role="dialog"
+    aria-labelledby="offerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Teklif Ver</h3>
+                <h3 class="modal-title" id="offerModalLabel">Teklif Ver</h3>
 
             </div>
             <div class="modal-body">
