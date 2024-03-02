@@ -778,7 +778,7 @@
                                                             </div>
                                                             <div class="mobile-show ajax-mobile-list">
                                                                 @if ($key == 0)
-                                                                    @for ($i = 0; $i < $count - 1; $i++)
+                                                                    @for ($i = 0; $i < $count ; $i++)
                                                                         @php
                                                                             $j++;
                                                                             if (isset($projectCartOrders[$i + 1])) {
@@ -1635,33 +1635,33 @@
                             }
                         }
 
-                        if (res[i]['off_sale[]'] != "[]") {
-                            htmlMobile += `<button
-                                                                                                    class="btn second-btn mobileCBtn"
-                                                                                                    style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
+                        // if (res[i]['off_sale[]'] != "[]") {
+                        //     htmlMobile += `<button
+                        //                                                                             class="btn second-btn mobileCBtn"
+                        //                                                                             style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
 
-                                                                                                    <span
-                                                                                                        class="text">Satışa
-                                                                                                        Kapatıldı</span>
-                                                                                                </button>`
-                        } else {
-                            if (sold && sold['status'] != 2) {
-                                htmlMobile += `<button class="btn second-btn mobileCBtn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
-                                                                                                        ${
-                                                                                                            sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
-                                                                                                        }
-                                                                                                    </button>`
-                            } else {
-                                htmlMobile += `<button class="CartBtn second-btn mobileCBtn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
-                                                                                                        <span
-                                                                                                            class="IconContainer">
-                                                                                                            <img src="{{ asset('sc.png') }}"
-                                                                                                                alt="">
-                                                                                                        </span>
-                                                                                                        <span class="text">Sepete Ekle</span>
-                                                                                                    </button>`
-                            }
-                        }
+                        //                                                                             <span
+                        //                                                                                 class="text">Satışa
+                        //                                                                                 Kapatıldı</span>
+                        //                                                                         </button>`
+                        // } else {
+                        //     if (sold && sold['status'] != 2) {
+                        //         htmlMobile += `<button class="btn second-btn mobileCBtn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
+                        //                                                                                 ${
+                        //                                                                                     sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
+                        //                                                                                 }
+                        //                                                                             </button>`
+                        //     } else {
+                        //         htmlMobile += `<button class="CartBtn second-btn mobileCBtn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
+                        //                                                                                 <span
+                        //                                                                                     class="IconContainer">
+                        //                                                                                     <img src="{{ asset('sc.png') }}"
+                        //                                                                                         alt="">
+                        //                                                                                 </span>
+                        //                                                                                 <span class="text">Sepete Ekle</span>
+                        //                                                                             </button>`
+                        //     }
+                        // }
 
                         htmlMobile += `
                                         @if ($projectHousingsList[$room_order + $lastHousingCount]['off_sale[]'] != '[]')
