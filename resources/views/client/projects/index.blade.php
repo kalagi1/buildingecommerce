@@ -1271,7 +1271,7 @@
                                 <div class="project-card mb-3">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->slug }}/${startIndex+1+i+lastBlockHousingCount}" style="height: 100%">
+                                            <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->id }}/${startIndex+1+i+lastBlockHousingCount}" style="height: 100%">
                                                 <div class="d-flex" style="height: 100%;">
                                                     <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
                                                         <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
@@ -1538,7 +1538,7 @@
                             `<div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
-                                <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->slug }}/${startIndex+1+i+lastBlockHousingCount}">
+                                <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->id }}/${startIndex+1+i+lastBlockHousingCount}">
                                     <div class="homes">
                                         <!-- homes img -->
                                         <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
@@ -1557,7 +1557,7 @@
                         <div class="w-100" style="padding-left:0;">
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
-                                    href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->slug }}/${startIndex+1+i+lastBlockHousingCount}">
+                                    href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->id }}/${startIndex+1+i+lastBlockHousingCount}">
                                     <div class="d-flex justify-content-between" style="gap:8px;">
                                         <h3>
                                             ${res[i]['advertise_title[]']}
