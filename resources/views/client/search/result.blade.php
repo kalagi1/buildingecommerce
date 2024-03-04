@@ -118,7 +118,7 @@
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                             <div class="project-inner project-head">
-                                                <a href="{{ route('housing.show', $result['id']) }}">
+                                                <a href="{{ route('housing.show', ['housingSlug' => $result['slug'], 'housingID' => $result['id'] + 1000000]) }}">
                                                     <div class="homes">
                                                         <div class="homes-img h-100 d-flex align-items-center"
                                                             style="width: 130px; height: 128px;">
@@ -134,7 +134,7 @@
                                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                                 <a style="text-decoration: none;height:100%"
-                                                    href="{{ route('housing.show', $result['id']) }}">
+                                                    href="{{ route('housing.show', ['housingSlug' => $result['slug'], 'housingID' => $result['id'] + 1000000]) }}">
                                                     <div class="d-flex"
                                                         style="gap: 8px;justify-content:space-between;align-items:center">
                                                         <h4>{{ mb_convert_case($result['housing_title'], MB_CASE_TITLE, 'UTF-8') }}
@@ -189,7 +189,7 @@
 
                                                             <script>
                                                                 function redirectToReservation() {
-                                                                    window.location.href = "{{ route('housing.show', [$result['id']]) }}";
+                                                                    window.location.href = "{{ route('housing.show', ['housingSlug' => $result['slug'], 'housingID' => $result['id'] + 1000000]) }}";
                                                                 }
                                                             </script>
                                                         @endif
@@ -313,7 +313,7 @@
                                                     @php($sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND  JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [$result['id']]))
 
                                                     <div class="col-md-3 mb-3">
-                                                        <a href="{{ route('housing.show', [$result['id']]) }}"
+                                                        <a href="{{route('housing.show', ['housingSlug' => $result['slug'], 'housingID' => $result['id'] + 1000000]) }}"
                                                             class="text-decoration-none">
                                                             <div data-aos="fade-up" data-aos-delay="150">
                                                                 <div class="landscapes">
@@ -545,7 +545,7 @@
 
                                                                                 <script>
                                                                                     function redirectToReservation() {
-                                                                                        window.location.href = "{{ route('housing.show', [$result['id']]) }}";
+                                                                                        window.location.href = "{{ route('housing.show', ['housingSlug' => $result['slug'], 'housingID' => $result['id'] + 1000000]) }}";
                                                                                     }
                                                                                 </script>
                                                                             @endif

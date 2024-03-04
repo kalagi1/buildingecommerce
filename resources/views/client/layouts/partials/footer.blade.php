@@ -1406,10 +1406,9 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
+                                //housign.show link eklenecek
                             $('.header-search-box').append(`
-                            <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                <span>${formattedName}</span>
-                            </a>
+                          
                         `);
 
                         });
@@ -1552,10 +1551,9 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                                 const formattedName = e.name.charAt(0)
                                     .toUpperCase() + e.name.slice(1);
 
+                                //housign.show metodu eklenecek    
                                 $('.header-search-box-mobile').append(`
-                                    <a href="{{ route('housing.show', '') }}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                        <span>${formattedName}</span>
-                                    </a>
+                                  
                                 `);
 
                             });

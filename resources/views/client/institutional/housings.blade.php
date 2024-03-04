@@ -143,6 +143,7 @@ return $a;
         </div>
     </div>
 </div>
+
 @if ($secondhandHousings->isNotEmpty())
 <section class="featured portfolio rec-pro disc bg-white">
     <div class="container">
@@ -150,12 +151,6 @@ return $a;
             <div class="section-title">
                 <h2>Emlak İlanları</h2>
             </div>
-            <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                    class="w-100">
-                    Tümünü Gör
-                </button>
-            </a>
         </div>
 
         <div class="mobile-show">
@@ -170,11 +165,13 @@ return $a;
         <div class="mobile-hidden" style="margin-top: 20px">
             <section class="properties-right list featured portfolio blog pb-5 bg-white">
                 <div class="container">
-                    <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                    <div class="row">
                         @forelse ($secondhandHousings as $housing)
                             @php($sold = $housing->sold)
                             @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                <x-housing-card :housing="$housing" :sold="$sold" />
+                                <div class="col-md-3">
+                                    <x-housing-card :housing="$housing" :sold="$sold" />
+                                </div>
                             @endif
                         @empty
                             <p>Henüz İlan Yayınlanmadı</p>
@@ -186,6 +183,7 @@ return $a;
     </div>
 </section>
 @endif
+
 
 
 
