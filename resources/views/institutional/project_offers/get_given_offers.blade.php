@@ -3,10 +3,10 @@
 @section('content')
 
     <div class="content">
-      <h3 class="text-center mt-2 mb-4">Verilen Teklifler</h3>
-        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white pt-7 border-y border-300">
+      <h3 class=" mt-2 mb-4">Verilen Teklifler</h3>
+        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white ">
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                <table class="table table-sm border-top border-200 fs--1 mb-0">
+                <table class="table table-sm fs--1 mb-0">
                     <thead>
                         <tr>
                             <th>Proje Başlığı</th>
