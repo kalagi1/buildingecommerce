@@ -1015,7 +1015,7 @@
                                                                                                                                                                                                                                                                                         </span>
                                                                                                                                                                                                                                                                                         <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
                                                                                                                                                                                                                                                                                     </button>` :
-                                                            `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn">
+                                                            `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn">
                                                                                                                                                                                                                                                                                     <span class="IconContainer">
                                                                                                                                                                                                                                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                                                                                                                                                                                                                                     </span>
@@ -1100,7 +1100,7 @@
                                                                                                                                                                                                                                                                                         </span>
                                                                                                                                                                                                                                                                                         <span class="text text-white">${res.in_cart ? 'Sepete Eklendi' : 'Sepete Ekle'}</span>
                                                                                                                                                                                                                                                                                     </button>` :
-                                                                    `<button onclick="redirectToReservation('${res.id}')" class="reservationBtn mobileCBtn CartBtn">
+                                                                    `<button onclick="redirectToReservation('${res.id}','${res.slug}')" class="reservationBtn mobileCBtn CartBtn">
                                                                                                                                                                                                                                                                                             <span class="IconContainer">
                                                                                                                                                                                                                                                                                                 <img src="{{ asset('sc.png') }}" alt="">
                                                                                                                                                                                                                                                                                             </span>
@@ -1149,9 +1149,17 @@
             });
         }
 
-        function redirectToReservation(resId) {
-            window.location.href = '{{ route('housing.show', ['resIdPlaceholder']) }}'.replace('resIdPlaceholder', resId);
-        }
+        function redirectToReservation(resId, resSlug) {
+    // resId'yi bir tamsayıya dönüştür ve 1000000 ekleyerek topla
+    var updatedResId = parseInt(resId) + 1000000;
+
+    // Rotayı oluştur ve yer tutucuları değiştir
+    var url = '{{ route('housing.show', ['housingSlug' => 'resSlugPlaceholder', 'housingID' => 'resIdPlaceholder']) }}';
+    url = url.replace('resSlugPlaceholder', resSlug); // resSlugPlaceholder yerine resSlug değeriyle değiştir
+    url = url.replace('resIdPlaceholder', updatedResId); // resIdPlaceholder yerine toplanmış değerle değiştir
+    window.location.href = url; // Oluşturulan URL'ye yönlendir
+}
+
         // Sıralama seçenekleri için
 
         function sortSelectFilters(val) {

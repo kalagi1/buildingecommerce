@@ -297,6 +297,8 @@ class ProjectController extends Controller
             $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
+                'housings.slug',
+
                 'housings.title AS housing_title',
                 'housings.created_at',
                 'housings.step1_slug',

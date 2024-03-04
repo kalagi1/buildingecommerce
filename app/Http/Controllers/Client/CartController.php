@@ -959,6 +959,7 @@ class CartController extends Controller
                         'city' => $housing->city['title'],
                         'address' => $housing->address,
                         'title' => $housing->title,
+                        'slug' => $housing->slug,
                         'amount' => $housingData->price[0],
                         'price' => $housingData->price[0],
                         'image' => asset('housing_images/' . $housingData->images[0]),

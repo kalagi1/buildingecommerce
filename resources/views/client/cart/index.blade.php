@@ -107,11 +107,12 @@
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
                                     @endphp
-
+{{-- {{dd($cart['item'])}} --}}
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectID' => optional(App\Models\Project::find($cart['item']['id']))->id, 'id' => $cart['item']['housing']]) }}">
+                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 1000000 ])
+                                                : route('project.housings.detail', ['projectID' => optional(App\Models\Project::find($cart['item']['id']))->id, 'id' => $cart['item']['housing']]) }}">
                                                 <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
                                                     style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
                                             </a>
@@ -119,7 +120,8 @@
                                         <td>
                                             <div class="inner">
                                                 <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectID' => optional(App\Models\Project::find($cart['item']['id']))->id, 'id' => $cart['item']['housing']]) }}">
+                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 1000000 ])
+                                                     : route('project.housings.detail', ['projectID' => optional(App\Models\Project::find($cart['item']['id']))->id, 'id' => $cart['item']['housing']]) }}">
                                                     <h2 style="font-weight: 600;text-align: left ">
                                                         {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                                         <br>

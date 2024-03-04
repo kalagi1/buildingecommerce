@@ -1340,7 +1340,7 @@
             formData.append('_token', csrfToken);
 
             $.ajax({
-                url: "{{ route('housing.send-comment', ['id' => $id]) }}",
+                url: "{{ route('housing.send-comment', ['id' => $housing->id]) }}",
                 type: 'POST',
                 data: formData,
                 processData: false,

@@ -59,6 +59,7 @@ class HomeController extends Controller
         $secondhandHousings =  Housing::with('images')
             ->select(
                 'housings.id',
+                'housings.slug',
                 'housings.title AS housing_title',
                 'housings.created_at',
                 'housings.step1_slug',
@@ -725,7 +726,9 @@ class HomeController extends Controller
                 'id' => $item->id,
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
                 'is_favorite' => $isFavorite ? 1 : 0,
-                'housing_url' => route('housing.show', $item->id),
+                // 'housing_url' => route('housing.show', $item->id),
+                'housing_url' => route('housing.show', ['housingSlug' => $item->slug, 'housingID' => $item->id + 1000000 ]),
+                'slug'=>$item->slug,
                 'title' => $item->title,
                 'step1_slug' => $item->step1_slug,
                 'housing_address' => $item->address,
@@ -853,6 +856,7 @@ class HomeController extends Controller
             'housings.created_at',
             'housings.step1_slug',
             'housings.step2_slug',
+            'housings.slug',
             'housing_types.title as housing_type_title',
             'housings.housing_type_data',
             'project_list_items.column1_name as column1_name',

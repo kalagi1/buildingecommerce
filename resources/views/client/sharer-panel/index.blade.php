@@ -215,7 +215,7 @@
                             <div class="project-card mb-3">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a href="{{ route('housing.show', [$housing->id]) }}" style="height: 100%">
+                                        <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}" style="height: 100%">
                                             <div class="d-flex" style="height: 100%;">
                                                 
                                                 <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
