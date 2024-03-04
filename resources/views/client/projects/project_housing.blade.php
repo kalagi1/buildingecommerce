@@ -1409,6 +1409,11 @@
                                                 "") + advanceData + "</td>";
                                         }
 
+                                        if (!isMobile || isNotEmpty(advanceData)) {
+                                            html += "<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " :
+                                                "") + monhlyPrice + "</td>";
+                                        }
+
                                         if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
                                                 paymentPlanData[j]] != "Taksitli") {
                                             var installmentsPrice = parseFloat(getDataJS(response,

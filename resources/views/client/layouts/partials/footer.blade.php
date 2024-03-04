@@ -684,6 +684,11 @@
                                         html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
                                             "") + advanceData + "</td>";
                                     }
+                                    
+                                    if (!isMobile || isNotEmpty(advanceData)) {
+                                        html += "<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " :
+                                            "") + monhlyPrice + "</td>";
+                                    }
 
                                     if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
                                             paymentPlanData[j]] != "Taksitli") {
@@ -706,12 +711,6 @@
                                         }
                                     }
 
-
-                                    if (!isMobile && isNotEmpty(monhlyPrice)) {
-                                        html += "<td>" + (isMobile ?
-                                                "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
-                                            monhlyPrice + "</td>";
-                                    }
 
 
                                     if (!isMobile && isNotEmpty(installementData) &&
