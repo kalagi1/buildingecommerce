@@ -8,36 +8,48 @@
     'projectDiscountAmount',
     'bankAccounts',
     'sumCartOrderQt',
+    'blockHousingCount',
+    'key',
+    'previousBlockHousingCount',
+    'allCounts'
 ])
+
+@php
+    if ($key == 0) {
+        $keyIndex = $i + 1;
+    } else {
+        $keyIndex = $i + 1 + $allCounts;
+    }
+@endphp
 
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{ route('project.housings.detail', [$project->id, $i + 1]) }}" style="height: 100%">
+                <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}" style="height: 100%">
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                             <p
                                 style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
-                                No<br>{{ $i + 1 + $lastHousingCount }}
+                                No<br>{{ $i + 1 }}
                             </p>
                         </div>
                         <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                             <div class="button-effect-div">
                                 <span
                                     class="btn 
-                                    @if (($sold && $sold->status == '1') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
+                                    @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
                                     data-type='project' data-project='{{ $project->id }}'
-                                    data-id='{{ $i + 1 }}'>
+                                    data-id='{{ $keyIndex }}'>
                                     <i class="fa fa-bookmark-o"></i>
                                 </span>
                                 <div href="javascript:void()" class="btn toggle-project-favorite bg-white"
-                                    data-project-housing-id="{{ $i + 1 }}" data-project-id={{ $project->id }}>
+                                    data-project-housing-id="{{ $keyIndex }}" data-project-id={{ $project->id }}>
                                     <i class="fa fa-heart-o"></i>
                                 </div>
                             </div>
                             <div class="homes position-relative">
-                                <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$i + 1]['image[]'] }}"
+                                <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
                                     alt="home-1" class="img-responsive"
                                     style="height: 100px !important; object-fit: cover">
                             </div>
@@ -48,7 +60,7 @@
 
             <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                 <div class="row align-items-center justify-content-between mobile-position"
-                    @if (($sold && $sold->status != '2') || $projectHousingsList[$i + 1]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
+                    @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
                         <div class="homes-list-div">
                             <ul class="homes-list clearfix pb-3 d-flex">
@@ -63,14 +75,14 @@
                                                 $project->listItemValues->{$column . '_additional'} ?? '';
                                             $column_name_exists =
                                                 $column_name &&
-                                                isset($projectHousingsList[$i + 1][$column_name . '[]']);
+                                                isset($projectHousingsList[$keyIndex][$column_name . '[]']);
                                         @endphp
 
                                         @if ($column_name_exists)
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                     <span>
-                                        {{ $projectHousingsList[$i + 1][$column_name . '[]'] }}
+                                        {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
                                         @if ($column_additional)
                                             {{ $column_additional }}
                                         @endif
@@ -82,20 +94,20 @@
                                 <li class="the-icons mobile-hidden">
                                     <span style="width:100%;text-align:center">
                                         @php
-                                            $off_sale_check = $projectHousingsList[$i + 1]['off_sale[]'] == '[]';
-                                            $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
+                                            $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+                                            $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
                                             $number_of_share =
-                                                $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
+                                                $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
                                             $sold_check = $sold && in_array($sold->status, ['1', '0']);
                                             $discounted_price =
-                                                $projectHousingsList[$i + 1]['price[]'] - $projectDiscountAmount;
+                                                $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
                                         @endphp
 
                                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
 
                                             <span class="text-center w-100">
-                                                @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
-                                                    {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
+                                                @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']))
+                                                    {{ $sumCartOrderQt[$keyIndex]['qt_total'] }}
                                                 @else
                                                     0
                                                 @endif / {{ $number_of_share }}
@@ -106,27 +118,27 @@
                                             <h6
                                                 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
                                                 @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                     ₺
                                                 @else
-                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                     ₺
                                                 @endif
                                             </h6>
 
                                             <h6
                                                 style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                 ₺
                                             </h6>
                                         @elseif ($off_sale_check)
                                             <h6
                                                 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
                                                 @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                     ₺
                                                 @else
-                                                    {{ number_format($projectHousingsList[$i + 1]['price[]'], 0, ',', '.') }}
+                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                     ₺
                                                 @endif
                                             </h6>
@@ -153,7 +165,7 @@
                             <div class="bar-chart">
                                 <div class="progress">
                                     <div class="progress-bar"
-                                        @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$i + 1]['qt_total'] }}% !important"
+                                        @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
                                     @else
                                         style="width: 0% !important" @endif>
                                     </div>
@@ -174,7 +186,7 @@
                                     if (Auth::check()) {
                                         $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
                                             ->where('project_id', $project->id)
-                                            ->where('housing', $i + 1)
+                                            ->where('housing', $keyIndex)
                                             ->first();
                                     }
                                 @endphp
@@ -233,16 +245,16 @@
                                     </span>
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && empty($share_sale)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                        order="{{ $i + 1 }}">
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && empty($share_sale)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        order="{{ $keyIndex }}">
                                         Ödeme Detayı
                                     </button>
                                 @endif
                             @else
-                                @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                                @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                     @if (Auth::user())
                                         <button class="first-btn payment-plan-button" data-toggle="modal"
-                                            data-target="#exampleModal{{ $i + 1 }}">
+                                            data-target="#exampleModal{{ $keyIndex }}">
                                             Teklif Ver
                                         </button>
                                     @else
@@ -252,8 +264,8 @@
                                     @endif
                                 @else
                                     <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                                        order="{{ $i + 1 }}">
+                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                        order="{{ $keyIndex }}">
                                         Ödeme Detayı
                                     </button>
                                 @endif
@@ -262,7 +274,7 @@
 
                             @endif
 
-                            @if ($projectHousingsList[$i + 1]['off_sale[]'] != '[]')
+                            @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
                                 <button class="btn second-btn"
                                     style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
                                     <span class="text">Satışa Kapatıldı</span>
@@ -270,21 +282,21 @@
                             @else
                                 @if (
                                     ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                        (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
+                                        (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                                     <button class="btn second-btn"
                                         @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
                                         @if ($sold->status == '0' && empty($share_sale))
                                             <span class="text">Rezerve Edildi</span>
                                         @elseif (
                                             ($sold->status == '1' && empty($share_sale)) ||
-                                                (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
+                                                (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                                             <span class="text">Satıldı</span>
                                         @endif
                                     </button>
                                 @else
                                     <button class="CartBtn second-btn mobileCBtn" data-type='project'
                                         data-project='{{ $project->id }}' style="height: auto !important"
-                                        data-id='{{ $i + 1 }}' data-share="{{ $share_sale }}"
+                                        data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
                                         data-number-share="{{ $number_of_share }}">
                                         <span class="IconContainer">
                                             <img src="{{ asset('sc.png') }}" alt="">
@@ -304,7 +316,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal{{ $i + 1 }}" tabindex="-1" role="dialog"
+<div class="modal fade" id="exampleModal{{ $keyIndex }}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -317,7 +329,7 @@
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
                     {{-- {{ $i+1 }} --}}
-                    <input type="hidden" value="{{ $i + 1 }}" name="roomId">
+                    <input type="hidden" value="{{ $keyIndex }}" name="roomId">
                     <input type="hidden" value="{{ $project->id }}" name="projectId">
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
                     <div class="form-group">

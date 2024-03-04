@@ -706,86 +706,64 @@
                             role="tabpanel" aria-labelledby="contact-tab">
 
                             @if ($project->have_blocks == 1)
-                                <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
-                                    <div class="container">
+                            <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
+                                <div class="container">
 
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 ">
-                                                <div class="tabbed-content button-tabs">
-                                                    <ul class="tabs">
-                                                        @foreach ($project->blocks as $key => $block)
-                                                            <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
-                                                                role="presentation"
-                                                                onclick="changeTabContent('{{ $block['id'] }}')">
-                                                                <div class="tab-title">
-                                                                    <span>{{ $block['block_name'] }}</span>
-                                                                </div>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 ">
+                                            <div class="tabbed-content button-tabs">
+                                                <ul class="tabs">
                                                     @foreach ($project->blocks as $key => $block)
-                                                        <div id="contentblock-{{ $block['id'] }}"
-                                                            class="tab-content-block{{ $loop->first ? ' active' : '' }}"
-                                                            block-id="{{ $block['id'] }}"
-                                                            data-block-name="{{ $block['block_name'] }}">
-                                                            @php
-                                                                $j = -1;
-                                                                $blockHousingCount = $block['housing_count'];
-                                                                if ($key > 0) {
-                                                                    $previousBlockHousingCount = $project->blocks[$key - 1]['housing_count'];
-                                                                    $i = $previousBlockHousingCount;
-                                                                    $lastHousingCount = $project->blocks[$key - 1]['housing_count'];
-                                                                    $j = -1; // Bir önceki bloğun housing_count değerinden başlat
-                                                                    $blockHousingCount = $previousBlockHousingCount + $project->blocks[$key]['housing_count'];
-                                                                } else {
-                                                                    $i = 0;
-                                                                }
-                                                                $pageCount = $currentBlockHouseCount / 10;
-                                                                $count = $blockHousingCount > 10 ? 10 : $blockHousingCount;
-
-                                                            @endphp
-
-                                                            <div class="mobile-hidden">
-                                                                <div class="container">
-                                                                    <div
-                                                                        class="row project-filter-reverse blog-pots ajax-list">
-                                                                        @if ($key == 0)
-                                                                            @for ($i = 0; $i < $count - 1; $i++)
-                                                                                @php
-                                                                                    $j++;
-                                                                                    if (isset($projectCartOrders[$i + 1])) {
-                                                                                        $sold = $projectCartOrders[$i + 1];
-                                                                                    } else {
-                                                                                        $sold = null;
-                                                                                    }
-                                                                                    $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
-
-                                                                                    $projectOffer = App\Models\Offer::where('type', 'project')
-                                                                                        ->where('project_id', $project->id)
-                                                                                        ->where(function ($query) use ($i) {
-                                                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                                                        })
-                                                                                        ->where('start_date', '<=', now())
-                                                                                        ->where('end_date', '>=', now())
-                                                                                        ->first();
-                                                                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                                                                @endphp
-
-                                                                                <x-project-item-card :project="$project"
-                                                                                    :isUserSame="$isUserSame" :sumCartOrderQt="$sumCartOrderQt"
-                                                                                    :bankAccounts="$bankAccounts" :i="$i"
-                                                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                                                            @endfor
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
+                                                        <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
+                                                            role="presentation"
+                                                            onclick="changeTabContent('{{ $block['id'] }}')">
+                                                            <div class="tab-title">
+                                                                <span>{{ $block['block_name'] }}</span>
                                                             </div>
-                                                            <div class="mobile-show ajax-mobile-list">
-                                                                @if ($key == 0)
-                                                                    @for ($i = 0; $i < $count ; $i++)
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                                @foreach ($project->blocks as $blockKey => $block)
+                                                    <div id="contentblock-{{ $block['id'] }}"
+                                                        class="tab-content-block{{ $loop->first ? ' active' : '' }}"
+                                                        block-id="{{ $block['id'] }}"
+                                                        data-block-name="{{ $block['block_name'] }}">
+                                                        @php
+                                                            $blockHousingCount = $block['housing_count'];
+                                                            $previousBlockHousingCount = 0;
+                                                            $allCounts = 0;
+
+                                                            if ($blockKey > 0) {
+                                                                $previousBlockHousingCount =
+                                                                    $project->blocks[$blockKey - 1][
+                                                                        'housing_count'
+                                                                    ];
+                                                                $i = $previousBlockHousingCount;
+                                                                $lastHousingCount =
+                                                                    $project->blocks[$blockKey - 1][
+                                                                        'housing_count'
+                                                                    ];
+                                                                    for ($j = 0; $j < $blockKey; $j++) {
+                                                                    if (
+                                                                        isset($project->blocks[$j]) &&
+                                                                        isset($project->blocks[$j]['housing_count'])
+                                                                    ) {
+                                                                        $allCounts +=
+                                                                            $project->blocks[$j]['housing_count'];
+                                                                    }
+                                                                   
+                                                                }
+                                                            } else {
+                                                                $i = 0;
+                                                            }
+
+
+                                                        @endphp
+                                                        <div class="mobile-hidden">
+                                                            <div class="container">
+                                                                <div class="row project-filter-reverse blog-pots">
+                                                                    @for ($i = 0; $i < $blockHousingCount; $i++)
                                                                         @php
-                                                                            $j++;
                                                                             if (isset($projectCartOrders[$i + 1])) {
                                                                                 $sold = $projectCartOrders[$i + 1];
                                                                             } else {
@@ -798,7 +776,6 @@
                                                                                             ->user_id ==
                                                                                         Auth::user()->id
                                                                                     : false);
-                                                                            $room_order = $i + 1;
 
                                                                             $projectOffer = App\Models\Offer::where(
                                                                                 'type',
@@ -824,89 +801,179 @@
                                                                                 : 0;
                                                                         @endphp
 
-                                                                        <x-project-item-mobile-card :project="$project"
-                                                                            :room_order="$room_order" :sumCartOrderQt="$sumCartOrderQt"
-                                                                            :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                            :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                            :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                            :lastHousingCount="$lastHousingCount" />
+                                                                        <x-project-item-card :project="$project"
+                                                                            :allCounts="$allCounts" :key="$key"
+                                                                            :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                                            :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                            :bankAccounts="$bankAccounts" :i="$i"
+                                                                            :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                            :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                     @endfor
-                                                                @endif
-
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    @endforeach
-                                                </div>
+                                                        <div class="mobile-show">
+                                                            @for ($i = 0; $i < $blockHousingCount; $i++)
+                                                            @php
+                                                                if (isset($projectCartOrders[$i + 1])) {
+                                                                    $sold = $projectCartOrders[$i + 1];
+                                                                } else {
+                                                                    $sold = null;
+                                                                }
+                                                                $isUserSame =
+                                                                    isset($projectCartOrders[$i + 1]) &&
+                                                                    (Auth::check()
+                                                                        ? $projectCartOrders[$i + 1]
+                                                                                ->user_id ==
+                                                                            Auth::user()->id
+                                                                        : false);
+
+                                                                $projectOffer = App\Models\Offer::where(
+                                                                    'type',
+                                                                    'project',
+                                                                )
+                                                                    ->where('project_id', $project->id)
+                                                                    ->where(function ($query) use ($i) {
+                                                                        $query
+                                                                            ->orWhereJsonContains(
+                                                                                'project_housings',
+                                                                                [$i + 1],
+                                                                            )
+                                                                            ->orWhereJsonContains(
+                                                                                'project_housings',
+                                                                                (string) ($i + 1),
+                                                                            ); // Handle as string as JSON might store values as strings
+                                                                    })
+                                                                    ->where('start_date', '<=', now())
+                                                                    ->where('end_date', '>=', now())
+                                                                    ->first();
+                                                                $projectDiscountAmount = $projectOffer
+                                                                    ? $projectOffer->discount_amount
+                                                                    : 0;
+                                                            @endphp
+
+                                                            <x-project-item-mobile-card :project="$project"
+                                                                :allCounts="$allCounts" :key="$key"
+                                                                :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                :bankAccounts="$bankAccounts" :i="$i"
+                                                                :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        @endfor
+                                                        </div>
+                                                    </div>
+                                                @endforeach
 
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
-                            @else
-                                <div class="properties-right list featured portfolio blog pb-5 bg-white">
-                                    <div class="mobile-hidden">
-                                        <div class="container">
+                            </div>
+                        @else
+                            <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                                <div class="mobile-hidden">
+                                    <div class="container">
 
-                                            <div class="row project-filter-reverse blog-pots">
-                                                @for ($i = 0; $i < $project->room_count; $i++)
-                                                    @php
-                                                        $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
-                                                        $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
-                                                        $projectOffer = App\Models\Offer::where('type', 'project')
-                                                            ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
-                                                            })
-                                                            ->where('start_date', '<=', now())
-                                                            ->where('end_date', '>=', now())
-                                                            ->first();
-
-                                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-
-                                                    @endphp
-
-                                                    <x-project-item-card :project="$project" :i="$i"
-                                                        :isUserSame="$isUserSame" :sumCartOrderQt="$sumCartOrderQt" :bankAccounts="$bankAccounts"
-                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                        :lastHousingCount="$lastHousingCount" />
-                                                @endfor
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mobile-show">
-                                        <div class="container">
-
+                                        <div class="row project-filter-reverse blog-pots">
                                             @for ($i = 0; $i < $project->room_count; $i++)
                                                 @php
-                                                    $sold = isset($projectCartOrders[$i + 1]) ? $projectCartOrders[$i + 1] : null;
 
-                                                    $room_order = $i + 1;
-                                                    $isUserSame = isset($projectCartOrders[$i + 1]) && (Auth::check() ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id : false);
+                                                    if (isset($projectCartOrders[$i + 1])) {
+                                                        $sold = $projectCartOrders[$i + 1];
+                                                    } else {
+                                                        $sold = null;
+                                                    }
+                                                    $allCounts = 0;
+                                                    $blockHousingCount = 0;
+                                                    $previousBlockHousingCount = 0;
+                                                    $key = 0;
+                                                    $isUserSame =
+                                                        isset($projectCartOrders[$i + 1]) &&
+                                                        (Auth::check()
+                                                            ? $projectCartOrders[$i + 1]->user_id ==
+                                                                Auth::user()->id
+                                                            : false);
 
                                                     $projectOffer = App\Models\Offer::where('type', 'project')
                                                         ->where('project_id', $project->id)
                                                         ->where(function ($query) use ($i) {
-                                                            $query->orWhereJsonContains('project_housings', [$i + 1])->orWhereJsonContains('project_housings', (string) ($i + 1)); // Handle as string as JSON might store values as strings
+                                                            $query
+                                                                ->orWhereJsonContains('project_housings', [$i + 1])
+                                                                ->orWhereJsonContains(
+                                                                    'project_housings',
+                                                                    (string) ($i + 1),
+                                                                ); // Handle as string as JSON might store values as strings
                                                         })
                                                         ->where('start_date', '<=', now())
                                                         ->where('end_date', '>=', now())
                                                         ->first();
-                                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                                    $projectDiscountAmount = $projectOffer
+                                                        ? $projectOffer->discount_amount
+                                                        : 0;
                                                 @endphp
-                                                <x-project-item-mobile-card :project="$project" :room_order="$room_order"
-                                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
-                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                    :lastHousingCount="$lastHousingCount" />
-                                            @endfor
-                                        </div>
 
+                                                <x-project-item-card :project="$project" :allCounts="$allCounts"
+                                                    :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                    :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
+                                                    :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                            @endfor
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mobile-show">
+                                    <div class="container">
+
+                                        @for ($i = 0; $i < $project->room_count; $i++)
+                                            @php
+                                                $sold = isset($projectCartOrders[$i + 1])
+                                                    ? $projectCartOrders[$i + 1]
+                                                    : null;
+
+                                                $room_order = $i + 1;
+                                                $allCounts = 0;
+                                                $blockHousingCount = 0;
+                                                $previousBlockHousingCount = 0;
+                                                $key = 0;
+                                                $isUserSame =
+                                                    isset($projectCartOrders[$i + 1]) &&
+                                                    (Auth::check()
+                                                        ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id
+                                                        : false);
+
+                                                $projectOffer = App\Models\Offer::where('type', 'project')
+                                                    ->where('project_id', $project->id)
+                                                    ->where(function ($query) use ($i) {
+                                                        $query
+                                                            ->orWhereJsonContains('project_housings', [$i + 1])
+                                                            ->orWhereJsonContains(
+                                                                'project_housings',
+                                                                (string) ($i + 1),
+                                                            ); // Handle as string as JSON might store values as strings
+                                                    })
+                                                    ->where('start_date', '<=', now())
+                                                    ->where('end_date', '>=', now())
+                                                    ->first();
+                                                $projectDiscountAmount = $projectOffer
+                                                    ? $projectOffer->discount_amount
+                                                    : 0;
+                                            @endphp
+                                            <x-project-item-mobile-card :project="$project" :allCounts="$allCounts"
+                                                :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
+                                                :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                        @endfor
                                     </div>
 
-
-
                                 </div>
-                            @endif
+
+
+
+                            </div>
+                        @endif
 
                         </div>
                         <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
@@ -1625,655 +1692,6 @@ out center;`;
 
             var startIndex = 0;
             var endIndex = 10;
-            if ($('#contentblock-' + tabName).find('.ajax-list').children('div').length == 0) {
-                $.ajax({
-                    url: "{{ route('project.get.housings.by.start.and.end', [$project->id, 1]) }}?start=0&end=10&block_index=" +
-                        blockIndex,
-                }).done(function(response) {
-                    isLoading = false;
-                    var res = response.projectHousingsList;
-                    var cartOrders = response.projectCartOrders;
-                    var html = "";
-                    var blocks = response.blocks;
-                    var lastBlockHousingCount = 0;
-                    for (var i = 0; i < blocks.length; i++) {
-                        if (i < blockIndex) {
-                            lastBlockHousingCount += blocks[i]['housing_count']
-                        }
-                    }
-                    for (var i = 0; i < res.length; i++) {
-                        if (cartOrders[startIndex + 1 + i]) {
-                            var sold = cartOrders[startIndex + 1 + i];
-                        } else {
-                            var sold = null;
-                        }
-                        html +=
-                            `<div class="col-md-12 col-12">
-                                <div class="project-card mb-3">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->id }}/${startIndex+1+i+lastBlockHousingCount}" style="height: 100%">
-                                                <div class="d-flex" style="height: 100%;">
-                                                    <div style="background-color: #EA2B2E  !important; border-radius: 0px 8px 0px 8px;height:100%">
-                                                        <p style="padding: 10px; color: white; height: 100%; display: flex; align-items: center;text-align:center; ">
-                                                            No
-                                                            <br>${startIndex+1+i+lastBlockHousingCount}
-                                                        </p>
-                                                    </div>
-                                                    <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
-                                                        <div class="project-inner project-head">
-
-                                                            <div class="button-effect-div">
-                                                                <span class="btn {{ (isset($sold) && $sold['status'] == '1') || (isset($res[$i]['off_sale[]']) && $res[$i]['off_sale[]'] != '[]') ? 'disabledShareButton' : 'addCollection mobileAddCollection' }}"
-                                                        data-type='project'
-                                                        data-project='{{ $project->id }}'
-                                                        data-id='${startIndex+1+i+lastBlockHousingCount}'>
-                                                        <i class="fa fa-bookmark-o"></i>
-                                                    </span>
-                                                                <div href="javascript:void()" class="btn toggle-project-favorite bg-white" data-project-housing-id="${startIndex+1+i+lastBlockHousingCount}" data-project-id="{{ $project->id }}">
-                                                                    <i class="fa fa-heart-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="homes position-relative">
-                                                                    <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}" alt="home-1" class="img-responsive" style="height: 100px !important;object-fit:cover;width:100%">`
-                        var checkOfferX = checkOffer(response.offers, startIndex + 1 + i + lastBlockHousingCount);
-                        if (checkOfferX) {
-                            var newPercent = Math.round((checkOfferX['discount_amount'] / res[i]["price[]"]) * 100);
-                            html += `
-                                                                    <div style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
-                                                                        <div style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
-                                                                            % ${newPercent}
-                                                                            <svg viewBox="0 0 24 24"
-                                                                                width="16"
-                                                                                height="16"
-                                                                                stroke="currentColor"
-                                                                                stroke-width="2"
-                                                                                fill="none"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                class="css-i6dzq1"
-                                                                                style="transform: rotate(45deg);">
-                                                                                <polyline
-                                                                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                                </polyline>
-                                                                                <polyline
-                                                                                    points="17 18 23 18 23 12">
-                                                                                </polyline>
-                                                                            </svg>
-                                                                        </div>
-                                                                    </div>`
-                        }
-                        html += `</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                                            <div class="row align-items-center justify-content-between mobile-position"
-                                            style=" ${sold && sold['status'] != '2' || res[i]['off_sale[]']  != '[]' ? "background: #EEE !important;" : null}">
-
-                                                <div class="col-md-9">
-                                                    <div class="homes-list-div">
-                                                        <ul class="homes-list clearfix pb-3 d-flex">
-                                                            
-                                                            <li class="d-flex align-items-center itemCircleFont">
-                                                                <i class="fa fa-circle circleIcon mr-1" style="color: black;" aria-hidden="true"></i>
-                                                                <span>Daire</span>
-                                                            </li>
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column1_name) &&
-                                                                    $project->listItemValues->column1_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column1_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column1_additional) &&
-                                                                                $project->listItemValues->column1_additional)
-                                                                            {{ $project->listItemValues->column1_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column2_name) &&
-                                                                    $project->listItemValues->column2_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column2_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column2_additional) &&
-                                                                                $project->listItemValues->column2_additional)
-                                                                            {{ $project->listItemValues->column2_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column3_name) &&
-                                                                    $project->listItemValues->column3_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column3_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column3_additional) &&
-                                                                                $project->listItemValues->column3_additional)
-                                                                            {{ $project->listItemValues->column3_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                                                            <li
-                                                                class="the-icons mobile-hidden">
-                                                                <span>
-                                                            `
-                        if (res[i]['off_sale[]'] == "[]") {
-                            var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
-                                lastBlockHousingCount);
-                            if (sold) {
-                                if (sold['status'] != 1 && sold['status'] != 0) {
-                                    if (checkOfferX) {
-                                        var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                        html += `
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                        ${priceFormat(res[i]["price[]"])} ₺
-                                                                                    </h6>
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                        ${priceFormat(""+newPrice+"")} ₺
-                                                                                    </h6>
-                                                                                `
-                                    } else {
-                                        html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>`
-                                    }
-                                } else {
-                                    html += `
-                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                ${priceFormat(res[i]["price[]"])} ₺
-                                                                            </h6>`
-                                }
-                            } else {
-                                if (checkOfferX) {
-                                    var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                    html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                    ${priceFormat(""+newPrice+"")} ₺
-                                                                                </h6>
-                                                                            `
-                                } else {
-                                    html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                            `
-                                }
-                            }
-                        }
-                        html += `</span>
-                                                            </li>
-                                                        </ul>
-
-                                                    </div>
-                                                    <div class="footer">
-                                                        <a href="https://emlaksepette.com/magaza/maliyetine-ev/profil">
-                                                            <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701198728.png" alt="" class="mr-2">
-                                                            Maliyetine Ev
-                                                        </a>
-                                                        <span class="price-mobile">
-                                                            1.190.000₺
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-3 mobile-hidden" style="height: 100px;padding:0">
-                                                    <div class="homes-button" style="width:100%;height:100%">
-                                                        <button class="first-btn payment-plan-button" 
-                                                        project-id="{{ $project->id }}"
-                                                        data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
-                                                        order="${startIndex+i+lastBlockHousingCount+1}">
-                                                            Ödeme Detayı
-                                                        </button>`
-                        if (res[i]['off_sale[]'] != "[]") {
-                            html += `<button
-                                                                class="btn second-btn"
-                                                                style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
-
-                                                                <span
-                                                                    class="text">Satışa
-                                                                    Kapatıldı</span>
-                                                            </button>`
-                        } else {
-                            if (sold && sold['status'] != 2) {
-                                html += `<button class="btn second-btn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
-                                                                    ${
-                                                                        sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
-                                                                    }
-                                                                </button>`
-                            } else {
-                                html += `<button class="CartBtn second-btn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
-                                                                    <span
-                                                                        class="IconContainer">
-                                                                        <img src="{{ asset('sc.png') }}"
-                                                                            alt="">
-                                                                    </span>
-                                                                    <span class="text">Sepete Ekle</span>
-                                                                </button>`
-                            }
-                        }
-                        html += `
-                                                    </div>
-                                                </div>
-
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>`
-                    }
-
-                    $('.ajax-list').eq(blockIndex).append(html);
-                });
-            }
-            if ($('#contentblock-' + tabName).find('.ajax-mobile-list').children('div').length == 0) {
-                $.ajax({
-                    url: "{{ route('project.get.housings.by.start.and.end', [$project->id, 1]) }}?start=0&end=12&block_index=" +
-                        blockIndex,
-                }).done(function(response) {
-                    isLoading = false;
-                    var res = response.projectHousingsList;
-                    var cartOrders = response.projectCartOrders;
-                    var html = "";
-                    var htmlMobile = "";
-                    var blocks = response.blocks;
-                    var lastBlockHousingCount = 0;
-                    for (var i = 0; i < blocks.length; i++) {
-                        if (i < blockIndex) {
-                            lastBlockHousingCount += blocks[i]['housing_count']
-                        }
-                    }
-
-                    if (!Array.isArray(res)) {
-                        var result = Object.keys(res).map((key) => res[key]);
-
-                        res = result;
-                    }
-
-
-                    for (var i = 0; i < res.length; i++) {
-                        if (cartOrders[startIndex + 1 + i]) {
-                            var sold = cartOrders[startIndex + 1 + i];
-                        } else {
-                            var sold = null;
-                        }
-                        htmlMobile +=
-                            `<div class="d-flex" style="flex-wrap: nowrap">
-                        <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
-                            <div class="project-inner project-head">
-                                <a href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->id }}/${startIndex+1+i+lastBlockHousingCount}">
-                                    <div class="homes">
-                                        <!-- homes img -->
-                                        <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' }}${res[i]['image[]']}"
-                                                alt="{{ $project->housingType->title }}" class="img-responsive"
-                                                style="height: 95px !important;">
-                                        </div>
-
-                                        <span class="mobileNoStyle">
-                                            No ${1+i}
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="w-100" style="padding-left:0;">
-                            <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
-                                <a style="text-decoration: none; height: 100%"
-                                    href="{{ URL::to('/') }}/proje_konut_detayi/{{ $project->id }}/${startIndex+1+i+lastBlockHousingCount}">
-                                    <div class="d-flex justify-content-between" style="gap:8px;">
-                                        <h3>
-                                            ${res[i]['advertise_title[]']}
-                                                Projesinde ${block} 
-                                                ${i+1}
-                                                {{ "No'lu" }}
-                                                {{ $project->step1_slug }}
-                                        </h3>
-                                        <span
-                                            class="btn ${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? 'disabledShareButton' : 'addCollection mobileAddCollection' } "
-                                            data-type='project' data-project='{{ $project->id }}'
-                                            data-id='${lastBlockHousingCount+1+i+startIndex}'>
-                                            <i class="fa fa-bookmark-o"></i>
-                                        </span>
-                                        <span class="btn toggle-project-favorite bg-white"
-                                            data-project-housing-id="${lastBlockHousingCount+1+i+startIndex}" style="color: white;"
-                                            data-project-id="{{ $project->id }}">
-                                            <i class="fa fa-heart-o"></i>
-                                        </span>
-                                    </div>
-                                </a>
-                                <div class="d-flex align-items-end projectItemFlex">
-                                    <div style="width: 50%;
-                                                    align-items: center;">`
-                                                    if (res[i]['off_sale[]'] == "[]") {
-                            var checkOfferX = checkOffer(response.offers, startIndex + 1 + i +
-                                lastBlockHousingCount);
-                            if (sold) {
-                                if (sold['status'] != 1 && sold['status'] != 0) {
-                                    if (checkOfferX) {
-                                        var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                        htmlMobile +=
-                                            `
-                                                                                                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                                                                                                    ${priceFormat(res[i]["price[]"])} ₺
-                                                                                                                                                                </h6>
-                                                                                                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                                                                                                    ${priceFormat(""+newPrice+"")} ₺
-                                                                                                                                                                </h6>
-                                                                                                                                                            `
-                                    } else {
-                                        htmlMobile +=
-                                            `
-                                                                                                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                                                                                                ${priceFormat(res[i]["price[]"])} ₺
-                                                                                                                                                            </h6>`
-                                    }
-                                } else {
-                                    htmlMobile +=
-                                        `
-                                                                                                                                                        <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                                                                                            ${priceFormat(res[i]["price[]"])} ₺
-                                                                                                                                                        </h6>`
-                                }
-                            } else {
-                                if (checkOfferX) {
-                                    var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
-                                    htmlMobile +=
-                                        `
-                                                                                                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                                                                                                                                                ${priceFormat(res[i]["price[]"])} ₺
-                                                                                                                                                            </h6>
-                                                                                                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
-                                                                                                                                                                ${priceFormat(""+newPrice+"")} ₺
-                                                                                                                                                            </h6>
-                                                                                                                                                        `
-                                } else {
-                                    htmlMobile +=
-                                        `
-                                                                                                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                                                                                                                ${priceFormat(res[i]["price[]"])} ₺
-                                                                                                                                                            </h6>
-                                                                                                                                                        `
-                                }
-                            }
-                        }
-
-                        // if (res[i]['off_sale[]'] != "[]") {
-                        //     htmlMobile += `<button
-                        //                                                                             class="btn second-btn mobileCBtn"
-                        //                                                                             style="background: #EA2B2E !important;width:100%;color:White;height: auto !important">
-
-                        //                                                                             <span
-                        //                                                                                 class="text">Satışa
-                        //                                                                                 Kapatıldı</span>
-                        //                                                                         </button>`
-                        // } else {
-                        //     if (sold && sold['status'] != 2) {
-                        //         htmlMobile += `<button class="btn second-btn mobileCBtn" ${sold['status'] == 0 ? 'style="background: orange !important;color:White;height: auto !important"' : 'style="background: #EA2B2E !important;color:White;height: auto !important"'}>
-                        //                                                                                 ${
-                        //                                                                                     sold['status'] == 0 ? '<span class="text">Rezerve Edildi</span>' : '<span class="text">Satıldı</span>'
-                        //                                                                                 }
-                        //                                                                             </button>`
-                        //     } else {
-                        //         htmlMobile += `<button class="CartBtn second-btn mobileCBtn" data-type='project' data-project='281' style="height: auto !important" data-id="${startIndex+i+lastBlockHousingCount+1}">
-                        //                                                                                 <span
-                        //                                                                                     class="IconContainer">
-                        //                                                                                     <img src="{{ asset('sc.png') }}"
-                        //                                                                                         alt="">
-                        //                                                                                 </span>
-                        //                                                                                 <span class="text">Sepete Ekle</span>
-                        //                                                                             </button>`
-                        //     }
-                        // }
-
-                        htmlMobile += `
-                                        @if ($projectHousingsList[$room_order + $lastHousingCount]['off_sale[]'] != '[]')
-                                            <button class="btn second-btn mobileCBtn"
-                                                style="background: #EA2B2E !important; width: 100%; color: White;">
-                                                <span class="text">Satışa Kapatıldı</span>
-                                            </button>
-                                        @else
-                                            @if (
-                                                ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                                    (isset($sumCartOrderQt[$room_order + $lastHousingCount]) &&
-                                                        $sumCartOrderQt[$room_order + $lastHousingCount]['qt_total'] == $number_of_share))
-                                                <button class="btn second-btn mobileCBtn"
-                                                    @if ($sold->status == '0') style="background: orange !important; color: White;" @else  style="background: #EA2B2E !important; color: White;" @endif>
-                                                    @if ($sold->status == '0' && empty($share_sale))
-                                                        <span class="text">Rezerve Edildi</span>
-                                                    @elseif (
-                                                        ($sold->status == '1' && empty($share_sale)) ||
-                                                            (isset($sumCartOrderQt[$room_order + $lastHousingCount]) &&
-                                                                $sumCartOrderQt[$room_order + $lastHousingCount]['qt_total'] == $number_of_share))
-                                                        <span class="text">Satıldı</span>
-                                                    @endif
-                                                </button>
-                                            @else
-                                                <div>
-                                                    <span class="ml-auto text-primary priceFont">
-                                                        
-                                                        @php
-                                                            $off_sale_check = $projectHousingsList[$room_order + $lastHousingCount]['off_sale[]'] == '[]';
-                                                            $share_sale = $projectHousingsList[$room_order + $lastHousingCount]['share_sale[]'] ?? null;
-                                                            $number_of_share = $projectHousingsList[$room_order + $lastHousingCount]['number_of_shares[]'] ?? null;
-                                                            $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                                            $discounted_price = $projectHousingsList[$room_order + $lastHousingCount]['price[]'] - $projectDiscountAmount;
-                                                        @endphp
-
-                                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-
-                                                            <span class="text-center w-100">
-                                                                @if (isset($sumCartOrderQt[$room_order + $lastHousingCount]) &&
-                                                                        isset($sumCartOrderQt[$room_order + $lastHousingCount]['qt_total']))
-                                                                    {{ $sumCartOrderQt[$room_order + $lastHousingCount]['qt_total'] }}
-                                                                @else
-                                                                    0
-                                                                @endif / {{ $number_of_share }}
-                                                            </span>
-                                                        @endif
-                                                        
-
-                                                    </span>
-                                                    
-                                                    <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                                        data-project='{{ $project->id }}' data-id='${lastBlockHousingCount+1+i+startIndex}'
-                                                        data-share="{{ $share_sale }}" data-number-share="{{ $number_of_share }}">
-                                                        <span class="IconContainer">
-                                                            <img src="{{ asset('sc.png') }}" alt="">
-                                                        </span>
-                                                        <span class="text">Sepete Ekle</span>
-                                                    </button>
-                                                </div>
-                                            @endif
-                                        @endif
-
-
-                                    </div>
-
-
-
-                                    @if (isset($sold) && $sold->status == '1')
-                                        @php
-                                            $neighborView = null;
-
-                                            if (Auth::check()) {
-                                                $neighborView = App\Models\NeighborView::where('user_id', Auth::user()->id)
-                                                    ->where('project_id', $project->id)
-                                                    ->where('housing', $room_order + $lastHousingCount)
-                                                    ->first();
-                                            }
-                                        @endphp
-
-                                        @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
-                                            <button
-                                                class="btn payment-plan-button first-btn payment-plan-mobile-btn mobileCBtn see-my-neighbor"
-                                                style="width:50% !important;color:#274abb !important"
-                                                @if (Auth::check()) data-bs-toggle="modal"
-                                                data-bs-target="#paymentModal" data-order="{{ $sold->id }}" @endif>
-                                                <span>Komşumu Gör</span>
-                                            </button>
-                                        @elseif ($neighborView && $neighborView->status == '0')
-                                            <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                                style="width:50% !important">
-                                                <span> <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor"
-                                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="css-i6dzq1">
-                                                        <circle cx="12" cy="12" r="10"></circle>
-                                                        <line x1="12" y1="8" x2="12" y2="12">
-                                                        </line>
-                                                        <line x1="12" y1="16" x2="12.01" y2="16">
-                                                        </line>
-                                                    </svg>
-                                                    Ödeme Onayı </span>
-                                            </button>
-                                        @elseif ($neighborView && $neighborView->status == '1')
-                                            <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                                style="width:50% !important">
-                                                <a href="tel: {{ $sold->phone }}" style="color:#274abb">
-                                                    <span>
-                                                        <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor"
-                                                            stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <polyline points="19 1 23 5 19 9"></polyline>
-                                                            <line x1="15" y1="5" x2="23" y2="5">
-                                                            </line>
-                                                            <path
-                                                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                                                            </path>
-                                                        </svg>
-                                                        {{ $sold->phone }}
-                                                    </span>
-                                                </a>
-
-                                            </button>
-                                        @elseif ($isUserSame == true)
-                                            <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                                style="width:50% !important"> <span>
-                                                    Size Ait Ürün
-                                                </span>
-
-                                            </button>
-                                        @endif
-                                    @else
-                                        @if ($projectHousingsList[$room_order + $lastHousingCount]['off_sale[]'] != '[]')
-                                            @if (Auth::user())
-                                                <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                                    data-toggle="modal" data-target="#offerModal${lastBlockHousingCount+1+i+startIndex}"
-                                                    style="width:50% !important">
-                                                    Teklif Ver
-                                                </button>
-                                            @else
-                                                <a href="{{ route('client.login') }}"
-                                                    style="width:50% !important;
-                                                    text-align: center;
-                                            align-items: center;
-                                            display: flex;
-                                            justify-content: center;"
-                                                    class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn">
-                                                    Teklif Ver
-                                                </a>
-                                            @endif
-                                        @else
-                                            <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                                style="width:50% !important" project-id="{{ $project->id }}"
-                                                data-sold="${ (sold && (sold['status'] == 1 || sold['status'] == 0)) || res[i]['off_sale[]'] != '[]' ? '1' : '0' }"
-                                                order="${lastBlockHousingCount+1+i+startIndex}">
-                                                Ödeme Detayı 
-                                            </button>
-                                        @endif
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-100" style="height: 25px; background-color: #8080802e; margin-top: 15px">
-                        <div class="d-flex justify-content-between align-items-center" style="height: 100%">
-
-                            <ul class="d-flex justify-content-start align-items-center h-100 w-100"
-                                style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
-
-                                @if (isset($project->listItemValues) &&
-                                        isset($project->listItemValues->column1_name) &&
-                                        $project->listItemValues->column1_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column1_name . '[]' }}"]}
-
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column1_additional) &&
-                                                                                $project->listItemValues->column1_additional)
-                                                                            {{ $project->listItemValues->column1_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column2_name) &&
-                                                                    $project->listItemValues->column2_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column2_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column2_additional) &&
-                                                                                $project->listItemValues->column2_additional)
-                                                                            {{ $project->listItemValues->column2_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-
-                                                            @if (isset($project->listItemValues) &&
-                                                                    isset($project->listItemValues->column3_name) &&
-                                                                    $project->listItemValues->column3_name)
-                                                                <li class="d-flex align-items-center itemCircleFont">
-                                                                    <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
-                                                                    <span>
-                                                                        ${res[i]["{{ $project->listItemValues->column3_name . '[]' }}"]}
-                                                                        @if (isset($project->listItemValues) &&
-                                                                                isset($project->listItemValues->column3_additional) &&
-                                                                                $project->listItemValues->column3_additional)
-                                                                            {{ $project->listItemValues->column3_additional }}
-                                                                        @endif
-                                                                    </span>
-                                                                </li>
-                                                            @endif
-                            </ul>
-
-                            <span
-                                style="    font-size: 9px !important;
-                                                width: 50% !important;
-                                                text-align: right;
-                                                margin-right: 10px;">{!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}</span>
-                        </div>
-                    </div>
-                    <hr>`
-                    }
-
-                    $('.ajax-mobile-list').eq(blockIndex).append(htmlMobile);
-
-                });
-            }
         }
 
         function checkOffer(offers, housingOrder) {
