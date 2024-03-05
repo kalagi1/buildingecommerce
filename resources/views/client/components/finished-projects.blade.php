@@ -91,7 +91,11 @@
                     <div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
-                                <a href="{{ route('project.housings.detail', [$project->id, $room_order]) }}">
+                                <a href="{{ route('project.housings.detail', [
+                                    'projectSlug' => $project->slug,    
+                                    'projectID'   => $project->id+1000000, 
+                                    'housingOrder'=> $room_order
+                                    ]) }}">
                                     <div class="homes">
                                         <!-- homes img -->
 
@@ -110,7 +114,11 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                 <a style="text-decoration: none;height:100%"
-                                    href="{{ route('project.housings.detail', [$project->id, $i + 1]) }}">
+                                    href="{{ route('project.housings.detail', [
+                                        'projectSlug' => $project->slug,    
+                                        'projectID'   => $project->id+1000000, 
+                                        'housingOrder'=> $i+1
+                                        ]) }}">
                                     <h3>
                                         @php($advertiseTitle = getHouse($project, 'advertise_title[]', $i + 1)->value ?? null)
 
@@ -268,7 +276,11 @@
 
                                     <div data-aos="fade-up" data-aos-delay="150">
                                         <a class="text-decoration-none"
-                                            href="{{ route('project.housings.detail', [$project->id, $room_order]) }}">
+                                            href="{{ route('project.housings.detail', [
+                                                'projectSlug' => $project->slug,    
+                                                'projectID'   => $project->id+1000000, 
+                                                'housingOrder'=> $room_order
+                                                ]) }}">
                                             <div class="landscapes">
                                                 <div class="project-single">
                                                     <div class="project-inner project-head">

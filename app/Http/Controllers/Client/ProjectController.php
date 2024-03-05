@@ -673,7 +673,7 @@ class ProjectController extends Controller
 
     public function projectHousingDetail($projectSlug,$projectID,$housingOrder, Request $request)
     {
-        // print_r($projectID);die;
+        $projectID-=1000000;
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
@@ -754,6 +754,7 @@ class ProjectController extends Controller
         
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
+        // print_r($housingOrder);die;
 
         return view('client.projects.project_housing', compact('pageInfo',"sumCartOrderQt","bankAccounts",'projectHousingsList','blockIndex',"parent",'lastHousingCount','projectCartOrders','offer','endIndex','startIndex','currentBlockHouseCount','menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }
