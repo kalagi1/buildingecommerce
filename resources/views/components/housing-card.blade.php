@@ -1,6 +1,6 @@
 @props(['housing','sold'])
 
-<a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}"
+<a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}"
     class="text-decoration-none">
     <div data-aos="fade-up" data-aos-delay="150">
         <div class="landscapes">
@@ -272,7 +272,7 @@
 
                         <script>
                             function redirectToReservation() {
-                             window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 1000000]) }}";
+                             window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                             }
                         </script>
                     @endif

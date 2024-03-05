@@ -25,8 +25,14 @@
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
-            <div class="col-md-3">
-                <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}" style="height: 100%">
+            <div class="col-md-3"> 
+                {{-- <a href="{{ route('project.housings.detail',['projectSlug' => $project->slug, 'projectID' => $project->id + 1000000,'housingOrder' => $i+1 ]) }}" style="height: 100%"> --}}
+                    <a href="{{ route('project.housings.detail', [
+                        'projectSlug'  => $project->slug, 
+                        'projectID'    => $project->id + 1000000,
+                        'housingOrder' => $i + 1
+                    ]) }}" style="height: 100%">
+
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                             <p

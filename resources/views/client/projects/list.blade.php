@@ -75,7 +75,7 @@
                             @foreach ($projects as $project)
                                 <div class="col-sm-12 col-md-6 col-lg-6" data-aos="zoom-in" data-aos-delay="150">
                                     <!-- Image Box -->
-                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}" class="img-box hover-effect">
+                                    <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id+1000000]) }}" class="img-box hover-effect">
                                         <div class="listing-img-content">
                                             <span class="listing-compact-title">{{ $project->project_title }}</span>
 

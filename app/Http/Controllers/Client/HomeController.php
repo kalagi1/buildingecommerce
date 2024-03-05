@@ -354,7 +354,7 @@ class HomeController extends Controller
         $renderedProjects = $projects->through(function ($item) {
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
-                'url' => route('project.detail',["slug" => $item->slug, "id" => $item->id] ),
+                'url' => route('project.detail',["slug" => $item->slug, "id" => $item->id+1000000] ),
                 'city' => $item->city,
                 'county' => $item->county,
                 'profile_user_image' => URL::to('/').'/storage/profile_images/'.$item->user->profile_image,
@@ -726,8 +726,7 @@ class HomeController extends Controller
                 'id' => $item->id,
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
                 'is_favorite' => $isFavorite ? 1 : 0,
-                // 'housing_url' => route('housing.show', $item->id),
-                'housing_url' => route('housing.show', ['housingSlug' => $item->slug, 'housingID' => $item->id + 1000000 ]),
+                'housing_url' => route('housing.show', ['housingSlug' => $item->slug, 'housingID' => $item->id + 2000000 ]),
                 'slug'=>$item->slug,
                 'title' => $item->title,
                 'step1_slug' => $item->step1_slug,

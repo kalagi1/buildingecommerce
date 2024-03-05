@@ -156,7 +156,7 @@
 
                                     <tr>
                                         <td class="image myelist">
-                                            <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}">
+                                            <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ asset('housing_images/') . '/' . json_decode($housing->housing_type_data)->image }}"
                                                     class="img-fluid">
@@ -166,7 +166,7 @@
                         <div class="inner">
                             <a href="" style="color: black;margin-bottom:3px;">İLAN NO : {{ 2000000  + $housing->id }}</a> 
                             <div class="text-center">
-                                <a href="{{route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}" style="color: black">
+                                <a href="{{route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}" style="color: black">
                                     {{ $housing->title }} <br>
                                     <span>{!! optional($housing->city)->title . 
                                     ' / ' . optional($housing->county)->title . 
@@ -235,7 +235,7 @@
 
                                                 <script>
                                                     function redirectToReservation() {
-                                                        window.location.href = "{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}";
+                                                        window.location.href = "{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                                                     }
                                                 </script>
                                             @endif
