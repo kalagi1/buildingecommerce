@@ -96,6 +96,12 @@ Route::post('/payment/success',  [NestPayController::class, 'success'])->name('p
 Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
 Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
 
+Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
+Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
+Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
+
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
