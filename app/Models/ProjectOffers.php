@@ -15,18 +15,7 @@ class ProjectOffers extends Model
     public function user(){
         return $this->hasOne(User::class,"id","user_id");
     }
-    protected $fillable = [
-        'user_id',
-        'store_id',
-        'project_name',
-        'room_id',
-        'email',
-        'offer_price_range',
-        'offer_description',
-        'approval_status',
-        'response_status',
-        'sales_status'
-    ];
+    protected $guarded = [];
     protected $table = 'project_offers';
 
 }

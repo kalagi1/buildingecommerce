@@ -191,6 +191,7 @@ class HousingController extends Controller {
                 [
                     'housing_type_id' => $housingType->id,
                     'title' => $tempOrder->name,
+                    'slug' => Str::slug($tempOrder->name),
                     'address' => 'asd',
                     'description' => $tempOrder->description,
                     'city_id' => $tempOrder->city_id,

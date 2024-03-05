@@ -89,22 +89,30 @@
                                                 <td>
                                                     {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
                                                     <br>
+                                                
                                                     @if ($item['item_type'] == 1)
                                                         {!! $item['room_order'] . " No'lu Daire <br>" !!}
-                                                    @endif <span
-                                                        style="font-size: 9px !important;font-weight:700">
-                                                        {{ isset($item['item_type']) && $item['item_type'] == 1
-                                                            ? $item['project']['city']['title'] .
-                                                                ' / ' .
-                                                                $item['project']['county']['ilce_title'] .
-                                                                ' / ' .
-                                                                $item['project']['neighbourhood']['mahalle_title']
-                                                            : ($item['housing']['city']
-                                                                ? $item['housing']['city']['title']
-                                                                : 'City Not Available') }}
+                                                    @endif 
+                                                
+                                                    <span style="font-size: 9px !important; font-weight:700">
+                                                        @if (isset($item['item_type']) && $item['item_type'] == 1 && 
+                                                            isset($item['project']['city']['title']) &&
+                                                            isset($item['project']['county']['ilce_title']) &&
+                                                            isset($item['project']['neighbourhood']['mahalle_title']))
+                                                            
+                                                            {{ $item['project']['city']['title'] . ' / ' .
+                                                                $item['project']['county']['ilce_title'] . ' / ' .
+                                                                $item['project']['neighbourhood']['mahalle_title'] }}
+                                                
+                                                        @elseif (isset($item['housing']['city']['title']))
+                                                            {{ $item['housing']['city']['title'] }}
+                                                        @else
+                                                            City Not Available
+                                                        @endif
                                                         <br>
                                                     </span>
                                                 </td>
+                                                
                                                 <td>
                                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                         @php

@@ -897,19 +897,19 @@ class ProjectController extends Controller
      //Kullanıcının Verdiği Tekliflerin listesi
     public function get_given_offers(){
         $data = ProjectOffers::with('project')->where('user_id', auth()->id())->get();
+
         return view('institutional.project_offers.get_given_offers',compact('data'));
     }//End
 
 
     //Teklif ver fonksiyonu
     public function give_offer(Request $request){   
-        // print_r($request->all());die;
         $offer_price_range = $request->offer_price_min." ".$request->offer_price_max;
 
         $data = [
             'user_id'           => auth()->id(),
             'store_id'          => $request->projectUserId,
-            'project_id'      => $request->project_id,
+            'project_id'        => $request->projectId,
             'room_id'           => $request->roomId,
             'email'             => $request->email,
             'offer_price_range' => $offer_price_range,
