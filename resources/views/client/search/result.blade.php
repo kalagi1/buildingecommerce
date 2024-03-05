@@ -602,7 +602,7 @@
                                 <div class="project-single no-mb aos-init aos-animate" style="height:100%"
                                     data-aos="zoom-in" data-aos-delay="150">
                                     <div class="listing-item compact" style="height:100%">
-                                        <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id']]) }}"
+                                        <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id'] +2000000]) }}"
                                             class="listing-img-container">
                                             <div class="listing-img-content"
                                                 style="padding-left:10px;text-transform:uppercase;">

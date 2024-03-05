@@ -354,7 +354,7 @@ class HomeController extends Controller
         $renderedProjects = $projects->through(function ($item) {
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
-                'url' => route('project.detail',["slug" => $item->slug, "id" => $item->id] ),
+                'url' => route('project.detail',["slug" => $item->slug, "id" => $item->id+2000000] ),
                 'city' => $item->city,
                 'county' => $item->county,
                 'profile_user_image' => URL::to('/').'/storage/profile_images/'.$item->user->profile_image,

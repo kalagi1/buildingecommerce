@@ -161,7 +161,7 @@
                     @foreach ($brand->projects as $project)
                         <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
                             <!-- Image Box -->
-                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}" class="img-box hover-effect">
+                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id+2000000]) }}" class="img-box hover-effect">
                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                     class="img-fluid w100" alt="">
                             </a>

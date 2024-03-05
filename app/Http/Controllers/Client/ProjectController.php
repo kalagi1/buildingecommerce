@@ -34,6 +34,8 @@ class ProjectController extends Controller
 {
     public function index($slug,$id,Request $request)
     {
+        $id-=2000000;
+
         $menu = Cache::rememberForever('menu', function() {
             return Menu::getMenuItems();
         });

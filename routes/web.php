@@ -122,7 +122,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
-Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
+
+
+//Route::get('/ilan/{housingSlug}/{housingID}/detay', [ClientHousingController::class, "show"])->name('housing.show');
+Route::get('/proje/{slug}/{id}/detay',[ClientProjectController::class,"index"])->name('project.detail');
+
+// Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
+
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
 Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
