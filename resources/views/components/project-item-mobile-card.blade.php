@@ -26,7 +26,12 @@
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
-            <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}">
+            {{-- <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}"> --}}
+                <a href="{{ route('project.housings.detail', [
+                        'projectSlug'  => $project->slug, 
+                        'projectID'    => $project->id + 1000000,
+                        'housingOrder' => $keyIndex
+                    ]) }}">
                 <div class="homes">
                     <!-- homes img -->
                     <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
@@ -46,7 +51,11 @@
     <div class="w-100" style="padding-left:0;">
         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
             <a style="text-decoration: none; height: 100%"
-                href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}">
+            href="{{ route('project.housings.detail', [
+                'projectSlug'  => $project->slug, 
+                'projectID'    => $project->id + 1000000,
+                'housingOrder' => $keyIndex
+            ]) }}">
                 <div class="d-flex justify-content-between" style="gap:8px;">
                     <h3>
                         @if (isset($projectHousingsList[$keyIndex]['advertise_title[]']))
