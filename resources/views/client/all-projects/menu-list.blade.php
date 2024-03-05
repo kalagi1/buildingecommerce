@@ -1151,7 +1151,7 @@
 
         function redirectToReservation(resId, resSlug) {
     // resId'yi bir tamsayıya dönüştür ve 1000000 ekleyerek topla
-    var updatedResId = parseInt(resId) + 1000000;
+    var updatedResId = parseInt(resId) + 2000000;
 
     // Rotayı oluştur ve yer tutucuları değiştir
     var url = '{{ route('housing.show', ['housingSlug' => 'resSlugPlaceholder', 'housingID' => 'resIdPlaceholder']) }}';

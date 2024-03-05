@@ -107,7 +107,7 @@ class HousingController extends Controller {
         $bankAccounts = BankAccount::all();
         
         // housingID'yi gerçek ID'ye çevir
-        $realHousingID = intval($housingID) - 1000000;
+        $realHousingID = intval($housingID) - 2000000;
         
         $housing = Housing::with("neighborhood", 'images', "reservations", "user.housings", "user.banners", "brand", "city", "county")
             ->where("id", $realHousingID)->first();

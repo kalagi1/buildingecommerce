@@ -34,7 +34,7 @@ class ProjectController extends Controller
 {
     public function index($slug,$id,Request $request)
     {
-        $id-=2000000;
+        $id-=1000000;
 
         $menu = Cache::rememberForever('menu', function() {
             return Menu::getMenuItems();
@@ -671,8 +671,9 @@ class ProjectController extends Controller
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectID, $housingOrder,Request $request)
+    public function projectHousingDetail($projectSlug,$projectID,$housingOrder, Request $request)
     {
+        // print_r($projectID);die;
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 

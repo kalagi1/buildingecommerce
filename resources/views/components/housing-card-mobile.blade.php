@@ -3,7 +3,7 @@
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
-            <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}">
+            <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
 
                 <div class="homes">
                     <div class="homes-img h-100 d-flex align-items-center"
@@ -20,7 +20,7 @@
         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
             <a style="text-decoration: none;height:100%"
-            href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}">
+            href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                 <div class="d-flex"
                     style="gap: 8px;justify-content:space-between;align-items:start">
                     <h4 class="mobile-left-width">
@@ -87,7 +87,7 @@
                         
                         <script>
                             function redirectToReservation() {
-                                window.location.href = "{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 1000000]) }}";
+                                window.location.href = "{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                             }
                         </script>
                     @endif

@@ -960,7 +960,7 @@ class ProjectController extends Controller
                 ]);
             }
             
-            $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id+2000000]);
+            $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id+1000000]);
             $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
             DocumentNotification::create([
                 'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
@@ -981,7 +981,7 @@ class ProjectController extends Controller
                 "status" => true,
             ]);
 
-            $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id+2000000]);
+            $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id+1000000]);
             $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
             DocumentNotification::create([
                 'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
@@ -1153,7 +1153,7 @@ class ProjectController extends Controller
 
 
         
-        $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id+2000000]);
+        $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id+1000000]);
         $notificationText = 'Proje #' . $project->id . ' yayınlandı.';
         DocumentNotification::create([
             'user_id' => auth()->user()->id,

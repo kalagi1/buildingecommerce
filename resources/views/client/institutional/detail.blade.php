@@ -97,7 +97,7 @@
                                     <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
                                         @foreach ($institutional->projects as $item)
-                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+2000000]) }}"
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
                                                 class="project-item"
                                                 data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
@@ -253,7 +253,7 @@
                         @foreach ($institutional->owners as $comment)
                             <div class="bg-white border rounded-md pb-3 mb-3"
                                 @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
-                                <a href="{{ route('housing.show', ['housingSlug' =>  $comment->housing->slug, 'housingID' => $comment->housing->id + 1000000]) }}"
+                                <a href="{{ route('housing.show', ['housingSlug' =>  $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000]) }}"
                                     class="product-review-container__redirect" target="_blank"><img
                                         src="{{ asset('housing_images/' . getImage($comment->housing, 'image')) }}"
                                         alt="Ürün Görseli">

@@ -1427,7 +1427,7 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
                             // Assuming you have a JavaScript variable like this:
-                            var baseRoute = `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`.replace('slug_placeholder', e.slug).replace('id_placeholder', parseInt(e.id) + 2000000);
+                            var baseRoute = `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`.replace('slug_placeholder', e.slug).replace('id_placeholder', parseInt(e.id) + 1000000);
 
 
                             // Now, you can use it in your append statement:
@@ -1573,7 +1573,7 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                                     .toUpperCase() + e.name.slice(1);
 
                                 // Assuming you have a JavaScript variable like this:
-                                var baseRoute = `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`.replace('slug_placeholder', e.slug).replace('id_placeholder', parseInt(e.id) + 2000000);
+                                var baseRoute = `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`.replace('slug_placeholder', e.slug).replace('id_placeholder', parseInt(e.id) + 1000000);
 
 
                                 // Now, you can use it in your append statement:

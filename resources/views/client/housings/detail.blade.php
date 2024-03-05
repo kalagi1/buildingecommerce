@@ -133,7 +133,7 @@
                                         <h5>Projeler</h5>
                                         <div class="header-search__suggestions__section__items">
                                             @foreach ($housing->user->projects as $item)
-                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+2000000]) }}"
+                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
                                                     class="project-item"
                                                     data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                             @endforeach

@@ -122,11 +122,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
-
-
-//Route::get('/ilan/{housingSlug}/{housingID}/detay', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/proje/{slug}/{id}/detay',[ClientProjectController::class,"index"])->name('project.detail');
-
 // Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
 
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
@@ -152,7 +148,10 @@ Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNe
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
-Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+// Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+ Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+
+
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
