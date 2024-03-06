@@ -743,7 +743,7 @@
                                                                     $project->blocks[$blockKey - 1][
                                                                         'housing_count'
                                                                     ];
-                                                                    for ($j = 0; $j < $blockKey; $j++) {
+                                                                for ($j = 0; $j < $blockKey; $j++) {
                                                                     if (
                                                                         isset($project->blocks[$j]) &&
                                                                         isset($project->blocks[$j]['housing_count'])
@@ -751,12 +751,10 @@
                                                                         $allCounts +=
                                                                             $project->blocks[$j]['housing_count'];
                                                                     }
-                                                                   
                                                                 }
                                                             } else {
                                                                 $i = 0;
                                                             }
-
 
                                                         @endphp
                                                         <div class="mobile-hidden">
@@ -802,64 +800,66 @@
                                                                         @endphp
 
                                                                         <x-project-item-card :project="$project"
-                                                                            :allCounts="$allCounts" :key="$key"
-                                                                            :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                                            :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                                            :bankAccounts="$bankAccounts" :i="$i"
-                                                                            :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                            :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                                            :allCounts="$allCounts"
+                                                                            :key="$key" :blockHousingCount="$blockHousingCount"
+                                                                            :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                                            :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
+                                                                            :i="$i" :projectHousingsList="$projectHousingsList"
+                                                                            :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                                            :lastHousingCount="$lastHousingCount" />
                                                                     @endfor
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="mobile-show">
                                                             @for ($i = 0; $i < $blockHousingCount; $i++)
-                                                            @php
-                                                                if (isset($projectCartOrders[$i + 1])) {
-                                                                    $sold = $projectCartOrders[$i + 1];
-                                                                } else {
-                                                                    $sold = null;
-                                                                }
-                                                                $isUserSame =
-                                                                    isset($projectCartOrders[$i + 1]) &&
-                                                                    (Auth::check()
-                                                                        ? $projectCartOrders[$i + 1]
-                                                                                ->user_id ==
-                                                                            Auth::user()->id
-                                                                        : false);
+                                                                @php
+                                                                    if (isset($projectCartOrders[$i + 1])) {
+                                                                        $sold = $projectCartOrders[$i + 1];
+                                                                    } else {
+                                                                        $sold = null;
+                                                                    }
+                                                                    $isUserSame =
+                                                                        isset($projectCartOrders[$i + 1]) &&
+                                                                        (Auth::check()
+                                                                            ? $projectCartOrders[$i + 1]->user_id ==
+                                                                                Auth::user()->id
+                                                                            : false);
 
-                                                                $projectOffer = App\Models\Offer::where(
-                                                                    'type',
-                                                                    'project',
-                                                                )
-                                                                    ->where('project_id', $project->id)
-                                                                    ->where(function ($query) use ($i) {
-                                                                        $query
-                                                                            ->orWhereJsonContains(
-                                                                                'project_housings',
-                                                                                [$i + 1],
-                                                                            )
-                                                                            ->orWhereJsonContains(
-                                                                                'project_housings',
-                                                                                (string) ($i + 1),
-                                                                            ); // Handle as string as JSON might store values as strings
-                                                                    })
-                                                                    ->where('start_date', '<=', now())
-                                                                    ->where('end_date', '>=', now())
-                                                                    ->first();
-                                                                $projectDiscountAmount = $projectOffer
-                                                                    ? $projectOffer->discount_amount
-                                                                    : 0;
-                                                            @endphp
+                                                                    $projectOffer = App\Models\Offer::where(
+                                                                        'type',
+                                                                        'project',
+                                                                    )
+                                                                        ->where('project_id', $project->id)
+                                                                        ->where(function ($query) use ($i) {
+                                                                            $query
+                                                                                ->orWhereJsonContains(
+                                                                                    'project_housings',
+                                                                                    [$i + 1],
+                                                                                )
+                                                                                ->orWhereJsonContains(
+                                                                                    'project_housings',
+                                                                                    (string) ($i + 1),
+                                                                                ); // Handle as string as JSON might store values as strings
+                                                                        })
+                                                                        ->where('start_date', '<=', now())
+                                                                        ->where('end_date', '>=', now())
+                                                                        ->first();
+                                                                    $projectDiscountAmount = $projectOffer
+                                                                        ? $projectOffer->discount_amount
+                                                                        : 0;
+                                                                        $blockName =  $block['block_name'];
+                                                                @endphp
 
-                                                            <x-project-item-mobile-card :project="$project"
-                                                                :allCounts="$allCounts" :key="$key"
-                                                                :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                                :bankAccounts="$bankAccounts" :i="$i"
-                                                                :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                                        @endfor
+                                                                <x-project-item-mobile-card :project="$project"
+                                                                :blockName="$blockName"
+                                                                    :allCounts="$allCounts" :key="$key"
+                                                                    :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                                    :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                    :bankAccounts="$bankAccounts" :i="$i"
+                                                                    :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                            @endfor
                                                         </div>
                                                     </div>
                                                 @endforeach
@@ -960,7 +960,8 @@
                                                     ? $projectOffer->discount_amount
                                                     : 0;
                                             @endphp
-                                            <x-project-item-mobile-card :project="$project" :allCounts="$allCounts"
+                                            <x-project-item-mobile-card
+                                            :blockName="null" :project="$project" :allCounts="$allCounts"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                 :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
