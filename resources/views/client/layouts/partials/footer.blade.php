@@ -1284,9 +1284,15 @@
             });
         }
 
+
+
         function toggleProjectFavorite(event) {
             event.preventDefault();
+
             var button = event.target;
+            if ($(event.target).is('i')) {
+                button = button.closest('.toggle-project-favorite');
+            }
             var housingId = button.getAttribute("data-project-housing-id");
             var projectId = button.getAttribute("data-project-id");
 
@@ -1308,7 +1314,7 @@
                         updateFavoriteButton(button, false);
                     } else if (response.status == 'notLogin') {
                         window.location.href =
-                        "{{ route('client.login') }}"; // Redirect to the login route
+                            "{{ route('client.login') }}"; // Redirect to the login route
                     }
                 },
                 error: function(error) {
@@ -1316,6 +1322,8 @@
                 }
             });
         }
+
+
 
         // Function to handle the click event for generic favorite toggle
         function toggleFavorite(event) {
@@ -1339,7 +1347,7 @@
                         updateFavoriteButton(button, false);
                     } else if (response.status == 'notLogin') {
                         window.location.href =
-                        "{{ route('client.login') }}"; // Redirect to the login route
+                            "{{ route('client.login') }}"; // Redirect to the login route
                     }
                 },
                 error: function(error) {
@@ -1365,6 +1373,7 @@
 
         // Event delegation for project favorite toggle
         $('body').on('click', '.toggle-project-favorite', toggleProjectFavorite);
+
 
         // Event delegation for generic favorite toggle
         $('body').on("click", ".toggle-favorite", toggleFavorite);
