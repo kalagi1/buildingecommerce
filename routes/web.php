@@ -90,17 +90,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
  */
-Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
-Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
-Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
-Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
-Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
+
+
+ Route::post('/ziraat/login', [NestPayController::class, 'loginToReport']);
+ Route::post('/ziraat/3d-payment', [NestPayController::class, 'initiate3DPayment'])->name('3d.payment');
+ Route::post('/ziraat/api-payment', [NestPayController::class, 'apiPayment']);
 
 Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
-Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
-Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
+// Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+// Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
 Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
-Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
+// Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
 
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');

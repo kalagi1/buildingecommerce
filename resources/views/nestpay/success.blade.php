@@ -1,3 +1,3 @@
-@foreach($responseData as $key => $value)
+@foreach($requestData as $key => $value)
     <p>{{ $key }}: {{ $value }}</p>
 @endforeach
