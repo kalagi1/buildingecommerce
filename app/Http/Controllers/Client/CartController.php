@@ -1159,4 +1159,11 @@ class CartController extends Controller
             ]);
         }
     }
+
+    public function setCartSession(Request $request)
+    {
+        $cart = $request->input('cart');
+        session(['cart' => $cart]);
+        return response()->json(['success' => true]);
+    }
 }

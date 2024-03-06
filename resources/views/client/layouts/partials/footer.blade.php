@@ -1119,12 +1119,24 @@
                                 }
                                 button.classList.add("bg-success");
                                 window.location.href = "/sepetim";
-
+                                
 
                             },
                             error: function(error) {
-                                window.location.href = "/giris-yap";
-                                console.error(error);
+                                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{ route('set.cart.session') }}", // Bu route'u kendi projenize uygun bir şekilde değiştirin
+                                    data: { cart: cart , _token: csrfToken},
+                                    success: function(sessionResponse) {
+                                        // Kullanıcıyı giriş yapma sayfasına yönlendirin ve cart bilgisini session'a ekledik
+                                        var queryString = $.param(cart); // Convert cart object to query string
+                                        window.location.href = "/giris-yap?backurl=/sepetim&" + queryString;
+                                    },
+                                    error: function(sessionError) {
+                                        console.error(sessionError);
+                                    }
+                                });
                             }
                         });
                     }
