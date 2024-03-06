@@ -12,6 +12,7 @@
     'key',
     'previousBlockHousingCount',
     'allCounts',
+    'blockName'
 ])
 @php
     if ($key == 0) {
@@ -60,13 +61,14 @@
                     <h3>
                         @if (isset($projectHousingsList[$keyIndex]['advertise_title[]']))
                             {{ $projectHousingsList[$keyIndex]['advertise_title[]'] }}
-                            {{ $keyIndex }}
+                            {{$blockName}}
+                            {{ $i + 1 }}
                             {{ "No'lu" }}
                             {{ $project->step1_slug }}
                         @else
                             {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                            Projesinde
-                            {{ $keyIndex }}
+                            Projesinde  {{$blockName}}
+                            {{ $i + 1 }}
                             {{ "No'lu" }}
                             {{ $project->step1_slug }}
                         @endif

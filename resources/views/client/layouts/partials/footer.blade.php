@@ -684,9 +684,10 @@
                                         html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
                                             "") + advanceData + "</td>";
                                     }
-                                    
+
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " :
+                                        html += "<td>" + (isMobile ?
+                                            "<strong>Aylık Ödenecek Tutar:</strong> " :
                                             "") + monhlyPrice + "</td>";
                                     }
 
@@ -1119,24 +1120,13 @@
                                 }
                                 button.classList.add("bg-success");
                                 window.location.href = "/sepetim";
-                                
+
 
                             },
                             error: function(error) {
-                                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{ route('set.cart.session') }}", // Bu route'u kendi projenize uygun bir şekilde değiştirin
-                                    data: { cart: cart , _token: csrfToken},
-                                    success: function(sessionResponse) {
-                                        // Kullanıcıyı giriş yapma sayfasına yönlendirin ve cart bilgisini session'a ekledik
-                                        var queryString = $.param(cart); // Convert cart object to query string
-                                        window.location.href = "/giris-yap?backurl=/sepetim&" + queryString;
-                                    },
-                                    error: function(sessionError) {
-                                        console.error(sessionError);
-                                    }
-                                });
+                                window.location.href = "/giris-yap";
+
+                                console.error(error);
                             }
                         });
                     }
@@ -1294,86 +1284,90 @@
             });
         }
 
-function toggleProjectFavorite(event) {
-    event.preventDefault();
-    var button = event.target;
-    var housingId = button.getAttribute("data-project-housing-id");
-    var projectId = button.getAttribute("data-project-id");
+        function toggleProjectFavorite(event) {
+            event.preventDefault();
+            var button = event.target;
+            var housingId = button.getAttribute("data-project-housing-id");
+            var projectId = button.getAttribute("data-project-id");
 
-    $.ajax({
-        url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}".replace(':id', housingId),
-        type: "POST",
-        data: {
-            _token: "{{ csrf_token() }}",
-            project_id: projectId,
-            housing_id: housingId
-        },
-        success: function(response) {
-            if (response.status == 'added') {
-                toastr.success("Konut Favorilere Eklendi");
-                updateFavoriteButton(button, true);
-            } else if (response.status == 'removed') {
-                toastr.warning("Konut Favorilerden Kaldırıldı");
-                updateFavoriteButton(button, false);
-            } else if (response.status == 'notLogin') {
-                window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
-            }
-        },
-        error: function(error) {
-            // window.location.href = "/giris-yap";
+            $.ajax({
+                url: "{{ route('add.project.housing.to.favorites', ['id' => ':id']) }}".replace(':id',
+                    housingId),
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    project_id: projectId,
+                    housing_id: housingId
+                },
+                success: function(response) {
+                    if (response.status == 'added') {
+                        toastr.success("Konut Favorilere Eklendi");
+                        updateFavoriteButton(button, true);
+                    } else if (response.status == 'removed') {
+                        toastr.warning("Konut Favorilerden Kaldırıldı");
+                        updateFavoriteButton(button, false);
+                    } else if (response.status == 'notLogin') {
+                        window.location.href =
+                        "{{ route('client.login') }}"; // Redirect to the login route
+                    }
+                },
+                error: function(error) {
+                    // window.location.href = "/giris-yap";
+                }
+            });
         }
-    });
-}
 
-// Function to handle the click event for generic favorite toggle
-function toggleFavorite(event) {
-    event.preventDefault();
-    var housingId = event.currentTarget.getAttribute("data-housing-id");
-    var button = event.currentTarget;
+        // Function to handle the click event for generic favorite toggle
+        function toggleFavorite(event) {
+            event.preventDefault();
+            var housingId = event.currentTarget.getAttribute("data-housing-id");
+            var button = event.currentTarget;
 
-    $.ajax({
-        url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}".replace(':id', housingId),
-        type: "POST",
-        data: {
-            _token: "{{ csrf_token() }}"
-        },
-        success: function(response) {
-            if (response.status == 'added') {
-                toastr.success("Konut Favorilere Eklendi");
-                updateFavoriteButton(button, true);
-            } else if (response.status == 'removed') {
-                toastr.warning("Konut Favorilerden Kaldırıldı");
-                updateFavoriteButton(button, false);
-            } else if (response.status == 'notLogin') {
-                window.location.href = "{{ route('client.login') }}"; // Redirect to the login route
-            }
-        },
-        error: function(error) {
-            window.location.href = "/giris-yap";
-            console.error(error);
+            $.ajax({
+                url: "{{ route('add.housing.to.favorites', ['id' => ':id']) }}".replace(':id',
+                    housingId),
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.status == 'added') {
+                        toastr.success("Konut Favorilere Eklendi");
+                        updateFavoriteButton(button, true);
+                    } else if (response.status == 'removed') {
+                        toastr.warning("Konut Favorilerden Kaldırıldı");
+                        updateFavoriteButton(button, false);
+                    } else if (response.status == 'notLogin') {
+                        window.location.href =
+                        "{{ route('client.login') }}"; // Redirect to the login route
+                    }
+                },
+                error: function(error) {
+                    window.location.href = "/giris-yap";
+                    console.error(error);
+                }
+            });
         }
-    });
-}
 
-// Function to update the favorite button styles
-function updateFavoriteButton(button, isAdded) {
-    var heartIconClassList = button.querySelector("i").classList;
-    heartIconClassList.remove("text-danger", "fa-heart", "fa-heart-o");
+        // Function to update the favorite button styles
+        function updateFavoriteButton(button, isAdded) {
+            var heartIconClassList = button.querySelector("i").classList;
+            heartIconClassList.remove("text-danger", "fa-heart", "fa-heart-o");
 
-    if (isAdded) {
-        heartIconClassList.add("fa-heart", "text-danger");
-        button.classList.add("bg-white");
-    } else {
-        heartIconClassList.add("fa-heart-o");
-        button.classList.remove("bg-white");
-    }
-}
+            if (isAdded) {
+                heartIconClassList.add("fa-heart", "text-danger");
+                button.classList.add("bg-white");
+            } else {
+                heartIconClassList.add("fa-heart-o");
+                button.classList.remove("bg-white");
+            }
+        }
 
-// Event delegation for project favorite toggle
-$('body').on('click', '.toggle-project-favorite', toggleProjectFavorite);
+        // Event delegation for project favorite toggle
+        $('body').on('click', '.toggle-project-favorite', toggleProjectFavorite);
 
-// Event delegation for generic favorite toggle
-$('body').on("click", ".toggle-favorite", toggleFavorite);
+        // Event delegation for generic favorite toggle
+        $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
     const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
@@ -1417,7 +1411,7 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
 
-                                //housign.show link eklenecek
+                            //housign.show link eklenecek
                             $('.header-search-box').append(`
                           
                         `);
@@ -1438,7 +1432,10 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                             const formattedName = e.name.charAt(0)
                                 .toUpperCase() + e.name.slice(1);
                             // Assuming you have a JavaScript variable like this:
-                            var baseRoute = `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`.replace('slug_placeholder', e.slug).replace('id_placeholder', parseInt(e.id) + 1000000);
+                            var baseRoute =
+                                `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
+                                .replace('slug_placeholder', e.slug).replace(
+                                    'id_placeholder', parseInt(e.id) + 1000000);
 
 
                             // Now, you can use it in your append statement:
@@ -1584,7 +1581,10 @@ $('body').on("click", ".toggle-favorite", toggleFavorite);
                                     .toUpperCase() + e.name.slice(1);
 
                                 // Assuming you have a JavaScript variable like this:
-                                var baseRoute = `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`.replace('slug_placeholder', e.slug).replace('id_placeholder', parseInt(e.id) + 1000000);
+                                var baseRoute =
+                                    `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
+                                    .replace('slug_placeholder', e.slug).replace(
+                                        'id_placeholder', parseInt(e.id) + 1000000);
 
 
                                 // Now, you can use it in your append statement:
