@@ -79,7 +79,7 @@
                                     <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
                                         @foreach ($institutional->projects as $item)
-                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id + 1000000]) }}"
                                                 class="project-item"
                                                 data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
@@ -98,6 +98,16 @@
     <section class="properties-right featured portfolio blog pt-5 bg-white">
         <div class="container">
             <div class="row">
+            @if($teams->isEmpty())
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+                        <h2 class="mt-5 mb-3">Ekip Bilgisi Bulunamadı</h2>
+                        <p>Lütfen daha sonra tekrar deneyin veya başka bir arama yapın.</p>
+                    </div>
+                </div>
+            </div>
+            @else
                 @foreach ($teams as $item)
                     <div class="item col-lg-3 col-md-3 col-xs-12 landscapes sale">
                         <div class="project-single">
@@ -138,7 +148,7 @@
                         </div>
                     </div>
                 @endforeach
-
+            @endif
 
 
             </div>
