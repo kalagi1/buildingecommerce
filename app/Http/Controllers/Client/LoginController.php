@@ -208,12 +208,12 @@ class LoginController extends Controller {
                         return redirect()->intended( '/qR9zLp2xS6y/secured/admin' );
                     } elseif ( $user->type != '3' ) {
                         
-                        if ($request->has('backurl')) {
-                            $backurl = $request->query('backurl');
-                            $cart = $request->session()->get('cart');
-                            dd($cart);
-                            return redirect()->to($request->input('backurl'));
-                        }
+                        // if ($request->has('backurl')) {
+                        //     $backurl = $request->query('backurl');
+                        //     $cart = $request->session()->get('cart');
+                        //     dd($cart);
+                        //     return redirect()->to($request->input('backurl'));
+                        // }
 
                         return redirect()->intended( route( 'index' ) );
                     }
