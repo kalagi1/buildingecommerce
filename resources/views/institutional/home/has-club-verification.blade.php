@@ -8,7 +8,7 @@
 
                 <div class="toast show" style="width: 100%" role="alert" data-bs-autohide="false" aria-live="assertive"
                     aria-atomic="true">
-                    <div class="toast-header">
+                    <div class="card-header p-4 border-bottom ">
                         <strong class="me-auto">Emlak Sepette | Emlak Kulüp Başvurusu</strong>
                     </div>
                     <div class="toast-body"> Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
@@ -32,7 +32,7 @@
                                     @enderror
                                 </div> --}}
                                 <div class="mt-3">
-                                    <label class="q-label">Telefon</label>
+                                    <label class="form-label">Telefon</label>
                                     <input type="number" name="phone"
                                         class="form-control @error('phone') is-invalid @enderror"
                                         value="{{ old('phone', $user->phone) }}">
@@ -42,7 +42,7 @@
                                 </div>
                                 @if (Auth::check() && Auth::user()->type == '1')
                                     <div class="mt-3">
-                                        <label class="q-label">Tc Kimlik No</label>
+                                        <label class="form-label">Tc Kimlik No</label>
                                         <input type="number" name="idNumber"
                                             class="form-control @error('idNumber') is-invalid @enderror"
                                             value="{{ old('idNumber', $user->idNumber) }}">
@@ -53,7 +53,7 @@
                                 @endif
 
                                 <div class="mt-3">
-                                    <label class="q-label">Banka Alıcı Adı</label>
+                                    <label class="form-label">Banka Alıcı Adı</label>
                                     <input type="text" name="bank_name"
                                         class="form-control @error('bank_name') is-invalid @enderror"
                                         value="{{ old('bank_name', $user->bank_name) }}">
@@ -62,7 +62,7 @@
                                     @enderror
                                 </div>
                                 <div class="mt-3">
-                                    <label class="q-label">Iban Numarası
+                                    <label class="form-label">Iban Numarası
                                         <i class="fa fa-info-circle ml-2" data-toggle="tooltip" style="font-size: 18px;"
                                             aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
                                             title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
