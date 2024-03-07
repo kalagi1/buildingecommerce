@@ -605,7 +605,7 @@ class ProjectController extends Controller
         $housing_status = HousingStatus::all();
         $tempDataFull = Project::where('id', $id)->first();
         $project = Project::where('slug', $slug)->first();
-        $tempDataFull2 = Project::where('slug', $id)->first();
+        $tempDataFull2 = Project::where('id', $id)->first();
         $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->first();
         if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug &&  json_decode($tempUpdate->data)->data_slug == $slug) {
