@@ -48,6 +48,10 @@ use Throwable;
 class ProjectController extends Controller
 {
 
+    public function reactProjects(){
+        return view('institutional.projects.react_projects');
+    }
+
     public function setSelectedData(Request $request,$projectId){
         $orders = explode(',',$request->input('selected-items'));
         foreach($orders as $order){
@@ -590,16 +594,20 @@ class ProjectController extends Controller
         return view('institutional.projects.createv2', compact('topRowPrices','featuredPrices','housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull','bankAccounts', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
     }
 
-    public function editV2($slug)
+    public function createV3(){
+        return view('institutional.projects.createv3');
+    }
+
+    public function editV2($slug,$id)
     {
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();
         $cities = City::get();
         $tempUpdateHas = false;
         $housing_status = HousingStatus::all();
-        $tempDataFull = Project::where('slug', $slug)->first();
+        $tempDataFull = Project::where('id', $id)->first();
         $project = Project::where('slug', $slug)->first();
-        $tempDataFull2 = Project::where('slug', $slug)->first();
+        $tempDataFull2 = Project::where('id', $id)->first();
         $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->first();
         if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug &&  json_decode($tempUpdate->data)->data_slug == $slug) {

@@ -304,7 +304,7 @@
                                                             gözükecektir.</p>
                                                     @else
                                                         @if (
-                                                            ($sold && $sold[0]->status == 1 && $share_sale == '[]') ||
+                                                            ($sold && $sold[0]->status == 1 &&  empty($share_sale)) ||
                                                                 (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>

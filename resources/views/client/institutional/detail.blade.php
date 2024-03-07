@@ -253,7 +253,7 @@
                         @foreach ($institutional->owners as $comment)
                             <div class="bg-white border rounded-md pb-3 mb-3"
                                 @if (!$loop->last) style="border-bottom: 1px solid #E6E6E6 !important; " @endif>
-                                <a href="{{ route('housing.show', ['housingSlug' =>  $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000]) }}"
+                                <a href="{{ route('housing.show', ['housingSlug' => $comment->housing->step1_slug. "-". $comment->housing->step2_slug. "-" . $comment->housing->slug, 'housingID' => $comment->housing->id + 2000000]) }}"
                                     class="product-review-container__redirect" target="_blank"><img
                                         src="{{ asset('housing_images/' . getImage($comment->housing, 'image')) }}"
                                         alt="Ürün Görseli">

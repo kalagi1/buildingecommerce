@@ -44,7 +44,7 @@
 
                                         <td>
                                             <a                                     
-                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail',['projectSlug'=>$item['project']['slug'],'projectID'=>$item['project']['id'], 'housingOrder'=>$item['room_order'] ]) :  route('housing.show', ['housingSlug' => $item['housing']['slug'], 'housingID' => [$item['housing']['id']] + 2000000]) }}">
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail',['projectSlug'=>$item['project']['slug'],'projectID'=>$item['project']['id'], 'housingOrder'=>$item['room_order'] ]) :  route('housing.show', ['housingSlug' =>$item['housing']['step1_slug']. "-".$item['housing']['step2_slug']. "-" . $item['housing']['slug'], 'housingID' => [$item['housing']['id']] + 2000000]) }}">
                                                 <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                     alt="home-1" class="img-responsive"
                                                     style="height: 70px !important; object-fit: cover;width:100px">

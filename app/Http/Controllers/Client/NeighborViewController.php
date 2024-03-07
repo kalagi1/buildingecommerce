@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class NeighborViewController extends Controller {
     public function store( Request $request ) {
+        
         $userId = $request->input( 'user_id' );
         $orderId = $request->input( 'order_id' );
 

@@ -218,6 +218,7 @@
     }
 @endphp
 
+
 <body>
     <div class="tm_container">
         <div class="tm_invoice_wrap">
@@ -332,7 +333,7 @@
                                 <li>Vergi No: {{ $data['project']['user']['taxNumber'] }}</li>
                                 <li>İletişim No: {{ $data['project']['user']['phone'] }}</li>
                             </ul>
-                        </div><!-- .tm_note -->
+                        </div>
                     </div>
                 </div>
             </div>

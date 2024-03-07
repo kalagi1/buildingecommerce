@@ -3,11 +3,12 @@
 @section('content')
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
-
+  
 
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
                     <div class="my-choose mb-3 d-flex align-items-center justify-content-between flex-wrap">
+                        {{-- {{$cart['item']['payment-plan']}} --}}
                         @if (isset($cart['item']) && $cart['item']['installmentPrice'])
                             <div class="payment-options">
                                 <div class="custom-option pesin-option {{ $cart['item']['payment-plan'] === 'pesin' ? 'selected' : '' }}"
@@ -401,7 +402,7 @@
                                     style="width:150px;float:right">Satın Al
                                 </button>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                    style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
+                                    style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
                             </div>
 
 
@@ -807,11 +808,17 @@
                         is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
                     },
                     success: function(response) {
-                        toastr.success('Siparişiniz başarıyla oluşturuldu.');
+                        if(response.success == "fail"){
+                            toastr.error('Bu ürün zaten satın alınmış.');
+
+                        }else{
+                            toastr.success('Siparişiniz başarıyla oluşturuldu.');
                         var cartOrderId = response.cart_order;
                         var redirectUrl =
                             "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
                         window.location.href = redirectUrl.replace(':cartOrderId', cartOrderId);
+                        }
+                      
 
                     },
                     error: function(error) {

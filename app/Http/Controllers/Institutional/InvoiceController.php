@@ -29,6 +29,8 @@ class InvoiceController extends Controller
             'project' => $project,
         ];
 
+        return $order->id;
+
         return view('institutional.invoice.index', compact("data"));
     }
 

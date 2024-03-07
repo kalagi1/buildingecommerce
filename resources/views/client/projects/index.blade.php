@@ -1051,6 +1051,23 @@
 
 
     <script>
+    //       $(document).ready(function() {
+    //     var $carousel = $('#listingDetailsSlider');
+
+    //     $carousel.carousel({
+    //         interval: false // Karusel otomatik geçişini devre dışı bırak
+    //     });
+
+    //     // Carousel kaydırıldığında
+    //     $carousel.on('slide.bs.carousel', function() {
+    //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
+
+    //         // Sayfa aşağı kaydır
+    //         $('html, body').animate({
+    //             scrollTop: scrollPosition
+    //         }, 500);
+    //     });
+    // });
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {
@@ -1181,6 +1198,9 @@
                     console.log("Ürün sepete eklendi: " + response);
                 },
                 error: function(error) {
+                    if(error.message == 'error'){
+                        alert('dasdsada');
+                    }
                     // Hata durumunda buraya gelir
                     toast.error(error)
                     console.error("Hata oluştu: " + error);
