@@ -8,6 +8,8 @@
                     <th>Mağaza Adı</th>
                     <th>Toplam İlan Sayısı</th>
                     <th>Emlak Tipi</th>
+                    <th>İlanları Düzenle</th>
+
                     <th>Yayın Durumu</th>
                     <th>Siparişleri Gör</th>
                     <th>İşlemler</th>
@@ -28,6 +30,8 @@
                         <td>{{ $project['project']->user->name }} </td>
                         <td>{{ $project['project']->room_count }}</td>
                         <td>{{ $project['project']->housingType->title }}</td>
+                        <td><a href='{{ URL::to('/') }}/institutional/projects/" + $project.id +
+                            "/housings' class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a>"</td>
                         <td>
                             @if ($project['project']->status == 1)
                                 <span class="badge badge-phoenix badge-phoenix-success">Aktif</span>
