@@ -209,10 +209,10 @@
                                         <div class="homes-content p-3" style="padding:20px !important">
                                             <!-- homes address -->
                                             <h3><a
-                                                    href="{{route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">{{ $housing->housing_title }}</a>
+                                                    href="{{route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">{{ $housing->housing_title }}</a>
                                             </h3>
                                             <p class="homes-address mb-3">
-                                                <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
+                                                <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                                                     <i class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
                                                 </a>
                                             </p>

@@ -726,7 +726,7 @@ class HomeController extends Controller
                 'id' => $item->id,
                 'in_cart' => $request->session()->get('cart') && $request->session()->get('cart')['type'] == 'housing' && $request->session()->get('cart')['item']['id'] == $item->id,
                 'is_favorite' => $isFavorite ? 1 : 0,
-                'housing_url' => route('housing.show', ['housingSlug' => $item->slug, 'housingID' => $item->id + 2000000 ]),
+                'housing_url' => route('housing.show', [$item->step1_slug. "-".$item->step2_slug. "-" . $item->slug, 'housingID' => $item->id + 2000000 ]),
                 'slug'=>$item->slug,
                 'title' => $item->title,
                 'step1_slug' => $item->step1_slug,
