@@ -560,7 +560,7 @@
                                                     @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                         {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
                                                     @else
-                                                        0
+                                                        0 sdsd
                                                     @endif / {{ $number_of_share }}
                                                 </span>
                                             @endif
