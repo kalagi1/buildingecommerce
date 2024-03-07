@@ -50,15 +50,17 @@ class NestPayController extends Controller
         $clientId = '190100000';
         $oid = '1291899411421';
         $amount = '91.96';
-        $okUrl = 'http://buildingecommerce.test/payment/success';
-        $failUrl = 'http://buildingecommerce.test/payment/fail';
-        $callbackUrl = 'http://buildingecommerce.test/payment/fail';
+        $okUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
+        $failUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
+        $callbackUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
         $transactionType = 'Auth';
         $installment = '2';
         $rnd = '5';
         $storeKey = '123456';
-
-
+        $storetype = '3d_pay';
+        $hashAlgorithm = 'ver3';
+        $currency = '949';
+        
         // // Hash oluşturma
         $plaintext = $clientId . $oid . $amount . $okUrl . $failUrl . $transactionType . $installment . $rnd . $callbackUrl . $storeKey ;
         // $hash = base64_encode(sha1($plaintext, true));
@@ -70,12 +72,19 @@ class NestPayController extends Controller
             'amount' => $amount,
             'okurl' => $okUrl,
             'failurl' => $failUrl,
-            'callbackurl' => $callbackUrl,
-            'transactiontype' => $transactionType,
-            'taksit' => $installment,
+            //'callbackurl' => $callbackUrl,
+            'trantype' => $transactionType,
+            'instalment' => $installment,
             'rnd' => $rnd,
             'storekey' => $storeKey,
-            //'plaintext' =>$plaintext,
+            'storetype' => $storetype,
+            'hashAlgorithm' => $hashAlgorithm,
+            'currency' => $currency,
+            'Ecom_Payment_Card_ExpDate_Month' => '12',
+            'Ecom_Payment_Card_ExpDate_Year' => '26',
+            'maskedCreditCard' => '5218487962459752',
+            'MaskedPan' =>'5218487962459752',
+            //'plaintext ' =>$plaintext,
             //'hash' => $hash
         ];
 
