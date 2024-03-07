@@ -14,6 +14,13 @@
             <a href="{{ route('institutional.profile.cart-orders') }}" class="btn btn-primary btn-lg">Siparişleri
                 Görüntüle</a>
 
+            <a href="{{ url('/') }}" class="btn btn-primary btn-lg">Anasayfaya Gİt</a>
+
+             <!-- İlerleme çubuğu -->
+             <div class="progress mt-3">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" 
+                aria-valuemin="0" aria-valuemax="100" style="width: 100%;height:50px;">Anasayfaya Yönlendiriliyorsunuz...</div>
+            </div>
 
         </div>
 
@@ -23,6 +30,28 @@
 @section('scripts')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Toastr bilgilendirme mesajını göster
+            toastr.success("Sipariş başarıyla verildi. Sipariş Numaranız: {{ $cart_order->id }}");
+
+            // Sayfayı belirli bir süre sonra yönlendir
+            setTimeout(function() {
+                window.location.href = "{{ url('/') }}";
+            }, 10000); // 10 saniye sonra yönlendir
+        });
+
+         // İlerleme çubuğunu geriye doğru akacak şekilde güncelle
+         var progress = 100;
+        var interval = setInterval(function() {
+            progress -= 1; // Her bir saniyede ilerleme çubuğunu azalt
+            $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress); // CSS ve aria özelliklerini güncelle
+            if (progress <= 0) {
+                clearInterval(interval); // İlerleme çubuğunu durdur
+            }
+        }, 100); // Her 0.1 saniyede bir güncelle
+    </script>
 
     <script>
         $("#createOrder").click(function() {

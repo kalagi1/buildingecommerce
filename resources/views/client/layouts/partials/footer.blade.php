@@ -1090,9 +1090,9 @@
 
                             },
                             error: function(error) {
-                                window.location.href = "/giris-yap";
+                                // window.location.href = "/giris-yap";
 
-                                console.error(error);
+                                // console.error(error);
                             }
                         });
                     }
@@ -1113,6 +1113,8 @@
                             data: JSON.stringify(cart),
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
+
+                                
                                 toastr.success("Ürün Sepete Eklendi");
                                 if (!button.classList.contains("mobile")) {
                                     button.textContent = "Sepete Eklendi";
@@ -1123,8 +1125,8 @@
 
                             },
                             error: function(error) {
-                                window.location.href = "/giris-yap";
-                                console.error(error);
+                                // window.location.href = "/giris-yap";
+                                // console.error(error);
                             }
                         });
                     }
@@ -1185,6 +1187,8 @@
             }
             return false;
         }
+
+
 
         function checkProjectFavorites() {
             // Favorileri sorgula ve uygun renk ve ikonları ayarla
