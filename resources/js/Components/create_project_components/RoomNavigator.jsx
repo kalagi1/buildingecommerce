@@ -102,6 +102,22 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
         setCopyLoading(true);
     }
 
+    const allCopy = () => {
+        var tempBlocks = blocks.map((block) => {
+            var tempRooms = [];
+            for( var i = 0 ; i < block.roomCount; i++){
+                tempRooms.push(blocks[selectedBlock].rooms[selectedRoom]);
+            }
+
+            return {
+                ...block,
+                rooms : tempRooms
+            }
+        })
+
+        setBlocks(tempBlocks);
+    }
+
     return(
         <div className="bottom-housing-area align-center col-xl-6 col-md-6 col-6" style={{justifyContent:'center'}}>
             {
@@ -121,6 +137,9 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
                                     <i className="fa fa-circle-info"></i>
                                 </div>
                             </div>
+                        </div>
+                        <div className="col-md-2">
+                            <button className='btn btn-primary' onClick={allCopy}>Hepsine Kopyala</button>
                         </div>
                         <div className="col-md-5">
                             <div className="d-flex" style={{alignItems:'center'}}>
