@@ -26,6 +26,8 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
         p: 4,
     };
 
+    
+
 
     const addBlock = () => {
         setSelectedBlock(blocks.length)

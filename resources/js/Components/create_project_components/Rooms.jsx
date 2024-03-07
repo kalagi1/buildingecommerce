@@ -3,8 +3,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { dotNumberFormat } from '../../define/variables';
-import { Checkbox, FormControlLabel } from '@mui/material';
+import { Checkbox, FormControlLabel, Switch } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
+import PayDecModal from './PayDecModal';
 
 function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [open,setOpen] = useState(false);
@@ -14,6 +15,7 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [selectedRoom,setSelectedRoom] = useState(0);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
+    const [payDecOpen,setPayDecOpen] = useState(false);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -187,7 +189,7 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                     )
                                 }else if(data.type == "select"){
                                     return(
-                                        <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) || data.className.includes('second-payment-plan') ? "d-none" : "")}>
+                                        <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                             <select name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} id="">
                                                 {
@@ -201,24 +203,52 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                         </div>
                                     )
                                 }else if(data.type == "checkbox-group"){
-                                    return(
-                                        <div>
-                                            <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                            <div className="checkbox-groups">
-                                                <div className="row">
-                                                    {
-                                                        data.values.map((valueCheckbox) => {
-                                                            return (
-                                                                <div className="col-md-3">
-                                                                    <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
+                                    if(data.name == "payment-plan[]"){
+                                        return(
+                                            <div>
+                                                <div>
+                                                    <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                    <div className="checkbox-groups">
+                                                        <div className="row">
+                                                            {
+                                                                data.values.map((valueCheckbox) => {
+                                                                    return (
+                                                                        <div className="col-md-3">
+                                                                            <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
+                                                    <label htmlFor="" className='font-bold'>Ödeme Planı</label>
+                                                    <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )
+                                        )
+                                    }else{
+                                        return(
+                                            <div>
+                                                <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                <div className="checkbox-groups">
+                                                    <div className="row">
+                                                        {
+                                                            data.values.map((valueCheckbox) => {
+                                                                return (
+                                                                    <div className="col-md-3">
+                                                                        <FormControlLabel control={<Checkbox checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    
                                 }else if(data.type == "file"){
                                     return (
                                         <div className='form-group'>
@@ -237,6 +267,7 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
             </div>
             <RoomNavigator validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
             
+            <PayDecModal open={payDecOpen} blocks={blocks} setBlocks={setBlocks} selectedBlock={selectedBlock} selectedRoom={selectedRoom} setOpen={setPayDecOpen}/>
         </div>
     )
 }
