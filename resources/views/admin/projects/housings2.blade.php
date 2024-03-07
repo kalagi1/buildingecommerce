@@ -375,7 +375,7 @@
                                     <th class="sort" data-sort="price">Peşinat</th>
                                     <th class="sort" data-sort="sold">Satış Durumu</th>
                                     <th class="sort" data-sort="sold">İşlemler</th>
-                                    {{-- <th class="sort" data-sort="sold">Komşumu Gör</th> --}}
+                                    <th class="sort" data-sort="sold">Komşumu Gör</th>
 
                                 </tr>
                             </thead>
@@ -658,11 +658,11 @@
                                                     </td>
                                                 
                                                 @endif
-                {{-- <td class="price">
+                <td class="price">
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{$i+1}}">
                             Komşumu Gör
                       </button>
-                </td> --}}
+                </td>
                       <!--KOMŞUMU GOR Modal -->
                         <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">

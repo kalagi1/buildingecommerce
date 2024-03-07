@@ -9,6 +9,8 @@ use App\Models\DopingOrder;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Log;
+use App\Models\Menu;
+use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousings;
@@ -16,6 +18,7 @@ use App\Models\StandOutUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller {
     /**
@@ -282,5 +285,57 @@ class ProjectController extends Controller {
     public function logs( $projectId ) {
         $logs = Log::where( 'item_type', 1 )->where( 'item_id', $projectId )->orderByDesc( 'created_at' )->with( 'user' )->get();
         return view( 'admin.projects.logs', compact( 'logs' ) );
+    }
+
+    public function housings($project_id)
+    {
+        // print_r('yununs');die;
+        $menu = Menu::getMenuItems();
+        $project = Project::where('id', $project_id)->with("brand", "blocks", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project->roomInfo = $project->roomInfo;
+        $project->brand = $project->brand;
+        $project->housingType = $project->housingType;
+        $project->county = $project->county;
+        $project->city = $project->city;
+        $project->user = $project->user;
+        $project->user->housings = $project->user->housings;
+        $project->user->brands = $project->user->brands;
+        $project->images = $project->images;
+
+        
+        $sumCartOrderQt = DB::table('cart_orders')
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+        )
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get();
+
+    
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+        ->mapWithKeys(function ($group) {
+            return [
+                $group->first()->housing_id => [
+                    'housing_id' => $group->first()->housing_id,
+                    'qt_total' => $group->sum('qt'),
+                ]
+            ];
+        })
+        ->all();
+    
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+
+        
+        return view('admin.projects.housings2', compact('menu', "sumCartOrderQt","projectHousingsList","offer", 'project'));
+
     }
 }
