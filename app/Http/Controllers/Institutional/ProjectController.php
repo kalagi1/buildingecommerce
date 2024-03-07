@@ -596,16 +596,16 @@ class ProjectController extends Controller
         return view('institutional.projects.createv3');
     }
 
-    public function editV2($slug)
+    public function editV2($slug,$id)
     {
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();
         $cities = City::get();
         $tempUpdateHas = false;
         $housing_status = HousingStatus::all();
-        $tempDataFull = Project::where('slug', $slug)->first();
+        $tempDataFull = Project::where('id', $id)->first();
         $project = Project::where('slug', $slug)->first();
-        $tempDataFull2 = Project::where('slug', $slug)->first();
+        $tempDataFull2 = Project::where('slug', $id)->first();
         $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->first();
         if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug &&  json_decode($tempUpdate->data)->data_slug == $slug) {
