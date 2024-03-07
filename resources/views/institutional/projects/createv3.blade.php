@@ -8,7 +8,3 @@
     </div>
 @endsection
 
-
-@section('css')
-    @vite('resources/css/app.css')
-@endsection
