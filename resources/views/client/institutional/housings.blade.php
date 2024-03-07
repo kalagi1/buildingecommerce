@@ -144,8 +144,8 @@ return $a;
     </div>
 </div>
 
-@if ($secondhandHousings->isNotEmpty())
 <section class="featured portfolio rec-pro disc bg-white">
+    @if ($secondhandHousings->isNotEmpty())
     <div class="container">
         <div class="featured-heads mb-3">
             <div class="section-title">
@@ -181,8 +181,18 @@ return $a;
             </section>
         </div>
     </div>
-</section>
+    @else
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="mt-5 mb-3">Mağazaya ait emlak kaydı bulunamadı.</h2>
+            <p>Lütfen daha sonra tekrar deneyin veya başka bir arama yapın.</p>
+        </div>
+    </div>
+</div>
 @endif
+</section>
+
 
 
 
