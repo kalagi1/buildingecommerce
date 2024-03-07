@@ -48,10 +48,10 @@
                                     data-id='{{ $keyIndex }}'>
                                     <i class="fa fa-bookmark-o"></i>
                                 </span>
-                                <div href="javascript:void()" class="btn toggle-project-favorite bg-white"
+                                <span class="btn toggle-project-favorite bg-white"
                                     data-project-housing-id="{{ $keyIndex }}" data-project-id={{ $project->id }}>
                                     <i class="fa fa-heart-o"></i>
-                                </div>
+                                </span>
                             </div>
                             <div class="homes position-relative">
                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"

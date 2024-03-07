@@ -37,7 +37,20 @@
                     </div>
 
                     @php
-                        $months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+                        $months = [
+                            'Ocak',
+                            'Şubat',
+                            'Mart',
+                            'Nisan',
+                            'Mayıs',
+                            'Haziran',
+                            'Temmuz',
+                            'Ağustos',
+                            'Eylül',
+                            'Ekim',
+                            'Kasım',
+                            'Aralık',
+                        ];
                     @endphp
 
                     @if (isset($cart['item']) && isset($cart['item']['payment-plan']))
@@ -100,7 +113,11 @@
                                         } else {
                                             $projectOffer = App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $cart['item']['id'])
-                                                ->where('project_housings', 'LIKE', '%' . $cart['item']['housing'] . '%')
+                                                ->where(
+                                                    'project_housings',
+                                                    'LIKE',
+                                                    '%' . $cart['item']['housing'] . '%',
+                                                )
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
@@ -108,17 +125,17 @@
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
                                     @endphp
-{{-- {{dd($cart['item'])}} --}} 
+                                    {{-- {{dd($cart['item'])}} --}}
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ $cart['type'] == 'housing' ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000 ])
-                                               : route('project.housings.detail', 
-                                               [
-                                                'projectSlug'=>optional(App\Models\Project::find($cart['item']['id']))->slug,
-                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id+1000000, 
-                                                'housingOrder' => $cart['item']['housing']
-                                               ]) }}">
+                                                href="{{ $cart['type'] == 'housing'
+                                                    ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                                    : route('project.housings.detail', [
+                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug,
+                                                        'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                        'housingOrder' => $cart['item']['housing'],
+                                                    ]) }}">
                                                 <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
                                                     style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
                                             </a>
@@ -126,13 +143,13 @@
                                         <td>
                                             <div class="inner">
                                                 <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000 ])
-                                                    : route('project.housings.detail', 
-                                                    [
-                                                        'projectSlug'=>optional(App\Models\Project::find($cart['item']['id']))->slug,
-                                                        'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id+1000000, 
-                                                        'housingOrder' => $cart['item']['housing']
-                                                    ]) }}">
+                                                    href="{{ $cart['type'] == 'housing'
+                                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                                        : route('project.housings.detail', [
+                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug,
+                                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                            'housingOrder' => $cart['item']['housing'],
+                                                        ]) }}">
                                                     <h2 style="font-weight: 600;text-align: left ">
                                                         {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                                         <br>
@@ -160,18 +177,23 @@
                                                     $discountRate = $housingData->discount_rate[0] ?? 0;
 
                                                     $housingAmount = $itemPrice - $housingDiscountAmount;
-                                                    $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+                                                    $discountedPrice =
+                                                        $housingAmount - ($housingAmount * $discountRate) / 100;
                                                 } else {
                                                     $project = App\Models\Project::find($cart['item']['id']);
                                                     $roomOrder = $cart['item']['housing'];
-                                                    $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                                    $projectHousing = App\Models\ProjectHousing::where(
+                                                        'project_id',
+                                                        $project->id,
+                                                    )
                                                         ->where('room_order', $roomOrder)
                                                         ->get()
                                                         ->keyBy('name');
 
                                                     $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
                                                     $projectAmount = $itemPrice - $projectDiscountAmount;
-                                                    $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                                                    $discountedPrice =
+                                                        $projectAmount - ($projectAmount * $discountRate) / 100;
                                                 }
                                             } else {
                                                 $discountedPrice = $itemPrice;
@@ -179,7 +201,11 @@
                                             }
 
                                             $selectedPaymentOption = request('paymentOption');
-                                            $itemPrice = $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice']) ? $cart['item']['installmentPrice'] : $discountedPrice;
+                                            $itemPrice =
+                                                $selectedPaymentOption === 'taksitli' &&
+                                                isset($cart['item']['installmentPrice'])
+                                                    ? $cart['item']['installmentPrice']
+                                                    : $discountedPrice;
 
                                             $displayedPrice = number_format($itemPrice, 0, ',', '.');
                                             $share_sale = $cart['item']['isShare'] ?? null;
@@ -483,18 +509,25 @@
 
                                     </div>
 
-                                    @if ($cart['type'] == 'project' && empty($share_sale) )
-                                        <div class="d-flex align-items-center mb-3">
+                                    @if ($cart['type'] == 'project' && empty($share_sale))
+                                        <div class="d-flex align-items-center">
                                             <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
-                                            <i class="fa fa-info-circle ml-2"
-                                                title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                style="font-size: 18px; color: black;"></i>
+
                                             <label for="is_show_user" class="m-0 ml-1 text-black">
                                                 Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı kabul ediyorum.
                                             </label>
                                         </div>
                                     @endif
+                                    <div class="d-flex align-items-center mb-3">
+                                        <input id="checkPay" type="checkbox" name="checkPay">
 
+                                        <label for="checkPay" class="m-0 ml-1 text-black">
+                                            <a href="/sayfa/mesafeli-kapora-emanet" target="_blank">
+                                                Mesafeli kapora emanet
+                                            </a>
+                                 sözleşmesini okudum ve kabul ediyorum
+                                        </label>
+                                    </div>
 
                                     <div class="d-flex">
                                         <button type="button" class="btn btn-secondary paySuccess"
@@ -724,7 +757,6 @@
         });
         $(document).ready(function() {
             $('.paySuccess').on('click', function() {
-                $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
 
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
                     toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
@@ -736,6 +768,7 @@
                     return;
                 }
 
+
                 if ($('#tc').val() === '') {
                     toastr.warning('TC alanı zorunludur.')
                     return;
@@ -745,6 +778,16 @@
                     toastr.warning('E-posta alanı zorunludur.')
                     return;
                 }
+
+                if (!$('#checkPay').prop('checked')) {
+                    toastr.warning('Lütfen sözleşmeyi onaylayınız.');
+                    $('#checkPay').css({
+                        "border": "1px solid red"
+                    });
+                    return;
+                }
+                $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
+
                 $.ajax({
                     url: "{{ route('pay.cart') }}",
                     method: "POST",

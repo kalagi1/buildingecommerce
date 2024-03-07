@@ -77,6 +77,7 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\NotificationController as ControllersNotificationController;
+use App\Http\Controllers\NestPayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,6 +90,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
  */
+Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
+Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
+Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
+
+Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
+Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
+Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
 
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
@@ -158,6 +170,7 @@ Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('hou
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+Route::post('add_to_session/', [CartController::class, 'setCartSession'])->name('set.cart.session');
 Route::post('/update-cart', [CartController::class, 'update'])->name('cart.update');
 Route::post('/update-cart-qt', [CartController::class, 'updateqt'])->name('cart.update.qt');
 
