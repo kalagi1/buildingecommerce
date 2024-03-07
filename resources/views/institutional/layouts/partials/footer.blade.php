@@ -100,6 +100,8 @@
 <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
 </script>
+
+<script src="{{ URL::to('/') }}/build/assets/app-17a8ba81.js"></script>
 <!--FormBuilder-->
 
 <script src="{{ URL::to('/') }}/js/jqueryscript.net_demo_leaflet-location-picker_src_leaflet-locationpicker.js"></script>

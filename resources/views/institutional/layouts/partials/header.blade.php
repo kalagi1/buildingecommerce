@@ -26,6 +26,8 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <meta name="msapplication-TileImage" content="{{ URL::to('/') }}/favicon.png">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-041e359a.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-cf9a4bd4.css">
     <meta name="theme-color" content="#ffffff">
     <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.js"></script>

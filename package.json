@@ -7,14 +7,26 @@
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
-        "axios": "^1.1.2",
+        "axios": "^1.6.7",
         "bootstrap": "^5.2.3",
+        "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^0.7.5",
         "sass": "^1.56.1",
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@emotion/react": "^11.11.4",
+        "@emotion/styled": "^11.11.0",
+        "@mui/icons-material": "^5.15.11",
+        "@mui/material": "^5.15.11",
+        "@mui/x-data-grid": "^6.19.5",
+        "@react-google-maps/api": "^2.19.3",
+        "@react-spring/web": "^9.7.3",
         "laravel-echo": "^1.15.3",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-geocode": "^1.0.0-alpha.1",
+        "react-quill": "^2.0.0",
         "socket.io": "^4.7.2",
         "socket.io-client": "^4.7.2"
     }
