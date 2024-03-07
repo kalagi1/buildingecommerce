@@ -1181,6 +1181,9 @@
                     console.log("Ürün sepete eklendi: " + response);
                 },
                 error: function(error) {
+                    if(error.message == 'error'){
+                        alert('dasdsada');
+                    }
                     // Hata durumunda buraya gelir
                     toast.error(error)
                     console.error("Hata oluştu: " + error);
