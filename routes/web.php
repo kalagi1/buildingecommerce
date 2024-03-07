@@ -241,6 +241,10 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+
+    Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
+
+
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class,"seeApplications"])->name('estate.see.users.list');
 
@@ -786,6 +790,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/reservations', [DashboardController::class, 'getReservations'])->name('reservations');
 
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
+
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
@@ -1126,4 +1131,6 @@ Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name(
 //Teklif Yanıtı
 Route::post('offer_response',[ClientProjectController::class,'offer_response'])->name('offer_response');
 
+//Komşumu Gor
+Route::post('proje/housings/komsumu/gor',[InstitutionalProjectController::class,'komsumuGorInfo'])->name('projects.housings.komsumu.gor');
 

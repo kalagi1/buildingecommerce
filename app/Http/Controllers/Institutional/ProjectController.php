@@ -18,9 +18,11 @@ use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
+use App\Models\Invoice;
 use App\Models\Log;
 use App\Models\Menu;
 use App\Models\Neighborhood;
+use App\Models\NeighborView;
 use App\Models\Offer;
 use App\Models\PricingStandOut;
 use App\Models\Project;
@@ -1679,4 +1681,80 @@ class ProjectController extends Controller
             "status" => true
         ]);
     }
+
+    //Komşumu gor modal fonksiyonu
+    public function komsumuGorInfo(Request $request){
+
+        $housingID = $request->no;
+        $projectID = $request->projectID;
+        $city_id = Project::where('id',$projectID)->value('city_id');
+        $county_id = Project::where('id',$projectID)->value('county_id');
+
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+        ], [
+            'email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
+        ]);
+        
+
+        //Kullanıcıyı Ekle
+        $userData = [
+            'is_show' =>'no',
+            'type' =>1,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt('komsumugor123'),
+            'status' =>1,
+            'is_blocked'=>0,
+            'has_club'=> '0',
+        ];
+        
+        $user = User::create($userData);
+
+        if(!$user){
+            return back()->with('message','Kullanıcı Eklenirken Hata!!');
+        }
+
+        //CartORders'a ekle
+        $order = new CartOrder;
+      
+        $order->user_id = $user->id;
+        $order->status = '1';
+        $order->key = 1000000 + $projectID + $housingID;
+        $order->full_name = $user->name;
+        $order->tc = $request->tc;
+        $order->is_swap = 0;
+        $order->is_reference = 0;
+        $order->is_show_user = 'on';
+        $order->amount = 0;
+        $order->is_disabled = 1; // sonradan eklenen konutlar için
+        $order->store_id = Project::where('id',$projectID)->value('user_id');
+
+        $cartJson['item']['id'] = $projectID;
+        $cartJson['item']['housing'] = $housingID;
+
+        $neighborProjects  = [];
+        $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $projectID)->where('user_id', $user->id)->get();
+        $cartJson['item']['neighborProjects'] = $neighborProjects;
+
+        $cartJson['item']['city_id'] = $city_id;
+        $cartJson['item']['county_id'] = $county_id;
+
+        $cartJson['type'] = 'project';
+        $cartJson['hasCounter'] = false;
+        $order->cart = json_encode($cartJson);
+
+        $order->save();
+
+        $fatura = new Invoice();
+        $fatura->order_id = $order->id;
+        $fatura->total_amount = $request->price;
+        $fatura->invoice_number = 'FTR-' . time() . $order->id;
+        // Fatura numarası oluşturabilirsiniz.
+        $fatura->save();
+
+        return back()->with('message','Kaydedildi.');
+
+    }//End
+
 }

@@ -265,7 +265,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="sold">
-                                                    @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
+                                                    @if (isset($share_sale) && !empty($share_sale))
                                                         <span class=" d-block mb-2">
                                                             @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                                 {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
@@ -304,7 +304,7 @@
                                                             gözükecektir.</p>
                                                     @else
                                                         @if (
-                                                            ($sold && $sold[0]->status == 1 &&  empty($share_sale)) ||
+                                                            ($sold && $sold[0]->status == 1 && $share_sale == '[]') ||
                                                                 (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
@@ -375,7 +375,7 @@
                                     <th class="sort" data-sort="price">Peşinat</th>
                                     <th class="sort" data-sort="sold">Satış Durumu</th>
                                     <th class="sort" data-sort="sold">İşlemler</th>
-                                    {{-- <th class="sort" data-sort="sold">Komşumu Gör</th> --}}
+                                    <th class="sort" data-sort="sold">Komşumu Gör</th>
 
                                 </tr>
                             </thead>
@@ -569,13 +569,12 @@
                                             @endif
                                         </td>
                                         <td class="sold">
-                                            @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
-                                            
+                                            @if (isset($share_sale) && !empty($share_sale) && !empty($share_sale))
                                                 <span class=" d-block mb-2">
                                                     @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                         {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
                                                     @else
-                                                        0 
+                                                        0
                                                     @endif / {{ $number_of_share }}
                                                 </span>
                                             @endif
@@ -659,11 +658,11 @@
                                                     </td>
                                                 
                                                 @endif
-                {{-- <td class="price">
+                <td class="price">
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{$i+1}}">
                             Komşumu Gör
                       </button>
-                </td> --}}
+                </td>
                       <!--KOMŞUMU GOR Modal -->
                         <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
