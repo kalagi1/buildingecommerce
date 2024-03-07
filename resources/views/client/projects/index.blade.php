@@ -687,7 +687,7 @@
                                                                     <div
                                                                         class="row project-filter-reverse blog-pots ajax-list">
                                                                         @if ($key == 0)
-                                                                            @for ($i = 0; $i < 12; $i++)
+                                                                            @for ($i = 0; $i < 4; $i++)
                                                                                 @php
                                                                                     $j++;
                                                                                     if (isset($projectCartOrders[$i + 1])) {
@@ -1147,6 +1147,8 @@
                             lastBlockHousingCount += blocks[i]['housing_count']
                         }
                     }
+
+                    console.log(lastBlockHousingCount);
                     
                     if(!Array.isArray(res)){
                         var result = Object.keys(res).map((key) => res[key]);

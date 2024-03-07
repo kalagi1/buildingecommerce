@@ -46,6 +46,10 @@ use Throwable;
 class ProjectController extends Controller
 {
 
+    public function reactProjects(){
+        return view('institutional.projects.react_projects');
+    }
+
     public function setSelectedData(Request $request,$projectId){
         $orders = explode(',',$request->input('selected-items'));
         foreach($orders as $order){
@@ -586,6 +590,10 @@ class ProjectController extends Controller
         $featuredPrices = DopingPricing::where('item_type',1)->get();
         $topRowPrices = DopingPricing::where('item_type',2)->get();
         return view('institutional.projects.createv2', compact('topRowPrices','featuredPrices','housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull','bankAccounts', 'selectedStatuses', 'userPlan', 'hasTemp', 'secondAreaList', 'housingTypes', 'areaSlugs', 'housingTypeTempX'));
+    }
+
+    public function createV3(){
+        return view('institutional.projects.createv3');
     }
 
     public function editV2($slug)

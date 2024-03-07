@@ -78,6 +78,7 @@ use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\NotificationController as ControllersNotificationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -734,6 +735,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
+    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
@@ -918,6 +920,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
     Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
     Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
+    Route::get('/create_project_v3', [InstitutionalProjectController::class, "createV3"])->name('project.create.v3');
     Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class, "getBankAccount"])->name('get.bank.account');
 
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
@@ -1080,3 +1083,15 @@ Route::post('/messages/store', [SupportChatController::class, 'store'])->name('m
 
 Route::get('/admin-chat', [SupportChatController::class, 'adminChat']);
 Route::get('/chat/history', [SupportChatController::class, 'getChatHistory']);
+
+
+Route::group(['prefix' => 'react'], function () { 
+    Route::get('/my_projects',[ApiProjectController::class,"index"]);
+    Route::get('/get_housing_statuses',[ApiProjectController::class,"getHousingStatuses"]);
+    Route::get('/housing_types',[ApiProjectController::class,"getHousingTypes"]);
+    Route::get('/housing_types_end',[ApiProjectController::class,"getHousingTypesEnd"]);
+    Route::get('/cities',[ApiProjectController::class,"getCities"]);
+    Route::get('/counties',[ApiProjectController::class,"getCounties"]);
+    Route::get('/neighborhoods',[ApiProjectController::class,"getNeighborhoods"]);
+    Route::post('/create_project',[ApiProjectController::class,"createProject"]);
+});
