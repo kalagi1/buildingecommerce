@@ -436,7 +436,7 @@
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.projects.index'),
+                                                    'url' => route('institutional.react.projects'),
                                                     'icon' => 'fa-home',
                                                     'text' => 'İlanlarım',
                                                 ],
