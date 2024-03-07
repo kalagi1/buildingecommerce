@@ -553,7 +553,7 @@
                                             @endif
                                         </td>
                                         <td class="sold">
-                                            {{$share_sale}}
+                                            {{$share_sale}} asasas
                                             @if (isset($share_sale) && !empty($share_sale))
                                             sdsds
                                                 <span class=" d-block mb-2">
