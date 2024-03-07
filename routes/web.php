@@ -77,6 +77,7 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\NotificationController as ControllersNotificationController;
+use App\Http\Controllers\NestPayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
 
@@ -90,6 +91,17 @@ use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectContro
 | be assigned to the "web" middleware group. Make something great!
 |
  */
+Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
+Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
+Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
+
+Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
+Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
+Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
 
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
@@ -100,7 +112,11 @@ Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController:
 
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
-Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
+
+// Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
+Route::get('/ilan/{housingSlug}/{housingID}/detay', [ClientHousingController::class, "show"])->name('housing.show');
+
+
 Route::get('/institutional/search', [InstitutionalController::class, 'search'])->name('institutional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
@@ -119,7 +135,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
-Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
+Route::get('/proje/{slug}/{id}/detay',[ClientProjectController::class,"index"])->name('project.detail');
+// Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
+
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
 Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
@@ -143,13 +161,17 @@ Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNe
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
-Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+// Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+ Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+
+
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
+Route::post('add_to_session/', [CartController::class, 'setCartSession'])->name('set.cart.session');
 Route::post('/update-cart', [CartController::class, 'update'])->name('cart.update');
 Route::post('/update-cart-qt', [CartController::class, 'updateqt'])->name('cart.update.qt');
 
@@ -299,7 +321,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/order_detail/{order_id}', [AdminHomeController::class, 'orderDetail'])->name('order.detail');
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
-        Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info');
+        Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
 
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
@@ -736,6 +758,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+
+    Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers');//Mağazanın aldıgı tekliflerin listesi
+    Route::get('get_given_offers',[ClientProjectController::class,'get_given_offers'])->name('get_given_offers');//Kullanıcınn veridiği tekliflerin listesi
     Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
     Route::post('/cancel_reservation/{id}', [DashboardController::class, 'cancelReservationRequest'])->name('cancel.reservation.request');
     Route::post('/cancel_reservation_cancel/{id}', [DashboardController::class, 'cancelReservationCancel'])->name('cancel.reservation.cancel');
@@ -911,7 +936,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/projects/{project_id}/housings/edit/{room_order}/delete', [InstitutionalProjectController::class, 'deleteHousingPost'])->name('projects.delete.housing');
     Route::post('/projects/passive/{id}', [InstitutionalProjectController::class, 'passive'])->name('projects.passive');
     Route::post('/projects/active/{id}', [InstitutionalProjectController::class, 'active'])->name('projects.active');
-    Route::delete('/projects/{id}', [InstitutionalProjectController::class, 'destroy'])->name('projects.destroy');
+    Route::delete('/projects/{id}', [InstitutionalProjectController::class, 'destroy'])->name('projects.id.destroy');
     Route::post('/housings/active/{id}', [InstitutionalProjectController::class, 'housingActive'])->name('housings.active');
     Route::post('/housings/passive/{id}', [InstitutionalProjectController::class, 'housingPassive'])->name('housings.passive');
     Route::delete('/housings/{id}', [InstitutionalProjectController::class, 'housingDestroy'])->name('housings.destroy');
@@ -1007,7 +1032,7 @@ Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('chec
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');
 Route::get('/pay/success/{cart_order}', [CartController::class, 'paySuccess'])->name('pay.success');
 
-Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => ['client', 'checkAccountStatus']], function () {
+Route::group(['prefix' => 'hesabim', "as" => "client.", 'middleware' => [ 'checkAccountStatus']], function () { //midd update
     Route::get('/reservations', [ClientPanelProfileController::class, 'getReservations'])->name('reservations');
 
     Route::get('/verify', [ClientPanelProfileController::class, 'verify'])->name('account-verification');
@@ -1095,3 +1120,10 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/neighborhoods',[ApiProjectController::class,"getNeighborhoods"]);
     Route::post('/create_project',[ApiProjectController::class,"createProject"]);
 });
+
+Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
+
+//Teklif Yanıtı
+Route::post('offer_response',[ClientProjectController::class,'offer_response'])->name('offer_response');
+
+

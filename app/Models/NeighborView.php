@@ -17,6 +17,10 @@ class NeighborView extends Model {
         return $this->hasOne( User::class, 'id', 'owner_id' );
     }
 
+    public function order() {
+        return $this->hasOne( CartOrder::class, 'id', 'order_id' );
+    }
+
     public function project() {
         return $this->hasOne( Project::class, 'id', 'project_id' );
     }

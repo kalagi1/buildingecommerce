@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class NeighborViewController extends Controller {
     public function store( Request $request ) {
+        
         $userId = $request->input( 'user_id' );
         $orderId = $request->input( 'order_id' );
 
@@ -43,6 +44,7 @@ class NeighborViewController extends Controller {
             NeighborView::create( [
                 'user_id' => $userId,
                 'owner_id' => $cartOrder->user_id,
+                "order_id" => $orderId,
                 'housing' => $roomOrder,
                 'project_id' => $project->id,
                 'status' => $request->input( 'status' ),

@@ -152,12 +152,12 @@ class EstateClubController extends Controller {
             $message = 'Kullanıcının başvurusu onaylandı.';
             $emailTemplateSlug = 'approve-neighbor-confirmation';
             $statusText = 'onaylandı';
-            $emailSubject = 'Emlak Kulüp Başvurunuz Onaylandı';
+            $emailSubject = 'Emlak Sepette | Komşumu Gör Ödemeniz Onaylandı';
             DocumentNotification::create([
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz onaylandı!',
                 'item_id' => $user->parent_id ?? $user->id,
-                'link' => route('project.housings.detail', ["projectID" => $user->project->id, "id" => $user->housing]),
+                'link' => route('project.housings.detail', ['projectSlug'=> $user->project->slug,"projectID" => $user->project->id+1000000, "housingOrder" => $user->housing]),
                 'owner_id' => $user->parent_id ?? $user->id,
                 'is_visible' => true,
             ]);
@@ -165,7 +165,7 @@ class EstateClubController extends Controller {
 
         } elseif ($action == 'reject') {
             $user->update(['status' => 2]);
-            $message = 'Kullanıcının başvurusu reddedildi.';
+            $message = 'Emlak Sepette | Komşumu Gör Başvurunuz Reddedildi';
             $emailTemplateSlug = 'reject-neighbor-confirmation';
             $statusText = 'reddedildi';
             $emailSubject = 'Emlak Kulüp Başvurunuz Reddedildi';
@@ -174,7 +174,7 @@ class EstateClubController extends Controller {
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz reddeildi!',
                 'item_id' => $user->parent_id ?? $user->id,
-                'link' => route('project.housings.detail', ["projectID" => $user->project->id, "id" => $user->housing]),
+                'link' => route('project.housings.detail', ['projectSlug'=> $user->project->slug,"projectID" => $user->project->id+1000000, "housingOrder" => $user->housing]),
                 'owner_id' => $user->parent_id ?? $user->id,
                 'is_visible' => true,
             ]);
@@ -195,6 +195,8 @@ class EstateClubController extends Controller {
             'username' => $user->user->name,
             'project' => $user->project->project_title,
             'housingNo' => $user->housing,
+            "neighborName" => $user->order->user->name,
+            "neighborPhone" => $user->order->user->phone,
             'companyName' => 'Emlak Sepette'
         ];
     

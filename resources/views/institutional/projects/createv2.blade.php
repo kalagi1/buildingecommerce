@@ -1,6 +1,41 @@
 @extends('institutional.layouts.master')
 
 @section('content')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+
+    @media screen and (max-width: 768px) {
+       .container2 .mobile-message {
+            display: block;
+            margin-top: 250px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+        }
+
+        .mobile-message::before {
+            content: '\f05a'; /* Font Awesome ikonu (fas fa-info-circle) */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: #007bff; /* İkon rengi */
+        }
+
+        .load-area, .pop-up-v2, .pop-up-v3, .pop-up-v4, .bottom-housing-area, .content {
+            display: none;
+        }
+    }
+</style>
+<div class="container2">
+    <div class="container">
+        <i class="fas fa-info-circle message-icon"></i><h2 class="mobile-message">İlan Eklemek için Web Sürümünü kullanın</h2>
+    </div>
+
+</div>
     <div class="load-area d-none">
         <div class="progress">
             <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -691,6 +726,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('scripts')
 
@@ -5648,6 +5684,7 @@
 
 @section('css')
 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
         integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -5656,5 +5693,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/adminassets/assets/css/daterangepicker.css">
     <link rel="stylesheet" href="{{URL::to('/')}}/adminassets/rich-editor/richtext.min.css">
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
+
+
 @endsection
 

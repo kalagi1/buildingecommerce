@@ -135,7 +135,9 @@
                                     $pendingProjects = null;
                                     $orderCount = null;
                                     $neighborCount = null;
-                        
+                                    $reservationsCount = null;
+                                    $commentCount = null;
+
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
                                     } elseif ($menuItem['key'] == 'NeighborSeeApplications') {
@@ -164,7 +166,13 @@
                                         $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
                                     } elseif ($menuItem['key'] == "GetOrders") {
                                         $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
+                                    }elseif ($menuItem['key'] == "GetReservations") {
+                                        $reservationsCount = \App\Models\Reservation::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
+                                    }elseif ($menuItem['key'] == "GetHousingComments") {
+                                        $commentCount = \App\Models\HousingComment::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
                                     };
+                                    
+                                    
                                 @endphp
                         
                                 <div class="nav-item-wrapper">
@@ -184,8 +192,8 @@
                                                 {{ $pendingHousingTypes != null ? "($pendingHousingTypes)" : null }}
                                                 {{ $pendingProjects != null &&  $pendingProjects->count() != 0 ? "(". $pendingProjects->count() .")" : null }}
                                                 {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
-
-
+                                                {{ $reservationsCount != null ? "(". $reservationsCount->count() .")" : null }}   
+                                                {{ $commentCount != null ? "(". $commentCount->count() .")" : null }}     
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
@@ -264,14 +272,14 @@
                                 data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme">
+                                title="Mod Değiştir">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon icon">
                                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                                 </svg></label><label class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme">
+                                title="Mod Değiştir">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun icon">
@@ -483,11 +491,11 @@
                                 type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                                title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                     data-feather="moon"></span><span class="fs--1 fw-bold">Dark</span></label><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                                title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                     data-feather="sun"></span><span class="fs--1 fw-bold">Light</span></label></div>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -1792,10 +1800,10 @@
                             data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
+                            title="Mod Değiştir"><span class="icon" data-feather="moon"></span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                            title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label></div>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
                         data-bs-target="#searchBoxModal"><span data-feather="search"
@@ -3090,11 +3098,11 @@
                             type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="moon"></span><span class="fs--1 fw-bold">Dark</span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="sun"></span><span class="fs--1 fw-bold">Light</span></label></div>
                 </li>
                 <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -4393,10 +4401,10 @@
                             data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
+                            title="Mod Değiştir"><span class="icon" data-feather="moon"></span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                            title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label></div>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
                         data-bs-target="#searchBoxModal"><span data-feather="search"
@@ -5693,11 +5701,11 @@
                             type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="moon"></span><span class="fs--1 fw-bold">Dark</span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="sun"></span><span class="fs--1 fw-bold">Light</span></label></div>
                 </li>
                 <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -6302,11 +6310,11 @@
                                     id="themeControlToggle" /><label
                                     class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                     for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Switch theme"><span class="icon"
+                                    title="Mod Değiştir"><span class="icon"
                                         data-feather="moon"></span></label><label
                                     class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                     for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Switch theme"><span class="icon" data-feather="sun"></span></label>
+                                    title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

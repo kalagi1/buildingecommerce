@@ -15,12 +15,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+
 class HousingController extends Controller {
     public function alert() {
        
         $secondhandHousings =  Housing::with('images')
         ->select(
             'housings.id',
+            'housings.slug',
             'housings.title AS housing_title',
             'housings.created_at',
             'housings.step1_slug',
@@ -92,33 +94,44 @@ class HousingController extends Controller {
                 "owner_id" => $housing->user_id,
             ]
         );
+        
 
         return redirect()->back();
     }
-    public function show($id)
+    public function show($housingSlug, $housingID)
     {
+        // print_r($housingID);die;
+
+        
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
-            $housing = Housing::with("neighborhood", 'images', "reservations", "user.housings", "user.banners", "brand", "city", "county")
-        ->where("id", $id)->first();
+        
+        // housingID'yi gerçek ID'ye çevir
+        $realHousingID = intval($housingID) - 2000000;
+        
+        $housing = Housing::with("neighborhood", 'images', "reservations", "user.housings", "user.banners", "brand", "city", "county")
+            ->where("id", $realHousingID)->first();
+
+            if ($housing) {
+        
         $housingSetting = ProjectHouseSetting::all();
-        $housingComments = HousingComment::where('housing_id', $id)->where('status', 1)->with('user')->get();
+        $housingComments = HousingComment::where('housing_id', $realHousingID)->where('status', 1)->with('user')->get();
         
         $labels = [];
         $housingTypeData = json_decode($housing->housing_type_data, true);
         
         foreach ($housingTypeData as $key => $value) {
             $housingType = HousingType::find($housing->housing_type_id);
-        
+            
             if ($housingType) {
                 $formJsonItems = json_decode($housingType->form_json, true) ?? [];
-        
+                
                 foreach ($formJsonItems as $formJsonItem) {
                     $formJsonItemName = rtrim($formJsonItem['name'], '[]');
-        
+                    
                     // Remove the last character '1' if it exists in the key
                     $keyWithoutLastCharacter = rtrim($key, '1');
-        
+                    
                     // Check for equality after removing the last character
                     if (isset($formJsonItem['name']) && $formJsonItemName === $keyWithoutLastCharacter) {
                         $labels[$formJsonItem['label']] = $value;
@@ -134,12 +147,15 @@ class HousingController extends Controller {
             "meta_description" => "Emlak Kulüpte".$housing->title,
             "meta_author" => "Emlak Sepette",
         ];
-
+        
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
         $parent = HousingTypeParent::where("slug", $housing->step1_slug)->first();        
-        return view('client.housings.detail', compact('pageInfo','housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'id', 'housingComments', 'labels'));
+        
+        return view('client.housings.detail', compact('pageInfo','housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'housingID', 'housingComments', 'labels'));
+        }  
     }
+    
     
 
     public function list(Request $request)

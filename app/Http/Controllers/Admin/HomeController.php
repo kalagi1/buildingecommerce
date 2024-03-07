@@ -244,7 +244,7 @@ class HomeController extends Controller {
             'user_id' => $user->id,
             'text' => '#' . $cartOrder->id . " No'lu siparişiniz maalesef onaylanmadı. Ödeme alınamadı ve ilan tekrar satışa çıkarılacaktır. ",
             'item_id' => $cartOrder->id,
-            'link' => $user->type == '1' ? route( 'client.invoice.show', $cartOrder->id ) : route( 'institutional.invoice.show', $cartOrder->id ),
+            'link' => '#',
             'owner_id' => $user->id,
             'is_visible' => true,
         ] );

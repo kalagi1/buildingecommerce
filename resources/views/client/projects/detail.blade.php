@@ -83,7 +83,7 @@
                                     <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
                                         @foreach ($project->user->projects as $item)
-                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id]) }}"
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
                                                 class="project-item"
                                                 data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
@@ -226,7 +226,11 @@
                             <div class="project-card mb-3">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a href="{{ route('project.housings.detail', [$project->id, $i + 1]) }}"
+                                        <a href="{{ route('project.housings.detail', [
+                                            'projectSlug' => $project->slug,    
+                                            'projectID'   => $project->id+1000000, 
+                                            'housingOrder'=> $i+1
+                                            ]) }}"
                                             style="height: 100%">
                                             <div class="d-flex" style="height: 100%;">
                                                 <div
@@ -463,7 +467,11 @@
                     <div class="d-flex" style="flex-wrap: nowrap">
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
-                                <a href="{{ route('project.housings.detail', [$project->id, $room_order]) }}">
+                                <a href="{{ route('project.housings.detail', [
+                                    'projectSlug' => $project->slug,    
+                                    'projectID'   => $project->id+1000000, 
+                                    'housingOrder'=> $room_order
+                                    ]) }}">
                                     <div class="homes">
                                         <!-- homes img -->
                                         <div class="homes-img h-100 d-flex align-items-center"
@@ -479,7 +487,11 @@
                         <div class="w-100" style="padding-left:0;">
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
-                                    href="{{ route('project.housings.detail', [$project->id, $room_order]) }}">
+                                    href="{{route('project.housings.detail', [
+                                        'projectSlug' => $project->slug,    
+                                        'projectID'   => $project->id+1000000, 
+                                        'housingOrder'=> $room_order
+                                        ]) }}">
                                     <h3>
                                         @php($advertiseTitle = $projectHousingsList[$i + 1]['advertise_title[]'] ?? null)
 
