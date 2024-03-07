@@ -50,6 +50,7 @@
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
                                         @csrf
 
+                                        <input type="hidden" name="backurl" value="{{request('backurl')}}">
                                         @if ($errors->has('login_error'))
                                             <div class="alert alert-danger text-white">
                                                 {{ $errors->first('login_error') }}

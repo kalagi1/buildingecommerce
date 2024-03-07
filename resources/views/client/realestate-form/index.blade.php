@@ -9,8 +9,10 @@
                 <h3 style="font-size: 22px;">Emlak Sepette Aracılığıyla Mülkünü Sat/Kirala</h3>
                 
                 <div class="mt-3 mb-3">
-                    <p>Türkiye'de İlk Emlak Sepette Hoşgeldiniz
-                        Emlak Sepette aracılığıyla mülkünü sat kirala. Mülkünüzü Türkiye geneli emlak danışmanlarıyla %100 güvenli ve garantili satmak ve hızlı satılması için hemen formu doldur. Biz senin için en uygun emlak firmasını / emlak danışmanını bulalım</p>
+                    <p>Emlak Sepette Aracılığıyla Mülkünü Sat/Kirala
+                        Hoşgeldiniz.
+                        Garantili Gayrimenkul satışı. Türkiye de bir ilk!
+                        Mülkünüzün 81 ildeki emlak danışmanlarıyla en hızlı şekilde , %100 güvenli ve garantili satışı için hemen formu doldurun. Gayrimenkulünüz için en uygun emlak firmasını / emlak danışmanını bulalım.</p>
                 </div>
 
                 <form action="{{route('real.estate.post')}}" method="post">

@@ -63,10 +63,13 @@ class AppServiceProvider extends ServiceProvider
             Cache::put($cacheKey, $cachedData, now()->addHours(1));
         }
     
-        View::composer(["client.layouts.partials.header","client.layouts.partials.footer", "client.client-panel*"], function ($view) use ($cachedData) {
+        View::composer(["client.layouts.partials.header","client.layouts.partials.footer", 
+          "client.layouts.partials.cart_icon"  ,"client.client-panel*"], function ($view) use ($cachedData) {
             if (Auth::check()) {
                 $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->get();
                 $view->with("sharerLinks", $sharerLinks);
+                $cartItemCount = request()->session()->get('cart');
+                $view->with("cartItemCount", $cartItemCount);
 
             }
             $view->with($cachedData);

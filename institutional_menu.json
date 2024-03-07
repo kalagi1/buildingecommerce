@@ -9,6 +9,24 @@
         "activePath": "/institutional/estate_club_users"
     },
     {
+        "id": "GetReceivedOffers",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "users",
+        "text": "Alınan Teklifler",
+        "key": "GetReceivedOffers",
+        "url": "institutional.get_received_offers",
+        "activePath": "/institutional/get_received_offers"
+    },
+    {
+        "id": "GetGivenOffers",
+        "label": "Mağazam Emlak Sepette",
+        "icon": "users",
+        "text": "Verilen Teklifler",
+        "key": "GetGivenOffers",
+        "url": "institutional.get_given_offers",
+        "activePath": "/institutional/get_given_offers"
+    },
+    {
         "id": "EmlakClubGift",
         "label": "Emlak Kulüp",
         "icon": "gift",

@@ -25,8 +25,8 @@
                 <table class="table-responsive">
                     <thead class="mobile-hidden">
                         <tr>
-                            <th class="pl-2">Konut</th>
-                            <th class="p-0"></th>
+                            <th class="pl-2">iLAN GÖRSELİ</th>
+                            <th class="p-0">İlan Başlığı</th>
                             <th class="pl-2">Fiyat</th>
                             <th>Kaldır</th>
                             <th>Sepete Ekle</th>
@@ -63,7 +63,11 @@
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ route('project.housings.detail', [$project->id, $housingId]) }}">
+                                                href="{{ route('project.housings.detail', [
+                                                    'projectSlug' => $project->slug,    
+                                                    'projectID'   => $project->id+1000000, 
+                                                    'housingOrder'=> $housingId
+                                                    ]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingId)->value }}"
                                                     class="img-fluid">
@@ -71,17 +75,22 @@
                                         </td>
                                         <td>
                                             <div class="inner">
-                                                <a
-                                                    href="{{ route('project.housings.detail', [$project->id, $housingId]) }}">
-                                               
-                                                    <h2>{{ $project->project_title }} Projesinde {{$housingId }} No'lu {{$project->step1_slug}}<br>
-                                                        <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                                            @if ($project->neighbourhood)
-                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                                            @endif
-                                                        </span>
-                                                    </h2>
-                                                </a>
+                                                <a href="" style="color: black;margin-bottom:9px;">İLAN NO : {{ 1000000 + $project->id + $housingId }}</a>
+                                                <div class="text-center">
+                                                    <a href="{{ route('project.housings.detail', [
+                                                        'projectSlug' => $project->slug,    
+                                                        'projectID'   => $project->id+1000000, 
+                                                        'housingOrder'=> $housingId
+                                                        ]) }}" style="color: black;">    
+                                                            {{ $project->project_title }} Projesinde {{$housingId }} No'lu {{$project->step1_slug}}<br>
+                                                            <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                                @if ($project->neighbourhood)
+                                                                    {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                                @endif
+                                                            </span>
+                                                    </a>
+                                                </div>
+
                                             </div>
                                         </td>
                                         <td>
@@ -155,28 +164,27 @@
 
                                     <tr>
                                         <td class="image myelist">
-                                            <a href="{{ route('housing.show', $housing->id) }}">
+                                            <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ asset('housing_images/') . '/' . json_decode($housing->housing_type_data)->image }}"
                                                     class="img-fluid">
                                             </a>
                                         </td>
-                                        <td>
-                                            <div class="inner">
-                                                <a href="{{ route('housing.show', $housing->id) }}">
-                                                    <h2 style="font-weight: 600">{{ $housing->title }}
-                                                        <br>
-                                                        <span>{!! optional($housing->city)->title .
-                                                            ' / ' .
-                                                            optional($housing->county)->title .
-                                                            ' / ' .
-                                                            optional($housing->neighborhood)->mahalle_title ??
-                                                            '' !!}</span>
-                                                    </h2>
-
-                                                </a>
-                                            </div>
-                                        </td>
+                    <td>
+                        <div class="inner">
+                            <a href="" style="color: black;margin-bottom:3px;">İLAN NO : {{ 2000000  + $housing->id }}</a> 
+                            <div class="text-center">
+                                <a href="{{route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}" style="color: black">
+                                    {{ $housing->title }} <br>
+                                    <span>{!! optional($housing->city)->title . 
+                                    ' / ' . optional($housing->county)->title . 
+                                    ' / ' . optional($housing->neighborhood)->mahalle_title ?? '' !!}
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </td>
                                         <td>
                                             <span style="color:#e54242; font-weight:600">
                                                 @if ($discountAmount)
@@ -235,7 +243,7 @@
 
                                                 <script>
                                                     function redirectToReservation() {
-                                                        window.location.href = "{{ route('housing.show', [$housing->id]) }}";
+                                                        window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                                                     }
                                                 </script>
                                             @endif
@@ -311,7 +319,8 @@
 
                     },
                     error: function(error) {
-                        // Hata durumunda buraya gelir
+                        window.location.href = "/giris-yap";
+
                         toastr.error("Hata oluştu: " + error.responseText, "Hata");
                         console.error("Hata oluştu: " + error);
                     }

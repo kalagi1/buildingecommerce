@@ -411,10 +411,10 @@
                                 data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
+                                title="Mod Değiştir"><span class="icon" data-feather="moon"></span></label><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                                title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label></div>
                     </li>
                     <li class="nav-item dropdown">
                         @php
@@ -618,11 +618,11 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
                                 type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                                title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                     data-feather="moon"></span><span class="fs--1 fw-bold">Dark</span></label><label
                                 class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                 for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                                title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                     data-feather="sun"></span><span class="fs--1 fw-bold">Light</span></label></div>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -1927,10 +1927,10 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
                             data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
+                            title="Mod Değiştir"><span class="icon" data-feather="moon"></span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                            title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label></div>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
                         data-bs-target="#searchBoxModal"><span data-feather="search"
@@ -3225,11 +3225,11 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
                             type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="moon"></span><span class="fs--1 fw-bold">Dark</span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="sun"></span><span class="fs--1 fw-bold">Light</span></label></div>
                 </li>
                 <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -4528,10 +4528,10 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
                             data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="moon"></span></label><label
+                            title="Mod Değiştir"><span class="icon" data-feather="moon"></span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon" data-feather="sun"></span></label></div>
+                            title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label></div>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
                         data-bs-target="#searchBoxModal"><span data-feather="search"
@@ -5828,11 +5828,11 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
                             type="checkbox" data-theme-control="phoenixTheme" value="dark" /><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="moon"></span><span class="fs--1 fw-bold">Dark</span></label><label
                             class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                             for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                            title="Switch theme"><span class="icon me-1 d-none d-sm-block"
+                            title="Mod Değiştir"><span class="icon me-1 d-none d-sm-block"
                                 data-feather="sun"></span><span class="fs--1 fw-bold">Light</span></label></div>
                 </li>
                 <li class="nav-item"> <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -6429,11 +6429,11 @@ $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedA
                                     id="themeControlToggle" /><label
                                     class="mb-0 theme-control-toggle-label theme-control-toggle-light"
                                     for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Switch theme"><span class="icon"
+                                    title="Mod Değiştir"><span class="icon"
                                         data-feather="moon"></span></label><label
                                     class="mb-0 theme-control-toggle-label theme-control-toggle-dark"
                                     for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left"
-                                    title="Switch theme"><span class="icon" data-feather="sun"></span></label>
+                                    title="Mod Değiştir"><span class="icon" data-feather="sun"></span></label>
                             </div>
                         </li>
                         <li class="nav-item dropdown">

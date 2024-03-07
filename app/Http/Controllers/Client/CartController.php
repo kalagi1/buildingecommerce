@@ -38,9 +38,8 @@ class CartController extends Controller
 
     public function payCart(Request $request)
     {
-
         if (!$request->session()->get('cart')) {
-            return redirect()->back()->withErrors(['pay' => 'Sepet boş.']);
+            return response()->json(["success" => "fail"]);
         }
 
         function getHouse($project, $key, $roomOrder)
@@ -68,12 +67,14 @@ class CartController extends Controller
         ->first();
 
         $cartJson = $request->session()->get('cart');
+     
         $order = new CartOrder;
 
         $order->user_id = auth()->user()->id;
         $order->bank_id = $request->input('banka_id');
         $amountWithoutDiscount =  $cartJson['item']['amount'] - $cartJson['item']['discount_amount'];
         $haveDiscount = false;
+ 
         if ($request->input('have_discount')) {
             $coupon = Coupon::where(
 
@@ -272,7 +273,7 @@ class CartController extends Controller
         $order->notes = $request->input('notes');
         $order->reference_id = $hasReference ? $hasReference->id : null;
         $order->is_reference = $isReference ? $isReference->id : null;
-        $order->is_swap = $request->input('is_swap') == 'pesin' ? 0 : 1;
+        $order->is_swap = $cartJson['item']['payment-plan']== 'pesin' ? 0 : 1;
         $order->save();
 
       
@@ -839,9 +840,24 @@ class CartController extends Controller
             $project = $request->input('project');
             $neighborProjects  = [];
 
+            $orderCount = CartOrder::where('status', '!=','2')
+            ->whereJsonContains('cart->item->id', $project)
+            ->whereJsonContains('cart->item->housing', $id)
+            ->whereJsonContains('cart->type', $type)
+            ->count();
+
+            // dd($orderCount);
+
             $cartItem = [];
             $hasCounter = false;
             $cart = $request->session()->get('cart', []);
+        //   dd($type == 'project' && $cart['item']['id'] == $project && $cart['item']['housing'] == $id);
+            //DB de var mı ?
+            // if(){
+            //     return response(['message' => 'fail', 'failMessage' => 'Ürün zaten sepette'], 200);
+            // }
+
+
             http_response_code(500);
             if ($cart && (($type == 'housing' && isset($cart['item']['id']) &&  $cart['item']['id'] == $id) || ($type == 'project' && isset($cart['item']['housing']) && $cart['item']['housing'] == $id))) {
                 $request->session()->forget('cart');
@@ -959,6 +975,7 @@ class CartController extends Controller
                         'city' => $housing->city['title'],
                         'address' => $housing->address,
                         'title' => $housing->title,
+                        'slug' => $housing->slug,
                         'amount' => $housingData->price[0],
                         'price' => $housingData->price[0],
                         'image' => asset('housing_images/' . $housingData->images[0]),
@@ -1023,6 +1040,8 @@ class CartController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
+
+        
 
         return view('client.cart.index', compact('pageInfo', 'cart', 'bankAccounts', 'saleType'));
     }
@@ -1157,5 +1176,12 @@ class CartController extends Controller
                 'message' => 'İndirim kuponu yanlış',
             ]);
         }
+    }
+
+    public function setCartSession(Request $request)
+    {
+        $cart = $request->input('cart');
+        session(['cart' => $cart]);
+        return response()->json(['success' => true]);
     }
 }
