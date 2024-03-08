@@ -338,7 +338,7 @@
                                             aria-label="Close">
                                             <i class="fa fa-close"></i>
                                         </button>
-                                        <div class="offer-content"><img src="{{ asset('popup.png') }}"
+                                        <div class="offer-content"><img src="{{ asset('popup2.jpeg') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
                                             <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
                                                 kadar paylaş; paylaştıkça kazan!</h2>
