@@ -18,5 +18,24 @@ class PageController extends Controller
     
         return view('client.blank', compact('pageInfo'));
     }
+
+    public function contracts_show(){   
+        $contract_pages = Page::where('is_contract_page',1)->get();
+        return view('client.pages.contracts',compact('contract_pages'));
+    }//End
+
+    public function getContent($target)
+    {
+        // Hedef değere göre içeriği al
+        $page = Page::where('title', $target)->first();
+
+        if ($page) {
+            // Eğer içerik varsa, içeriği JSON formatında döndür
+            return response()->json(['content' => $page->content]);
+        } else {
+            // Eğer içerik bulunamazsa hata mesajı döndür
+            return response()->json(['error' => 'İçerik bulunamadı'], 404);
+        }
+    }//End
     
 }
