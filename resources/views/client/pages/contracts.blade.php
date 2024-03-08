@@ -29,12 +29,11 @@ $(document).ready(function() {
     getContent(target);
 
     // Tıklanan linklere tıklanma olayı ekle
-    // $('#sidebar ul.components li a').click(function(event) {
-    //     event.preventDefault();
-    //     $(this).append('<i class="fas fa-chevron-right"></i>');
-    //     var target = $(this).data('target');
-    //     getContent(target);
-    // });
+    $('#sidebar ul.components li a').click(function(event) {
+        event.preventDefault();
+        var target = $(this).data('target');
+        getContent(target);
+    });
 
     // İçeriği getirme fonksiyonu
     function getContent(target) {
