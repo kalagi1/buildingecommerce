@@ -67,7 +67,7 @@
                 <div class="row align-items-center justify-content-between mobile-position"
                     @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
-                        <div class="homes-list-div"    @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;height: 90px !important" @endif>
+                        <div class="homes-list-div"    @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;height: 90px !important" @else style="color:pink" @endif>
                             <ul class="homes-list clearfix pb-3 d-flex">
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
