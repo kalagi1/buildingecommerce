@@ -1125,6 +1125,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/counties',[ApiProjectController::class,"getCounties"]);
     Route::get('/neighborhoods',[ApiProjectController::class,"getNeighborhoods"]);
     Route::post('/create_project',[ApiProjectController::class,"createProject"]);
+    Route::post('/create_room',[ApiProjectController::class,"createRoom"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
