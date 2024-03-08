@@ -298,10 +298,7 @@
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                                     class="fa fa-edit"></i></span>
                                                         </div>
-                                                        <p style="color: red;margin-top:10px;width:200px;"
-                                                            class="off-sale-red-text">Alıcılara satışa kapalı
-                                                            olarak
-                                                            gözükecektir.</p>
+                                                   
                                                     @else
                                                         @if (
                                                             ($sold && $sold[0]->status == 1 &&  empty($share_sale)) ||
@@ -602,10 +599,7 @@
                                                         class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                             class="fa fa-edit"></i></span>
                                                 </div>
-                                                <p style="color: red;margin-top:10px;width:200px;"
-                                                    class="off-sale-red-text">Alıcılara satışa kapalı
-                                                    olarak
-                                                    gözükecektir.</p>
+                                             
                                             @else
                                                 @if (
                                                     ($sold && $sold[0]->status == 1 && empty($share_sale)) ||
@@ -1307,9 +1301,7 @@
                                             thisx.closest('td').find('.text').find('.value-text')
                                                 .removeClass('badge-phoenix-success').addClass(
                                                     'badge-phoenix-danger')
-                                            thisx.closest('td').append(
-                                                '<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>'
-                                            )
+                                                    
                                         } else {
                                             newVal = "Satışa Açık";
                                             thisx.closest('td').find('.text').find('.value-text')
@@ -1393,9 +1385,6 @@
                                                     '.value-text').removeClass(
                                                     'badge-phoenix-success').addClass(
                                                     'badge-phoenix-danger');
-                                                $(tr).find('td').eq(indexTd).append(
-                                                    '<p class="off-sale-red-text" style="color: red;margin-top:10px;width:200px;">Alıcılara satışa kapalı olarak gözükecektir.</p>'
-                                                );
                                             })
                                         } else {
                                             newVal = "Satışa Açık";

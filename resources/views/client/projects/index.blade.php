@@ -724,6 +724,7 @@
                                                                     <div class="row project-filter-reverse blog-pots">
                                                                         @for ($i = 0; $i < $blockHousingCount; $i++)
                                                                             @php
+                                                                            
                                                                                 if (isset($projectCartOrders[$i + 1])) {
                                                                                     $sold = $projectCartOrders[$i + 1];
                                                                                 } else {

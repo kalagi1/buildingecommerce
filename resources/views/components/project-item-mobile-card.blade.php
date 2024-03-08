@@ -94,7 +94,7 @@
                         $sold_check = $sold && in_array($sold->status, ['1', '0']);
                         $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
                     @endphp
-                    @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
+                    @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                         <button class="btn second-btn mobileCBtn"
                             style="background: #EA2B2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapatıldı</span>

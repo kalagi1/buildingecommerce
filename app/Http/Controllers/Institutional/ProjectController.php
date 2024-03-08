@@ -1731,8 +1731,9 @@ class ProjectController extends Controller
         $order->is_disabled = 1; // sonradan eklenen konutlar için
         $order->store_id = Project::where('id',$projectID)->value('user_id');
 
-        $cartJson['item']['id'] = $projectID;
-        $cartJson['item']['housing'] = $housingID;
+        $cartJson['item']['id'] = (int)$projectID;
+        $cartJson['item']['housing'] = (int)$housingID;
+        
 
         $neighborProjects  = [];
         $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $projectID)->where('user_id', $user->id)->get();
