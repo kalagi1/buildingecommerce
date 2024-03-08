@@ -316,7 +316,7 @@
         </div>
     @endif --}}
 
-    @if (Auth::check() && Auth::user()->has_club == 0)
+    @if (Auth::check() && Auth::user()->has_club == 0 || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
