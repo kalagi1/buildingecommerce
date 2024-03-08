@@ -208,6 +208,7 @@ a.article:hover {
   width: 100%;
   padding: 20px;
   min-height: 100vh;
+  background: whitesmoke;
   transition: all 0.3s;
 }
 
