@@ -164,7 +164,7 @@
 
                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
                             <div class="bar-chart">
-                                <div class="progress">
+                                <div class="progress" style="border-radius: 0 !important">
                                     <div class="progress-bar"
                                         @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
                                     @else
