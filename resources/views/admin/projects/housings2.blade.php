@@ -644,7 +644,7 @@
                                                 @if ($sold && $sold[0]->status == 1)
                                                     <td class="price">
                                                         @if (isset($sold[0]))
-                                                            <a href="{{ route('institutional.invoice.show', ['order' => $sold[0]->id]) }}"
+                                                            <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
                                                         @endif
 
