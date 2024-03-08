@@ -1,4 +1,4 @@
-@extends('institutional.layouts.master')
+@extends('admin.layouts.master')
 
 @php
     if (!function_exists('getData')) {
