@@ -259,8 +259,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="sold">
-                                                    @if (isset($share_sale) && !empty($share_sale))
-                                                        <span class=" d-block mb-2">
+                                                    @if (isset($share_sale) && !empty($share_sale) && $share_sale ! = "[]")
+                                                    <span class=" d-block mb-2">
                                                             @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                                 {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
                                                             @else
@@ -608,7 +608,7 @@
                                             @endif
                                         </td>
                                         <td class="sold">
-                                            @if (isset($share_sale) && !empty($share_sale) && !empty($share_sale))
+                                            @if (isset($share_sale) && !empty($share_sale) && $share_sale ! = "[]")
                                                 <span class=" d-block mb-2">
                                                     @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                         {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
