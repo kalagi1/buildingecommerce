@@ -341,7 +341,7 @@
                                                 </td>
                                             @else
                                                 <td class="price">
-                                                    @if (!isset($share_sale) || isset($share_sale) && $share_sale == "[]")
+                                                    @if (empty($share_sale))
                                                     <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
                                                         Komşumu Gör
                                                       </a><br>
@@ -697,6 +697,7 @@
                                                     </td>
                                                 @else
                                                     <td class="price">
+                                                        {{$share_sale}} asas
                                                         @if (empty($share_sale))
                                                         <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
                                                             Komşumu Gör
