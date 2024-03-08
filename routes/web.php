@@ -1134,3 +1134,4 @@ Route::post('offer_response',[ClientProjectController::class,'offer_response'])-
 //Komşumu Gor
 Route::post('proje/housings/komsumu/gor',[InstitutionalProjectController::class,'komsumuGorInfo'])->name('projects.housings.komsumu.gor');
 
+Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor',[ProjectController::class,'komsumuGorInfo2'])->name('admin.projects.housings.komsumu.gor');

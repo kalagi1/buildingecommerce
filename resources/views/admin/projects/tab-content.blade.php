@@ -30,8 +30,8 @@
                         <td>{{ $project['project']->user->name }} </td>
                         <td>{{ $project['project']->room_count }}</td>
                         <td>{{ $project['project']->housingType->title }}</td>
-                        <td><a href='{{ URL::to('/') }}/institutional/projects/" + $project.id +
-                            "/housings' class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a>"</td>
+                        <td><a href='{{ URL::to('/') }}/qR9zLp2xS6y/secured/projects/{{ $project['project']->id }}/housings'                             
+                            class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a></td>
                         <td>
                             @if ($project['project']->status == 1)
                                 <span class="badge badge-phoenix badge-phoenix-success">Aktif</span>

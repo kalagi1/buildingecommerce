@@ -87,7 +87,7 @@
                                 <table class="table fs--1 mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="sort" data-sort="sold">Komşumu Gör</th>
+                                            {{-- <th class="sort" data-sort="sold">Komşumu Gör</th> --}}
 
                                             <th><input type="checkbox" class="all-select"></th>
                                             <th>No.</th>
@@ -658,58 +658,59 @@
                                                     </td>
                                                 
                                                 @endif
-                <td class="price">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{$i+1}}">
-                            Komşumu Gör
-                      </button>
-                </td>
-                      <!--KOMŞUMU GOR Modal -->
-                        <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-                                <form action="{{route('projects.housings.komsumu.gor')}}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="no" value="{{ $i+1 }}">
-                                    <input type="hidden" name="price" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
-                                    <input type="hidden" name="projectID" value="{{$project->id}}">
-                              
-                                    <div class="form-group">
-                                        <label for="surname" class="modal-label">Ad Soyad: </label>
-                                        <input type="text" class="modal-input" id="name" name="name" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="surname" class="modal-label">Email: </label>
-                                        <input type="text" class="modal-input" id="email" name="email" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="surname" class="modal-label">TC : </label>
-                                        <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
-                                    </div>
-                
-                                    <div class="form-group">
-                                        <label for="comment" class="modal-label">Adres:</label>
-                                        <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
-                                            name="address" required></textarea>
-                                    </div>
-                
-                                    <div class="modal-footer">
-                                        <button type="submit" class="modal-btn-gonder">Gönder</button>
-                                        <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
-                                    </div>
-                                </form>
-                                </div>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
+                                        Komşumu Gör
+                                      </button>
+                                        
+                                </td>  
+                       <!--KOMŞUMU GOR Modal -->
+                       <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             </div>
+                            <div class="modal-body">
+                            <form action="{{route('admin.projects.housings.komsumu.gor')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="no" value="{{ $i+1 }}">
+                                <input type="hidden" name="price" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
+                                <input type="hidden" name="projectID" value="{{$project->id}}">
+                          
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">Ad Soyad: </label>
+                                    <input type="text" class="modal-input" id="name" name="name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">Email: </label>
+                                    <input type="text" class="modal-input" id="email" name="email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">TC : </label>
+                                    <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="comment" class="modal-label">Adres:</label>
+                                    <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
+                                        name="address" required></textarea>
+                                </div>
+            
+                                <div class="modal-footer">
+                                    <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                    <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                                </div>
+                            </form>
                             </div>
                         </div>
+                        </div>
+                    </div>                 
                 </tr>
                 @endfor
                 </tbody>
