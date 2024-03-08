@@ -2,8 +2,7 @@
 @section('content')
 
 <div class="container">
-    <div class="wrapper mt-5 mb-5" style="  height: 800px;
-    overflow-y: scroll;">
+    <div class="wrapper mt-5 mb-5">
         <nav id="sidebar">
             <ul class="list-unstyled components" style="font-size: 13px">
               @foreach($contract_pages as $page)
@@ -208,7 +207,8 @@ a.article:hover {
 #content {
   width: 100%;
   padding: 20px;
-
+  height: 800px;
+  overflow-y: scroll;
   background: whitesmoke;
   transition: all 0.3s;
 }
