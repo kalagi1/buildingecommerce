@@ -34,6 +34,7 @@ class ProjectController extends Controller
 {
     public function index($slug, $id, Request $request)
     {
+        
         $id -= 1000000;
 
         $menu = Cache::rememberForever('menu', function () {
@@ -42,106 +43,114 @@ class ProjectController extends Controller
         $bankAccounts = BankAccount::all();
 
         $project = Project::where("id", $id)
+            ->where("status", 1)
             ->with("brand", "blocks", 'listItemValues', "neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
-            ->firstOrFail();
-        $projectHousing = $project->roomInfo->keyBy('name');
-
-        $sumCartOrderQt = DB::table('cart_orders')
-            ->select(
-                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
-            )
-            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get();
+            ->first();
 
 
-        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
-            ->mapWithKeys(function ($group) {
-                return [
-                    $group->first()->housing_id => [
-                        'housing_id' => $group->first()->housing_id,
-                        'qt_total' => $group->sum('qt'),
-                    ]
-                ];
-            })
-            ->all();
+        if ($project) {
+
+            $projectHousing = $project->roomInfo->keyBy('name');
+
+            $sumCartOrderQt = DB::table('cart_orders')
+                ->select(
+                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+                )
+                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                ->get();
 
 
-
-
-
-        $projectCartOrders = DB::table('cart_orders')
-            ->select(
-                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
-                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
-                'cart_orders.status',
-                'cart_orders.user_id',
-                'cart_orders.store_id',
-                'cart_orders.is_show_user',
-                'cart_orders.id',
-                'users.name',
-                'users.phone'
-            )
-            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get()
-            ->keyBy("housing_id");
+            $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+                ->mapWithKeys(function ($group) {
+                    return [
+                        $group->first()->housing_id => [
+                            'housing_id' => $group->first()->housing_id,
+                            'qt_total' => $group->sum('qt'),
+                        ]
+                    ];
+                })
+                ->all();
 
 
 
 
-        $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
-        $lastHousingCount = 0;
 
-        $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
-        $projectHousingsList = [];
-        $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
-            $projectHousingsList[$item->room_order][$item->name] = $item->value;
-        });
+            $projectCartOrders = DB::table('cart_orders')
+                ->select(
+                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+                    'cart_orders.status',
+                    'cart_orders.user_id',
+                    'cart_orders.store_id',
+                    'cart_orders.is_show_user',
+                    'cart_orders.id',
+                    'users.name',
+                    'users.phone'
+                )
+                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                ->get()
+                ->keyBy("housing_id");
 
 
-        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
-        $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-            ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-            ->groupBy('project_id')
-            ->where("status", "1")
-            ->get();
 
-        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
-        $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
-        $selectedPage = $request->input('selected_page') ?? 0;
-        $blockIndex = $request->input('block_id') ?? 0;
-        $startIndex = 0;
 
-        if ($project->have_blocks) {
-            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+            $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
+            $lastHousingCount = 0;
+
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
+            $projectHousingsList = [];
+            $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
+                $projectHousingsList[$item->room_order][$item->name] = $item->value;
+            });
+
+
+            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
+            $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                ->groupBy('project_id')
+                ->where("status", "1")
+                ->get();
+
+            $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+            $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+            $selectedPage = $request->input('selected_page') ?? 0;
+            $blockIndex = $request->input('block_id') ?? 0;
+            $startIndex = 0;
+
+            if ($project->have_blocks) {
+                $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+            } else {
+                $currentBlockHouseCount = 0;
+            }
+            for ($i = 0; $i < $blockIndex; $i++) {
+                $startIndex += $project->blocks[$i]->housing_count;
+            }
+            $endIndex = 20 + $startIndex;
+            $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
+
+            $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
+            $pageInfo = [
+                "meta_title" => $project->project_title,
+                "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
+                "meta_description" => $project->project_title,
+                "meta_author" => "Emlak Sepette",
+            ];
+
+            $pageInfo = json_encode($pageInfo);
+            $pageInfo = json_decode($pageInfo);
         } else {
-            $currentBlockHouseCount = 0;
+            return redirect('/')
+                ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
-        for ($i = 0; $i < $blockIndex; $i++) {
-            $startIndex += $project->blocks[$i]->housing_count;
-        }
-        $endIndex = 20 + $startIndex;
-        $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
-
-        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-        $status = HousingStatus::find($statusID);
-        $pageInfo = [
-            "meta_title" => $project->project_title,
-            "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-            "meta_description" => $project->project_title,
-            "meta_author" => "Emlak Sepette",
-        ];
-
-        $pageInfo = json_encode($pageInfo);
-        $pageInfo = json_decode($pageInfo);
-
         return view('client.projects.index', compact("pageInfo", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
     }
 
@@ -666,84 +675,91 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
-        $project = Project::where('id', $projectID)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->firstOrFail();
-        $projectHousing = $project->roomInfo->keyBy('name');
-        $projectImages = ProjectImage::where('project_id', $project->id)->get();
-        $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->first();
 
-        $projectCartOrders = DB::table('cart_orders')
-            ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, JSON_EXTRACT(cart, "$.item.qt") as qt, JSON_EXTRACT(cart, "$.item.qt") as qt, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
-            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get()
-            ->keyBy("housing_id");
-        $sumCartOrderQt = DB::table('cart_orders')
-            ->select(
-                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
-            )
-            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get();
-
-
-        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
-            ->mapWithKeys(function ($group) {
-                return [
-                    $group->first()->housing_id => [
-                        'housing_id' => $group->first()->housing_id,
-                        'qt_total' => $group->sum('qt'),
-                    ]
-                ];
-            })
-            ->all();
-
-        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
-        $selectedPage = $request->input('selected_page') ?? 0;
-        $blockIndex = $request->input('block_id') ?? 0;
-        $startIndex = 0;
-        $lastHousingCount = 0;
-        if ($project->have_blocks) {
-            $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
-        } else {
-            $currentBlockHouseCount = 0;
+        if ($project) {
+            $projectHousing = $project->roomInfo->keyBy('name');
+            $projectImages = ProjectImage::where('project_id', $project->id)->get();
+            $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
+    
+            $projectCartOrders = DB::table('cart_orders')
+                ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, JSON_EXTRACT(cart, "$.item.qt") as qt, JSON_EXTRACT(cart, "$.item.qt") as qt, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                ->get()
+                ->keyBy("housing_id");
+            $sumCartOrderQt = DB::table('cart_orders')
+                ->select(
+                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+                )
+                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                ->get();
+    
+    
+            $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+                ->mapWithKeys(function ($group) {
+                    return [
+                        $group->first()->housing_id => [
+                            'housing_id' => $group->first()->housing_id,
+                            'qt_total' => $group->sum('qt'),
+                        ]
+                    ];
+                })
+                ->all();
+    
+            $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+            $selectedPage = $request->input('selected_page') ?? 0;
+            $blockIndex = $request->input('block_id') ?? 0;
+            $startIndex = 0;
+            $lastHousingCount = 0;
+            if ($project->have_blocks) {
+                $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+            } else {
+                $currentBlockHouseCount = 0;
+            }
+            for ($i = 0; $i < $blockIndex; $i++) {
+                $startIndex += $project->blocks[$i]->housing_count;
+            }
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
+            $projectHousingsList = [];
+            $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
+                $projectHousingsList[$item->room_order][$item->name] = $item->value;
+            });
+    
+            $endIndex = $project->house_count + 20;
+    
+            $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
+    
+    
+            $pageInfo = [
+                "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
+                    : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
+                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
+                        : "Emlak Sepette"),
+                "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
+                "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
+                    : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
+                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
+                        : "Emlak Sepette"),
+                "meta_author" => "Emlak Sepette",
+            ];
+    
+            $pageInfo = json_encode($pageInfo);
+            $pageInfo = json_decode($pageInfo);
+            // print_r($housingOrder);die;
+        }else{
+            return redirect('/')
+                ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
-        for ($i = 0; $i < $blockIndex; $i++) {
-            $startIndex += $project->blocks[$i]->housing_count;
-        }
-        $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
-        $projectHousingsList = [];
-        $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
-            $projectHousingsList[$item->room_order][$item->name] = $item->value;
-        });
-
-        $endIndex = $project->house_count + 20;
-
-        $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
-
-
-        $pageInfo = [
-            "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                ? $projectHousingsList[$housingOrder]['advertise_title[]']
-                : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise-title[]']
-                    : "Emlak Sepette"),
-            "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-            "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                ? $projectHousingsList[$housingOrder]['advertise_title[]']
-                : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise-title[]']
-                    : "Emlak Sepette"),
-            "meta_author" => "Emlak Sepette",
-        ];
-
-        $pageInfo = json_encode($pageInfo);
-        $pageInfo = json_decode($pageInfo);
-        // print_r($housingOrder);die;
+        
 
         return view('client.projects.project_housing', compact('pageInfo', "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
     }

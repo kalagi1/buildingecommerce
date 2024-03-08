@@ -157,7 +157,7 @@ class HousingController extends Controller
             return view('client.housings.detail', compact('pageInfo', 'housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'housingID', 'housingComments', 'labels'));
         }else{
             return redirect('/')
-            ->with('error', 'Ürün yayından kaldırıldı veya bulunamadı.');
+            ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
     }
 

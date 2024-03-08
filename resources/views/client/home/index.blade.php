@@ -376,20 +376,22 @@
     <!-- Include Toastify CSS and JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
     <script>
-        if ("{{ session('error') }}" != null) {
-            Toastify({
-            text: 'Ürün yayından kaldırıldı veya bulunamadı.',
-            duration: 5000,
-            gravity: 'bottom',
-            position: 'center',
-            backgroundColor: '#ff4d4d',
-            stopOnFocus: true,
-        }).showToast();
-        }
+        var errorMessage = "{{ session('error') }}";
     
+        if (errorMessage) {
+    
+            Toastify({
+                text: 'İlan yayından kaldırıldı veya bulunamadı.',
+                duration: 5000,
+                gravity: 'bottom',
+                position: 'center',
+                backgroundColor: '#ff4d4d',
+                stopOnFocus: true,
+            }).showToast();
+        }
     </script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();

@@ -56,7 +56,7 @@
                             <div class="homes position-relative">
                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
                                     alt="home-1" class="img-responsive"
-                                    style="height: 100px !important; object-fit: cover">
+                                    style="height: 100% !important; object-fit: cover">
                             </div>
                         </div>
                     </div>
