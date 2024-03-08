@@ -2,13 +2,8 @@
 @section('content')
 
 <div class="container">
-    <div class="wrapper">
-        <!-- Sidebar  -->
+    <div class="wrapper mt-5 mb-5">
         <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3 class="text-white">Sözleşmeler</h3>
-            </div>
-    
             <ul class="list-unstyled components" style="font-size: 13px">
               @foreach($contract_pages as $page)
                 <li>
@@ -34,12 +29,12 @@ $(document).ready(function() {
     getContent(target);
 
     // Tıklanan linklere tıklanma olayı ekle
-    $('#sidebar ul.components li a').click(function(event) {
-        event.preventDefault();
-        $(this).append('<i class="fas fa-chevron-right"></i>');
-        var target = $(this).data('target');
-        getContent(target);
-    });
+    // $('#sidebar ul.components li a').click(function(event) {
+    //     event.preventDefault();
+    //     $(this).append('<i class="fas fa-chevron-right"></i>');
+    //     var target = $(this).data('target');
+    //     getContent(target);
+    // });
 
     // İçeriği getirme fonksiyonu
     function getContent(target) {
@@ -138,7 +133,6 @@ a:focus {
 
 #sidebar ul.components {
   padding: 20px 0;
-  border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul p {
