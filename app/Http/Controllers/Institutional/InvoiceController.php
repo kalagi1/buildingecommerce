@@ -13,7 +13,6 @@ class InvoiceController extends Controller
 {
     public function show($order)
     {
-        return "a";
         $order = CartOrder::where("id", $order)->first();
         $cart = json_decode($order->cart);
         $project = null;
@@ -30,7 +29,6 @@ class InvoiceController extends Controller
             'project' => $project,
         ];
 
-        return $order->id;
 
         return view('institutional.invoice.index', compact("data"));
     }
