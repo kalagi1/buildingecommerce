@@ -77,8 +77,8 @@
                         @endphp
 
                         <div class="homes-list-div"
-                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;height: 90px !important" @endif>
-                            <ul class="homes-list clearfix pb-3 d-flex">
+                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;" @endif>
+                            <ul class="homes-list clearfix pb-3 d-flex" @if(isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="height: 90px !important" @endif>
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                         aria-hidden="true"></i>
