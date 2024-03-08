@@ -8,7 +8,7 @@
                 <div class="project-inner project-head">
                     <div class="homes">
                         <div class="homes-img">
-                            <div class="homes-tag button alt featured">
+                            <div class="homes-tag button alt featured" style="width:90px !important">
                             No: {{ $housing->id + 2000000 }}
                             </div>
                             <div class="type-tag button alt featured">
