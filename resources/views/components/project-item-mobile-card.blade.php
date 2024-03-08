@@ -128,12 +128,8 @@
 
                                     @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
 
-                                        <span class="text-center w-100">
-                                            @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']))
-                                                {{ $sumCartOrderQt[$keyIndex]['qt_total'] }}
-                                            @else
-                                                0
-                                            @endif / {{ $number_of_share }}
+                                        <span class="text-center w-100 d-block">
+                                            1 Pay Fiyatı
                                         </span>
                                     @endif
 

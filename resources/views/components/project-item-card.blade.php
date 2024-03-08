@@ -111,7 +111,7 @@
 
                                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
                                             <span class="text-center w-100">
-                                                1 Hisse Fiyatı
+                                                1 Pay Fiyatı
                                             </span>
                                         @endif
 
