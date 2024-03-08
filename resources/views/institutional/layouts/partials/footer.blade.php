@@ -101,7 +101,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
 </script>
 
-<script src="{{ URL::to('/') }}/build/assets/app-a3da5ed0.js"></script>
+@vite('resources/js/app.jsx')
 <!--FormBuilder-->
 
 <script src="{{ URL::to('/') }}/js/jqueryscript.net_demo_leaflet-location-picker_src_leaflet-locationpicker.js"></script>
