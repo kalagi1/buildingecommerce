@@ -213,6 +213,10 @@ a.article:hover {
   transition: all 0.3s;
 }
 
+#content p {
+  color:black !important;
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
