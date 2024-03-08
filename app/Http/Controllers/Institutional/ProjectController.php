@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -1737,8 +1738,21 @@ class ProjectController extends Controller
         $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $projectID)->where('user_id', $user->id)->get();
         $cartJson['item']['neighborProjects'] = $neighborProjects;
 
+        
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
+        }
+        $project = Project::where('id', $projectID)->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+
         $cartJson['item']['city_id'] = $city_id;
         $cartJson['item']['county_id'] = $county_id;
+        $cartJson['item']['image'] =  URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingID)->value;
+
 
         $cartJson['type'] = 'project';
         $cartJson['hasCounter'] = false;
