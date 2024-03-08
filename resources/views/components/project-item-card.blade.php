@@ -70,7 +70,7 @@
                     <div class="col-md-9">
                         @php
                             $customStyles =
-                                isset($share_sale) && !empty($share_sale) && $number_of_share != 0
+                                isset($share_sale) && !empty($share_sale) && $share_sale != "[]"
                                     ? 'height: 90px; width: 100% !important; flex-direction: column;'
                                     : '';
                         @endphp
