@@ -68,10 +68,14 @@
                 <div class="row align-items-center justify-content-between mobile-position"
                     @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
-                        <div class="homes-list-div"
-                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="    height: 90px;
-                        width: 100% !important;
-                        flex-direction: column;" @endif>
+                        @php
+                            $customStyles =
+                                isset($share_sale) && !empty($share_sale) && $number_of_share != 0
+                                    ? 'height: 90px; width: 100% !important; flex-direction: column;'
+                                    : '';
+                        @endphp
+
+                        <div class="homes-list-div" style="{{ $customStyles }}">
                             <ul class="homes-list clearfix pb-3 d-flex">
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
@@ -113,7 +117,7 @@
                                         @endphp
 
                                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-1 Pay
+                                            1 Pay
                                         @endif
 
                                         @if ($off_sale_check && $projectDiscountAmount)
