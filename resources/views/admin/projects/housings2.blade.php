@@ -26,8 +26,6 @@
 
 @section('content')
     <div class="content">
-        <div class="badge badge-phoenix badge-phoenix-warning w-100 py-2 mb-2"><i class="fa fa-info-circular"></i> Yapacağınız
-            güncellemelerde ilan tekrar admin onayına düşecektir</div>
         <div id="products">
 
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
@@ -118,10 +116,6 @@
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
                                                     <div class="image-with-hover">
-                                                        <input type="file" class="d-none change-image">
-                                                        <div class="image-opa">
-                                                            Resmi Güncelle
-                                                        </div>
                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                             alt="home-1" class="img-responsive"
                                                             style="max-height: 100px !important;max-width:100px;object-fit:cover">
