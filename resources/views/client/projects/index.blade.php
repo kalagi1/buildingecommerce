@@ -263,9 +263,16 @@
 
                                                 <tr>
                                                     <td>
-                                                        <span class="autoWidthTr">Telefon:</span>
+                                                        <span class="autoWidthTr">Kurumsal Telefon:</span>
                                                         <span class="det"
                                                             style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Cep :</span>
+                                                        <span class="det"
+                                                            style="color: black;">{!! $project->user->mobile_phone ? $project->user->mobile_phone : 'Belirtilmedi' !!}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
