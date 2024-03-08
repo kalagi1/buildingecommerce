@@ -762,7 +762,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 });
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
-    Route::get('/projects-list', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
 
     Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers');//Mağazanın aldıgı tekliflerin listesi
     Route::get('get_given_offers',[ClientProjectController::class,'get_given_offers'])->name('get_given_offers');//Kullanıcınn veridiği tekliflerin listesi
