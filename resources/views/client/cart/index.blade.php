@@ -169,6 +169,7 @@
                                         </td>
                                         @php
                                             $itemPrice = $cart['item']['amount'];
+                                            echo $itemPrice;
 
                                             if ($cart['hasCounter']) {
                                                 if ($cart['type'] == 'housing') {

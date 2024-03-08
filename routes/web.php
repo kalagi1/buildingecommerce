@@ -243,6 +243,7 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
 
     Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
+    Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
 
 
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');

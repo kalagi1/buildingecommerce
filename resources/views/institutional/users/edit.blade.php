@@ -32,7 +32,8 @@
                         <div class="card-body p-0">
                             <div class="p-4">
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('institutional.users.update', $subUser->id) }}">
+                                    action="{{ route('institutional.users.update', $subUser->id) }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
 

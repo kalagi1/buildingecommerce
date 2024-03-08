@@ -11,7 +11,7 @@
     'blockHousingCount',
     'key',
     'previousBlockHousingCount',
-    'allCounts'
+    'allCounts',
 ])
 
 @php
@@ -25,12 +25,13 @@
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
-            <div class="col-md-3"> 
-                    <a href="{{ route('project.housings.detail', [
-                        'projectSlug'  => $project->slug, 
-                        'projectID'    => $project->id + 1000000,
-                        'housingOrder' => $i + 1
-                    ]) }}" style="height: 100%">
+            <div class="col-md-3">
+                <a href="{{ route('project.housings.detail', [
+                    'projectSlug' => $project->slug,
+                    'projectID' => $project->id + 1000000,
+                    'housingOrder' => $i + 1,
+                ]) }}"
+                    style="height: 100%">
 
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
@@ -56,7 +57,7 @@
                             <div class="homes position-relative">
                                 <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
                                     alt="home-1" class="img-responsive"
-                                    style="height: 100px !important; object-fit: cover">
+                                    style="height: 100% !important; object-fit: cover">
                             </div>
                         </div>
                     </div>
@@ -67,8 +68,17 @@
                 <div class="row align-items-center justify-content-between mobile-position"
                     @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
-                        <div class="homes-list-div">
-                            <ul class="homes-list clearfix pb-3 d-flex">
+                        @php
+                            $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+                            $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+                            $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
+                            $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                            $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+                        @endphp
+
+                        <div class="homes-list-div"
+                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;" @endif>
+                            <ul class="homes-list clearfix pb-3 d-flex" @if(isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="height: 90px !important" @endif>
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                         aria-hidden="true"></i>
@@ -98,24 +108,10 @@
 
                                 <li class="the-icons mobile-hidden">
                                     <span style="width:100%;text-align:center">
-                                        @php
-                                            $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                                            $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                                            $number_of_share =
-                                                $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                                            $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                            $discounted_price =
-                                                $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
-                                        @endphp
 
                                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-
                                             <span class="text-center w-100">
-                                                @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']))
-                                                    {{ $sumCartOrderQt[$keyIndex]['qt_total'] }}
-                                                @else
-                                                    0
-                                                @endif / {{ $number_of_share }}
+                                                1 Pay Fiyatı
                                             </span>
                                         @endif
 
@@ -154,6 +150,19 @@
 
 
                             </ul>
+                            
+                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                        <div class="bar-chart">
+                            <div class="progress" style="border-radius: 0 !important">
+                                <div class="progress-bar"
+                                    @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
+                                @else
+                                    style="width: 0% !important" @endif>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                         </div>
 
                         @php
@@ -165,18 +174,6 @@
                                 $maxQtTotal = 100; // Set the appropriate default value
                             }
                         @endphp
-
-                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                            <div class="bar-chart">
-                                <div class="progress">
-                                    <div class="progress-bar"
-                                        @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
-                                    @else
-                                        style="width: 0% !important" @endif>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
 
 
 
@@ -260,11 +257,11 @@
                                     @if (Auth::user())
                                         <button class="first-btn payment-plan-button" data-toggle="modal"
                                             data-target="#exampleModal{{ $keyIndex }}">
-                                            Teklif Ver
+                                            Başvuru Yap
                                         </button>
                                     @else
                                         <a href="{{ route('client.login') }}" class="first-btn payment-plan-button">
-                                            Teklif Ver
+                                            Başvuru Yap
                                         </a>
                                     @endif
                                 @else
@@ -326,7 +323,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Teklif Ver</h3>
+                <h3 class="modal-title" id="exampleModalLabel">Başvuru Yap</h3>
 
             </div>
             <div class="modal-body">

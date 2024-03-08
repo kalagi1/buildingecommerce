@@ -274,7 +274,7 @@
                                                             @endif / {{ $number_of_share }}
                                                         </span>
                                                     @endif 
-                                                    @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                                    @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]' && !$sold)
                                                         <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
                                                                 <option value="[]">Satışa Açık</option>
@@ -375,7 +375,6 @@
                                     <th class="sort" data-sort="price">Peşinat</th>
                                     <th class="sort" data-sort="sold">Satış Durumu</th>
                                     <th class="sort" data-sort="sold">İşlemler</th>
-                                    <th class="sort" data-sort="sold">Komşumu Gör</th>
 
                                 </tr>
                             </thead>
@@ -578,7 +577,7 @@
                                                     @endif / {{ $number_of_share }}
                                                 </span>
                                             @endif
-                                            @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                            @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]' && !$sold)
                                                 <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]">Satışa Açık</option>
@@ -651,19 +650,16 @@
                                                     </td>
                                                 @else
                                                     <td class="price">
+                                                        <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
+                                                            Komşumu Gör
+                                                          </a><br>
                                                         <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                            class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
+                                                            class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br>
                                                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                             class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                     </td>
                                                 
                                                 @endif
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
-                                        Komşumu Gör
-                                      </button>
-                                        
-                                </td>  
                        <!--KOMŞUMU GOR Modal -->
                        <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
