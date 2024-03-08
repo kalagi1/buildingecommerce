@@ -13,6 +13,7 @@ class InvoiceController extends Controller
 {
     public function show($order)
     {
+        return "a";
         $order = CartOrder::where("id", $order)->first();
         $cart = json_decode($order->cart);
         $project = null;

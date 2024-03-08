@@ -77,7 +77,6 @@ class ProjectController extends Controller
 
     public function housings($project_id)
     {
-        print_r('yunusSs');die;
         $menu = Menu::getMenuItems();
         $project = Project::where('id', $project_id)->with("brand", "blocks", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
         $project->roomInfo = $project->roomInfo;
