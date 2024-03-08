@@ -9,7 +9,7 @@
                     <div class="homes">
                         <div class="homes-img">
                             <div class="homes-tag button alt featured">
-                               İlan No: {{ $housing->id + 2000000 }}
+                            No: {{ $housing->id + 2000000 }}
                             </div>
                             <div class="type-tag button alt featured">
                                 @if ($housing->step2_slug == 'kiralik')
