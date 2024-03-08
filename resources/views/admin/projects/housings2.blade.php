@@ -110,7 +110,6 @@
                                             @endphp
 
                                             <tr>
-                                                <td>Komşumu GÖr</td>
                                                 <td><input type="checkbox" class="item-checkbox" item-id="{{  $i + 1 }}"
                                                     name="" id=""></td>
                                                 <td>{{ $j + 1 }}</td>
