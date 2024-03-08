@@ -207,7 +207,8 @@ a.article:hover {
 #content {
   width: 100%;
   padding: 20px;
-  min-height: 100vh;
+  height: 500px;
+  overflow-y: scroll;
   background: whitesmoke;
   transition: all 0.3s;
 }
