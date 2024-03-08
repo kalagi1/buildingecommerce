@@ -103,9 +103,7 @@ class HousingController extends Controller
     }
     public function show($housingSlug, $housingID)
     {
-        // print_r($housingID);die;
-
-
+      
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 

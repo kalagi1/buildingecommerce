@@ -373,8 +373,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Include Toastify CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-
+    <script>
+        if ("{{ session('error') }}" != null) {
+            Toastify({
+            text: 'Ürün yayından kaldırıldı veya bulunamadı.',
+            duration: 5000,
+            gravity: 'bottom',
+            position: 'center',
+            backgroundColor: '#ff4d4d',
+            stopOnFocus: true,
+        }).showToast();
+        }
+    
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();
