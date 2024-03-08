@@ -250,7 +250,7 @@
                             <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                                 data-toggle="modal" data-target="#offerModal{{ $keyIndex }}"
                                 style="width:50% !important">
-                                Teklif Ver
+                                Başvuru Yap
                             </button>
                         @else
                             <a href="{{ route('client.login') }}"
@@ -260,7 +260,7 @@
                             display: flex;
                             justify-content: center;"
                                 class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn">
-                                Teklif Ver
+                                Başvuru Yap
                             </a>
                         @endif
                     @else
@@ -322,7 +322,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="offerModalLabel">Teklif Ver</h3>
+                <h3 class="modal-title" id="offerModalLabel">Başvuru Yap</h3>
 
             </div>
             <div class="modal-body">

@@ -260,11 +260,11 @@
                                     @if (Auth::user())
                                         <button class="first-btn payment-plan-button" data-toggle="modal"
                                             data-target="#exampleModal{{ $keyIndex }}">
-                                            Teklif Ver
+                                            Başvuru Yap
                                         </button>
                                     @else
                                         <a href="{{ route('client.login') }}" class="first-btn payment-plan-button">
-                                            Teklif Ver
+                                            Başvuru Yap
                                         </a>
                                     @endif
                                 @else
@@ -326,7 +326,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Teklif Ver</h3>
+                <h3 class="modal-title" id="exampleModalLabel">Başvuru Yap</h3>
 
             </div>
             <div class="modal-body">
