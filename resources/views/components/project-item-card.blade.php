@@ -11,7 +11,7 @@
     'blockHousingCount',
     'key',
     'previousBlockHousingCount',
-    'allCounts'
+    'allCounts',
 ])
 
 @php
@@ -25,12 +25,13 @@
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
-            <div class="col-md-3"> 
-                    <a href="{{ route('project.housings.detail', [
-                        'projectSlug'  => $project->slug, 
-                        'projectID'    => $project->id + 1000000,
-                        'housingOrder' => $i + 1
-                    ]) }}" style="height: 100%">
+            <div class="col-md-3">
+                <a href="{{ route('project.housings.detail', [
+                    'projectSlug' => $project->slug,
+                    'projectID' => $project->id + 1000000,
+                    'housingOrder' => $i + 1,
+                ]) }}"
+                    style="height: 100%">
 
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
@@ -67,7 +68,16 @@
                 <div class="row align-items-center justify-content-between mobile-position"
                     @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
-                        <div class="homes-list-div"    @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;height: 90px !important" @else style="color:pink" @endif>
+                        @php
+                            $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+                            $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+                            $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
+                            $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                            $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+                        @endphp
+
+                        <div class="homes-list-div"
+                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;height: 90px !important" @endif>
                             <ul class="homes-list clearfix pb-3 d-flex">
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
@@ -98,18 +108,8 @@
 
                                 <li class="the-icons mobile-hidden">
                                     <span style="width:100%;text-align:center">
-                                        @php
-                                            $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                                            $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                                            $number_of_share =
-                                                $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                                            $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                            $discounted_price =
-                                                $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
-                                        @endphp
 
                                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-
                                             <span class="text-center w-100">
                                                 1 Hisse Fiyatı
                                             </span>
@@ -150,6 +150,19 @@
 
 
                             </ul>
+                            
+                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                        <div class="bar-chart">
+                            <div class="progress" style="border-radius: 0 !important">
+                                <div class="progress-bar"
+                                    @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
+                                @else
+                                    style="width: 0% !important" @endif>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                         </div>
 
                         @php
@@ -161,18 +174,6 @@
                                 $maxQtTotal = 100; // Set the appropriate default value
                             }
                         @endphp
-
-                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                            <div class="bar-chart">
-                                <div class="progress" style="border-radius: 0 !important">
-                                    <div class="progress-bar"
-                                        @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
-                                    @else
-                                        style="width: 0% !important" @endif>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
 
 
 
