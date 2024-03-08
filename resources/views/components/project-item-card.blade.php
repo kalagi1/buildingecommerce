@@ -11,7 +11,7 @@
     'blockHousingCount',
     'key',
     'previousBlockHousingCount',
-    'allCounts',
+    'allCounts'
 ])
 
 @php
@@ -25,13 +25,12 @@
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
-            <div class="col-md-3">
-                <a href="{{ route('project.housings.detail', [
-                    'projectSlug' => $project->slug,
-                    'projectID' => $project->id + 1000000,
-                    'housingOrder' => $i + 1,
-                ]) }}"
-                    style="height: 100%">
+            <div class="col-md-3"> 
+                    <a href="{{ route('project.housings.detail', [
+                        'projectSlug'  => $project->slug, 
+                        'projectID'    => $project->id + 1000000,
+                        'housingOrder' => $i + 1
+                    ]) }}" style="height: 100%">
 
                     <div class="d-flex" style="height: 100%;">
                         <div style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
@@ -68,8 +67,7 @@
                 <div class="row align-items-center justify-content-between mobile-position"
                     @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;" @endif>
                     <div class="col-md-9">
-                     
-                        <div class="homes-list-div asd"  @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="height: 90px; width: 100% !important; flex-direction: column;" @else style="" @endif>
+                        <div class="homes-list-div">
                             <ul class="homes-list clearfix pb-3 d-flex">
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
@@ -111,7 +109,10 @@
                                         @endphp
 
                                         @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                            1 Pay
+
+                                            <span class="text-center w-100">
+                                                1 Hisse Fiyatı
+                                            </span>
                                         @endif
 
                                         @if ($off_sale_check && $projectDiscountAmount)
@@ -149,18 +150,6 @@
 
 
                             </ul>
-
-                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                <div class="bar-chart">
-                                    <div class="progress">
-                                        <div class="progress-bar"
-                                            @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
-                                @else
-                                    style="width: 0% !important" @endif>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                         </div>
 
                         @php
@@ -173,6 +162,17 @@
                             }
                         @endphp
 
+                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                            <div class="bar-chart">
+                                <div class="progress">
+                                    <div class="progress-bar"
+                                        @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
+                                    @else
+                                        style="width: 0% !important" @endif>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 
 
 
