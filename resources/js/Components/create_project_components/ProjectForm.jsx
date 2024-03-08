@@ -1,4 +1,4 @@
-import { FormControl, Switch } from '@mui/material'
+import { Alert, FormControl, Switch } from '@mui/material'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React, { useCallback, useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
-function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function ProjectForm({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
@@ -125,7 +125,7 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                     <div className="max-character-input">
                         <div className="row" style={{alignItems:'center'}}>
                             <div className="input col-md-10">
-                                <input value={projectData.project_title} onChange={(e) => {setProjectTitle(e.target.value)}} type="text" className='form-control advert_title' />
+                                <input id='project_title' value={projectData.project_title} onChange={(e) => {setProjectTitle(e.target.value)}} type="text" className={'form-control advert_title '+(allErrors.includes('project_title') ? "error-border" : "")} />
                             </div>
                             <div className="col-md-2">
                                 <label className="max-character" htmlFor="">{projectData.project_title ? projectData.project_title.length : 0}/70</label>
@@ -139,9 +139,11 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                     <ReactQuill 
                         theme="snow" 
                         value={projectData.description} 
+                        id='description'
                         onChange={(e) => {setProjectDataFunc('description',e)}} 
                         modules={modules}
                         formats={formats}
+                        className={allErrors.includes('description') ? "error-border" : ""}
                     />
                 </div>
             </div>
@@ -199,9 +201,9 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                 </label>
                 {
                     haveBlocks ? 
-                        <BlockRooms selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} />
+                        <BlockRooms anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} />
                     : 
-                        <Rooms selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount}/>
+                        <Rooms anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} selectedHousingType={selectedHousingType} allErrors={allErrors} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount}/>
                 }
             </div>
 
@@ -211,7 +213,7 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                     <div className="row px-5 py-4">
                         <div className="col-md-4">
                             <label for="">İl <span className="required">*</span></label>
-                            <select value={projectData.city_id} onChange={(e) => {setGeolocation(e.target.value);setProjectDataFunc('city_id',e.target.value);getCounties(e.target.value)}} name="city_id" id="cities" className="form-control">
+                            <select value={projectData.city_id} onChange={(e) => {setGeolocation(e.target.value);setProjectDataFunc('city_id',e.target.value);getCounties(e.target.value)}} name="city_id" id="city_id" className={"form-control "+(allErrors.includes('city_id') ? "error-border" : "")}>
                                 <option value="">İl Seç</option>
                                 {
                                     cities.map((city) => {
@@ -224,7 +226,7 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                         </div>
                         <div className="col-md-4">
                             <label for="">İlçe <span className="required">*</span></label>
-                            <select value={projectData.county_id} onChange={(e) => {setGeolocation(projectData.city_id,e.target.value);setProjectDataFunc('county_id',e.target.value);getNeighborhoods(e.target.value)}} name="county_id" id="counties" className="form-control">
+                            <select value={projectData.county_id} onChange={(e) => {setGeolocation(projectData.city_id,e.target.value);setProjectDataFunc('county_id',e.target.value);getNeighborhoods(e.target.value)}} name="county_id" id="county_id" className={"form-control "+(allErrors.includes('city_id') ? "error-border" : "")}>
                                 <option  value="">İlçe Seç</option>
                                 {
                                     counties.map((county) => {
@@ -237,7 +239,7 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                         </div>
                         <div className="col-md-4">
                             <label for="">Mahalle <span className="required">*</span></label>
-                            <select onChange={(e) => {setGeolocation(projectData.city_id,projectData.county_id,e.target.value);setProjectDataFunc('neighbourhood_id',e.target.value)}} name="neighbourhood_id" id="neighbourhood" className="form-control">
+                            <select onChange={(e) => {setGeolocation(projectData.city_id,projectData.county_id,e.target.value);setProjectDataFunc('neighbourhood_id',e.target.value)}} name="neighbourhood_id" id="neighbourhood_id" className={"form-control "+(allErrors.includes('neighbourhood_id') ? "error-border" : "")}>
                                 <option value="">Mahalle Seç</option>
                                 {
                                     neighborhoods.map((neighborhood) => {
@@ -252,9 +254,13 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                 </div>
                 <div>
                     {
+                        allErrors.includes('coordinates') ? <Alert severity="error">Harita üzerine bir konum seçin</Alert> : ""
+                    }
+                    {
                         isLoaded ? (
                             <GoogleMap
                                 zoom={zoom}
+                                id='map'
                                 mapContainerStyle={containerStyle}
                                 center={center}
                                 onLoad={onLoad}
@@ -266,10 +272,10 @@ function ProjectForm({projectData,setProjectDataFunc,haveBlocks,setHaveBlocks,ro
                         ) : <></>
                     }
                 </div>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
-                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
-                <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
+                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
+                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
+                <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
+                <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
                 <FinishArea createProject={createProject}/>
             </div>
         </div>

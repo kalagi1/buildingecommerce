@@ -3,29 +3,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { dotNumberFormat } from '../../define/variables';
-import { Checkbox, FormControlLabel, Switch } from '@mui/material';
+import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
 
-function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
-    const [open,setOpen] = useState(false);
+function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [validationErrors,setValidationErrors] = useState([]);
-    const [blockName,setBlockName] = useState("");
-    const [selectedBlock,setSelectedBlock] = useState(null);
-    const [selectedRoom,setSelectedRoom] = useState(0);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
     const [payDecOpen,setPayDecOpen] = useState(false);
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-        p: 4,
-    };
 
 
     const setRoomCountFunc = (event) => {
@@ -38,9 +24,9 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                 ]
             }
         ]);
+
         setSelectedBlock(0);
         setSelectedRoom(0)
-        setOpen(false);
     }
 
     const blockDataSet = (blockIndex,keyx,value) => {
@@ -159,10 +145,26 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     };
 
     return(
-        <div className='card p-3 mt-3' style={{position:'relative'}}>
-            <div>
+        <div className='card p-3 mt-3'  style={{position:'relative'}}>
+            <div  id='housing-forms'>
                 <h6 className='block-title'>Proje İlanları</h6>
-                
+                {
+                    anotherBlockErrors.length > 0 ?
+                        <Alert icon={false} severity="error">
+                            <ul style={{margin:0}}>
+                                {
+                                    anotherBlockErrors.map((anotherBlockError) => {
+                                        return(
+                                            <li>
+                                                {anotherBlockError}
+                                            </li>  
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </Alert> 
+                    : ''
+                }
                 <div className="block-list mt-3">
                     <label htmlFor="">Projedeki İlan Sayısı</label>
                     <div className='d-flex'>
@@ -181,9 +183,9 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                             {
                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
-                                                    <input type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")} />
+                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                 : 
-                                                    <input type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")}/>
+                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                             }
                                         </div>
                                     )
@@ -191,7 +193,7 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                     return(
                                         <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                            <select name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} id="">
+                                            <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                 {
                                                     data.values.map(valueSelect => {
                                                         return(
@@ -208,7 +210,7 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                             <div>
                                                 <div>
                                                     <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                                    <div className="checkbox-groups">
+                                                    <div className="checkbox-groups" id={data?.name.replace('[]','')}>
                                                         <div className="row">
                                                             {
                                                                 data.values.map((valueCheckbox) => {
@@ -218,6 +220,11 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                                                         </div>
                                                                     )
                                                                 })
+                                                            }
+                                                            {
+                                                                allErrors.includes(data?.name.replace('[]','')) ?
+                                                                    <Alert severity="error">Harita üzerine bir konum seçin</Alert>
+                                                                : ""
                                                             }
                                                         </div>
                                                     </div>
@@ -253,7 +260,7 @@ function Rooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
                                     return (
                                         <div className='form-group'>
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                            <input accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")}/>
+                                            <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                             <div className='project_imaget'>
                                                 <img src={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] : ''} alt="" />
                                             </div>

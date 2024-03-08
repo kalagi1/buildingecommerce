@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData}) {
+function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors}) {
     const inputRef = useRef();
     const [loading,setLoading] = useState(false);
 
@@ -63,7 +63,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
             <span className="section-title mt-4 housing_after_step">{title}</span>
             <div className="cover-photo-full card py-2 px-5 housing_after_step">
                 <input accept={accept} ref={inputRef} multiple={multiple} onChange={fileUpload} type="file" name="cover-image" className="cover_image d-none"/>
-                <div onClick={() => {inputRef.current.click();}}  className="upload-container col-md-4 col-xl-3 cover-photo-area">
+                <div onClick={() => {inputRef.current.click();}} id={fileName}  className={"upload-container col-md-4 col-xl-3 cover-photo-area "+(allErrors.includes(fileName) ? "error-border" : "")}>
                     <div className="border-container">
                         <div className="icons fa-4x">
                             <i className="fas fa-file-image" data-fa-transform="shrink-2 up-4"></i>

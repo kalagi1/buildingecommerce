@@ -3,15 +3,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { dotNumberFormat } from '../../define/variables';
-import { Checkbox, FormControlLabel, Switch } from '@mui/material';
+import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
-function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
+function BlockRooms({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType,allErrors}) {
     const [open,setOpen] = useState(false);
     const [validationErrors,setValidationErrors] = useState([]);
     const [blockName,setBlockName] = useState("");
-    const [selectedBlock,setSelectedBlock] = useState(null);
-    const [selectedRoom,setSelectedRoom] = useState(0);
     const [payDecOpen,setPayDecOpen] = useState(false);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
@@ -178,11 +176,28 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
 
     return(
         <div className='card p-3 mt-3' style={{position:'relative'}}>
-            <div>
+            <div id='housing-forms'>
                 <h6 className='block-title'>Bloklar</h6>
                 <div className="add-new-block" onClick={() => {setOpen(true)}}>
                     <i className='fa fa-plus'></i>
                 </div>
+                {
+                    anotherBlockErrors.length > 0 ?
+                        <Alert icon={false} className='mt-3' severity="error">
+                            <ul style={{margin:0}}>
+                                {
+                                    anotherBlockErrors.map((anotherBlockError) => {
+                                        return(
+                                            <li>
+                                                {anotherBlockError}
+                                            </li>  
+                                        )
+                                    })
+                                }
+                            </ul>
+                        </Alert> 
+                    : ''
+                }
                 <div className="block-list row mt-3">
                     {
                         blocks.map((block,key) => {
@@ -198,6 +213,7 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
                 </div>
 
                 <div className="housing-form mt-7">
+                    
                     {
                         formData.map((data) => {
                             if(!data?.className?.includes("project-disabled")){
@@ -207,9 +223,9 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
                                             {
                                                 data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
-                                                    <input type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")} />
+                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
                                                 : 
-                                                    <input type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")}/>
+                                                    <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                             }
                                         </div>
                                     )
@@ -217,7 +233,7 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
                                     return(
                                         <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                            <select name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} id="">
+                                            <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                 {
                                                     data.values.map(valueSelect => {
                                                         return(
@@ -234,7 +250,7 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
                                             <div>
                                                 <div>
                                                     <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                                    <div className="checkbox-groups">
+                                                    <div className="checkbox-groups" id={data?.name.replace('[]','')}>
                                                         <div className="row">
                                                             {
                                                                 data.values.map((valueCheckbox) => {
@@ -244,6 +260,11 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
                                                                         </div>
                                                                     )
                                                                 })
+                                                            }
+                                                            {
+                                                                allErrors.includes(data?.name.replace('[]','')) ?
+                                                                    <Alert severity="error">Harita üzerine bir konum seçin</Alert>
+                                                                : ""
                                                             }
                                                         </div>
                                                     </div>
@@ -279,7 +300,7 @@ function BlockRooms({blocks,setBlocks,roomCount,setRoomCount,selectedHousingType
                                     return (
                                         <div className='form-group'>
                                             <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
-                                            <input accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")}/>
+                                            <input id={data?.name.replace('[]','')} accept="image/png, image/gif, image/jpeg" onChange={(event) => {changeFormImage(selectedBlock,data?.name,event)}} type='file' className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")}/>
                                             <div className='project_imaget'>
                                                 <img src={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name+'_imagex'] : ''} alt="" />
                                             </div>
