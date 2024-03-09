@@ -647,6 +647,10 @@ class ProjectController extends Controller
         return view('institutional.projects.editv2', compact('tempUpdateHas', 'project', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 
+    public function editV3($projectSlug,$projectId){
+        return view('institutional.projects.editv3', compact('projectId'));
+    }
+
     public function getBusyDatesByStatusType($statusId, Request $request)
     {
         return json_encode([
