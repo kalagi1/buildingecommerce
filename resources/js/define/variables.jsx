@@ -1,4 +1,4 @@
-export const baseUrl = "https://emlaksepette.com/react/";
+export const baseUrl = "http://127.0.0.1:8000/react/";
 
 export const dotNumberFormat = (number) => {
     if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){

@@ -23,8 +23,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProjectController extends Controller
 {
@@ -150,38 +151,42 @@ class ProjectController extends Controller
             
         }
 
-        $request->validate([
-            "selectedTypes.0" => "required",
-            "selectedTypes.1" => "required",
-            "selectedTypes.2" => "required",
-            "selectedTypes.3" => "required",
-            "projectData.project_title" => "required",
-            "projectData.create_company" => "nullable",
-            "projectData.coordinates" => "required",
-            "projectData.description" => "required",
-            "projectData.city_id" => "required|integer",
-            "projectData.county_id" => "required",
-            "projectData.neighbourhood_id" => "required",
-            "projectData.cover_image" => "required",
-            "projectData.gallery" => "required|array",
-            "projectData.situations" => "required|array",
-            "blocks.*.name" => "required",
-            "blocks.*.roomCount" => "required",
-        ],[
-            "projectData.housing_type_id.required" => "Konut tipi seçmediniz",
-            "projectData.project_title.required" => "Proje adı alanı zorunludur",
-            "projectData.description.required" => "Proje açıklaması alanı zorunludur",
-            "projectData.coordinates.required" => "Harita üzerinde konum seçmek zorunludur",
-            "projectData.city_id.required" => "Şehir seçmediniz",
-            "projectData.county_id.required" => "İlçe seçmediniz",
-            "projectData.neighbourhood_id.required" => "Mahalle seçmediniz",
-            "projectData.cover_image.required" => "Proje kapak fotoğrafı seçmediniz",
-            "projectData.gallery.required" => "Proje galeri fotoğraflarını seçmediniz",
-            "projectData.gallery.array" => "Proje galeri fotoğrafları dizi olmalıdır",
-            "projectData.situations.required" => "Proje vaziyet & kat planı fotoğraflarını seçmediniz",
-            "projectData.situations.array" => "Proje vaziyet & kat planı fotoğrafları dizi olmalıdır",
-            ...$roomValidationsMessages
-        ]);
+        $manager = new ImageManager(
+            new Driver()
+        );
+
+        // $request->validate([
+        //     "selectedTypes.0" => "required",
+        //     "selectedTypes.1" => "required",
+        //     "selectedTypes.2" => "required",
+        //     "selectedTypes.3" => "required",
+        //     "projectData.project_title" => "required",
+        //     "projectData.create_company" => "nullable",
+        //     "projectData.coordinates" => "required",
+        //     "projectData.description" => "required",
+        //     "projectData.city_id" => "required|integer",
+        //     "projectData.county_id" => "required",
+        //     "projectData.neighbourhood_id" => "required",
+        //     "projectData.cover_image" => "required",
+        //     "projectData.gallery" => "required|array",
+        //     "projectData.situations" => "required|array",
+        //     "blocks.*.name" => "required",
+        //     "blocks.*.roomCount" => "required",
+        // ],[
+        //     "projectData.housing_type_id.required" => "Konut tipi seçmediniz",
+        //     "projectData.project_title.required" => "Proje adı alanı zorunludur",
+        //     "projectData.description.required" => "Proje açıklaması alanı zorunludur",
+        //     "projectData.coordinates.required" => "Harita üzerinde konum seçmek zorunludur",
+        //     "projectData.city_id.required" => "Şehir seçmediniz",
+        //     "projectData.county_id.required" => "İlçe seçmediniz",
+        //     "projectData.neighbourhood_id.required" => "Mahalle seçmediniz",
+        //     "projectData.cover_image.required" => "Proje kapak fotoğrafı seçmediniz",
+        //     "projectData.gallery.required" => "Proje galeri fotoğraflarını seçmediniz",
+        //     "projectData.gallery.array" => "Proje galeri fotoğrafları dizi olmalıdır",
+        //     "projectData.situations.required" => "Proje vaziyet & kat planı fotoğraflarını seçmediniz",
+        //     "projectData.situations.array" => "Proje vaziyet & kat planı fotoğrafları dizi olmalıdır",
+        //     ...$roomValidationsMessages
+        // ]);
 
         $housingTypeParent1 = HousingTypeParent::where('id',$request->input('selectedTypes')[1])->firstOrFail(); 
         $housingTypeParent2 = HousingTypeParent::where('id',$request->input('selectedTypes')[2])->firstOrFail(); 
@@ -198,7 +203,25 @@ class ProjectController extends Controller
             // Dosyayı belirlenen hedefe taşı
             $fileNameCoverImage = $projectSlug.'_cover_image_'.time().'.'.$file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
+
+            $image = $manager->read(public_path('storage/project_images/'.$fileNameCoverImage));
+            $imageWidth = $image->width();
+            $imageHeight = $image->height();
+
+            if($imageWidth > 450){
+                $newWidth = 450;
+                $newHeight = $imageHeight * 450 / $imageWidth;
+            }else{
+                $newWidth = $imageWidth;
+                $newHeight = $imageHeight;
+            }
+            $image->resize($newWidth, $newHeight);
+            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
         }
+
+        
+
         $totalCount = $request->input('totalRoomCount');
 
         if($request->file('projectData')['document']){
@@ -242,7 +265,25 @@ class ProjectController extends Controller
         foreach ($request->file('projectData')['gallery'] as $key => $image) {
             $newFileName = $projectSlug . '-gallery-' . ($key + 1).time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
+
+
             if ($image->move($destinationPath, $newFileName)) {
+                    
+                $imageMg = $manager->read(public_path('storage/project_images/'.$newFileName));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+
+                if($imageWidth > 450){
+                    $newWidth = 450;
+                    $newHeight = $imageHeight * 450 / $imageWidth;
+                }else{
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $imageMg->resize($newWidth, $newHeight);
+                $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded->save(public_path('storage/project_images/'.$newFileName));
+
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
                 $projectImage->image = 'public/project_images/' . $newFileName;
                 $projectImage->project_id = $project->id;
@@ -255,6 +296,21 @@ class ProjectController extends Controller
             $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
 
             if ($situation->move($yeniDosyaAdi, $newFileName)) {
+                $imageMg = $manager->read(public_path('situation_images/'.$newFileName));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+
+                if($imageWidth > 450){
+                    $newWidth = 450;
+                    $newHeight = $imageHeight * 450 / $imageWidth;
+                }else{
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $imageMg->resize($newWidth, $newHeight);
+                $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded->save(public_path('situation_images/'.$newFileName));
+
                 $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
                 $projectImage->situation = 'public/situation_images/' . $newFileName;
                 $projectImage->project_id = $project->id;
@@ -298,6 +354,10 @@ class ProjectController extends Controller
     }
 
     public function createRoom(Request $request){
+        $manager = new ImageManager(
+            new Driver()
+        );
+
         $project = Project::where('id',$request->input('project_id'))->first();
         $housingType = HousingType::where('id',$project->housing_type_id)->first();
         $housingTypeInputs = json_decode($housingType->form_json);
@@ -363,6 +423,22 @@ class ProjectController extends Controller
                         $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp) . '.' . $imageRoom->getClientOriginalExtension();
                         $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
                         if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
+                            
+                            $imageMg = $manager->read(public_path('project_housing_images/'.$newFileName));
+                            $imageWidth = $imageMg->width();
+                            $imageHeight = $imageMg->height();
+
+                            if($imageWidth > 450){
+                                $newWidth = 450;
+                                $newHeight = $imageHeight * 450 / $imageWidth;
+                            }else{
+                                $newWidth = $imageWidth;
+                                $newHeight = $imageHeight;
+                            }
+                            $imageMg->resize($newWidth, $newHeight);
+                            $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                            $encoded->save(public_path('project_housing_images/'.$newFileName));
+
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,

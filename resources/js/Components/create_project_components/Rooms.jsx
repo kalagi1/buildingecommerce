@@ -63,41 +63,53 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
     }
 
     const blockCheckboxDataSet = (blockIndex,keyx,value,isChecked) => {
-        if(isChecked.target.checked){
-            var newDatas = blocks.map((block,key) => {
-                if(blockIndex == key){
-                    var newData2 = block.rooms.map((room,keyRoom) => {
-                        if(keyRoom == selectedRoom){
-                            if(room[keyx]){
+        var newDatas = blocks.map((block,key) => {
+            if(blockIndex == key){
+                var newData2 = block.rooms.map((room,keyRoom) => {
+                    if(keyRoom == selectedRoom){
+                        if(room[keyx]){
+                            if(room[keyx].includes(value)){
+                                var newKeyValues = room[keyx].filter((keyVal) => {
+                                    if(keyVal != value){
+                                        return keyVal;
+                                    }
+                                })
+
                                 return {
                                     ...room,
-                                    [keyx] : [...room[keyx],value]
+                                    [keyx] : newKeyValues
                                 }
                             }else{
                                 return {
                                     ...room,
-                                    [keyx] : [value]
+                                    [keyx] : [...room[keyx],value]
                                 }
                             }
                             
                         }else{
-                            return room;
+                            return {
+                                ...room,
+                                [keyx] : [value]
+                            }
                         }
-                    })
-    
-                    return {
-                        ...block,
-                        rooms : [
-                            ...newData2
-                        ]
+                        
+                    }else{
+                        return room;
                     }
-                }else{
-                    return block;
+                })
+
+                return {
+                    ...block,
+                    rooms : [
+                        ...newData2
+                    ]
                 }
-            })
-            setBlocks(newDatas);
-            setRendered(rendered + 1);
-        }
+            }else{
+                return block;
+            }
+        })
+        setBlocks(newDatas);
+        setRendered(rendered + 1);
     }
 
     const changeFormImage = (blockIndex,keyx,event) => {
