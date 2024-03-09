@@ -20,7 +20,8 @@ class AdminMiddleware
             return $next($request);
         }
 
-        // Yetkisi yoksa 403 hatası döndür
-        abort(403, 'Unauthorized');
+        return redirect('/')
+        ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
+        
     }
 }

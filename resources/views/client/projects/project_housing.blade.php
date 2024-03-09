@@ -542,12 +542,23 @@
                                                 </td>
                                             </tr>
                                             @if ($project->user->phone)
+                                                    <tr>
+                                                        <td>
+                                                          Kurumsal Numara :
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:inherit"
+                                                                    href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($project->user->mobile_phone)
                                                 <tr>
                                                     <td>
-                                                        Telefon :
+                                                        Cep :
                                                         <span class="det">
                                                             <a style="text-decoration: none;color:inherit"
-                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
                                                         </span>
                                                     </td>
                                                 </tr>

@@ -1,4 +1,4 @@
-@extends('institutional.layouts.master')
+@extends('admin.layouts.master')
 
 @php
     if (!function_exists('getData')) {
@@ -26,8 +26,6 @@
 
 @section('content')
     <div class="content">
-        <div class="badge badge-phoenix badge-phoenix-warning w-100 py-2 mb-2"><i class="fa fa-info-circular"></i> Yapacağınız
-            güncellemelerde ilan tekrar admin onayına düşecektir</div>
         <div id="products">
 
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
@@ -87,8 +85,6 @@
                                 <table class="table fs--1 mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="sort" data-sort="sold">Komşumu Gör</th>
-
                                             <th><input type="checkbox" class="all-select"></th>
                                             <th>No.</th>
                                             <th>Görsel</th>
@@ -112,16 +108,11 @@
                                             @endphp
 
                                             <tr>
-                                                <td>Komşumu GÖr</td>
                                                 <td><input type="checkbox" class="item-checkbox" item-id="{{  $i + 1 }}"
                                                     name="" id=""></td>
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
                                                     <div class="image-with-hover">
-                                                        <input type="file" class="d-none change-image">
-                                                        <div class="image-opa">
-                                                            Resmi Güncelle
-                                                        </div>
                                                         <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
                                                             alt="home-1" class="img-responsive"
                                                             style="max-height: 100px !important;max-width:100px;object-fit:cover">
@@ -266,7 +257,7 @@
                                                 </td>
                                                 <td class="sold">
                                                     @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
-                                                        <span class=" d-block mb-2">
+                                                    <span class=" d-block mb-2">
                                                             @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                                 {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
                                                             @else
@@ -274,7 +265,7 @@
                                                             @endif / {{ $number_of_share }}
                                                         </span>
                                                     @endif 
-                                                    @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                                    @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]' && !$sold)
                                                         <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
                                                                 <option value="[]">Satışa Açık</option>
@@ -298,10 +289,10 @@
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                                     class="fa fa-edit"></i></span>
                                                         </div>
-                                                   
+                                                        
                                                     @else
                                                         @if (
-                                                            ($sold && $sold[0]->status == 1 &&  empty($share_sale)) ||
+                                                            ($sold && $sold[0]->status == 1 && $share_sale == '[]') ||
                                                                 (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger">Satıldı</button>
@@ -340,12 +331,72 @@
                                                     @endif
                                                 </td>
 
+                                                @if ($sold && $sold[0]->status == 1)
                                                 <td class="price">
+                                                    @if (isset($sold[0]))
+                                                        <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
+                                                            class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
+                                                    @endif
+
+                                                </td>
+                                            @else
+                                                <td class="price">
+                                                    <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
+                                                        Komşumu Gör
+                                                      </a><br>
                                                     <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                        class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
+                                                        class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br>
                                                     <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                         class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                 </td>
+                                            
+                                            @endif
+                                                <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                        <form action="{{route('admin.projects.housings.komsumu.gor')}}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="no" value="{{ $i+1 }}">
+                                                            <input type="hidden" name="price" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
+                                                            <input type="hidden" name="projectID" value="{{$project->id}}">
+                                                      
+                                                            <div class="form-group">
+                                                                <label for="surname" class="modal-label">Ad Soyad: </label>
+                                                                <input type="text" class="modal-input" id="name" name="name" required>
+                                                            </div>
+                            
+                                                            <div class="form-group">
+                                                                <label for="surname" class="modal-label">Email: </label>
+                                                                <input type="text" class="modal-input" id="email" name="email" required>
+                                                            </div>
+                            
+                                                            <div class="form-group">
+                                                                <label for="surname" class="modal-label">TC : </label>
+                                                                <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
+                                                            </div>
+                                        
+                                                            <div class="form-group">
+                                                                <label for="comment" class="modal-label">Adres:</label>
+                                                                <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
+                                                                    name="address" required></textarea>
+                                                            </div>
+                                        
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                                                <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                                                            </div>
+                                                        </form>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>    
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -372,7 +423,6 @@
                                     <th class="sort" data-sort="price">Peşinat</th>
                                     <th class="sort" data-sort="sold">Satış Durumu</th>
                                     <th class="sort" data-sort="sold">İşlemler</th>
-                                    {{-- <th class="sort" data-sort="sold">Komşumu Gör</th> --}}
 
                                 </tr>
                             </thead>
@@ -567,16 +617,15 @@
                                         </td>
                                         <td class="sold">
                                             @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
-                                            
                                                 <span class=" d-block mb-2">
                                                     @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                         {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
                                                     @else
-                                                        0 
+                                                        0
                                                     @endif / {{ $number_of_share }}
                                                 </span>
                                             @endif
-                                            @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
+                                            @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]' && !$sold)
                                                 <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]">Satışa Açık</option>
@@ -639,72 +688,72 @@
                                                 @if ($sold && $sold[0]->status == 1)
                                                     <td class="price">
                                                         @if (isset($sold[0]))
-                                                            <a href="{{ route('institutional.invoice.show', ['order' => $sold[0]->id]) }}"
+                                                            <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
                                                         @endif
 
                                                     </td>
                                                 @else
                                                     <td class="price">
+                                                    
+                                                        <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
+                                                            Komşumu Gör
+                                                          </a><br>
+                                                          
                                                         <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
-                                                            class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a>
+                                                            class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br>
                                                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                             class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                     </td>
                                                 
                                                 @endif
-                {{-- <td class="price">
-                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{$i+1}}">
-                            Komşumu Gör
-                      </button>
-                </td> --}}
-                      <!--KOMŞUMU GOR Modal -->
-                        <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-                                <form action="{{route('projects.housings.komsumu.gor')}}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="no" value="{{ $i+1 }}">
-                                    <input type="hidden" name="price" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
-                                    <input type="hidden" name="projectID" value="{{$project->id}}">
-                              
-                                    <div class="form-group">
-                                        <label for="surname" class="modal-label">Ad Soyad: </label>
-                                        <input type="text" class="modal-input" id="name" name="name" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="surname" class="modal-label">Email: </label>
-                                        <input type="text" class="modal-input" id="email" name="email" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="surname" class="modal-label">TC : </label>
-                                        <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
-                                    </div>
-                
-                                    <div class="form-group">
-                                        <label for="comment" class="modal-label">Adres:</label>
-                                        <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
-                                            name="address" required></textarea>
-                                    </div>
-                
-                                    <div class="modal-footer">
-                                        <button type="submit" class="modal-btn-gonder">Gönder</button>
-                                        <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
-                                    </div>
-                                </form>
-                                </div>
+                       <!--KOMŞUMU GOR Modal -->
+                       <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                             </div>
+                            <div class="modal-body">
+                            <form action="{{route('admin.projects.housings.komsumu.gor')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="no" value="{{ $i+1 }}">
+                                <input type="hidden" name="price" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
+                                <input type="hidden" name="projectID" value="{{$project->id}}">
+                          
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">Ad Soyad: </label>
+                                    <input type="text" class="modal-input" id="name" name="name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">Email: </label>
+                                    <input type="text" class="modal-input" id="email" name="email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">TC : </label>
+                                    <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="comment" class="modal-label">Adres:</label>
+                                    <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
+                                        name="address" required></textarea>
+                                </div>
+            
+                                <div class="modal-footer">
+                                    <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                    <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                                </div>
+                            </form>
                             </div>
                         </div>
+                        </div>
+                    </div>                 
                 </tr>
                 @endfor
                 </tbody>
@@ -1301,7 +1350,7 @@
                                             thisx.closest('td').find('.text').find('.value-text')
                                                 .removeClass('badge-phoenix-success').addClass(
                                                     'badge-phoenix-danger')
-                                                    
+                                       
                                         } else {
                                             newVal = "Satışa Açık";
                                             thisx.closest('td').find('.text').find('.value-text')
@@ -1385,6 +1434,7 @@
                                                     '.value-text').removeClass(
                                                     'badge-phoenix-success').addClass(
                                                     'badge-phoenix-danger');
+                                             
                                             })
                                         } else {
                                             newVal = "Satışa Açık";
