@@ -363,6 +363,7 @@ class ProjectController extends Controller {
             'type' =>1,
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => bcrypt('komsumugor123'),
             'status' =>1,
             'is_blocked'=>0,
