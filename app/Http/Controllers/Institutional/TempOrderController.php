@@ -488,7 +488,7 @@ class TempOrderController extends Controller
                 }
                 $image->resize($newWidth, $newHeight);
                 $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
-                $encoded->save(public_path('storage/project_images  /'.$imageName));
+                $encoded->save(public_path('storage/project_images/'.$imageName));
             }else{
                 $imageName = "";
             }
