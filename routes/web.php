@@ -1127,6 +1127,8 @@ Route::group(['prefix' => 'react'], function () {
     Route::get('/neighborhoods',[ApiProjectController::class,"getNeighborhoods"]);
     Route::post('/create_project',[ApiProjectController::class,"createProject"]);
     Route::post('/create_room',[ApiProjectController::class,"createRoom"]);
+    Route::get('/project/{id}',[ApiProjectController::class,"show"]);
+    Route::put('/edit_project_v3/{id}',[ApiProjectController::class,"updateProject"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

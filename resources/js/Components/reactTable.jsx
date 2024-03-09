@@ -368,7 +368,7 @@ function ReactTable(props) {
                                             </TableCell>
                                             <TableCell>
                                                 <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
-                                                <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v3/${row.slug}/${row.id}`}>Genel Düzenleme</a>
                                             </TableCell>
                                             <TableCell>
                                                 <button className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
