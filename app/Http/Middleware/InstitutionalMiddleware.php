@@ -19,8 +19,8 @@ class InstitutionalMiddleware
         if (Auth::check() && Auth::user()->role->id != "3") {
             return $next($request);
         }
-
-        // Yetkisi yoksa 403 hatası döndür
+        return redirect('/')
+        ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
         abort(403, 'Unauthorized');
     }
 }

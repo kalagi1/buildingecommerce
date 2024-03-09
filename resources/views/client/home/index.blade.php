@@ -386,7 +386,7 @@
         if (errorMessage) {
     
             Toastify({
-                text: 'İlan yayından kaldırıldı veya bulunamadı.',
+                text: "{{ session('error') }}",
                 duration: 5000,
                 gravity: 'bottom',
                 position: 'center',
