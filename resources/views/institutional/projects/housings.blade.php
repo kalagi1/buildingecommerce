@@ -87,7 +87,6 @@
                                 <table class="table fs--1 mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="sort" data-sort="sold">Komşumu Gör</th>
 
                                             <th><input type="checkbox" class="all-select"></th>
                                             <th>No.</th>
@@ -112,7 +111,6 @@
                                             @endphp
 
                                             <tr>
-                                                <td>Komşumu GÖr</td>
                                                 <td><input type="checkbox" class="item-checkbox" item-id="{{  $i + 1 }}"
                                                     name="" id=""></td>
                                                 <td>{{ $j + 1 }}</td>
@@ -149,6 +147,9 @@
                                                         </div>
 
                                                     </div>
+                                                    @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
+                                                    <span>Hisseli İlan</span>
+                                                    @endif
                                                 </td>
 
                                                 <td class="price">
@@ -265,15 +266,6 @@
                                                     @endif
                                                 </td>
                                                 <td class="sold">
-                                                    @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
-                                                        <span class=" d-block mb-2">
-                                                            @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
-                                                                {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
-                                                            @else
-                                                                0
-                                                            @endif / {{ $number_of_share }}
-                                                        </span>
-                                                    @endif 
                                                     @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
                                                         <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
