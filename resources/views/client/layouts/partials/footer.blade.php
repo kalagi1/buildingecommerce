@@ -611,8 +611,8 @@
                                 3 + getDataJS(response,
                                     "pay-dec-count" + (orderHousing), response
                                     .room_info[i].room_order) + " >" + response.project_title +
-                                " PROJESİNDE" + response.room_info[i]
-                                .room_order + " NO'LU İLAN ÖDEME PLANI</th></tr>";
+                                " Projesinde " + response.room_info[i]
+                                .room_order + " No'lu İlan Ödeme Planı</th></tr>";
 
 
                             for (var j = 0; j < paymentPlanData.length; j++) {
