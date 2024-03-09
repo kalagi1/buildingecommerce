@@ -13,7 +13,7 @@
     'previousBlockHousingCount',
     'allCounts',
     'cities',
-    'towns'
+    'towns',
 ])
 
 @php
@@ -80,7 +80,8 @@
 
                         <div class="homes-list-div"
                             @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="flex-direction: column !important;" @endif>
-                            <ul class="homes-list clearfix pb-3 d-flex" @if(isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="height: 90px !important" @endif>
+                            <ul class="homes-list clearfix pb-3 d-flex"
+                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0) style="height: 90px !important" @endif>
                                 <li class="d-flex align-items-center itemCircleFont">
                                     <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                         aria-hidden="true"></i>
@@ -152,18 +153,18 @@
 
 
                             </ul>
-                            
-                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                        <div class="bar-chart">
-                            <div class="progress" style="border-radius: 0 !important">
-                                <div class="progress-bar"
-                                    @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
+
+                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                <div class="bar-chart">
+                                    <div class="progress" style="border-radius: 0 !important">
+                                        <div class="progress-bar"
+                                            @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
                                 @else
                                     style="width: 0% !important" @endif>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    @endif
+                            @endif
 
                         </div>
 
@@ -277,7 +278,7 @@
 
 
                             @endif
-                            
+
 
                             @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                                 <button class="btn second-btn"
@@ -323,10 +324,12 @@
 <!-- Modal -->
 <div class="modal fade" id="exampleModal{{ $keyIndex }}" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
             <div class="modal-body">
-                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center" id="exampleModalLabel"> {{$project->project_title}} Projesi {{$keyIndex}} No'lu İlan için Başvuru Yap</h3>
+                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
+                    id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
+                    Başvuru Yap</h3>
                 <hr>
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
@@ -334,56 +337,76 @@
                     <input type="hidden" value="{{ $keyIndex }}" name="roomId">
                     <input type="hidden" value="{{ $project->id }}" name="projectId">
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
-                    <div class="form-group">
-                        <label for="surname" class="q-label">Ad Soyad : </label>
-                        <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name">
+                   
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="surname" class="q-label">Ad Soyad : </label>
+                                <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
+                                    name="name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="surname" class="q-label">Telefon Numarası : </label>
+                                <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone"
+                                    name="phone">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="surname" class="q-label">E-Posta : </label>
+                                <input type="email" class="modal-input" placeholder="E-Posta" id="email"
+                                    name="email">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="surname" class="q-label">Meslek : </label>
+                                <input type="text" class="modal-input" placeholder="Meslek" id="title"
+                                    name="title">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" class="q-label">İl</label>
+                                <select class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                    id="citySelect" name="city_id">
+                                    <option value="">Seçiniz</option>
+                                    @foreach ($towns as $item)
+                                        <option for="{{ $item['sehir_title'] }}" value="{{ $item['sehir_key'] }}"
+                                            {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                            {{ $item['sehir_title'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="" class="q-label">İlçe</label>
+                                <select class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                    name="county_id" id="countySelect">
+                                    <option value="">Seçiniz</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="surname" class="q-label">Telefon Numarası : </label>
-                        <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="surname" class="q-label">E-Posta : </label>
-                        <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email">
-                    </div>
-                    
-                                            <!-- İl -->
-                                            <div class="mt-3">
-                                                <label for="" class="q-label">İl</label>
-                                                <select
-                                                    class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
-                                                    id="citySelect" name="city_id">
-                                                    <option value="">Seçiniz</option>
-                                                    @foreach ($towns as $item)
-                                                        <option for="{{ $item['sehir_title'] }}"
-                                                            value="{{ $item['sehir_key'] }}"
-                                                            {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
-                                                            {{ $item['sehir_title'] }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mt-3">
-                                                <label for="" class="q-label">İlçe</label>
-                                                <select
-                                                    class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
-                                                    name="county_id" id="countySelect">
-                                                    <option value="">Seçiniz</option>
-                                                </select>
-                                            </div>
-                    <div class="form-group">
-                        <label for="surname" class="q-label">Meslek : </label>
-                        <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title">
-                    </div>
+                   
+                   
+                
+                   
                     <div class="form-group">
                         <label for="comment" class="q-label">Açıklama:</label>
                         <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
                             name="offer_description"></textarea>
                     </div>
 
-                    <div class="modal-footer">
-                        <button type="submit" class="modal-btn-gonder">Gönder</button>
-                        <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                    <div class="modal-footer" style="justify-content: end !important">
+                        <button type="submit"  class="btn btn-success">Gönder</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
                     </div>
                 </form>
 
