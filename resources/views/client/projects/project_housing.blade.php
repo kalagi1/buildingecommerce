@@ -1388,6 +1388,17 @@
                                     return parts.join(",");
                                 }
                                 var tempPlans = [];
+                                orderHousing = parseInt(order);
+
+                                html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
+                                3 + getDataJS(response,
+                                    "pay-dec-count" + (orderHousing), response
+                                    .room_info[i].room_order) + " >" +
+                                "{{ $project->project_title }} PROJESİNDE " + response.room_info[i]
+                                .room_order + " NO'LU İLAN ÖDEME PLANI</th></tr>";
+
+
                                 for (var j = 0; j < paymentPlanData.length; j++) {
 
                                     if (!tempPlans.includes(paymentPlanData[j])) {
@@ -1491,15 +1502,17 @@
 
                                         }
 
+                   
                                         if (!isMobile || isNotEmpty(advanceData)) {
-                                            html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                                "") + advanceData + "</td>";
-                                        }
+                                        html +=  advanceData ? "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>" : null;
+                                    }
 
-                                        if (!isMobile || isNotEmpty(advanceData)) {
-                                            html += "<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                                "") + monhlyPrice + "</td>";
-                                        }
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += monhlyPrice ?  "<td>" + (isMobile ?
+                                            "<strong>Aylık Ödenecek Tutar:</strong> " :
+                                            "") + monhlyPrice + "</td>": null;
+                                    }
 
                                         if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
                                                 paymentPlanData[j]] != "Taksitli") {

@@ -604,6 +604,17 @@
                             const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
                                 "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
                             ]
+                            orderHousing = parseInt(order);
+
+                            html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
+                                3 + getDataJS(response,
+                                    "pay-dec-count" + (orderHousing), response
+                                    .room_info[i].room_order) + " >" +
+                                "{{ $project->project_title }} PROJESİNDE " + response.room_info[i]
+                                .room_order + " NO'LU İLAN ÖDEME PLANI</th></tr>";
+
+
                             for (var j = 0; j < paymentPlanData.length; j++) {
 
                                 if (!tempPlans.includes(paymentPlanData[j])) {
@@ -632,25 +643,28 @@
                                             getDataJS(response,
                                                 "advance[]",
                                                 response.room_info[i].room_order) /
-                                            numberOfShares)  + "₺": formatPrice(getDataJS(response,
+                                            numberOfShares) + "₺" : formatPrice(getDataJS(
+                                            response,
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
 
-                                            var monhlyPrice = numberOfShares != 0 ? (((parseFloat(getDataJS(
-                                                    response,
-                                                    "installments-price[]", response
-                                                    .room_info[i].room_order)) -
-                                                parseFloat(getDataJS(response,
-                                                    "advance[]", response.room_info[
-                                                        i].room_order)) - payDecPrice) /
-                                            parseInt(installementData)) / numberOfShares) + "₺" : ((parseFloat(getDataJS(
-                                                    response,
-                                                    "installments-price[]", response
-                                                    .room_info[i].room_order)) -
-                                                parseFloat(getDataJS(response,
-                                                    "advance[]", response.room_info[
-                                                        i].room_order)) - payDecPrice) /
-                                            parseInt(installementData)) + "₺";
+                                        var monhlyPrice = numberOfShares != 0 ? (((parseFloat(
+                                                        getDataJS(
+                                                            response,
+                                                            "installments-price[]", response
+                                                            .room_info[i].room_order)) -
+                                                    parseFloat(getDataJS(response,
+                                                        "advance[]", response.room_info[
+                                                            i].room_order)) - payDecPrice) /
+                                                parseInt(installementData)) / numberOfShares) +
+                                            "₺" : ((parseFloat(getDataJS(
+                                                        response,
+                                                        "installments-price[]", response
+                                                        .room_info[i].room_order)) -
+                                                    parseFloat(getDataJS(response,
+                                                        "advance[]", response.room_info[
+                                                            i].room_order)) - payDecPrice) /
+                                                parseInt(installementData)) + "₺";
                                     }
                                     var isMobile = window.innerWidth < 768;
 
@@ -711,17 +725,17 @@
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</td>";
+                                        html +=  advanceData ? "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>" : null;
                                     }
 
-                                    if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ?
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += monhlyPrice ?  "<td>" + (isMobile ?
                                             "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                            "") + monhlyPrice + "</td>";
+                                            "") + monhlyPrice + "</td>": null;
                                     }
 
-                                    if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
+                                    if (!isMobile && isNotEmpty(installmentsPrice) && paymentPlanDatax[
                                             paymentPlanData[j]] != "Taksitli") {
                                         var installmentsPrice = parseFloat(getDataJS(response,
                                             "installments-price[]", response.room_info[i]
