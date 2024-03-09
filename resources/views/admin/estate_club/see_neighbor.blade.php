@@ -64,7 +64,7 @@
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-warning btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">İnceleniyor</button>
-                                                @elseif ($user->status == 3)
+                                                @elseif ($user->status == 2)
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-danger btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">Reddedildi</button>
