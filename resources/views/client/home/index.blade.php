@@ -384,9 +384,8 @@
         var errorMessage = "{{ session('error') }}";
     
         if (errorMessage) {
-    
             Toastify({
-                text: "{{ session('error') }}",
+                text: errorMessage,
                 duration: 5000,
                 gravity: 'bottom',
                 position: 'center',

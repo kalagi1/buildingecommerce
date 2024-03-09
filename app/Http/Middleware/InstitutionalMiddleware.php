@@ -21,6 +21,6 @@ class InstitutionalMiddleware
         }
         return redirect('/')
         ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
-        abort(403, 'Unauthorized');
+        
     }
 }

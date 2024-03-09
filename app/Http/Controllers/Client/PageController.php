@@ -13,7 +13,8 @@ class PageController extends Controller
         $pageInfo = Page::where('slug', $slug)->first();
         // Sayfa bulunamazsa 404 hatası döndür
         if (!$pageInfo) {
-            abort(404);
+            return redirect('/')
+            ->with('error', 'Sayfa bulunamadı.');
         }
     
         return view('client.blank', compact('pageInfo'));

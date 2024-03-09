@@ -17,7 +17,7 @@ class CheckPermission
         if (!auth()->user()->hasPermission($permission)) {
             return redirect('/')
             ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
-            abort(403, 'Unauthorized');
+            
         }
 
         return $next($request);

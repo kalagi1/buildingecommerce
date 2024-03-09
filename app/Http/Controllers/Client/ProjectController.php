@@ -632,14 +632,14 @@ class ProjectController extends Controller
         if (!$status) {
             $type = HousingType::where('slug', $slug)->first();
             if (!$type) {
-                abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
-            }
+                return redirect('/')
+                ->with('error', 'Sayfa bulunamadı.');
             $title = $type->title;
             $projects = Project::with("city", "county")->where("housing_type_id", $type->id)->get();
         } else {
             if (!$status) {
-                abort(404); // Eğer HousingType bulunamazsa 404 hatası döndürün veya başka bir işlem yapabilirsiniz.
-            }
+                return redirect('/')
+                ->with('error', 'Sayfa bulunamadı.');            }
             $title = $status->name;
             if ($status->id == 1) {
                 $projects = Project::all();
