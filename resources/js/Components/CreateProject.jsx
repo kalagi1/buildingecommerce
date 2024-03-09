@@ -101,6 +101,7 @@ function CreateProject(props) {
                 }else{
                     var boolCheck = false;
                     formDataHousing.forEach((formDataHousing,order) => {
+                        console.log(formDataHousing);
                         if(!formDataHousing.className.includes('project-disabled')){
                             if(formDataHousing.required){
                                 if(blocks.length < 1){
@@ -270,7 +271,7 @@ function CreateProject(props) {
         console.log(tempErrors);
         setAllErrors(tempErrors);
 
-        if(tempErrors.length == 0){
+        if(tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0){
             setLoadingModal(true);
             const formData = new FormData();
 

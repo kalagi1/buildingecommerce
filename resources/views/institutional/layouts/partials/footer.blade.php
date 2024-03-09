@@ -96,15 +96,11 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js">
 </script>
 
-<script src="{{ URL::to('/') }}/build/assets/app-1fd29189.js"></script>
-<!--FormBuilder-->
-<script src="{{ URL::to('/') }}/build/assets/app-8c44d70a.js"></script>
+<script src="{{ URL::to('/') }}/build/assets/app-b1f4c9cb.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 @yield('scripts')
 </body>
-
-
 
 
 </html>

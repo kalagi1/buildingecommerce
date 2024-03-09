@@ -6,8 +6,8 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
         if(!document){
             if(multiple){
                 const files = event.target.files;
-                const tempImages = projectData[fileName+'_imagesx'];
-                const tempImages2 = projectData[fileName]; 
+                const tempImages = [];
+                const tempImages2 = []; 
     
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
@@ -57,18 +57,6 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
        
     }
 
-    console.log(projectData[fileName+'_imagesx'],fileName)
-    console.log(projectData[fileName+'_imagex'],fileName)
-
-    const removeImage = (imageIndex) => {
-        if(multiple){
-            var tempImages = projectData[fileName+'_imagesx'].filter((image,imageOrder) => imageOrder != imageIndex);
-            setProjectData({
-                ...projectData,
-                [fileName+"_imagesx"] : tempImages
-            });
-        }
-    }
 
     return(
         <div>
@@ -89,7 +77,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                             <div class="cover-document">
                                 <div class="has_file">
                                     <span class="d-block">Dosya Eklediniz</span>
-                                    <a class="btn btn-info" href="http://127.0.0.1:8000/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
+                                    <a class="btn btn-info" href="https://emlaksepette.com/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
                                 </div>
                             </div>
                         : ''
