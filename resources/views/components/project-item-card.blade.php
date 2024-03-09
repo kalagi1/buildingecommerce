@@ -372,8 +372,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="q-label">İl</label>
-                                <select class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
-                                    id="citySelect" name="city_id">
+                                <select class="form-control citySelect {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                     name="city_id">
                                     <option value="">Seçiniz</option>
                                     @foreach ($towns as $item)
                                         <option for="{{ $item['sehir_title'] }}" value="{{ $item['sehir_key'] }}"
@@ -387,8 +387,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="q-label">İlçe</label>
-                                <select class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
-                                    name="county_id" id="countySelect">
+                                <select class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                    name="county_id">
                                     <option value="">Seçiniz</option>
                                 </select>
                             </div>

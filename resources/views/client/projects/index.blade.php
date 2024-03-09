@@ -1097,14 +1097,13 @@
                 }).showToast();
             }
 
-            $('#citySelect').change(function() {
+            $('.citySelect').change(function() {
             var selectedCity = $(this).val();
-
             $.ajax({
                 type: 'GET',
                 url: '/get-counties/' + selectedCity,
                 success: function(data) {
-                    var countySelect = $('#countySelect');
+                    var countySelect = $('.countySelect');
                     countySelect.empty();
                     countySelect.append('<option value="">İlçe Seçiniz</option>');
                     $.each(data, function(index, county) {
