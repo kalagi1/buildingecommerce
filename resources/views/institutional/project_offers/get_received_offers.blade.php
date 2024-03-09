@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="content">
-        <h3 class=" mt-2 mb-4" >Alınan Teklifler</h3>
+        <h3 class=" mt-2 mb-4">Alınan Teklifler</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm  border-200 fs--1 mb-0">
@@ -12,8 +12,10 @@
                         <tr>
                             <th>Teklif Eden</th>
                             <th>Proje Başlığı</th>
+                            <th>İsim</th>
+                            <th>Telefon</th>
+                            <th>Meslek</th>
                             <th>E-mail</th>
-                            <th>Teklif Aralığı</th>
                             <th>Açıklama</th>
                             <th>Yanıtla</th>
                         </tr>
@@ -36,8 +38,11 @@
 
                                     <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
                                     </td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->title }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->offer_price_range }}</td>
+
                                     <td>{{ $item->offer_description }}</td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -104,51 +109,56 @@
         <h3 class=" mt-2 mb-4 mt-4">Yanıtlanan Teklifler</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                    <table class="table table-sm fs--1 mb-0">
-                        <thead>
-                            <tr>
-                                <th>Teklif Eden</th>
-                                <th>Proje Başlığı</th>
-                                <th>E-mail</th>
-                                <th>Teklif Aralığı</th>
-                                <th>Açıklama</th>
-                                <th>Yanıt Durumu</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
-                                @if ($item->offer_response == 1)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-xl mr-2">
-                                                    <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
-                                                        class="avatar-img rounded-circle" alt="">
-                                                </div>
-                                                <div>
-                                                    {{ $item->user->name }}
-                                                </div>
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                        <tr>
+                            <th>Teklif Eden</th>
+                            <th>Proje Başlığı</th>
+                            <th>İsim</th>
+                            <th>Telefon</th>
+                            <th>Meslek</th>
+                            <th>E-mail</th>
+                           
+                            <th>Açıklama</th>
+                            <th>Yanıt Durumu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $item)
+                            @if ($item->offer_response == 1)
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-xl mr-2">
+                                                <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
+                                                    class="avatar-img rounded-circle" alt="">
                                             </div>
-                                        </td>
-                                        <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
-                                        </td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->offer_price_range }}</td>
-                                        <td>{{ $item->offer_description }}</td>
-                                        <td>
-                                            @if ($item->response_status == 0)
-                                                <span class="badge badge-danger">Olumsuz</span>
-                                            @elseif($item->response_status == 1)
-                                                <span class="badge badge-success">Olumlu</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                            <div>
+                                                {{ $item->user->name }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
+                                    </td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->offer_description }}</td>
+                                    <td>
+                                        @if ($item->response_status == 0)
+                                            <span class="badge badge-danger">Olumsuz</span>
+                                        @elseif($item->response_status == 1)
+                                            <span class="badge badge-success">Olumlu</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+        </div>
     </div>
 @endsection
 

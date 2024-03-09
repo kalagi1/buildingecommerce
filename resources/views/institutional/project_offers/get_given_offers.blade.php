@@ -10,8 +10,10 @@
                     <thead>
                         <tr>
                             <th>Proje Başlığı</th>
+                            <th>İsim</th>
+                            <th>Telefon</th>
+                            <th>Meslek</th>
                             <th>E-mail</th>
-                            <th>Teklif Aralığı</th>
                             <th>Açıklama</th>
                             <th>Yanıt Durumu</th>
                             <th>Satış Durumu</th>
@@ -21,9 +23,10 @@
                         @foreach($data as $item)
                             <tr>
                                 <td>{{ $item->project->project_title. " Projesindeki ". $item->room_id ." No'lu İlan" }}</td>
-                                {{-- <td>{{ \App\Models\Project::find($item->project_id)->project_title }}</td> --}}
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->phone }}</td>
+                                <td>{{ $item->title }}</td>
                                 <td>{{ $item->email }}</td>
-                                <td>{{ $item->offer_price_range }}</td>
                                 <td>{{ $item->offer_description }}</td>
                                 <td>
                                     @if($item->response_status == 0)
