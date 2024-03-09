@@ -1,7 +1,45 @@
 @extends('client.layouts.master')
 
 @section('content')
-
+@php
+    function convertMonthToTurkishCharacter($date)
+    {
+        $aylar = [
+            'January' => 'Ocak',
+            'February' => 'Şubat',
+            'March' => 'Mart',
+            'April' => 'Nisan',
+            'May' => 'Mayıs',
+            'June' => 'Haziran',
+            'July' => 'Temmuz',
+            'August' => 'Ağustos',
+            'September' => 'Eylül',
+            'October' => 'Ekim',
+            'November' => 'Kasım',
+            'December' => 'Aralık',
+            'Monday' => 'Pazartesi',
+            'Tuesday' => 'Salı',
+            'Wednesday' => 'Çarşamba',
+            'Thursday' => 'Perşembe',
+            'Friday' => 'Cuma',
+            'Saturday' => 'Cumartesi',
+            'Sunday' => 'Pazar',
+            'Jan' => 'Oca',
+            'Feb' => 'Şub',
+            'Mar' => 'Mar',
+            'Apr' => 'Nis',
+            'May' => 'May',
+            'Jun' => 'Haz',
+            'Jul' => 'Tem',
+            'Aug' => 'Ağu',
+            'Sep' => 'Eyl',
+            'Oct' => 'Eki',
+            'Nov' => 'Kas',
+            'Dec' => 'Ara',
+        ];
+        return strtr($date, $aylar);
+    }
+@endphp
     @php
 
         function implodeData($array)
@@ -203,83 +241,53 @@
 
 
                             @php
-                                $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
-                                $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                $discounted_price = $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
+                                                      $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
+                            $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
+                            $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
+                            $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                            $discounted_price = $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
+                                
                             @endphp
 
-                            @if ($off_sale_check)
-                                @if ($sold_check)
-                                    @if ($sold->status != '1' && $sold->status != '0')
-                                        <div class="single detail-wrapper mr-2">
-                                            <div class="detail-wrapper-body">
-                                                <div class="listing-title-bar mobileMovePrice">
-                                                    <div style="white-space: nowrap">
-                                                        <div class="discountAmountStyle">
-                                                            @if ($projectDiscountAmount)
-                                                                <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                    stroke="#e54242" stroke-width="2" fill="#e54242"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="css-i6dzq1">
-                                                                    <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                    </polyline>
-                                                                    <polyline points="17 18 23 18 23 12"></polyline>
-                                                                </svg>
-                                                                <h6
-                                                                    style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
-                                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                                    ₺
-                                                                </h6>
-                                                                <br>
-                                                            @else
-                                                                <h4
-                                                                    style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                                    ₺
-                                                                </h4>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @else
-                                    @endif
-                                @else
-                                    <div class="single detail-wrapper mr-2">
-                                        <div class="detail-wrapper-body">
-                                            <div class="listing-title-bar mobileMovePrice">
-                                                <div style="white-space: nowrap">
-                                                    <div class="discountAmountStyle">
-                                                        @if ($projectDiscountAmount)
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="#e54242" stroke-width="2" fill="#e54242"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <h6
-                                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;margin-right:5px">
-                                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                                ₺
-                                                            </h6>
-                                                            <br>
-                                                        @else
-                                                            <h4
-                                                                style="color: #274abb !important;position: relative;top:4px;font-weight:600">
-                                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                                ₺
-                                                            </h4>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+<span style="width:100%;text-align:center">
 
-                                @endif
-                            @endif
+    @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+        <span class="text-center w-100">
+            1 Pay Fiyatı
+        </span>
+    @endif
+
+    @if ($off_sale_check && $projectDiscountAmount)
+        <h4
+            style="color: #274abb !important; position: relative; top: 4px; font-weight: 600;font-size:20px">
+            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
+                ₺
+            @else
+                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                ₺
+            @endif
+        </h4>
+
+        <h4
+            style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+            ₺
+        </h4>
+    @elseif ($off_sale_check)
+        <h4
+            style="color: #274abb !important; position: relative; top: 4px; font-weight: 600;font-size:20px">
+            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
+                ₺
+            @else
+                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                ₺
+            @endif
+        </h4>
+
+    @endif
+</span>
                         </div>
 
                     </div>
@@ -520,8 +528,16 @@
                                             <tr>
                                                 <td>
                                                     İlan No:
-                                                    <span class="det">
+                                                    <span class="det" style="color: #274abb !important;">
                                                         {{ $housingOrder + $project->id + 1000000 }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    İlan Tarihi:
+                                                    <span class="det" style="color: #274abb !important;">
+                                                        {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -1300,6 +1316,16 @@
                     data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
                     success: function(response) {
                         for (var i = 0; i < response.room_info.length; i++) {
+                            var numberOfShares = 0;
+                        var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
+                            .room_order);
+                        if (shareSale && shareSale == '["Var"]') {
+                            var numberOfShares = parseFloat(getDataJS(response,
+                                "number_of_shares[]",
+                                response.room_info[i].room_order));
+
+
+                        }
                             if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                                 .room_order == parseInt(order)) {
                                 var paymentPlanData = JSON.parse(response.room_info[i].value);
@@ -1332,35 +1358,65 @@
                                     return parts.join(",");
                                 }
                                 var tempPlans = [];
+                                orderHousing = parseInt(order);
+
+                                html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
+                                3 + getDataJS(response,
+                                    "pay-dec-count" + (orderHousing), response
+                                    .room_info[i].room_order) + " >" + response.project_title +
+                                " Projesinde " + response.room_info[i]
+                                .room_order + " No'lu İlan Ödeme Planı</th></tr>";
+
+
                                 for (var j = 0; j < paymentPlanData.length; j++) {
 
                                     if (!tempPlans.includes(paymentPlanData[j])) {
                                         if (paymentPlanData[j] == "pesin") {
-                                            var priceData = getDataJS(response, "price[]", response
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "price[]", response
                                                 .room_info[i].room_order);
-                                            var installementData = "";
-                                            var advanceData = "";
-                                            var monhlyPrice = "";
-                                        } else {
+                                        var installementData = "";
+                                        var advanceData = "";
+                                        var monhlyPrice = "";
+                                    } else {
 
 
-                                            var priceData = getDataJS(response, "installments-price[]",
-                                                response.room_info[i].room_order);
-                                            var installementData = getDataJS(response, "installments[]",
-                                                response.room_info[i].room_order);
-                                            var advanceData = formatPrice(getDataJS(response,
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "installments-price[]", response
+                                                .room_info[i].room_order);
+
+                                        var installementData = getDataJS(response, "installments[]",
+                                            response.room_info[i].room_order);
+
+                                        var advanceData = numberOfShares != 0 ? formatPrice(
+                                            getDataJS(response,
                                                 "advance[]",
-                                                response.room_info[i].room_order)) + "₺";
+                                                response.room_info[i].room_order) /
+                                            numberOfShares)  + "₺": formatPrice(getDataJS(response,
+                                            "advance[]",
+                                            response.room_info[i].room_order)) + "₺";
 
-                                            var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
-                                                        response,
-                                                        "installments-price[]", response
-                                                        .room_info[i].room_order)) -
-                                                    parseFloat(getDataJS(response,
-                                                        "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
-                                                parseInt(installementData)))) + '₺';
-                                        }
+                                            var monhlyPrice = numberOfShares != 0 ? formatPrice(((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(getDataJS(response,
+                                                    "advance[]", response.room_info[
+                                                        i].room_order)) - payDecPrice) /
+                                            parseInt(installementData)) / numberOfShares) + "₺" : formatPrice((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(getDataJS(response,
+                                                    "advance[]", response.room_info[
+                                                        i].room_order)) - payDecPrice) /
+                                            parseInt(installementData)) + "₺";
+                                    }
                                         var isMobile = window.innerWidth < 768;
 
                                         orderHousing = "{{ $housingOrder }}" - 1;
@@ -1401,7 +1457,7 @@
                                         if (!isMobile || isNotEmpty(formatPrice(priceData))) {
 
                                             if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
-                                                html += "<td><strong>" + installementData + " Ay " + (
+                                                html += "<td><strong>" + (
                                                     isMobile ? paymentPlanDatax[
                                                         paymentPlanData[j]] + " " +
                                                     "Fiyat:</strong> " : "") + formatPrice(
@@ -1416,15 +1472,17 @@
 
                                         }
 
+                   
                                         if (!isMobile || isNotEmpty(advanceData)) {
-                                            html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                                "") + advanceData + "</td>";
-                                        }
+                                        html +=  advanceData ? "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>" : null;
+                                    }
 
-                                        if (!isMobile || isNotEmpty(advanceData)) {
-                                            html += "<td>" + (isMobile ? "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                                "") + monhlyPrice + "</td>";
-                                        }
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += monhlyPrice ?  "<td>" + (isMobile ?
+                                            "<strong>Aylık Ödenecek Tutar:</strong> " :
+                                            "") + monhlyPrice + "</td>": null;
+                                    }
 
                                         if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
                                                 paymentPlanData[j]] != "Taksitli") {
@@ -1448,11 +1506,7 @@
                                         }
 
 
-                                        if (!isMobile && isNotEmpty(monhlyPrice)) {
-                                            html += "<td>" + (isMobile ?
-                                                    "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
-                                                monhlyPrice + "</td>";
-                                        }
+                                    
 
 
                                         if (!isMobile && isNotEmpty(installementData) &&
@@ -1895,41 +1949,41 @@ out center;`;
                                             var newPrice = res[i]["price[]"] - checkOfferX[
                                                 'discount_amount'];
                                             html += `
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                                                                                    <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                         ${priceFormat(res[i]["price[]"])} ₺
-                                                                                    </h6>
-                                                                                    <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
+                                                                                    </h4>
+                                                                                    <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
                                                                                         ${priceFormat(""+newPrice+"")} ₺
-                                                                                    </h6>
+                                                                                    </h4>
                                                                                 `
                                         } else {
                                             html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                                <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
                                                                                     ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>`
+                                                                                </h4>`
                                         }
                                     } else {
                                         html += `
-                                                                            <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                            <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
                                                                                 ${priceFormat(res[i]["price[]"])} ₺
-                                                                            </h6>`
+                                                                            </h4>`
                                     }
                                 } else {
                                     if (checkOfferX) {
                                         var newPrice = res[i]["price[]"] - checkOfferX['discount_amount'];
                                         html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                                                                                <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
                                                                                     ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
+                                                                                </h4>
+                                                                                <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600;">
                                                                                     ${priceFormat(""+newPrice+"")} ₺
-                                                                                </h6>
+                                                                                </h4>
                                                                             `
                                     } else {
                                         html += `
-                                                                                <h6 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
+                                                                                <h4 style="color: #274abb !important;position: relative;top:4px;font-weight:600">
                                                                                     ${priceFormat(res[i]["price[]"])} ₺
-                                                                                </h6>
+                                                                                </h4>
                                                                             `
                                     }
                                 }

@@ -376,6 +376,11 @@
                                                                 <label for="surname" class="modal-label">Email: </label>
                                                                 <input type="text" class="modal-input" id="email" name="email" required>
                                                             </div>
+
+                                                            <div class="form-group">
+                                                                <label for="surname" class="modal-label">Telefon: </label>
+                                                                <input type="number" class="modal-input" id="phone" name="phone" required>
+                                                            </div>
                             
                                                             <div class="form-group">
                                                                 <label for="surname" class="modal-label">TC : </label>
@@ -733,7 +738,10 @@
                                     <label for="surname" class="modal-label">Email: </label>
                                     <input type="text" class="modal-input" id="email" name="email" required>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="surname" class="modal-label">Telefon: </label>
+                                    <input type="number" class="modal-input" id="phone" name="phone" required>
+                                </div>
                                 <div class="form-group">
                                     <label for="surname" class="modal-label">TC : </label>
                                     <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>

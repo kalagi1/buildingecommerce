@@ -67,7 +67,6 @@
 <!--    End of Main Content-->
 <!-- ===============================================-->
 
-
 <!-- ===============================================-->
 <!--    JavaScripts-->
 <!-- ===============================================-->
@@ -85,13 +84,9 @@
 <script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
-<script src="{{ URL::to('/') }}/adminassets/vendors/choices/choices.min.js"></script>
 <script
     src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js"></script>
 <!--FormBuilder-->
@@ -102,21 +97,15 @@
 </script>
 
 <script src="{{ URL::to('/') }}/build/assets/app-37086043.js"></script>
-@vite('resources/css/app.css')
+
 <!--FormBuilder-->
-
-<script src="{{ URL::to('/') }}/js/jqueryscript.net_demo_leaflet-location-picker_src_leaflet-locationpicker.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('.fa-info-circle').tooltip()
-
-    });
-</script>
-
+<script src="{{ URL::to('/') }}/build/assets/app-8c44d70a.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+<script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
 @yield('scripts')
 </body>
+
+
 
 
 </html>

@@ -50,9 +50,10 @@
                         <div class="tm_invoice_info_left tm_gray_bg">
                             <p class="tm_mb2"><b class="tm_primary_color">Alıcı Bilgisi:</b></p>
                             <p class="tm_mb0">
-                                {{ $data['invoice']['order']['user']['name'] }} <br>
-                                {{ $data['invoice']['order']['user']['email'] }} <br>
-                                {{ $data['invoice']['order']['user']['phone'] }}
+                                <?php echo isset($data['invoice']['order']['user']['name']) ? $data['invoice']['order']['user']['name'] : ''; ?> <br>
+                                <?php echo isset($data['invoice']['order']['user']['email']) ? $data['invoice']['order']['user']['email'] : ''; ?> <br>
+                                <?php echo isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : ''; ?>
+                                <?php echo isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : ''; ?>
                             </p>
                         </div>
                         <div class="tm_invoice_info_right tm_text_right">
