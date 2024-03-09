@@ -101,6 +101,7 @@ function CreateProject(props) {
                 }else{
                     var boolCheck = false;
                     formDataHousing.forEach((formDataHousing,order) => {
+                        console.log(formDataHousing);
                         if(!formDataHousing.className.includes('project-disabled')){
                             if(formDataHousing.required){
                                 if(blocks.length < 1){

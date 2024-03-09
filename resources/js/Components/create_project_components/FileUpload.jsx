@@ -6,8 +6,8 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
         if(!document){
             if(multiple){
                 const files = event.target.files;
-                const tempImages = projectData[fileName+'_imagesx'];
-                const tempImages2 = projectData[fileName]; 
+                const tempImages = [];
+                const tempImages2 = []; 
     
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
@@ -57,18 +57,6 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
        
     }
 
-    console.log(projectData[fileName+'_imagesx'],fileName)
-    console.log(projectData[fileName+'_imagex'],fileName)
-
-    const removeImage = (imageIndex) => {
-        if(multiple){
-            var tempImages = projectData[fileName+'_imagesx'].filter((image,imageOrder) => imageOrder != imageIndex);
-            setProjectData({
-                ...projectData,
-                [fileName+"_imagesx"] : tempImages
-            });
-        }
-    }
 
     return(
         <div>
