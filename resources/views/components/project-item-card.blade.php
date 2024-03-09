@@ -346,7 +346,7 @@
                     </div>
                     <div class="form-group">
                         <label for="surname" class="modal-label">Meslek : </label>
-                        <input type="email" class="modal-input" placeholder="Meslek" id="title" name="title">
+                        <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title">
                     </div>
                     <div class="form-group">
                         <label for="comment" class="modal-label">Açıklama:</label>
