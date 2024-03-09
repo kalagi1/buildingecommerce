@@ -45,8 +45,7 @@
 
                                     <td>{{ $item->offer_description }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#responseModal{{ $item->id }}">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#responseModal{{ $item->id }}" >
                                             Yanıtla
                                         </button>
                                     </td>
@@ -59,7 +58,7 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="responseModalLabel{{ $item->id }}">Yanıtla
                                                 </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
+                                                <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -90,7 +89,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Kapat</button>
+                                                            data-bs-dismiss="modal">Kapat</button>
                                                         <button type="submit" class="btn btn-info">Yanıtla</button>
                                                     </div>
                                                 </form>
@@ -222,25 +221,13 @@
     </script>
 @endsection
 
-{{-- @section('scripts')
+ @section('scripts')
 
-<script src="https://cdn.tiny.cloud/1/uzaxwtnfjkyj1l9egzl3mea3go0cq6xgmlkoanf5eb2jry8u/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-     CKEDITOR.replace('content', {
-            filebrowserUploadUrl: "{{ route('admin.ckeditor.upload', ['_token' => csrf_token()]) }}",
-            filebrowserUploadMethod: 'form'
-        });
-    //  tinymce.init({
-    //     selector: 'textarea#body', // Hedef elementin id'si
-    //     plugins: 'link code anchor autolink charmap codesample emoticons image lists media searchreplace table visualblocks wordcount', // İhtiyacınıza göre eklentileri ayarlayabilirsiniz
-    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    //     menubar: true,
-    //     branding: true
-    // });
-</script>
-@endsection --}}
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+@endsection 
 
 @section('css')
+
     <style>
         .custom-control-input:checked+.custom-control-label::before {
             background-color: green !important;

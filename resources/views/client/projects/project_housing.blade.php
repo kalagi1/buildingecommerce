@@ -1149,6 +1149,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script>
+            var successMessage = "{{ session('success') }}";
+        
+            if (successMessage) {
+                Toastify({
+                    text: successMessage,
+                    duration: 5000,
+                    gravity: 'bottom',
+                    position: 'center',
+                    backgroundColor: 'green',
+                    stopOnFocus: true,
+                }).showToast();
+            }
+        </script>
     <script>
         function initMap() {
             // İlk harita görüntüsü
