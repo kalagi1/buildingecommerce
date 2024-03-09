@@ -1346,6 +1346,16 @@
                     data: cart, // Sepete eklemek istediğiniz ürün verilerini gönderin
                     success: function(response) {
                         for (var i = 0; i < response.room_info.length; i++) {
+                            var numberOfShares = 0;
+                        var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
+                            .room_order);
+                        if (shareSale && shareSale == '["Var"]') {
+                            var numberOfShares = parseFloat(getDataJS(response,
+                                "number_of_shares[]",
+                                response.room_info[i].room_order));
+
+
+                        }
                             if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                                 .room_order == parseInt(order)) {
                                 var paymentPlanData = JSON.parse(response.room_info[i].value);
@@ -1382,31 +1392,50 @@
 
                                     if (!tempPlans.includes(paymentPlanData[j])) {
                                         if (paymentPlanData[j] == "pesin") {
-                                            var priceData = getDataJS(response, "price[]", response
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "price[]", response
                                                 .room_info[i].room_order);
-                                            var installementData = "";
-                                            var advanceData = "";
-                                            var monhlyPrice = "";
-                                        } else {
+                                        var installementData = "";
+                                        var advanceData = "";
+                                        var monhlyPrice = "";
+                                    } else {
 
 
-                                            var priceData = getDataJS(response, "installments-price[]",
-                                                response.room_info[i].room_order);
-                                            var installementData = getDataJS(response, "installments[]",
-                                                response.room_info[i].room_order);
-                                            var advanceData = formatPrice(getDataJS(response,
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "installments-price[]", response
+                                                .room_info[i].room_order);
+
+                                        var installementData = getDataJS(response, "installments[]",
+                                            response.room_info[i].room_order);
+
+                                        var advanceData = numberOfShares != 0 ? formatPrice(
+                                            getDataJS(response,
                                                 "advance[]",
-                                                response.room_info[i].room_order)) + "₺";
+                                                response.room_info[i].room_order) /
+                                            numberOfShares)  + "₺": formatPrice(getDataJS(response,
+                                            "advance[]",
+                                            response.room_info[i].room_order)) + "₺";
 
-                                            var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
-                                                        response,
-                                                        "installments-price[]", response
-                                                        .room_info[i].room_order)) -
-                                                    parseFloat(getDataJS(response,
-                                                        "advance[]", response.room_info[
-                                                            i].room_order)) - payDecPrice) /
-                                                parseInt(installementData)))) + '₺';
-                                        }
+                                            var monhlyPrice = numberOfShares != 0 ? (((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(getDataJS(response,
+                                                    "advance[]", response.room_info[
+                                                        i].room_order)) - payDecPrice) /
+                                            parseInt(installementData)) / numberOfShares) + "₺" : ((parseFloat(getDataJS(
+                                                    response,
+                                                    "installments-price[]", response
+                                                    .room_info[i].room_order)) -
+                                                parseFloat(getDataJS(response,
+                                                    "advance[]", response.room_info[
+                                                        i].room_order)) - payDecPrice) /
+                                            parseInt(installementData)) + "₺";
+                                    }
                                         var isMobile = window.innerWidth < 768;
 
                                         orderHousing = "{{ $housingOrder }}" - 1;
@@ -1447,7 +1476,7 @@
                                         if (!isMobile || isNotEmpty(formatPrice(priceData))) {
 
                                             if (paymentPlanDatax[paymentPlanData[j]] === 'Taksitli') {
-                                                html += "<td><strong>" + installementData + " Ay " + (
+                                                html += "<td><strong>" + (
                                                     isMobile ? paymentPlanDatax[
                                                         paymentPlanData[j]] + " " +
                                                     "Fiyat:</strong> " : "") + formatPrice(
@@ -1494,11 +1523,7 @@
                                         }
 
 
-                                        if (!isMobile && isNotEmpty(monhlyPrice)) {
-                                            html += "<td>" + (isMobile ?
-                                                    "<strong>Aylık Ödenecek Tutar:</strong> " : "") +
-                                                monhlyPrice + "</td>";
-                                        }
+                                    
 
 
                                         if (!isMobile && isNotEmpty(installementData) &&
