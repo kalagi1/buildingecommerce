@@ -12,7 +12,9 @@
     'key',
     'previousBlockHousingCount',
     'allCounts',
-    'blockName'
+    'blockName',
+    'cities',
+    'towns',
 ])
 @php
     if ($key == 0) {
@@ -28,11 +30,12 @@
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
             {{-- <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}"> --}}
-                <a href="{{ route('project.housings.detail', [
-                        'projectSlug'  => $project->slug, 
-                        'projectID'    => $project->id + 1000000,
-                        'housingOrder' => $keyIndex
-                    ]) }}">
+            <a
+                href="{{ route('project.housings.detail', [
+                    'projectSlug' => $project->slug,
+                    'projectID' => $project->id + 1000000,
+                    'housingOrder' => $keyIndex,
+                ]) }}">
                 <div class="homes">
                     <!-- homes img -->
                     <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
@@ -52,22 +55,22 @@
     <div class="w-100" style="padding-left:0;">
         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
             <a style="text-decoration: none; height: 100%"
-            href="{{ route('project.housings.detail', [
-                'projectSlug'  => $project->slug, 
-                'projectID'    => $project->id + 1000000,
-                'housingOrder' => $keyIndex
-            ]) }}">
+                href="{{ route('project.housings.detail', [
+                    'projectSlug' => $project->slug,
+                    'projectID' => $project->id + 1000000,
+                    'housingOrder' => $keyIndex,
+                ]) }}">
                 <div class="d-flex justify-content-between" style="gap:8px;">
                     <h3>
                         @if (isset($projectHousingsList[$keyIndex]['advertise_title[]']))
                             {{ $projectHousingsList[$keyIndex]['advertise_title[]'] }}
-                            {{$blockName}}
+                            {{ $blockName }}
                             {{ $i + 1 }}
                             {{ "No'lu" }}
                             {{ $project->step1_slug }}
                         @else
                             {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                            Projesinde  {{$blockName}}
+                            Projesinde {{ $blockName }}
                             {{ $i + 1 }}
                             {{ "No'lu" }}
                             {{ $project->step1_slug }}
@@ -127,7 +130,6 @@
                                     @endphp
 
                                     @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-
                                         <span class="text-center w-100 d-block">
                                             1 Pay Fiyatı
                                         </span>
@@ -317,9 +319,11 @@
     aria-labelledby="offerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-          
+
             <div class="modal-body">
-                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center" id="exampleModalLabel"> {{$project->project_title}} Projesi {{$keyIndex}} No'lu İlan için Başvuru Yap</h3>
+                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
+                    id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
+                    Başvuru Yap</h3>
                 <hr>
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
@@ -329,19 +333,51 @@
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
                     <div class="form-group">
                         <label for="surname" class="modal-label">Ad Soyad : </label>
-                        <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name">
+                        <input type="text" class="modal-input" placeholder="Ad Soyad" id="name"
+                            name="name">
                     </div>
                     <div class="form-group">
                         <label for="surname" class="modal-label">Telefon Numarası : </label>
-                        <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone">
+                        <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone"
+                            name="phone">
                     </div>
                     <div class="form-group">
                         <label for="surname" class="modal-label">E-Posta : </label>
-                        <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email">
+                        <input type="email" class="modal-input" placeholder="E-Posta" id="email"
+                            name="email">
+                    </div>
+
+                    <!-- İl -->
+                    <div class="mt-3">
+                        <label for="" class="q-label">İl</label>
+                        <select class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                            id="citySelect" name="city_id">
+                            <option value="">Seçiniz</option>
+                            @foreach ($towns as $item)
+                                <option for="{{ $item['sehir_title'] }}" value="{{ $item['sehir_key'] }}"
+                                    {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                    {{ $item['sehir_title'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('city_id'))
+                            <span class="error-message">{{ $errors->first('city_id') }}</span>
+                        @endif
+                    </div>
+                    <div class="mt-3">
+                        <label for="" class="q-label">İlçe</label>
+                        <select class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                            name="county_id" id="countySelect">
+                            <option value="">Seçiniz</option>
+                        </select>
+                        @if ($errors->has('county_id'))
+                            <span class="error-message">{{ $errors->first('county_id') }}</span>
+                        @endif
                     </div>
                     <div class="form-group">
                         <label for="surname" class="modal-label">Meslek : </label>
-                        <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title">
+                        <input type="text" class="modal-input" placeholder="Meslek" id="title"
+                            name="title">
                     </div>
                     <div class="form-group">
                         <label for="comment" class="modal-label">Açıklama:</label>

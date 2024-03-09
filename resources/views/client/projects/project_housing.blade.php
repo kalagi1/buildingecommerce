@@ -826,7 +826,7 @@
                                                                                 : 0;
                                                                         @endphp
 
-                                                                        <x-project-item-card :project="$project"
+                                                                        <x-project-item-card :project="$project" :towns="$towns" :cities="$cities"
                                                                             :allCounts="$allCounts"
                                                                             :key="$key" :blockHousingCount="$blockHousingCount"
                                                                             :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
@@ -878,7 +878,7 @@
                                                                         $blockName =  $block['block_name'];
                                                                 @endphp
 
-                                                                <x-project-item-mobile-card :project="$project"
+                                                                <x-project-item-mobile-card :project="$project" :towns="$towns" :cities="$cities"
                                                                 :blockName="$blockName"
                                                                     :allCounts="$allCounts" :key="$key"
                                                                     :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
@@ -940,7 +940,7 @@
                                                         : 0;
                                                 @endphp
 
-                                                <x-project-item-card :project="$project" :allCounts="$allCounts"
+                                                <x-project-item-card :project="$project" :allCounts="$allCounts" :towns="$towns" :cities="$cities"
                                                     :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                     :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                     :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
@@ -988,7 +988,7 @@
                                                     : 0;
                                             @endphp
                                             <x-project-item-mobile-card
-                                            :blockName="null" :project="$project" :allCounts="$allCounts"
+                                            :blockName="null" :project="$project" :allCounts="$allCounts" :towns="$towns" :cities="$cities"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                 :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
@@ -1163,6 +1163,24 @@
                     stopOnFocus: true,
                 }).showToast();
             }
+            $('#citySelect').change(function() {
+            var selectedCity = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('#countySelect');
+                    countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
+                    $.each(data, function(index, county) {
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
         </script>
     <script>
         function initMap() {
@@ -2425,8 +2443,7 @@ out center;`;
 
         .modal-input {
             padding: 1em !important;
-            border: 1px solid #ccc !important;
-            border-radius: 0.4em !important;
+            border: 1px solid #eee !important;
             margin: 0.5em 0em;
             width: 100%;
             transition: border-color 0.3s;

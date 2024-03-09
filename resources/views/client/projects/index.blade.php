@@ -787,6 +787,7 @@
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
+                                                                            :towns="$towns" :cities="$cities"
                                                                                 :allCounts="$allCounts"
                                                                                 :key="$key" :blockHousingCount="$blockHousingCount"
                                                                                 :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
@@ -839,7 +840,7 @@
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
-                                                                    :blockName="$blockName"
+                                                                    :blockName="$blockName" :towns="$towns" :cities="$cities"
                                                                         :allCounts="$allCounts" :key="$key"
                                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                         :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
@@ -900,7 +901,7 @@
                                                             : 0;
                                                     @endphp
 
-                                                    <x-project-item-card :project="$project" :allCounts="$allCounts"
+                                                    <x-project-item-card :project="$project" :allCounts="$allCounts" :towns="$towns" :cities="$cities"
                                                         :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                         :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                         :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
@@ -947,7 +948,7 @@
                                                         ? $projectOffer->discount_amount
                                                         : 0;
                                                 @endphp
-                                                <x-project-item-mobile-card
+                                                <x-project-item-mobile-card :towns="$towns" :cities="$cities"
                                                 :blockName="null" :project="$project" :allCounts="$allCounts"
                                                     :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                     :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
@@ -1095,6 +1096,26 @@
                     stopOnFocus: true,
                 }).showToast();
             }
+
+            $('#citySelect').change(function() {
+            var selectedCity = $(this).val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('#countySelect');
+                    countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
+                    $.each(data, function(index, county) {
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
         </script>
 
     <script>
@@ -1428,8 +1449,7 @@
 
         .modal-input {
             padding: 1em !important;
-            border: 1px solid #ccc !important;
-            border-radius: 0.4em !important;
+            border: 1px solid #eee !important;
             margin: 0.5em 0em;
             width: 100%;
             transition: border-color 0.3s;

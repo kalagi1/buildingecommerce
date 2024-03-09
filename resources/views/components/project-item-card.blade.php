@@ -12,6 +12,8 @@
     'key',
     'previousBlockHousingCount',
     'allCounts',
+    'cities',
+    'towns'
 ])
 
 @php
@@ -333,23 +335,48 @@
                     <input type="hidden" value="{{ $project->id }}" name="projectId">
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
                     <div class="form-group">
-                        <label for="surname" class="modal-label">Ad Soyad : </label>
+                        <label for="surname" class="q-label">Ad Soyad : </label>
                         <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name">
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="modal-label">Telefon Numarası : </label>
+                        <label for="surname" class="q-label">Telefon Numarası : </label>
                         <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone">
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="modal-label">E-Posta : </label>
+                        <label for="surname" class="q-label">E-Posta : </label>
                         <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email">
                     </div>
+                    
+                                            <!-- İl -->
+                                            <div class="mt-3">
+                                                <label for="" class="q-label">İl</label>
+                                                <select
+                                                    class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                                    id="citySelect" name="city_id">
+                                                    <option value="">Seçiniz</option>
+                                                    @foreach ($towns as $item)
+                                                        <option for="{{ $item['sehir_title'] }}"
+                                                            value="{{ $item['sehir_key'] }}"
+                                                            {{ old('city_id') == $item['sehir_key'] ? 'selected' : '' }}>
+                                                            {{ $item['sehir_title'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mt-3">
+                                                <label for="" class="q-label">İlçe</label>
+                                                <select
+                                                    class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                                    name="county_id" id="countySelect">
+                                                    <option value="">Seçiniz</option>
+                                                </select>
+                                            </div>
                     <div class="form-group">
-                        <label for="surname" class="modal-label">Meslek : </label>
+                        <label for="surname" class="q-label">Meslek : </label>
                         <input type="text" class="modal-input" placeholder="Meslek" id="title" name="title">
                     </div>
                     <div class="form-group">
-                        <label for="comment" class="modal-label">Açıklama:</label>
+                        <label for="comment" class="q-label">Açıklama:</label>
                         <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
                             name="offer_description"></textarea>
                     </div>

@@ -10,11 +10,13 @@
                 <table class="table table-sm  border-200 fs--1 mb-0">
                     <thead>
                         <tr>
+                            <th>Profil</th>
                             <th>Teklif Eden</th>
-                            <th>Proje Başlığı</th>
+                            <th style="width:200px">Proje Başlığı</th>
                             <th>İsim</th>
                             <th>Telefon</th>
                             <th>Meslek</th>
+
                             <th>E-mail</th>
                             <th>Açıklama</th>
                             <th>Yanıtla</th>
@@ -30,15 +32,16 @@
                                                 <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
                                                     class="avatar-img rounded-circle" alt="">
                                             </div>
-                                            <div>
-                                                {{ $item->user->name }}
-                                            </div>
                                         </div>
                                     </td>
+                                    <td> {{ $item->user->name }} <br><br>
+                                        <span style="font-size: 10px;color:black;font-weight:700"> {{ $item->city ? $item->city->title: null }} 
+                                            {{ $item->district ? " - ".  $item->district->ilce_title: null }}</span></td>
 
                                     <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
                                     </td>
-                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->name }} 
+                                       </td>
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->title }}</td>
                                     <td>{{ $item->email }}</td>
