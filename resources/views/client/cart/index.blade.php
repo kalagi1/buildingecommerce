@@ -67,11 +67,11 @@
                                                 Tutar</strong><br>{{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺
                                         </td>
                                         @if (isset($cart['item']['pay_decs']) && count($cart['item']['pay_decs']) != 0)
-                                        <td><strong>Ara Ödeme
-                                            Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : '' }}
-                                    </td>
+                                            <td><strong>Ara Ödeme
+                                                    Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : '' }}
+                                            </td>
                                         @endif
-                                     
+
                                         <td><strong>Toplam
                                                 Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
                                             ₺
@@ -238,7 +238,7 @@
                                                     data-original-price="{{ $cart['item']['price'] }}"
                                                     data-installment-price="{{ $cart['item']['installmentPrice'] }}"
                                                     style="color: green; font-size:14px !important">
-                                                    {{$displayedPrice}}
+                                                    {{ $displayedPrice }}
                                                     ₺
                                                 </span>
                                             </span>
@@ -723,10 +723,17 @@
                     }
                 });
             });
-
+            
 
 
             function updateCart(selectedOption) {
+
+                var priceOnly = "{{$cart['item']['numbershare']}}";
+               
+                if (priceOnly != 0) {
+                    installmentPrice = installmentPrice / priceOnly;
+                    originalPrice = originalPrice / priceOnly;
+                }
                 var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
                 $.ajax({
                     type: 'POST',
