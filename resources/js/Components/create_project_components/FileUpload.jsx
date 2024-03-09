@@ -2,13 +2,12 @@ import React, { useRef, useState } from 'react'
 function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors}) {
     const inputRef = useRef();
     const [loading,setLoading] = useState(false);
-
     const fileUpload = async (event) => {
         if(!document){
             if(multiple){
                 const files = event.target.files;
-                const tempImages = []; // Geçici resimler dizisi
-                const tempImages2 = []; // Geçici resimler dizisi
+                const tempImages = projectData[fileName+'_imagesx'];
+                const tempImages2 = projectData[fileName]; 
     
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
@@ -58,6 +57,16 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
        
     }
 
+    const removeImage = (imageIndex) => {
+        if(multiple){
+            var tempImages = projectData[fileName+'_imagesx'].filter((image,imageOrder) => imageOrder != imageIndex);
+            setProjectData({
+                ...projectData,
+                [fileName+"_imagesx"] : tempImages
+            });
+        }
+    }
+
     return(
         <div>
             <span className="section-title mt-4 housing_after_step">{title}</span>
@@ -89,11 +98,15 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                                 <div className="cover-photo">
                                     {
                                         multiple ? 
-                                            projectData[fileName+'_imagesx'].map((image) => {
+                                            projectData[fileName+'_imagesx'].map((image,imageIndex) => {
                                                 return (
                                                     
                                                     <div className="project_imagex">
                                                         <img src={image}/>
+
+                                                        <div onClick={() => {removeImage(imageIndex)}} className="remove-area">
+                                                            <i className='fa fa-trash'></i>
+                                                        </div>
                                                     </div>
                                                 )
                                             })

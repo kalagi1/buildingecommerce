@@ -490,4 +490,165 @@ class ProjectController extends Controller
             "room_order" => $request->input('room_order')
         ]);
     }
+    
+    public function show($id){
+        $project = Project::with("images","situations")->where('id',$id)->first();
+
+        return json_encode([
+            "data" => $project
+        ]);
+    }
+
+    public function updateProject($id,Request $request){
+        $project = Project::where('id',$id)->first();
+
+        $manager = new ImageManager(
+            new Driver()
+        );
+
+        $projectData = $request->input('projectData');
+        $location = explode('-',$projectData['coordinates']);
+
+        if(isset($request->file('projectData')['cover_image']) && $request->file('projectData')['cover_image']){
+            $file = $request->file('projectData')['cover_image'];
+
+            // Dosyanın hedef dizini
+            $destinationPath = public_path('storage/project_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+            // Dosyayı belirlenen hedefe taşı
+            $fileNameCoverImage = Str::slug($projectData['project_title']).'_cover_image_'.time().'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $fileNameCoverImage);
+
+            $image = $manager->read(public_path('storage/project_images/'.$fileNameCoverImage));
+            $imageWidth = $image->width();
+            $imageHeight = $image->height();
+
+            if($imageWidth > 450){
+                $newWidth = 450;
+                $newHeight = $imageHeight * 450 / $imageWidth;
+            }else{
+                $newWidth = $imageWidth;
+                $newHeight = $imageHeight;
+            }
+            $image->resize($newWidth, $newHeight);
+            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
+
+            $fileDb = 'public/project_images/'.$fileNameCoverImage;
+        }else{
+            $fileDb = $project->image;
+        }
+
+        Project::where('id',$id)->update([
+            "project_title" => $projectData['project_title'],
+            "slug" => Str::slug($projectData['project_title']),
+            "description" => $projectData['description'],
+            "create_company" => $projectData['create_company'],
+            "total_project_area" => $projectData['total_project_area'],
+            "start_date" => $projectData['start_date'],
+            "project_end_date" => $projectData['end_date'],
+            "city_id" => $projectData['city_id'],
+            "county_id" => $projectData['county_id'],
+            "neighbourhood_id" => $projectData['neighbourhood_id'],
+            "location" => $location[0].','.$location[1],
+            "image" => $fileDb,
+            "status" => "2",
+        ]);
+
+        $imageOrderx = 0;
+        if(isset($request->deleted_images) && $request->deleted_images){
+            foreach (explode(',',$request->deleted_images) as $key => $imageOrder) {
+                $projectImageToDelete = ProjectImage::where('project_id', $project->id)
+                ->offset($imageOrder - $imageOrderx)
+                ->take(1)
+                ->first();
+
+                if ($projectImageToDelete) {
+                    $projectImageToDelete->delete();
+                }
+
+                $imageOrderx++;
+            }
+        }
+        
+        $imageOrderx = 0;
+        if(isset($request->deleted_situations) && $request->deleted_situations){
+            foreach (explode(',',$request->deleted_situations) as $key => $imageOrder) {
+                $projectImageToDelete = ProjectSituation::where('project_id',$project->id)
+                ->offset($imageOrder - $imageOrderx)
+                ->take(1)
+                ->first();
+                
+                if ($projectImageToDelete) {
+                    $projectImageToDelete->delete();
+                }
+
+                $imageOrderx++;
+            }
+        }
+        
+        if(isset($request->file('projectData')['gallery']) && $request->file('projectData')['gallery']){
+            foreach ($request->file('projectData')['gallery'] as $key => $image) {
+                $newFileName = Str::slug($projectData['project_title']) . '-gallery-' . ($key + 1).time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
+    
+    
+                if ($image->move($destinationPath, $newFileName)) {
+                        
+                    $imageMg = $manager->read(public_path('storage/project_images/'.$newFileName));
+                    $imageWidth = $imageMg->width();
+                    $imageHeight = $imageMg->height();
+    
+                    if($imageWidth > 450){
+                        $newWidth = 450;
+                        $newHeight = $imageHeight * 450 / $imageWidth;
+                    }else{
+                        $newWidth = $imageWidth;
+                        $newHeight = $imageHeight;
+                    }
+                    $imageMg->resize($newWidth, $newHeight);
+                    $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                    $encoded->save(public_path('storage/project_images/'.$newFileName));
+    
+                    $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+                    $projectImage->image = 'public/project_images/' . $newFileName;
+                    $projectImage->project_id = $project->id;
+                    $projectImage->save();
+                }
+            }
+        }
+
+        if(isset($request->file('projectData')['situations'])){
+            foreach ($request->file('projectData')['situations'] as $key => $situation) {
+                $newFileName = Str::slug($projectData['project_title']) . '-situation-' . ($key + 1) .time(). '.' . $situation->getClientOriginalExtension();
+                $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
+    
+                if ($situation->move($yeniDosyaAdi, $newFileName)) {
+                    $imageMg = $manager->read(public_path('situation_images/'.$newFileName));
+                    $imageWidth = $imageMg->width();
+                    $imageHeight = $imageMg->height();
+    
+                    if($imageWidth > 450){
+                        $newWidth = 450;
+                        $newHeight = $imageHeight * 450 / $imageWidth;
+                    }else{
+                        $newWidth = $imageWidth;
+                        $newHeight = $imageHeight;
+                    }
+                    $imageMg->resize($newWidth, $newHeight);
+                    $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                    $encoded->save(public_path('situation_images/'.$newFileName));
+    
+                    $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+                    $projectImage->situation = 'public/situation_images/' . $newFileName;
+                    $projectImage->project_id = $project->id;
+                    $projectImage->save();
+                }
+            }
+        }
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
 }

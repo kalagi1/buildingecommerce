@@ -14,7 +14,7 @@ if(slashs[slashs.length - 1] == "create_project_v3"){
     }
 }else if(slashs[slashs.length - 3] == "edit_project_v3"){
     if(document.getElementById('react_render_area')){
-        ReactDOM.render(<EditProject />, document.getElementById('react_render_area'));
+        ReactDOM.render(<EditProject projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
     }
 }else{
     if(document.getElementById('react_projects')){
