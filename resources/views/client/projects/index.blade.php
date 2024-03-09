@@ -1,45 +1,45 @@
 @extends('client.layouts.master')
 
 @section('content')
-@php
-    function convertMonthToTurkishCharacter($date)
-    {
-        $aylar = [
-            'January' => 'Ocak',
-            'February' => 'Şubat',
-            'March' => 'Mart',
-            'April' => 'Nisan',
-            'May' => 'Mayıs',
-            'June' => 'Haziran',
-            'July' => 'Temmuz',
-            'August' => 'Ağustos',
-            'September' => 'Eylül',
-            'October' => 'Ekim',
-            'November' => 'Kasım',
-            'December' => 'Aralık',
-            'Monday' => 'Pazartesi',
-            'Tuesday' => 'Salı',
-            'Wednesday' => 'Çarşamba',
-            'Thursday' => 'Perşembe',
-            'Friday' => 'Cuma',
-            'Saturday' => 'Cumartesi',
-            'Sunday' => 'Pazar',
-            'Jan' => 'Oca',
-            'Feb' => 'Şub',
-            'Mar' => 'Mar',
-            'Apr' => 'Nis',
-            'May' => 'May',
-            'Jun' => 'Haz',
-            'Jul' => 'Tem',
-            'Aug' => 'Ağu',
-            'Sep' => 'Eyl',
-            'Oct' => 'Eki',
-            'Nov' => 'Kas',
-            'Dec' => 'Ara',
-        ];
-        return strtr($date, $aylar);
-    }
-@endphp
+    @php
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+    @endphp
     @php
         function implodeData($array)
         {
@@ -248,24 +248,21 @@
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body" style="padding: 0 !important">
                                     <div class="sidebar-widget author-widget2">
-                                    
+
                                         <table class="table homes-content" style="margin-bottom: 0 !important">
                                             <tbody>
-                                                <tr style="border-top: none !important"
-                                                >
+                                                <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
                                                         <span class="autoWidthTr">İlan No:</span>
-                                                        <span class="det"
-                                                            style="color: #274abb !important;">                                                        {{ $project->id + 1000000 }}
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ $project->id + 1000000 }}
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr
-                                                >
+                                                <tr>
                                                     <td>
                                                         <span class="autoWidthTr">İlan Tarihi:</span>
-                                                        <span class="det"
-                                                            style="color: #274abb !important;">
+                                                        <span class="det" style="color: #274abb !important;">
                                                             {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
                                                         </span>
                                                     </td>
@@ -748,7 +745,7 @@
                                                                     <div class="row project-filter-reverse blog-pots">
                                                                         @for ($i = 0; $i < $blockHousingCount; $i++)
                                                                             @php
-                                                                            
+
                                                                                 if (isset($projectCartOrders[$i + 1])) {
                                                                                     $sold = $projectCartOrders[$i + 1];
                                                                                 } else {
@@ -787,14 +784,13 @@
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
-                                                                            :towns="$towns" :cities="$cities"
-                                                                                :allCounts="$allCounts"
-                                                                                :key="$key" :blockHousingCount="$blockHousingCount"
-                                                                                :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                                                :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                                :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                                :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                                :lastHousingCount="$lastHousingCount" />
+                                                                                :towns="$towns" :cities="$cities"
+                                                                                :allCounts="$allCounts" :key="$key"
+                                                                                :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                                :bankAccounts="$bankAccounts" :i="$i"
+                                                                                :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                         @endfor
                                                                     </div>
                                                                 </div>
@@ -836,17 +832,18 @@
                                                                         $projectDiscountAmount = $projectOffer
                                                                             ? $projectOffer->discount_amount
                                                                             : 0;
-                                                                            $blockName =  $block['block_name'];
+                                                                        $blockName = $block['block_name'];
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
-                                                                    :blockName="$blockName" :towns="$towns" :cities="$cities"
-                                                                        :allCounts="$allCounts" :key="$key"
-                                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                                        :bankAccounts="$bankAccounts" :i="$i"
-                                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                                        :blockName="$blockName" :towns="$towns"
+                                                                        :cities="$cities" :allCounts="$allCounts"
+                                                                        :key="$key" :blockHousingCount="$blockHousingCount"
+                                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
+                                                                        :i="$i" :projectHousingsList="$projectHousingsList"
+                                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                                        :lastHousingCount="$lastHousingCount" />
                                                                 @endfor
                                                             </div>
                                                         </div>
@@ -863,8 +860,8 @@
                                     <div class="mobile-hidden">
                                         <div class="container">
 
-                                            <div class="row project-filter-reverse blog-pots">
-                                                @for ($i = 0; $i < $project->room_count; $i++)
+                                            <div class="row project-filter-reverse blog-pots" id="project-room">
+                                                @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
 
                                                         if (isset($projectCartOrders[$i + 1])) {
@@ -901,13 +898,13 @@
                                                             : 0;
                                                     @endphp
 
-                                                    <x-project-item-card :project="$project" :allCounts="$allCounts" :towns="$towns" :cities="$cities"
-                                                        :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                        :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                    <x-project-item-card :project="$project" :allCounts="$allCounts"
+                                                        :towns="$towns" :cities="$cities" :key="$key"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
-
                                             </div>
                                         </div>
                                     </div>
@@ -949,7 +946,7 @@
                                                         : 0;
                                                 @endphp
                                                 <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                :blockName="null" :project="$project" :allCounts="$allCounts"
+                                                    :blockName="null" :project="$project" :allCounts="$allCounts"
                                                     :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                     :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                     :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
@@ -1081,23 +1078,60 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-        <script>
-            var successMessage = "{{ session('success') }}";
-        
-            if (successMessage) {
-                Toastify({
-                    text: successMessage,
-                    duration: 5000,
-                    gravity: 'bottom',
-                    position: 'center',
-                    backgroundColor: 'green',
-                    stopOnFocus: true,
-                }).showToast();
-            }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        var currentPage = 1;
+        var maxPages = Math.ceil({{ $project->room_count }} / 10);
 
-            $('.citySelect').change(function() {
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 10) {
+                    if (currentPage < maxPages) {
+                        currentPage++;
+                        loadMoreData(currentPage);
+                    }
+                }
+            });
+        });
+
+        function loadMoreData(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    console.log(response);
+
+                    $('#project-room').append(response);
+                    $('.ajax-load').hide();
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                }
+            });
+
+        }
+    </script>
+    <script>
+        var successMessage = "{{ session('success') }}";
+
+        if (successMessage) {
+            Toastify({
+                text: successMessage,
+                duration: 5000,
+                gravity: 'bottom',
+                position: 'center',
+                backgroundColor: 'green',
+                stopOnFocus: true,
+            }).showToast();
+        }
+
+        $('.citySelect').change(function() {
             var selectedCity = $(this).val();
             $.ajax({
                 type: 'GET',
@@ -1114,27 +1148,26 @@
                 }
             });
         });
-
-        </script>
+    </script>
 
     <script>
-    //       $(document).ready(function() {
-    //     var $carousel = $('#listingDetailsSlider');
+        //       $(document).ready(function() {
+        //     var $carousel = $('#listingDetailsSlider');
 
-    //     $carousel.carousel({
-    //         interval: false // Karusel otomatik geçişini devre dışı bırak
-    //     });
+        //     $carousel.carousel({
+        //         interval: false // Karusel otomatik geçişini devre dışı bırak
+        //     });
 
-    //     // Carousel kaydırıldığında
-    //     $carousel.on('slide.bs.carousel', function() {
-    //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
+        //     // Carousel kaydırıldığında
+        //     $carousel.on('slide.bs.carousel', function() {
+        //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
 
-    //         // Sayfa aşağı kaydır
-    //         $('html, body').animate({
-    //             scrollTop: scrollPosition
-    //         }, 500);
-    //     });
-    // });
+        //         // Sayfa aşağı kaydır
+        //         $('html, body').animate({
+        //             scrollTop: scrollPosition
+        //         }, 500);
+        //     });
+        // });
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {
@@ -1265,7 +1298,7 @@
                     console.log("Ürün sepete eklendi: " + response);
                 },
                 error: function(error) {
-                    if(error.message == 'error'){
+                    if (error.message == 'error') {
                         alert('dasdsada');
                     }
                     // Hata durumunda buraya gelir
