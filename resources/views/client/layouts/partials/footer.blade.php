@@ -28,14 +28,7 @@
                                             <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
-                                    @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        @if (
-                                            $p->slug != 'bireysel-uyelik-sozlesmesi' &&
-                                                $p->slug != 'kurumsal-uyelik-sozlesmesi' &&
-                                                $p->slug != 'mesafeli-kiralama-sozlesmesi')
-                                            <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
-                                        @endif
-                                    @endforeach
+                                  
                                 </ul>
                             </div>
 
@@ -1034,6 +1027,9 @@
 <!-- SweetAlert2 JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- Include Toastify CSS and JS -->
+
+
 <script>
     $(document).ready(function() {
 

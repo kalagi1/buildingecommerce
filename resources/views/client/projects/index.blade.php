@@ -263,9 +263,16 @@
 
                                                 <tr>
                                                     <td>
-                                                        <span class="autoWidthTr">Telefon:</span>
+                                                        <span class="autoWidthTr">Kurumsal Telefon:</span>
                                                         <span class="det"
                                                             style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Cep :</span>
+                                                        <span class="det"
+                                                            style="color: black;">{!! $project->user->mobile_phone ? $project->user->mobile_phone : 'Belirtilmedi' !!}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -717,6 +724,7 @@
                                                                     <div class="row project-filter-reverse blog-pots">
                                                                         @for ($i = 0; $i < $blockHousingCount; $i++)
                                                                             @php
+                                                                            
                                                                                 if (isset($projectCartOrders[$i + 1])) {
                                                                                     $sold = $projectCartOrders[$i + 1];
                                                                                 } else {
@@ -1051,6 +1059,23 @@
 
 
     <script>
+    //       $(document).ready(function() {
+    //     var $carousel = $('#listingDetailsSlider');
+
+    //     $carousel.carousel({
+    //         interval: false // Karusel otomatik geçişini devre dışı bırak
+    //     });
+
+    //     // Carousel kaydırıldığında
+    //     $carousel.on('slide.bs.carousel', function() {
+    //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
+
+    //         // Sayfa aşağı kaydır
+    //         $('html, body').animate({
+    //             scrollTop: scrollPosition
+    //         }, 500);
+    //     });
+    // });
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {

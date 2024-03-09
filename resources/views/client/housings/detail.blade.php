@@ -551,7 +551,7 @@
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
-                                                            Telefon :
+                                                          Kurumsal Telefon :
                                                             <span class="det">
                                                                 <a style="text-decoration: none;color:inherit"
                                                                     href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
@@ -559,6 +559,17 @@
                                                         </td>
                                                     </tr>
                                                 @endif
+                                                @if ($housing->user->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        Cep :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
 
                                                 <tr>
                                                     <td>

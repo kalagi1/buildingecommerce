@@ -94,7 +94,7 @@
                         $sold_check = $sold && in_array($sold->status, ['1', '0']);
                         $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
                     @endphp
-                    @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
+                    @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                         <button class="btn second-btn mobileCBtn"
                             style="background: #EA2B2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapatıldı</span>
@@ -128,12 +128,8 @@
 
                                     @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
 
-                                        <span class="text-center w-100">
-                                            @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']))
-                                                {{ $sumCartOrderQt[$keyIndex]['qt_total'] }}
-                                            @else
-                                                0
-                                            @endif / {{ $number_of_share }}
+                                        <span class="text-center w-100 d-block">
+                                            1 Pay Fiyatı
                                         </span>
                                     @endif
 
@@ -250,7 +246,7 @@
                             <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                                 data-toggle="modal" data-target="#offerModal{{ $keyIndex }}"
                                 style="width:50% !important">
-                                Teklif Ver
+                                Başvuru Yap
                             </button>
                         @else
                             <a href="{{ route('client.login') }}"
@@ -260,7 +256,7 @@
                             display: flex;
                             justify-content: center;"
                                 class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn">
-                                Teklif Ver
+                                Başvuru Yap
                             </a>
                         @endif
                     @else
@@ -322,7 +318,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="offerModalLabel">Teklif Ver</h3>
+                <h3 class="modal-title" id="offerModalLabel">Başvuru Yap</h3>
 
             </div>
             <div class="modal-body">
