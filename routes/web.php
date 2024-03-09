@@ -955,7 +955,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class, "getBankAccount"])->name('get.bank.account');
 
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
-    Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
     Route::get('/edit_project_v2/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
     Route::get('/edit_project_v3/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV3"])->name('project.edit.v2');
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
@@ -1118,7 +1117,7 @@ Route::get('/chat/history', [SupportChatController::class, 'getChatHistory']);
 
 
 Route::group(['prefix' => 'react'], function () { 
-    Route::get('/my_projects',[ApiProjectController::class,"index"]);
+    Route::get('/my_projects',[ApiProjectController::class,"index"])->name('react.projects');
     Route::get('/get_housing_statuses',[ApiProjectController::class,"getHousingStatuses"]);
     Route::get('/housing_types',[ApiProjectController::class,"getHousingTypes"]);
     Route::get('/housing_types_end',[ApiProjectController::class,"getHousingTypesEnd"]);
