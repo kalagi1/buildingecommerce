@@ -1549,7 +1549,7 @@
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px !important;
+            height: 35px !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1688,7 +1688,7 @@
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px !important;
+            height: 35px !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
