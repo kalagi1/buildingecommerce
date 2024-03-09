@@ -634,12 +634,15 @@ class ProjectController extends Controller
             if (!$type) {
                 return redirect('/')
                 ->with('error', 'Sayfa bulunamadı.');
+            }
             $title = $type->title;
             $projects = Project::with("city", "county")->where("housing_type_id", $type->id)->get();
         } else {
             if (!$status) {
                 return redirect('/')
-                ->with('error', 'Sayfa bulunamadı.');            }
+                ->with('error', 'Sayfa bulunamadı.');            
+            }
+            
             $title = $status->name;
             if ($status->id == 1) {
                 $projects = Project::all();
