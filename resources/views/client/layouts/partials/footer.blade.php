@@ -648,7 +648,7 @@
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
 
-                                        var monhlyPrice = numberOfShares != 0 ? (((parseFloat(
+                                        var monhlyPrice = numberOfShares != 0 ? formatPrice(((parseFloat(
                                                         getDataJS(
                                                             response,
                                                             "installments-price[]", response
@@ -657,7 +657,7 @@
                                                         "advance[]", response.room_info[
                                                             i].room_order)) - payDecPrice) /
                                                 parseInt(installementData)) / numberOfShares) +
-                                            "₺" : ((parseFloat(getDataJS(
+                                            "₺" : formatPrice((parseFloat(getDataJS(
                                                         response,
                                                         "installments-price[]", response
                                                         .room_info[i].room_order)) -
