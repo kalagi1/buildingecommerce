@@ -7,6 +7,46 @@
     );
 @endphp
 @php
+function convertMonthToTurkishCharacter($date)
+{
+    $aylar = [
+        'January' => 'Ocak',
+        'February' => 'Şubat',
+        'March' => 'Mart',
+        'April' => 'Nisan',
+        'May' => 'Mayıs',
+        'June' => 'Haziran',
+        'July' => 'Temmuz',
+        'August' => 'Ağustos',
+        'September' => 'Eylül',
+        'October' => 'Ekim',
+        'November' => 'Kasım',
+        'December' => 'Aralık',
+        'Monday' => 'Pazartesi',
+        'Tuesday' => 'Salı',
+        'Wednesday' => 'Çarşamba',
+        'Thursday' => 'Perşembe',
+        'Friday' => 'Cuma',
+        'Saturday' => 'Cumartesi',
+        'Sunday' => 'Pazar',
+        'Jan' => 'Oca',
+        'Feb' => 'Şub',
+        'Mar' => 'Mar',
+        'Apr' => 'Nis',
+        'May' => 'May',
+        'Jun' => 'Haz',
+        'Jul' => 'Tem',
+        'Aug' => 'Ağu',
+        'Sep' => 'Eyl',
+        'Oct' => 'Eki',
+        'Nov' => 'Kas',
+        'Dec' => 'Ara',
+    ];
+    return strtr($date, $aylar);
+}
+
+@endphp
+@php
 
     function getData($housing, $key)
     {
@@ -533,6 +573,15 @@
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span> İlan Tarihi :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                
                                                 <tr>
                                                     <td>
                                                         İl-İlçe{!! optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':' !!}

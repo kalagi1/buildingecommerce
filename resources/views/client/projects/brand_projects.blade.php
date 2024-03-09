@@ -239,7 +239,7 @@
                                                 </li>
 
                                                 <li style="display: flex; justify-content: center;">
-                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                                 </li>
                                             </ul>
                                             <ul class="homes-list clearfix pb-3"

@@ -1,7 +1,45 @@
 @extends('client.layouts.master')
 
 @section('content')
-
+@php
+    function convertMonthToTurkishCharacter($date)
+    {
+        $aylar = [
+            'January' => 'Ocak',
+            'February' => 'Şubat',
+            'March' => 'Mart',
+            'April' => 'Nisan',
+            'May' => 'Mayıs',
+            'June' => 'Haziran',
+            'July' => 'Temmuz',
+            'August' => 'Ağustos',
+            'September' => 'Eylül',
+            'October' => 'Ekim',
+            'November' => 'Kasım',
+            'December' => 'Aralık',
+            'Monday' => 'Pazartesi',
+            'Tuesday' => 'Salı',
+            'Wednesday' => 'Çarşamba',
+            'Thursday' => 'Perşembe',
+            'Friday' => 'Cuma',
+            'Saturday' => 'Cumartesi',
+            'Sunday' => 'Pazar',
+            'Jan' => 'Oca',
+            'Feb' => 'Şub',
+            'Mar' => 'Mar',
+            'Apr' => 'Nis',
+            'May' => 'May',
+            'Jun' => 'Haz',
+            'Jul' => 'Tem',
+            'Aug' => 'Ağu',
+            'Sep' => 'Eyl',
+            'Oct' => 'Eki',
+            'Nov' => 'Kas',
+            'Dec' => 'Ara',
+        ];
+        return strtr($date, $aylar);
+    }
+@endphp
     @php
         function implodeData($array)
         {
@@ -210,25 +248,28 @@
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body" style="padding: 0 !important">
                                     <div class="sidebar-widget author-widget2">
-                                        <h2 class="classifiedInfo"> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                            @if ($project->neighbourhood)
-                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                            @endif
-                                        </h2>
-                                        {{-- <div class="author-box clearfix d-flex align-items-center">
-                                            <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                alt="author-image" class="author__img">
-                                            <div> <a
-                                                    href="{{ route('institutional.dashboard', Str::slug($project->user->name)) }}">
-                                                    <h4 class="author__title">{!! $project->user->name !!}</h4>
-                                                </a>
-                                                <p class="author__meta">
-                                                    {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
-                                                </p>
-                                            </div>
-                                        </div> --}}
+                                    
                                         <table class="table homes-content" style="margin-bottom: 0 !important">
                                             <tbody>
+                                                <tr style="border-top: none !important"
+                                                >
+                                                    <td style="border-top: none !important">
+                                                        <span class="autoWidthTr">İlan No:</span>
+                                                        <span class="det"
+                                                            style="color: #274abb !important;">                                                        {{ $project->id + 1000000 }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                >
+                                                    <td>
+                                                        <span class="autoWidthTr">İlan Tarihi:</span>
+                                                        <span class="det"
+                                                            style="color: #274abb !important;">
+                                                            {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Proje Durumu:</span>

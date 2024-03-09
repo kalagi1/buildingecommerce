@@ -3,7 +3,7 @@
 @section('content')
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
-  
+
 
             <div class="row" style="justify-content: end">
                 <div class="col-md-8 mt-5">
@@ -66,9 +66,12 @@
                                         <td><strong>Aylık Ödenecek
                                                 Tutar</strong><br>{{ number_format($cart['item']['aylik'], 0, ',', '.') }} ₺
                                         </td>
-                                        <td><strong>Ara Ödeme
-                                                Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : '' }}
-                                        </td>
+                                        @if (isset($cart['item']['pay_decs']) && count($cart['item']['pay_decs']) != 0)
+                                            <td><strong>Ara Ödeme
+                                                    Sayısı</strong><br>{{ isset($cart['item']['pay_decs']) ? count($cart['item']['pay_decs']) : '' }}
+                                            </td>
+                                        @endif
+
                                         <td><strong>Toplam
                                                 Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
                                             ₺
@@ -125,7 +128,6 @@
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
                                     @endphp
-                                    {{-- {{dd($cart['item'])}} --}}
                                     <tr>
                                         <td class="image myelist">
                                             <a
@@ -169,7 +171,6 @@
                                         </td>
                                         @php
                                             $itemPrice = $cart['item']['amount'];
-                                            echo $itemPrice;
 
                                             if ($cart['hasCounter']) {
                                                 if ($cart['type'] == 'housing') {
@@ -200,7 +201,6 @@
                                                 $discountedPrice = $itemPrice;
                                                 $discountRate = 0;
                                             }
-
                                             $selectedPaymentOption = request('paymentOption');
                                             $itemPrice =
                                                 $selectedPaymentOption === 'taksitli' &&
@@ -238,7 +238,7 @@
                                                     data-original-price="{{ $cart['item']['price'] }}"
                                                     data-installment-price="{{ $cart['item']['installmentPrice'] }}"
                                                     style="color: green; font-size:14px !important">
-                                                    {{ isset($share_sale) && !empty($share_sale) && is_numeric($displayedPrice) && is_numeric($number_of_share) && $number_of_share != 0 ? $displayedPrice / $number_of_share : $displayedPrice }}
+                                                    {{ $displayedPrice }}
                                                     ₺
                                                 </span>
                                             </span>
@@ -526,7 +526,7 @@
                                             <a href="/sayfa/mesafeli-kapora-emanet" target="_blank">
                                                 Mesafeli kapora emanet
                                             </a>
-                                 sözleşmesini okudum ve kabul ediyorum
+                                            sözleşmesini okudum ve kabul ediyorum
                                         </label>
                                     </div>
 
@@ -723,10 +723,17 @@
                     }
                 });
             });
-
+            
 
 
             function updateCart(selectedOption) {
+
+                var priceOnly = "{{$cart['item']['numbershare']}}";
+               
+                if (priceOnly != 0) {
+                    installmentPrice = installmentPrice / priceOnly;
+                    originalPrice = originalPrice / priceOnly;
+                }
                 var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
                 $.ajax({
                     type: 'POST',
@@ -809,17 +816,18 @@
                         is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
                     },
                     success: function(response) {
-                        if(response.success == "fail"){
+                        if (response.success == "fail") {
                             toastr.error('Bu ürün zaten satın alınmış.');
 
-                        }else{
+                        } else {
                             toastr.success('Siparişiniz başarıyla oluşturuldu.');
-                        var cartOrderId = response.cart_order;
-                        var redirectUrl =
-                            "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
-                        window.location.href = redirectUrl.replace(':cartOrderId', cartOrderId);
+                            var cartOrderId = response.cart_order;
+                            var redirectUrl =
+                                "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
+                            window.location.href = redirectUrl.replace(':cartOrderId',
+                                cartOrderId);
                         }
-                      
+
 
                     },
                     error: function(error) {

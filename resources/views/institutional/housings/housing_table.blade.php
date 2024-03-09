@@ -6,8 +6,11 @@
             <th>Daire Türü</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
-            <th style="width: 50px">İşlemler</th>
-            <th>Sil</th>
+            <th>Loglar</th>
+            <th>Düzenle</th>
+            <th>Resimler</th>
+            <th  colspan="2">İşlemler</th>
+
         </tr>
     </thead>
     <tbody class="list" id="{{ $tableId }}"></tbody>

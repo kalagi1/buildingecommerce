@@ -28,7 +28,14 @@
                                             <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
-                                  
+                                    @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
+                                        @if (
+                                            $p->slug != 'bireysel-uyelik-sozlesmesi' &&
+                                                $p->slug != 'kurumsal-uyelik-sozlesmesi' &&
+                                                $p->slug != 'mesafeli-kiralama-sozlesmesi')
+                                            <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
 
@@ -550,6 +557,17 @@
                 data: cart,
                 success: function(response) {
                     for (var i = 0; i < response.room_info.length; i++) {
+                        var numberOfShares = 0;
+                        var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
+                            .room_order);
+                        if (shareSale && shareSale == '["Var"]') {
+                            var numberOfShares = parseFloat(getDataJS(response,
+                                "number_of_shares[]",
+                                response.room_info[i].room_order));
+
+
+                        }
+
                         if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                             .room_order == parseInt(order)) {
 
@@ -586,34 +604,68 @@
                             const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
                                 "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
                             ]
+                            orderHousing = parseInt(order);
+
+                            html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
+                                3 + getDataJS(response,
+                                    "pay-dec-count" + (orderHousing), response
+                                    .room_info[i].room_order) + " >" + response.project_title +
+                                " Projesinde " + response.room_info[i]
+                                .room_order + " No'lu İlan Ödeme Planı</th></tr>";
+
+
                             for (var j = 0; j < paymentPlanData.length; j++) {
 
                                 if (!tempPlans.includes(paymentPlanData[j])) {
                                     if (paymentPlanData[j] == "pesin") {
-                                        var priceData = getDataJS(response, "price[]", response
-                                            .room_info[i].room_order);
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "price[]", response
+                                                .room_info[i].room_order);
                                         var installementData = "";
                                         var advanceData = "";
                                         var monhlyPrice = "";
                                     } else {
 
 
-                                        var priceData = getDataJS(response, "installments-price[]",
-                                            response.room_info[i].room_order);
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "installments-price[]", response
+                                                .room_info[i].room_order);
+
                                         var installementData = getDataJS(response, "installments[]",
                                             response.room_info[i].room_order);
-                                        var advanceData = formatPrice(getDataJS(response,
+
+                                        var advanceData = numberOfShares != 0 ? formatPrice(
+                                            getDataJS(response,
+                                                "advance[]",
+                                                response.room_info[i].room_order) /
+                                            numberOfShares) + "₺" : formatPrice(getDataJS(
+                                            response,
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
 
-                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
-                                                    response,
-                                                    "installments-price[]", response
-                                                    .room_info[i].room_order)) -
-                                                parseFloat(getDataJS(response,
-                                                    "advance[]", response.room_info[
-                                                        i].room_order)) - payDecPrice) /
-                                            parseInt(installementData)))) + '₺';
+                                        var monhlyPrice = numberOfShares != 0 ? formatPrice(((
+                                                    parseFloat(
+                                                        getDataJS(
+                                                            response,
+                                                            "installments-price[]", response
+                                                            .room_info[i].room_order)) -
+                                                    parseFloat(getDataJS(response,
+                                                        "advance[]", response.room_info[
+                                                            i].room_order)) - payDecPrice) /
+                                                parseInt(installementData)) / numberOfShares) +
+                                            "₺" : formatPrice((parseFloat(getDataJS(
+                                                        response,
+                                                        "installments-price[]", response
+                                                        .room_info[i].room_order)) -
+                                                    parseFloat(getDataJS(response,
+                                                        "advance[]", response.room_info[
+                                                            i].room_order)) - payDecPrice) /
+                                                parseInt(installementData)) + "₺";
                                     }
                                     var isMobile = window.innerWidth < 768;
 
@@ -674,17 +726,19 @@
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</td>";
+                                        html += advanceData ? "<td>" + (isMobile ?
+                                            "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>" : null;
                                     }
 
-                                    if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ?
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += monhlyPrice ? "<td>" + (isMobile ?
                                             "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                            "") + monhlyPrice + "</td>";
+                                            "") + monhlyPrice + "</td>" : null;
                                     }
 
-                                    if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
+                                    if (!isMobile && isNotEmpty(installmentsPrice) &&
+                                        paymentPlanDatax[
                                             paymentPlanData[j]] != "Taksitli") {
                                         var installmentsPrice = parseFloat(getDataJS(response,
                                             "installments-price[]", response.room_info[i]
@@ -1027,9 +1081,6 @@
 <!-- SweetAlert2 JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<!-- Include Toastify CSS and JS -->
-
-
 <script>
     $(document).ready(function() {
 
@@ -1111,7 +1162,7 @@
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
 
-                                
+
                                 toastr.success("Ürün Sepete Eklendi");
                                 if (!button.classList.contains("mobile")) {
                                     button.textContent = "Sepete Eklendi";
