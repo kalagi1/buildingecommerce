@@ -917,7 +917,6 @@ class ProjectController extends Controller
     //Teklif ver fonksiyonu
     public function give_offer(Request $request)
     {
-        $offer_price_range = $request->offer_price_min . " " . $request->offer_price_max;
 
         $data = [
             'user_id'           => auth()->id(),
@@ -925,7 +924,9 @@ class ProjectController extends Controller
             'project_id'        => $request->projectId,
             'room_id'           => $request->roomId,
             'email'             => $request->email,
-            'offer_price_range' => $offer_price_range,
+            'name'             => $request->name,
+            'phone'             => $request->phone,
+            'title'             => $request->title,
             'offer_description' => $request->offer_description,
             'approval_status'   => 0,
             'response_status'   => 0,
@@ -936,8 +937,8 @@ class ProjectController extends Controller
 
         ProjectOffers::create($data);
 
-        return redirect()->back()->with('success', 'Veri başarıyla eklendi!');
-    } //End
+        return redirect()->back()->with('success', 'Başvurunuz başarıyla alındı !');
+    } 
 
     //Teklif Yanıtı
     public function offer_response(Request $request)

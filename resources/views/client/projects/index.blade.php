@@ -1097,7 +1097,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script>
+            var successMessage = "{{ session('success') }}";
+        
+            if (successMessage) {
+                Toastify({
+                    text: successMessage,
+                    duration: 5000,
+                    gravity: 'bottom',
+                    position: 'center',
+                    backgroundColor: 'green',
+                    stopOnFocus: true,
+                }).showToast();
+            }
+        </script>
 
     <script>
     //       $(document).ready(function() {
@@ -1446,7 +1461,6 @@
         .modal-btn-kapat {
             padding: 0.8em 2em;
             font-weight: 600;
-            letter-spacing: 2px;
             transition: background-color 0.3s;
             width: 45%;
             border: none;

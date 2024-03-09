@@ -317,12 +317,10 @@
     aria-labelledby="offerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="offerModalLabel">Başvuru Yap</h3>
-
-            </div>
+          
             <div class="modal-body">
-                <!-- Modal içeriği -->
+                <h3 class="modal-title" id="exampleModalLabel">Başvuru Yap</h3>
+                <hr>
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
                     {{-- {{ $i+1 }} --}}
@@ -330,23 +328,21 @@
                     <input type="hidden" value="{{ $project->id }}" name="projectId">
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
                     <div class="form-group">
-                        <label for="surname" class="modal-label">Emailiniz : </label>
-                        <input type="text" class="modal-input" id="email" name="email">
+                        <label for="surname" class="modal-label">Ad Soyad : </label>
+                        <input type="text" class="modal-input" placeholder="Ad Soyad" id="name" name="name">
                     </div>
                     <div class="form-group">
-                        <label for="offer_price" class="modal-label">Fiyat Aralığı (TL):</label>
-                        <div class="input-group">
-                            <input type="text" class="modal-input" id="offer_price_min" name="offer_price_min"
-                                placeholder="Minimum" aria-label="Minimum Fiyat" aria-describedby="basic-addon2">
-                            {{-- <div class="input-group-append">
-                                        <span class="input-group-text modal-input" style="height: 10px" id="basic-addon2">-</span>
-                                    </div> --}}
-                            <input type="text" class="modal-input" id="offer_price_max" name="offer_price_max"
-                                placeholder="Maksimum" aria-label="Maksimum Fiyat" aria-describedby="basic-addon2">
-                        </div>
+                        <label for="surname" class="modal-label">Telefon Numarası : </label>
+                        <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone" name="phone">
                     </div>
-
-
+                    <div class="form-group">
+                        <label for="surname" class="modal-label">E-Posta : </label>
+                        <input type="email" class="modal-input" placeholder="E-Posta" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="surname" class="modal-label">Meslek : </label>
+                        <input type="email" class="modal-input" placeholder="Meslek" id="title" name="title">
+                    </div>
                     <div class="form-group">
                         <label for="comment" class="modal-label">Açıklama:</label>
                         <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
@@ -358,6 +354,7 @@
                         <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
                     </div>
                 </form>
+
 
 
 

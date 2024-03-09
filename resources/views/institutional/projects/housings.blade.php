@@ -1620,7 +1620,6 @@
         .modal-btn-kapat {
             padding: 0.8em 2em;
             font-weight: 600;
-            letter-spacing: 2px;
             transition: background-color 0.3s;
             width: 45%;
             border: none;
