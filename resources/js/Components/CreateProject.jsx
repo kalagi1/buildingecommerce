@@ -271,7 +271,7 @@ function CreateProject(props) {
         console.log(tempErrors);
         setAllErrors(tempErrors);
 
-        if(tempErrors.length == 0){
+        if(tempErrors.length == 0 && anotherBlockErrorsTemp.length == 0){
             setLoadingModal(true);
             const formData = new FormData();
 
