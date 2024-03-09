@@ -324,7 +324,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <h3 class="modal-title" id="exampleModalLabel">Başvuru Yap</h3>
+                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center" id="exampleModalLabel"> {{$project->project_title}} Projesi {{$keyIndex}} No'lu İlan için Başvuru Yap</h3>
                 <hr>
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
