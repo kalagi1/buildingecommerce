@@ -95,7 +95,7 @@
             color: white;
             text-align: center;
             position: absolute;
-            top: 1px;
+            top: -1px;
             left: 27px;
             display: flex;
             padding: 0;

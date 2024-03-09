@@ -729,7 +729,6 @@
             function updateCart(selectedOption) {
 
                 var qt = "{{ $cart['item']['qt'] }}";
-console.log(qt);
                 
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
                 $.ajax({
