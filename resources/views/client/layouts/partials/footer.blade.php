@@ -610,8 +610,8 @@
                                 "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
                                 3 + getDataJS(response,
                                     "pay-dec-count" + (orderHousing), response
-                                    .room_info[i].room_order) + " >" +
-                                "{{ $project->project_title }} PROJESİNDE " + response.room_info[i]
+                                    .room_info[i].room_order) + " >" + response.project_title +
+                                " PROJESİNDE" + response.room_info[i]
                                 .room_order + " NO'LU İLAN ÖDEME PLANI</th></tr>";
 
 
@@ -648,7 +648,8 @@
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
 
-                                        var monhlyPrice = numberOfShares != 0 ? formatPrice(((parseFloat(
+                                        var monhlyPrice = numberOfShares != 0 ? formatPrice(((
+                                                    parseFloat(
                                                         getDataJS(
                                                             response,
                                                             "installments-price[]", response
@@ -725,17 +726,19 @@
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html +=  advanceData ? "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
+                                        html += advanceData ? "<td>" + (isMobile ?
+                                            "<strong>Peşinat:</strong> " :
                                             "") + advanceData + "</td>" : null;
                                     }
 
                                     if (!isMobile || isNotEmpty(monhlyPrice)) {
-                                        html += monhlyPrice ?  "<td>" + (isMobile ?
+                                        html += monhlyPrice ? "<td>" + (isMobile ?
                                             "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                            "") + monhlyPrice + "</td>": null;
+                                            "") + monhlyPrice + "</td>" : null;
                                     }
 
-                                    if (!isMobile && isNotEmpty(installmentsPrice) && paymentPlanDatax[
+                                    if (!isMobile && isNotEmpty(installmentsPrice) &&
+                                        paymentPlanDatax[
                                             paymentPlanData[j]] != "Taksitli") {
                                         var installmentsPrice = parseFloat(getDataJS(response,
                                             "installments-price[]", response.room_info[i]

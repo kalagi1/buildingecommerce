@@ -1364,8 +1364,8 @@
                                 "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
                                 3 + getDataJS(response,
                                     "pay-dec-count" + (orderHousing), response
-                                    .room_info[i].room_order) + " >" +
-                                "{{ $project->project_title }} PROJESİNDE " + response.room_info[i]
+                                    .room_info[i].room_order) + " >" + response.project_title +
+                                " PROJESİNDE " + response.room_info[i]
                                 .room_order + " NO'LU İLAN ÖDEME PLANI</th></tr>";
 
 
