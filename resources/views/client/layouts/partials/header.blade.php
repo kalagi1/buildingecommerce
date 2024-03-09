@@ -47,7 +47,15 @@
 
     @yield('styles')
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVHQEVC6S0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-FVHQEVC6S0');
+</script>
     <style>
         .notification-card.unread {
             background-color: #eff2f6;
