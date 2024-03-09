@@ -535,6 +535,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <span> İlan Tarihi :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {{ date('d-m-y', strtotime($housing->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         İl-İlçe{!! optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':' !!}
                                                         <span class="det">
                                                             {!! optional($housing->city)->title .
