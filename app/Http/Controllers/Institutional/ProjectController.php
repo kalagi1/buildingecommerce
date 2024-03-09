@@ -607,7 +607,7 @@ class ProjectController extends Controller
         $tempUpdateHas = false;
         $housing_status = HousingStatus::all();
         $tempDataFull = Project::where('id', $id)->first();
-        $project = Project::where('slug', $slug)->first();
+        $project = Project::where('id', $id)->first();
         $tempDataFull2 = Project::where('id', $id)->first();
         $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->user()->id)->first();
@@ -1589,6 +1589,7 @@ class ProjectController extends Controller
             "status" => "2",
         ]);
 
+
         ProjectImage::where('project_id', $tempData->id)->delete();
         foreach ($tempData->images as $key => $image) {
             $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
@@ -1603,34 +1604,6 @@ class ProjectController extends Controller
             $projectImage->situation = 'public/situation_images/'.str_replace('public/situation_images/', '', $image->situation);
             $projectImage->project_id = $tempData->id;
             $projectImage->save();
-        }
-
-        foreach ($tempData->roomInfoKeys as $roomInfo) {
-            if (isset($roomInfo->new_value) && $roomInfo->new_value == 1) {
-                if ($roomInfo->name == "price[]" || $roomInfo->name == "installments-price[]" || $roomInfo->name == "installments[]") {
-                    ProjectHousing::create([
-                        "key" => $roomInfo->key,
-                        "name" => $roomInfo->name,
-                        "value" => str_replace('.', '', $roomInfo->value),
-                        "project_id" => $tempData->id,
-                        "room_order" => $roomInfo->room_order,
-                    ]);
-                } else {
-                    ProjectHousing::create([
-                        "key" => $roomInfo->key,
-                        "name" => $roomInfo->name,
-                        "value" => $roomInfo->value,
-                        "project_id" => $tempData->id,
-                        "room_order" => $roomInfo->room_order,
-                    ]);
-                }
-
-            } else {
-                ProjectHousing::where('name', $roomInfo->name)->where('project_id', $tempData->id)->where('room_order', $roomInfo->room_order)->update([
-                    "value" => $roomInfo->value,
-                ]);
-            }
-
         }
 
         $tempOrder->delete();

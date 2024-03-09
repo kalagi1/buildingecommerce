@@ -24,20 +24,6 @@ function ProjectFormEdit({center,setCenter,anotherBlockErrors,selectedBlock,setS
         }
     }
 
-    useEffect(() => {
-        if(projectData.coordinates){
-            var lat = projectData?.coordinates.split('-')[0];
-            var lng = projectData?.coordinates.split('-')[1];
-            setSelectedLocation({lat,lng})
-            setCenter({
-                lat: lat,
-                lng: lng
-            })
-
-            setZoom(10)
-        }
-    },[projectData])
-
     const dotNumberFormat = (number) => {
         if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
             return "";

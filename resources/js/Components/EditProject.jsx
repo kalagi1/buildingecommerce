@@ -41,6 +41,7 @@ function EditProject({projectId}) {
         setStep(stepOrder);
     }
 
+    console.log(projectData)
     useEffect(() => {
         axios.get(baseUrl+'project/'+projectId).then((res) => {
             var tempImages = [];
@@ -50,15 +51,12 @@ function EditProject({projectId}) {
                 tempImages.push(frontEndUrl+(res.data.data.images[i]?.image.replace('public','storage')));
             }
 
-            var tempSituations = [];
-
             for(var i = 0; i < res.data.data.situations.length; i++){
                 tempSituations.push(frontEndUrl+(res.data.data.situations[i]?.situation.replace('public/','')));
             }
 
             var lat = res.data.data.location.split(',')[0];
             var lng = res.data.data.location.split(',')[1];
-            
             setProjectData({
                 project_title : res.data.data.project_title,
                 description : res.data.data.description,
