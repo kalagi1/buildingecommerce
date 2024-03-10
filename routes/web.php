@@ -78,6 +78,7 @@ use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\NotificationController as ControllersNotificationController;
 use App\Http\Controllers\NestPayController;
+use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,14 +93,14 @@ use Illuminate\Support\Facades\Route;
  */
 
 
- Route::post('/ziraat/login', [NestPayController::class, 'loginToReport']);
- Route::post('/ziraat/3d-payment', [NestPayController::class, 'initiate3DPayment'])->name('3d.payment');
- Route::post('/ziraat/api-payment', [NestPayController::class, 'apiPayment']);
+// Route::post('/ziraat/login', [NestPayController::class, 'loginToReport']);
+// Route::post('/ziraat/3d-payment', [NestPayController::class, 'initiate3DPayment'])->name('3d.payment');
+// Route::post('/ziraat/api-payment', [NestPayController::class, 'apiPayment']);
 
-Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
-// Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
+// Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
+// // Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
 // Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
-Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
+// Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
 // Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
 
 Route::get('/', [HomeController::class, "index"])->name('index');
@@ -158,6 +159,8 @@ Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::cla
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
+
+Route::get('/payment/{userId}', [PayController::class, 'index'])->name('payment.index');
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');

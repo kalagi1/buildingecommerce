@@ -26,7 +26,7 @@
         <input type="hidden" name="pan" value="4546711234567894">
         <input type="hidden" name="Ecom_Payment_Card_ExpDate_Year" value="26" >
         <input type="hidden" name="Ecom_Payment_Card_ExpDate_Month" value="12"> --}}
-        <input type="submit" value="Ödemeyi Tamamla"/> 
+        <input type="submit" value="Satın al"/> 
     </form>
     
 </body>
