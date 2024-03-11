@@ -29895,6 +29895,7 @@ a {
     color: #fff;
     font-weight: 600;
     font-size: 11px;
+    margin-left:-10px !important
 }
 
 .buyUserRequest .buyUserRequest__icon {
