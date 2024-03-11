@@ -196,7 +196,7 @@ function ProjectForm({anotherBlockErrors,selectedBlock,setSelectedBlock,selected
             <div>
                 <h6>Bu projede bloklar var mı?</h6>
                 <label htmlFor="">
-                    <Switch {...label} defaultChecked={false} onChange={() => {setHaveBlocks(!haveBlocks)}} checked={haveBlocks} />
+                    <Switch {...label} defaultChecked={false} onChange={() => {setHaveBlocks(!haveBlocks);setBlocks([])}} checked={haveBlocks} />
                     Evet
                 </label>
                 {

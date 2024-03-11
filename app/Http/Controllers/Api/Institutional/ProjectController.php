@@ -18,6 +18,7 @@ use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
 use App\Models\ProjectSituation;
+use App\Models\ShareLink;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -676,7 +677,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        ProjectHousing::where('project_id',$id)->delete();
+        ShareLink::where('item_type',1)->where('item_id',$project->id)->delete();
 
         $project->delete();
 

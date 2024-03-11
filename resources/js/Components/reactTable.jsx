@@ -12,6 +12,7 @@ import { FirstPage, KeyboardArrowLeft, KeyboardArrowRight, LastPage } from '@mui
 import axios from 'axios';
 import { baseUrl } from '../define/variables';
 import { ToastContainer, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -249,7 +250,7 @@ function ReactTable(props) {
     const [loading,setLoading] = useState(true);
     useEffect(() => {
         setLoading(true);
-        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -264,7 +265,7 @@ function ReactTable(props) {
         setLoading(true);
         setPage(newPage);
         var start = newPage * rowPerPage;
-        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
+        axios.get(`https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -281,7 +282,7 @@ function ReactTable(props) {
         setRowPerPage(parseInt(event.target.value, 10));
         setPage(0);
 
-        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
+        axios.get(`https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);   
             setLoading(false);
@@ -289,48 +290,84 @@ function ReactTable(props) {
     };
 
     const deactive = (id) => {
-        axios.post(baseUrl+'deactive/'+id,{"_method":"PUT"}).then((res) => {
-            if(res.data.status){
-                toast.success("Başarıyla ilanı pasife aldınız");
-                setLoading(true);
-                axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
-                    setRows(res.data.data);
-                    setTotalProjectsCount(res.data.total_projects_count);
-                    setLoading(false);
-                    setPage(0);
+        Swal.fire({
+            title: "Projeyi aktife almak istediğine emin misin?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Evet",
+            cancelButtonText : "İptal"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.post(baseUrl+'deactive/'+id,{"_method":"PUT"}).then((res) => {
+                    if(res.data.status){
+                        setLoading(true);
+                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                            Swal.fire("Başarıyla projeyi pasife aldınız", "", "success");
+                            setRows(res.data.data);
+                            setTotalProjectsCount(res.data.total_projects_count);
+                            setLoading(false);
+                            setPage(0);
+                        })
+                    }
                 })
             }
-        })
+        });
+        
     }
 
     const active = (id) => {
-        axios.post(baseUrl+'active/'+id,{"_method":"PUT"}).then((res) => {
-            if(res.data.status){
-                toast.success("Başarıyla ilanı aktife aldınız");
-                setLoading(true);
-                axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
-                    setRows(res.data.data);
-                    setTotalProjectsCount(res.data.total_projects_count);
-                    setLoading(false);
-                    setPage(0);
+        Swal.fire({
+            title: "Projeyi aktife almak istediğine emin misin?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Evet",
+            cancelButtonText : "İptal"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.post(baseUrl+'active/'+id,{"_method":"PUT"}).then((res) => {
+                    if(res.data.status){
+                        setLoading(true);
+                        axios.get(baseUrl+'/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                            setRows(res.data.data);
+                            Swal.fire("Başarıyla projeyi aktife aldınız", "", "success");
+                            setTotalProjectsCount(res.data.total_projects_count);
+                            setLoading(false);
+                            setPage(0);
+                        })
+                    }
                 })
             }
-        })
+        });
     }
 
     const remove = (id) => {
-        axios.post(baseUrl+'remove/'+id,{"_method":"DELETE"}).then((res) => {
-            if(res.data.status){
-                toast.success("Başarıyla ilanı aktife aldınız");
-                setLoading(true);
-                axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
-                    setRows(res.data.data);
-                    setTotalProjectsCount(res.data.total_projects_count);
-                    setLoading(false);
-                    setPage(0);
+        Swal.fire({
+            title: "Projeyi silmek istediğine emin misin?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Evet",
+            cancelButtonText : "İptal"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.post(baseUrl+'remove/'+id,{"_method":"DELETE"}).then((res) => {
+                    if(res.data.status){
+                        setLoading(true);
+                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                            Swal.fire("Başarıyla projeyi sildiniz", "", "success");
+                            setRows(res.data.data);
+                            setTotalProjectsCount(res.data.total_projects_count);
+                            setLoading(false);
+                            setPage(0);
+                        })
+                    }
                 })
             }
-        })
+        });
+
+        
     }
 
 
@@ -412,11 +449,11 @@ function ReactTable(props) {
                                                 : <div class="text-danger">Pasif</div>}
                                             </TableCell>
                                             <TableCell>
-                                                <a href={`http://127.0.0.1:8000/institutional/projects/${row.id}/housings`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
+                                                <a href={`https://emlaksepette.com/institutional/projects/${row.id}/housings`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
                                             </TableCell>
                                             <TableCell>
-                                                <a class="badge badge-phoenix badge-phoenix-warning" href={`http://127.0.0.1:8000/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
-                                                <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`http://127.0.0.1:8000/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
+                                                <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
                                             </TableCell>
                                             <TableCell>
                                                 {
