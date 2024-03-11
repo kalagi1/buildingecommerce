@@ -266,7 +266,39 @@
                 </div>
                 <ul class="navbar-nav navbar-nav-icons flex-row">
 
+                    <li class="nav-item">
+                        @php
+                        $userType = Auth::user()->type;
+                    @endphp
 
+                    @php
+                        $link = '';
+                        $text = '';
+
+                        switch ($userType) {
+                            case 2:
+                                $link = url('institutional/ilan-tipi-sec');
+                                $text = 'İlan Ekle';
+                                break;
+                            case 3:
+                                $link = url('qR9zLp2xS6y/secured/');
+                                $text = 'Yönetim';
+                                break;
+                            default:
+                                $link = url('sat-kirala/');
+                                $text = 'Sat Kirala';
+                        }
+                    @endphp
+
+                    <a href="{{ $link }}" style="margin-right: 9px;">
+                        <button type="button" class="buyUserRequest ml-3">
+                            <span class="buyUserRequest__text">{{ $text }}</span>
+                            <span class="buyUserRequest__icon">
+                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                            </span>
+                        </button>
+                    </a>
+                    </li>
                     <li class="nav-item">
                         <div class="theme-control-toggle fa-icon-wait px-2"><input
                                 class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
