@@ -24,6 +24,7 @@
     }
 @endphp
 
+@if(isset($projectHousingsList[$keyIndex]))
 <div class="col-md-12 col-12">
     <div class="project-card mb-3">
         <div class="row">
@@ -420,3 +421,5 @@
         </div>
     </div>
 </div>
+
+@endif
