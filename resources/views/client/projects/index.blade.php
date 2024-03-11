@@ -206,6 +206,13 @@
                                 <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
                             </div>
                             <div class="carousel-inner">
+                                <div class="item carousel-item active" data-slide-number="0">
+                                    <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
+                                        data-lightbox="image-gallery">
+                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
+                                            class="img-fluid" alt="slider-listing">
+                                    </a>
+                                </div>
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
