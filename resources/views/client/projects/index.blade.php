@@ -1097,7 +1097,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-       var currentPage = 1;
+       var currentPage = 1; 
 var itemsPerPage = 10;
 var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
 var isLoading = false; // Kontrol flag'ı ekledik
