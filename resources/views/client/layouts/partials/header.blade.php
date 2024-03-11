@@ -650,7 +650,7 @@
                             @else
                                 <a href="{{ route('client.login') }}">
                                     <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> Üye Ol</span>
+                                        <span class="buyUserRequest__text"> Hemen Üye Ol</span>
                                         <span class="buyUserRequest__icon">
                                             <img src="{{ asset('sc.png') }}" alt="" srcset="">
                                         </span>
