@@ -371,18 +371,20 @@ class ProjectController extends Controller {
         //CartORders'a ekle
         $order = new CartOrder();
       
-        $order->user_id = $user->id;
-        $order->status = '1';
-        $order->key = 1000000 + $projectID + $housingID;
-        $order->full_name = $user->name;
-        $order->email = $user->email;
-        $order->tc = $request->tc;
-        $order->is_swap = 0;
+        $order->user_id      = $user->id;
+        $order->status       = '1';
+        $order->key          = 1000000 + $projectID + $housingID;
+        $order->full_name    = $user->name;
+        $order->email        = $user->email;
+        $order->tc           = $request->tc;
+        $order->is_swap      = 0;
         $order->is_reference = 0;
         $order->is_show_user = 'on';
-        $order->amount = 0;
-        $order->is_disabled = 1; // sonradan eklenen konutlar için
-        $order->store_id = Project::where('id',$projectID)->value('user_id');
+        $order->amount       = 0;
+        $order->is_disabled  = 1; // sonradan eklenen konutlar için
+        $order->store_id     = Project::where('id',$projectID)->value('user_id');
+        $order->phone        = $request->phone;
+        $order->address      = $request->address;
 
         $cartJson['item']['id'] = (int)$projectID;
         $cartJson['item']['housing'] = (int)$housingID;
@@ -424,22 +426,44 @@ class ProjectController extends Controller {
 
     public function komsumuGorInfo2Edit(Request $request){
 
-        $updatedData = [
-            'email'     => $request->email,
-            'full_name' => $request->name,
-            'phone'     => $request->phone,
-            'tc'        => $request->tc,
-            'address'   => $request->address,
-        ];
+        $email = $request->email;
+        $userFirst = User::where('email', $email)->first();
 
-        $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
+        if($userFirst){
+            $updatedData = [
+                'email'     => $request->email,
+                'full_name' => $request->name,
+                'phone'     => $request->phone,
+                'tc'        => $request->tc,
+                'address'   => $request->address,
+            ];
 
-        if ($update) {
+            $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
+            if ($update) {
+                return redirect()->back()->with('success','Başarıyla düzenlendi');
+            }
+        }else{
+
+            $addedData = [
+                'email'     => $request->email,
+                'name'      => $request->name,
+                'phone'     => $request->phone,
+                'tc'        => $request->tc,
+                'address'   => $request->address,
+            ];
+
+            $user = User::create($addedData);                         
+            $cartOrder = CartOrder::where('user_id', $userFirst->id)->first();              
+            $cartOrder->update(['user_id' => $user->id]);
+              
             return redirect()->back()->with('success','Başarıyla düzenlendi');
-        } else {
-            return back()->with('error','Bilgiler düzenlenemedi!!!');
         }
+        
 
+    
+
+
+     
     }//End
 
     public function getUserInfo(Request $request)
