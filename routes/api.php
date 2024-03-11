@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PayController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
+
+
+Route::post('/3dpayresponse',[PayController::class, 'processPaymentResponse'])->name('3d.pay.response');

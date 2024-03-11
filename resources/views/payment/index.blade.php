@@ -59,7 +59,7 @@
 
                                 <div class="booking-price-detail side-list no-border mb-3">
                                     <table>
-                                        <tr >
+                                        <tr>
                                             <th>Ürün Resmi</th>
                                             <th>Ürün Bilgisi</th>
                                             <th>Fiyat</th>
@@ -298,59 +298,73 @@
                                         <img src="images/credit.png" class="img-responsive" alt="">
                                     </div>
                                 </header>
-                                <div class="collapse show" id="debit-credit" role="tablist" aria-expanded="false"
-                                    style="">
+                                <div class="collapse show" id="debit-credit" role="tablist" aria-expanded="false" style="">
                                     <div class="payment-card-body">
-                                        <div class="row mrg-bot-20">
-                                            <div class="col-sm-6">
-                                                <label>Card Holder Name</label>
-                                                <input type="text" class="form-control" placeholder="Chris Seail">
+                                        <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
+                                            @csrf
+                                            <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
+                                            {{-- <input type="hidden" name="key" id="orderKey">
+                                            <input type="hidden" name="have_discount" class="have_discount">
+                                            <input type="hidden" name="discount" class="discount">
+                                            <input type="hidden" name="is_swap" class="is_swap"> --}}
+                                           // <input type="hidden" id="fullName" name="fullName" value="">
+                                            <div class="row mrg-bot-20">
+                                                {{-- <div class="col-sm-6">
+                                                    <label>Kart Sahibinin Adı</label>
+                                                    <input type="text" class="form-control" placeholder="Chris Seail">
+                                                </div> --}}
+                                                <div class="col-sm-6">
+                                                    <label>Kart Numarası</label>
+                                                    <input type="text" class="form-control"  id="creditCard" name="creditCard"  placeholder="1800 5785 6758 2458">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <label>Card No.</label>
-                                                <input type="email" class="form-control"
-                                                    placeholder="1800 5785 6758 2458">
+                                            <div class="row mrg-bot-20">
+                                                <div class="col-sm-4 col-md-4">
+                                                    <label>Son Kullanma Ayı</label>
+                                                    <input type="text" class="form-control"  id="month" name="month"  placeholder="09">
+                                                </div>
+                                                <div class="col-sm-4 col-md-4">
+                                                    <label>Son Kullanma Yılı</label>
+                                                    <input type="text" class="form-control" id="year" name="year" placeholder="2022">
+                                                </div>
+                                                {{-- <div class="col-sm-4 col-md-4">
+                                                    <label>CCV Kodu</label>
+                                                    <input type="text" class="form-control" placeholder="258">
+                                                </div> --}}
                                             </div>
-                                        </div>
-                                        <div class="row mrg-bot-20">
-                                            <div class="col-sm-4 col-md-4">
-                                                <label>Expire Month</label>
-                                                <input type="text" class="form-control" placeholder="09">
+                                            <div class="row mrg-bot-20">
+                                                <div class="col-sm-7">
+                                                    <span class="custom-checkbox d-block font-12 mb-2">
+                                                        <input type="checkbox" id="promo" name="promo">
+                                                        <label for="promo"></label>
+                                                        Bir promosyon kodunuz var mı?
+                                                    </span>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                {{-- <div class="col-sm-5 padd-top-10 text-right">
+                                                    <label>Toplam Sipariş</label>
+                                                    <h2 class="mrg-0"><span class="theme-cl">₺</span>987</h2>
+                                                </div> --}}
+                                                {{-- <div class="col-sm-12 bt-1 padd-top-15 pt-3">
+                                                    <span class="custom-checkbox d-block font-12 mb-3">
+                                                        <input type="checkbox" id="privacy1">
+                                                        <label for="privacy1"></label>
+                                                        Sipariş vererek <a href="#" class="theme-cl">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
+                                                    </span>
+                                                </div> --}}
                                             </div>
-                                            <div class="col-sm-4 col-md-4">
-                                                <label>Expire Year</label>
-                                                <input type="email" class="form-control" placeholder="2022">
-                                            </div>
-                                            <div class="col-sm-4 col-md-4">
-                                                <label>CCV Code</label>
-                                                <input type="email" class="form-control" placeholder="258">
-                                            </div>
-                                        </div>
-                                        <div class="row mrg-bot-20">
-                                            <div class="col-sm-7">
-                                                <span class="custom-checkbox d-block font-12 mb-2">
-                                                    <input type="checkbox" id="promo">
-                                                    <label for="promo"></label>
-                                                    Have a promo code?
-                                                </span>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                            <div class="col-sm-5 padd-top-10 text-right">
-                                                <label>Total Order</label>
-                                                <h2 class="mrg-0"><span class="theme-cl">$</span>987</h2>
-                                            </div>
-                                            <div class="col-sm-12 bt-1 padd-top-15 pt-3">
-                                                <span class="custom-checkbox d-block font-12 mb-3">
-                                                    <input type="checkbox" id="privacy1">
-                                                    <label for="privacy1"></label>
-                                                    By ordering you are agreeing to our <a href="#"
-                                                        class="theme-cl">Privacy policy</a>.
-                                                </span>
-                                                <button type="submit" class="btn btn-m btn-success">Checkout</button>
-                                            </div>
-                                        </div>
+
+                                            <button type="submit" class="btn btn-success 3dPaySuccess" >Ödemeyi
+                                                Tamamla
+                                                <svg viewBox="0 0 576 512" class="svgIcon">
+                                                    <path
+                                                        d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                    </path>
+                                                </svg></button>
+                                        </form>
                                     </div>
                                 </div>
+                                
                             </div>
                             {{-- EFT Havale --}}
                             <div class="payment-card mb-0">
@@ -372,15 +386,17 @@
                                                 <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
                                                         id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                                     alanına yazdığınızdan emin olun.</span>
-                                                @foreach ($bankAccounts as $bankAccount)
-                                                    <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                                        data-iban="{{ $bankAccount->iban }}"
-                                                        data-title="{{ $bankAccount->receipent_full_name }}">
-                                                        <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
-                                                            alt=""
-                                                            style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                                    </div>
-                                                @endforeach
+                                                @if ($bankAccounts && count($bankAccounts) > 0)
+                                                    @foreach ($bankAccounts as $bankAccount)
+                                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
+                                                            data-iban="{{ $bankAccount->iban }}"
+                                                            data-title="{{ $bankAccount->receipent_full_name }}">
+                                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
+                                                                alt=""
+                                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                                        </div>
+                                                    @endforeach
+                                                @endif
 
                                             </div>
                                             <div id="ibanInfo" style="font-size: 12px !important"></div>
@@ -495,37 +511,40 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+      
+        
+
+        //EFT/Havale
         $(document).ready(function() {
             var $cart = <?php echo json_encode($cart); ?>; // $cart değişkenini hazırla
-
             var uniqueCode = ($cart['type'] === 'housing') ? // uniqueCode'u oluştur
                 $cart['item']['id'] + 2000000 :
                 $cart['item']['housing'] + $cart['item']['id'] + 1000000;
-
             $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode); // uniqueCode değerini span içine yerleştir
             $("#orderKey").val(uniqueCode); // uniqueCode değerini gizli input içine yerleştir
         });
         $(document).ready(function() {
             $('.paySuccess').on('click', function() {
                 // $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
-
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
                     toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
                     return;
                 }
-
                 if ($('#fullName').val() === '') {
                     toastr.warning('Ad Soyad alanı zorunludur.')
                     return;
                 }
-
                 if ($('#tc').val() === '') {
                     toastr.warning('TC alanı zorunludur.')
                     return;
                 }
-
                 if ($('#email').val() === '') {
                     toastr.warning('E-posta alanı zorunludur.')
+                    return;
+                }
+
+                if ($('#bankaID').val() === '') {
+                    toastr.warning('EFT/Havale kart alanı zorunludur.')
                     return;
                 }
                 $.ajax({
@@ -553,7 +572,6 @@
                         var redirectUrl =
                             "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
                         window.location.href = redirectUrl.replace(':cartOrderId', cartOrderId);
-
                     },
                     error: function(error) {
                         toastr.error('Ödeme işlemi sırasında bir hata oluştu.')
@@ -564,36 +582,24 @@
                     }
                 });
             });
-
-
-
-
             //  $('#completePaymentButton').prop('disabled', false);
-
             $('.bank-account').on('click', function() {
                 // Tüm banka görsellerini seçim olmadı olarak ayarla
                 $('.bank-account').removeClass('selected');
-
                 // Seçilen banka görselini işaretle
                 $(this).addClass('selected');
-
                 // İlgili IBAN bilgisini al
                 var selectedBankIban = $(this).data('iban');
                 var selectedBankIbanID = $(this).data('id');
                 var selectedBankTitle = $(this).data('title');
                 $('#bankaID').val(selectedBankIbanID);
-
-
                 var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
                     selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
                 $('#ibanInfo').html(ibanInfo);
-
             });
-
             $('#completePaymentButton').on('click', function() {
                 if ($('.bank-account.selected').length === 0) {
                     toastr.error('Lütfen banka seçimi yapınız.')
-
                 } else {
                     $('#paymentModal').removeClass('show').hide();
                     $('.modal-backdrop').removeClass('show');
@@ -601,8 +607,6 @@
                     $('#finalConfirmationModal').modal('show');
                 }
             });
-
-
             function formatPrice(price) {
                 var parts = price.toString().split(".");
                 parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -614,11 +618,34 @@
                     var uniqueCode = ($cart['type'] === 'housing') ?
                         $cart['item']['id'] + 2000000 :
                         $cart['item']['housing'] + $cart['item']['id'] + 1000000;
-
                     $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
                     $("#orderKey").val(uniqueCode);
                 });
             });
         });
+
+        $('.3dPaySuccess').on('click', function() {
+            var $cart = JSON.parse($('#3dPayForm input[name="cart"]').val());
+            // Kullanıcı bilgilerini al
+            var fullName = $('#fullName').val();
+            var tc = $('#tc').val();
+            var email = $('#email').val();
+
+            // Kullanıcı bilgilerini kontrol et
+            // Formun doldurulup doldurulmadığını kontrol et
+            if (fullName === '' || tc === '' || email === '') {
+                toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.');
+                return false; // Formun submit işlemini durdur
+            }
+
+                // Kullanıcı bilgileri mevcutsa formu gönder
+                $('#3dPayForm').submit();
+        });
+
+        
+            
+
+
+
     </script>
 @endsection

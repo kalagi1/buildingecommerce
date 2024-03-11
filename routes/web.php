@@ -161,6 +161,8 @@ Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 
 Route::get('/payment/{userId}', [PayController::class, 'index'])->name('payment.index');
+Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
+Route::post('/process-payment', [PayController::class, 'processPaymentResponse'])->name('process.payment.response');
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');
