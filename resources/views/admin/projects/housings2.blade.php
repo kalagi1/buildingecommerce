@@ -796,7 +796,7 @@
                                 <input type="hidden" name="projectID" value="{{$project->id}}">
                           
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">Email1: </label>
+                                    <label for="surname" class="q-label">Email: </label>
                                     <input type="text" class="modal-input email_search" id="email_komsumu_gor" name="email">
                                 </div>
 

@@ -353,7 +353,6 @@ class ProjectController extends Controller {
         $user = User::where('email',$request->email)->first();
 
         if(!$user){
-              //Kullanıcıyı Ekle
               $userData = [
                 'is_show' =>'no',
                 'type' =>1,
