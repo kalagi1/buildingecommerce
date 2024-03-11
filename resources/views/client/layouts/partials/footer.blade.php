@@ -28,14 +28,6 @@
                                             <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
-                                    @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        @if (
-                                            $p->slug != 'bireysel-uyelik-sozlesmesi' &&
-                                                $p->slug != 'kurumsal-uyelik-sozlesmesi' &&
-                                                $p->slug != 'mesafeli-kiralama-sozlesmesi')
-                                            <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
-                                        @endif
-                                    @endforeach
                                 </ul>
                             </div>
 
@@ -48,7 +40,7 @@
     <div class="second-footer bg-white-3">
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 16px;">
-                <span>2023 © Copyright - All Rights Reserved. @kodturk</span>
+                <span>2023 © Copyright - Tüm hakları saklıdır. @kodturk</span>
 
             </p>
             <ul class="netsocials">

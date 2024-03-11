@@ -674,22 +674,22 @@
                                     <input type="hidden" name="projectID" value="{{$project->id}}">
                               
                                     <div class="form-group">
-                                        <label for="surname" class="modal-label">Ad Soyad: </label>
+                                        <label for="surname" class="q-label">Ad Soyad: </label>
                                         <input type="text" class="modal-input" id="name" name="name" required>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="surname" class="modal-label">Email: </label>
+                                        <label for="surname" class="q-label">Email: </label>
                                         <input type="text" class="modal-input" id="email" name="email" required>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="surname" class="modal-label">TC : </label>
+                                        <label for="surname" class="q-label">TC : </label>
                                         <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
                                     </div>
                 
                                     <div class="form-group">
-                                        <label for="comment" class="modal-label">Adres:</label>
+                                        <label for="comment" class="q-label">Adres:</label>
                                         <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
                                             name="address" required></textarea>
                                     </div>
@@ -1612,8 +1612,7 @@
 
         .modal-input {
             padding: 0.7em !important;
-            border: 1px solid #ccc !important;
-            border-radius: 0.4em !important;
+            border: 1px solid #eee !important;
             margin: 0.5em 0em;
             width: 100%;
             transition: border-color 0.3s;
@@ -1628,7 +1627,6 @@
         .modal-btn-kapat {
             padding: 0.8em 2em;
             font-weight: 600;
-            letter-spacing: 2px;
             transition: background-color 0.3s;
             width: 45%;
             border: none;

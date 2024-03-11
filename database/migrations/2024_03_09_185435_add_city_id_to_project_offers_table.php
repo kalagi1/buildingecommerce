@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('neighbor_views', function (Blueprint $table) {
-            $table->bigInteger("order_id")->nullable();
+        Schema::table('project_offers', function (Blueprint $table) {
+            $table->integer("city_id")->nullable();
+            $table->integer("county_id")->nullable();
+
         });
     }
 
@@ -21,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('neighbor_views', function (Blueprint $table) {
+        Schema::table('project_offers', function (Blueprint $table) {
             //
         });
     }

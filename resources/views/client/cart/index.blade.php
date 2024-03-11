@@ -235,7 +235,7 @@
                                                 @endif
 
                                                 <span class="discounted-price-x" id="itemPrice"
-                                                    data-original-price="{{ $cart['item']['price'] }}"
+                                                    data-original-price="{{ $cart['item']['defaultPrice'] }}"
                                                     data-installment-price="{{ $cart['item']['installmentPrice'] }}"
                                                     style="color: green; font-size:14px !important">
                                                     {{ $displayedPrice }}
@@ -723,18 +723,14 @@
                     }
                 });
             });
-            
+
 
 
             function updateCart(selectedOption) {
 
-                var priceOnly = "{{$cart['item']['numbershare']}}";
-               
-                if (priceOnly != 0) {
-                    installmentPrice = installmentPrice / priceOnly;
-                    originalPrice = originalPrice / priceOnly;
-                }
-                var updatedPrice = (selectedOption === 'taksitli') ? installmentPrice : originalPrice;
+                var qt = "{{ $cart['item']['qt'] }}";
+                
+                var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
                 $.ajax({
                     type: 'POST',
                     url: '/update-cart',

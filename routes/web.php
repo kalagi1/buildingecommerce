@@ -760,6 +760,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     });
 
 });
+Route::get('/load-more-rooms/{projectId}/{page}', [InstitutionalProjectController::class,"loadMoreRooms"])->name('load.more.rooms');
+Route::get('/load-more-rooms-mobile/{projectId}/{page}', [InstitutionalProjectController::class,"loadMoreRoomsMobile"])->name('load.more.rooms.mobile');
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
@@ -1141,6 +1143,8 @@ Route::post('offer_response',[ClientProjectController::class,'offer_response'])-
 //Komşumu Gor
 Route::post('proje/housings/komsumu/gor',[InstitutionalProjectController::class,'komsumuGorInfo'])->name('projects.housings.komsumu.gor');
 Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor',[ProjectController::class,'komsumuGorInfo2'])->name('admin.projects.housings.komsumu.gor');
+Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor/edit/{id}',[ProjectController::class,'komsumuGorInfo2Edit'])->name('admin.projects.housings.komsumu.gor.edit');
+Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor/user/search',[ProjectController::class,'getuserinfo'])->name('admin.projects.housings.getuserinfo');
 
 //Admin Fatura sipariş detay
 Route::get('qR9zLp2xS6y/secured/invoice/{order}', [ProjectController::class, "show"])->name('admin.invoice.show');
