@@ -239,7 +239,7 @@
             var projectId = $(this).attr('project_id');
             Swal.fire({
                 @if ($housing->status)
-                    title: 'Pasife almak istediğine emin misin?',
+                    title: 'Aktife almak istediğine emin misin?',
                 @else
                     title: 'Aktife almak istediğine emin misin?',
                 @endif
