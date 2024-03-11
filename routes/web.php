@@ -1130,6 +1130,9 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/create_room',[ApiProjectController::class,"createRoom"]);
     Route::get('/project/{id}',[ApiProjectController::class,"show"]);
     Route::put('/edit_project_v3/{id}',[ApiProjectController::class,"updateProject"]);
+    Route::put('/deactive/{id}',[ApiProjectController::class,"deactive"]);
+    Route::put('/active/{id}',[ApiProjectController::class,"active"]);
+    Route::delete('/remove/{id}',[ApiProjectController::class,"destroy"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

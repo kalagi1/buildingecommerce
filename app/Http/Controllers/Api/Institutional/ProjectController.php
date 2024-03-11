@@ -18,6 +18,7 @@ use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
 use App\Models\ProjectSituation;
+use App\Models\ShareLink;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -646,6 +647,39 @@ class ProjectController extends Controller
                 }
             }
         }
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function deactive($id){
+        Project::where('id',$id)->update([
+            "status" => 0
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function active($id){
+        Project::where('id',$id)->update([
+            "status" => 1
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $project = Project::findOrFail($id);
+
+        ShareLink::where('item_type',1)->where('item_id',$project->id)->delete();
+
+        $project->delete();
 
         return json_encode([
             "status" => true

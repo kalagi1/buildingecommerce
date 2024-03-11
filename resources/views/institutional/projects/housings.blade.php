@@ -65,7 +65,9 @@
                     </ul>
                     @php 
                         $lastCountx = 0;
+                        $temp = 1;
                     @endphp
+                    
                     @foreach ($project->blocks as $key => $block)
                         <div class="tab-pane fade{{ $loop->first ? ' active show' : '' }}" id="tab-{{ $block['id'] }}"
                             role="tabpanel" aria-labelledby="{{ $block['id'] }}-tab">
@@ -111,7 +113,7 @@
                                             @endphp
 
                                             <tr>
-                                                <td><input type="checkbox" class="item-checkbox" item-id="{{  $i + 1 }}"
+                                                <td><input type="checkbox" class="item-checkbox" item-id="{{  $temp }}"
                                                     name="" id=""></td>
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
@@ -338,6 +340,10 @@
                                                     <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                         class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                 </td>
+
+                                                @php 
+                                                    $temp++;
+                                                @endphp
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -1037,20 +1043,22 @@
 
         $('.all-select').change(function() {
             if ($(this).is(':checked')) {
-                $('.item-checkbox').prop('checked', true)
-                for (var i = 0; i < $('.item-checkbox').length; i++) {
-                    selectedItems.push($('.item-checkbox').eq(i).attr('item-id'))
+                $('.tab-pane.active .item-checkbox').prop('checked', true)
+                for (var i = 0; i < $('.tab-pane.active .item-checkbox').length; i++) {
+                    selectedItems.push($('.tab-pane.active .item-checkbox').eq(i).attr('item-id'))
                     $('.updates-buttons').removeClass('d-none')
                 }
                 targetProxy.hello_world = 1;
             } else {
-                $('.item-checkbox').prop('checked', false)
-                for (var i = 0; i < $('.item-checkbox').length; i++) {
-                    selectedItems = [];
+                $('.tab-pane.active .item-checkbox').prop('checked', false)
+                for (var i = $('.tab-pane.active .item-checkbox').eq(0).attr('item-id') - 1; i < $('.tab-pane.active .item-checkbox').eq(0).attr('item-id') + $('.tab-pane.active .item-checkbox').length; i++) {
+                    console.log(i);
+                    selectedItems = selectedItems.filter((item) => {if(item != i + 1){return item}});
                     $('.updates-buttons').addClass('d-none')
                 }
                 targetProxy.hello_world = 0;
             }
+
         })
 
 
