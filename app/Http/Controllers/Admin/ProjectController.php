@@ -24,6 +24,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
 class ProjectController extends Controller {
@@ -436,6 +437,7 @@ class ProjectController extends Controller {
                 'phone'     => $request->phone,
                 'tc'        => $request->tc,
                 'address'   => $request->address,
+                "user_id" => $userFirst->id
             ];
 
             $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
@@ -448,12 +450,14 @@ class ProjectController extends Controller {
                 'email'     => $request->email,
                 'name'      => $request->name,
                 'phone'     => $request->phone,
-                'tc'        => $request->tc,
-                'address'   => $request->address,
+                'idNumber'  => $request->tc,
+                'type' => 1,
+                "status" => 1,
+                'password'   => Hash::make("komsumugor123"),
             ];
 
             $user = User::create($addedData);                         
-            $cartOrder = CartOrder::where('user_id', $userFirst->id)->first();              
+            $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
             $cartOrder->update(['user_id' => $user->id]);
               
             return redirect()->back()->with('success','Başarıyla düzenlendi');
