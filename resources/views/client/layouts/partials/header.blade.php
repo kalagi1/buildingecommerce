@@ -637,14 +637,26 @@
                                         </button>
                                     </a>
                                 @else
-                                    <a href="{{ route('real.estate.index') }}">
-                                        <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> Sat Kirala</span>
-                                            <span class="buyUserRequest__icon">
-                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                            </span>
-                                        </button>
-                                    </a>
+                                
+                                @auth
+                                <a href="{{ route('real.estate.index') }}">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Sat Kirala</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
+                                </a>
+                            @else
+                                <a href="{{ route('client.login') }}">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Üye Ol</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
+                                </a>
+                                @endauth
                                 @endif
 
 
