@@ -652,6 +652,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script>
+            $(document).ready(function() {
+        
+        $("#clear-filters").click(function() {
+            // Adres bilgilerini sıfırla
+            $("#city").val("#").trigger('change'); // İl seçeneğini sıfırla
+            $("#county").val("#").trigger('change'); // İlçe seçeneğini sıfırla
+            $("#neighborhood").val("#").trigger('change'); // Mahalle seçeneğini sıfırla
+            });
+        });
+
         $(document).ready(function() {
             $('#city').select2({
                 placeholder: 'İl',
