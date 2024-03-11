@@ -49,7 +49,7 @@
                                 @endif
                             </a></p>
                         <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                        <p class="brand-name">Projeler</p>
+                        <p class="brand-name">Ekibimiz</p>
                     </div>
                 </div>
                 <div class="card-body">
