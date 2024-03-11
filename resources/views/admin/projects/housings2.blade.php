@@ -335,9 +335,12 @@
                                                 <td class="price">
                                                     @if (isset($sold[0]))
                                                         <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
-                                                            class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
+                                                            class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a><br>
                                                     @endif
-
+                                                    <a href="{{route('admin.projects.housings.komsumu.gor.edit', ['id', $i+1])}}"
+                                                    class="badge badge-phoenix badge-phoenix-success value-text">
+                                                    Komşumu Düzenle
+                                                  </a>    
                                                 </td>
                                             @else
                                                 <td class="price">
@@ -366,16 +369,18 @@
                                                             <input type="hidden" name="no" value="{{ $i+1 }}">
                                                             <input type="hidden" name="price" value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
                                                             <input type="hidden" name="projectID" value="{{$project->id}}">
+
+                                                            <div class="form-group">
+                                                                <label for="surname" class="q-label">Email: </label>
+                                                                <input type="text" class="modal-input" id="email" name="email" required>
+                                                            </div>
                                                       
                                                             <div class="form-group">
                                                                 <label for="surname" class="q-label">Ad Soyad: </label>
                                                                 <input type="text" class="modal-input" id="name" name="name" required>
                                                             </div>
                             
-                                                            <div class="form-group">
-                                                                <label for="surname" class="q-label">Email: </label>
-                                                                <input type="text" class="modal-input" id="email" name="email" required>
-                                                            </div>
+                                                           
 
                                                             <div class="form-group">
                                                                 <label for="surname" class="q-label">Telefon: </label>
@@ -696,8 +701,69 @@
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
                                                         @endif
-
+                                                        <a href="#" class="badge badge-phoenix badge-phoenix-info value-text"
+                                                            data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
+                                                             Komşumu Düzenle
+                                                         </a>
+                                                         
                                                     </td>
+                                                    @php
+                                                        $cartOrder = DB::table('cart_orders')
+                                                                ->where('cart->item->housing', $i+1)
+                                                                ->where('cart->item->id', $project->id)
+                                                                ->first();                    
+                                                    @endphp
+                                                              <!--KOMŞUMU DUZENLE Modal -->
+                       <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            <form action="{{ route('admin.projects.housings.komsumu.gor.edit', ['id' => $i+1]) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="no" value="{{ $i+1 }}">
+                                <input type="hidden" name="projectID" value="{{$project->id}}">
+                                <input type="hidden" name="cartOrderID" value="{{$cartOrder->id}}">
+                                
+                                <div class="form-group">
+                                    <label for="surname" class="q-label">Email: </label>
+                                    <input type="text" class="modal-input" id="email" name="email" value="{{$cartOrder->email}}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname" class="q-label">Ad Soyad: </label>
+                                    <input type="text" class="modal-input" id="name" name="name" value="{{$cartOrder->full_name}}">
+                                </div>
+                           
+                                <div class="form-group">
+                                    <label for="surname" class="q-label">Telefon: </label>
+                                    <input type="number" class="modal-input" id="phone" name="phone" value="{{$cartOrder->phone}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="surname" class="q-label">TC : </label>
+                                    <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" value="{{$cartOrder->tc}}">
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="comment" class="q-label">Adres:</label>
+                                    <textarea class="modal-input" id="address" rows="45" style="height: 100px !important;"
+                                        name="address" required>{{$cartOrder->address}}</textarea>
+                                </div>
+            
+                                <div class="modal-footer">
+                                    <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                    <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                        </div>
+                    </div>  
                                                 @else
                                                     <td class="price">
                                                     
@@ -712,7 +778,7 @@
                                                     </td>
                                                 
                                                 @endif
-                       <!--KOMŞUMU GOR Modal -->
+                       <!--KOMŞUMU GOR2 Modal -->
                        <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -730,26 +796,28 @@
                                 <input type="hidden" name="projectID" value="{{$project->id}}">
                           
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">Ad Soyad: </label>
-                                    <input type="text" class="modal-input" id="name" name="name" required>
+                                    <label for="surname" class="q-label">Email1: </label>
+                                    <input type="text" class="modal-input email_search" id="email_komsumu_gor" name="email">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="surname" class="q-label">Email: </label>
-                                    <input type="text" class="modal-input" id="email" name="email" required>
+                                    <label for="surname" class="q-label">Ad Soyad: </label>
+                                    <input type="text" class="modal-input name_komsumu_gor" id="name_komsumu_gor" name="name" required>
                                 </div>
+
+                           
                                 <div class="form-group">
                                     <label for="surname" class="q-label">Telefon: </label>
-                                    <input type="number" class="modal-input" id="phone" name="phone" required>
+                                    <input type="number" class="modal-input phone_komsumu_gor" id="phone_komsumu_gor" name="phone" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="surname" class="q-label">TC : </label>
-                                    <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
+                                    <input type="number" class="modal-input tc_komsumu_gor" id="tc_komsumu_gor" name="tc" maxlength="11" required>
                                 </div>
             
                                 <div class="form-group">
                                     <label for="comment" class="q-label">Adres:</label>
-                                    <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;"
+                                    <textarea class="modal-input address_komsumu_gor" id="address_komsumu_gor" rows="45" style="height: 100px !important;"
                                         name="address" required></textarea>
                                 </div>
             
@@ -1037,7 +1105,9 @@
         </div>
     </div>
 
-
+    <script>
+        
+    </script>
   
     <style>
         .fade:not(.show) {
@@ -1051,7 +1121,38 @@
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+      
+        
+
     <script>
+        $(document).ready(function() {
+            console.log('start2')
+
+            $('.email_search').on('input', function(){
+            var email = $(this).val();
+            console.log(email)
+
+            $.ajax({
+                url: '{{ route("admin.projects.housings.getuserinfo") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    email: email
+                },
+                success: function(response){
+                    console.log(response)
+                    $('.name_komsumu_gor').val(response.name);
+                    $('.phone_komsumu_gor').val(response.phone ? response.phone : ""); // Telefon alanını kontrol eder
+                    $('.tc_komsumu_gor').val(response.tc ? response.tc : ""); // TC alanını kontrol eder
+                    $('.address_komsumu_gor').val(response.address ? response.address : ""); // Adres alanını kontrol eder
+                },
+                error: function(xhr){
+                    console.log(xhr.responseText); // Hata durumunda konsola hata mesajını yazdır
+                }
+            });
+        });
+    });
+
         @if (Session::has('status') == 'update_selected_items')
             console.log("asd");
             $.toast({
@@ -1662,18 +1763,19 @@
 
     <style>
          .modal-label {
-            margin: 0.3em 0em;
+            margin: 0.2em 0em;
             font-size: 13px;
             font: bold;
-            color: #000000 !important;
+            color: #000000fc !important;
         }
 
         .modal-input {
-            padding: 0.7em !important;
+            padding: 0.5em !important;
             border: 1px solid #eee !important;
-            margin: 0.5em 0em;
+            margin: 0.4em 0em;
             width: 100%;
             transition: border-color 0.3s;
+            box-shadow: 0 0 2px rgba(50, 50, 50, 0.3);
         }
 
         .modal-footer {
@@ -1683,7 +1785,7 @@
 
         .modal-btn-gonder,
         .modal-btn-kapat {
-            padding: 0.8em 2em;
+            padding: 0.7em 2em;
             font-weight: 600;
             transition: background-color 0.3s;
             width: 45%;

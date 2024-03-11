@@ -349,31 +349,24 @@ class ProjectController extends Controller {
         $projectID = $request->projectID;
         $city_id = Project::where('id',$projectID)->value('city_id');
         $county_id = Project::where('id',$projectID)->value('county_id');
-
-        $request->validate([
-            'email' => 'required|email|unique:users,email',
-        ], [
-            'email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
-        ]);
         
-
-        //Kullanıcıyı Ekle
-        $userData = [
-            'is_show' =>'no',
-            'type' =>1,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => bcrypt('komsumugor123'),
-            'status' =>1,
-            'is_blocked'=>0,
-            'has_club'=> '0',
-        ];
-        
-        $user = User::create($userData);
+        $user = User::where('email',$request->email)->first();
 
         if(!$user){
-            return back()->with('message','Kullanıcı Eklenirken Hata!!');
+              //Kullanıcıyı Ekle
+              $userData = [
+                'is_show' =>'no',
+                'type' =>1,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => bcrypt('komsumugor123'),
+                'status' =>1,
+                'is_blocked'=>0,
+                'has_club'=> '0',
+            ];
+            
+            $user = User::create($userData);
         }
 
         //CartORders'a ekle
@@ -428,6 +421,45 @@ class ProjectController extends Controller {
 
         return back()->with('message','Kaydedildi.');
 
+    }//End
+
+    public function komsumuGorInfo2Edit(Request $request){
+
+        $updatedData = [
+            'email'     => $request->email,
+            'full_name' => $request->name,
+            'phone'     => $request->phone,
+            'tc'        => $request->tc,
+            'address'   => $request->address,
+        ];
+
+        $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
+
+        if ($update) {
+            return redirect()->back()->with('success','Başarıyla düzenlendi');
+        } else {
+            return back()->with('error','Bilgiler düzenlenemedi!!!');
+        }
+
+    }//End
+
+    public function getUserInfo(Request $request)
+    {
+        $email = $request->input('email');
+        
+        $user = User::where('email', $email)->first();
+        
+        if($user){
+            return response()->json([
+                'name' => $user->name,
+                'phone' => $user->phone,
+                'tc' => $user->idNumber,
+                'address' => $user->address,
+            ]);
+        } else {
+            // Kullanıcı bulunamazsa boş JSON döndür
+            return response()->json([]);
+        }
     }//End
 
     public function show($order)
