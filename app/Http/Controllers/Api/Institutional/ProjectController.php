@@ -651,4 +651,37 @@ class ProjectController extends Controller
             "status" => true
         ]);
     }
+
+    public function deactive($id){
+        Project::where('id',$id)->update([
+            "status" => 0
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function active($id){
+        Project::where('id',$id)->update([
+            "status" => 1
+        ]);
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $project = Project::findOrFail($id);
+
+        ProjectHousing::where('project_id',$id)->delete();
+
+        $project->delete();
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
 }

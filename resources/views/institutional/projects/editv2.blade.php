@@ -1995,6 +1995,10 @@
             }
         })
 
+        $('.rules_confirm').click(function(e){
+            e.stopPropagation();
+        })
+
         $('.pricing-item').click(function() {
             $('.pricing-item').find('input').removeAttr('checked');
             $('.pricing-item').find('.price-radio').removeClass('select');

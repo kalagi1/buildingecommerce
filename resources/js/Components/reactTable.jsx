@@ -10,6 +10,8 @@ import TablePagination from '@mui/material/TablePagination';
 import { Box, IconButton, Skeleton, useTheme } from '@mui/material';
 import { FirstPage, KeyboardArrowLeft, KeyboardArrowRight, LastPage } from '@mui/icons-material';
 import axios from 'axios';
+import { baseUrl } from '../define/variables';
+import { ToastContainer, toast } from 'react-toastify';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -286,9 +288,55 @@ function ReactTable(props) {
         })
     };
 
+    const deactive = (id) => {
+        axios.post(baseUrl+'deactive/'+id,{"_method":"PUT"}).then((res) => {
+            if(res.data.status){
+                toast.success("Başarıyla ilanı pasife aldınız");
+                setLoading(true);
+                axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                    setRows(res.data.data);
+                    setTotalProjectsCount(res.data.total_projects_count);
+                    setLoading(false);
+                    setPage(0);
+                })
+            }
+        })
+    }
+
+    const active = (id) => {
+        axios.post(baseUrl+'active/'+id,{"_method":"PUT"}).then((res) => {
+            if(res.data.status){
+                toast.success("Başarıyla ilanı aktife aldınız");
+                setLoading(true);
+                axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                    setRows(res.data.data);
+                    setTotalProjectsCount(res.data.total_projects_count);
+                    setLoading(false);
+                    setPage(0);
+                })
+            }
+        })
+    }
+
+    const remove = (id) => {
+        axios.post(baseUrl+'remove/'+id,{"_method":"DELETE"}).then((res) => {
+            if(res.data.status){
+                toast.success("Başarıyla ilanı aktife aldınız");
+                setLoading(true);
+                axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                    setRows(res.data.data);
+                    setTotalProjectsCount(res.data.total_projects_count);
+                    setLoading(false);
+                    setPage(0);
+                })
+            }
+        })
+    }
+
 
     return(
         <div className="estate-table">
+            <ToastContainer/>
             <div className="table-breadcrumb">
                 <ul>
                     <li>
@@ -371,8 +419,17 @@ function ReactTable(props) {
                                                 <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`http://127.0.0.1:8000/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
                                             </TableCell>
                                             <TableCell>
-                                                <button className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
-                                                <button className='badge badge-phoenix badge-phoenix-danger mx-3'>Sil</button>
+                                                {
+                                                    row.status == 2 ?
+                                                        <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-warning'>Admin Onayının Arından işlem Yapabilirsiniz</button>
+                                                    : 
+                                                        row.status == 0 ? 
+                                                            <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-success'>Aktife Al</button>
+                                                        :  
+                                                            <button onClick={() => {deactive(row.id)}} className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
+
+                                                }
+                                                <button onClick={() => {remove(row.id)}} className='badge badge-phoenix badge-phoenix-danger mx-3'>Sil</button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
