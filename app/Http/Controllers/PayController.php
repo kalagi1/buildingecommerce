@@ -9,7 +9,11 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Arr;
 use App\Models\CartOrder;
+use App\Models\Project;
+use App\Models\Housing;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\View;
 class PayController extends Controller
 {
     protected $storeNumber = '190100000';
@@ -45,33 +49,104 @@ class PayController extends Controller
 
     public function initiate3DPayment(Request $request)
     {
-      
-        dd($request->all());
+        //dd($request->all());
+
+        //cart bilgileri ile payment return jsonları ayrı mı tutulmalı sor 
+        //status 1 olduğu halde neden satıldı olmuyor 
+        //bankid sorulacak
+        //store id nedir sorulacak
+        //sorulacak reference_id nedir
+        
+
+        //taksik olacak mı sorulacak
+        $requestData = $request->all();
+
+        // Kullanıcı bilgilerini al
+        $fullName = $requestData['fullName'];
+        $email = $requestData['email'];
+        $tc = $requestData['tc'];
+        $phone = $requestData['phone'];
+        $address = $requestData['address'];
+        $notes = $requestData['notes'];
+        $hasReference = null;
+        $isReference = null;
+
+        if ($requestData['reference_code']) {
+            $hasReference = User::where('code', $requestData['reference_code'])->first();
+        }
+        if ($requestData['is_reference']) {
+            $isReference = User::where('id', $requestData['is_reference'])->first();
+        }
+        
+        
+        $key = $requestData['key'];
+        $creditcard = $requestData['creditcard'];
+        $month = $requestData['month'];
+        $year = $requestData['year'];
         $cartJson = $request->input('cart');
 
-        // JSON dizesini diziye dönüştür
+        
+        // // JSON dizesini diziye dönüştür
         $cartArray = json_decode($cartJson, true);
-    
-        // Pesinatı al
-        $price = $cartArray['item']['pesinat'];
+      
+        // dd($cartArray);
+        $storeId = null;
+
+        if($cartArray['type'] === 'project'){
+            $project = Project::where('id', $cartArray['item']['id'])->first();
+            $storeId = $project->user->id;
+        }
+        else{
+            $housing = Housing::where('id', $cartArray['item']['id'])->first();
+            $storeId = $housing->user_id;
+        }
+       
+
+        $amount = $cartArray['item']['amount'] - $cartArray['item']['discount_amount'];
+
+        $user = Auth::user(); 
+        $userId = $user->id;
+
+        $cartOrder = new CartOrder();
+        $cartOrder->user_id = $userId;
+        $cartOrder->key = $key;
+       
+        $cartOrder->bank_id = '';
+
+        $cartOrder->store_id = $storeId;
+        $cartOrder->cart = $cartJson;
+        $cartOrder->full_Name = $fullName;
+        $cartOrder->email = $email;
+        $cartOrder->tc = $tc;
+        $cartOrder->phone = $phone;
+        $cartOrder->notes = $notes;
+        $cartOrder->address = $address;
+        $cartOrder->is_swap = $cartArray['item']['pesinat']== 'pesin' ? 0 : 1;
+      
+        $cartOrder->reference_id = $hasReference ? $hasReference->id : null;
+        $cartOrder->is_reference = $isReference ? $isReference->id : null;
+
+        $cartOrder->amount = $amount;
+        $cartOrder->save();
+
 
         $clientId = '190100000';
         $storeKey = '123456';
-        //$csrfToken = $request->session()->token();
-        // dd($price);
+
         
-        $orderid = '2311123252';
-        $amount = '91.96';
-        $installment = '2';
-        $creditCard = '5218487962459752';
-        $expDateMonth = '12';
-        $expDateYear = '26';
+        $orderid = $key;
+        $amount = $amount;
+        
+        $installment = '';
+        $creditCard = $creditcard;
+        $expDateMonth = $month;
+        $expDateYear = $year;
 
         // $okUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
         // $failUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
         // $callbackUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
 
-        $url = url('api/3dpayresponse');
+        $url = url('/resultpayment');;
        
         $transactionType = 'Auth';
         $rnd = '5';
@@ -80,9 +155,6 @@ class PayController extends Controller
         $currency = '949';
         $lang = 'tr';
         
-        //$maskedCreditCard = '5218487962459752';
-    
-        // Sıralanacak veriler
         $data = [
             'amount' => $amount,
             'callbackurl' =>  $url,
@@ -99,12 +171,9 @@ class PayController extends Controller
             'pan' => $creditCard,
             'rnd' => $rnd,
             'storetype' => $storetype, 
-            'taksit'  => $installment, 
-            
-            
+            'taksit'  => $installment,      
         ];
-
-
+        
         // Sıralama sırası
         $order = [
             'amount', 'callbackurl', 'clientid','currency','Ecom_Payment_Card_ExpDate_Month','Ecom_Payment_Card_ExpDate_Year', 'failurl', 'hashAlgorithm',
@@ -117,84 +186,46 @@ class PayController extends Controller
             return $data[$key];
         }, $order);
 
-
+        
         // Hash hesapla
         $hashString = implode('|', $sortedValues) . '|';
         $hashString .= str_replace('|', '\\|', str_replace('\\', '\\\\', $storeKey)); // storekey ekle
         //print_r($hashString);die;
         $calculatedHashValue = hash('sha512', $hashString);
         $actualHash = base64_encode(pack('H*', $calculatedHashValue));
-
+       
 
         $data['hash'] = $actualHash;
 
-        //print_r($data);die;
-              // print_r($sortedString);die;
-       // HTTP isteği için ayarlar
-      
-        $options = [
-            'http' => [
-                'method' => 'POST',
-                'header' => 'Content-type: application/x-www-form-urlencoded',
-                'content' => http_build_query($data),
-            ],
-        ];
-        //print_r($data);die;
-        $response = Http::asForm()->post($this->threeDUrl, $data);
-        $paymentResult = $response->body();
-
-        if ($response->successful()) {
-            // İsteğin başarılı olduğu durumda kayıt işlemini gerçekleştirin
-            $cartOrder = new CartOrder();
-            $cartOrder->user_id = auth()->id();
-            $cartOrder->key = $orderid;
-            $cartOrder->store_id = $request;
-            $cartOrder->cart = json_encode('null');
-            $cartOrder->save();
-        }
-
-
-        return $paymentResult;
+        return view('payment.pay', $data);
+       
     }
 
-
-    public function processPaymentResponse(Request $request)
+    public function resultPayment(Request $request)
     {
-            // JSON verilerini diziye dönüştür
         $data = $request->all();
-
-        // Ödeme durumunu kontrol et
         $paymentStatus = $data['Response'];
+        
+        if ($paymentStatus === 'Approved')
+        {
+            $existingOrder = CartOrder::where('key', $data['ReturnOid'])->first();
+            $existingOrder->payment_result = json_encode($data); 
+            $existingOrder->status = '1';
+            $existingOrder->save();
+        } 
+        else{
 
-        // $paymentStatus kontrol edilmeden önce var olup olmadığını kontrol etmek iyi bir pratiktir
-        if(isset($paymentStatus)) {
-            // $paymentStatus kontrol ediliyor
-            if ($paymentStatus === 'Approved') {
+            $existingOrder = CartOrder::where('key', $data['oid'])->first();
+            $existingOrder->payment_result = json_encode($data); 
+            $existingOrder->status = '0';
+            $existingOrder->save();
 
-                $existingOrder = CartOrder::where('key', $data['ReturnOid'])->first();
-                if ($existingOrder) {
-                    // Kayıt varsa, güncelleme yapın
-                    $existingOrder->cart = json_encode($data); // JSON verisinin 'cart' alanı
-                    $existingOrder->amount = $data['amount']; 
-                    $existingOrder->key = $data['ReturnOid'];
-                    $existingOrder->status = '1';
-                    $existingOrder->bank_id = 6;
-
-                    // Güncelleme işlemini kaydet
-                    $existingOrder->save();
-            
-                    return response()->json(['message' => 'Ödeme başarıyla tamamlandı ve veriler güncellendi'], 200);
-                 
-            } else {
-                return response()->json(['error' => 'Ödeme işlemi başarısız oldu. Lütfen tekrar deneyin.'], 400);
-            }
-        } else {
-            // Gelen verilerde 'Response' anahtarı bulunamadı
-            return response()->json(['error' => 'Gelen verilerde Response anahtarı bulunamadı.'], 400);
         }
 
-        
-    }
+            
+
+        // müşteriye başarılı ödendi sayfasını göster
+        return view('payment.resultpage');
 
     }
 }

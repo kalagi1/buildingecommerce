@@ -93,16 +93,6 @@ use Illuminate\Support\Facades\Route;
  */
 
 
-// Route::post('/ziraat/login', [NestPayController::class, 'loginToReport']);
-// Route::post('/ziraat/3d-payment', [NestPayController::class, 'initiate3DPayment'])->name('3d.payment');
-// Route::post('/ziraat/api-payment', [NestPayController::class, 'apiPayment']);
-
-// Route::get('/odeme', [NestPayController::class, 'index'])->name('process.payment.index');
-// // Route::post('/payment', [NestPayController::class, 'processPayment'])->name('process.payment');
-// Route::post('/payment/success',  [NestPayController::class, 'success'])->name('payment.success');
-// Route::post('/payment/fail', [NestPayController::class, 'fail'])->name('payment.fail');
-// Route::post('/payment/callback', [NestPayController::class, 'callback'])->name('payment.callback');
-
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
@@ -161,8 +151,9 @@ Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 
 Route::get('/payment/{userId}', [PayController::class, 'index'])->name('payment.index');
+Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
-Route::post('/process-payment', [PayController::class, 'processPaymentResponse'])->name('process.payment.response');
+Route::post('/resultpayment', [PayController::class, 'resultPayment'])->name('result.payment');
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');

@@ -19,6 +19,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
-
-
-Route::post('/3dpayresponse',[PayController::class, 'processPaymentResponse'])->name('3d.pay.response');
