@@ -73,7 +73,13 @@
                                         @endif
 
                                         <td><strong>Toplam
-                                                Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                                Fiyat</strong><br>
+                                            @if ($cart['item']['qt'] > 1)
+                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                            @endif
+
                                             ₺
                                         </td>
                                     </tr>
@@ -715,7 +721,6 @@
                             toastr.warning(response.response);
                         } else {
                             location.reload();
-                            console.log(response);
                         }
                     },
                     error: function(error) {
@@ -727,7 +732,7 @@
 
             function updateCart(selectedOption) {
                 var qt =
-                "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
+                    "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
 
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
 
