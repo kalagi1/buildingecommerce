@@ -722,6 +722,7 @@
                                                                 $blockHousingCount = $block['housing_count'];
                                                                 $previousBlockHousingCount = 0;
                                                                 $allCounts = 0;
+                                                                $blockName = $block['block_name'];
 
                                                                 if ($blockKey > 0) {
                                                                     $previousBlockHousingCount =
@@ -796,6 +797,7 @@
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
                                                                                 :bankAccounts="$bankAccounts" :i="$i"
+                                                                                :blockName="$blockName"
                                                                                 :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                                                 :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                         @endfor
@@ -845,6 +847,7 @@
                                                                     <x-project-item-mobile-card :project="$project"
                                                                         :blockName="$blockName" :towns="$towns"
                                                                         :cities="$cities" :allCounts="$allCounts"
+                                                                        :blockName="$blockName"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
                                                                         :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
@@ -866,6 +869,9 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
+                                            @php
+                                                $blockName= null;
+                                            @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
@@ -907,6 +913,7 @@
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
+                                                        :blockName="$blockName"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -959,6 +966,7 @@
                                             @endphp
                                             <x-project-item-mobile-card :towns="$towns" :cities="$cities"
                                                 :blockName="null" :project="$project" :allCounts="$allCounts"
+                                                :blockName="$blockName"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                 :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"

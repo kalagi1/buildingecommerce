@@ -15,6 +15,7 @@
     'blockName',
     'cities',
     'towns',
+    'blockName',
 ])
 @php
     if ($key == 0) {
@@ -265,7 +266,7 @@
                         <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important" project-id="{{ $project->id }}"
                             data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
-                            order="{{ $keyIndex }}">
+                            order="{{ $keyIndex }}" data-block="{{ $blockName }}" data-payment-order="{{ $i + 1 }}">
                             Ödeme Detayı
                         </button>
                     @endif
@@ -331,7 +332,7 @@
                     <input type="hidden" value="{{ $keyIndex }}" name="roomId">
                     <input type="hidden" value="{{ $project->id }}" name="projectId">
                     <input type="hidden" value="{{ $project->user_id }}" name="projectUserId">
-                   
+
 
                     <div class="row">
                         <div class="col-md-6">
@@ -344,8 +345,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="surname" class="q-label">Telefon Numarası : </label>
-                                <input type="number" class="modal-input" placeholder="Telefon Numarası" id="phone"
-                                    name="phone">
+                                <input type="number" class="modal-input" placeholder="Telefon Numarası"
+                                    id="phone" name="phone">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -362,12 +363,13 @@
                                     name="title">
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="q-label">İl</label>
-                                <select class="form-control citySelect {{ $errors->has('city_id') ? 'error-border' : '' }}"
-                                     name="city_id">
+                                <select
+                                    class="form-control citySelect {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                    name="city_id">
                                     <option value="">Seçiniz</option>
                                     @foreach ($towns as $item)
                                         <option for="{{ $item['sehir_title'] }}" value="{{ $item['sehir_key'] }}"
@@ -381,17 +383,18 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="" class="q-label">İlçe</label>
-                                <select class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
-                                    name="county_id"  >
+                                <select
+                                    class="form-control countySelect {{ $errors->has('county_id') ? 'error-border' : '' }}"
+                                    name="county_id">
                                     <option value="">Seçiniz</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                   
-                   
-                
-                   
+
+
+
+
                     <div class="form-group">
                         <label for="comment" class="q-label">Açıklama:</label>
                         <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
@@ -399,8 +402,9 @@
                     </div>
 
                     <div class="modal-footer" style="justify-content: end !important">
-                        <button type="submit"  class="btn btn-success" style="width:150px">Gönder</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:150px">Kapat</button>
+                        <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            style="width:150px">Kapat</button>
                     </div>
                 </form>
 

@@ -511,6 +511,8 @@
     });
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
+        var block = $(this).data("block");
+        var paymentOrder = $(this).data("payment-order");
         var soldStatus = $(this).data('sold');
 
         var cart = {
@@ -599,12 +601,8 @@
                             orderHousing = parseInt(order);
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
-                                3 + getDataJS(response,
-                                    "pay-dec-count" + (orderHousing), response
-                                    .room_info[i].room_order) + " >" + response.project_title +
-                                " Projesinde " + response.room_info[i]
-                                .room_order + " No'lu İlan Ödeme Planı</th></tr>";
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" + (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing, response.room_info[i].room_order), 10)) + " >" + response.project_title +
+                                " Projesinde " + block + " " + paymentOrder + " No'lu İlan Ödeme Planı</th></tr>";
 
 
                             for (var j = 0; j < paymentPlanData.length; j++) {

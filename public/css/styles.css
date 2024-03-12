@@ -30025,6 +30025,10 @@ a {
         height: 100%;
         background-color: red
     }
+
+    .paymentTableTitle{
+        white-space: normal;
+    }
 }
 
 .dropdown ul {
