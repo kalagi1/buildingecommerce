@@ -316,7 +316,7 @@
         </div>
     @endif --}}
 
-    @if (Auth::check() && Auth::user()->has_club == 0)
+    @if (Auth::check() && Auth::user()->has_club == 0 || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
@@ -338,12 +338,19 @@
                                             aria-label="Close">
                                             <i class="fa fa-close"></i>
                                         </button>
-                                        <div class="offer-content"><img src="{{ asset('popup.png') }}"
+                                        <div class="offer-content"><img src="{{ asset('popup2.jpeg') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
-                                                <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin kadar paylaş; paylaştıkça kazan!</h2>
-                                                <a href="{{ route('institutional.sharer.index') }}" style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
-                                                <button style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
-                                                   SEN DE KATIL !
+                                            <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
+                                                kadar paylaş; paylaştıkça kazan!</h2>
+                                            <a @if (Auth::check())
+                                            href="{{ route('institutional.sharer.index') }}"
+                                            @else
+                                            href="{{ route('client.login') }}"
+                                            @endif 
+                                                style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
+                                                <button
+                                                    style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
+                                                    SEN DE KATIL !
                                                 </button>
                                             </a>
                                         </div>
@@ -361,7 +368,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     $('#customModal').modal('show');
-                }, 30000);
+                }, 5000);
             });
         </script>
     @endif
@@ -370,6 +377,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Include Toastify CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        var errorMessage = "{{ session('error') }}";
+    
+        if (errorMessage) {
+            Toastify({
+                text: errorMessage,
+                duration: 5000,
+                gravity: 'bottom',
+                position: 'center',
+                backgroundColor: '#ff4d4d',
+                stopOnFocus: true,
+            }).showToast();
+        }
+    </script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();

@@ -63,7 +63,11 @@
                                     <tr>
                                         <td class="image myelist">
                                             <a
-                                                href="{{ route('project.housings.detail', [$project->id, $housingId]) }}">
+                                                href="{{ route('project.housings.detail', [
+                                                    'projectSlug' => $project->slug,    
+                                                    'projectID'   => $project->id+1000000, 
+                                                    'housingOrder'=> $housingId
+                                                    ]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingId)->value }}"
                                                     class="img-fluid">
@@ -73,7 +77,11 @@
                                             <div class="inner">
                                                 <a href="" style="color: black;margin-bottom:9px;">İLAN NO : {{ 1000000 + $project->id + $housingId }}</a>
                                                 <div class="text-center">
-                                                    <a href="{{ route('project.housings.detail', [$project->id, $housingId]) }}" style="color: black;">    
+                                                    <a href="{{ route('project.housings.detail', [
+                                                        'projectSlug' => $project->slug,    
+                                                        'projectID'   => $project->id+1000000, 
+                                                        'housingOrder'=> $housingId
+                                                        ]) }}" style="color: black;">    
                                                             {{ $project->project_title }} Projesinde {{$housingId }} No'lu {{$project->step1_slug}}<br>
                                                             <span> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                                                 @if ($project->neighbourhood)
@@ -156,7 +164,7 @@
 
                                     <tr>
                                         <td class="image myelist">
-                                            <a href="{{ route('housing.show', $housing->id) }}">
+                                            <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                                                 <img alt="my-properties-3"
                                                     src="{{ asset('housing_images/') . '/' . json_decode($housing->housing_type_data)->image }}"
                                                     class="img-fluid">
@@ -166,7 +174,7 @@
                         <div class="inner">
                             <a href="" style="color: black;margin-bottom:3px;">İLAN NO : {{ 2000000  + $housing->id }}</a> 
                             <div class="text-center">
-                                <a href="{{ route('housing.show', $housing->id) }}" style="color: black">
+                                <a href="{{route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}" style="color: black">
                                     {{ $housing->title }} <br>
                                     <span>{!! optional($housing->city)->title . 
                                     ' / ' . optional($housing->county)->title . 
@@ -235,7 +243,7 @@
 
                                                 <script>
                                                     function redirectToReservation() {
-                                                        window.location.href = "{{ route('housing.show', [$housing->id]) }}";
+                                                        window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                                                     }
                                                 </script>
                                             @endif

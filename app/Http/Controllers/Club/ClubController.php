@@ -22,7 +22,8 @@ class ClubController extends Controller
             $slugName = Str::slug($institutional->name);
             if ($slugName === $slug) {
                 if (!$institutional || $institutional->type != 21) {
-                    abort(404);
+                    return redirect('/')
+                    ->with('error', 'Sayfa bulunamadı.');
                 }
 
                 $store = User::where("id", $institutional->id)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
@@ -44,6 +45,8 @@ class ClubController extends Controller
                 $secondhandHousings =  Housing::with('images')
                 ->select(
                     'housings.id',
+                    'housings.slug',
+
                     'housings.title AS housing_title',
                     'housings.created_at',
                     'housings.step1_slug',

@@ -161,7 +161,7 @@
                     @foreach ($brand->projects as $project)
                         <div class="col-sm-12 col-md-4 col-lg-4" data-aos="zoom-in" data-aos-delay="150">
                             <!-- Image Box -->
-                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id]) }}" class="img-box hover-effect">
+                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id+1000000]) }}" class="img-box hover-effect">
                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                     class="img-fluid w100" alt="">
                             </a>
@@ -209,10 +209,10 @@
                                         <div class="homes-content p-3" style="padding:20px !important">
                                             <!-- homes address -->
                                             <h3><a
-                                                    href="{{ route('housing.show', $housing->id) }}">{{ $housing->housing_title }}</a>
+                                                    href="{{route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">{{ $housing->housing_title }}</a>
                                             </h3>
                                             <p class="homes-address mb-3">
-                                                <a href="{{ route('housing.show', $housing->id) }}">
+                                                <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                                                     <i class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
                                                 </a>
                                             </p>
@@ -239,7 +239,7 @@
                                                 </li>
 
                                                 <li style="display: flex; justify-content: center;">
-                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                                 </li>
                                             </ul>
                                             <ul class="homes-list clearfix pb-3"

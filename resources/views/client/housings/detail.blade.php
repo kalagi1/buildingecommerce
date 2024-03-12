@@ -7,6 +7,46 @@
     );
 @endphp
 @php
+function convertMonthToTurkishCharacter($date)
+{
+    $aylar = [
+        'January' => 'Ocak',
+        'February' => 'Şubat',
+        'March' => 'Mart',
+        'April' => 'Nisan',
+        'May' => 'Mayıs',
+        'June' => 'Haziran',
+        'July' => 'Temmuz',
+        'August' => 'Ağustos',
+        'September' => 'Eylül',
+        'October' => 'Ekim',
+        'November' => 'Kasım',
+        'December' => 'Aralık',
+        'Monday' => 'Pazartesi',
+        'Tuesday' => 'Salı',
+        'Wednesday' => 'Çarşamba',
+        'Thursday' => 'Perşembe',
+        'Friday' => 'Cuma',
+        'Saturday' => 'Cumartesi',
+        'Sunday' => 'Pazar',
+        'Jan' => 'Oca',
+        'Feb' => 'Şub',
+        'Mar' => 'Mar',
+        'Apr' => 'Nis',
+        'May' => 'May',
+        'Jun' => 'Haz',
+        'Jul' => 'Tem',
+        'Aug' => 'Ağu',
+        'Sep' => 'Eyl',
+        'Oct' => 'Eki',
+        'Nov' => 'Kas',
+        'Dec' => 'Ara',
+    ];
+    return strtr($date, $aylar);
+}
+
+@endphp
+@php
 
     function getData($housing, $key)
     {
@@ -133,7 +173,7 @@
                                         <h5>Projeler</h5>
                                         <div class="header-search__suggestions__section__items">
                                             @foreach ($housing->user->projects as $item)
-                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id]) }}"
+                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
                                                     class="project-item"
                                                     data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                             @endforeach
@@ -525,6 +565,17 @@
                                         </div>
                                         <table class="table">
                                             <tbody>
+                                                <tr style="border-top: none !important">
+                                                    <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                        {!! optional($housing->city)->title .
+                                                            ' / ' .
+                                                            optional($housing->county)->title .
+                                                            ' / ' .
+                                                            optional($housing->neighborhood)->mahalle_title ??
+                                                            '' !!}</span>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <span> İlan No :</span>
@@ -535,23 +586,18 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        İl-İlçe{!! optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':' !!}
-                                                        <span class="det">
-                                                            {!! optional($housing->city)->title .
-                                                                ' / ' .
-                                                                optional($housing->county)->title .
-                                                                ' / ' .
-                                                                optional($housing->neighborhood)->mahalle_title ??
-                                                                '' !!}
+                                                        <span> İlan Tarihi :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                                         </span>
                                                     </td>
-
                                                 </tr>
+                                               
 
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
-                                                            Telefon :
+                                                          Kurumsal Telefon :
                                                             <span class="det">
                                                                 <a style="text-decoration: none;color:inherit"
                                                                     href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
@@ -559,6 +605,17 @@
                                                         </td>
                                                     </tr>
                                                 @endif
+                                                @if ($housing->user->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        Cep :
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
 
                                                 <tr>
                                                     <td>
@@ -1340,7 +1397,7 @@
             formData.append('_token', csrfToken);
 
             $.ajax({
-                url: "{{ route('housing.send-comment', ['id' => $id]) }}",
+                url: "{{ route('housing.send-comment', ['id' => $housing->id]) }}",
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -1355,8 +1412,8 @@
                     });
                 },
                 error: function(error) {
-                    // window.location.href = "/giris-yap";
-                    console.log(error);
+                    window.location.href = "/giris-yap";
+                    //console.log(error);
                 }
             });
         }

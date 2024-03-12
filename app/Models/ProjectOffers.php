@@ -15,18 +15,22 @@ class ProjectOffers extends Model
     public function user(){
         return $this->hasOne(User::class,"id","user_id");
     }
-    protected $fillable = [
-        'user_id',
-        'store_id',
-        'project_name',
-        'room_id',
-        'email',
-        'offer_price_range',
-        'offer_description',
-        'approval_status',
-        'response_status',
-        'sales_status'
-    ];
+
+    public function city()
+    {
+        return $this->hasOne(City::class, "id", "city_id");
+    }
+
+    public function town()
+    {
+        return $this->belongsTo(Town::class, 'city_id', 'sehir_key');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, "county_id", 'ilce_key');
+    }
+    protected $guarded = [];
     protected $table = 'project_offers';
 
 }

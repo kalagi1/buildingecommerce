@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=3">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +47,15 @@
 
     @yield('styles')
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVHQEVC6S0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-FVHQEVC6S0');
+</script>
     <style>
         .notification-card.unread {
             background-color: #eff2f6;
@@ -95,7 +103,7 @@
             color: white;
             text-align: center;
             position: absolute;
-            top: 1px;
+            top: -1px;
             left: 27px;
             display: flex;
             padding: 0;
@@ -305,7 +313,17 @@
             }
         }
     </style>
-
+<!-- Hotjar Tracking Code for Site 3898629 (name missing) -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3898629,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
@@ -436,7 +454,7 @@
                                                     'text' => 'Hesabım',
                                                 ],
                                                 [
-                                                    'url' => route('institutional.projects.index'),
+                                                    'url' => route('institutional.react.projects'),
                                                     'icon' => 'fa-home',
                                                     'text' => 'İlanlarım',
                                                 ],
@@ -619,14 +637,26 @@
                                         </button>
                                     </a>
                                 @else
-                                    <a href="{{ route('real.estate.index') }}">
-                                        <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> Sat Kirala</span>
-                                            <span class="buyUserRequest__icon">
-                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                            </span>
-                                        </button>
-                                    </a>
+                                
+                                @auth
+                                <a href="{{ route('real.estate.index') }}">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Sat Kirala</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
+                                </a>
+                            @else
+                                <a href="{{ route('client.login') }}">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Hemen Üye Ol</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
+                                </a>
+                                @endauth
                                 @endif
 
 

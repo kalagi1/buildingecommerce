@@ -80,6 +80,7 @@ use App\Http\Controllers\NotificationController as ControllersNotificationContro
 use App\Http\Controllers\NestPayController;
 use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,7 +103,11 @@ Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController:
 
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
-Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
+
+// Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
+Route::get('/ilan/{housingSlug}/{housingID}/detay', [ClientHousingController::class, "show"])->name('housing.show');
+
+
 Route::get('/institutional/search', [InstitutionalController::class, 'search'])->name('institutional.search');
 Route::get('/marka/{id}', [ClientProjectController::class, "brandProjects"])->name('brand.projects');
 Route::post('notification/read', [NotificationController::class, "markAsRead"])->name('notification.read');
@@ -121,7 +126,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
 });
 
-Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
+Route::get('/proje/{slug}/{id}/detay',[ClientProjectController::class,"index"])->name('project.detail');
+// Route::get('/proje/{slug}/{id}', [ClientProjectController::class, "index"])->name('project.detail');
+
 Route::get('/proje_ajax/{slug}', [ClientProjectController::class, "ajaxIndex"])->name('project.detail.ajax');
 Route::get('/project_get_housing_by_start_and_end/{project_id}/{housing_order}', [ClientProjectController::class, "getProjectHousingByStartAndEnd"])->name('project.get.housings.by.start.and.end');
 Route::get('/project_payment_plan', [ClientProjectController::class, "projectPaymentPlan"])->name('get.housing.payment.plan');
@@ -145,7 +152,10 @@ Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNe
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
-Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+// Route::get('/proje_konut_detayi/{projectID}/{id}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+ Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+
+
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
@@ -227,6 +237,11 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+
+    Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
+    Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
+
+
     Route::get('/club_user_applications', [AdminEstateClubController::class,"list"])->name('estate.club.users.list');
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class,"seeApplications"])->name('estate.see.users.list');
 
@@ -741,8 +756,12 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     });
 
 });
+Route::get('/load-more-rooms/{projectId}/{page}', [InstitutionalProjectController::class,"loadMoreRooms"])->name('load.more.rooms');
+Route::get('/load-more-rooms-mobile/{projectId}/{page}', [InstitutionalProjectController::class,"loadMoreRoomsMobile"])->name('load.more.rooms.mobile');
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
+    Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+
     Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers');//Mağazanın aldıgı tekliflerin listesi
     Route::get('get_given_offers',[ClientProjectController::class,'get_given_offers'])->name('get_given_offers');//Kullanıcınn veridiği tekliflerin listesi
     Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
@@ -770,6 +789,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/reservations', [DashboardController::class, 'getReservations'])->name('reservations');
 
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
+
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
@@ -929,11 +949,12 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
     Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
     Route::get('/create_project_v2', [InstitutionalProjectController::class, "createV2"])->name('project.create.v2');
+    Route::get('/create_project_v3', [InstitutionalProjectController::class, "createV3"])->name('project.create.v3');
     Route::get('/get_bank_account/{id}', [InstitutionalBankAccountController::class, "getBankAccount"])->name('get.bank.account');
 
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
-    Route::post('/update_project_temp_order', [InstitutionalProjectController::class, "updateProjectEnd"])->name('project.update.temp.order');
-    Route::get('/edit_project_v2/{projectSlug}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
+    Route::get('/edit_project_v2/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
+    Route::get('/edit_project_v3/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV3"])->name('project.edit.v2');
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
@@ -1093,9 +1114,40 @@ Route::get('/admin-chat', [SupportChatController::class, 'adminChat']);
 Route::get('/chat/history', [SupportChatController::class, 'getChatHistory']);
 
 
-//TEKLİF ver 
+Route::group(['prefix' => 'react'], function () { 
+    Route::get('/my_projects',[ApiProjectController::class,"index"])->name('react.projects');
+    Route::get('/get_housing_statuses',[ApiProjectController::class,"getHousingStatuses"]);
+    Route::get('/housing_types',[ApiProjectController::class,"getHousingTypes"]);
+    Route::get('/housing_types_end',[ApiProjectController::class,"getHousingTypesEnd"]);
+    Route::get('/cities',[ApiProjectController::class,"getCities"]);
+    Route::get('/counties',[ApiProjectController::class,"getCounties"]);
+    Route::get('/neighborhoods',[ApiProjectController::class,"getNeighborhoods"]);
+    Route::post('/create_project',[ApiProjectController::class,"createProject"]);
+    Route::post('/create_room',[ApiProjectController::class,"createRoom"]);
+    Route::get('/project/{id}',[ApiProjectController::class,"show"]);
+    Route::put('/edit_project_v3/{id}',[ApiProjectController::class,"updateProject"]);
+    Route::put('/deactive/{id}',[ApiProjectController::class,"deactive"]);
+    Route::put('/active/{id}',[ApiProjectController::class,"active"]);
+    Route::delete('/remove/{id}',[ApiProjectController::class,"destroy"]);
+});
+
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
 
 //Teklif Yanıtı
 Route::post('offer_response',[ClientProjectController::class,'offer_response'])->name('offer_response');
+
+//Komşumu Gor
+Route::post('proje/housings/komsumu/gor',[InstitutionalProjectController::class,'komsumuGorInfo'])->name('projects.housings.komsumu.gor');
+Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor',[ProjectController::class,'komsumuGorInfo2'])->name('admin.projects.housings.komsumu.gor');
+Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor/edit/{id}',[ProjectController::class,'komsumuGorInfo2Edit'])->name('admin.projects.housings.komsumu.gor.edit');
+Route::post('qR9zLp2xS6y/secured/proje/housings/komsumu/gor/user/search',[ProjectController::class,'getuserinfo'])->name('admin.projects.housings.getuserinfo');
+
+//Admin Fatura sipariş detay
+Route::get('qR9zLp2xS6y/secured/invoice/{order}', [ProjectController::class, "show"])->name('admin.invoice.show');
+
+//sözleşmeler
+Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
+
+Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
+
 

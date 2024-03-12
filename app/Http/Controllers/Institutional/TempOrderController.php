@@ -9,6 +9,8 @@ use App\Models\HousingType;
 use App\Models\TempOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Throwable;
 
 class TempOrderController extends Controller
@@ -80,6 +82,11 @@ class TempOrderController extends Controller
     }
 
     public function situationImageAdd(Request $request){
+        
+        $manager = new ImageManager(
+            new Driver()
+        );
+
         if($request->input('item_type') != "3"){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             if(!$tempOrder){
@@ -134,9 +141,25 @@ class TempOrderController extends Controller
             $imageNames = [];
             $tempOrder = 0;
             foreach ($uploadedFiles as $fileKey => $file) {
-                $imageName = 'temp_order_situation'.time().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
+                $imageName = 'temp_order_situation'.time().auth()->guard()->user()->id.($newOrder + $tempOrder).time(). '.' . $file->getClientOriginalExtension();
 
                 $file->move(public_path('situation_images'), $imageName);
+
+                $image = $manager->read(public_path('situation_images/'.$imageName));
+                $imageWidth = $image->width();
+                $imageHeight = $image->height();
+
+                if($imageWidth > 450){
+                    $newWidth = 450;
+                    $newHeight = $imageHeight * 450 / $imageWidth;
+                }else{
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $image->resize($newWidth, $newHeight);
+                $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded->save(public_path('situation_images/'.$imageName));
+
                 $data = $tempData;
                 array_push($data->situations,["situation" => $imageName]);
                 array_push($imageNames,$imageName);
@@ -402,6 +425,11 @@ class TempOrderController extends Controller
     }
 
     public function singleFile(Request $request){
+        
+        $manager = new ImageManager(
+            new Driver()
+        );
+
         if($request->input('item_type') != 3){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             if(!$tempOrder){
@@ -444,8 +472,23 @@ class TempOrderController extends Controller
 
             if($request->hasFile('image')){
                 $image = $request->file('image');
-                $imageName = 'cover_temp_image_edit'.time().auth()->guard()->user()->id . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image_edit'.time().auth()->guard()->user()->id.time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/project_images'), $imageName);
+
+                $image = $manager->read(public_path('storage/project_images/'.$imageName));
+                $imageWidth = $image->width();
+                $imageHeight = $image->height();
+
+                if($imageWidth > 450){
+                    $newWidth = 450;
+                    $newHeight = $imageHeight * 450 / $imageWidth;
+                }else{
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $image->resize($newWidth, $newHeight);
+                $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded->save(public_path('storage/project_images/'.$imageName));
             }else{
                 $imageName = "";
             }
@@ -510,6 +553,9 @@ class TempOrderController extends Controller
     }
 
     public function addTempImage(Request $request){
+        $manager = new ImageManager(
+            new Driver()
+        );
         if($request->input('item_type') != "3"){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             if(!$tempOrder){
@@ -529,7 +575,7 @@ class TempOrderController extends Controller
             foreach ($uploadedFiles as $fileKey => $file) {
                 $imageName = 'temp_order_image'.auth()->guard()->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))) . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('project_images'), $imageName);
-
+                
                 $data = $tempData;
                 array_push($data->images,$imageName);
                 array_push($imageNames,$imageName);
@@ -563,6 +609,21 @@ class TempOrderController extends Controller
                 $imageName = 'temp_order_image'.time().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
 
                 $file->move(public_path('storage/project_images'), $imageName);
+
+                $image = $manager->read(public_path('storage/project_images/'.$imageName));
+                $imageWidth = $image->width();
+                $imageHeight = $image->height();
+
+                if($imageWidth > 450){
+                    $newWidth = 450;
+                    $newHeight = $imageHeight * 450 / $imageWidth;
+                }else{
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $image->resize($newWidth, $newHeight);
+                $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded->save(public_path('storage/project_images/'.$imageName));
                 $data = $tempData;
                 array_push($data->images,["image" => 'storage/project_images/'.$imageName]);
                 array_push($imageNames,$imageName);

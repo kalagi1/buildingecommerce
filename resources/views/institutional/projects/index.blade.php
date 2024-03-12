@@ -214,7 +214,7 @@
                 viewLink.textContent = "İşlem Kayıtları";
                 var exportLink = document.createElement("a");
                 exportLink.className = "badge badge-phoenix badge-phoenix-success ml-3";
-                exportLink.href = "{{ URL::to('/') }}/institutional/edit_project_v2/" + project.slug;
+                exportLink.href = "{{ URL::to('/') }}/institutional/edit_project_v2/" + project.slug+'/'+project.id;
                 exportLink.textContent = "Genel Düzenleme";
                 var divider = document.createElement("div");
                 divider.className = "dropdown-divider";

@@ -112,39 +112,30 @@
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
             var actionsDiv = document.createElement("div");
             actionsDiv.className = "font-sans-serif btn-reveal-trigger position-static";
-            var actionsButton = document.createElement("button");
-            actionsButton.className =
-                "btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2";
-            actionsButton.type = "button";
-            actionsButton.setAttribute("data-bs-toggle", "dropdown");
-            actionsButton.setAttribute("data-bs-boundary", "window");
-            actionsButton.setAttribute("aria-haspopup", "true");
-            actionsButton.setAttribute("aria-expanded", "false");
-            actionsButton.setAttribute("data-bs-reference", "parent");
-            var actionsIcon = document.createElement("span");
-            actionsIcon.className = "fas fa-ellipsis-h fs--2";
-            actionsButton.appendChild(actionsIcon);
-            actionsDiv.appendChild(actionsButton);
-            var dropdownMenu = document.createElement("div");
-            dropdownMenu.className = "dropdown-menu dropdown-menu py-2";
-            var viewLink = document.createElement("a");
-            viewLink.className = "dropdown-item";
+      
+            var viewLinkCell = document.createElement("td");
+            viewLinkCell.className = "align-middle";
+            var viewLink = document.createElement("button");
+            viewLink.className = "badge badge-phoenix badge-phoenix-warning btn-sm";
             viewLink.href = "{{ URL::to('/') }}/institutional/housings/" + housingType.id + '/logs';
             viewLink.textContent = "Loglar";
-            var exportLink = document.createElement("a");
-            exportLink.className = "dropdown-item";
+            viewLinkCell.appendChild(viewLink);
+
+            var exportLinkCell = document.createElement("td");
+            exportLinkCell.className = "align-middle";
+            var exportLink = document.createElement("button");
+            exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
             exportLink.href = "{{ URL::to('/') }}/institutional/edit_housing/" + housingType.id;
             exportLink.textContent = "Düzenle";
-            var imageLinks = document.createElement("a");
-            imageLinks.className = "dropdown-item";
+            exportLinkCell.appendChild(exportLink);
+
+            var imageLinksCell = document.createElement("td");
+            imageLinksCell.className = "align-middle";
+            var imageLinks = document.createElement("button");
+            imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
             imageLinks.href = "{{ URL::to('/') }}/institutional/edit_images/" + housingType.id;
             imageLinks.textContent = "Resimler";
-            dropdownMenu.appendChild(viewLink);
-            dropdownMenu.appendChild(exportLink);
-            dropdownMenu.appendChild(imageLinks);
-            actionsDiv.appendChild(dropdownMenu);
-            actionsCell.appendChild(actionsDiv);
-
+            imageLinksCell.appendChild(imageLinks);
 
             var deleteCell = document.createElement("td");
             deleteCell.className = "align-middle";
@@ -277,7 +268,10 @@
             row.appendChild(housingTypeCell);
             row.appendChild(statusCell);
             row.appendChild(createdAtCell);
-            row.appendChild(actionsCell);
+            row.appendChild(viewLinkCell);
+            row.appendChild(exportLinkCell);
+            row.appendChild(imageLinksCell);
+            row.appendChild(actionsCell);   
             row.appendChild(deleteCell);
 
 

@@ -15,8 +15,9 @@ class CheckPermission
 
         // Kullanıcının belirtilen izne sahip olup olmadığını kontrol edin
         if (!auth()->user()->hasPermission($permission)) {
-            // Kullanıcının izni yoksa yönlendirilebilir veya hata mesajı döndürülebilir
-            abort(403, 'Unauthorized');
+            return redirect('/')
+            ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
+            
         }
 
         return $next($request);

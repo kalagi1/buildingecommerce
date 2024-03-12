@@ -131,7 +131,6 @@ class LoginController extends Controller {
     public function login( Request $request ) {
         $credentials = $request->only( 'email', 'password' );
         $user = User::where( 'email', $request->email )->first();
-
         if ( $user ) {
 
             if ( $user->status == 0 ) {
@@ -149,7 +148,7 @@ class LoginController extends Controller {
                 if ( Auth::attempt( $credentials , $request->filled('remember')) ) {
                     $user = Auth::user();
                     $updateUser = User::where( 'id', Auth::user()->id )->first();
-
+                    
                     if ( $user->type == 1 && !$user->last_login ) {
                         // Bireysel kullanıcı için ilk giriş hoş geldiniz mesajı
                         DocumentNotification::create( [
@@ -208,6 +207,14 @@ class LoginController extends Controller {
                     if ( $user->type == 3 ) {
                         return redirect()->intended( '/qR9zLp2xS6y/secured/admin' );
                     } elseif ( $user->type != '3' ) {
+                        
+                        // if ($request->has('backurl')) {
+                        //     $backurl = $request->query('backurl');
+                        //     $cart = $request->session()->get('cart');
+                        //     dd($cart);
+                        //     return redirect()->to($request->input('backurl'));
+                        // }
+
                         return redirect()->intended( route( 'index' ) );
                     }
 
@@ -276,7 +283,7 @@ class LoginController extends Controller {
         // Google OAuth 2.0 ayarları
         $googleClientId = '100415302281-rvn82j7fm253npg6invrb35v8pbg9dl7.apps.googleusercontent.com';
         $googleClientSecret = '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';
-        $redirectUri = 'https://emlaksepette.com/login-with-google';
+        $redirectUri = 'http://127.0.0.1:8000/login-with-google';
         $authUrl = 'https://accounts.google.com/o/oauth2/auth';
 
         // Kullanıcının izin vermesi için Google'a yönlendirme

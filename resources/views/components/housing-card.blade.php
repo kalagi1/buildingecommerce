@@ -1,6 +1,6 @@
 @props(['housing','sold'])
 
-<a href="{{ route('housing.show', [$housing->id]) }}"
+<a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}"
     class="text-decoration-none">
     <div data-aos="fade-up" data-aos-delay="150">
         <div class="landscapes">
@@ -8,8 +8,8 @@
                 <div class="project-inner project-head">
                     <div class="homes">
                         <div class="homes-img">
-                            <div class="homes-tag button alt featured">
-                                Sponsorlu
+                            <div class="homes-tag button alt featured" style="width:90px !important">
+                            No: {{ $housing->id + 2000000 }}
                             </div>
                             <div class="type-tag button alt featured">
                                 @if ($housing->step2_slug == 'kiralik')
@@ -211,7 +211,7 @@
                                     @if (!$housing->discount_amount)
                                         <li
                                             style="display: flex; justify-content: right;width:100%">
-                                            {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                            {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                         </li>
                                     @endif
                                 @endif
@@ -219,7 +219,7 @@
                                 @if (!$housing->discount_amount)
                                     <li
                                         style="display: flex; justify-content: right;width:100%">
-                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                     </li>
                                 @endif
                             @endif
@@ -272,7 +272,7 @@
 
                         <script>
                             function redirectToReservation() {
-                                window.location.href = "{{ route('housing.show', [$housing->id]) }}";
+                             window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                             }
                         </script>
                     @endif

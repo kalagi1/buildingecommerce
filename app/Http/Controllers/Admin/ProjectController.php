@@ -3,19 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartOrder;
 use App\Models\DefaultMessage;
 use App\Models\DocumentNotification;
 use App\Models\DopingOrder;
+use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\Invoice;
 use App\Models\Log;
+use App\Models\Menu;
+use App\Models\NeighborView;
+use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousings;
 use App\Models\StandOutUser;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 
 class ProjectController extends Controller {
     /**
@@ -142,7 +152,7 @@ class ProjectController extends Controller {
         } else if ( $request->input( 'status' ) == 1 ) {
             $reason = 'Başarıyla projeniz aktife alındı';
 
-            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası](' . route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id ] ) . ').';
+            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası](' . route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id+1000000 ] ) . ').';
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -220,7 +230,7 @@ class ProjectController extends Controller {
                 'user_id' => auth()->user()->id,
                 'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
                 'item_id' => $project->id,
-                'link' => route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id ] ),
+                'link' => route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id+1000000 ] ),
                 'owner_id' => $project->user->id,
                 'is_visible' => true,
             ]
@@ -283,4 +293,223 @@ class ProjectController extends Controller {
         $logs = Log::where( 'item_type', 1 )->where( 'item_id', $projectId )->orderByDesc( 'created_at' )->with( 'user' )->get();
         return view( 'admin.projects.logs', compact( 'logs' ) );
     }
+
+    public function housings($project_id)
+    {
+        $menu = Menu::getMenuItems();
+        $project = Project::where('id', $project_id)->with("brand", "blocks", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
+        $project->roomInfo = $project->roomInfo;
+        $project->brand = $project->brand;
+        $project->housingType = $project->housingType;
+        $project->county = $project->county;
+        $project->city = $project->city;
+        $project->user = $project->user;
+        $project->user->housings = $project->user->housings;
+        $project->user->brands = $project->user->brands;
+        $project->images = $project->images;
+
+        
+        $sumCartOrderQt = DB::table('cart_orders')
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+        )
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get();
+
+    
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+        ->mapWithKeys(function ($group) {
+            return [
+                $group->first()->housing_id => [
+                    'housing_id' => $group->first()->housing_id,
+                    'qt_total' => $group->sum('qt'),
+                ]
+            ];
+        })
+        ->all();
+    
+        $projectHousings = ProjectHousing::where('project_id',$project->id)->get();
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use(&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
+
+        $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
+
+        
+        return view('admin.projects.housings2', compact('menu', "sumCartOrderQt","projectHousingsList","offer", 'project'));
+
+    }
+
+    public function komsumuGorInfo2(Request $request){
+        $housingID = $request->no;
+        $projectID = $request->projectID;
+        $city_id = Project::where('id',$projectID)->value('city_id');
+        $county_id = Project::where('id',$projectID)->value('county_id');
+        
+        $user = User::where('email',$request->email)->first();
+
+        if(!$user){
+              $userData = [
+                'is_show' =>'no',
+                'type' =>1,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => bcrypt('komsumugor123'),
+                'status' =>1,
+                'is_blocked'=>0,
+                'has_club'=> '0',
+            ];
+            
+            $user = User::create($userData);
+        }
+
+        //CartORders'a ekle
+        $order = new CartOrder();
+      
+        $order->user_id      = $user->id;
+        $order->status       = '1';
+        $order->key          = 1000000 + $projectID + $housingID;
+        $order->full_name    = $user->name;
+        $order->email        = $user->email;
+        $order->tc           = $request->tc;
+        $order->is_swap      = 0;
+        $order->is_reference = 0;
+        $order->is_show_user = 'on';
+        $order->amount       = 0;
+        $order->is_disabled  = 1; // sonradan eklenen konutlar için
+        $order->store_id     = Project::where('id',$projectID)->value('user_id');
+        $order->phone        = $request->phone;
+        $order->address      = $request->address;
+
+        $cartJson['item']['id'] = (int)$projectID;
+        $cartJson['item']['housing'] = (int)$housingID;
+        
+
+        $neighborProjects  = [];
+        $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $projectID)->where('user_id', $user->id)->get();
+        $cartJson['item']['neighborProjects'] = $neighborProjects;
+        function getHouse($project, $key, $roomOrder)
+        {
+            foreach ($project->roomInfo as $room) {
+                if ($room->room_order == $roomOrder && $room->name == $key) {
+                    return $room;
+                }
+            }
+        }
+        $project = Project::where('id', $projectID)->with('brand', 'roomInfo', 'housingType', 'county', 'city', 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+
+        $cartJson['item']['city_id'] = $city_id;
+        $cartJson['item']['county_id'] = $county_id;
+        $cartJson['item']['image'] =  URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', $housingID)->value;
+
+        $cartJson['type'] = 'project';
+        $cartJson['hasCounter'] = false;
+        $order->cart = json_encode($cartJson);
+
+        $order->save();
+
+        $fatura = new Invoice();
+        $fatura->order_id = $order->id;
+        $fatura->total_amount = $request->price;
+        $fatura->invoice_number = 'FTR-' . time() . $order->id;
+        // Fatura numarası oluşturabilirsiniz.
+        $fatura->save();
+
+        return back()->with('message','Kaydedildi.');
+
+    }//End
+
+    public function komsumuGorInfo2Edit(Request $request){
+
+        $email = $request->email;
+        $userFirst = User::where('email', $email)->first();
+
+        if($userFirst){
+            $updatedData = [
+                'email'     => $request->email,
+                'full_name' => $request->name,
+                'phone'     => $request->phone,
+                'tc'        => $request->tc,
+                'address'   => $request->address,
+                "user_id" => $userFirst->id
+            ];
+
+            $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
+            if ($update) {
+                return redirect()->back()->with('success','Başarıyla düzenlendi');
+            }
+        }else{
+
+            $addedData = [
+                'email'     => $request->email,
+                'name'      => $request->name,
+                'phone'     => $request->phone,
+                'idNumber'  => $request->tc,
+                'type' => 1,
+                "status" => 1,
+                'password'   => Hash::make("komsumugor123"),
+            ];
+
+            $user = User::create($addedData);                         
+            $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
+            $cartOrder->update(['user_id' => $user->id]);
+              
+            return redirect()->back()->with('success','Başarıyla düzenlendi');
+        }
+        
+
+    
+
+
+     
+    }//End
+
+    public function getUserInfo(Request $request)
+    {
+        $email = $request->input('email');
+        
+        $user = User::where('email', $email)->first();
+        
+        if($user){
+            return response()->json([
+                'name' => $user->name,
+                'phone' => $user->phone,
+                'tc' => $user->idNumber,
+                'address' => $user->address,
+            ]);
+        } else {
+            // Kullanıcı bulunamazsa boş JSON döndür
+            return response()->json([]);
+        }
+    }//End
+
+    public function show($order)
+    {
+        $order = CartOrder::where("id", $order)->first();
+        $cart = json_decode($order->cart);
+        $project = null;
+
+        if ($cart->type == "project") {
+            $project = Project::where("id", $cart->item->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+        } else {
+            $project = Housing::where("id", $cart->item->id)->with("user")->first();
+        }
+
+        $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.bank")->first();
+        $data = [
+            'invoice' => $invoice,
+            'project' => $project,
+        ];
+
+        // // return $order->id;
+        // return $data;
+
+        return view('admin.invoice.index', compact("data"));
+    }//End
 }

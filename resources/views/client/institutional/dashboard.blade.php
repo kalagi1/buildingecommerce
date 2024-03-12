@@ -84,22 +84,7 @@
                             @endif
 
                         </div>
-                        @if (Auth::check())
-                            @if ($store->id == Auth::user()->id)
-                                <a href="{{ url('institutional/choise-advertise-type') }}"
-                                    style="margin-left: auto; margin-right:30px">
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text">
-                                            <div class="mobile-show"><i class="fa fa-plus"></i></div>
-                                            <div class="mobile-hidden">İlan Ekle</div>
-                                        </span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
-                                </a>
-                            @endif
-                        @endif
+                
                     </div>
 
                 </div>
@@ -128,7 +113,7 @@
                                     <h5>Projeler</h5>
                                     <div class="header-search__suggestions__section__items">
                                         @foreach ($store->projects as $item)
-                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id]) }}"
+                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
                                                 class="project-item"
                                                 data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                         @endforeach
@@ -202,12 +187,6 @@
                 <div class="section-title">
                     <h2>Emlak İlanları</h2>
                 </div>
-                <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
-                    <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
-                        class="w-100">
-                        Tümünü Gör
-                    </button>
-                </a>
             </div>
 
             <div class="mobile-show">
@@ -222,11 +201,13 @@
             <div class="mobile-hidden" style="margin-top: 20px">
                 <section class="properties-right list featured portfolio blog pb-5 bg-white">
                     <div class="container">
-                        <div class="row project-filter-reverse blog-pots secondhand-housings-web">
+                        <div class="row">
                             @forelse ($secondhandHousings as $housing)
                                 @php($sold = $housing->sold)
                                 @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                    <x-housing-card :housing="$housing" :sold="$sold" />
+                                    <div class="col-md-3">
+                                        <x-housing-card :housing="$housing" :sold="$sold" />
+                                    </div>
                                 @endif
                             @empty
                                 <p>Henüz İlan Yayınlanmadı</p>
@@ -238,8 +219,6 @@
         </div>
     </section>
 @endif
-
-
 
 @endsection
 
