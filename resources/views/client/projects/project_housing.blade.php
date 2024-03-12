@@ -777,6 +777,7 @@
                                                                 $blockHousingCount = $block['housing_count'];
                                                                 $previousBlockHousingCount = 0;
                                                                 $allCounts = 0;
+                                                                $blockName = $block['block_name'];
 
                                                                 if ($blockKey > 0) {
                                                                     $previousBlockHousingCount =
@@ -846,6 +847,7 @@
 
                                                                             <x-project-item-card :project="$project"
                                                                                 :towns="$towns" :cities="$cities"
+                                                                                :blockName="$blockName"
                                                                                 :allCounts="$allCounts" :key="$key"
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
@@ -893,7 +895,6 @@
                                                                         $projectDiscountAmount = $projectOffer
                                                                             ? $projectOffer->discount_amount
                                                                             : 0;
-                                                                        $blockName = $block['block_name'];
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
@@ -920,6 +921,9 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
+                                            @php
+                                                $blockName= null;
+                                            @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
@@ -961,6 +965,7 @@
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
+                                                        :blockName="$blockName"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -1012,6 +1017,7 @@
                                                             : 0;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
+                                                    :blockName="$blockName"
                                                         :blockName="null" :project="$project" :allCounts="$allCounts"
                                                         :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                         :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
