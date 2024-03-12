@@ -2043,7 +2043,7 @@ class ProjectController extends Controller
         ProjectImage::where('project_id', $tempData->id)->delete();
         foreach ($tempData->images as $key => $image) {
             $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-            $projectImage->image = $image->image;
+            $projectImage->image = "storage/project_images/". $image->image;
             $projectImage->project_id = $tempData->id;
             $projectImage->save();
         }
