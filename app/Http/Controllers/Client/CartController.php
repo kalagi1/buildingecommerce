@@ -969,6 +969,7 @@ class CartController extends Controller {
                         'slug' => $housing->slug,
                         'amount' => $housingData->price[ 0 ],
                         'price' => $housingData->price[ 0 ],
+                        "defaultPrice" => $housingData->price[ 0 ],
                         'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
                         'discount_amount' => $hasCounter ? $discount_amount : 0,
                         'share_open' => $housingData-> {
