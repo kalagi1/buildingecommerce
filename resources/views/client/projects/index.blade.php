@@ -687,11 +687,10 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
-
+                        <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home" role="tabpanel" aria-labelledby="home-tab">
                             {!! $project->description !!}
                         </div>
+                        
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
@@ -1104,6 +1103,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+   
     <script>
        var currentPage = 1; 
 var itemsPerPage = 10;

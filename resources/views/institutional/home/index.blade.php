@@ -25,7 +25,7 @@
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
+                    <span  class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
                         imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit
                         ücret talep
                         etmeyiz. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracılık ederiz.
@@ -45,7 +45,7 @@
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span style="color:black" class="mt-5">Emlak Sepette'ye üye olduğunuz için teşekkür ederiz. Sitemizde keyifli alışverişler dileriz.</span>
+                    <span  class="mt-5">Emlak Sepette'ye üye olduğunuz için teşekkür ederiz. Sitemizde keyifli alışverişler dileriz.</span>
 
 
                 </div>
