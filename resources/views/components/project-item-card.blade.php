@@ -63,7 +63,7 @@
                                 <div class="homes position-relative">
                                     <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
                                         alt="home-1" class="img-responsive"
-                                        style="height: 100% !important; object-fit: cover">
+                                        style="height: 100px !important; object-fit: cover">
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,7 @@
 </div>
 
 <div class="col-md-3 mobile-hidden" style="height: 100%; padding: 0">
-    <div class="homes-button" style="width: 100%; height: 100%">
+    <div class="homes-button" style="width: 100%; height: 100px !important">
         @if ($sold_check && $sold->status == '1')
             @php
                 $neighborView = null;
