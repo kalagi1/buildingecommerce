@@ -151,7 +151,13 @@ class ProjectController extends Controller {
         } else if ( $request->input( 'status' ) == 1 ) {
             $reason = 'Başarıyla projeniz aktife alındı';
 
-            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası](' . route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id+1000000 ] ) . ').';
+        
+            $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
+        
+            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası]
+            (' . route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug
+            ,'id' => $project->id+1000000 ] ) . ').';
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -224,12 +230,14 @@ class ProjectController extends Controller {
             ] );
         }
 
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
                 'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
                 'item_id' => $project->id,
-                'link' => route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id+1000000 ] ),
+                'link' => route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug,'id' => $project->id+1000000 ] ),
                 'owner_id' => $project->user->id,
                 'is_visible' => true,
             ]

@@ -15,6 +15,7 @@
     'blockName',
     'cities',
     'towns',
+    'statusSlug'
 ])
 @php
     if ($key == 0) {
@@ -32,7 +33,7 @@
             {{-- <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}"> --}}
             <a
                 href="{{ route('project.housings.detail', [
-                    'projectSlug' => $project->slug,
+                      'projectSlug' => $project->slug. "-".$statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
                     'projectID' => $project->id + 1000000,
                     'housingOrder' => $keyIndex,
                 ]) }}">
@@ -56,7 +57,7 @@
         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
             <a style="text-decoration: none; height: 100%"
                 href="{{ route('project.housings.detail', [
-                    'projectSlug' => $project->slug,
+                      'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-".strtolower($project->neighbourhood->mahalle_title),
                     'projectID' => $project->id + 1000000,
                     'housingOrder' => $keyIndex,
                 ]) }}">

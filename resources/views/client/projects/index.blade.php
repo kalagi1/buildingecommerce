@@ -788,9 +788,11 @@
                                                                                 $projectDiscountAmount = $projectOffer
                                                                                     ? $projectOffer->discount_amount
                                                                                     : 0;
+                                                                                    $statusSlug=$status->slug;
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
+                                                                                :statusSlug="$statusSlug"    
                                                                                 :towns="$towns" :cities="$cities"
                                                                                 :allCounts="$allCounts" :key="$key"
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
@@ -840,9 +842,11 @@
                                                                             ? $projectOffer->discount_amount
                                                                             : 0;
                                                                         $blockName = $block['block_name'];
+                                                                        $statusSlug = $status->slug;
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
+                                                                        :statusSlug="$statusSlug"    
                                                                         :blockName="$blockName" :towns="$towns"
                                                                         :cities="$cities" :allCounts="$allCounts"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
@@ -903,10 +907,12 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
+                                                            $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
+                                                        :statusSlug="$statusSlug"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -956,9 +962,13 @@
                                                 $projectDiscountAmount = $projectOffer
                                                     ? $projectOffer->discount_amount
                                                     : 0;
+
+                                                    $statusSlug = $status->slug;
+
                                             @endphp
                                             <x-project-item-mobile-card :towns="$towns" :cities="$cities"
                                                 :blockName="null" :project="$project" :allCounts="$allCounts"
+                                                :statusSlug="$statusSlug"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                 :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"

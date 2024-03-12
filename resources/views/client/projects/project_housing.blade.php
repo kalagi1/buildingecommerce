@@ -845,6 +845,7 @@
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
+                                                                                :statusSlug="$status"   
                                                                                 :towns="$towns" :cities="$cities"
                                                                                 :allCounts="$allCounts" :key="$key"
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
@@ -894,9 +895,11 @@
                                                                             ? $projectOffer->discount_amount
                                                                             : 0;
                                                                         $blockName = $block['block_name'];
+                                                              
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
+                                                                        :statusSlug="$status"
                                                                         :towns="$towns" :cities="$cities"
                                                                         :blockName="$blockName" :allCounts="$allCounts"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
@@ -957,9 +960,11 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
+                                                            
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
+                                                        :statusSlug="$status"
                                                         :towns="$towns" :cities="$cities" :key="$key"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
@@ -1010,8 +1015,10 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
+                                                        
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
+                                                    :statusSlug="$status"
                                                         :blockName="null" :project="$project" :allCounts="$allCounts"
                                                         :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                         :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
