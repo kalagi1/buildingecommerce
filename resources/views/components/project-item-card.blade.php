@@ -184,7 +184,7 @@
 
 </div>
 
-<div class="col-md-3 mobile-hidden" style="height: 100%; padding: 0">
+<div class="col-md-3 mobile-hidden" style="height: 100px; padding: 0">
     <div class="homes-button" style="width: 100%; height: 100%">
         @if ($sold_check && $sold->status == '1')
             @php
@@ -272,8 +272,7 @@
                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                     data-block="{{ $blockName }}"
                     data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                    order="{{ $keyIndex }}"
-                    data-payment-order="{{ $i + 1 }}">
+                    order="{{ $keyIndex }}" data-payment-order="{{ $i + 1 }}">
                     Ödeme Detayı
                 </button>
             @endif
