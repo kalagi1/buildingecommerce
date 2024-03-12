@@ -79,6 +79,7 @@
                                                 </td>
 
                                                 <td>
+                                                                                                                       {{-- döngü oldugu için php tagları arasında istek atmadım  'projectSlug' => $project->slug. "-".  .$item['project']['step2_slug']. "-". $item['project']->housingtype->slug,  --}}
                                                     <a                                              
                                                         href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug'=> $item['project']['slug'],'projectID'=> $item['project']['id']+1000000,'housingOrder'=> $item['room_order']]) : route('housing.show', ['housingSlug' =>  $item['housing']->step1_slug. "-". $item['housing']->step2_slug. "-" . $item['housing']->slug,'housingID'=> $item['housing']->id +2000000 ] ) }}">
                                                         <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
@@ -338,6 +339,7 @@
                                             </a>
                                         </div>
                                     </div>
+                               
                                     <div class="w-100" style="padding-left:0;">
                                         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 

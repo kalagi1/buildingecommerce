@@ -10,7 +10,7 @@
                 <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" style="height:200px">
                     <div class="project-single no-mb " style="height:100%" data-aos="zoom-in" data-aos-delay="150">
                         <div class="listing-item compact" style="height:100%">
-                            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id+1000000]) }}"
+                            <a href="{{ route('project.detail', ['slug' => $project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title), 'id' => $project->id+1000000]) }}"
                                 class="listing-img-container">
                                 <div class="listing-img-content">
                                     <span class="listing-compact-title">{{ $project->project_title }}</span>

@@ -14,6 +14,7 @@
     'allCounts',
     'cities',
     'towns',
+    'statusSlug'
     'blockName',
 ])
 
@@ -25,17 +26,17 @@
     }
 @endphp
 
-@if (isset($projectHousingsList[$keyIndex]))
-    <div class="col-md-12 col-12">
-        <div class="project-card mb-3">
-            <div class="row">
-                <div class="col-md-3">
-                    <a href="{{ route('project.housings.detail', [
-                        'projectSlug' => $project->slug,
-                        'projectID' => $project->id + 1000000,
-                        'housingOrder' => $i + 1,
-                    ]) }}"
-                        style="height: 100%">
+@if(isset($projectHousingsList[$keyIndex]))
+<div class="col-md-12 col-12">
+    <div class="project-card mb-3">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{ route('project.housings.detail', [
+                    'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-".strtolower($project->neighbourhood->mahalle_title),
+                    'projectID' => $project->id + 1000000,
+                    'housingOrder' => $i + 1,
+                ]) }}"
+                    style="height: 100%">
 
                         <div class="d-flex" style="height: 100%;">
                             <div

@@ -317,7 +317,10 @@ class ProjectController extends Controller
             return view('client.projects.product_not_found', compact('menu', 'project'));
         }
 
-        return view('client.projects.detail', compact('menu', 'projectHousingsList', 'project', 'offer'));
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+        $status = HousingStatus::find($statusID);
+
+        return view('client.projects.detail', compact('menu', 'projectHousingsList', 'project', 'offer','status'));
     }
 
     public function projectPaymentPlan(Request $request)
@@ -767,6 +770,9 @@ class ProjectController extends Controller
         $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->first();
         $cities = City::all()->toArray();
 
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+        $status = HousingStatus::find($statusID);
+
         $turkishAlphabet = [
             'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
             'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
@@ -935,7 +941,7 @@ class ProjectController extends Controller
         }
         
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing'));
+        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing','status'));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)

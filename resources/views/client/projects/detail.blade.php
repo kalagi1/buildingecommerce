@@ -227,7 +227,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <a href="{{ route('project.housings.detail', [
-                                            'projectSlug' => $project->slug,    
+                                              'projectSlug' => $project->slug. "-".$status->slug. "-".$project->step2_slug. "-". $project->housingtype->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),   
                                             'projectID'   => $project->id+1000000, 
                                             'housingOrder'=> $i+1
                                             ]) }}"
@@ -468,7 +468,7 @@
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
                                 <a href="{{ route('project.housings.detail', [
-                                    'projectSlug' => $project->slug,    
+                                     'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-".strtolower($project->neighbourhood->mahalle_title),
                                     'projectID'   => $project->id+1000000, 
                                     'housingOrder'=> $room_order
                                     ]) }}">
@@ -488,7 +488,7 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{route('project.housings.detail', [
-                                        'projectSlug' => $project->slug,    
+                                         'projectSlug' => $project->slug. "-".$status->slug. "-".$project->step2_slug. "-". $project->housingtype->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title), 
                                         'projectID'   => $project->id+1000000, 
                                         'housingOrder'=> $room_order
                                         ]) }}">

@@ -58,13 +58,16 @@
 
                                         $soldQuery = 'SELECT * FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, "$.type")) = "project" AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.housing")) = ? AND JSON_UNQUOTE(JSON_EXTRACT(cart, "$.item.id")) = ? LIMIT 1';
                                         $sold = DB::select($soldQuery, [$housingId, $project->id]);
+
+                                        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+                                        $status = App\Models\HousingStatus::find($statusID);
                                     @endphp
 
                                     <tr>
                                         <td class="image myelist">
                                             <a
                                                 href="{{ route('project.housings.detail', [
-                                                    'projectSlug' => $project->slug,    
+                                                     'projectSlug' => $project->slug. "-".$status->slug. "-".$project->step2_slug. "-". $project->housingtype->slug,    
                                                     'projectID'   => $project->id+1000000, 
                                                     'housingOrder'=> $housingId
                                                     ]) }}">
@@ -78,7 +81,7 @@
                                                 <a href="" style="color: black;margin-bottom:9px;">İLAN NO : {{ 1000000 + $project->id + $housingId }}</a>
                                                 <div class="text-center">
                                                     <a href="{{ route('project.housings.detail', [
-                                                        'projectSlug' => $project->slug,    
+                                                         'projectSlug' => $project->slug. "-".$status->slug. "-".$project->step2_slug. "-".$project->housingtype->slug,    
                                                         'projectID'   => $project->id+1000000, 
                                                         'housingOrder'=> $housingId
                                                         ]) }}" style="color: black;">    
