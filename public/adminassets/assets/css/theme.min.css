@@ -42239,7 +42239,8 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .block.active{
-    background: #ea2a28;
+    background: #6EC531;
+    border: #6EC531;
     color: #fff;
 }
 

@@ -260,6 +260,16 @@
                                             <tbody>
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr >
+                                                    <td >
                                                         <span class="autoWidthTr">İlan No:</span>
                                                         <span class="det" style="color: #274abb !important;">
                                                             {{ $project->id + 1000000 }}
@@ -504,6 +514,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
+                                    
+                                   
                                     <tr>
                                         <td colspan="2">
                                             <strong><span class="mr-1">Proje Adı:</span></strong>
@@ -687,11 +699,10 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
-
+                        <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home" role="tabpanel" aria-labelledby="home-tab">
                             {!! $project->description !!}
                         </div>
+                        
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
@@ -722,6 +733,7 @@
                                                                 $blockHousingCount = $block['housing_count'];
                                                                 $previousBlockHousingCount = 0;
                                                                 $allCounts = 0;
+                                                                $blockName = $block['block_name'];
 
                                                                 if ($blockKey > 0) {
                                                                     $previousBlockHousingCount =
@@ -798,6 +810,7 @@
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
                                                                                 :bankAccounts="$bankAccounts" :i="$i"
+                                                                                :blockName="$blockName"
                                                                                 :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                                                 :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                         @endfor
@@ -849,6 +862,7 @@
                                                                         :statusSlug="$statusSlug"    
                                                                         :blockName="$blockName" :towns="$towns"
                                                                         :cities="$cities" :allCounts="$allCounts"
+                                                                        :blockName="$blockName"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
                                                                         :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
@@ -870,6 +884,9 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
+                                            @php
+                                                $blockName= null;
+                                            @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
@@ -1106,8 +1123,9 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+   
     <script>
-       var currentPage = 1;
+       var currentPage = 1; 
 var itemsPerPage = 10;
 var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
 var isLoading = false; // Kontrol flag'ı ekledik

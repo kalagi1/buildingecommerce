@@ -73,7 +73,13 @@
                                         @endif
 
                                         <td><strong>Toplam
-                                                Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                                Fiyat</strong><br>
+                                            @if ($cart['item']['qt'] > 1)
+                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                            @endif
+
                                             ₺
                                         </td>
                                     </tr>
@@ -720,7 +726,6 @@
                             toastr.warning(response.response);
                         } else {
                             location.reload();
-                            console.log(response);
                         }
                     },
                     error: function(error) {
@@ -730,19 +735,19 @@
             });
 
 
-
             function updateCart(selectedOption) {
+                var qt =
+                    "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
 
-                var qt = "{{ $cart['item']['qt'] }}";
-                
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
+
                 $.ajax({
                     type: 'POST',
                     url: '/update-cart',
                     data: {
                         paymentOption: selectedOption,
                         updatedPrice: updatedPrice,
-                        _token: '{{ csrf_token() }}' // Add this line to include CSRF token
+                        _token: '{{ csrf_token() }}' // CSRF token'ı eklemek için bu satırı ekleyin
                     },
                     success: function(response) {
                         location.reload();

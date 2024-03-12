@@ -526,6 +526,16 @@
                                             </div>
                                         </div>
                                         <table class="table">
+                                            <tr style="border-top: none !important">
+                                                <td style="border-top: none !important">
+                                                    <span class="det" style="color: #EA2B2E !important;">
+                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                        @if ($project->neighbourhood)
+                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td>
                                                     İlan No:
@@ -539,22 +549,6 @@
                                                     İlan Tarihi:
                                                     <span class="det" style="color: #274abb !important;">
                                                         {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    @if ($project->neighbourhood)
-                                                        {!! 'İl-İlçe-Mahalle:' !!}
-                                                    @else
-                                                        {!! 'İl-İlçe:' !!}
-                                                    @endif
-
-                                                    <span class="det">
-                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                                        @if ($project->neighbourhood)
-                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                                        @endif
                                                     </span>
                                                 </td>
                                             </tr>
@@ -777,6 +771,7 @@
                                                                 $blockHousingCount = $block['housing_count'];
                                                                 $previousBlockHousingCount = 0;
                                                                 $allCounts = 0;
+                                                                $blockName = $block['block_name'];
 
                                                                 if ($blockKey > 0) {
                                                                     $previousBlockHousingCount =
@@ -847,6 +842,7 @@
                                                                             <x-project-item-card :project="$project"
                                                                                 :statusSlug="$status"   
                                                                                 :towns="$towns" :cities="$cities"
+                                                                                :blockName="$blockName"
                                                                                 :allCounts="$allCounts" :key="$key"
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
@@ -923,6 +919,9 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
+                                            @php
+                                                $blockName= null;
+                                            @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
@@ -966,6 +965,7 @@
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :statusSlug="$status"
                                                         :towns="$towns" :cities="$cities" :key="$key"
+                                                        :blockName="$blockName"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -1338,6 +1338,9 @@
 
             var order = $(this).attr('order');
             var soldStatus = $(this).data('sold');
+            var block = $(this).data("block");
+            var paymentOrder = $(this).data("payment-order");
+
 
             var cart = {
                 project_id: $(this).attr('project-id'),
@@ -1430,12 +1433,8 @@
                                 orderHousing = parseInt(order);
 
                                 html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                    "' style='background-color: #EEE !important;' ><th style='text-align:center' colspan=" +
-                                    3 + getDataJS(response,
-                                        "pay-dec-count" + (orderHousing), response
-                                        .room_info[i].room_order) + " >" + response.project_title +
-                                    " Projesinde " + response.room_info[i]
-                                    .room_order + " No'lu İlan Ödeme Planı</th></tr>";
+                                    "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" + (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing, response.room_info[i].room_order), 10)) + " >" + response.project_title +
+                                    " Projesinde " + block + " " + paymentOrder + " No'lu İlan Ödeme Planı</th></tr>";
 
 
                                 for (var j = 0; j < paymentPlanData.length; j++) {

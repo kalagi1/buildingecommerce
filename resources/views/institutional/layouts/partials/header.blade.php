@@ -441,7 +441,7 @@
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <img class="rounded-circle "
-                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                     alt="" />
                             </div>
                         </a>

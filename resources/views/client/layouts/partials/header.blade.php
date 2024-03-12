@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=3">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -637,14 +637,26 @@
                                         </button>
                                     </a>
                                 @else
-                                    <a href="{{ route('real.estate.index') }}">
-                                        <button type="button" class="buyUserRequest ml-3">
-                                            <span class="buyUserRequest__text"> Sat Kirala</span>
-                                            <span class="buyUserRequest__icon">
-                                                <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                            </span>
-                                        </button>
-                                    </a>
+                                
+                                @auth
+                                <a href="{{ route('real.estate.index') }}">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Sat Kirala</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
+                                </a>
+                            @else
+                                <a href="{{ route('client.login') }}">
+                                    <button type="button" class="buyUserRequest ml-3">
+                                        <span class="buyUserRequest__text"> Hemen Üye Ol</span>
+                                        <span class="buyUserRequest__icon">
+                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                        </span>
+                                    </button>
+                                </a>
+                                @endauth
                                 @endif
 
 

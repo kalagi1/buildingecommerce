@@ -10,6 +10,9 @@ import TablePagination from '@mui/material/TablePagination';
 import { Box, IconButton, Skeleton, useTheme } from '@mui/material';
 import { FirstPage, KeyboardArrowLeft, KeyboardArrowRight, LastPage } from '@mui/icons-material';
 import axios from 'axios';
+import { baseUrl } from '../define/variables';
+import { ToastContainer, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -286,9 +289,91 @@ function ReactTable(props) {
         })
     };
 
+    const deactive = (id) => {
+        Swal.fire({
+            title: "Projeyi aktife almak istediğine emin misin?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Evet",
+            cancelButtonText : "İptal"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.post(baseUrl+'deactive/'+id,{"_method":"PUT"}).then((res) => {
+                    if(res.data.status){
+                        setLoading(true);
+                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                            Swal.fire("Başarıyla projeyi pasife aldınız", "", "success");
+                            setRows(res.data.data);
+                            setTotalProjectsCount(res.data.total_projects_count);
+                            setLoading(false);
+                            setPage(0);
+                        })
+                    }
+                })
+            }
+        });
+        
+    }
+
+    const active = (id) => {
+        Swal.fire({
+            title: "Projeyi aktife almak istediğine emin misin?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Evet",
+            cancelButtonText : "İptal"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.post(baseUrl+'active/'+id,{"_method":"PUT"}).then((res) => {
+                    if(res.data.status){
+                        setLoading(true);
+                        axios.get(baseUrl+'/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                            setRows(res.data.data);
+                            Swal.fire("Başarıyla projeyi aktife aldınız", "", "success");
+                            setTotalProjectsCount(res.data.total_projects_count);
+                            setLoading(false);
+                            setPage(0);
+                        })
+                    }
+                })
+            }
+        });
+    }
+
+    const remove = (id) => {
+        Swal.fire({
+            title: "Projeyi silmek istediğine emin misin?",
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Evet",
+            cancelButtonText : "İptal"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.post(baseUrl+'remove/'+id,{"_method":"DELETE"}).then((res) => {
+                    if(res.data.status){
+                        setLoading(true);
+                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                            Swal.fire("Başarıyla projeyi sildiniz", "", "success");
+                            setRows(res.data.data);
+                            setTotalProjectsCount(res.data.total_projects_count);
+                            setLoading(false);
+                            setPage(0);
+                        })
+                    }
+                })
+            }
+        });
+
+        
+    }
+
 
     return(
         <div className="estate-table">
+            <ToastContainer/>
             <div className="table-breadcrumb">
                 <ul>
                     <li>
@@ -371,8 +456,17 @@ function ReactTable(props) {
                                                 <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
                                             </TableCell>
                                             <TableCell>
-                                                <button className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
-                                                <button className='badge badge-phoenix badge-phoenix-danger mx-3'>Sil</button>
+                                                {
+                                                    row.status == 2 ?
+                                                        <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-warning'>Admin Onayının Arından işlem Yapabilirsiniz</button>
+                                                    : 
+                                                        row.status == 0 ? 
+                                                            <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-success'>Aktife Al</button>
+                                                        :  
+                                                            <button onClick={() => {deactive(row.id)}} className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
+
+                                                }
+                                                <button onClick={() => {remove(row.id)}} className='badge badge-phoenix badge-phoenix-danger mx-3'>Sil</button>
                                             </TableCell>
                                         </TableRow>
                                     ))}

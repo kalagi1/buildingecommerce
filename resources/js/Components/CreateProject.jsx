@@ -381,7 +381,7 @@ function CreateProject(props) {
     const totalRoomCount = () => {
         var roomCount = 0;
         blocks.map((block) => {
-            roomCount += block.roomCount
+            roomCount += parseInt(block.roomCount)
         })
 
         return roomCount;
