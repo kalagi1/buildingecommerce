@@ -216,7 +216,7 @@
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -237,8 +237,8 @@
                             <div class="listingDetailsSliderNav mt-3">
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}"
-                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key + 1 }}"
+                                            data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
