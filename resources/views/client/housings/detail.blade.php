@@ -565,6 +565,17 @@ function convertMonthToTurkishCharacter($date)
                                         </div>
                                         <table class="table">
                                             <tbody>
+                                                <tr style="border-top: none !important">
+                                                    <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                        {!! optional($housing->city)->title .
+                                                            ' / ' .
+                                                            optional($housing->county)->title .
+                                                            ' / ' .
+                                                            optional($housing->neighborhood)->mahalle_title ??
+                                                            '' !!}</span>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <span> İlan No :</span>
@@ -581,21 +592,7 @@ function convertMonthToTurkishCharacter($date)
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                
-                                                <tr>
-                                                    <td>
-                                                        İl-İlçe{!! optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':' !!}
-                                                        <span class="det">
-                                                            {!! optional($housing->city)->title .
-                                                                ' / ' .
-                                                                optional($housing->county)->title .
-                                                                ' / ' .
-                                                                optional($housing->neighborhood)->mahalle_title ??
-                                                                '' !!}
-                                                        </span>
-                                                    </td>
-
-                                                </tr>
+                                               
 
                                                 @if ($housing->user->phone)
                                                     <tr>

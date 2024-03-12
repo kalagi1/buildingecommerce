@@ -526,6 +526,16 @@
                                             </div>
                                         </div>
                                         <table class="table">
+                                            <tr style="border-top: none !important">
+                                                <td style="border-top: none !important">
+                                                    <span class="det" style="color: #EA2B2E !important;">
+                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                        @if ($project->neighbourhood)
+                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                        @endif
+                                                    </span>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td>
                                                     İlan No:
@@ -539,22 +549,6 @@
                                                     İlan Tarihi:
                                                     <span class="det" style="color: #274abb !important;">
                                                         {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    @if ($project->neighbourhood)
-                                                        {!! 'İl-İlçe-Mahalle:' !!}
-                                                    @else
-                                                        {!! 'İl-İlçe:' !!}
-                                                    @endif
-
-                                                    <span class="det">
-                                                        {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                                        @if ($project->neighbourhood)
-                                                            {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                                        @endif
                                                     </span>
                                                 </td>
                                             </tr>

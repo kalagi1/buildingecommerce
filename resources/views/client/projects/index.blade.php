@@ -260,6 +260,16 @@
                                             <tbody>
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr >
+                                                    <td >
                                                         <span class="autoWidthTr">İlan No:</span>
                                                         <span class="det" style="color: #274abb !important;">
                                                             {{ $project->id + 1000000 }}
@@ -504,6 +514,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
+                                    
+                                   
                                     <tr>
                                         <td colspan="2">
                                             <strong><span class="mr-1">Proje Adı:</span></strong>
