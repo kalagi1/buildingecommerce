@@ -14,7 +14,7 @@
     'allCounts',
     'cities',
     'towns',
-    'statusSlug'
+    'statusSlug',
     'blockName',
 ])
 

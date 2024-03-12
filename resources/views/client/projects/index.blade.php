@@ -862,7 +862,6 @@
                                                                         :statusSlug="$statusSlug"    
                                                                         :blockName="$blockName" :towns="$towns"
                                                                         :cities="$cities" :allCounts="$allCounts"
-                                                                        :blockName="$blockName"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
                                                                         :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
@@ -930,6 +929,7 @@
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
                                                         :statusSlug="$statusSlug"
+                                                        :blockName="$blockName"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -984,7 +984,7 @@
 
                                             @endphp
                                             <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                :blockName="null" :project="$project" :allCounts="$allCounts"
+                                                :blockName="$blockName" :project="$project" :allCounts="$allCounts"
                                                 :statusSlug="$statusSlug"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
