@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-3">
                 <a href="{{ route('project.housings.detail', [
-                    'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-".strtolower($project->neighbourhood->mahalle_title),
+                    'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
                     'projectID' => $project->id + 1000000,
                     'housingOrder' => $i + 1,
                 ]) }}"
