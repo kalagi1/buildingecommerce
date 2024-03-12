@@ -72,7 +72,7 @@
 
                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                     <div class="row align-items-center justify-content-between mobile-position"
-                        @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;height:100%" @endif>
+                        @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;height:100% !important" @endif>
                         <div class="col-md-9">
                             @php
                                 $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -184,7 +184,7 @@
 
 </div>
 
-<div class="col-md-3 mobile-hidden" style="height: 100px; padding: 0">
+<div class="col-md-3 mobile-hidden" style="height: 100%; padding: 0">
     <div class="homes-button" style="width: 100%; height: 100%">
         @if ($sold_check && $sold->status == '1')
             @php
