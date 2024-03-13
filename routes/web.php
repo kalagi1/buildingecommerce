@@ -1008,6 +1008,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::middleware(['checkPermission:CreateHousing'])->group(function () {
         Route::get('/create_housing', [InstitutionalHousingController::class, 'create'])->name('housing.create');
         Route::get('/create_housing_v2', [InstitutionalHousingController::class, 'createV2'])->name('housing.create.v2');
+        Route::get('/create_housing_v3', [InstitutionalHousingController::class, 'createV3'])->name('housing.create.v3');
         Route::post('/create_housing', [InstitutionalHousingController::class, 'store'])->name('housing.store');
         Route::post('/create_housing_v2', [InstitutionalHousingController::class, 'finishByTemp'])->name('housing.store.v2');
     });
@@ -1020,6 +1021,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/update_orders/{id}', [InstitutionalHousingController::class, 'updateOrders'])->name('housing.update.orders');
         Route::post('/change_cover_image/{id}', [InstitutionalHousingController::class, 'changeCoverImage'])->name('housing.change.cover.image');
         Route::get('/remove_housing/{id}', [InstitutionalHousingController::class, 'destroy'])->name('housing.remove.housing');
+        Route::post('/save_temp_project', [InstitutionalHousingController::class, 'saveTempProject'])->name('save.temp.project');
     });
 
     Route::middleware(['checkPermission:ListHousingInstitutional'])->group(function () {
@@ -1133,6 +1135,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::put('/deactive/{id}',[ApiProjectController::class,"deactive"]);
     Route::put('/active/{id}',[ApiProjectController::class,"active"]);
     Route::delete('/remove/{id}',[ApiProjectController::class,"destroy"]);
+    Route::post('/create_housing',[ApiProjectController::class,"createHousing"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

@@ -43182,3 +43182,10 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .project_imagex{
     position: relative;
 }
+
+.temp-save{
+    position: absolute;
+    top: 0;
+    right: 0;
+    
+}

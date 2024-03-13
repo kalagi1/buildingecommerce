@@ -8,7 +8,9 @@ use App\Models\CartOrder;
 use App\Models\City;
 use App\Models\District;
 use App\Models\DocumentNotification;
+use App\Models\Housing;
 use App\Models\HousingStatus;
+use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
@@ -19,6 +21,7 @@ use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
 use App\Models\ProjectSituation;
 use App\Models\ShareLink;
+use App\Models\TempOrder;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -684,5 +687,163 @@ class ProjectController extends Controller
         return json_encode([
             "status" => true
         ]);
+    }
+
+    public function createHousing(Request $request){
+        $housingTypeParentConnection = HousingTypeParentConnection::where('id',$request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
+        $housingTypeInputs = json_decode($housingTypeParentConnection->housingType->form_json);
+        
+        $manager = new ImageManager(
+            new Driver()
+        );
+
+        $projectSlug = Str::slug($request->input('projectData')['project_title']);
+        $projectData = $request->input('projectData');
+        
+        if($request->file('projectData')['cover_image']){
+
+            $file = $request->file('projectData')['cover_image'];
+
+            // Dosyanın hedef dizini
+            $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+            // Dosyayı belirlenen hedefe taşı
+            $fileNameCoverImage = $projectSlug.'_housing_cover_image_'.time().'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $fileNameCoverImage);
+
+            $image = $manager->read(public_path('housing_images/'.$fileNameCoverImage));
+            $imageWidth = $image->width();
+            $imageHeight = $image->height();
+
+            if($imageWidth > 450){
+                $newWidth = 450;
+                $newHeight = $imageHeight * 450 / $imageWidth;
+            }else{
+                $newWidth = $imageWidth;
+                $newHeight = $imageHeight;
+            }
+
+            $image->resize($newWidth, $newHeight);
+            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+            $encoded->save(public_path('housing_images/'.$fileNameCoverImage));
+        }
+
+        if($request->file('projectData')['document']){
+
+            $file = $request->file('projectData')['document'];
+
+            // Dosyanın hedef dizini
+            $destinationPath = public_path('housing_documents'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+            // Dosyayı belirlenen hedefe taşı
+            $fileNameDocument = $projectSlug.'_housing_document_'.time().'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $fileNameCoverImage);
+        }
+
+        $galleryImages = [];
+
+        foreach ( $request->file('projectData')['gallery'] as $imagex ) {
+            $file = $imagex;
+            // Dosyanın hedef dizini
+            $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+            // Dosyayı belirlenen hedefe taşı
+            $fileNameGalleryImage = $projectSlug.'_housing_gallery_image_'.time().'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $fileNameGalleryImage);
+            $image = $manager->read(public_path('housing_images/'.$fileNameGalleryImage));
+            $imageWidth = $image->width();
+            $imageHeight = $image->height();
+            if($imageWidth > 450){
+                $newWidth = 450;
+                $newHeight = $imageHeight * 450 / $imageWidth;
+            }else{
+                $newWidth = $imageWidth;
+                $newHeight = $imageHeight;
+            }
+
+            $image->resize($newWidth, $newHeight);
+            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+            $encoded->save(public_path('housing_images/'.$fileNameGalleryImage));
+            array_push($galleryImages,$fileNameGalleryImage);
+        }
+        
+        $housingTypeParent1 = HousingTypeParent::where('id',$request->input('selectedTypes')[0])->firstOrFail(); 
+        $housingTypeParent2 = HousingTypeParent::where('id',$request->input('selectedTypes')[1])->firstOrFail(); 
+
+        $postData = [];
+        foreach($request->input('room') as $key => $pData){
+            $postData[$key] = [$pData];
+        }
+
+        foreach($housingTypeInputs as $input){
+            if($input->type == "checkbox-group"){
+                if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
+                    $postData[str_replace('[]','',$input->name)] = explode(',',$postData[str_replace('[]','',$input->name)][0]);
+                }
+            }
+        }
+
+        $postData['image'] = $fileNameCoverImage;
+        $postData['images'] = $galleryImages;
+
+        $project = Housing::create(
+            [
+                'housing_type_id' => $housingTypeParentConnection->housingType->id,
+                'title' => $projectData['project_title'],
+                'slug' => Str::slug($projectData['project_title']),
+                'address' => 'asd',
+                'description' => $projectData['description'],
+                'city_id' => $projectData['city_id'],
+                "step1_slug" => $housingTypeParent1->slug,
+                "step2_slug" => $housingTypeParent2->slug,
+                'county_id' => $projectData['county_id'],
+                'neighborhood_id' => $projectData['neighbourhood_id'],
+                'status_id' => 1,
+                'document' => $fileNameDocument,
+                'status' => 2,
+                'housing_type_data' => json_encode( $postData, JSON_UNESCAPED_UNICODE ),
+                'user_id' => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
+                'latitude' => explode('-',$request->input('projectData')['coordinates'])[0],
+                'longitude' => explode('-',$request->input('projectData')['coordinates'])[1],
+                'status' => 2,
+            ]
+        );
+
+        $defaultHousingconnection = HousingStatus::where( 'is_default', 1 )->where( 'is_housing', 1 )->first();
+        HousingStatusConnection::create( [
+            'housing_status_id' => $defaultHousingconnection->id,
+            'housing_id' => $project->id
+        ] );
+
+        
+
+        return json_encode([
+            "status" => true,
+            "project" => $project
+        ]);
+    }
+
+    public function saveTempProject(Request $request){
+        $tempOrder = TempOrder::where('user_id',auth()->user()->id)->where('item_type',2)->first();
+
+        if($tempOrder){
+
+        }else{
+            $data = [
+                "projectData" => $request->input('projectData'),
+                "haveBlocks" => $request->input('haveBlocks'),
+                "totalRoomCount" => $request->input('totalRoomCount'),
+                "selectedTypes" => $request->input('selectedTypes')
+            ];
+
+            TempOrder::create([
+                "user_id" => auth()->user()->id,
+                "data" => "asd",
+                "item_type" => 2,
+                "step_order" => 1
+            ]);
+        }
+
+        
     }
 }
