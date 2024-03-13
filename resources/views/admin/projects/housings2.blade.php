@@ -134,9 +134,9 @@
                                                         <div class="text d-flex" style="align-items: flex-start;">
                                                             <span
                                                                 class="value-text">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</span>
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         </div>
 
                                                     </div>
@@ -159,9 +159,9 @@
                                                         <div class="text d-flex" style="align-items: flex-start;">
                                                             <span
                                                                 class="value-text">{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         </div>
 
                                                     </div>
@@ -185,9 +185,9 @@
                                                             <div class="text d-flex" style="align-items: flex-start;">
                                                                 <span
                                                                     class="value-text">{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
-                                                                <span
+                                                                {{-- <span
                                                                     class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                        class="fa fa-edit"></i></span>
+                                                                        class="fa fa-edit"></i></span> --}}
                                                             </div>
 
                                                         </div>
@@ -215,9 +215,9 @@
                                                             <div class="text d-flex" style="align-items: flex-start;">
                                                                 <span
                                                                     class="value-text">{{ getData($project, 'installments[]', $i + 1)->value }}</span>
-                                                                <span
+                                                                {{-- <span
                                                                     class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                        class="fa fa-edit"></i></span>
+                                                                        class="fa fa-edit"></i></span> --}}
                                                             </div>
 
                                                         </div>
@@ -245,9 +245,9 @@
                                                             <div class="text d-flex" style="align-items: flex-start;">
                                                                 <span
                                                                     class="value-text">{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}₺</span>
-                                                                <span
+                                                                {{-- <span
                                                                     class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                        class="fa fa-edit"></i></span>
+                                                                        class="fa fa-edit"></i></span> --}}
                                                             </div>
 
                                                         </div>
@@ -285,9 +285,9 @@
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
                                                                 Kapatıldı</button>
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         </div>
                                                         
                                                     @else
@@ -323,9 +323,9 @@
                                                                 <button
                                                                     class="badge badge-phoenix badge-phoenix-success value-text">Satışa
                                                                     Açık</button>
-                                                                <span
+                                                                {{-- <span
                                                                     class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                        class="fa fa-edit"></i></span>
+                                                                        class="fa fa-edit"></i></span> --}}
                                                             </div>
                                                         @endif
                                                     @endif
@@ -353,11 +353,10 @@
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>   
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                  
                     <div class="modal-body">
                     <form action="{{ route('admin.projects.housings.komsumu.gor.edit', ['id' => $i+1]) }}" method="POST">
                         @csrf
@@ -416,10 +415,8 @@
                                                     <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                        <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                            <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>   
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                         <form action="{{route('admin.projects.housings.komsumu.gor')}}" method="POST">
@@ -535,9 +532,9 @@
                                                         class="value-text">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</span>
                                                     @if ($sold && $sold[0]->status == 1)
                                                     @else
-                                                        <span
+                                                        {{-- <span
                                                             class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span>
+                                                                class="fa fa-edit"></i></span> --}}
                                                     @endif <br>
                                                 </div>
 
@@ -563,9 +560,9 @@
                                                         class="value-text">{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
                                                     @if ($sold && $sold[0]->status == 1)
                                                     @else
-                                                        <span
+                                                        {{-- <span
                                                             class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span>
+                                                                class="fa fa-edit"></i></span> --}}
                                                     @endif <br>
                                                 </div>
 
@@ -592,9 +589,9 @@
                                                             class="value-text">{{ number_format(getData($project, 'installments-price[]', $i + 1)->value, 0, ',', '.') }}₺</span>
                                                         @if ($sold && $sold[0]->status == 1)
                                                         @else
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         @endif
                                                     </div>
 
@@ -639,9 +636,9 @@
                                                             class="value-text">{{ getData($project, 'installments[]', $i + 1)->value }}</span>
                                                         @if ($sold && $sold[0]->status == 1)
                                                         @else
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         @endif
                                                     </div>
 
@@ -672,9 +669,9 @@
                                                             class="value-text">{{ number_format(getData($project, 'advance[]', $i + 1)->value, 0, ',', '.') }}₺</span>
                                                         @if ($sold && $sold[0]->status == 1)
                                                         @else
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         @endif
                                                     </div>
 
@@ -712,9 +709,9 @@
                                                     <button
                                                         class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
                                                         Kapatıldı</button>
-                                                    <span
+                                                    {{-- <span
                                                         class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                            class="fa fa-edit"></i></span>
+                                                            class="fa fa-edit"></i></span> --}}
                                                 </div>
                                              
                                             @else
@@ -746,9 +743,9 @@
                                                         <div class="text d-flex">
                                                             <button class="badge badge-phoenix badge-phoenix-success value-text">Satışa
                                                                 Açık</button>
-                                                            <span
+                                                            {{-- <span
                                                                 class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span>
+                                                                    class="fa fa-edit"></i></span> --}}
                                                         </div>
                                                     @endif
                                                     @endif
@@ -776,10 +773,8 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>   
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                             <form action="{{ route('admin.projects.housings.komsumu.gor.edit', ['id' => $i+1]) }}" method="POST">
@@ -842,10 +837,8 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>   
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                             <form action="{{route('admin.projects.housings.komsumu.gor')}}" method="POST">
@@ -981,7 +974,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="finalConfirmationModalLabel">İlan Verme Kuralları</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
                 </div>
