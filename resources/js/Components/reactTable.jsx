@@ -250,7 +250,7 @@ function ReactTable(props) {
     const [loading,setLoading] = useState(true);
     useEffect(() => {
         setLoading(true);
-        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -265,7 +265,7 @@ function ReactTable(props) {
         setLoading(true);
         setPage(newPage);
         var start = newPage * rowPerPage;
-        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
+        axios.get(`https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -282,7 +282,7 @@ function ReactTable(props) {
         setRowPerPage(parseInt(event.target.value, 10));
         setPage(0);
 
-        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
+        axios.get(`https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);   
             setLoading(false);
@@ -302,7 +302,7 @@ function ReactTable(props) {
                 axios.post(baseUrl+'deactive/'+id,{"_method":"PUT"}).then((res) => {
                     if(res.data.status){
                         setLoading(true);
-                        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
                             Swal.fire("Başarıyla projeyi pasife aldınız", "", "success");
                             setRows(res.data.data);
                             setTotalProjectsCount(res.data.total_projects_count);
@@ -355,7 +355,7 @@ function ReactTable(props) {
                 axios.post(baseUrl+'remove/'+id,{"_method":"DELETE"}).then((res) => {
                     if(res.data.status){
                         setLoading(true);
-                        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
                             Swal.fire("Başarıyla projeyi sildiniz", "", "success");
                             setRows(res.data.data);
                             setTotalProjectsCount(res.data.total_projects_count);
@@ -449,11 +449,11 @@ function ReactTable(props) {
                                                 : <div class="text-danger">Pasif</div>}
                                             </TableCell>
                                             <TableCell>
-                                                <a href={`http://127.0.0.1:8000/institutional/projects/${row.id}/housings`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
+                                                <a href={`https://emlaksepette.com/institutional/projects/${row.id}/housings`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
                                             </TableCell>
                                             <TableCell>
-                                                <a class="badge badge-phoenix badge-phoenix-warning" href={`http://127.0.0.1:8000/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
-                                                <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`http://127.0.0.1:8000/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
+                                                <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
                                             </TableCell>
                                             <TableCell>
                                                 {
