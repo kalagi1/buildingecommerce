@@ -8,7 +8,6 @@
         $blockHousingCount = 0;
         $previousBlockHousingCount = 0;
         $key = 0;
-        $blockStart= null;
 
         $roomKey = $roomNumber -1;
         $roomNumbersUserSame =
@@ -29,11 +28,11 @@ $blockName= null;
         $statusSlug = $status->slug;
 
         if(isset($blockStart) && $blockStart){
-            
+            $blockStart = $blockStart;
         }else{
             $blockStart = null;
         }
-
+        
     @endphp
 
     <x-project-item-mobile-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
