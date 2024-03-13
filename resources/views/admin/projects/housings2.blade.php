@@ -483,7 +483,6 @@
                                     <th class="sort" data-sort="room_count">İlan Adı</th>
                                     <th class="sort" data-sort="price">Fiyat</th>
                                     <th class="sort" data-sort="price">Taksitli Fiyat</th>
-                                    <th class="sort" data-sort="price">Ara Ödemeler</th>
                                     <th class="sort" data-sort="price">Taksit Sayısı</th>
                                     <th class="sort" data-sort="price">Peşinat</th>
                                     <th class="sort" data-sort="sold">Satış Durumu</th>
@@ -598,20 +597,6 @@
                                                 </div>
                                             @else
                                                 -
-                                            @endif
-                                        </td>
-
-                                        <td class="price">
-                                            @if ($sold && $sold[0]->status == 1)
-                                            @else
-                                                <div class="pop-up-edit">
-                                                    <span room-order="{{ $i + 1 }}"
-                                                        class="badge badge-phoenix badge-phoenix-primary batch_update_button">
-                                                        Ara ödemeleri güncelle <br>
-                                                        {{ getData($project, 'pay-dec-count' . $i + 1, $i + 1) ? getData($project, 'pay-dec-count' . $i + 1, $i + 1)->value : 0 }}
-                                                        Adet ara ödeme bulunmakta
-                                                    </span>
-                                                </div>
                                             @endif
                                         </td>
 
@@ -760,7 +745,8 @@
                                                             data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
                                                              Komşumu Düzenle
                                                          </a>
-                                                         
+                                                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                                                            class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                     </td>
                                                     @php
                                                         $cartOrder = DB::table('cart_orders')
