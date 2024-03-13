@@ -597,15 +597,19 @@ class ProjectController extends Controller
                 }
             }
 
+            return $blockIndexx;
+
             $blockItemCount = $blocks[$blockIndexx]->housing_count;
             // Odaları çek
             if($page == 0){
                 $start = $blockStart + 0;
                 $end = min( $start + $perPage, $blockStart + $blockItemCount);
             }else{
+                return $blockStart;
                 $start = ( $blockStart + ($page) * $perPage);
                 $end = min( $start + $perPage, $blockStart + $blockItemCount);
             }
+            
             if ($start < $end) {
                 return view('components.room-list', compact('project', 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
             }
@@ -848,6 +852,7 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
     }
+
 
     public function loadMoreRoomsMobile($projectId, $page, Request $request)
     {

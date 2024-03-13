@@ -57,7 +57,7 @@
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
                                     No<br>
-                                    @if(isset($blockStart) && $blockStart)
+                                    @if(isset($blockStart) && $blockStart && $blockStart != null)
                                         {{ $i - $blockStart + 1 }}
                                     @else
                                         {{ $i + 1 }}

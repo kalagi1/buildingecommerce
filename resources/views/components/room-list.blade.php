@@ -10,6 +10,7 @@
         $blockHousingCount = 0;
         $previousBlockHousingCount = 0;
         $key = 0;
+        $blockStart= null;
         $roomKey = $roomNumber - 1;
         $roomNumbersUserSame =
             isset($projectCartOrders[$roomNumber + 1]) &&
