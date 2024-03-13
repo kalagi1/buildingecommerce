@@ -1,5 +1,4 @@
-
-@foreach (range($start + 1 , $end) as $roomNumber)
+@foreach (range($start + 1, $end) as $roomNumber)
     @php
         $sold = isset($projectCartOrders[$roomNumber + 1]) ? $projectCartOrders[$roomNumber + 1] : null;
 
@@ -8,7 +7,7 @@
         $blockHousingCount = 0;
         $previousBlockHousingCount = 0;
         $key = 0;
-        $roomKey = $roomNumber -1;
+        $roomKey = $roomNumber - 1;
         $roomNumbersUserSame =
             isset($projectCartOrders[$roomNumber + 1]) &&
             (Auth::check() ? $projectCartOrders[$roomNumber + 1]->user_id == Auth::user()->id : false);
@@ -23,15 +22,12 @@
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();
-            $blockName= null;
+        $blockName = null;
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-        $statusSlug =null;
+        $statusSlug = $status->slug;
     @endphp
-
-    <x-project-item-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
-    :statusSlug="$statusSlug"
-    :blockName="$blockName"
-        :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$roomNumbersUserSame"
-        :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-        :lastHousingCount="$lastHousingCount" />
+    <x-project-item-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project" :statusSlug="$statusSlug"
+        :blockName="$blockName" :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+        :isUserSame="$roomNumbersUserSame" :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+        :sold="$sold" :lastHousingCount="$lastHousingCount" />
 @endforeach
