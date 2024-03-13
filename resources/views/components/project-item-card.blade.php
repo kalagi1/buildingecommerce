@@ -456,6 +456,7 @@
                             <div class="container row mb-3 mt-3">
                                 @foreach ($bankAccounts as $bankAccount)
                                     <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
+                                        data-sold-id="{{ $sold->id }}"
                                         data-iban="{{ $bankAccount->iban }}"
                                         data-title="{{ $bankAccount->receipent_full_name }}">
                                         <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
@@ -463,7 +464,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="ibanInfo" style="font-size: 12px !important"></div>
+                            <div id="ibanInfo" class="ibanInfo" style="font-size: 12px !important"></div>
                             <span>Ödeme işlemini tamamlamak için, lütfen bu
                                 <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
                                 kullanarak ödemenizi

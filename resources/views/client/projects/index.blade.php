@@ -1392,7 +1392,6 @@
     </script>
 
     <script>
-        $('.completePaymentButtonOrder').prop('disabled', false);
 
         $('.bank-account').on('click', function() {
             // Tüm banka görsellerini seçim olmadı olarak ayarla
@@ -1405,12 +1404,13 @@
             var selectedBankIban = $(this).data('iban');
             var selectedBankIbanID = $(this).data('id');
             var selectedBankTitle = $(this).data('title');
-            $('#bankaID').val(selectedBankIbanID);
+            var soldId = $(this).data('sold-id');
+
 
 
             var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
                 selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
-            $('#ibanInfo').html(ibanInfo);
+            $('.ibanInfo').html(ibanInfo);
 
         });
 
