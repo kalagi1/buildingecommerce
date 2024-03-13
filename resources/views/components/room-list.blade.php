@@ -1,8 +1,7 @@
 @foreach (range($start + 1, $end) as $roomNumber)
     @php
-    echo $roomNumber + 1;
-        if (isset($projectCartOrders[$roomNumber + 1])) {
-            $sold = $projectCartOrders[$roomNumber + 1];
+        if (isset($projectCartOrders[$roomNumber])) {
+            $sold = $projectCartOrders[$roomNumber];
         } else {
             $sold = null;
         }
