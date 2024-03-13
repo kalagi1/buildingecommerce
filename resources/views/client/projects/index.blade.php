@@ -996,7 +996,6 @@
                     // Web
                     if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
                         .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-                            console.log(currentPage);
                         if (currentPage < maxPages) {
                             isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
                             currentPage++;
