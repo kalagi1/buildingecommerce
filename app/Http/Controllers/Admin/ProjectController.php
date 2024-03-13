@@ -467,8 +467,20 @@ class ProjectController extends Controller {
             ];
 
             $user = User::create($addedData);                         
-            $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
-            $cartOrder->update(['user_id' => $user->id]);
+            // $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
+            // $cartOrder->update(['user_id' => $user->id]);
+
+            $updatedData = [
+                'email'     => $request->email,
+                'full_name' => $request->name,
+                'phone'     => $request->phone,
+                'tc'        => $request->tc,
+                'address'   => $request->address,
+                "user_id"   => $user->id
+            ];
+
+
+            $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
               
             return redirect()->back()->with('success','Başarıyla düzenlendi');
         }
