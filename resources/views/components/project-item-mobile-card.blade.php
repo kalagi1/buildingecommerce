@@ -79,7 +79,7 @@
 
                     <span class="mobileNoStyle">
                         No
-                        @if(isset($blockStart) && $blockStart)
+                        @if(isset($blockStart) && $blockStart && $blockStart != null)
                             {{ $i - $blockStart + 1 }}
                         @else
                             {{ $i + 1 }}

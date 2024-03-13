@@ -690,7 +690,7 @@
 
                                                 if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
                                                     echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name .
-                                                        '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
                                                     foreach ($valueArray as $ozellik) {
                                                         echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
                                                     }
@@ -724,8 +724,7 @@
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
                                                                 role="presentation"
-                                                                block-index="{{$key}}"
-                                                                onclick="changeTabContent('{{ $block['id'] }}',{{$key}})">
+                                                                onclick="changeTabContent('{{ $block['id'] }}',{{ $key }})">
                                                                 <div class="tab-title">
                                                                     <span>{{ $block['block_name'] }}</span>
                                                                 </div>
@@ -769,17 +768,22 @@
                                                             @endphp
                                                             <div class="mobile-hidden">
                                                                 <div class="container">
-                                                                    <div class="row project-filter-reverse blog-pots" id="project-room{{$blockKey}}">
-                                                       
+                                                                    <div class="row project-filter-reverse blog-pots"
+                                                                        id="project-room{{ $blockKey }}">
+
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
                                                                 <div class="container">
-                                                                    <div class="" id="project-room-mobile{{$blockKey}}">
-                                                                        
+                                                                    <div class=""
+                                                                        id="project-room-mobile{{ $blockKey }}">
+
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <div class="ajax-load" style="display: none;">
+                                                                Yükleniyor...
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -967,149 +971,97 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
-        var currentPage = 0; 
+        
         var itemsPerPage = 10;
-        var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
         var isLoading = false; // Kontrol flag'ı ekledik
         var currentBlock = 0;
-$(document).ready(function() {
-    @if($project->have_blocks)
+      var maxPages = null;
+        $(document).ready(function() {
+          
+            @if ($project->have_blocks)
+                var currentPage = 0;
+                var projectBlocks = @json($project->blocks);
+                 maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
 
-        if(window.innerWidth >= 768){
-            loadMoreDataBlock(0);
-        }else{
-            loadMoreDataBlockMobil(0);
-        }
-        $(window).scroll(function() {
-            var projectRoom = $('#project-room'+currentBlock);
-            var projectRoomMobile = $('#project-room-mobile'+currentBlock);
-            
-            // Web
-            if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-                if (currentPage < maxPages) {
-                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                    currentPage++;
-                    loadMoreDataBlock(currentPage);
+                if (window.innerWidth >= 768) {
+                    loadMoreDataBlock(0);
+                } else {
+                    loadMoreDataBlockMobil(0);
                 }
-            }
+                $(window).scroll(function() {
+                    var projectRoom = $('#project-room' + currentBlock);
+                    var projectRoomMobile = $('#project-room-mobile' + currentBlock);
 
-            // Mobil
-            if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-                if (currentPage < maxPages) {
-                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                    currentPage++;
-                    loadMoreDataBlockMobil(currentPage);
-                }
-            }
+                    // Web
+                    if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                        .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataBlock(currentPage);
+                        }
+                    }
+
+                    // Mobil
+                    if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                        projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataBlockMobil(currentPage);
+                        }
+                    }
+                });
+            @else
+             maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+
+                $(window).scroll(function() {
+                    var currentPage = 1;
+                    var projectRoom = $('#project-room');
+                    var projectRoomMobile = $('#project-room-mobile');
+
+                    // Web
+                    if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                        .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreData(currentPage);
+                        }
+                    }
+
+                    // Mobil
+                    if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                        projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataMobile(currentPage);
+                        }
+                    }
+                });
+            @endif
         });
-    @else
-        $(window).scroll(function() {
-            var projectRoom = $('#project-room');
-            var projectRoomMobile = $('#project-room-mobile');
 
-            // Web
-            if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-                if (currentPage < maxPages) {
-                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                    currentPage++;
-                    loadMoreData(currentPage);
+        function loadMoreData(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
                 }
-            }
-
-            // Mobil
-            if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-                if (currentPage < maxPages) {
-                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                    currentPage++;
-                    loadMoreDataMobile(currentPage);
-                }
-            }
-        });
-    @endif
-});
-
-function loadMoreData(page) {
-    $.ajax({
-        url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
-        type: 'get',
-        beforeSend: function() {
-            $('.ajax-load').show();
-        },
-        success: function(response) {
-            $('#project-room').append(response);
-            $('.ajax-load').hide();
-            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-        },
-        error: function(jqXHR, ajaxOptions, thrownError) {
-            console.log(thrownError);
-
-            $('.ajax-load').hide();
-            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-        }
-    });
-}
-
-function loadMoreDataBlock(page) {
-    $.ajax({
-        url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/"+currentBlock+"/" + page,
-        type: 'get',
-        beforeSend: function() {
-            $('.ajax-load').show();
-        },
-        success: function(response) {
-            $('#project-room'+currentBlock).append(response);
-            $('.ajax-load').hide();
-            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-        },
-        error: function(jqXHR, ajaxOptions, thrownError) {
-            console.log(thrownError);
-
-            $('.ajax-load').hide();
-            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-        }
-    });
-}
-
-function loadMoreDataBlockMobil(page) {
-    $.ajax({
-        url: "{{ url('/load-more-rooms-block-mobile') }}/{{ $project->id }}/"+currentBlock+"/" + page,
-        type: 'get',
-        beforeSend: function() {
-            $('.ajax-load').show();
-        },
-        success: function(response) {
-            console.log($('#project-room-mobile'+currentBlock));
-            $('#project-room-mobile'+currentBlock).append(response);
-            $('.ajax-load').hide();
-            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-        },
-        error: function(jqXHR, ajaxOptions, thrownError) {
-            console.log(thrownError);
-
-            $('.ajax-load').hide();
-            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-        }
-    });
-}
-
-function loadMoreDataMobile(page) {
-    $.ajax({
-        url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
-        type: 'get',
-        beforeSend: function() {
-            $('.ajax-load').show();
-        },
-        success: function(response) {
-            $('#project-room-mobile').append(response);
-            $('.ajax-load').hide();
-            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-        },
-        error: function(jqXHR, ajaxOptions, thrownError) {
-            console.log(thrownError);
-
-            $('.ajax-load').hide();
-            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-
+            });
         }
 
         function loadMoreDataMobile(page) {
@@ -1132,6 +1084,82 @@ function loadMoreDataMobile(page) {
                 }
             });
         }
+
+        function loadMoreDataBlock(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/" + currentBlock + "/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room' + currentBlock).append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataBlockMobil(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-block-mobile') }}/{{ $project->id }}/" + currentBlock + "/" +
+                    page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    console.log($('#project-room-mobile' + currentBlock));
+                    $('#project-room-mobile' + currentBlock).append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function changeTabContent(tabName, key) {
+            currentPage = 0;
+            currentBlock = key;
+
+
+            if (window.innerWidth >= 768) {
+                loadMoreDataBlock(0);
+                $('#project-room' + currentBlock).html("");
+            } else {
+                loadMoreDataBlockMobil(0);
+                $('#project-room-mobile' + currentBlock).html("");
+            }
+
+            projectBlocks = @json($project->blocks);
+             maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
+
+            document.querySelectorAll('.nav-item-block').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content-block').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.getElementById('contentblock-' + tabName).classList.add('active');
+            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
+
+            var blockIndex = $('#contentblock-' + tabName).index() - 1;
+            var startIndex = 0;
+            var endIndex = 12;
+          
+        }
+
     </script>
     <script>
         var successMessage = "{{ session('success') }}";
@@ -1358,37 +1386,6 @@ function loadMoreDataMobile(page) {
                 }
             }]
         });
-
-        function changeTabContent(tabName,key) {
-            currentPage = 0;
-            currentBlock = key;
-
-
-            if(window.innerWidth >= 768){
-                loadMoreDataBlock(0);
-                $('#project-room'+currentBlock).html("");
-            }else{
-                loadMoreDataBlockMobil(0);
-                $('#project-room-mobile'+currentBlock).html("");
-            }
-            
-            console.log(currentBlock);
-            document.querySelectorAll('.nav-item-block').forEach(function(content) {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-content-block').forEach(function(content) {
-                content.classList.remove('active');
-            });
-            document.getElementById('contentblock-' + tabName).classList.add('active');
-            console.log($('#contentblock-' + tabName).index())
-            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
-
-            var blockIndex = $('#contentblock-' + tabName).index() - 1;
-            var startIndex = 0;
-            var endIndex = 12;
-        }
-
-    
     </script>
 
     <script>
