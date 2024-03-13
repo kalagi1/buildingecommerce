@@ -108,6 +108,8 @@
                                                         @endif ₺
                                                     </span>
                                                 @endif
+                                                @else
+                                              <span class="text-danger" style="font-weight: 700">  SATILDI</span>
                                             @endif
                                         </td>
                                         <td>
