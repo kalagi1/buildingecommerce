@@ -134,8 +134,6 @@
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
 
-                                        $statusID =(App\Models\Project::find($cart['item']['id']))->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-                                         $status = App\Models\HousingStatus::find($statusID);
                                     @endphp
                                     <tr>
                                         <td class="image myelist">
@@ -143,9 +141,7 @@
                                                 href="{{ $cart['type'] == 'housing'
                                                     ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                     : route('project.housings.detail', [
-                                                        // optional(App\Models\Project::find($cart['item']['id']))->step2_slug,
-                                                        // optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".$status->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                         'housingOrder' => $cart['item']['housing'],
                                                     ]) }}">
@@ -159,7 +155,7 @@
                                                     href="{{ $cart['type'] == 'housing'
                                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                         : route('project.housings.detail', [
-                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".$status->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                             'housingOrder' => $cart['item']['housing'],
                                                         ]) }}">

@@ -28,17 +28,28 @@
     }
 @endphp
 
-@if(isset($projectHousingsList[$keyIndex]))
-<div class="col-md-12 col-12">
-    <div class="project-card mb-3">
-        <div class="row">
-            <div class="col-md-3">
-                <a href="{{ route('project.housings.detail', [
-                    'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
-                    'projectID' => $project->id + 1000000,
-                    'housingOrder' => $i + 1,
-                ]) }}"
-                    style="height: 100%">
+@if (isset($projectHousingsList[$keyIndex]))
+    <div class="col-md-12 col-12">
+        <div class="project-card mb-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="{{ route('project.housings.detail', [
+                        'projectSlug' =>
+                            $statusSlug .
+                            '-' .
+                            $project->step2_slug .
+                            '-' .
+                            $project->housingtype->slug .
+                            '-' .
+                            $project->slug .
+                            '-' .
+                            strtolower($project->city->title) .
+                            '-' .
+                            strtolower($project->county->ilce_title),
+                        'projectID' => $project->id + 1000000,
+                        'housingOrder' => $i + 1,
+                    ]) }}"
+                        style="height: 100%">
 
                         <div class="d-flex" style="height: 100%;">
                             <div
@@ -168,7 +179,10 @@
     <div class="bar-chart">
         <div class="progress" style="border-radius: 0 !important">
             <div class="progress-bar"
-                @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && isset($maxQtTotal) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
+                @if (isset($sumCartOrderQt[$keyIndex]) &&
+                        isset($sumCartOrderQt[$keyIndex]['qt_total']) &&
+                        isset($maxQtTotal) &&
+                        $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
                                 @else
                                     style="width: 0% !important" @endif>
             </div>
@@ -209,7 +223,7 @@
             @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
                 <span class="first-btn see-my-neighbor"
                     @if (Auth::check()) data-bs-toggle="modal"
-                                    data-bs-target="#paymentModal" data-order="{{ $sold->id }}" @endif>
+                                    data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @endif>
                     <span><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -429,5 +443,149 @@
         </div>
     </div>
 </div>
+
+@if ($sold_check && $sold->status == '1')
+
+    <div class="modal fade" id="neighborViewModal{{ $sold->id }}" tabindex="-1"
+        aria-labelledby="neighborViewModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="invoice">
+                        <div class="invoice-header mb-3">
+                            <span>Ödeme Tarihi: {{ date('d.m.Y') }}</span> <br>
+                            <span style="color:#e54242;font-weight:700">Tutar: 250 TL</span>
+
+                        </div>
+
+                        <div class="invoice-body">
+                            <div class="invoice-total mt-3">
+                                <div class="mt-3">
+                                    <span><strong style="color:black">Komşumu Gör Özelliği:</strong> Bu özellik,
+                                        komşunuzun
+                                        iletişim bilgilerine ulaşabilmeniz için aktif edilmelidir.</span><br>
+                                    <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
+                                        edin:</span>
+                                    <ul>
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                                aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
+                                            aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
+                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
+                                                aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
+                                            düğmesi
+                                            aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
+                                    </ul>
+                                </div>
+                                <div class="container row mb-3 mt-3">
+                                    @foreach ($bankAccounts as $bankAccount)
+                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
+                                            data-sold-id="{{ $sold->id }}" data-iban="{{ $bankAccount->iban }}"
+                                            data-title="{{ $bankAccount->receipent_full_name }}">
+                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
+                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="ibanInfo" style="font-size: 12px !important"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex">
+                        <button type="button"
+                            class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
+                            id="completePaymentButton{{ $sold->id }}" data-order="{{ $sold->id }}"
+                            style="width:150px;float:right">
+                            250 TL Öde
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
+                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+<script>
+    $('.bank-account').on('click', function() {
+        // Tüm banka görsellerini seçim olmadı olarak ayarla
+        $('.bank-account').removeClass('selected');
+        // Seçilen banka görselini işaretle
+        $(this).addClass('selected');
+
+        // İlgili IBAN bilgisini al
+        var selectedBankIban = $(this).data('iban');
+        var selectedBankIbanID = $(this).data('id');
+        var selectedBankTitle = $(this).data('title');
+
+        var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
+            selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
+        $('.ibanInfo').html(ibanInfo);
+    });
+
+
+    $('#completePaymentButton{{ $sold->id }}').on('click', function() {
+        // Ödeme sırasındaki satış ID'sini al
+        var order = $(this).data('order');
+
+        // Seçilen banka hesabını kontrol et
+        if ($('.bank-account.selected').length === 0) {
+            toastr.error('Lütfen banka seçimi yapınız.');
+        } else {
+            // Ödeme işlemine başla
+            $("#loadingOverlay").css("visibility", "visible"); // Loading overlay göster
+
+            // Ödeme bilgilerini ve diğer verileri hazırla
+            var requestData = {
+                _token: "{{ csrf_token() }}",
+                user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
+                order_id: order,
+                status: 0,
+                key: generateRandomCode(), // Rastgele bir kod oluştur
+                amount: "100" // Ödeme miktarı
+            };
+
+            // AJAX isteği gönder
+            $.ajax({
+                url: "{{ route('neighbor.store') }}", // Verileri göndereceğiniz URL
+                type: "POST",
+                data: requestData,
+                success: function(response) {
+                    // İşlem başarılıysa
+                    $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
+
+                    toastr.success(
+                        'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
+                    location.reload();
+                }
+            });
+        }
+    });
+
+    function generateRandomCode() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const codeLength = 8; // Kod uzunluğu
+
+        let randomCode = '';
+        for (let i = 0; i < codeLength; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            randomCode += characters.charAt(randomIndex);
+        }
+
+        return randomCode;
+    }
+</script>
+
+@endif
 
 @endif

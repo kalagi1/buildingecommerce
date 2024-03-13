@@ -218,20 +218,26 @@
                     </a>
                 </div>
 
-                <div class="mobile-show">
-                    @foreach ($secondhandHousings as $housing)
+                <div class="mobile-show" >
+                    <div id="housingMobileRow">
+                        @forelse ($secondhandHousings->take(4) as $housing)
                         @php($sold = $housing->sold)
                         @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
                             <x-housing-card-mobile :housing="$housing" :sold="$sold" />
                         @endif
                     @endforeach
+                    </div>
+                  
+                    <div class="ajax-load" style="display: none;">
+                        Yükleniyor...
+                    </div>
                 </div>
 
                 <div class="mobile-hidden" style="margin-top: 20px">
                     <section class="properties-right list featured portfolio blog pb-5 bg-white">
-                        <div class="container">
-                            <div class="row">
-                                @forelse ($secondhandHousings as $housing)
+                        <div class="container" id="housingContainer">
+                            <div class="row" id="housingRow">
+                                @forelse ($secondhandHousings->take(4) as $housing)
                                     @php($sold = $housing->sold)
                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
                                         <div class="col-md-3">
@@ -242,9 +248,14 @@
                                     <p>Henüz İlan Yayınlanmadı</p>
                                 @endforelse
                             </div>
+                            <div class="ajax-load" style="display: none;">
+                                Yükleniyor...
+                            </div>
                         </div>
                     </section>
                 </div>
+
+
             </div>
         </section>
     @endif
@@ -316,7 +327,7 @@
         </div>
     @endif --}}
 
-    @if (Auth::check() && Auth::user()->has_club == 0 || !Auth::check())
+    @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
@@ -342,11 +353,9 @@
                                                 class="img-fluid blur-up lazyloaded" alt="">
                                             <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
                                                 kadar paylaş; paylaştıkça kazan!</h2>
-                                            <a @if (Auth::check())
-                                            href="{{ route('institutional.sharer.index') }}"
+                                            <a @if (Auth::check()) href="{{ route('institutional.sharer.index') }}"
                                             @else
-                                            href="{{ route('client.login') }}"
-                                            @endif 
+                                            href="{{ route('client.login') }}" @endif
                                                 style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
                                                 <button
                                                     style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
@@ -381,8 +390,65 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
+        var page = 1; // Başlangıç sayfası
+        var isLoading = false;
+        var housingRow = $('#housingRow');
+        var housingMobileRow = $('#housingMobileRow');
+
+
+        function loadMoreHousings() {
+            if (isLoading) return;
+            isLoading = true;
+            $('.ajax-load').show();
+
+            page++; // Sonraki sayfaya geç
+            var url = "{{ route('load-more-housings') }}?page=" + page;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('housingRow').innerHTML += data;
+                    isLoading = false;
+                    $('.ajax-load').hide();
+
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function loadMoreMobileHousings() {
+            if (isLoading) return;
+            isLoading = true;
+            $('.ajax-load').show();
+
+            page++; // Sonraki sayfaya geç
+            var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('housingMobileRow').innerHTML += data;
+                    isLoading = false;
+                    $('.ajax-load').hide();
+
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        window.addEventListener('scroll', function() {
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
+                50 && !isLoading && window.innerWidth >= 768) {
+                loadMoreHousings();
+            }
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow.outerHeight() -
+                50 && !isLoading && window.innerWidth < 768) {
+                    loadMoreMobileHousings();
+            }
+        });
+    </script>
+
+    <script>
         var errorMessage = "{{ session('error') }}";
-    
+
         if (errorMessage) {
             Toastify({
                 text: errorMessage,
@@ -394,7 +460,7 @@
             }).showToast();
         }
     </script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();

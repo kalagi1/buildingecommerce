@@ -434,24 +434,26 @@ class ProjectController extends Controller {
     }//End
 
     public function komsumuGorInfo2Edit(Request $request){
+        // print_r("yunus");die;
 
         $email = $request->email;
         $userFirst = User::where('email', $email)->first();
 
-        if($userFirst){
+        if(isset($userFirst)){
             $updatedData = [
                 'email'     => $request->email,
                 'full_name' => $request->name,
                 'phone'     => $request->phone,
                 'tc'        => $request->tc,
                 'address'   => $request->address,
-                "user_id" => $userFirst->id
+                "user_id"   => $userFirst->id
             ];
 
+
             $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
-            if ($update) {
+         
                 return redirect()->back()->with('success','Başarıyla düzenlendi');
-            }
+         
         }else{
 
             $addedData = [
@@ -459,27 +461,33 @@ class ProjectController extends Controller {
                 'name'      => $request->name,
                 'phone'     => $request->phone,
                 'idNumber'  => $request->tc,
-                'type' => 1,
-                "status" => 1,
-                'password'   => Hash::make("komsumugor123"),
+                'type'      => 1,
+                "status"    => 1,
+                'password'  => Hash::make("komsumugor123"),
             ];
 
             $user = User::create($addedData);                         
-            $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
-            $cartOrder->update(['user_id' => $user->id]);
+            // $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
+            // $cartOrder->update(['user_id' => $user->id]);
+
+            $updatedData = [
+                'email'     => $request->email,
+                'full_name' => $request->name,
+                'phone'     => $request->phone,
+                'tc'        => $request->tc,
+                'address'   => $request->address,
+                "user_id"   => $user->id
+            ];
+
+
+            $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
               
             return redirect()->back()->with('success','Başarıyla düzenlendi');
         }
-        
 
-    
-
-
-     
     }//End
 
-    public function getUserInfo(Request $request)
-    {
+    public function getUserInfo(Request $request){
         $email = $request->input('email');
         
         $user = User::where('email', $email)->first();

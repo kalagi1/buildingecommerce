@@ -34,8 +34,6 @@
                                             $price = $item['project_values']['price[]'] - $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
                                         }
-                                        $statusID = $item['project']->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-                                        $status = HousingStatus::find($statusID);
                                     @endphp
 
                                     <tr>
@@ -45,7 +43,6 @@
                                         </td>
 
                                         <td>
-                                                                                                                    {{-- ."-".$status->slug."-".$item['project']['step2_slug'."-".$item['project']->housingtype->slug    ]  --}}
                                             <a                                     
                                                 href="{{ $item['item_type'] == 1 ? route('project.housings.detail',['projectSlug'=>$item['project']['slug'],'projectID'=>$item['project']['id'], 'housingOrder'=>$item['room_order'] ]) :  route('housing.show', ['housingSlug' =>$item['housing']['step1_slug']. "-".$item['housing']['step2_slug']. "-" . $item['housing']['slug'], 'housingID' => [$item['housing']['id']] + 2000000]) }}">
                                                 <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
@@ -111,7 +108,9 @@
                                                         @endif ₺
                                                     </span>
                                                 @endif
-                                            @endif
+                                                @else
+                                              <span class="text-danger" style="font-weight: 700">  SATILDI</span>
+                                            @endif  
                                         </td>
                                         <td>
                                             <span class="ml-auto text-success priceFont">
@@ -270,7 +269,7 @@
                                                         </del>
                                                     @else
                                                         <span>
-                                                            <del style="color: green;">
+                                                            {{-- <del style="color: green;"> --}}
                                                                 @if ($item['item_type'] == 1)
                                                                     @if (isset($item['project_values']['price[]']))
                                                                         {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
@@ -387,6 +386,10 @@
         .mobile-hidden {
             display: flex;
         }
+        .mobile-show {
+            display: none;
+        }
+
 
         .desktop-hidden {
             display: none;
@@ -420,6 +423,9 @@
 
             .mobile-hidden {
                 display: none
+            }
+            .mobile-show {
+                display: block
             }
 
             .desktop-hidden {
