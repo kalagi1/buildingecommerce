@@ -1950,7 +1950,7 @@ function loadMoreDataMobile(page) {
             $("#orderKey").val(uniqueCode);
 
             var soldId = $(this).data('order');
-            $('.completePaymentButtonOrder').attr('data-order', soldId);
+            $('#completePaymentButton').attr('data-order', soldId);
         });
         $('#completePaymentButton').prop('disabled', false);
 

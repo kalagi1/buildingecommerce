@@ -216,7 +216,7 @@
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key  }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -236,16 +236,15 @@
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
                                 <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-1" data-slide-to="1"
-                                        data-target="#listingDetailsSlider">
+                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
                                 </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key  }}"
-                                            data-slide-to="{{ $key  }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key }}"
+                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -275,8 +274,8 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr >
-                                                    <td >
+                                                <tr>
+                                                    <td>
                                                         <span class="autoWidthTr">İlan No:</span>
                                                         <span class="det" style="color: #274abb !important;">
                                                             {{ $project->id + 1000000 }}
@@ -521,8 +520,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
-                                    
-                                   
+
+
                                     <tr>
                                         <td colspan="2">
                                             <strong><span class="mr-1">Proje Adı:</span></strong>
@@ -706,10 +705,11 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home"
+                            role="tabpanel" aria-labelledby="home-tab">
                             {!! $project->description !!}
                         </div>
-                        
+
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
@@ -807,17 +807,16 @@
                                                                                 $projectDiscountAmount = $projectOffer
                                                                                     ? $projectOffer->discount_amount
                                                                                     : 0;
-                                                                                    $statusSlug=$status->slug;
+                                                                                $statusSlug = $status->slug;
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
-                                                                                :statusSlug="$statusSlug"    
-                                                                                :towns="$towns" :cities="$cities"
-                                                                                :allCounts="$allCounts" :key="$key"
-                                                                                :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                                                :bankAccounts="$bankAccounts" :i="$i"
-                                                                                :blockName="$blockName"
+                                                                                :statusSlug="$statusSlug" :towns="$towns"
+                                                                                :cities="$cities" :allCounts="$allCounts"
+                                                                                :key="$key" :blockHousingCount="$blockHousingCount"
+                                                                                :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                                                :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
+                                                                                :i="$i" :blockName="$blockName"
                                                                                 :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                                                 :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                         @endfor
@@ -866,15 +865,14 @@
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
-                                                                        :statusSlug="$statusSlug"    
-                                                                        :blockName="$blockName" :towns="$towns"
-                                                                        :cities="$cities" :allCounts="$allCounts"
-                                                                        :key="$key" :blockHousingCount="$blockHousingCount"
-                                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                        :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                        :lastHousingCount="$lastHousingCount" />
+                                                                        :statusSlug="$statusSlug" :blockName="$blockName"
+                                                                        :towns="$towns" :cities="$cities"
+                                                                        :allCounts="$allCounts" :key="$key"
+                                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                        :bankAccounts="$bankAccounts" :i="$i"
+                                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                 @endfor
                                                             </div>
                                                         </div>
@@ -891,7 +889,7 @@
                                     <div class="mobile-hidden">
                                         <div class="container">
                                             @php
-                                                $blockName= null;
+                                                $blockName = null;
                                             @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
@@ -930,17 +928,15 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                            $statusSlug = $status->slug;
+                                                        $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
-                                                        :statusSlug="$statusSlug"
-                                                        :blockName="$blockName"
-                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
-                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                        :lastHousingCount="$lastHousingCount" />
+                                                        :statusSlug="$statusSlug" :blockName="$blockName" :blockHousingCount="$blockHousingCount"
+                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
+                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -951,52 +947,50 @@
                                     </div>
                                     <div class="mobile-show">
                                         <div class="container">
-                                            <div  id="project-room-mobile">
+                                            <div id="project-room-mobile">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
-                                                @php
-                                                $sold = isset($projectCartOrders[$i + 1])
-                                                    ? $projectCartOrders[$i + 1]
-                                                    : null;
+                                                    @php
+                                                        $sold = isset($projectCartOrders[$i + 1])
+                                                            ? $projectCartOrders[$i + 1]
+                                                            : null;
 
-                                                $room_order = $i + 1;
-                                                $allCounts = 0;
-                                                $blockHousingCount = 0;
-                                                $previousBlockHousingCount = 0;
-                                                $key = 0;
-                                                $isUserSame =
-                                                    isset($projectCartOrders[$i + 1]) &&
-                                                    (Auth::check()
-                                                        ? $projectCartOrders[$i + 1]->user_id ==
-                                                            Auth::user()->id
-                                                        : false);
+                                                        $room_order = $i + 1;
+                                                        $allCounts = 0;
+                                                        $blockHousingCount = 0;
+                                                        $previousBlockHousingCount = 0;
+                                                        $key = 0;
+                                                        $isUserSame =
+                                                            isset($projectCartOrders[$i + 1]) &&
+                                                            (Auth::check()
+                                                                ? $projectCartOrders[$i + 1]->user_id ==
+                                                                    Auth::user()->id
+                                                                : false);
 
-                                                $projectOffer = App\Models\Offer::where('type', 'project')
-                                                    ->where('project_id', $project->id)
-                                                    ->where(function ($query) use ($i) {
-                                                        $query
-                                                            ->orWhereJsonContains('project_housings', [$i + 1])
-                                                            ->orWhereJsonContains(
-                                                                'project_housings',
-                                                                (string) ($i + 1),
-                                                            ); // Handle as string as JSON might store values as strings
-                                                    })
-                                                    ->where('start_date', '<=', now())
-                                                    ->where('end_date', '>=', now())
-                                                    ->first();
-                                                $projectDiscountAmount = $projectOffer
-                                                    ? $projectOffer->discount_amount
-                                                    : 0;
+                                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                                            ->where('project_id', $project->id)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query
+                                                                    ->orWhereJsonContains('project_housings', [$i + 1])
+                                                                    ->orWhereJsonContains(
+                                                                        'project_housings',
+                                                                        (string) ($i + 1),
+                                                                    ); // Handle as string as JSON might store values as strings
+                                                            })
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
+                                                        $projectDiscountAmount = $projectOffer
+                                                            ? $projectOffer->discount_amount
+                                                            : 0;
 
-                                                    $statusSlug = $status->slug;
-
-                                            @endphp
-                                            <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                :blockName="$blockName" :project="$project" :allCounts="$allCounts"
-                                                :statusSlug="$statusSlug"
-                                                :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        $statusSlug = $status->slug;
+                                                    @endphp
+                                                    <x-project-item-mobile-card :towns="$towns" :cities="$cities"
+                                                        :blockName="$blockName" :project="$project" :allCounts="$allCounts"
+                                                        :statusSlug="$statusSlug" :key="$key" :blockHousingCount="$blockHousingCount"
+                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
+                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -1130,80 +1124,81 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-   
+
     <script>
-       var currentPage = 1; 
-var itemsPerPage = 10;
-var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
-var isLoading = false; // Kontrol flag'ı ekledik
+        var currentPage = 1;
+        var itemsPerPage = 10;
+        var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+        var isLoading = false; // Kontrol flag'ı ekledik
 
-$(document).ready(function() {
-    $(window).scroll(function() {
-        var projectRoom = $('#project-room');
-        var projectRoomMobile = $('#project-room-mobile');
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                var projectRoom = $('#project-room');
+                var projectRoomMobile = $('#project-room-mobile');
 
-        // Web
-        if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-            if (currentPage < maxPages) {
-                isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                currentPage++;
-                loadMoreData(currentPage);
-            }
+                // Web
+                if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                    .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                    if (currentPage < maxPages) {
+                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                        currentPage++;
+                        loadMoreData(currentPage);
+                    }
+                }
+
+                // Mobil
+                if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                    projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                    if (currentPage < maxPages) {
+                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                        currentPage++;
+                        loadMoreDataMobile(currentPage);
+                    }
+                }
+            });
+        });
+
+        function loadMoreData(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
         }
 
-        // Mobil
-        if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-            if (currentPage < maxPages) {
-                isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                currentPage++;
-                loadMoreDataMobile(currentPage);
-            }
+        function loadMoreDataMobile(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room-mobile').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
         }
-    });
-});
-
-function loadMoreData(page) {
-    $.ajax({
-        url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
-        type: 'get',
-        beforeSend: function() {
-            $('.ajax-load').show();
-        },
-        success: function(response) {
-            $('#project-room').append(response);
-            $('.ajax-load').hide();
-            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-        },
-        error: function(jqXHR, ajaxOptions, thrownError) {
-            console.log(thrownError);
-
-            $('.ajax-load').hide();
-            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-        }
-    });
-}
-
-function loadMoreDataMobile(page) {
-    $.ajax({
-        url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
-        type: 'get',
-        beforeSend: function() {
-            $('.ajax-load').show();
-        },
-        success: function(response) {
-            $('#project-room-mobile').append(response);
-            $('.ajax-load').hide();
-            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-        },
-        error: function(jqXHR, ajaxOptions, thrownError) {
-            console.log(thrownError);
-
-            $('.ajax-load').hide();
-            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-        }
-    });
-}
-
     </script>
     <script>
         var successMessage = "{{ session('success') }}";
@@ -1487,23 +1482,23 @@ function loadMoreDataMobile(page) {
         $(".see-my-neighbor").on("click", function() {
 
 
-if (!{{ Auth::check() ? 'true' : 'false' }}) {
-    // User is not authenticated, show error toast
-    // You can use a library like toastr.js or any other method to display a toast
-    // Example using toastr.js
-    toastr.error('Lütfen giriş yapın!');
-    return;
-}
+            if (!{{ Auth::check() ? 'true' : 'false' }}) {
+                // User is not authenticated, show error toast
+                // You can use a library like toastr.js or any other method to display a toast
+                // Example using toastr.js
+                toastr.error('Lütfen giriş yapın!');
+                return;
+            }
 
-var uniqueCode = generateRandomCode();
+            var uniqueCode = generateRandomCode();
 
 
-$('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
-$("#orderKey").val(uniqueCode);
+            $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
+            $("#orderKey").val(uniqueCode);
 
-var soldId = $(this).data('order');
-$('.completePaymentButtonOrder').attr('data-order', soldId);
-});
+            var soldId = $(this).data('order');
+            $('.completePaymentButtonOrder').attr('data-order', soldId);
+        });
         $('#completePaymentButton').on('click', function() {
             var order = $(this).data('order');
             console.log(order);
@@ -1557,7 +1552,6 @@ $('.completePaymentButtonOrder').attr('data-order', soldId);
 
             return randomCode;
         }
-       
     </script>
 @endsection
 
