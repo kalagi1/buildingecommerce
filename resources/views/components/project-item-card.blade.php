@@ -15,7 +15,7 @@
     'cities',
     'towns',
     'statusSlug',
-    'blockName',
+    'blockName'
 ])
 
 @php

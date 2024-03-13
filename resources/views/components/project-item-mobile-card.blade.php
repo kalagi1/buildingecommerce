@@ -16,7 +16,7 @@
     'cities',
     'towns',
     'statusSlug',
-    'blockName',
+    'blockName'
 ])
 @php
     if ($key == 0) {
