@@ -90,7 +90,6 @@
                                     <thead>
                                         <tr>
 
-                                            <th><input type="checkbox" class="all-select"></th>
                                             <th>No.</th>
                                             <th>Görsel</th>
                                             <th class="sort" data-sort="room_count">İlan Adı</th>
@@ -113,8 +112,6 @@
                                             @endphp
 
                                             <tr>
-                                                <td><input type="checkbox" class="item-checkbox" item-id="{{  $temp }}"
-                                                    name="" id=""></td>
                                                 <td>{{ $j + 1 }}</td>
                                                 <td class="image">
                                                     <div class="image-with-hover">
@@ -359,7 +356,6 @@
                         <table class="table fs--1 mb-0">
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" class="all-select"></th>
                                     <th>No.</th>
                                     <th>Görsel</th>
                                     <th class="sort" data-sort="room_count">İlan Adı</th>
@@ -383,8 +379,6 @@
                                     @endphp
 
                                     <tr>
-                                        <td><input type="checkbox" class="item-checkbox" item-id="{{ $i + 1 }}"
-                                                name="" id=""></td>
                                         <td>{{ $i + 1 }}</td>
                                         <td class="image">
                                             <div class="image-with-hover">
