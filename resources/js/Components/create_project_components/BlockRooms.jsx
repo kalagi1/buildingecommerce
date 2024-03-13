@@ -41,6 +41,7 @@ function BlockRooms({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedR
             }
         ]);
 
+        setSelectedRoom(0);
         setBlockName("");
         setRoomCount(0);
         setOpen(false);
@@ -280,7 +281,7 @@ function BlockRooms({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedR
                                                                     data.values.map((valueCheckbox) => {
                                                                         return (
                                                                             <div className="col-md-3">
-                                                                                <FormControlLabel control={<Switch label={label} checked={blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
+                                                                                <FormControlLabel control={<Switch label={valueCheckbox.label} checked={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] && blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name].includes(valueCheckbox.value) : false} onChange={(e) => {blockCheckboxDataSet(selectedBlock,data?.name,valueCheckbox?.value,e)}} />} label={valueCheckbox.label} />
                                                                             </div>
                                                                         )
                                                                     })
