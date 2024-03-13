@@ -31,6 +31,6 @@
     @endphp
     <x-project-item-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project" :statusSlug="$statusSlug"
         :blockName="$blockName" :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-        :isUserSame="$roomNumbersUserSame" :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+        :isUserSame="$roomNumbersUserSame" :blockStart="$blockStart" :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
         :sold="$sold" :lastHousingCount="$lastHousingCount" />
 @endforeach

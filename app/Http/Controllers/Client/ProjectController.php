@@ -137,7 +137,6 @@ class ProjectController extends Controller
         if ($project) {
 
             $projectHousing = $project->roomInfo->keyBy('name');
-
             $sumCartOrderQt = DB::table('cart_orders')
                 ->select(
                     DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
@@ -191,7 +190,7 @@ class ProjectController extends Controller
             $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
             $lastHousingCount = 0;
 
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','<=',10)->get();
             $projectHousingsList = [];
             $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;

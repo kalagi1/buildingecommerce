@@ -17,6 +17,7 @@
     'towns',
     'statusSlug',
     'blockName',
+    'blockStart'
 ])
 @php
     if ($key == 0) {
@@ -58,13 +59,34 @@
                                 style="height: 95px !important;">
                         </div>
 
-                        <span class="mobileNoStyle">
-                            No
-                            {{ $i + 1 }}
-                        </span>
+<div class="d-flex" style="flex-wrap: nowrap">
+    <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
+        <div class="project-inner project-head">
+            {{-- <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}"> --}}
+            <a
+                href="{{ route('project.housings.detail', [
+                      'projectSlug' => $project->slug. "-".$statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
+                    'projectID' => $project->id + 1000000,
+                    'housingOrder' => $keyIndex,
+                ]) }}">
+                <div class="homes">
+                    <!-- homes img -->
+                    <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
+                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
+                            alt="{{ $project->housingType->title }}" class="img-responsive"
+                            style="height: 95px !important;">
                     </div>
-                </a>
-            </div>
+
+                    <span class="mobileNoStyle">
+                        No
+                        @if(isset($blockStart) && $blockStart)
+                            {{ $i - $blockStart + 1 }}
+                        @else
+                            {{ $i + 1 }}
+                        @endif
+                    </span>
+                </div>
+            </a>
         </div>
         <div class="w-100" style="padding-left:0;">
             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
