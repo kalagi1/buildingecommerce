@@ -724,7 +724,7 @@
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
                                                                 role="presentation"
-                                                                onclick="changeTabContent('{{ $block['id'] }}')">
+                                                                onclick="changeTabContent('{{ $block['id'] }}',{{ $key }})">
                                                                 <div class="tab-title">
                                                                     <span>{{ $block['block_name'] }}</span>
                                                                 </div>
@@ -971,13 +971,17 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
+        
         var itemsPerPage = 10;
-        var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
         var isLoading = false; // Kontrol flag'ı ekledik
         var currentBlock = 0;
+      var maxPages = null;
         $(document).ready(function() {
+          
             @if ($project->have_blocks)
                 var currentPage = 0;
+                var projectBlocks = @json($project->blocks);
+                 maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
 
                 if (window.innerWidth >= 768) {
                     loadMoreDataBlock(0);
@@ -1009,6 +1013,8 @@
                     }
                 });
             @else
+             maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+
                 $(window).scroll(function() {
                     var currentPage = 1;
                     var projectRoom = $('#project-room');
@@ -1080,7 +1086,6 @@
         }
 
         function loadMoreDataBlock(page) {
-            console.log(currentBlock);
             $.ajax({
                 url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/" + currentBlock + "/" + page,
                 type: 'get',
@@ -1123,6 +1128,38 @@
                 }
             });
         }
+
+        function changeTabContent(tabName, key) {
+            currentPage = 0;
+            currentBlock = key;
+
+
+            if (window.innerWidth >= 768) {
+                loadMoreDataBlock(0);
+                $('#project-room' + currentBlock).html("");
+            } else {
+                loadMoreDataBlockMobil(0);
+                $('#project-room-mobile' + currentBlock).html("");
+            }
+
+            projectBlocks = @json($project->blocks);
+             maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
+
+            document.querySelectorAll('.nav-item-block').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content-block').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.getElementById('contentblock-' + tabName).classList.add('active');
+            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
+
+            var blockIndex = $('#contentblock-' + tabName).index() - 1;
+            var startIndex = 0;
+            var endIndex = 12;
+          
+        }
+
     </script>
     <script>
         var successMessage = "{{ session('success') }}";
@@ -1349,22 +1386,6 @@
                 }
             }]
         });
-
-        function changeTabContent(tabName) {
-            document.querySelectorAll('.nav-item-block').forEach(function(content) {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-content-block').forEach(function(content) {
-                content.classList.remove('active');
-            });
-            document.getElementById('contentblock-' + tabName).classList.add('active');
-            console.log($('#contentblock-' + tabName).index())
-            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
-
-            var blockIndex = $('#contentblock-' + tabName).index() - 1;
-            var startIndex = 0;
-            var endIndex = 12;
-        }
     </script>
 
     <script>
