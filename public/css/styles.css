@@ -30225,7 +30225,7 @@ a {
     position: absolute;
     left: 0;
     top: 35%;
-    z-index: 99999;
+    z-index: 9;
     background-color: white;
 }
 

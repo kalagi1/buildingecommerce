@@ -840,9 +840,8 @@
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
-                                                                                :statusSlug="$status"   
-                                                                                :towns="$towns" :cities="$cities"
-                                                                                :blockName="$blockName"
+                                                                                :statusSlug="$status" :towns="$towns"
+                                                                                :cities="$cities" :blockName="$blockName"
                                                                                 :allCounts="$allCounts" :key="$key"
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
@@ -891,19 +890,17 @@
                                                                             ? $projectOffer->discount_amount
                                                                             : 0;
                                                                         $blockName = $block['block_name'];
-                                                              
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
-                                                                        :statusSlug="$status"
-                                                                        :towns="$towns" :cities="$cities"
-                                                                        :blockName="$blockName" :allCounts="$allCounts"
-                                                                        :key="$key" :blockHousingCount="$blockHousingCount"
-                                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                        :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                        :lastHousingCount="$lastHousingCount" />
+                                                                        :statusSlug="$status" :towns="$towns"
+                                                                        :cities="$cities" :blockName="$blockName"
+                                                                        :allCounts="$allCounts" :key="$key"
+                                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+                                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                                        :bankAccounts="$bankAccounts" :i="$i"
+                                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+                                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                 @endfor
                                                             </div>
                                                         </div>
@@ -920,7 +917,7 @@
                                     <div class="mobile-hidden">
                                         <div class="container">
                                             @php
-                                                $blockName= null;
+                                                $blockName = null;
                                             @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
@@ -959,17 +956,14 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                            
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
-                                                        :statusSlug="$status"
-                                                        :towns="$towns" :cities="$cities" :key="$key"
-                                                        :blockName="$blockName"
-                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
-                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                        :lastHousingCount="$lastHousingCount" />
+                                                        :statusSlug="$status" :towns="$towns" :cities="$cities"
+                                                        :key="$key" :blockName="$blockName" :blockHousingCount="$blockHousingCount"
+                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
+                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -1015,15 +1009,13 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                        
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                    :statusSlug="$status"
-                                                        :blockName="null" :project="$project" :allCounts="$allCounts"
-                                                        :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                        :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :statusSlug="$status" :blockName="null" :project="$project"
+                                                        :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount"
+                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
+                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
+                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -1101,72 +1093,6 @@
     </section>
 
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="invoice">
-                        <div class="invoice-header mb-3">
-                            <span>Ödeme Tarihi: {{ date('d.m.Y') }}</span> <br>
-                            <span style="color:#e54242;font-weight:700">Tutar: 250 TL</span>
-
-                        </div>
-
-                        <div class="invoice-body">
-                            <div class="invoice-total mt-3">
-                                <div class="mt-3">
-                                    <span><strong style="color:black">Komşumu Gör Özelliği:</strong> Bu özellik, komşunuzun
-                                        iletişim bilgilerine ulaşabilmeniz için aktif edilmelidir.</span><br>
-                                    <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
-                                        edin:</span>
-                                    <ul>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
-                                                aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
-                                            aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
-                                                aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör" düğmesi
-                                            aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
-                                    </ul>
-                                </div>
-                                <div class="container row mb-3 mt-3">
-                                    @foreach ($bankAccounts as $bankAccount)
-                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                            data-iban="{{ $bankAccount->iban }}"
-                                            data-title="{{ $bankAccount->receipent_full_name }}">
-                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
-                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div id="ibanInfo" style="font-size: 12px !important"></div>
-                                <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                    <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
-                                    kullanarak ödemenizi
-                                    yapın. IBAN açıklama
-                                    alanına
-                                    bu kodu eklemeyi unutmayın.</span>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="d-flex">
-                        <button type="button"
-                            class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
-                            id="completePaymentButton" style="width:150px;float:right">
-                            250 TL Öde
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
     <div id="loadingOverlay">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
@@ -1185,7 +1111,7 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-   
+
     <script>
         var successMessage = "{{ session('success') }}";
 
@@ -1288,7 +1214,6 @@
 
         $('.project-housing-pagination li').click(function() {
             $('.loading-full').removeClass('d-none')
-            console.log($(this).index());
             $.ajax({
                 url: "{{ URL::to('/') }}/proje_konut_detayi_ajax/{{ $project->slug }}/{{ $housingOrder }}?selected_page=" +
                     $(this).index() + "&block_id=" + $('.tabs .nav-item.active')
@@ -1433,8 +1358,12 @@
                                 orderHousing = parseInt(order);
 
                                 html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                    "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" + (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing, response.room_info[i].room_order), 10)) + " >" + response.project_title +
-                                    " Projesinde " + block + " " + paymentOrder + " No'lu İlan Ödeme Planı</th></tr>";
+                                    "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
+                                    (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
+                                        response.room_info[i].room_order), 10)) + " >" + response
+                                    .project_title +
+                                    " Projesinde " + block + " " + paymentOrder +
+                                    " No'lu İlan Ödeme Planı</th></tr>";
 
 
                                 for (var j = 0; j < paymentPlanData.length; j++) {
@@ -1856,174 +1785,81 @@
         }
 
         var isLoading = false;
-
     </script>
- <script>
-    var currentPage = 1;
-var itemsPerPage = 10;
-var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
-var isLoading = false; // Kontrol flag'ı ekledik
-
-$(document).ready(function() {
- $(window).scroll(function() {
-     var projectRoom = $('#project-room');
-     var projectRoomMobile = $('#project-room-mobile');
-
-     // Web
-     if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-         if (currentPage < maxPages) {
-             isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-             currentPage++;
-             loadMoreData(currentPage);
-         }
-     }
-
-     // Mobil
-     if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-         if (currentPage < maxPages) {
-             isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-             currentPage++;
-             loadMoreDataMobile(currentPage);
-         }
-     }
- });
-});
-
-function loadMoreData(page) {
- $.ajax({
-     url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
-     type: 'get',
-     beforeSend: function() {
-         $('.ajax-load').show();
-     },
-     success: function(response) {
-         $('#project-room').append(response);
-         $('.ajax-load').hide();
-         isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-     },
-     error: function(jqXHR, ajaxOptions, thrownError) {
-         console.log(thrownError);
-
-         $('.ajax-load').hide();
-         isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-     }
- });
-}
-
-function loadMoreDataMobile(page) {
- $.ajax({
-     url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
-     type: 'get',
-     beforeSend: function() {
-         $('.ajax-load').show();
-     },
-     success: function(response) {
-         $('#project-room-mobile').append(response);
-         $('.ajax-load').hide();
-         isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-     },
-     error: function(jqXHR, ajaxOptions, thrownError) {
-         console.log(thrownError);
-
-         $('.ajax-load').hide();
-         isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-     }
- });
-}
-
- </script>
-
     <script>
-        $('#completePaymentButton').prop('disabled', false);
+        var currentPage = 1;
+        var itemsPerPage = 10;
+        var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+        var isLoading = false; // Kontrol flag'ı ekledik
 
-        $('.bank-account').on('click', function() {
-            // Tüm banka görsellerini seçim olmadı olarak ayarla
-            $('.bank-account').removeClass('selected');
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                var projectRoom = $('#project-room');
+                var projectRoomMobile = $('#project-room-mobile');
 
-            // Seçilen banka görselini işaretle
-            $(this).addClass('selected');
-
-            // İlgili IBAN bilgisini al
-            var selectedBankIban = $(this).data('iban');
-            var selectedBankIbanID = $(this).data('id');
-            var selectedBankTitle = $(this).data('title');
-            $('#bankaID').val(selectedBankIbanID);
-
-
-            var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
-                selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
-            $('#ibanInfo').html(ibanInfo);
-
-        });
-
-        $('#completePaymentButton').on('click', function() {
-
-            if ($('.bank-account.selected').length === 0) {
-                toastr.error('Lütfen banka seçimi yapınız.')
-
-            } else {
-                $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
-
-                $.ajax({
-                    url: "{{ route('neighbor.store') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
-                        order_id: $(this).data('order'),
-                        status: 0,
-                        key: $("#uniqueCode").html(),
-                        amount: "100"
-                    },
-                    success: function(response) {
-                        $("#loadingOverlay").css("visibility", "hidden");
-                        $('#paymentModal').removeClass('show').hide();
-                        $('.modal-backdrop').removeClass('show');
-                        $('.modal-backdrop').remove();
-                        if (response.success) {
-                            toastr.success(
-                                'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                            location.reload();
-                        }
-                    },
-                    error: function(error) {
-                        toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                        location.reload();
+                // Web
+                if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                    .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                    if (currentPage < maxPages) {
+                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                        currentPage++;
+                        loadMoreData(currentPage);
                     }
-                });
-            }
+                }
+
+                // Mobil
+                if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                    projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                    if (currentPage < maxPages) {
+                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                        currentPage++;
+                        loadMoreDataMobile(currentPage);
+                    }
+                }
+            });
         });
 
-        function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const codeLength = 8; // Kod uzunluğu
+        function loadMoreData(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
 
-            let randomCode = '';
-            for (let i = 0; i < codeLength; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                randomCode += characters.charAt(randomIndex);
-            }
-
-            return randomCode;
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
         }
-        $(".see-my-neighbor").on("click", function() {
-            if (!{{ Auth::check() ? 'true' : 'false' }}) {
-                // User is not authenticated, show error toast
-                // You can use a library like toastr.js or any other method to display a toast
-                // Example using toastr.js
-                toastr.error('Lütfen giriş yapın!');
-                return;
-            }
 
-            var uniqueCode = generateRandomCode();
+        function loadMoreDataMobile(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room-mobile').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
 
-
-            $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
-            $("#orderKey").val(uniqueCode);
-
-            var soldId = $(this).data('order');
-            $('#completePaymentButton').attr('data-order', soldId);
-        });
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
     </script>
 @endsection
 
