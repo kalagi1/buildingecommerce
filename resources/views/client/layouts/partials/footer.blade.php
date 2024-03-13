@@ -269,7 +269,6 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 
 
-
 <script>
     var isLoggedIn = {!! json_encode(auth()->check()) !!};
     var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;

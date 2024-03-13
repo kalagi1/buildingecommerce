@@ -691,7 +691,7 @@
 
                                                 if ($isArrayCheck && isset($valueArray) && $valueArray != null) {
                                                     echo "<div class='mt-5'><h5>{$projectHousing[$housingSetting->column_name .
-                '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
+                                                        '[]']['key']}:</h5><ul class='homes-list clearfix checkSquareIcon'>";
                                                     foreach ($valueArray as $ozellik) {
                                                         echo "<li><i class='fa fa-check-square' aria-hidden='true'></i><span>{$ozellik}</span></li>";
                                                     }
@@ -724,7 +724,8 @@
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
                                                                 role="presentation"
-                                                                onclick="changeTabContent('{{ $block['id'] }}')">
+                                                                block-index="{{$key}}"
+                                                                onclick="changeTabContent('{{ $block['id'] }}',{{$key}})">
                                                                 <div class="tab-title">
                                                                     <span>{{ $block['block_name'] }}</span>
                                                                 </div>
@@ -768,114 +769,17 @@
                                                             @endphp
                                                             <div class="mobile-hidden">
                                                                 <div class="container">
-                                                                    <div class="row project-filter-reverse blog-pots">
-                                                                        @for ($i = 0; $i < $blockHousingCount; $i++)
-                                                                            @php
-
-                                                                                if (isset($projectCartOrders[$i + 1])) {
-                                                                                    $sold = $projectCartOrders[$i + 1];
-                                                                                } else {
-                                                                                    $sold = null;
-                                                                                }
-                                                                                $isUserSame =
-                                                                                    isset($projectCartOrders[$i + 1]) &&
-                                                                                    (Auth::check()
-                                                                                        ? $projectCartOrders[$i + 1]
-                                                                                                ->user_id ==
-                                                                                            Auth::user()->id
-                                                                                        : false);
-
-                                                                                $projectOffer = App\Models\Offer::where(
-                                                                                    'type',
-                                                                                    'project',
-                                                                                )
-                                                                                    ->where('project_id', $project->id)
-                                                                                    ->where(function ($query) use ($i) {
-                                                                                        $query
-                                                                                            ->orWhereJsonContains(
-                                                                                                'project_housings',
-                                                                                                [$i + 1],
-                                                                                            )
-                                                                                            ->orWhereJsonContains(
-                                                                                                'project_housings',
-                                                                                                (string) ($i + 1),
-                                                                                            ); // Handle as string as JSON might store values as strings
-                                                                                    })
-                                                                                    ->where('start_date', '<=', now())
-                                                                                    ->where('end_date', '>=', now())
-                                                                                    ->first();
-                                                                                $projectDiscountAmount = $projectOffer
-                                                                                    ? $projectOffer->discount_amount
-                                                                                    : 0;
-                                                                                    $statusSlug=$status->slug;
-                                                                            @endphp
-
-                                                                            <x-project-item-card :project="$project"
-                                                                                :statusSlug="$statusSlug"    
-                                                                                :towns="$towns" :cities="$cities"
-                                                                                :allCounts="$allCounts" :key="$key"
-                                                                                :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                                                :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                                                :bankAccounts="$bankAccounts" :i="$i"
-                                                                                :blockName="$blockName"
-                                                                                :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                                :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                                                        @endfor
+                                                                    <div class="row project-filter-reverse blog-pots" id="project-room{{$blockKey}}">
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                @for ($i = 0; $i < $blockHousingCount; $i++)
-                                                                    @php
-                                                                        if (isset($projectCartOrders[$i + 1])) {
-                                                                            $sold = $projectCartOrders[$i + 1];
-                                                                        } else {
-                                                                            $sold = null;
-                                                                        }
-                                                                        $isUserSame =
-                                                                            isset($projectCartOrders[$i + 1]) &&
-                                                                            (Auth::check()
-                                                                                ? $projectCartOrders[$i + 1]->user_id ==
-                                                                                    Auth::user()->id
-                                                                                : false);
-
-                                                                        $projectOffer = App\Models\Offer::where(
-                                                                            'type',
-                                                                            'project',
-                                                                        )
-                                                                            ->where('project_id', $project->id)
-                                                                            ->where(function ($query) use ($i) {
-                                                                                $query
-                                                                                    ->orWhereJsonContains(
-                                                                                        'project_housings',
-                                                                                        [$i + 1],
-                                                                                    )
-                                                                                    ->orWhereJsonContains(
-                                                                                        'project_housings',
-                                                                                        (string) ($i + 1),
-                                                                                    ); // Handle as string as JSON might store values as strings
-                                                                            })
-                                                                            ->where('start_date', '<=', now())
-                                                                            ->where('end_date', '>=', now())
-                                                                            ->first();
-                                                                        $projectDiscountAmount = $projectOffer
-                                                                            ? $projectOffer->discount_amount
-                                                                            : 0;
-                                                                        $blockName = $block['block_name'];
-                                                                        $statusSlug = $status->slug;
-                                                                    @endphp
-
-                                                                    <x-project-item-mobile-card :project="$project"
-                                                                        :statusSlug="$statusSlug"    
-                                                                        :blockName="$blockName" :towns="$towns"
-                                                                        :cities="$cities" :allCounts="$allCounts"
-                                                                        :key="$key" :blockHousingCount="$blockHousingCount"
-                                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                        :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                        :lastHousingCount="$lastHousingCount" />
-                                                                @endfor
+                                                                <div class="container">
+                                                                    <div class="" id="project-room-mobile{{$blockKey}}">
+                                                                        
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -1132,34 +1036,65 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
    
     <script>
-       var currentPage = 1; 
-var itemsPerPage = 10;
-var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
-var isLoading = false; // Kontrol flag'ı ekledik
-
+        var currentPage = 0; 
+        var itemsPerPage = 10;
+        var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+        var isLoading = false; // Kontrol flag'ı ekledik
+        var currentBlock = 0;
 $(document).ready(function() {
-    $(window).scroll(function() {
-        var projectRoom = $('#project-room');
-        var projectRoomMobile = $('#project-room-mobile');
+    @if($project->have_blocks)
 
-        // Web
-        if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-            if (currentPage < maxPages) {
-                isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                currentPage++;
-                loadMoreData(currentPage);
-            }
+        if(window.innerWidth >= 768){
+            loadMoreDataBlock(0);
+        }else{
+            loadMoreDataBlockMobil(0);
         }
+        $(window).scroll(function() {
+            var projectRoom = $('#project-room'+currentBlock);
+            var projectRoomMobile = $('#project-room-mobile'+currentBlock);
+            
+            // Web
+            if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                if (currentPage < maxPages) {
+                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                    currentPage++;
+                    loadMoreDataBlock(currentPage);
+                }
+            }
 
-        // Mobil
-        if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-            if (currentPage < maxPages) {
-                isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                currentPage++;
-                loadMoreDataMobile(currentPage);
+            // Mobil
+            if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                if (currentPage < maxPages) {
+                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                    currentPage++;
+                    loadMoreDataBlockMobil(currentPage);
+                }
             }
-        }
-    });
+        });
+    @else
+        $(window).scroll(function() {
+            var projectRoom = $('#project-room');
+            var projectRoomMobile = $('#project-room-mobile');
+
+            // Web
+            if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                if (currentPage < maxPages) {
+                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                    currentPage++;
+                    loadMoreData(currentPage);
+                }
+            }
+
+            // Mobil
+            if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top + projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                if (currentPage < maxPages) {
+                    isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                    currentPage++;
+                    loadMoreDataMobile(currentPage);
+                }
+            }
+        });
+    @endif
 });
 
 function loadMoreData(page) {
@@ -1171,6 +1106,49 @@ function loadMoreData(page) {
         },
         success: function(response) {
             $('#project-room').append(response);
+            $('.ajax-load').hide();
+            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+        },
+        error: function(jqXHR, ajaxOptions, thrownError) {
+            console.log(thrownError);
+
+            $('.ajax-load').hide();
+            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+        }
+    });
+}
+
+function loadMoreDataBlock(page) {
+    $.ajax({
+        url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/"+currentBlock+"/" + page,
+        type: 'get',
+        beforeSend: function() {
+            $('.ajax-load').show();
+        },
+        success: function(response) {
+            $('#project-room'+currentBlock).append(response);
+            $('.ajax-load').hide();
+            isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+        },
+        error: function(jqXHR, ajaxOptions, thrownError) {
+            console.log(thrownError);
+
+            $('.ajax-load').hide();
+            isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+        }
+    });
+}
+
+function loadMoreDataBlockMobil(page) {
+    $.ajax({
+        url: "{{ url('/load-more-rooms-block-mobile') }}/{{ $project->id }}/"+currentBlock+"/" + page,
+        type: 'get',
+        beforeSend: function() {
+            $('.ajax-load').show();
+        },
+        success: function(response) {
+            console.log($('#project-room-mobile'+currentBlock));
+            $('#project-room-mobile'+currentBlock).append(response);
             $('.ajax-load').hide();
             isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
         },
@@ -1431,7 +1409,20 @@ function loadMoreDataMobile(page) {
             }]
         });
 
-        function changeTabContent(tabName) {
+        function changeTabContent(tabName,key) {
+            currentPage = 0;
+            currentBlock = key;
+
+
+            if(window.innerWidth >= 768){
+                loadMoreDataBlock(0);
+                $('#project-room'+currentBlock).html("");
+            }else{
+                loadMoreDataBlockMobil(0);
+                $('#project-room-mobile'+currentBlock).html("");
+            }
+            
+            console.log(currentBlock);
             document.querySelectorAll('.nav-item-block').forEach(function(content) {
                 content.classList.remove('active');
             });

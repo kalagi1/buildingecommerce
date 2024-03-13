@@ -16,6 +16,8 @@
     'towns',
     'statusSlug',
     'blockName',
+    'blockItemCount',
+    'blockStart'
 ])
 
 @php
@@ -43,7 +45,12 @@
                                 style="background-color: #EA2B2E !important; border-radius: 0px 8px 0px 8px; height:100%">
                                 <p
                                     style="padding: 10px; color: white; height: 100%; display: flex; align-items: center; text-align:center; ">
-                                    No<br>{{ $i + 1 }}
+                                    No<br>
+                                    @if(isset($blockStart) && $blockStart)
+                                        {{ $i - $blockStart + 1 }}
+                                    @else
+                                        {{ $i + 1 }}
+                                    @endif
                                 </p>
                             </div>
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
