@@ -309,7 +309,7 @@
                     <span class="IconContainer">
                         <img src="{{ asset('sc.png') }}" alt="">
                     </span>
-                    <span class="text">Sepete Ekle {{$share_sale}} {{$sold && $sold->status}}</span>
+                    <span class="text">Sepete Ekles {{$share_sale}} {{$sold && $sold->status}}</span>
                 </button>
             @endif
         @endif
