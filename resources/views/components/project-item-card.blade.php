@@ -289,7 +289,7 @@
                 <span class="text">Satışa Kapatıldı</span>
             </button>
         @else
-        {{$share_sale}}
+     
             @if (($sold && $sold->status != '2' && $share_sale == "[]") ||
                     (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                 <button class="btn second-btn"
@@ -309,7 +309,7 @@
                     <span class="IconContainer">
                         <img src="{{ asset('sc.png') }}" alt="">
                     </span>
-                    <span class="text">Sepete Ekle</span>
+                    <span class="text">Sepete Ekle {{$share_sale}} {{$sold && $sold->status}}</span>
                 </button>
             @endif
         @endif
