@@ -123,7 +123,7 @@
 
             var exportLinkCell = document.createElement("td");
             exportLinkCell.className = "align-middle";
-            var exportLink = document.createElement("button");
+            var exportLink = document.createElement("a");
             exportLink.className = "badge badge-phoenix badge-phoenix-success btn-sm";
             exportLink.href = "{{ URL::to('/') }}/institutional/edit_housing/" + housingType.id;
             exportLink.textContent = "Düzenle";
@@ -131,7 +131,7 @@
 
             var imageLinksCell = document.createElement("td");
             imageLinksCell.className = "align-middle";
-            var imageLinks = document.createElement("button");
+            var imageLinks = document.createElement("a");
             imageLinks.className = "badge badge-phoenix badge-phoenix-info btn-sm";
             imageLinks.href = "{{ URL::to('/') }}/institutional/edit_images/" + housingType.id;
             imageLinks.textContent = "Resimler";
