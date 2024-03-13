@@ -775,11 +775,9 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                <div class="container">
                                                                     <div class=""
                                                                         id="project-room-mobile{{ $blockKey }}">
 
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="ajax-load" style="display: none;">
@@ -842,6 +840,7 @@
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
+                                                    :blockStart="0"
                                                         :towns="$towns" :cities="$cities" :key="$key"
                                                         :statusSlug="$statusSlug" :blockName="$blockName" :blockHousingCount="$blockHousingCount"
                                                         :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
@@ -896,6 +895,7 @@
                                                         $statusSlug = $status->slug;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
+                                                    :blockStart="0"
                                                         :blockName="$blockName" :project="$project" :allCounts="$allCounts"
                                                         :statusSlug="$statusSlug" :key="$key" :blockHousingCount="$blockHousingCount"
                                                         :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"

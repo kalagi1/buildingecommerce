@@ -608,9 +608,11 @@ class ProjectController extends Controller
                 $end = min( $start + $perPage, $blockStart + $blockItemCount);
             }
 
+             $blockName= $blocks[$blockIndexx]->block_name;
+
             
             if ($start < $end) {
-                return view('components.room-list', compact('project', 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
+                return view('components.room-list', compact('project', 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "blockName","bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
             }
 
             // Odalar yoksa boş bir yanıt döndür
@@ -840,8 +842,10 @@ class ProjectController extends Controller
                 $start = ( $blockStart + ($page) * $perPage);
                 $end = min( $start + $perPage, $blockStart + $blockItemCount);
             }
+            $blockName= $blocks[$blockIndexx]->block_name;
+
             if ($start < $end) {
-                return view('components.room-list-mobile', compact('project', 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
+                return view('components.room-list-mobile', compact('project',"blockName" ,'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
             }
 
             // Odalar yoksa boş bir yanıt döndür
