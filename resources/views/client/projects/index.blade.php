@@ -975,11 +975,12 @@
         var itemsPerPage = 10;
         var isLoading = false; // Kontrol flag'ı ekledik
         var currentBlock = 0;
+        var currentPage = 0;
       var maxPages = null;
         $(document).ready(function() {
           
             @if ($project->have_blocks)
-                var currentPage = 0;
+                currentPage = 0;
                 var projectBlocks = @json($project->blocks);
                  maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
 
@@ -995,6 +996,7 @@
                     // Web
                     if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
                         .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                            console.log(currentPage);
                         if (currentPage < maxPages) {
                             isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
                             currentPage++;
@@ -1016,7 +1018,7 @@
              maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
 
                 $(window).scroll(function() {
-                    var currentPage = 1;
+                    currentPage = 1;
                     var projectRoom = $('#project-room');
                     var projectRoomMobile = $('#project-room-mobile');
 
@@ -1143,7 +1145,7 @@
             }
 
             projectBlocks = @json($project->blocks);
-             maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
+            maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
 
             document.querySelectorAll('.nav-item-block').forEach(function(content) {
                 content.classList.remove('active');
