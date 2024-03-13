@@ -395,6 +395,12 @@ class ProjectController extends Controller {
         $order->phone        = $request->phone;
         $order->address      = $request->address;
 
+        $user->update([
+            "name" => $request->name,
+            "idNumber" => $request->tc,
+            "phone"  => $request->phone,
+        ]);
+
         $cartJson['item']['id'] = (int)$projectID;
         $cartJson['item']['housing'] = (int)$housingID;
         
@@ -450,6 +456,12 @@ class ProjectController extends Controller {
             ];
 
 
+            $userFirst->update([
+                "name" => $request->name,
+                "idNumber" => $request->tc,
+                "phone"  => $request->phone,
+            ]);
+
             $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
          
                 return redirect()->back()->with('success','Başarıyla düzenlendi');
@@ -466,9 +478,7 @@ class ProjectController extends Controller {
                 'password'  => Hash::make("komsumugor123"),
             ];
 
-            $user = User::create($addedData);                         
-            // $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
-            // $cartOrder->update(['user_id' => $user->id]);
+            $user = User::create($addedData);     
 
             $updatedData = [
                 'email'     => $request->email,
