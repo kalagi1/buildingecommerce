@@ -17,7 +17,11 @@
     'towns',
     'statusSlug',
     'blockName',
+<<<<<<< HEAD
+    'blockStart'
+=======
     'blockStart',
+>>>>>>> 199d957f09454fe2229081f2d19c89ab6190b568
 ])
 @php
     if ($key == 0) {
