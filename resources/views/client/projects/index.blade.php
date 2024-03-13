@@ -1014,10 +1014,11 @@
                     }
                 });
             @else
-             maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+
+                currentPage = 1;
+                maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
 
                 $(window).scroll(function() {
-                    currentPage = 1;
                     var projectRoom = $('#project-room');
                     var projectRoomMobile = $('#project-room-mobile');
 
