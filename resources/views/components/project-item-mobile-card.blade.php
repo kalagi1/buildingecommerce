@@ -202,7 +202,7 @@
                             class="btn payment-plan-button first-btn payment-plan-mobile-btn mobileCBtn see-my-neighbor"
                             style="width:50% !important;color:#274abb !important"
                             @if (Auth::check()) data-bs-toggle="modal"
-                        data-bs-target="#paymentModal{{ $sold->id }}" data-order="{{ $sold->id }}" @endif>
+                        data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @endif>
                             <span>Komşumu Gör</span>
                         </button>
                     @elseif($neighborView && $neighborView->status == '0')
@@ -420,7 +420,8 @@
 </div>
 @if ($sold_check && $sold->status == '1')
 
-<div class="modal fade" id="paymentModal{{ $sold->id }}" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<div class="modal fade" id="neighborViewModal{{ $sold->id }}" tabindex="-1"
+    aria-labelledby="neighborViewModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -435,7 +436,8 @@
                     <div class="invoice-body">
                         <div class="invoice-total mt-3">
                             <div class="mt-3">
-                                <span><strong style="color:black">Komşumu Gör Özelliği:</strong> Bu özellik, komşunuzun
+                                <span><strong style="color:black">Komşumu Gör Özelliği:</strong> Bu özellik,
+                                    komşunuzun
                                     iletişim bilgilerine ulaşabilmeniz için aktif edilmelidir.</span><br>
                                 <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                     edin:</span>
@@ -444,27 +446,22 @@
                                             aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
                                         aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
                                     <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
-                                            aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör" düğmesi
+                                            aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
+                                        düğmesi
                                         aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
                                 </ul>
                             </div>
                             <div class="container row mb-3 mt-3">
                                 @foreach ($bankAccounts as $bankAccount)
                                     <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                        data-iban="{{ $bankAccount->iban }}"
+                                        data-sold-id="{{ $sold->id }}" data-iban="{{ $bankAccount->iban }}"
                                         data-title="{{ $bankAccount->receipent_full_name }}">
                                         <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
                                             style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="ibanInfo" style="font-size: 12px !important"></div>
-                            <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
-                                kullanarak ödemenizi
-                                yapın. IBAN açıklama
-                                alanına
-                                bu kodu eklemeyi unutmayın.</span>
+                            <div class="ibanInfo" style="font-size: 12px !important"></div>
 
                         </div>
                     </div>
@@ -474,7 +471,8 @@
                 <div class="d-flex">
                     <button type="button"
                         class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
-                        id="completePaymentButton" style="width:150px;float:right">
+                        id="completePaymentButton{{ $sold->id }}" data-order="{{ $sold->id }}"
+                        style="width:150px;float:right">
                         250 TL Öde
                     </button>
                     <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
