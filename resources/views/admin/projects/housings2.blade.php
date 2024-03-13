@@ -337,11 +337,69 @@
                                                         <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                             class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a><br>
                                                     @endif
-                                                    <a href="{{route('admin.projects.housings.komsumu.gor.edit', ['id', $i+1])}}"
-                                                    class="badge badge-phoenix badge-phoenix-success value-text">
-                                                    Komşumu Düzenle
-                                                  </a>    
+                                                    <a href="#" class="badge badge-phoenix badge-phoenix-info value-text"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
+                                                     Komşumu Düzenle
+                                                 </a>   
                                                 </td>
+                                                @php
+                                                $cartOrder = DB::table('cart_orders')
+                                                        ->where('cart->item->housing', $i+1)
+                                                        ->where('cart->item->id', $project->id)
+                                                        ->first();                    
+                                            @endphp
+                                                      <!--KOMŞUMU DUZENLE BLOK Modal -->
+               <div class="modal fade" id="exampleModal{{$i+1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>                                
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <form action="{{ route('admin.projects.housings.komsumu.gor.edit', ['id' => $i+1]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="no" value="{{ $i+1 }}">
+                        <input type="hidden" name="projectID" value="{{$project->id}}">
+                        <input type="hidden" name="cartOrderID" value="{{$cartOrder->id}}">
+                        <input type="hidden" name="cartOrderUserID" value="{{$cartOrder->user_id}}">
+                        
+                        <div class="form-group">
+                            <label for="surname" class="q-label">Email: </label>
+                            <input type="text" class="modal-input" id="email" name="email" value="{{$cartOrder->email}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="surname" class="q-label">Ad Soyad: </label>
+                            <input type="text" class="modal-input" id="name" name="name" value="{{$cartOrder->full_name}}">
+                        </div>
+                   
+                        <div class="form-group">
+                            <label for="surname" class="q-label">Telefon: </label>
+                            <input type="number" class="modal-input" id="phone" name="phone" value="{{$cartOrder->phone}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="surname" class="q-label">TC : </label>
+                            <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" value="{{$cartOrder->tc}}">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="comment" class="q-label">Adres:</label>
+                            <textarea class="modal-input" id="address" rows="45" style="height: 100px !important;"
+                                name="address" required>{{$cartOrder->address}}</textarea>
+                        </div>
+    
+                        <div class="modal-footer">
+                            <button type="submit" class="modal-btn-gonder">Gönder</button>
+                            <button type="button" class="modal-btn-kapat" data-dismiss="modal">Kapat</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>  
                                             @else
                                                 <td class="price">
                                                     <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{$i+1}}">
