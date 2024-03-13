@@ -14,8 +14,8 @@
     'allCounts',
     'cities',
     'towns',
-    'statusSlug'
-    'blockName',
+    'statusSlug',
+    'blockName'
 ])
 
 @php
