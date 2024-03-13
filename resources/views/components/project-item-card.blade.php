@@ -506,85 +506,78 @@
 @endif
 
 @endif
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 
 <script>
-      $('.bank-account').on('click', function() {
-            // Tüm banka görsellerini seçim olmadı olarak ayarla
-            $('.bank-account').removeClass('selected');
-            // Seçilen banka görselini işaretle
-            $(this).addClass('selected');
+    $('.bank-account').on('click', function() {
+        // Tüm banka görsellerini seçim olmadı olarak ayarla
+        $('.bank-account').removeClass('selected');
+        // Seçilen banka görselini işaretle
+        $(this).addClass('selected');
 
-            // İlgili IBAN bilgisini al
-            var selectedBankIban = $(this).data('iban');
-            var selectedBankIbanID = $(this).data('id');
-            var selectedBankTitle = $(this).data('title');
+        // İlgili IBAN bilgisini al
+        var selectedBankIban = $(this).data('iban');
+        var selectedBankIbanID = $(this).data('id');
+        var selectedBankTitle = $(this).data('title');
 
-            var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
-                selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
-            $('.ibanInfo').html(ibanInfo);
-        });
+        var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
+            selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
+        $('.ibanInfo').html(ibanInfo);
+    });
 
-            
-        $('.completePaymentButtonOrder').on('click', function() {
-            // Ödeme sırasındaki satış ID'sini al
-            var order = $(this).data('order');
 
-            // Seçilen banka hesabını kontrol et
-            if ($('.bank-account.selected').length === 0) {
-                toastr.error('Lütfen banka seçimi yapınız.');
-            } else {
-                // Ödeme işlemine başla
-                $("#loadingOverlay").css("visibility", "visible"); // Loading overlay göster
+    $('.completePaymentButtonOrder').on('click', function() {
+        // Ödeme sırasındaki satış ID'sini al
+        var order = $(this).data('order');
 
-                // Ödeme bilgilerini ve diğer verileri hazırla
-                var requestData = {
-                    _token: "{{ csrf_token() }}",
-                    user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
-                    order_id: order,
-                    status: 0,
-                    key: generateRandomCode(), // Rastgele bir kod oluştur
-                    amount: "100" // Ödeme miktarı
-                };
+        // Seçilen banka hesabını kontrol et
+        if ($('.bank-account.selected').length === 0) {
+            toastr.error('Lütfen banka seçimi yapınız.');
+        } else {
+            // Ödeme işlemine başla
+            $("#loadingOverlay").css("visibility", "visible"); // Loading overlay göster
 
-                // AJAX isteği gönder
-                $.ajax({
-                    url: "{{ route('neighbor.store') }}", // Verileri göndereceğiniz URL
-                    type: "POST",
-                    data: requestData,
-                    success: function(response) {
-                        // İşlem başarılıysa
-                        $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
-                        $('#neighborViewModal' + order).modal('hide'); // Modalı gizle
-                        if (response.success) {
-                            // Başarılı mesajı göster
-                            toastr.success(
-                                'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                            // Sayfayı yenile
-                            location.reload();
-                        }
-                    },
-                    error: function(error) {
-                        // Hata durumunda
-                        toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                        // Sayfayı yenile
-                        location.reload();
-                    }
-                });
-            }
-        });
+            // Ödeme bilgilerini ve diğer verileri hazırla
+            var requestData = {
+                _token: "{{ csrf_token() }}",
+                user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
+                order_id: order,
+                status: 0,
+                key: generateRandomCode(), // Rastgele bir kod oluştur
+                amount: "100" // Ödeme miktarı
+            };
 
-        function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const codeLength = 8; // Kod uzunluğu
+            // AJAX isteği gönder
+            $.ajax({
+                url: "{{ route('neighbor.store') }}", // Verileri göndereceğiniz URL
+                type: "POST",
+                data: requestData,
+                success: function(response) {
+                    // İşlem başarılıysa
+                    $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
+                    $('#neighborViewModal' + order).modal('hide'); // Modalı gizle
 
-            let randomCode = '';
-            for (let i = 0; i < codeLength; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                randomCode += characters.charAt(randomIndex);
-            }
-
-            return randomCode;
+                    toastr.success(
+                        'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
+                    // Sayfayı yenile
+                    location.reload();
+                }
+            });
         }
+    });
+
+    function generateRandomCode() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const codeLength = 8; // Kod uzunluğu
+
+        let randomCode = '';
+        for (let i = 0; i < codeLength; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            randomCode += characters.charAt(randomIndex);
+        }
+
+        return randomCode;
+    }
 </script>
