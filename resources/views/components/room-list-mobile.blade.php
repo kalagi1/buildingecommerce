@@ -24,7 +24,7 @@ $blockName= null;
             ->where('end_date', '>=', now())
             ->first();
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-        $statusSlug = DB::table('housings_status')->where('id', $project->housing->status_id)->value('slug');
+        $tatusSlug = $status->slug;
     @endphp
 
     <x-project-item-mobile-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
