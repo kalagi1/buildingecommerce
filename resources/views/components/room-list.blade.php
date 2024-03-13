@@ -25,7 +25,7 @@
             ->first();
             $blockName= null;
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-        $tatusSlug = $status->slug;
+        $statusSlug = $status->slug;
     @endphp
 
     <x-project-item-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
