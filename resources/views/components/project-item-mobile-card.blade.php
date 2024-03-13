@@ -566,7 +566,6 @@
                 success: function(response) {
                     // İşlem başarılıysa
                     $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
-                    $('#neighborViewModal' + order).modal('hide'); // Modalı gizle
 
                     toastr.success(
                         'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
