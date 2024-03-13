@@ -30027,7 +30027,7 @@ a {
     }
 
     .paymentTableTitle{
-        white-space: normal;
+        white-space: normal !important;
     }
 }
 
