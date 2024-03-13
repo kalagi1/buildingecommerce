@@ -218,13 +218,19 @@
                     </a>
                 </div>
 
-                <div class="mobile-show">
-                    @foreach ($secondhandHousings as $housing)
+                <div class="mobile-show" >
+                    <div id="housingMobileRow">
+                        @forelse ($secondhandHousings->take(4) as $housing)
                         @php($sold = $housing->sold)
                         @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
                             <x-housing-card-mobile :housing="$housing" :sold="$sold" />
                         @endif
                     @endforeach
+                    </div>
+                  
+                    <div class="ajax-load" style="display: none;">
+                        Yükleniyor...
+                    </div>
                 </div>
 
                 <div class="mobile-hidden" style="margin-top: 20px">
@@ -249,7 +255,7 @@
                     </section>
                 </div>
 
-              
+
             </div>
         </section>
     @endif
@@ -387,6 +393,8 @@
         var page = 1; // Başlangıç sayfası
         var isLoading = false;
         var housingRow = $('#housingRow');
+        var housingMobileRow = $('#housingMobileRow');
+
 
         function loadMoreHousings() {
             if (isLoading) return;
@@ -407,13 +415,35 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        // Sayfa altına scroll olduğunda daha fazla veri yükle
+        function loadMoreMobileHousings() {
+            if (isLoading) return;
+            isLoading = true;
+            $('.ajax-load').show();
+
+            page++; // Sonraki sayfaya geç
+            var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('housingMobileRow').innerHTML += data;
+                    isLoading = false;
+                    $('.ajax-load').hide();
+
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
         window.addEventListener('scroll', function() {
-            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
+                50 && !isLoading && window.innerWidth >= 768) {
                 loadMoreHousings();
             }
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow.outerHeight() -
+                50 && !isLoading && window.innerWidth < 768) {
+                    loadMoreMobileHousings();
+            }
         });
-
     </script>
 
     <script>
