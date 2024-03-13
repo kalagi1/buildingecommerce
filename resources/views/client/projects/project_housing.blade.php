@@ -1308,7 +1308,7 @@
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 4,
+            slidesToScroll: 1,
             dots: false,
             loop: false,
             autoplay: false,

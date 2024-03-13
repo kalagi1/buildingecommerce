@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-md-3">
                 <a href="{{ route('project.housings.detail', [
-                    'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-".strtolower($project->neighbourhood->mahalle_title),
+                    'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
                     'projectID' => $project->id + 1000000,
                     'housingOrder' => $i + 1,
                 ]) }}"
@@ -161,7 +161,7 @@
     <div class="bar-chart">
         <div class="progress" style="border-radius: 0 !important">
             <div class="progress-bar"
-                @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
+                @if (isset($sumCartOrderQt[$keyIndex]) && isset($sumCartOrderQt[$keyIndex]['qt_total']) && isset($maxQtTotal) && $maxQtTotal > 0) style="width: {{ (100 / $number_of_share) * $sumCartOrderQt[$keyIndex]['qt_total'] }}% !important"
                                 @else
                                     style="width: 0% !important" @endif>
             </div>

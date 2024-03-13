@@ -206,7 +206,7 @@
                                 <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
                             </div>
                             <div class="carousel-inner">
-                                <div class="item carousel-item active" data-slide-number="0">
+                                <div class="item carousel-item active" data-slide-number="1">
                                     <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                         data-lightbox="image-gallery">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
@@ -216,7 +216,7 @@
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key  }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -235,10 +235,17 @@
 
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
+                                <div class="item active" style="margin: 10px; cursor: pointer">
+                                    <a id="carousel-selector-1" data-slide-to="1"
+                                        data-target="#listingDetailsSlider">
+                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
+                                            class="img-fluid carousel-indicator-image" alt="listing-small">
+                                    </a>
+                                </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}"
-                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key  }}"
+                                            data-slide-to="{{ $key  }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -862,7 +869,6 @@
                                                                         :statusSlug="$statusSlug"    
                                                                         :blockName="$blockName" :towns="$towns"
                                                                         :cities="$cities" :allCounts="$allCounts"
-                                                                        :blockName="$blockName"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
                                                                         :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
@@ -930,6 +936,7 @@
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
                                                         :statusSlug="$statusSlug"
+                                                        :blockName="$blockName"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -984,7 +991,7 @@
 
                                             @endphp
                                             <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                :blockName="null" :project="$project" :allCounts="$allCounts"
+                                                :blockName="$blockName" :project="$project" :allCounts="$allCounts"
                                                 :statusSlug="$statusSlug"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
@@ -1398,7 +1405,7 @@ function loadMoreDataMobile(page) {
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 4,
+            slidesToScroll: 1,
             dots: false,
             loop: false,
             autoplay: false,

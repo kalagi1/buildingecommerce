@@ -135,7 +135,7 @@
                                         }
 
                                         $statusID =(App\Models\Project::find($cart['item']['id']))->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-                                         $status = HousingStatus::find($statusID);
+                                         $status = App\Models\HousingStatus::find($statusID);
                                     @endphp
                                     <tr>
                                         <td class="image myelist">

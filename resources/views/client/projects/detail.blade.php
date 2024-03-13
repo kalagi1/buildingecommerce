@@ -468,7 +468,7 @@
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
                                 <a href="{{ route('project.housings.detail', [
-                                     'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-".strtolower($project->neighbourhood->mahalle_title),
+                                     'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
                                     'projectID'   => $project->id+1000000, 
                                     'housingOrder'=> $room_order
                                     ]) }}">
