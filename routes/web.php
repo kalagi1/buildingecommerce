@@ -762,6 +762,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 });
 Route::get('/load-more-rooms/{projectId}/{page}', [InstitutionalProjectController::class,"loadMoreRooms"])->name('load.more.rooms');
 Route::get('/load-more-rooms-mobile/{projectId}/{page}', [InstitutionalProjectController::class,"loadMoreRoomsMobile"])->name('load.more.rooms.mobile');
+Route::get('/load-more-housings', [InstitutionalProjectController::class, "loadMoreHousings"] )->name('load-more-housings');
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount',"checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');

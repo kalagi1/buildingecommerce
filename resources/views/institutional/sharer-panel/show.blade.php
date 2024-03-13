@@ -110,7 +110,7 @@
                                                 @endif
                                                 @else
                                               <span class="text-danger" style="font-weight: 700">  SATILDI</span>
-                                            @endif
+                                            @endif  
                                         </td>
                                         <td>
                                             <span class="ml-auto text-success priceFont">
