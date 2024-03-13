@@ -289,7 +289,8 @@
                 <span class="text">Satışa Kapatıldı</span>
             </button>
         @else
-            @if (($sold && $sold->status != '2' && empty($share_sale)) ||
+            @if (
+                ($sold && $sold->status != '2' && empty($share_sale)) ||
                     (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                 <button class="btn second-btn"
                     @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
