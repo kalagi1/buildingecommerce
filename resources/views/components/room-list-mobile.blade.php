@@ -1,5 +1,4 @@
-
-@foreach (range($start + 1 , $end) as $roomNumber)
+@foreach (range($start + 1, $end) as $roomNumber)
     @php
         $sold = isset($projectCartOrders[$roomNumber]) ? $projectCartOrders[$roomNumber] : null;
 
@@ -8,12 +7,16 @@
         $blockHousingCount = 0;
         $previousBlockHousingCount = 0;
         $key = 0;
+<<<<<<< HEAD
+=======
+        $blockStart = null;
+>>>>>>> 199d957f09454fe2229081f2d19c89ab6190b568
 
-        $roomKey = $roomNumber -1;
+        $roomKey = $roomNumber - 1;
         $roomNumbersUserSame =
             isset($projectCartOrders[$roomNumber + 1]) &&
             (Auth::check() ? $projectCartOrders[$roomNumber + 1]->user_id == Auth::user()->id : false);
-$blockName= null;
+        $blockName = null;
         $projectOffer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
             ->where(function ($query) use ($roomNumber) {
@@ -27,19 +30,23 @@ $blockName= null;
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
         $statusSlug = $status->slug;
 
+<<<<<<< HEAD
         if(isset($blockStart) && $blockStart){
             $blockStart = $blockStart;
         }else{
             $blockStart = null;
         }
         
+=======
+        if (isset($blockStart) && $blockStart) {
+        } else {
+            $blockStart = null;
+        }
+>>>>>>> 199d957f09454fe2229081f2d19c89ab6190b568
     @endphp
 
     <x-project-item-mobile-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
-    :statusSlug="$statusSlug"
-    :blockName="$blockName"
-
-        :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$roomNumbersUserSame"
-        :bankAccounts="$bankAccounts" :i="$roomKey" :blockStart="$blockStart" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-        :lastHousingCount="$lastHousingCount" />
+        :statusSlug="$statusSlug" :blockName="$blockName" :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
+        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$roomNumbersUserSame" :bankAccounts="$bankAccounts" :i="$roomKey" :blockStart="$blockStart"
+        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
 @endforeach

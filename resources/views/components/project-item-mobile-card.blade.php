@@ -17,7 +17,11 @@
     'towns',
     'statusSlug',
     'blockName',
+<<<<<<< HEAD
     'blockStart'
+=======
+    'blockStart',
+>>>>>>> 199d957f09454fe2229081f2d19c89ab6190b568
 ])
 @php
     if ($key == 0) {
@@ -42,14 +46,18 @@
                 <div class="homes">
                     <!-- homes img -->
                     <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
-                        {{-- <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
+                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
                             alt="{{ $project->housingType->title }}" class="img-responsive"
-                            style="height: 95px !important;"> --}}
+                            style="height: 95px !important;">
                     </div>
 
                     <span class="mobileNoStyle">
                         No
-                        {{$blockStart + $i + 1 }}
+                        @if(isset($blockStart) && $blockStart)
+                            {{ $i - $blockStart + 1 }}
+                        @else
+                            {{ $i + 1 }}
+                        @endif
                     </span>
                 </div>
             </a>
@@ -184,6 +192,7 @@
 
                 </div>
 
+                                            </div>
 
                 @if (isset($sold) && $sold->status == '1')
                     @php
