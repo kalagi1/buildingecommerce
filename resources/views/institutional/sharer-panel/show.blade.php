@@ -267,7 +267,7 @@
                                                         </del>
                                                     @else
                                                         <span>
-                                                            <del style="color: green;">
+                                                            {{-- <del style="color: green;"> --}}
                                                                 @if ($item['item_type'] == 1)
                                                                     @if (isset($item['project_values']['price[]']))
                                                                         {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
@@ -384,6 +384,10 @@
         .mobile-hidden {
             display: flex;
         }
+        .mobile-show {
+            display: none;
+        }
+
 
         .desktop-hidden {
             display: none;
@@ -417,6 +421,9 @@
 
             .mobile-hidden {
                 display: none
+            }
+            .mobile-show {
+                display: block
             }
 
             .desktop-hidden {
