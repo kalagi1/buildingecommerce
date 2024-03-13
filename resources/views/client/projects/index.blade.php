@@ -1516,7 +1516,7 @@ function loadMoreDataMobile(page) {
                     },
                     error: function(error) {
                         toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                        location.reload();
+                        // location.reload();
                     }
                 });
             }
