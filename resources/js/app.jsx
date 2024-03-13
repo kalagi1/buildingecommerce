@@ -4,10 +4,12 @@ import ReactDOM from 'react-dom';
 import ReactTable from './Components/reactTable';
 import CreateProject from './Components/CreateProject';
 import EditProject from './Components/EditProject';
+import CreateHousing from './Components/CreateHousing';
 
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
 
+console.log(slashs);
 if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateProject />, document.getElementById('react_render_area'));
@@ -15,6 +17,14 @@ if(slashs[slashs.length - 1] == "create_project_v3"){
 }else if(slashs[slashs.length - 3] == "edit_project_v3"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<EditProject projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
+    }
+}else if(slashs[slashs.length - 1] == "housings_v2"){
+    if(document.getElementById('react_render_area')){
+        ReactDOM.render(<EditProject projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
+    }
+}else if(slashs[slashs.length - 1] == "create_housing_v3"){
+    if(document.getElementById('react_render_area')){
+        ReactDOM.render(<CreateHousing projectId={slashs[slashs.length - 1]} />, document.getElementById('react_render_area'));
     }
 }else{
     if(document.getElementById('react_projects')){

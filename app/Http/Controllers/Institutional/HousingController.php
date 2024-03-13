@@ -135,6 +135,10 @@ class HousingController extends Controller {
         return view( 'institutional.housings.create_v2', compact( 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan', 'secondAreaList', 'housingTypes', 'areaSlugs', 'hasTemp' ) );
     }
 
+    public function createV3() {
+        return view( 'institutional.housings.create_v3');
+    }
+
     public function finishByTemp( Request $request ) {
         DB::beginTransaction();
         $tempOrderFull = TempOrder::where( 'user_id',  auth()->user()->id )->where( 'item_type', 2 )->first();
@@ -549,50 +553,44 @@ class HousingController extends Controller {
         $formJson = json_decode( $housingType->form_json );
         foreach ( $postData as $key => $val ) {
             if ( $this->getTypeOnFormJson( $formJson, $key )->type == 'checkbox-group' ) {
-                $formData-> {
-                    $key}
-                    = array_values( array_merge( ...$val ) );
+                $formData->{$key} = array_values( array_merge( ...$val ) );
+            } else {
+                if ( str_contains( $this->getTypeOnFormJson( $formJson, $key )->className, 'price-only' ) ) {
+                $formData-> {$key} = str_replace( '.', '', $val );
                 } else {
-                    if ( str_contains( $this->getTypeOnFormJson( $formJson, $key )->className, 'price-only' ) ) {
-                        $formData-> {
-                            $key}
-                            = str_replace( '.', '', $val );
-                        } else {
-                            $formData-> {
-                                $key}
-                                = $val;
-                            }
-                        }
-                    }
-                    $housing->update(
-                        [
-                            'title' => $request->input( 'name' ),
-                            'description' => $request->input( 'description' ),
-                            'city_id' => $request->input( 'city_id' ),
-                            'county_id' => $request->input( 'county_id' ),
-                            'neighborhood_id' => $request->input( 'neighbourhood_id' ),
-                            'latitude' => explode( ',', $request->input( 'location' ) )[ 0 ],
-                            'longitude' => explode( ',', $request->input( 'location' ) )[ 1 ],
-                            'housing_type_data' => json_encode( $formData ),
-                            'status' => 2,
-                        ]
-                    );
-
-                    return redirect()->route( 'institutional.housing.list', [ 'status' => 'update_housing' ] );
-                }
-
-                public function logs( $housingId ) {
-                    $logs = Log::where( 'item_type', 2 )->where( 'item_id', $housingId )->orderByDesc( 'created_at' )->get();
-                    return view( 'institutional.housings.logs', compact( 'logs' ) );
-                }
-
-                public function destroy( $housingId ) {
-                    $housing = Housing::where( 'id', $housingId )->where( 'user_id', auth()->user()->id )->first();
-
-                    if ( $housing ) {
-                        $housing->delete();
-                    }
-
-                    return redirect()->route( 'institutional.housing.list' );
+                    $formData-> {$key} = $val;
                 }
             }
+        }
+        $housing->update(
+            [
+                'title' => $request->input( 'name' ),
+                'description' => $request->input( 'description' ),
+                'city_id' => $request->input( 'city_id' ),
+                'county_id' => $request->input( 'county_id' ),
+                'neighborhood_id' => $request->input( 'neighbourhood_id' ),
+                'latitude' => explode( ',', $request->input( 'location' ) )[ 0 ],
+                'longitude' => explode( ',', $request->input( 'location' ) )[ 1 ],
+                'housing_type_data' => json_encode( $formData ),
+                'status' => 2,
+            ]
+        );
+
+        return redirect()->route( 'institutional.housing.list', [ 'status' => 'update_housing' ] );
+    }
+
+    public function logs( $housingId ) {
+        $logs = Log::where( 'item_type', 2 )->where( 'item_id', $housingId )->orderByDesc( 'created_at' )->get();
+        return view( 'institutional.housings.logs', compact( 'logs' ) );
+    }
+
+    public function destroy( $housingId ) {
+        $housing = Housing::where( 'id', $housingId )->where( 'user_id', auth()->user()->id )->first();
+
+        if ( $housing ) {
+            $housing->delete();
+        }
+
+        return redirect()->route( 'institutional.housing.list' );
+    }
+}

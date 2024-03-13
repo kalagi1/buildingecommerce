@@ -906,7 +906,7 @@ class ProjectController extends Controller
             for ($i = 0; $i < $blockIndex; $i++) {
                 $startIndex += $project->blocks[$i]->housing_count;
             }
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order',$housingOrder)->get();
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
             $projectHousingsList = [];
             $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;

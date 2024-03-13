@@ -9,9 +9,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Block } from '@mui/icons-material';
 import { Box, LinearProgress, Modal, Typography } from '@mui/material';
+import TypeList2 from './create_project_components/TypeList2';
+import HousingForm from './create_project_components/HousingForm';
+import EndSectionHousing from './create_project_components/EndSectionHousing';
 
 
-function CreateProject(props) {
+function CreateHousing(props) {
     const [step,setStep] = useState(1);
     const [loadingModal,setLoadingModal] = useState(false);
     const [loading,setLoading] = useState(0);
@@ -20,10 +23,19 @@ function CreateProject(props) {
     const [projectData,setProjectData] = useState({});
     const [selectedHousingType,setSelectedHousingType] = useState({});
     const [haveBlocks,setHaveBlocks] = useState(false);
-    const [blocks,setBlocks] = useState([]);
-    const [roomCount,setRoomCount] = useState(0);
+    const [slug,setSlug] = useState("");
+
+    console.log(slug);
+
+    const [blocks,setBlocks] = useState([{
+        name : "housing",
+        roomCount : 1,
+        rooms : [{}]
+    }]);
+
+    const [roomCount,setRoomCount] = useState(1);
     const [allErrors,setAllErrors] = useState([]);
-    const [selectedBlock,setSelectedBlock] = useState(null);
+    const [selectedBlock,setSelectedBlock] = useState(0);
     const [selectedRoom,setSelectedRoom] = useState(0);
     const [anotherBlockErrors,setAnotherBlockErrors] = useState(0);
     const setProjectDataFunc = (key,value) => {
@@ -37,21 +49,24 @@ function CreateProject(props) {
     }
 
     function getCoords(elem) { // crossbrowser version
-        var box = elem.getBoundingClientRect();
+        if(elem && elem.getBoundingClientRect()){
+            var box = elem.getBoundingClientRect();
     
-        var body = document.body;
-        var docEl = document.documentElement;
-    
-        var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-        var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
-    
-        var clientTop = docEl.clientTop || body.clientTop || 0;
-        var clientLeft = docEl.clientLeft || body.clientLeft || 0;
-    
-        var top  = box.top +  scrollTop - clientTop;
-        var left = box.left + scrollLeft - clientLeft;
-    
-        return { top: Math.round(top), left: Math.round(left) };
+            var body = document.body;
+            var docEl = document.documentElement;
+        
+            var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+            var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+        
+            var clientTop = docEl.clientTop || body.clientTop || 0;
+            var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+        
+            var top  = box.top +  scrollTop - clientTop;
+            var left = box.left + scrollLeft - clientLeft;
+        
+            return { top: Math.round(top), left: Math.round(left) };
+        }
+        
     }
 
     const createRoom = async(data) => {
@@ -92,7 +107,6 @@ function CreateProject(props) {
                     }else{
                         anotherBlockErrorsTemp.push("Lütfen aşağıdan konut sayısınız giriniz ve ardından ilan formunu oluştur butonuna tıklayınız");
                     }
-                    console.log(anotherBlockErrorsTemp);
                     var elementCity = document.getElementById("housing-forms");
                     window.scrollTo({
                         top: getCoords(elementCity).top - document.getElementById('navbarDefault').offsetHeight - 30,
@@ -101,22 +115,29 @@ function CreateProject(props) {
                 }else{
                     var boolCheck = false;
                     formDataHousing.forEach((formDataHousing,order) => {
-                        console.log(formDataHousing);
-                        if(!formDataHousing.className.includes('project-disabled')){
-                            if(formDataHousing.required){
-                                if(blocks.length < 1){
-                                    tempErrors.push(formDataHousing.name.replace("[]",""))
-                                }else{
-                                    if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
-                                        if(!boolCheck){
-                                            console.log(formDataHousing.name.replace("[]",""));
-                                            var elementDesc = document.getElementById(formDataHousing.name.replace("[]",""));
-                                            window.scrollTo({
-                                                top: getCoords(elementDesc).top - document.getElementById('navbarDefault').offsetHeight - 30,
-                                                behavior: 'smooth' // Yumuşak kaydırma efekti için
-                                            });
-                                            
-                                            boolCheck = true;
+                        
+                        if(slug == "satilik"){
+                            if(!formDataHousing.className.includes('project-disabled')){
+                                if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                                    if(formDataHousing.required){
+                                        if(blocks.length < 1){
+                                            tempErrors.push(formDataHousing.name.replace("[]",""))
+                                        }else{
+                                            if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                                                if(!boolCheck){
+                                                    console.log(formDataHousing.name);
+                                                    var elementDesc = document.getElementById(formDataHousing.name.replace("[]",""));
+                                                    if(elementDesc){
+                                                        window.scrollTo({
+                                                            top: getCoords(elementDesc).top - document.getElementById('navbarDefault').offsetHeight - 30,
+                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                        });
+                                                    }
+                                                    
+                                                    
+                                                    boolCheck = true;
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -184,20 +205,12 @@ function CreateProject(props) {
                                                         behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                     });
                                                 }else{
-                                                    if(!projectData.situations){
-                                                        var element = document.getElementById("situations");
+                                                    if(!projectData.document){
+                                                        var element = document.getElementById("document");
                                                         window.scrollTo({
                                                             top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
                                                             behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                         });
-                                                    }else{
-                                                        if(!projectData.document){
-                                                            var element = document.getElementById("document");
-                                                            window.scrollTo({
-                                                                top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
-                                                                behavior: 'smooth' // Yumuşak kaydırma efekti için
-                                                            });
-                                                        }
                                                     }
                                                 }
                                             }
@@ -214,16 +227,21 @@ function CreateProject(props) {
 
         if(blocks.length > 0){
             formDataHousing.forEach((formDataHousing) => {
-                if(!formDataHousing.className.includes('project-disabled')){
-                    if(formDataHousing.required){
-                        if(blocks.length < 1){
-                            tempErrors.push(formDataHousing.name.replace("[]",""))
-                        }else{
-                            if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
-                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                if(slug == "satilik"){
+                    if(!formDataHousing.className.includes('project-disabled')){
+                        if(!formDataHousing?.className?.split(' ').includes("disabled-housing") && !formDataHousing?.className?.split(' ').includes("cover-image-by-housing-type")){
+                            if(formDataHousing.required){
+                                if(blocks.length < 1){
+                                    console.log(formDataHousing);
+                                    tempErrors.push(formDataHousing.name.replace("[]",""))
+                                }else{
+                                    if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                                        tempErrors.push(formDataHousing.name.replace("[]",""))
+                                    }
+                                }
+                                
                             }
                         }
-                        
                     }
                 }
             })
@@ -260,10 +278,6 @@ function CreateProject(props) {
             tempErrors.push("gallery");
         }
 
-        if(!projectData.situations){
-            tempErrors.push("situations");
-        }
-
         if(!projectData.document){
             tempErrors.push("document");
         }
@@ -292,6 +306,30 @@ function CreateProject(props) {
                 formData.append(`blocks[${blockIndex}][name]`, block.name);
                 formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
             });
+
+            var housingTemp = 1;
+
+            blocks.forEach((block, blockIndex) => {
+                block.rooms.forEach((room, roomIndex) => {
+
+                    Object.keys(room).forEach(key => {
+                        if(key == "payDecs"){
+                            room.payDecs.forEach((payDec,payDecIndex) => {
+                                formData.append(`room[payDecs][${payDecIndex}][price]`, payDec.price);
+                                formData.append(`room[payDecs][${payDecIndex}][date]`, payDec.date);
+                            })
+                        }else{
+                            if(!key.includes('imagex')){
+                                formData.append(`room[${key.replace('[]','')}]`, room[key]);
+                            }
+                        }
+                    });
+
+                    housingTemp++;
+                });
+            });
+
+            
     
             
     
@@ -301,7 +339,7 @@ function CreateProject(props) {
                 formData.append(`selectedTypes[${index}]`,data)
             })
             let requestPromises = [];
-            axios.post(baseUrl+'create_project',formData,{
+            axios.post(baseUrl+'create_housing',formData,{
                 headers: {
                     'accept': 'application/json',
                     'Accept-Language': 'en-US,en;q=0.8',
@@ -309,48 +347,15 @@ function CreateProject(props) {
                 }
             }).then((res) => {
                 if(res.data.status){
-                    var housingTemp = 1;
-                    blocks.forEach((block, blockIndex) => {
-                        block.rooms.forEach((room, roomIndex) => {
-                            
-                            const formDataRoom = new FormData();
-                            formDataRoom.append('project_id',res.data.project.id)
-                            formDataRoom.append('room_order',housingTemp);
-                            Object.keys(room).forEach(key => {
-                                if(key == "payDecs"){
-                                    room.payDecs.forEach((payDec,payDecIndex) => {
-                                        formDataRoom.append(`room[payDecs][${payDecIndex}][price]`, payDec.price);
-                                        formDataRoom.append(`room[payDecs][${payDecIndex}][date]`, payDec.date);
-                                    })
-                                }else{
-                                    if(!key.includes('imagex')){
-                                        formDataRoom.append(`room[${key.replace('[]','')}]`, room[key]);
-                                    }
-                                }
-                            });
-                            requestPromises.push(
-                                createRoom(formDataRoom)
-                            )
-    
-                            housingTemp++;
-                        });
-                    });
-    
-                    Promise.all(requestPromises)
-                    .then(() => {
-                        setStep(3);
-                        setLoading(totalRoomCount())
-                        setLoadingModal(false);
-                    })
+                    setStep(3);
+                    setLoadingModal(false);
                 }
             }).catch((error) => {
-                
+                toast.error(error);
             })
         }
         
     }
-
-    console.log(blocks);
 
     const style = {
         position: 'absolute',
@@ -387,74 +392,8 @@ function CreateProject(props) {
         return roomCount;
     }
 
-    const saveTemp = () => {
-        const formData = new FormData();
-
-        Object.keys(projectData).forEach(key => {
-            if(!key.includes('_imagex') && !key.includes('_imagesx')){
-                if(Array.isArray(projectData[key])){
-                    projectData[key].forEach((data,index) => {
-                        formData.append(`projectData[${key}][${index}]`, data);
-                    })
-                }else{
-                    formData.append(`projectData[${key}]`, projectData[key]);
-                }
-            }
-            
-        })
-
-        blocks.forEach((block, blockIndex) => {
-            formData.append(`blocks[${blockIndex}][name]`, block.name);
-            formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-        });
-
-        
-
-        formData.append('haveBlocks',haveBlocks);
-        formData.append('totalRoomCount',totalRoomCount());
-        selectedTypes.forEach((data,index) => {
-            formData.append(`selectedTypes[${index}]`,data)
-        })
-
-        var housingTemp = 1;
-
-        blocks.forEach((block, blockIndex) => {
-            block.rooms.forEach((room, roomIndex) => {
-                
-                formData.append('room_order',housingTemp);
-                Object.keys(room).forEach(key => {
-                    if(key == "payDecs"){
-                        room.payDecs.forEach((payDec,payDecIndex) => {
-                            formData.append(`block[${blockIndex}]rooms[${roomIndex}][payDecs][${payDecIndex}][price]`, payDec.price);
-                            formData.append(`block[${blockIndex}]rooms[${roomIndex}][payDecs][${payDecIndex}][date]`, payDec.date);
-                        })
-                    }else{
-                        if(!key.includes('imagex')){
-                            formData.append(`block[${blockIndex}]rooms[${roomIndex}][${key.replace('[]','')}]`, room[key]);
-                        }
-                    }
-                });
-
-                housingTemp++;
-            });
-        });
-
-        axios.post(baseUrl+'save_temp_project',formData,{
-            headers: {
-                'accept': 'application/json',
-                'Accept-Language': 'en-US,en;q=0.8',
-                'Content-Type': `multipart/form-data;`,
-            }
-        }).then((res) => {
-            console.log(res);
-        })
-
-
-    }
-
     return(
         <>
-            <button onClick={saveTemp}>Template Kaydet</button>
             <TopCreateProjectNavigator step={step} setStep={setStep}/>
             <Modal
                 open={loadingModal}
@@ -463,22 +402,22 @@ function CreateProject(props) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <h2>Projeniz oluşturuluyor</h2>
-                    <p>Lütfen işlem tamamlanana kadar tarayıcıyı ve bilgisayarı kapatmayın. <br /> Aşağıdaki bardan yüklenme durumunu takip edebilirisiniz</p>
+                    <h2>Konutunuz oluşturuluyor</h2>
+                    <p>Lütfen işlem tamamlanana kadar tarayıcıyı ve bilgisayarı kapatmayın.</p>
                     <LinearProgressWithLabel value={(loading * 100) / totalRoomCount()} />
                 </Box>
             </Modal>
             <ToastContainer/>
             {
                 step == 1 ? 
-                    <TypeList setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
+                    <TypeList2 setSlug={setSlug} setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <ProjectForm anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <HousingForm slug={slug} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
-                    <EndSection/>
+                    <EndSectionHousing/>
             }
         
         </>
     )
 }
-export default CreateProject
+export default CreateHousing
