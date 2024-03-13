@@ -538,7 +538,7 @@
         $('.ibanInfo').html(ibanInfo);
     });
 
-    $('.completePaymentButtonOrder').on('click', function() {
+    $('#completePaymentButton{{ $sold->id }}').on('click', function() {
         // Ödeme sırasındaki satış ID'sini al
         var order = $(this).data('order');
 
