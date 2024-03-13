@@ -28,6 +28,13 @@
         $blockName = null;
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
         $statusSlug = $status->slug;
+
+        if(isset($blockStart) && $blockStart){
+            
+        }else{
+            $blockStart = null;
+        }
+
     @endphp
     <x-project-item-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project" :statusSlug="$statusSlug"
         :blockName="$blockName" :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
