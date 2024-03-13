@@ -95,6 +95,7 @@
                                                 !</span>
                                         @endif
                                         </td>
+                                        {{dd($order)}}
                                         <td
                                             class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
                                             {{ $order->bank ?? $order->bank->receipent_full_name }}
