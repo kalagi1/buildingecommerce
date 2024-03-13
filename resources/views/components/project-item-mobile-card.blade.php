@@ -486,3 +486,24 @@
 </div>
 @endif
 @endif
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script>
+      $('.bank-account').on('click', function() {
+            // Tüm banka görsellerini seçim olmadı olarak ayarla
+            $('.bank-account').removeClass('selected');
+            // Seçilen banka görselini işaretle
+            $(this).addClass('selected');
+
+            // İlgili IBAN bilgisini al
+            var selectedBankIban = $(this).data('iban');
+            var selectedBankIbanID = $(this).data('id');
+            var selectedBankTitle = $(this).data('title');
+
+            var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
+                selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
+            $('.ibanInfo').html(ibanInfo);
+        });
+</script>

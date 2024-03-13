@@ -1377,84 +1377,67 @@
             var endIndex = 12;
         }
 
-        $('.bank-account').on('click', function() {
-        // Tüm banka görsellerini seçim olmadı olarak ayarla
-        $('.bank-account').removeClass('selected');
+        
+        $('.completePaymentButtonOrder').on('click', function() {
+            // Ödeme sırasındaki satış ID'sini al
+            var order = $(this).data('order');
 
-        // Seçilen banka görselini işaretle
-        $(this).addClass('selected');
+            // Seçilen banka hesabını kontrol et
+            if ($('.bank-account.selected').length === 0) {
+                toastr.error('Lütfen banka seçimi yapınız.');
+            } else {
+                // Ödeme işlemine başla
+                $("#loadingOverlay").css("visibility", "visible"); // Loading overlay göster
 
-        // İlgili IBAN bilgisini al
-        var selectedBankIban = $(this).data('iban');
-        var selectedBankIbanID = $(this).data('id');
-        var selectedBankTitle = $(this).data('title');
-        var soldId = $(this).data('sold-id');
+                // Ödeme bilgilerini ve diğer verileri hazırla
+                var requestData = {
+                    _token: "{{ csrf_token() }}",
+                    user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
+                    order_id: order,
+                    status: 0,
+                    key: generateRandomCode(), // Rastgele bir kod oluştur
+                    amount: "100" // Ödeme miktarı
+                };
 
-        var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
-            selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
-        $('.ibanInfo').html(ibanInfo);
-    });
-
-    $('.completePaymentButtonOrder').on('click', function() {
-        // Ödeme sırasındaki satış ID'sini al
-        var order = $(this).data('order');
-
-        // Seçilen banka hesabını kontrol et
-        if ($('.bank-account.selected').length === 0) {
-            toastr.error('Lütfen banka seçimi yapınız.');
-        } else {
-            // Ödeme işlemine başla
-            $("#loadingOverlay").css("visibility", "visible"); // Loading overlay göster
-
-            // Ödeme bilgilerini ve diğer verileri hazırla
-            var requestData = {
-                _token: "{{ csrf_token() }}",
-                user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
-                order_id: order,
-                status: 0,
-                key: generateRandomCode(), // Rastgele bir kod oluştur
-                amount: "100" // Ödeme miktarı
-            };
-
-            // AJAX isteği gönder
-            $.ajax({
-                url: "{{ route('neighbor.store') }}", // Verileri göndereceğiniz URL
-                type: "POST",
-                data: requestData,
-                success: function(response) {
-                    // İşlem başarılıysa
-                    $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
-                    $('#neighborViewModal' + order).modal('hide'); // Modalı gizle
-                    if (response.success) {
-                        // Başarılı mesajı göster
-                        toastr.success(
-                            'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
+                // AJAX isteği gönder
+                $.ajax({
+                    url: "{{ route('neighbor.store') }}", // Verileri göndereceğiniz URL
+                    type: "POST",
+                    data: requestData,
+                    success: function(response) {
+                        // İşlem başarılıysa
+                        $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
+                        $('#neighborViewModal' + order).modal('hide'); // Modalı gizle
+                        if (response.success) {
+                            // Başarılı mesajı göster
+                            toastr.success(
+                                'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
+                            // Sayfayı yenile
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        // Hata durumunda
+                        toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
                         // Sayfayı yenile
                         location.reload();
                     }
-                },
-                error: function(error) {
-                    // Hata durumunda
-                    toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                    // Sayfayı yenile
-                    location.reload();
-                }
-            });
+                });
+            }
+        });
+
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const codeLength = 8; // Kod uzunluğu
+
+            let randomCode = '';
+            for (let i = 0; i < codeLength; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomCode += characters.charAt(randomIndex);
+            }
+
+            return randomCode;
         }
-    });
-
-    function generateRandomCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const codeLength = 8; // Kod uzunluğu
-
-        let randomCode = '';
-        for (let i = 0; i < codeLength; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            randomCode += characters.charAt(randomIndex);
-        }
-
-        return randomCode;
-    }
     </script>
 
     <script>
@@ -1469,7 +1452,6 @@
             });
         });
     </script>
-
 @endsection
 
 @section('styles')
