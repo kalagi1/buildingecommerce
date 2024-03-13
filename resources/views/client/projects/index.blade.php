@@ -1497,6 +1497,8 @@
             $("#orderKey").val(uniqueCode);
 
             var soldId = $(this).data('order');
+            console.log(soldId);
+            $(".completePaymentButtonOrder").attr('data-order', soldId);
             $('.completePaymentButtonOrder').attr('data-order', soldId);
         });
         $('#completePaymentButton').on('click', function() {
