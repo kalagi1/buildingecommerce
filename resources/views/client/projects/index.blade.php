@@ -1487,6 +1487,7 @@ function loadMoreDataMobile(page) {
         $('#completePaymentButton').on('click', function() {
             var order = $(this).data('order');
             console.log(order);
+            console.log("a");
 
             if ($('.bank-account.selected').length === 0) {
                 toastr.error('Lütfen banka seçimi yapınız.')
