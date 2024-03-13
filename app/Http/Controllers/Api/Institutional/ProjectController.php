@@ -744,13 +744,13 @@ class ProjectController extends Controller
 
         $galleryImages = [];
 
-        foreach ( $request->file('projectData')['gallery'] as $imagex ) {
+        foreach ( $request->file('projectData')['gallery'] as $order => $imagex ) {
             $file = $imagex;
             // Dosyanın hedef dizini
             $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
     
             // Dosyayı belirlenen hedefe taşı
-            $fileNameGalleryImage = $projectSlug.'_housing_gallery_image_'.time().'.'.$file->getClientOriginalExtension();
+            $fileNameGalleryImage = $projectSlug.'_housing_gallery_image_'.$order.time().'.'.$file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameGalleryImage);
             $image = $manager->read(public_path('housing_images/'.$fileNameGalleryImage));
             $imageWidth = $image->width();
