@@ -1485,6 +1485,7 @@ function loadMoreDataMobile(page) {
         });
 
         $('#completePaymentButton').on('click', function() {
+            var order = $(this).data('order');
 
             if ($('.bank-account.selected').length === 0) {
                 toastr.error('Lütfen banka seçimi yapınız.')
@@ -1498,7 +1499,7 @@ function loadMoreDataMobile(page) {
                     data: {
                         _token: "{{ csrf_token() }}",
                         user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
-                        order_id: $(this).data('order'),
+                        order_id: order,
                         status: 0,
                         key: $("#uniqueCode").html(),
                         amount: "100"
