@@ -434,6 +434,7 @@ class ProjectController extends Controller {
     }//End
 
     public function komsumuGorInfo2Edit(Request $request){
+        // print_r("yunus");die;
 
         $email = $request->email;
         $userFirst = User::where('email', $email)->first();
@@ -448,7 +449,6 @@ class ProjectController extends Controller {
                 "user_id"   => $userFirst->id
             ];
 
-        // print_r($updatedData);die;
 
             $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
          
