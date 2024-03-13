@@ -42,7 +42,5 @@
 @foreach ($housings as $housing)
     @php($sold = $housing->sold)
 
-    <div class="col-md-3">
         <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-    </div>
 @endforeach
