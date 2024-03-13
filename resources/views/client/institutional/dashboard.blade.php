@@ -84,22 +84,7 @@
                             @endif
 
                         </div>
-                        @if (Auth::check())
-                            @if ($store->id == Auth::user()->id)
-                                <a href="{{ url('institutional/choise-advertise-type') }}"
-                                    style="margin-left: auto; margin-right:30px">
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text">
-                                            <div class="mobile-show"><i class="fa fa-plus"></i></div>
-                                            <div class="mobile-hidden">İlan Ekle</div>
-                                        </span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
-                                </a>
-                            @endif
-                        @endif
+                
                     </div>
 
                 </div>

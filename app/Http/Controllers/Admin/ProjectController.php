@@ -24,6 +24,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
 class ProjectController extends Controller {
@@ -151,7 +152,13 @@ class ProjectController extends Controller {
         } else if ( $request->input( 'status' ) == 1 ) {
             $reason = 'Başarıyla projeniz aktife alındı';
 
-            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası](' . route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id+1000000 ] ) . ').';
+        
+            $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
+        
+            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası]
+            (' . route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug
+            ,'id' => $project->id+1000000 ] ) . ').';
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -224,12 +231,14 @@ class ProjectController extends Controller {
             ] );
         }
 
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
                 'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
                 'item_id' => $project->id,
-                'link' => route( 'project.detail', [ 'slug' => $project->slug,'id' => $project->id+1000000 ] ),
+                'link' => route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug,'id' => $project->id+1000000 ] ),
                 'owner_id' => $project->user->id,
                 'is_visible' => true,
             ]
@@ -371,18 +380,20 @@ class ProjectController extends Controller {
         //CartORders'a ekle
         $order = new CartOrder();
       
-        $order->user_id = $user->id;
-        $order->status = '1';
-        $order->key = 1000000 + $projectID + $housingID;
-        $order->full_name = $user->name;
-        $order->email = $user->email;
-        $order->tc = $request->tc;
-        $order->is_swap = 0;
+        $order->user_id      = $user->id;
+        $order->status       = '1';
+        $order->key          = 1000000 + $projectID + $housingID;
+        $order->full_name    = $user->name;
+        $order->email        = $user->email;
+        $order->tc           = $request->tc;
+        $order->is_swap      = 0;
         $order->is_reference = 0;
         $order->is_show_user = 'on';
-        $order->amount = 0;
-        $order->is_disabled = 1; // sonradan eklenen konutlar için
-        $order->store_id = Project::where('id',$projectID)->value('user_id');
+        $order->amount       = 0;
+        $order->is_disabled  = 1; // sonradan eklenen konutlar için
+        $order->store_id     = Project::where('id',$projectID)->value('user_id');
+        $order->phone        = $request->phone;
+        $order->address      = $request->address;
 
         $cartJson['item']['id'] = (int)$projectID;
         $cartJson['item']['housing'] = (int)$housingID;
@@ -424,22 +435,47 @@ class ProjectController extends Controller {
 
     public function komsumuGorInfo2Edit(Request $request){
 
-        $updatedData = [
-            'email'     => $request->email,
-            'full_name' => $request->name,
-            'phone'     => $request->phone,
-            'tc'        => $request->tc,
-            'address'   => $request->address,
-        ];
+        $email = $request->email;
+        $userFirst = User::where('email', $email)->first();
 
-        $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
+        if($userFirst){
+            $updatedData = [
+                'email'     => $request->email,
+                'full_name' => $request->name,
+                'phone'     => $request->phone,
+                'tc'        => $request->tc,
+                'address'   => $request->address,
+                "user_id" => $userFirst->id
+            ];
 
-        if ($update) {
+            $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);
+            if ($update) {
+                return redirect()->back()->with('success','Başarıyla düzenlendi');
+            }
+        }else{
+
+            $addedData = [
+                'email'     => $request->email,
+                'name'      => $request->name,
+                'phone'     => $request->phone,
+                'idNumber'  => $request->tc,
+                'type' => 1,
+                "status" => 1,
+                'password'   => Hash::make("komsumugor123"),
+            ];
+
+            $user = User::create($addedData);                         
+            $cartOrder = CartOrder::where('id',$request->cartOrderID)->first();              
+            $cartOrder->update(['user_id' => $user->id]);
+              
             return redirect()->back()->with('success','Başarıyla düzenlendi');
-        } else {
-            return back()->with('error','Bilgiler düzenlenemedi!!!');
         }
+        
 
+    
+
+
+     
     }//End
 
     public function getUserInfo(Request $request)

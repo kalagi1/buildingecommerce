@@ -740,8 +740,12 @@ class CartController extends Controller {
             $qt = $cart[ 'item' ][ 'qt' ] ?? 0;
             $numbershare = $cart[ 'item' ][ 'numbershare' ] ?? 0;
 
-            // Retrieve defaultPrice from $cart[ 'item' ]
-            $defaultPrice = $cart[ 'item' ][ 'defaultPrice' ] ?? 0;
+            if ($cart['item']['payment-plan'] == 'taksitli') {
+                $defaultPrice = $cart[ 'item' ][ 'installmentPrice' ] ?? 0;
+            }else{
+                $defaultPrice = $cart[ 'item' ][ 'defaultPrice' ] ?? 0;
+            }
+           
 
             // Retrieve sumCartOrderQt for the given 'housing' and 'id'
             $sumCartOrderQt = DB::table( 'cart_orders' )
@@ -768,12 +772,17 @@ class CartController extends Controller {
             )
             ->all();
 
+            $pesinat =  $cart[ 'item' ][ 'qt' ] > 1 ? ($cart['item']['pesinat']/ $cart[ 'item' ][ 'qt' ] ) : $cart['item']['pesinat'];
+            $aylik = $cart[ 'item' ][ 'qt' ] > 1 ?  ($cart['item']['aylik']/$cart[ 'item' ][ 'qt' ] ) : $cart['item']['aylik'];
+
             if ( $change == 'artir' ) {
                 $remainingQt = $numbershare - ( $sumCartOrderQt[ $housingId ][ 'qt_total' ] ?? 0 );
 
                 if ( $qt !== $remainingQt ) {
                     $cart[ 'item' ][ 'qt' ] += 1;
                     $cart[ 'item' ][ 'amount' ] += $defaultPrice;
+                    $cart['item']['pesinat'] += $pesinat;
+                    $cart['item']['aylik'] += $aylik;
                 } else {
                     return response( [ 'message' => 'success', 'quantity' => $qt, 'response' => 'Maximum ' . $qt . ' adeti kadar sipariş oluşturabilirsiniz.' ] );
                 }
@@ -781,6 +790,10 @@ class CartController extends Controller {
                 if ( $qt != 1 ) {
                     $cart[ 'item' ][ 'qt' ] -= 1;
                     $cart[ 'item' ][ 'amount' ] -= $defaultPrice;
+                    $cart['item']['pesinat'] -= $pesinat;
+                    $cart['item']['aylik'] -= $aylik;
+
+
                 } else {
                     return response( [ 'message' => 'success', 'quantity' => $qt, 'response' => $qt . ' adetten daha az sipariş oluşturamazsınız.' ] );
                 }
@@ -969,6 +982,7 @@ class CartController extends Controller {
                         'slug' => $housing->slug,
                         'amount' => $housingData->price[ 0 ],
                         'price' => $housingData->price[ 0 ],
+                        "defaultPrice" => $housingData->price[ 0 ],
                         'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
                         'discount_amount' => $hasCounter ? $discount_amount : 0,
                         'share_open' => $housingData-> {

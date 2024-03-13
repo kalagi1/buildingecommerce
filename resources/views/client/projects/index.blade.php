@@ -206,7 +206,7 @@
                                 <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
                             </div>
                             <div class="carousel-inner">
-                                <div class="item carousel-item active" data-slide-number="0">
+                                <div class="item carousel-item active" data-slide-number="1">
                                     <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                         data-lightbox="image-gallery">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
@@ -216,7 +216,7 @@
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key  }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -235,10 +235,17 @@
 
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
+                                <div class="item active" style="margin: 10px; cursor: pointer">
+                                    <a id="carousel-selector-1" data-slide-to="1"
+                                        data-target="#listingDetailsSlider">
+                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
+                                            class="img-fluid carousel-indicator-image" alt="listing-small">
+                                    </a>
+                                </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}"
-                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key  }}"
+                                            data-slide-to="{{ $key  }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -260,6 +267,16 @@
                                             <tbody>
                                                 <tr style="border-top: none !important">
                                                     <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr >
+                                                    <td >
                                                         <span class="autoWidthTr">İlan No:</span>
                                                         <span class="det" style="color: #274abb !important;">
                                                             {{ $project->id + 1000000 }}
@@ -504,6 +521,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
+                                    
+                                   
                                     <tr>
                                         <td colspan="2">
                                             <strong><span class="mr-1">Proje Adı:</span></strong>
@@ -687,11 +706,10 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
-
+                        <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home" role="tabpanel" aria-labelledby="home-tab">
                             {!! $project->description !!}
                         </div>
+                        
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
@@ -722,6 +740,7 @@
                                                                 $blockHousingCount = $block['housing_count'];
                                                                 $previousBlockHousingCount = 0;
                                                                 $allCounts = 0;
+                                                                $blockName = $block['block_name'];
 
                                                                 if ($blockKey > 0) {
                                                                     $previousBlockHousingCount =
@@ -788,14 +807,17 @@
                                                                                 $projectDiscountAmount = $projectOffer
                                                                                     ? $projectOffer->discount_amount
                                                                                     : 0;
+                                                                                    $statusSlug=$status->slug;
                                                                             @endphp
 
                                                                             <x-project-item-card :project="$project"
+                                                                                :statusSlug="$statusSlug"    
                                                                                 :towns="$towns" :cities="$cities"
                                                                                 :allCounts="$allCounts" :key="$key"
                                                                                 :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
                                                                                 :bankAccounts="$bankAccounts" :i="$i"
+                                                                                :blockName="$blockName"
                                                                                 :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
                                                                                 :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                                                         @endfor
@@ -840,9 +862,11 @@
                                                                             ? $projectOffer->discount_amount
                                                                             : 0;
                                                                         $blockName = $block['block_name'];
+                                                                        $statusSlug = $status->slug;
                                                                     @endphp
 
                                                                     <x-project-item-mobile-card :project="$project"
+                                                                        :statusSlug="$statusSlug"    
                                                                         :blockName="$blockName" :towns="$towns"
                                                                         :cities="$cities" :allCounts="$allCounts"
                                                                         :key="$key" :blockHousingCount="$blockHousingCount"
@@ -866,6 +890,9 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
+                                            @php
+                                                $blockName= null;
+                                            @endphp
 
                                             <div class="row project-filter-reverse blog-pots" id="project-room">
                                                 @for ($i = 0; $i < min($project->room_count, 10); $i++)
@@ -903,10 +930,13 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
+                                                            $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
                                                         :towns="$towns" :cities="$cities" :key="$key"
+                                                        :statusSlug="$statusSlug"
+                                                        :blockName="$blockName"
                                                         :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
                                                         :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
@@ -956,9 +986,13 @@
                                                 $projectDiscountAmount = $projectOffer
                                                     ? $projectOffer->discount_amount
                                                     : 0;
+
+                                                    $statusSlug = $status->slug;
+
                                             @endphp
                                             <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                :blockName="null" :project="$project" :allCounts="$allCounts"
+                                                :blockName="$blockName" :project="$project" :allCounts="$allCounts"
+                                                :statusSlug="$statusSlug"
                                                 :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
                                                 :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
                                                 :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
@@ -1096,8 +1130,9 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+   
     <script>
-       var currentPage = 1;
+       var currentPage = 1; 
 var itemsPerPage = 10;
 var maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
 var isLoading = false; // Kontrol flag'ı ekledik
@@ -1370,7 +1405,7 @@ function loadMoreDataMobile(page) {
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 4,
+            slidesToScroll: 1,
             dots: false,
             loop: false,
             autoplay: false,

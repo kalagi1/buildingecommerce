@@ -12,6 +12,7 @@ use App\Models\CouponItem;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Housing;
+use App\Models\HousingStatus;
 use App\Models\HousingType;
 use App\Models\Menu;
 use App\Models\NeighborView;
@@ -147,6 +148,9 @@ class EstateClubController extends Controller {
         $statusText = '';
         $emailSubject = '';
     
+        $statusID = $user->project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+        $status = HousingStatus::find($statusID);
+
         if ($action == 'approve') {
             $user->update(['status' => 1]); 
             $message = 'Kullanıcının başvurusu onaylandı.';
@@ -157,11 +161,10 @@ class EstateClubController extends Controller {
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz onaylandı!',
                 'item_id' => $user->parent_id ?? $user->id,
-                'link' => route('project.housings.detail', ['projectSlug'=> $user->project->slug,"projectID" => $user->project->id+1000000, "housingOrder" => $user->housing]),
+                'link' => route('project.housings.detail', ['projectSlug'=> $user->project->slug."-".$status->slug. "-".$user->project->step2_slug. "-". $user->project->housingtype->slug,"projectID" => $user->project->id+1000000, "housingOrder" => $user->housing]),
                 'owner_id' => $user->parent_id ?? $user->id,
                 'is_visible' => true,
             ]);
-            
 
         } elseif ($action == 'reject') {
             $user->update(['status' => 2]);
@@ -174,7 +177,7 @@ class EstateClubController extends Controller {
                 'user_id' => 4,
                 'text' => $user->project->project_title . ' projesindeki ' . $user->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz reddeildi!',
                 'item_id' => $user->parent_id ?? $user->id,
-                'link' => route('project.housings.detail', ['projectSlug'=> $user->project->slug,"projectID" => $user->project->id+1000000, "housingOrder" => $user->housing]),
+                'link' => route('project.housings.detail', ['projectSlug'=> $user->project->slug."-".$status->slug. "-".$user->project->step2_slug. "-". $user->project->housingtype->slug,"projectID" => $user->project->id+1000000, "housingOrder" => $user->housing]),
                 'owner_id' => $user->parent_id ?? $user->id,
                 'is_visible' => true,
             ]);

@@ -73,7 +73,13 @@
                                         @endif
 
                                         <td><strong>Toplam
-                                                Fiyat</strong><br>{{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                                Fiyat</strong><br>
+                                            @if ($cart['item']['qt'] > 1)
+                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($cart['item']['installmentPrice'], 0, ',', '.') }}
+                                            @endif
+
                                             ₺
                                         </td>
                                     </tr>
@@ -127,6 +133,9 @@
 
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
+
+                                        $statusID =(App\Models\Project::find($cart['item']['id']))->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+                                         $status = App\Models\HousingStatus::find($statusID);
                                     @endphp
                                     <tr>
                                         <td class="image myelist">
@@ -134,7 +143,9 @@
                                                 href="{{ $cart['type'] == 'housing'
                                                     ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                     : route('project.housings.detail', [
-                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug,
+                                                        // optional(App\Models\Project::find($cart['item']['id']))->step2_slug,
+                                                        // optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".$status->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                         'housingOrder' => $cart['item']['housing'],
                                                     ]) }}">
@@ -148,7 +159,7 @@
                                                     href="{{ $cart['type'] == 'housing'
                                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                         : route('project.housings.detail', [
-                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug,
+                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".$status->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                             'housingOrder' => $cart['item']['housing'],
                                                         ]) }}">
@@ -715,7 +726,6 @@
                             toastr.warning(response.response);
                         } else {
                             location.reload();
-                            console.log(response);
                         }
                     },
                     error: function(error) {
@@ -725,19 +735,19 @@
             });
 
 
-
             function updateCart(selectedOption) {
+                var qt =
+                    "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
 
-                var qt = "{{ $cart['item']['qt'] }}";
-                
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
+
                 $.ajax({
                     type: 'POST',
                     url: '/update-cart',
                     data: {
                         paymentOption: selectedOption,
                         updatedPrice: updatedPrice,
-                        _token: '{{ csrf_token() }}' // Add this line to include CSRF token
+                        _token: '{{ csrf_token() }}' // CSRF token'ı eklemek için bu satırı ekleyin
                     },
                     success: function(response) {
                         location.reload();

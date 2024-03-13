@@ -12,7 +12,7 @@
         $roomNumbersUserSame =
             isset($projectCartOrders[$roomNumber + 1]) &&
             (Auth::check() ? $projectCartOrders[$roomNumber + 1]->user_id == Auth::user()->id : false);
-
+$blockName= null;
         $projectOffer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
             ->where(function ($query) use ($roomNumber) {
@@ -24,9 +24,13 @@
             ->where('end_date', '>=', now())
             ->first();
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+        $statusSlug = $status->slug;
     @endphp
 
     <x-project-item-mobile-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
+    :statusSlug="$statusSlug"
+    :blockName="$blockName"
+
         :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$roomNumbersUserSame"
         :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
         :lastHousingCount="$lastHousingCount" />

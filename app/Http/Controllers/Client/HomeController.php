@@ -352,9 +352,13 @@ class HomeController extends Controller
         $projects = $query->paginate($itemPerPage);
 
         $renderedProjects = $projects->through(function ($item) {
+
+            $statusID = $item->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = HousingStatus::find($statusID);
+
             return [
                 'image' => url(str_replace('public/', 'storage/', $item->image)),
-                'url' => route('project.detail',["slug" => $item->slug, "id" => $item->id+1000000] ),
+                'url' => route('project.detail',['slug' => $item->slug."-".$status->slug."-".$item->step2_slug."-".$item->housingtype->slug, "id" => $item->id+1000000] ),
                 'city' => $item->city,
                 'county' => $item->county,
                 'profile_user_image' => URL::to('/').'/storage/profile_images/'.$item->user->profile_image,

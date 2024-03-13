@@ -339,8 +339,10 @@ class ProjectController extends Controller
             }
             
         }
+        $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+        $status = HousingStatus::find($statusID);
 
-        $notificationLink =  route('project.detail', ['slug' => $project->slug,'id' => $project->id]);
+        $notificationLink =  route('project.detail', ['slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug,'id' => $project->id]);
         $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
         DocumentNotification::create([
             'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,

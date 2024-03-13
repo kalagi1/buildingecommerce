@@ -41,6 +41,7 @@
                     @if($items[$i]->item_type == 1)
                         @php 
                             $project = $items[$i]->project;
+                            //döngü oldugu için db den istek atmadım
                         @endphp
 
                         <div class="col-md-12 col-12">

@@ -29895,6 +29895,7 @@ a {
     color: #fff;
     font-weight: 600;
     font-size: 11px;
+    margin-left:-10px !important
 }
 
 .buyUserRequest .buyUserRequest__icon {
@@ -30023,6 +30024,10 @@ a {
         padding: 2px;
         height: 100%;
         background-color: red
+    }
+
+    .paymentTableTitle{
+        white-space: normal !important;
     }
 }
 

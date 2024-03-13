@@ -92,7 +92,7 @@
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
                                 <a href="{{ route('project.housings.detail', [
-                                    'projectSlug' => $project->slug,    
+                                    'projectSlug' => $project->slug. "-tamamlanan-projeler-".$project->step2_slug. "-". $project->housingtype->slug,    
                                     'projectID'   => $project->id+1000000, 
                                     'housingOrder'=> $room_order
                                     ]) }}">
@@ -115,7 +115,7 @@
 
                                 <a style="text-decoration: none;height:100%"
                                     href="{{ route('project.housings.detail', [
-                                        'projectSlug' => $project->slug,    
+                                         'projectSlug' => $project->slug. "-tamamlanan-projeler-".$project->step2_slug. "-". $project->housingtype->slug,     
                                         'projectID'   => $project->id+1000000, 
                                         'housingOrder'=> $i+1
                                         ]) }}">
@@ -277,7 +277,7 @@
                                     <div data-aos="fade-up" data-aos-delay="150">
                                         <a class="text-decoration-none"
                                             href="{{ route('project.housings.detail', [
-                                                'projectSlug' => $project->slug,    
+                                                 'projectSlug' => $project->slug. "-tamamlanan-projeler-".$project->step2_slug. "-". $project->housingtype->slug,     
                                                 'projectID'   => $project->id+1000000, 
                                                 'housingOrder'=> $room_order
                                                 ]) }}">

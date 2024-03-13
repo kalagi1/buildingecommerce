@@ -1,8 +1,13 @@
-
+@php
+         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
+            $status = App\Models\HousingStatus::find($statusID);
+@endphp
 <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in" data-aos-delay="150" style="height:200px">
     <div class="project-single no-mb aos-init aos-animate" style="height:100%" data-aos="zoom-in" data-aos-delay="150">
         <div class="listing-item compact" style="height:100%">
-            <a href="{{ route('project.detail', ['slug' => $project->slug, 'id' => $project->id+1000000]) }}" class="listing-img-container">
+            <a href="{{ route('project.detail', 
+            ['slug' => $status->slug."-".$project->step2_slug."-".$project->housingtype->slug."-".  $project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title)."-". ($project->neighbourhood ? strtolower($project->neighbourhood->mahalle_title) : '') , 
+            'id' => $project->id+1000000]) }}" class="listing-img-container">
                 <span class="project_brand_profile_image">
                     <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}" alt="">
                     <span class="country">{{ $project->city->title }}/{{ $project->county->ilce_title }}</span>

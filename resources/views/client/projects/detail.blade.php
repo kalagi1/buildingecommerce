@@ -227,7 +227,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <a href="{{ route('project.housings.detail', [
-                                            'projectSlug' => $project->slug,    
+                                              'projectSlug' => $project->slug. "-".$status->slug. "-".$project->step2_slug. "-". $project->housingtype->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),   
                                             'projectID'   => $project->id+1000000, 
                                             'housingOrder'=> $i+1
                                             ]) }}"
@@ -409,7 +409,7 @@
                                             <div class="col-md-3 mobile-hidden" style="height: 120px;padding:0">
                                                 <div class="homes-button" style="width:100%;height:100%">
                                                     <button class="first-btn payment-plan-button"
-                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' ? '1' : '0' }}
+                                                        data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$i + 1]['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]' ? '1' : '0' }}"
                                                         project-id="{{ $project->id }}"
                                                         order="{{ $i }}">
                                                         Ödeme Detayları </button>
@@ -468,7 +468,7 @@
                         <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
                             <div class="project-inner project-head">
                                 <a href="{{ route('project.housings.detail', [
-                                    'projectSlug' => $project->slug,    
+                                     'projectSlug' => $statusSlug. "-".$project->step2_slug. "-". $project->housingtype->slug."-".$project->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title),
                                     'projectID'   => $project->id+1000000, 
                                     'housingOrder'=> $room_order
                                     ]) }}">
@@ -488,7 +488,7 @@
                             <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
                                 <a style="text-decoration: none; height: 100%"
                                     href="{{route('project.housings.detail', [
-                                        'projectSlug' => $project->slug,    
+                                         'projectSlug' => $project->slug. "-".$status->slug. "-".$project->step2_slug. "-". $project->housingtype->slug."-". strtolower($project->city->title)."-". strtolower($project->county->ilce_title), 
                                         'projectID'   => $project->id+1000000, 
                                         'housingOrder'=> $room_order
                                         ]) }}">
