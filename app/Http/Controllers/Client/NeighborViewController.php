@@ -39,6 +39,7 @@ class NeighborViewController extends Controller {
         ->where( 'housing', $roomOrder )
         ->first();
 
+        return  $project->id . $roomOrder . $userId;
         if ( !$existingRecord ) {
 
             NeighborView::create( [
