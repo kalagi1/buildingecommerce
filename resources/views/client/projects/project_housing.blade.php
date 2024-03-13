@@ -2024,7 +2024,7 @@ function loadMoreDataMobile(page) {
             $("#orderKey").val(uniqueCode);
 
             var soldId = $(this).data('order');
-            $('#completePaymentButton').attr('data-order', soldId);
+            $('.completePaymentButtonOrder').attr('data-order', soldId);
         });
     </script>
 @endsection
