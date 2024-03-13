@@ -1484,6 +1484,26 @@ function loadMoreDataMobile(page) {
 
         });
 
+        $(".see-my-neighbor").on("click", function() {
+
+
+if (!{{ Auth::check() ? 'true' : 'false' }}) {
+    // User is not authenticated, show error toast
+    // You can use a library like toastr.js or any other method to display a toast
+    // Example using toastr.js
+    toastr.error('Lütfen giriş yapın!');
+    return;
+}
+
+var uniqueCode = generateRandomCode();
+
+
+$('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
+$("#orderKey").val(uniqueCode);
+
+var soldId = $(this).data('order');
+$('.completePaymentButtonOrder').attr('data-order', soldId);
+});
         $('#completePaymentButton').on('click', function() {
             var order = $(this).data('order');
             console.log(order);
@@ -1537,26 +1557,7 @@ function loadMoreDataMobile(page) {
 
             return randomCode;
         }
-        $(".see-my-neighbor").on("click", function() {
-
-
-            if (!{{ Auth::check() ? 'true' : 'false' }}) {
-                // User is not authenticated, show error toast
-                // You can use a library like toastr.js or any other method to display a toast
-                // Example using toastr.js
-                toastr.error('Lütfen giriş yapın!');
-                return;
-            }
-
-            var uniqueCode = generateRandomCode();
-
-
-            $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
-            $("#orderKey").val(uniqueCode);
-
-            var soldId = $(this).data('order');
-            $('.completePaymentButtonOrder').attr('data-order', soldId);
-        });
+       
     </script>
 @endsection
 
