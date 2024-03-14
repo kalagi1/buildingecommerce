@@ -875,13 +875,16 @@
                             </div>
                         </div>
                     </div>
-                @elseif(!$sold || $sold && $sold[0]->status == "2" )
+                @else
                     <td class="price">
-
+                        @if (!$sold || $sold && $sold[0]->status == "2" )
                         <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal{{ $i + 1 }}">
-                            Komşumu Gör
-                        </a><br>
+                        data-bs-target="#exampleModal{{ $i + 1 }}">
+                        Komşumu Gör
+                    </a><br>
+                        @endif
+
+                     
 
                         {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                             class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
