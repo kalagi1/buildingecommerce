@@ -24,7 +24,7 @@ function getHouse($project, $key, $roomOrder)
 ?>
 
 <body>
-    {{-- <div class="tm_container">
+    <div class="tm_container">
         <div class="tm_invoice_wrap">
             <div class="tm_invoice tm_style3" id="tm_download_section">
                 <div class="tm_invoice_in">
@@ -42,7 +42,7 @@ function getHouse($project, $key, $roomOrder)
                         </div>
                         <div class="tm_primary_color tm_text_uppercase tm_watermark_title tm_white_color">Fatura</div>
                     </div>
-                    <div class="tm_invoice_info">
+                    {{-- <div class="tm_invoice_info">
                         <div class="tm_invoice_info_left tm_gray_bg">
                             <p class="tm_mb2"><b class="tm_primary_color">Alıcı Bilgisi:</b></p>
                             <p class="tm_mb0">
@@ -133,10 +133,10 @@ function getHouse($project, $key, $roomOrder)
                                 <li>İletişim No: <?php echo isset($data['project']['user']['phone']) ? $data['project']['user']['phone'] : ''; ?></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
-            <div class="tm_invoice_btns tm_hide_print">
+            {{-- <div class="tm_invoice_btns tm_hide_print">
                 <a href="javascript:window.print()" id="tm_download_btn" class="tm_invoice_btn tm_color2">
                     <span class="tm_btn_icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
@@ -148,13 +148,13 @@ function getHouse($project, $key, $roomOrder)
                     </span>
                     <span class="tm_btn_text">Download</span>
                 </a>
-            </div>
+            </div> --}}
         </div>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jspdf.min.js"></script>
         <script src="assets/js/html2canvas.min.js"></script>
         <script src="assets/js/main.js"></script>
-    </div> --}}
+    </div>
 </body>
 
 </html>
