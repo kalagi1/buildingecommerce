@@ -36,7 +36,7 @@ class SharerController extends Controller {
     public function index() {
         $sharer = User::where( 'id', auth()->user()->id )->first();
         $items = ShareLink::where( 'user_id', auth()->user()->id )->get();
-        $collections = Collection::with( 'links' ,"clicks")->where( 'user_id', auth()->user()->id )->get();
+        $collections = Collection::with( 'links' ,"clicks")->where( 'user_id', auth()->user()->id )->orderBy("id","desc")->get();
         $itemsArray = [];
         foreach ( $items as $item ) {
             $item[ 'project_values' ] = $item->projectHousingData( $item->item_id )->pluck( 'value', 'name' )->toArray();
