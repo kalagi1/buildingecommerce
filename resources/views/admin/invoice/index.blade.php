@@ -7,21 +7,9 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Laralink">
-    <title><?php echo isset($data['invoice']['invoice_number']) ? $data['invoice']['invoice_number'] : ''; ?></title>
+    <title>{{ isset($data['invoice']['invoice_number']) ? $data['invoice']['invoice_number'] : '' }}</title>
     <link rel="stylesheet" href="{{ asset('invoice.css') }}">
 </head>
-<?php
-$cart = isset($data['invoice']['order']['cart']) ? json_decode($data['invoice']['order']['cart'], true) : null;
-
-function getHouse($project, $key, $roomOrder)
-{
-    foreach ($project->roomInfo as $room) {
-        if ($room->room_order == $roomOrder && $room->name == $key) {
-            return $room;
-        }
-    }
-}
-?>
 
 <body>
     <div class="tm_container">
@@ -31,7 +19,7 @@ function getHouse($project, $key, $roomOrder)
                     <div class="tm_invoice_head tm_align_center tm_accent_bg">
                         <div class="tm_invoice_left">
                             <div class="tm_logo"><img src="{{ URL::to('/') }}/images/emlaksepettelogo.png"
-                                alt="Logo" style="width:200px"></div>
+                                    alt="Logo" style="width:200px"></div>
                         </div>
                         <div class="tm_invoice_right">
                             <div class="tm_head_address tm_white_color">
@@ -40,23 +28,26 @@ function getHouse($project, $key, $roomOrder)
                                 Email: info@emlaksepette.com
                             </div>
                         </div>
-                        <div class="tm_primary_color tm_text_uppercase tm_watermark_title tm_white_color">Fatura</div>
+                        <div
+                            class="tm_primary_color tm_text_uppercase tm_watermark_title tm_white_color">Fatura</div>
                     </div>
                     <div class="tm_invoice_info">
                         <div class="tm_invoice_info_left tm_gray_bg">
                             <p class="tm_mb2"><b class="tm_primary_color">Alıcı Bilgisi:</b></p>
                             <p class="tm_mb0">
-                                <?php echo isset($data['invoice']['order']['user']['name']) ? $data['invoice']['order']['user']['name'] : ''; ?> <br>
-                                <?php echo isset($data['invoice']['order']['user']['email']) ? $data['invoice']['order']['user']['email'] : ''; ?> <br>
-                                <?php echo isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : ''; ?>
-                                <?php echo isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : ''; ?>
+                                {{ isset($data['invoice']['order']['user']['name']) ? $data['invoice']['order']['user']['name'] : '' }} <br>
+                                {{ isset($data['invoice']['order']['user']['email']) ? $data['invoice']['order']['user']['email'] : '' }} <br>
+                                {{ isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : '' }}
+                                {{ isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : '' }}
                             </p>
                         </div>
                         <div class="tm_invoice_info_right tm_text_right">
                             <p class="tm_invoice_number tm_m0">Fatura No: <b
-                                    class="tm_primary_color"><?php echo isset($data['invoice']['invoice_number']) ? $data['invoice']['invoice_number'] : ''; ?></b></p>
+                                    class="tm_primary_color">{{ isset($data['invoice']['invoice_number']) ? $data['invoice']['invoice_number'] : '' }}</b>
+                            </p>
                             <p class="tm_invoice_date tm_m0">Tarih: <b
-                                    class="tm_primary_color"><?php echo isset($data['invoice']['created_at']) ? $data['invoice']['created_at'] : ''; ?></b></p>
+                                    class="tm_primary_color">{{ isset($data['invoice']['created_at']) ? $data['invoice']['created_at'] : '' }}</b>
+                            </p>
                         </div>
                     </div>
                     <div class="tm_invoice_details">
@@ -77,60 +68,64 @@ function getHouse($project, $key, $roomOrder)
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="tm_width_2"> <img src="{{ $cart['item']['image'] }}"
-                                                    alt=""
-                                                    style="width:100px;height:100px;object-fit:cover"></td>
+                                                <td class="tm_width_2"> <img
+                                                        src="{{ isset($cart['item']['image']) ? $cart['item']['image'] : '' }}"
+                                                        alt=""
+                                                        style="width:100px;height:100px;object-fit:cover"></td>
                                                 <td class="tm_width_5  tm_border_left" style="width: 100px">
-                                                    <?php
-                                                    if (isset($data['project']['project_title'])) {
-                                                        echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] . '/' . $data['project']['neighbourhood']['mahalle_title'] . '</span>';
-                                                    } else {
-                                                        echo $data['project']['title'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['title'] . '/' . $data['project']['neighborhood']['mahalle_title'] . '</span>';
-                                                    }
-                                                    ?>
+                                                    @if (isset($data['project']['project_title']))
+                                                        {{ mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] }}<br><span
+                                                            style="font-size: 11px;font-weight:700;color:black">{{ $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] . '/' . $data['project']['neighbourhood']['mahalle_title'] }}</span>
+                                                    @else
+                                                        {{ $data['project']['title'] }}<br><span
+                                                            style="font-size: 11px;font-weight:700;color:black">{{ $data['project']['city']['title'] . '/' . $data['project']['county']['title'] . '/' . $data['project']['neighborhood']['mahalle_title'] }}</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            @if (!$data['invoice']['order']["is_disabled"])
-                            <div class="tm_invoice_footer">
-                                <div class="tm_left_footer">
-                                    <p class="tm_mb2"><b class="tm_primary_color">Ödeme Bilgileri:</b></p>
-                                    <p class="tm_m0"><?php
-                                                    echo isset($data['invoice']['order']['bank']['receipent_full_name']) ? $data['invoice']['order']['bank']['receipent_full_name'] . ' - ' . $data['invoice']['order']['bank']['iban'] . '<br>Kapora: ' . $data['invoice']['order']['amount'] . ' ₺' : '';
-                                                    ?></p>
+                            @if (isset($data['invoice']['order']) && !$data['invoice']['order']["is_disabled"])
+                                <div class="tm_invoice_footer">
+                                    <div class="tm_left_footer">
+                                        <p class="tm_mb2"><b class="tm_primary_color">Ödeme Bilgileri:</b></p>
+                                        <p class="tm_m0">
+                                            {{ isset($data['invoice']['order']['bank']['receipent_full_name']) ? $data['invoice']['order']['bank']['receipent_full_name'] . ' - ' . $data['invoice']['order']['bank']['iban'] . '<br>Kapora: ' . $data['invoice']['order']['amount'] . ' ₺' : '' }}
+                                        </p>
+                                    </div>
+                                    <div class="tm_right_footer">
+                                        <table class="tm_gray_bg">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="tm_width_3 tm_primary_color tm_bold">Toplam Fiyat</td>
+                                                    <td
+                                                        class="tm_width_3 tm_primary_color tm_bold tm_text_right">{{ $data['invoice']['total_amount']}} ₺</td>
+                                                </tr>
+                                                <tr
+                                                    class="tm_border_top tm_border_bottom tm_accent_bg">
+                                                    <td
+                                                        class="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color">
+                                                        Kapora
+                                                    </td>
+                                                    <td
+                                                        class="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color tm_text_right">
+                                                        {{ $data['invoice']['order']['amount'] . ' ₺'  }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div class="tm_right_footer">
-                                    <table class="tm_gray_bg">
-                                        <tbody>
-                                            <tr>
-                                                <td class="tm_width_3 tm_primary_color tm_bold">Toplam Fiyat</td>
-                                                <td class="tm_width_3 tm_primary_color tm_bold tm_text_right">
-                                                    {{ $data['invoice']['total_amount']}} ₺</td>
-                                            </tr>
-                                            <tr class="tm_border_top tm_border_bottom tm_accent_bg">
-                                                <td class="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color">
-                                                    Kapora
-                                                </td>
-                                                <td class="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color tm_text_right">
-                                                    <?php echo  $data['invoice']['order']['amount'] . ' ₺'  ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>  
                             @endif
-                          
+
                         </div>
                         <div class="tm_padd_15_20 tm_gray_bg">
                             <p class="tm_mb5"><b class="tm_primary_color">Satıcı Bilgileri:</b></p>
                             <ul class="tm_m0 tm_note_list">
-                                <li><?php echo isset($data['project']['user']['name']) ? $data['project']['user']['name'] : ''; ?></li>
-                                <li><?php echo isset($data['project']['user']['email']) ? $data['project']['user']['email'] : ''; ?></li>
-                                <li>Vergi No: <?php echo isset($data['project']['user']['taxNumber']) ? $data['project']['user']['taxNumber'] : ''; ?></li>
-                                <li>İletişim No: <?php echo isset($data['project']['user']['phone']) ? $data['project']['user']['phone'] : ''; ?></li>
+                                <li>{{ isset($data['project']['user']['name']) ? $data['project']['user']['name'] : '' }}</li>
+                                <li>{{ isset($data['project']['user']['email']) ? $data['project']['user']['email'] : '' }}</li>
+                                <li>Vergi No: {{ isset($data['project']['user']['taxNumber']) ? $data['project']['user']['taxNumber'] : '' }}</li>
+                                <li>İletişim No: {{ isset($data['project']['user']['phone']) ? $data['project']['user']['phone'] : '' }}</li>
                             </ul>
                         </div>
                     </div>
