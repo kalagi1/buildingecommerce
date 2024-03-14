@@ -163,7 +163,8 @@ Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('hou
 Route::get('/payment/{userId}', [PayController::class, 'index'])->name('payment.index');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
-Route::post('/resultpayment', [PayController::class, 'resultPayment'])->name('result.payment');
+Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
+Route::post('/resultpaymentfail', [PayController::class, 'resultPaymentFail'])->name('result.payment');
 
 Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
 Route::post('add_to_cart/', [CartController::class, 'add'])->name('add.to.cart');

@@ -9,10 +9,11 @@
                 <div class="pro-wrapper">
                     <div class="detail-wrapper-body">
                         <div class="listing-title-bar">
-                            {{-- <div class="text-heading text-left">
-                            <p><a href="index.html">Home </a> &nbsp;/&nbsp; <span>Checkout</span></p>
-                        </div> --}}
-                            {{-- <h3>Checkout</h3> --}}
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -23,11 +24,6 @@
                 <div class="col-md-12">
                     <div class="tr-single-box">
                         <div class="tr-single-body">
-
-                            <div class="tr-single-header">
-                                <h4><i class="fa fa-star-o booking-price-detail side-list no-border"></i>Sepet
-                                    Özeti</h4>
-                            </div>
                             @if (!$cart || empty($cart['item']))
                                 <ul>
                                     <li>Sepette Ürün Bulunmuyor</td>
@@ -57,129 +53,7 @@
                                     }
                                 @endphp
 
-                                <div class="booking-price-detail side-list no-border mb-3">
-                                    <table>
-                                        <tr>
-                                            <th>Ürün Resmi</th>
-                                            <th>Ürün Bilgisi</th>
-                                            <th>Fiyat</th>
-                                            <th>Fatura Tarihi</th>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 10%" class="image myelist">
-                                                <a
-                                                    href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectID' => optional(App\Models\Project::find($cart['item']['id']))->id, 'id' => $cart['item']['housing']]) }}">
-                                                    <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                                        style="width: 100px; height: 100px; object-fit: cover;"
-                                                        class="img-fluid">
-                                                </a>
-                                            </td>
 
-                                            <td style="width: 10%">
-                                                <div class="inner">
-                                                    <a
-                                                        href="{{ $cart['type'] == 'housing' ? route('housing.show', ['id' => $cart['item']['id']]) : route('project.housings.detail', ['projectID' => optional(App\Models\Project::find($cart['item']['id']))->id, 'id' => $cart['item']['housing']]) }}">
-                                                        <h2 style="font-weight: 600; text-align: left;">
-                                                            {{ $cart['type'] == 'housing' ? 'İlan No: ' . ($cart['item']['id'] + 2000000) : 'İlan No: ' . ($cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000) }}
-                                                            <br>
-                                                            {{ $cart['item']['title'] }}
-                                                            <br>
-                                                            {{ $cart['type'] == 'project' ? $cart['item']['housing'] . " No'lu İlan" : null }}
-                                                            @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                                                <br><br>
-                                                                <span style="color: #EA2B2E;"
-                                                                    class="mt-3">{{ $cart['item']['qt'] }} adet hisse
-                                                                    sepetinizde!</span>
-                                                            @endif
-                                                        </h2>
-                                                    </a>
-                                                </div>
-                                            </td>
-
-                                            
-
-                                            @php
-                                                $itemPrice = $cart['item']['amount'];
-
-                                                if ($cart['hasCounter']) {
-                                                    if ($cart['type'] == 'housing') {
-                                                        $housing = App\Models\Housing::find($cart['item']['id']);
-                                                        $housingData = json_decode($housing->housing_type_data);
-                                                        $discountRate = $housingData->discount_rate[0] ?? 0;
-
-                                                        $housingAmount = $itemPrice - $housingDiscountAmount;
-                                                        $discountedPrice =
-                                                            $housingAmount - ($housingAmount * $discountRate) / 100;
-                                                    } else {
-                                                        $project = App\Models\Project::find($cart['item']['id']);
-                                                        $roomOrder = $cart['item']['housing'];
-                                                        $projectHousing = App\Models\ProjectHousing::where(
-                                                            'project_id',
-                                                            $project->id,
-                                                        )
-                                                            ->where('room_order', $roomOrder)
-                                                            ->get()
-                                                            ->keyBy('name');
-
-                                                        $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                                        $projectAmount = $itemPrice - $projectDiscountAmount;
-                                                        $discountedPrice =
-                                                            $projectAmount - ($projectAmount * $discountRate) / 100;
-                                                    }
-                                                } else {
-                                                    $discountedPrice = $itemPrice;
-                                                    $discountRate = 0;
-                                                }
-
-                                                $selectedPaymentOption = request('paymentOption');
-                                                $itemPrice =
-                                                    $selectedPaymentOption === 'taksitli' &&
-                                                    isset($cart['item']['installmentPrice'])
-                                                        ? $cart['item']['installmentPrice']
-                                                        : $discountedPrice;
-
-                                                $displayedPrice = number_format($itemPrice, 0, ',', '.');
-                                                $share_sale = $cart['item']['isShare'] ?? null;
-                                                $number_of_share = $cart['item']['numbershare'] ?? null;
-                                            @endphp
-
-                                            <td style="width: 10%">
-                                                <span style="width: 100%; text-align: center;">
-                                                    @if (isset($share_sale) && !empty($share_sale))
-                                                        <div
-                                                            class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
-                                                            <button
-                                                                class="btn btn-sm btn-outline-secondary updateNumberShareMinus">-</button>
-                                                            <span class="mx-2 count">{{ $cart['item']['qt'] }}</span>
-                                                            <button
-                                                                class="btn btn-sm btn-outline-secondary updateNumberSharePlus">+</button>
-                                                        </div>
-                                                    @endif
-
-                                                    @if ($discountRate != 0)
-                                                        <span>
-                                                            <del style="color: #EA2B2E;">{{ number_format($itemPrice, 0, ',', '.') }}
-                                                                ₺</del>
-                                                        </span>
-                                                    @endif
-
-                                                    <span class="discounted-price-x" id="itemPrice"
-                                                        data-original-price="{{ $cart['item']['price'] }}"
-                                                        data-installment-price="{{ $cart['item']['installmentPrice'] }}"
-                                                        style="color: green; font-size: 14px !important;">
-                                                        {{ isset($share_sale) && !empty($share_sale) && is_numeric($displayedPrice) && is_numeric($number_of_share) && $number_of_share != 0 ? $displayedPrice / $number_of_share : $displayedPrice }}
-                                                        ₺
-                                                    </span>
-                                                </span>
-                                            </td>
-
-                                            <td style="width: 10%">
-                                                <span>{{ date('d.m.Y') }}</span>
-
-                                        </td>
-                                        </tr>
-                                    </table>
-                                </div>
 
 
                         </div>
@@ -242,10 +116,11 @@
 
                                     <div class="col-sm-6">
                                         <label for="notes">Referans Kodu (Opsiyonel):</label>
-                                        <input class="form-control" id="reference_code" name="reference_code" rows="5">
+                                        <input class="form-control" id="reference_code" name="reference_code"
+                                            rows="5">
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-7">
                                         @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
                                             <label for="neighborProjects">Komşunuzun referansıyla mı satın
                                                 alıyorsunuz?</label>
@@ -260,17 +135,30 @@
                                     </div>
 
                                     <div class="col-sm-12 pt-5">
-                                        @if ($cart['type'] == 'project' && empty($share_sale) )
+                                        @if ($cart['type'] == 'project' && empty($share_sale))
+                                            <div class="d-flex align-items-center mb-3">
+                                                <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
+                                                <i class="fa fa-info-circle ml-2"
+                                                    title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                    style="font-size: 18px; color: black;"></i>
+                                                <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                    Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı kabul ediyorum.
+                                                </label>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-sm-12 pt-2">
                                         <div class="d-flex align-items-center mb-3">
-                                            <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
-                                            <i class="fa fa-info-circle ml-2"
-                                                title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                style="font-size: 18px; color: black;"></i>
-                                            <label for="is_show_user" class="m-0 ml-1 text-black">
-                                                Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı kabul ediyorum.
+                                            <input id="checkPay" type="checkbox" name="checkPay">
+
+                                            <label for="checkPay" class="m-0 ml-1 text-black">
+                                                <a href="/sayfa/mesafeli-kapora-emanet" target="_blank">
+                                                    Mesafeli kapora emanet
+                                                </a>
+                                                sözleşmesini okudum ve kabul ediyorum
                                             </label>
                                         </div>
-                                    @endif
                                     </div>
 
 
@@ -279,14 +167,141 @@
                         </div>
                     </div>
                 </div>
+
+                @php
+                    $itemPrice = $cart['item']['amount'];
+
+                    if ($cart['hasCounter']) {
+                        if ($cart['type'] == 'housing') {
+                            $housing = App\Models\Housing::find($cart['item']['id']);
+                            $housingData = json_decode($housing->housing_type_data);
+                            $discountRate = $housingData->discount_rate[0] ?? 0;
+
+                            $housingAmount = $itemPrice - $housingDiscountAmount;
+                            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+                        } else {
+                            $project = App\Models\Project::find($cart['item']['id']);
+                            $roomOrder = $cart['item']['housing'];
+                            $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                ->where('room_order', $roomOrder)
+                                ->get()
+                                ->keyBy('name');
+
+                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                            $projectAmount = $itemPrice - $projectDiscountAmount;
+                            $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                        }
+                    } else {
+                        $discountedPrice = $itemPrice;
+                        $discountRate = 0;
+                    }
+                    $selectedPaymentOption = request('paymentOption');
+                    $itemPrice =
+                        $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
+                            ? $cart['item']['installmentPrice']
+                            : $discountedPrice;
+
+                    $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                    $share_sale = $cart['item']['isShare'] ?? null;
+                    $number_of_share = $cart['item']['numbershare'] ?? null;
+                @endphp
+
                 <div class="col-md-12 col-lg-12 col-xl-6">
-                    <div class="tr-single-box">
-                        <div class="tr-single-body">
-                            <div class="tr-single-header">
-                                <h4><i class="far fa-credit-card pr-2"></i>Ödeme Seçenekleri</h4>
+                    <div class="row">
+
+                        <div class="col-md-12" style="background: white !important;">
+                            <div class="tr-single-body">
+                                <div class="tr-single-header pb-2">
+                                    <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
+                                </div>
+                                <div class="booking-price-detail side-list no-border mb-3">
+                                    @if (!$cart || empty($cart['item']))
+                                        <ul>
+                                            <li>Toplam Fiyat<strong class="pull-right">00.00
+                                                    TL</strong></li>
+                                        </ul>
+                                    @else
+                                        <ul>
+                                            <li>İlan Fiyatı<strong class="pull-right">
+                                                    {{ number_format($cart['item']['amount'], 0, ',', '.') }}
+                                                    TL</strong></li>
+
+                                            @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
+                                                <li style="color:#EA2B2E">Mağaza İndirimi :<strong class="pull-right">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
+                                                        <span
+                                                            style="margin-left: 2px">{{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
+                                                            ₺ </span></strong></li>
+                                            @endif
+
+                                            @if (isset($discountRate) && $discountRate != '0')
+                                                <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
+                                                        class="pull-right">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
+                                                        <span style="margin-left: 2px">{{ $discountRate }}
+                                                            % </span></strong></li>
+                                            @endif
+                                            <li>Toplam Fiyat<strong class="pull-right">
+                                                    {{ number_format($discountedPrice, 0, ',', '.') }}
+
+                                                    TL</strong></li>
+
+
+
+                                            @if ($saleType == 'kiralik')
+                                                <li>Bir Kira Kapora :<strong
+                                                        class="pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
+                                                        TL</strong></li>
+                                            @else
+                                                <li>Toplam Fiyatın %2 Kaporası :<strong
+                                                        class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                        TL</strong></li>
+                                            @endif
+
+                                        </ul>
+                                    @endif
+                                </div>
+                                <div class="coupon-cart-area mb-3">
+                                    <div class="d-flex">
+                                        <input type="text" placeholder="İndirim Kupon Kodu" style="height: 40px;"
+                                            class="form-control coupon-code">
+                                        <button class="btn btn-primary coupon-apply">Uygula</button>
+                                    </div>
+                                </div>
+                                @if (!$cart || empty($cart['item']))
+                                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                                        style="font-size: 11px;margin: 0 auto;"
+                                        onclick="window.location.href='{{ route('index') }}'">
+                                        Alışverişe Devam Et
+                                    </button>
+                                @endif
+
+
+
                             </div>
-                            <!-- Paypal Option -->
-                            {{-- <div class="payment-card">
+                        </div>
+
+
+                        {{-- <div class="col-md-12 col-lg-12 col-xl-6">  --}}
+                        <div class="col-md-12" style="background: white !important;">
+                            <div class="tr-single-body">
+                                <div class="tr-single-header">
+                                    <h4><i class="far fa-credit-card pr-2"></i>Ödeme Seçenekleri</h4>
+                                </div>
+                                <!-- Paypal Option -->
+                                {{-- <div class="payment-card">
                                         <header class="payment-card-header cursor-pointer" data-toggle="collapse"
                                             data-target="#paypal" aria-expanded="true">
                                             <div class="payment-card-title flexbox">
@@ -325,70 +340,71 @@
                                             </div>
                                         </div>
                                     </div> --}}
-                            <!-- Debit card option -->
-                            <div class="payment-card">
-                                <header class="payment-card-header cursor-pointer collapsed" data-toggle="collapse"
-                                    data-target="#debit-credit" aria-expanded="false">
-                                    <div class="payment-card-title flexbox">
-                                        <h4>Kredi / Banka Kartı</h4>
-                                    </div>
-                                    <div class="pull-right">
-                                        <img src="images/credit.png" class="img-responsive" alt="">
-                                    </div>
-                                </header>
-                                <div class="collapse" id="debit-credit" role="tablist" aria-expanded="false"
-                                    style="">
-                                    <div class="payment-card-body">
-                                        <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
+                                <!-- Debit card option -->
+                                <div class="payment-card ">
+                                    <header class="payment-card-header cursor-pointer collapsed" data-toggle="collapse"
+                                        data-target="#debit-credit" aria-expanded="false">
+                                        <div class="payment-card-title flexbox">
+                                            <h4>Kredi / Banka Kartı</h4>
+                                        </div>
+                                        <div class="pull-right">
+                                            <img src="images/credit.png" class="img-responsive" alt="">
+                                        </div>
+                                    </header>
+                                    <div class="collapse" id="debit-credit" role="tablist" aria-expanded="false"
+                                        style="">
+                                        <div class="payment-card-body">
+                                            <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
 
-                                            @csrf
-                                            <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
-                                            <input type="hidden" id="fullName2" name="fullName">
-                                            <input type="hidden" id="email2" name="email">
-                                            <input type="hidden" id="tc2" name="tc">
-                                            <input type="hidden" id="phone2" name="phone">
-                                            <input type="hidden" id="address2" name="address">
-                                            <input type="hidden" id="notes2" name="notes">
-                                            <input type="hidden" id="reference_code2" name="reference_code">
-                                            <input type="hidden" id="orderKey2" name="key">
-                                            <input type="hidden" id="is_reference2" name="is_reference">
-                                            <input type="hidden" id="have_discount2" name="have_discount"
-                                                class="have_discount">
-                                            <input type="hidden" id="discount2" name="discount" class="discount">
-                                            <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
-                                                value="{{ $cart['item']['payment-plan'] ?? null }}">
-                                            <div class="row mrg-bot-20">
-                                                {{-- <div class="col-sm-6">
+                                                @csrf
+                                                <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
+                                                <input type="hidden" id="fullName2" name="fullName">
+                                                <input type="hidden" id="email2" name="email">
+                                                <input type="hidden" id="tc2" name="tc">
+                                                <input type="hidden" id="phone2" name="phone">
+                                                <input type="hidden" id="address2" name="address">
+                                                <input type="hidden" id="notes2" name="notes">
+                                                <input type="hidden" id="reference_code2" name="reference_code">
+                                                <input type="hidden" id="orderKey2" name="key">
+                                                <input type="hidden" id="is_reference2" name="is_reference">
+                                                <input type="hidden" id="have_discount2" name="have_discount "
+                                                    class="have_discount">
+                                                <input type="hidden" id="discount2" name="discount" class="discount">
+                                                <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
+                                                    value="{{ $cart['item']['payment-plan'] ?? null }}">
+                                                <div class="row mrg-bot-20">
+                                                    {{-- <div class="col-sm-6">
                                                     <label>Kart Sahibinin Adı</label>
                                                     <input type="text" class="form-control" placeholder="Chris Seail">
                                                 </div> --}}
-                                                <div class="col-sm-6">
-                                                    <label for="creditcard">Kart Numarası</label>
-                                                    <input type="text" class="form-control" id="creditcard" name="creditcard" oninput="formatCreditCard(this)">
-                                                    <script>
-                                                        function formatCreditCard(input) {
-                                                            // Boşlukları, tireleri ve boşlukları kaldırarak sadece rakamları al
-                                                            var creditCardNumber = input.value.replace(/\D/g, '');
-                                                        
-                                                            // Kredi kartı numarasını 16 karaktere sınırlandır
-                                                            var maxLength = 16;
-                                                            creditCardNumber = creditCardNumber.slice(0, maxLength);
-                                                        
-                                                            // Rakamları 4 haneli bloklara ayır
-                                                            //var formattedCreditCardNumber = creditCardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
-                                                        
-                                                            // Input alanına formatlı kredi kartı numarasını yerleştir
-                                                            input.value = creditCardNumber;
-                                                        }
+                                                    <div class="col-sm-6">
+                                                        <label for="creditcard">Kart Numarası</label>
+                                                        <input type="text" class="form-control" id="creditcard"
+                                                            name="creditcard" oninput="formatCreditCard(this)">
+                                                        <script>
+                                                            function formatCreditCard(input) {
+                                                                // Boşlukları, tireleri ve boşlukları kaldırarak sadece rakamları al
+                                                                var creditCardNumber = input.value.replace(/\D/g, '');
+
+                                                                // Kredi kartı numarasını 16 karaktere sınırlandır
+                                                                var maxLength = 16;
+                                                                creditCardNumber = creditCardNumber.slice(0, maxLength);
+
+                                                                // Rakamları 4 haneli bloklara ayır
+                                                                //var formattedCreditCardNumber = creditCardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+                                                                // Input alanına formatlı kredi kartı numarasını yerleştir
+                                                                input.value = creditCardNumber;
+                                                            }
                                                         </script>
-                                                        
-                                                        
+
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mrg-bot-20">
-                                                <div class="col-sm-4 col-md-4">
-                                                    <label>Son Kullanma Ayı</label>
-                                                    {{-- <input type="number" class="form-control" id="month"
+                                                <div class="row mrg-bot-20">
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <label>Son Kullanma Ayı</label>
+                                                        {{-- <input type="number" class="form-control" id="month"
                                                         name="month" placeholder="09"> --}}
                                                         <select class="form-control" id="month" name="month">
                                                             <option value="01">Ocak</option>
@@ -404,31 +420,30 @@
                                                             <option value="11">Kasım</option>
                                                             <option value="12">Aralık</option>
                                                         </select>
-                                                        
-                                                </div>
-                                                <div class="col-sm-4 col-md-4">
-                                                    <label>Son Kullanma Yılı</label>
-                                                    <select class="form-control" id="year" name="year">
-                                                        <?php
-                                                        // Başlangıç ve bitiş yılını belirle
-                                                        $startYear = date("Y"); // Şu anki yıl
-                                                        $endYear = $startYear + 10; // Şu anki yıldan 10 yıl sonrası
-                                                    
-                                                        // Yılları doldur
-                                                        for ($i = $startYear; $i <= $endYear; $i++) {
-                                                            echo "<option value='$i'>$i</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    {{-- <input type="number" class="form-control" id="year"
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <label>Son Kullanma Yılı</label>
+                                                        <select class="form-control" id="year" name="year">
+                                                            <?php
+                                                            // Başlangıç ve bitiş yılını belirle
+                                                            $startYear = date('Y'); // Şu anki yıl
+                                                            $endYear = $startYear + 10; // Şu anki yıldan 10 yıl sonrası
+                                                            
+                                                            // Yılları doldur
+                                                            for ($i = $startYear; $i <= $endYear; $i++) {
+                                                                echo "<option value='$i'>$i</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        {{-- <input type="number" class="form-control" id="year"
                                                         name="year" placeholder="2022"> --}}
-                                                </div>
-                                                {{-- <div class="col-sm-4 col-md-4">
+                                                    </div>
+                                                    {{-- <div class="col-sm-4 col-md-4">
                                                     <label>CCV Kodu</label>
                                                     <input type="text" class="form-control" placeholder="258">
                                                 </div> --}}
-                                            </div>
-                                            {{-- <div class="row mrg-bot-20">
+                                                </div>
+                                                {{-- <div class="row mrg-bot-20">
                                                 <div class="col-sm-7">
                                                     <span class="custom-checkbox d-block font-12 mb-2">
                                                         <input type="checkbox" id="promo" name="promo">
@@ -437,94 +452,99 @@
                                                     </span>
                                                     <input type="text" class="form-control">
                                                 </div> --}}
-                                            {{-- <div class="col-sm-5 padd-top-10 text-right">
+                                                {{-- <div class="col-sm-5 padd-top-10 text-right">
                                                     <label>Toplam Sipariş</label>
                                                     <h2 class="mrg-0"><span class="theme-cl">₺</span>987</h2>
                                                 </div> --}}
-                                            {{-- <div class="col-sm-12 bt-1 padd-top-15 pt-3">
+                                                {{-- <div class="col-sm-12 bt-1 padd-top-15 pt-3">
                                                     <span class="custom-checkbox d-block font-12 mb-3">
                                                         <input type="checkbox" id="privacy1">
                                                         <label for="privacy1"></label>
                                                         Sipariş vererek <a href="#" class="theme-cl">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
                                                     </span>
                                                 </div> --}}
-                                    </div>
+                                        </div>
 
-                                    <button type="submit" class="btn btn-success 3dPaySuccess">Ödemeyi
-                                        Tamamla
-                                        <svg viewBox="0 0 576 512" class="svgIcon">
-                                            <path
-                                                d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                            </path>
-                                        </svg></button>
-                                    </form>
+                                        <button type="submit" class="btn btn-success 3dPaySuccess">Ödemeyi
+                                            Tamamla
+                                            <svg viewBox="0 0 576 512" class="svgIcon">
+                                                <path
+                                                    d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                </path>
+                                            </svg></button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
 
 
-                            {{-- EFT Havale --}}
-                            <div class="payment-card mb-0">
-                                <header class="payment-card-header cursor-pointer collapsed" data-toggle="collapse"
-                                    data-target="#paypal" aria-expanded="false">
-                                    <div class="payment-card-title flexbox">
-                                        <h4>EFT / HAVALE</h4>
-                                    </div>
-                                </header>
-                                <div class="collapse" id="paypal" role="tablist" aria-expanded="false"
-                                    style="">
-                                    <div class="payment-card-body">
-                                        <div class="invoice-total mt-3">
-                                            <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
-                                            <div class="container row mb-3 mt-3">
-                                                <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
-                                                        id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                                                    alanına yazdığınızdan emin olun.</span>
+                                {{-- EFT Havale --}}
+                                <div class="payment-card mb-0">
+                                    <header class="payment-card-header cursor-pointer collapsed" data-toggle="collapse"
+                                        data-target="#paypal" aria-expanded="false">
+                                        <div class="payment-card-title flexbox">
+                                            <h4>EFT / HAVALE</h4>
+                                        </div>
+                                    </header>
+                                    <div class="collapse" id="paypal" role="tablist" aria-expanded="false"
+                                        style="">
+                                        <div class="payment-card-body">
+                                            <div class="invoice-total mt-3">
+                                                <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
+                                                <div class="container row mb-3 mt-3">
+                                                    <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
+                                                            id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                                        alanına yazdığınızdan emin olun.</span>
 
                                                     {{-- <div class="row"> --}}
-                                                        @if ($bankAccounts && count($bankAccounts) > 0)
-                                                            @foreach ($bankAccounts as $bankAccount)
-                                                                <div class="col-sm-4 col-md-4 bank-account"
-                                                                    data-id="{{ $bankAccount->id }}"
-                                                                    data-iban="{{ $bankAccount->iban }}"
-                                                                    data-title="{{ $bankAccount->receipent_full_name }}">
-                                                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
-                                                                        alt=""
-                                                                        style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                                                </div>
-                                                            @endforeach
-                                                        @endif
+                                                    @if ($bankAccounts && count($bankAccounts) > 0)
+                                                        @foreach ($bankAccounts as $bankAccount)
+                                                            <div class="col-sm-4 col-md-4 bank-account"
+                                                                data-id="{{ $bankAccount->id }}"
+                                                                data-iban="{{ $bankAccount->iban }}"
+                                                                data-title="{{ $bankAccount->receipent_full_name }}">
+                                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
+                                                                    alt=""
+                                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
                                                     {{-- </div> --}}
 
+                                                </div>
+                                                <div id="ibanInfo" style="font-size: 12px !important"></div>
+                                                <span>Ödeme işlemini tamamlamak için, lütfen bu
+                                                    <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span>
+                                                    kodu
+                                                    kullanarak ödemenizi
+                                                    yapın. IBAN açıklama
+                                                    alanına
+                                                    bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine
+                                                    tıklayarak
+                                                    işlemi
+                                                    bitirin.</span>
                                             </div>
-                                            <div id="ibanInfo" style="font-size: 12px !important"></div>
-                                            <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                                <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
-                                                kullanarak ödemenizi
-                                                yapın. IBAN açıklama
-                                                alanına
-                                                bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine tıklayarak
-                                                işlemi
-                                                bitirin.</span>
-                                        </div>
-                                        <div class="d-flex">
-                                            {{-- @if (Auth::check()) disabled @endif --}}
-                                            <button type="button" class="btn btn-m btn-success mt-5 paySuccess"
-                                                id="completePaymentButton" style="float:right">Ödemeyi
-                                                Tamamla
-                                                <svg viewBox="0 0 576 512" class="svgIcon">
-                                                    <path
-                                                        d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                                    </path>
-                                                </svg>
-                                            </button>
+                                            <div class="d-flex">
+                                                {{-- @if (Auth::check()) disabled @endif --}}
+                                                <button type="button" class="btn btn-m btn-success mt-5 paySuccess"
+                                                    id="completePaymentButton" style="float:right">Ödemeyi
+                                                    Tamamla
+                                                    <svg viewBox="0 0 576 512" class="svgIcon">
+                                                        <path
+                                                            d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {{-- </div> --}}
                         </div>
+                        @endif
                     </div>
-                    @endif
                 </div>
+
             </div>
         </div>
 
@@ -551,6 +571,32 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+        // Function to format numbers
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            number = number.toFixed(decimals);
+            var parts = number.toString().split(dec_point);
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+            return parts.join(dec_point);
+        }
+
+        $(document).ready(function() {
+
+            var displayedPriceSpan = $('#itemPrice');
+            var originalPrice = parseFloat(displayedPriceSpan.data('original-price'));
+            var installmentPrice = parseFloat(displayedPriceSpan.data('installment-price'));
+            $('.custom-option').on('click', function() {
+                var selectedOption = $(this).data('value');
+                updateCart(selectedOption);
+            });
+
+            function number_format(number, decimals, dec_point, thousands_sep) {
+                number = number.toFixed(decimals);
+                var parts = number.toString().split(dec_point);
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+                return parts.join(dec_point);
+            }
+        });
+
         //EFT/Havale
         $(document).ready(function() {
             var $cart = <?php echo json_encode($cart); ?>; // $cart değişkenini hazırla
@@ -584,6 +630,13 @@
                     toastr.warning('EFT/Havale kart alanı zorunludur.')
                     return;
                 }
+                if (!$('#checkPay').prop('checked')) {
+                    toastr.warning('Lütfen sözleşmeyi onaylayınız.');
+                    $('#checkPay').css({
+                        "border": "1px solid red"
+                    });
+                    return;
+                }
                 $.ajax({
                     url: "{{ route('pay.cart') }}",
                     method: "POST",
@@ -604,11 +657,17 @@
                         is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
                     },
                     success: function(response) {
-                        toastr.success('Siparişiniz başarıyla oluşturuldu.');
-                        var cartOrderId = response.cart_order;
-                        var redirectUrl =
-                            "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
-                        window.location.href = redirectUrl.replace(':cartOrderId', cartOrderId);
+                        if (response.success == "fail") {
+                            toastr.error('Bu ürün zaten satın alınmış.');
+
+                        } else {
+                            toastr.success('Siparişiniz başarıyla oluşturuldu.');
+                            var cartOrderId = response.cart_order;
+                            var redirectUrl =
+                                "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
+                            window.location.href = redirectUrl.replace(':cartOrderId',
+                                cartOrderId);
+                        }
                     },
                     error: function(error) {
                         console.log(error);
@@ -678,14 +737,22 @@
             // Kullanıcı bilgilerini kontrol et
             // Formun doldurulup doldurulmadığını kontrol et
             if (fullName === '' || tc === '' || email === '' || card === '' || month === '' || year === '') {
-                toastr.warning('Ad Soyad, TC ve E-posta kredi kartı alanları zorunludur.');
+                toastr.warning('Ad Soyad, TC, E-posta ve Kredi Kartı alanları zorunludur.');
                 return false; // Formun submit işlemini durdur
             }
 
+            if (!$('#checkPay').prop('checked')) {
+                toastr.warning('Lütfen sözleşmeyi onaylayınız.');
+                $('#checkPay').css({
+                    "border": "1px solid red"
+                });
+                return false;
+            }
 
             // Kullanıcı bilgileri mevcutsa formu gönder
             $('#3dPayForm').submit();
         });
+
 
 
         $(document).ready(function() {
