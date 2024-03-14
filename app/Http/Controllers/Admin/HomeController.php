@@ -48,7 +48,7 @@ class HomeController extends Controller {
     }
 
     public function getOrders() {
-        $cartOrders = CartOrder::with( 'user', 'share', 'price' ,"isReference")->orderByDesc( 'created_at' )->where("is_disabled","==",null)->get();
+        $cartOrders = CartOrder::with( 'user', 'share', 'price', 'isReference' )->orderByDesc( 'created_at' )->where( 'is_disabled', '!=', 1 )->get();
         return view( 'admin.orders.index', compact( 'cartOrders' ) );
     }
 
