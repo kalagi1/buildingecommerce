@@ -118,22 +118,28 @@
         $('#project_id').change(function(){
           var selectedProject = $(this).val(); // Seçilen şehir değerini al
           let t = false;
+          var countiesSelect = $('#project_housings'); // counties id'li select'i seç
+
           // AJAX isteği yap
           $.ajax({
               url: '{{route("institutional.offers.get-project-housings")}}', // Endpoint URL'si (get.counties olarak varsayalım)
               method: 'GET',
               data: { id: selectedProject }, // Şehir verisini isteğe ekle
-              dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
+              dataType: 'json', 
+              beforeSend: function() {
+                    selectedProject = (parseInt(selectedProject) + 1000000).toString();
+                    countiesSelect.html('<option value="">"#' + selectedProject +
+                        '" numaralı projeye ait konutlar yükleniyor...</option>');
+                },
               success: function(response) {
                   // Yanıt başarılı olduğunda çalışacak kod
-                  var countiesSelect = $('#project_housings'); // counties id'li select'i seç
                   countiesSelect.empty(); // Select içeriğini temizle
 
                   // Dönen yanıttaki ilçeleri döngüyle ekleyin
                   for (var i = 0; i < response.length; i++) {
                       countiesSelect.append($('<option>', {
                           value: response[i]._ROOM_ORDER, // İlçe ID'si
-                          text: response[i].label // İlçe adı
+                          text: response[i].label + " " + i + " No'lu Daire" // İlçe adı
                       }));
                   }
 

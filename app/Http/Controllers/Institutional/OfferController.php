@@ -83,7 +83,7 @@ class OfferController extends Controller
     FROM
         project_housings
     WHERE room_order > 0 AND project_id = ?', [$request->input('id'), $request->input('id'), $request->input('id'), $request->input('id')]);
-    
+
         return response()->json($data);
     }
 
