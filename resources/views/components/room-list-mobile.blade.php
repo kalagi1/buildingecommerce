@@ -7,10 +7,6 @@
         $blockHousingCount = 0;
         $previousBlockHousingCount = 0;
         $key = 0;
-<<<<<<< HEAD
-=======
-        $blockStart = null;
->>>>>>> 199d957f09454fe2229081f2d19c89ab6190b568
 
         $roomKey = $roomNumber - 1;
         $roomNumbersUserSame =
@@ -30,19 +26,12 @@
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
         $statusSlug = $status->slug;
 
-<<<<<<< HEAD
         if(isset($blockStart) && $blockStart){
             $blockStart = $blockStart;
         }else{
             $blockStart = null;
         }
         
-=======
-        if (isset($blockStart) && $blockStart) {
-        } else {
-            $blockStart = null;
-        }
->>>>>>> 199d957f09454fe2229081f2d19c89ab6190b568
     @endphp
 
     <x-project-item-mobile-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project"
