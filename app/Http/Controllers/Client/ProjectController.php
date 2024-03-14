@@ -1170,7 +1170,6 @@ class ProjectController extends Controller
         $offerInfo        = $request->input('offer_info');
         $offerId          = $request->input('offer_id');
 
-        // Update the ProjectOffers model
         $offer = ProjectOffers::findOrFail($request->input('offer_id'));
 
 
