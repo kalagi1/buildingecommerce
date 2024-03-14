@@ -269,19 +269,19 @@
                                                 ₺
                                             @endif
                                             <br>
-                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
+                                                stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
                                                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                             </svg>
-    
-                                        <del
-                                            style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        </del>
+
+                                            <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </del>
                                         </div>
                                     </h4>
-                                  
                                 @elseif ($off_sale_check)
                                     <h4
                                         style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
@@ -1183,8 +1183,9 @@
 
             var order = $(this).attr('order');
             var soldStatus = $(this).data('sold');
-            var block = $(this).data("block");
-            var paymentOrder = $(this).data("payment-order");
+            var block = $(this).data("block") ? $(this).data("block") : " ";
+            var paymentOrder = $(this).data("payment-order") ? $(this).data("payment-order") : $(this).attr(
+            'order');
 
 
             var cart = {

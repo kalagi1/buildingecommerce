@@ -145,7 +145,7 @@
         @endif
 
         @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
-            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
+            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
                 @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
                     {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                     ₺
@@ -156,12 +156,12 @@
             </h6>
 
             <h6
-                style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
+                style="color: #e54242 !important;position: relative;top:4px;font-weight:700;font-size: 11px;text-decoration:line-through;">
                 {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                 ₺
             </h6>
         @elseif ($off_sale_check && !$sold_check)
-            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
+            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
                 @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
                     {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                     ₺
