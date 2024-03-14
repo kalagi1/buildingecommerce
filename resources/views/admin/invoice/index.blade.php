@@ -42,7 +42,7 @@ function getHouse($project, $key, $roomOrder)
                         </div>
                         <div class="tm_primary_color tm_text_uppercase tm_watermark_title tm_white_color">Fatura</div>
                     </div>
-                    {{-- <div class="tm_invoice_info">
+                    <div class="tm_invoice_info">
                         <div class="tm_invoice_info_left tm_gray_bg">
                             <p class="tm_mb2"><b class="tm_primary_color">Alıcı Bilgisi:</b></p>
                             <p class="tm_mb0">
@@ -59,7 +59,7 @@ function getHouse($project, $key, $roomOrder)
                                     class="tm_primary_color"><?php echo isset($data['invoice']['created_at']) ? $data['invoice']['created_at'] : ''; ?></b></p>
                         </div>
                     </div>
-                    <div class="tm_invoice_details">
+                    {{-- <div class="tm_invoice_details">
                         <div class="tm_table tm_style1 tm_mb30">
                             <div class="tm_border">
                                 <div class="tm_table_responsive">
