@@ -17,7 +17,7 @@
     'towns',
     'statusSlug',
     'blockName',
-    'blockStart'
+    'blockStart',
 ])
 @php
     if ($key == 0) {
@@ -125,7 +125,7 @@
                         $sold_check = $sold && in_array($sold->status, ['1', '0']);
                         $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
                     @endphp
-                    @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
+                    @if (($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) || ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
                         <button class="btn second-btn mobileCBtn"
                             style="background: #EA2B2E !important; width: 100%; color: White;">
                             <span class="text">Satışa Kapatıldı</span>
@@ -327,9 +327,11 @@
                             </div>
                         </div>
                     @elseif($isUserSame == true)
-                        <button class="btn payment-plan-mobile-btn mobileCBtn" style="width:50% !important;background-color: green !important;
+                        <button class="btn payment-plan-mobile-btn mobileCBtn"
+                            style="width:50% !important;background-color: green !important;
                         color: white;
-                        border: 1px solid green;"> <span>
+                        border: 1px solid green;">
+                            <span>
                                 Size Ait Ürün
                             </span>
                         </button>
