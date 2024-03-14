@@ -12,15 +12,15 @@
         $key = 0;
         $roomKey = $roomNumber - 1;
         $roomNumbersUserSame =
-            isset($projectCartOrders[$roomNumber + 1]) &&
-            (Auth::check() ? $projectCartOrders[$roomNumber + 1]->user_id == Auth::user()->id : false);
+            isset($projectCartOrders[$roomNumber]) &&
+            (Auth::check() ? $projectCartOrders[$roomNumber]->user_id == Auth::user()->id : false);
 
         $projectOffer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
             ->where(function ($query) use ($roomNumber) {
                 $query
-                    ->orWhereJsonContains('project_housings', [$roomNumber + 1])
-                    ->orWhereJsonContains('project_housings', (string) ($roomNumber + 1)); // Handle as string as JSON might store values as strings
+                    ->orWhereJsonContains('project_housings', [$roomNumber])
+                    ->orWhereJsonContains('project_housings', (string) $roomNumber); // Handle as string as JSON might store values as strings
             })
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
@@ -35,11 +35,9 @@
         if (!isset($blockName)) {
             $blockName = null;
         }
-
-
     @endphp
-    <x-project-item-card :towns="$towns" :cities="$cities" :project="$project" :statusSlug="$statusSlug"
-        :blockName="$blockName" :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-        :isUserSame="$roomNumbersUserSame" :blockStart="$blockStart" :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
+    <x-project-item-card :towns="$towns" :cities="$cities" :project="$project" :statusSlug="$statusSlug" :blockName="$blockName"
+        :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$roomNumbersUserSame"
+        :blockStart="$blockStart" :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
         :sold="$sold" :lastHousingCount="$lastHousingCount" />
 @endforeach
