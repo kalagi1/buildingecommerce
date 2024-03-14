@@ -54,7 +54,7 @@ class HomeController extends Controller
     public function getOrders()
     {
         $cartOrders = CartOrder::with('user', 'share', 'price', 'isReference')
-            ->where('is_disabled', '!=', 1)
+            ->whereNull('is_disabled')
             ->orderByDesc('created_at')
             ->get();
 
