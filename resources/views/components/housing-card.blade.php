@@ -19,7 +19,7 @@
                                 Satılık
                             @endif
                         </div>
-                        <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                        <img loading="lazy" src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}"
                             class="img-responsive">
                     </div>
@@ -251,7 +251,7 @@
                                 data-type='housing'
                                 data-id='{{ $housing->id }}'>
                                 <span class="IconContainer">
-                                    <img src="{{ asset('sc.png') }}"
+                                    <img loading="lazy" src="{{ asset('sc.png') }}"
                                         alt="">
 
                                 </span>
@@ -263,7 +263,7 @@
                     <button onclick="redirectToReservation()"
                         class="reservationBtn">
                         <span class="IconContainer">
-                            <img src="{{ asset('sc.png') }}"
+                            <img loading="lazy" src="{{ asset('sc.png') }}"
                                 alt="">
                         </span>
                         <span class="text">Rezervasyon Yap</span>
