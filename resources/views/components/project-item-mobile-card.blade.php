@@ -312,12 +312,12 @@
                                             <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
                                             </li>
                                             <li class="list-group-item" style="width:100%">Telefon:
-                                                {{  isset($sold->phone) ?? $sold->phone }}</li>
+                                                {{ isset($sold->phone) ? $sold->phone : null }}</li>
 
                                         </ul>
                                     </div>
                                     <div class="modal-footer" style="justify-content: end !important">
-                                        <a href="tel:{{  isset($sold->phone) ?? $sold->phone }}"><button class="btn btn-success"
+                                        <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                                                 style="width:100px">Ara</button></a>
 
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
