@@ -1162,7 +1162,6 @@ class ProjectController extends Controller
     //Teklif Yanıtı
     public function offer_response(Request $request)
     {
-        // print_r($request->all());die;
 
         $response         = $request->input('response');
         $email            = $request->input('email');

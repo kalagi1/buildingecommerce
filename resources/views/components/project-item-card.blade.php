@@ -546,7 +546,8 @@
                     </ul>
                 </div>
                 <div class="modal-footer" style="justify-content: end !important">
-                    <a href="tel:{{ isset($sold->phone) ?? $sold->phone }}"><button class="btn btn-success"
+                    {{ json_encode($sold)}}
+                    <a href="tel:{{ isset($sold->mobile_phone) ?? $sold->mobile_phone }}"><button class="btn btn-success"
                             style="width:100px">Ara</button></a>
 
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
