@@ -96,7 +96,12 @@ function getHouse($project, $key, $roomOrder)
                             </div>
                             @if (!$data['invoice']['order']["is_disabled"])
                             <div class="tm_invoice_footer">
-                               
+                                <div class="tm_left_footer">
+                                    <p class="tm_mb2"><b class="tm_primary_color">Ödeme Bilgileri:</b></p>
+                                    <p class="tm_m0"><?php
+                                                    echo isset($data['invoice']['order']['bank']['receipent_full_name']) ? $data['invoice']['order']['bank']['receipent_full_name'] . ' - ' . $data['invoice']['order']['bank']['iban'] . '<br>Kapora: ' . $data['invoice']['order']['amount'] . ' ₺' : '';
+                                                    ?></p>
+                                </div>
                                 <div class="tm_right_footer">
                                     <table class="tm_gray_bg">
                                         <tbody>
