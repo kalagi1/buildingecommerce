@@ -47,15 +47,18 @@
 
     @yield('styles')
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVHQEVC6S0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVHQEVC6S0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  gtag('config', 'G-FVHQEVC6S0');
-</script>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-FVHQEVC6S0');
+    </script>
     <style>
         .notification-card.unread {
             background-color: #eff2f6;
@@ -313,17 +316,23 @@
             }
         }
     </style>
-<!-- Hotjar Tracking Code for Site 3898629 (name missing) -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:3898629,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
+    <!-- Hotjar Tracking Code for Site 3898629 (name missing) -->
+    <script>
+        (function(h, o, t, j, a, r) {
+            h.hj = h.hj || function() {
+                (h.hj.q = h.hj.q || []).push(arguments)
+            };
+            h._hjSettings = {
+                hjid: 3898629,
+                hjsv: 6
+            };
+            a = o.getElementsByTagName('head')[0];
+            r = o.createElement('script');
+            r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
@@ -395,7 +404,7 @@
                                     @php
                                         $notifications = App\Models\DocumentNotification::with('user')
                                             ->orderBy('created_at', 'desc')
-                                            ->where("readed",0)
+                                            ->where('readed', 0)
                                             ->where('owner_id', Auth::user()->id)
                                             ->limit(10)
                                             ->get();
@@ -444,7 +453,10 @@
                                                 'text' => 'Sepetim',
                                             ])
                                         </a>
-                                    @elseif (auth()->user()->type != 1 && auth()->user()->parent_id != 4 && auth()->user()->type != 3 && auth()->user()->type != 21)
+                                    @elseif (auth()->user()->type != 1 &&
+                                            auth()->user()->parent_id != 4 &&
+                                            auth()->user()->type != 3 &&
+                                            auth()->user()->type != 21)
                                         @include('client.layouts.partials.dropdown_user_icon', [
                                             'mainLink' => 'Mağazam',
                                             'links' => [
@@ -495,28 +507,47 @@
                                             ])
                                         </a>
                                     @elseif (auth()->user()->type == 3 || auth()->user()->parent_id == 4)
-                                    @include('client.layouts.partials.dropdown_user_icon', [
-                                        'mainLink' => 'Yönetim',
-                                        'links' => [
-                                            [
-                                                'url' => route('admin.index'),
-                                                'icon' => 'fa-user',
-                                                'text' => 'Hesabım',
+                                        @include('client.layouts.partials.dropdown_user_icon', [
+                                            'mainLink' => 'Yönetim',
+                                            'links' => [
+                                                [
+                                                    'url' => route('admin.index'),
+                                                    'icon' => 'fa-user',
+                                                    'text' => 'Hesabım',
+                                                ],
+                                                [
+                                                    'url' => route('client.logout'),
+                                                    'icon' => 'fa-sign-out',
+                                                    'text' => 'Çıkış Yap',
+                                                ],
                                             ],
-                                            [
-                                                'url' => route('client.logout'),
-                                                'icon' => 'fa-sign-out',
-                                                'text' => 'Çıkış Yap',
-                                            ],
-                                        ],
-                                    ])
+                                        ])
                                     @endif
                                 @else
-                                    <a href="{{ route('client.login') }}" class="userIcon">
-                                        @include('client.layouts.partials.user_icon', [
-                                            'text' => 'Giriş Yap',
-                                        ])
-                                    </a>
+                                    <div class="userIconWrapper">
+                                        <a href="{{ route('client.login') }}" class="userIcon">
+                                            @include('client.layouts.partials.user_icon', [
+                                                'text' => 'Giriş Yap',
+                                            ])
+                                        </a>
+                                        <div class="new-login-dropdown">
+                                            <div class="user-notloggedin-container container-padding">
+                                                <div class="login-button"> <a href="{{ route('client.login') }}" class="userIcon"
+                                                    style="color: white;
+                                                    text-align: center;
+                                                    justify-content: center;
+                                                    margin-right:0 !important">
+                                                    Giriş Yap
+                                                </a></div>
+                                                <div class="signup-button signup-button-container"><a href="{{ url("giris-yap?uye-ol=/")}}" class="userIcon"
+                                                    style="color: black;
+                                                    text-align: center;
+                                                    justify-content: center; margin-right:0 !important">
+                                                   Üye Ol
+                                                </a></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <a href="{{ route('cart') }}"
                                         style="border-left: 1px solid #666;
                                     padding-left: 15px;">
@@ -548,11 +579,11 @@
                                                             <div class="d-flex justify-content-between">
                                                                 <h5 class="text-black mb-0" style="font-size:12px">
                                                                     Bildirimler</h5>
-                                                                    <a href="{{ route('markAllAsRead') }}" >
-                                                                        Tümünü Oku
-                                                                    </a>
+                                                                <a href="{{ route('markAllAsRead') }}">
+                                                                    Tümünü Oku
+                                                                </a>
                                                             </div>
-                                                            
+
                                                         </div>
                                                         <div class="card-body p-0">
                                                             <div class="scrollbar-overlay" style="height: 27rem;">
@@ -585,11 +616,29 @@
                                                                                                 {!! $notification->text !!}
                                                                                             </p>
                                                                                             @php
-                                                                                                $notificationCreatedAt = $notification->created_at;
-                                                                                                date_default_timezone_set('Europe/Istanbul');
-                                                                                                $notificationCreatedAtDate = date('d.m.Y', strtotime($notificationCreatedAt));
-                                                                                                $notificationCreatedAtTime = date('H:i', strtotime($notificationCreatedAt));
-                                                                                                $notificationCreatedAtTime12Hour = date('h:i A', strtotime($notificationCreatedAt));
+                                                                                                $notificationCreatedAt =
+                                                                                                    $notification->created_at;
+                                                                                                date_default_timezone_set(
+                                                                                                    'Europe/Istanbul',
+                                                                                                );
+                                                                                                $notificationCreatedAtDate = date(
+                                                                                                    'd.m.Y',
+                                                                                                    strtotime(
+                                                                                                        $notificationCreatedAt,
+                                                                                                    ),
+                                                                                                );
+                                                                                                $notificationCreatedAtTime = date(
+                                                                                                    'H:i',
+                                                                                                    strtotime(
+                                                                                                        $notificationCreatedAt,
+                                                                                                    ),
+                                                                                                );
+                                                                                                $notificationCreatedAtTime12Hour = date(
+                                                                                                    'h:i A',
+                                                                                                    strtotime(
+                                                                                                        $notificationCreatedAt,
+                                                                                                    ),
+                                                                                                );
                                                                                             @endphp
                                                                                         </div>
                                                                                     </div>
@@ -637,26 +686,25 @@
                                         </button>
                                     </a>
                                 @else
-                                
-                                @auth
-                                <a href="{{ route('real.estate.index') }}">
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> Sat Kirala</span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
-                                </a>
-                            @else
-                                <a href="{{ url('/sat-kirala') }}">
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text"> Sat Kirala</span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
-                                </a>
-                                @endauth
+                                    @auth
+                                        <a href="{{ route('real.estate.index') }}">
+                                            <button type="button" class="buyUserRequest ml-3">
+                                                <span class="buyUserRequest__text"> Sat Kirala</span>
+                                                <span class="buyUserRequest__icon">
+                                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                                </span>
+                                            </button>
+                                        </a>
+                                    @else
+                                        <a href="{{ url('/sat-kirala') }}">
+                                            <button type="button" class="buyUserRequest ml-3">
+                                                <span class="buyUserRequest__text"> Sat Kirala</span>
+                                                <span class="buyUserRequest__icon">
+                                                    <img src="{{ asset('sc.png') }}" alt="" srcset="">
+                                                </span>
+                                            </button>
+                                        </a>
+                                    @endauth
                                 @endif
 
 
