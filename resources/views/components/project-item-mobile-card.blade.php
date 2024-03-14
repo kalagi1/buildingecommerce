@@ -327,7 +327,9 @@
                             </div>
                         </div>
                     @elseif($isUserSame == true)
-                        <button class="btn payment-plan-mobile-btn mobileCBtn" style="width:50% !important"> <span>
+                        <button class="btn payment-plan-mobile-btn mobileCBtn" style="width:50% !important;background-color: green !important;
+                        color: white;
+                        border: 1px solid green;"> <span>
                                 Size Ait Ürün
                             </span>
                         </button>
