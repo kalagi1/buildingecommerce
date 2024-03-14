@@ -53,11 +53,16 @@ class HomeController extends Controller
 
     public function getOrders()
     {
-        $cartOrders = CartOrder::with('user', 'share', 'price', 'isReference')->where('is_disabled', '!=', "1")->orderByDesc('created_at')->get();
-        return $cartOrders;
+        $cartOrders = CartOrder::with('user', 'share', 'price', 'isReference')
+            ->where('is_disabled', '!=', 1)
+            ->orderByDesc('created_at')
+            ->get();
+
+            return $cartOrders;
+            
         return view('admin.orders.index', compact('cartOrders'));
     }
-
+    
     public function getReservations()
     {
         $housingReservations = Reservation::select('reservations.*')->with('user', 'housing', 'owner')->where('status', '=', 1)->leftJoin('cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id')->whereNull('cancel_requests.id')
