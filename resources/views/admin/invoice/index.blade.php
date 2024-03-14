@@ -77,8 +77,9 @@ function getHouse($project, $key, $roomOrder)
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                {{-- <td class="tm_width_2"> <img src="{{ isset($cart['item']) ?  $cart['item']['image'] : null}}"
-                                                    style="width:100px;height:100px;object-fit:cover"></td> --}}
+                                                <td class="tm_width_2"> <img src="{{ $cart['item']['image'] }}"
+                                                    alt=""
+                                                    style="width:100px;height:100px;object-fit:cover"></td>
                                                 <td class="tm_width_5  tm_border_left" style="width: 100px">
                                                     <?php
                                                     if (isset($data['project']['project_title'])) {
@@ -95,12 +96,7 @@ function getHouse($project, $key, $roomOrder)
                             </div>
                             @if (!$data['invoice']['order']["is_disabled"])
                             <div class="tm_invoice_footer">
-                                <div class="tm_left_footer">
-                                    <p class="tm_mb2"><b class="tm_primary_color">Ödeme Bilgileri:</b></p>
-                                    <p class="tm_m0"><?php
-                                                    echo isset($data['invoice']['order']['bank']['receipent_full_name']) ? $data['invoice']['order']['bank']['receipent_full_name'] . ' - ' . $data['invoice']['order']['bank']['iban'] . '<br>Kapora: ' . $data['invoice']['order']['amount'] . ' ₺' : '';
-                                                    ?></p>
-                                </div>
+                               
                                 <div class="tm_right_footer">
                                     <table class="tm_gray_bg">
                                         <tbody>
