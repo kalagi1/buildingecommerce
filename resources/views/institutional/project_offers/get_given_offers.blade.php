@@ -51,7 +51,7 @@
                                     @elseif($item->response_status == 1 && $item->approval_status == 1)
                                         <span class="badge badge-success">Olumlu Dönüş Sağlandı</span>
 
-                                    @elseif($item->response_status == 1 && $item->approval_status == 1)
+                                    @elseif($item->response_status == 1 && $item->approval_status == 0)
                                         <span class="badge badge-danger">Olumusuz Dönüş Sağlandı</span>
 
                                     @endif
