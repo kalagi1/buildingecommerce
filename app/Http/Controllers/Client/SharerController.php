@@ -88,6 +88,7 @@ class SharerController extends Controller {
                 'user_id' => auth()->id(),
                 'ip_address' => $request->ip(),
             ];
+
         
             $collection->uniqueClicks()->updateOrCreate(['user_id' => auth()->id(), 'ip_address' => $request->ip()], $clickData);
     

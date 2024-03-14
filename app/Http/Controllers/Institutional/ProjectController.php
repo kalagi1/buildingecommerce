@@ -1328,7 +1328,6 @@ class ProjectController extends Controller
                     }
                 }
             }
-
             for ($i = 0; $i < 1; $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type == "file") {
@@ -1375,7 +1374,7 @@ class ProjectController extends Controller
                                 }
                             }
                         } else {
-                            ProjectHousing::create([
+                            $projectHousing = ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) ? json_encode(array_reduce($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder)), 'array_merge', [])) : '[]',
@@ -1386,7 +1385,7 @@ class ProjectController extends Controller
                     }
                 }
             }
-
+            dd("asd");
             return redirect()->route('institutional.projects.housings', $project->id);
         } catch (Throwable $e) {
 
