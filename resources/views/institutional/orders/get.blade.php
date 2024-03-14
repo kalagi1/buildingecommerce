@@ -97,7 +97,7 @@
                                         </td>
                                         <td
                                             class="fulfilment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary">
-                                            {{ $order->bank->receipent_full_name }}
+                                            {{ isset($order->bank) ?? $order->bank->receipent_full_name }}
                                         </td>
 
                                         <td

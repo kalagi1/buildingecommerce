@@ -70,7 +70,10 @@
                                         @for (; $i < $blockHousingCount; $i++)
                                             @php
                                                 $j++;
-                                                $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
+                                                $sold = DB::select(
+                                                    'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
+                                                    [getData($project, 'price[]', $i + 1)->room_order, $project->id],
+                                                );
                                             @endphp
 
                                             <tr>
@@ -225,7 +228,7 @@
                                                 </td>
                                                 <td class="sold">
                                                     @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                                    <div class="input d-none d-flex" style="align-items: center">
+                                                        <div class="input d-none d-flex" style="align-items: center">
                                                             <select name="off_sale[]" id="">
                                                                 <option value="[]">Satışa Açık</option>
                                                                 <option value='["Satışa Kapalı"]' selected>Satışa Kapalı
@@ -320,7 +323,10 @@
                             <tbody class="list" id="products-table-body">
                                 @for ($i = 0; $i < $project->room_count; $i++)
                                     @php
-                                        $sold = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1', [getData($project, 'price[]', $i + 1)->room_order, $project->id]);
+                                        $sold = DB::select(
+                                            'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
+                                            [getData($project, 'price[]', $i + 1)->room_order, $project->id],
+                                        );
                                     @endphp
 
                                     <tr>
@@ -416,9 +422,11 @@
 
                                         <td class="price">
                                             <div class="pop-up-edit">
-                                                <span room-order="{{$i+1}}" class="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                <span room-order="{{ $i + 1 }}"
+                                                    class="badge badge-phoenix badge-phoenix-primary batch_update_button">
                                                     Ara ödemeleri güncelle <br>
-                                                    {{ getData($project, 'pay-dec-count'.$i + 1, $i + 1) ? getData($project, 'pay-dec-count'.$i + 1, $i + 1)->value : 0}} Adet ara ödeme bulunmakta
+                                                    {{ getData($project, 'pay-dec-count' . $i + 1, $i + 1) ? getData($project, 'pay-dec-count' . $i + 1, $i + 1)->value : 0 }}
+                                                    Adet ara ödeme bulunmakta
                                                 </span>
                                             </div>
                                         </td>
@@ -484,7 +492,7 @@
                                         </td>
                                         <td class="sold">
                                             @if (isset(getData($project, 'off_sale[]', $i + 1)->value) && getData($project, 'off_sale[]', $i + 1)->value != '[]')
-                                            <div class="input d-none d-flex" style="align-items: center">
+                                                <div class="input d-none d-flex" style="align-items: center">
                                                     <select name="off_sale[]" id="">
                                                         <option value="[]">Satışa Açık</option>
                                                         <option value='["Satışa Kapalı"]' selected>Satışa Kapalı</option>
@@ -506,7 +514,6 @@
                                                         class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
                                                             class="fa fa-edit"></i></span>
                                                 </div>
-                                           
                                             @else
                                                 @if ($sold && $sold[0]->status == 1)
                                                     <button
@@ -741,11 +748,11 @@
                 <i class="fa fa-times"></i>
             </div>
             <div class="content-batch">
-                
-                <form action="{{route('institutional.set.pay.decs')}}" method="post">
+
+                <form action="{{ route('institutional.set.pay.decs') }}" method="post">
                     @csrf
 
-                    <input type="hidden" name="project_id" value="{{$project->id}}">
+                    <input type="hidden" name="project_id" value="{{ $project->id }}">
                     <input type="hidden" name="item_order" class="item_order">
                     <div class="dec-pay-area">
                         <div class="top">
@@ -756,15 +763,18 @@
                             <div class="pay-desc-item">
                                 <div class="row" style="align-items: flex-end;">
                                     <div class="flex-1">
-                                        <button class="btn btn-primary remove-pay-dec"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-primary remove-pay-dec"><i
+                                                class="fa fa-trash"></i></button>
                                     </div>
                                     <div class="flex-10">
                                         <label for="">Ara Ödeme </label>
-                                        <input type="text" value="" name="pay-dec-price[]" class="price-only form-control pay-desc-price">
+                                        <input type="text" value="" name="pay-dec-price[]"
+                                            class="price-only form-control pay-desc-price">
                                     </div>
                                     <div class="flex-10">
                                         <label for="">Ara Ödeme Tarihi</label>
-                                        <input type="date" value="" name="pay-dec-date[]" class="form-control pay-desc-date">
+                                        <input type="date" value="" name="pay-dec-date[]"
+                                            class="form-control pay-desc-date">
                                     </div>
                                 </div>
                             </div>
@@ -772,8 +782,10 @@
                     </div>
 
                     <div class="mt-3">
-                        <input type="submit" name="current-item" value="Sadece Belirtilen İlana Uygula" class="btn btn-primary btn-sm"/>
-                        <input type="submit" name="all-items" value="Tüm İlanlara Uygula" class="btn btn-primary btn-sm"/>
+                        <input type="submit" name="current-item" value="Sadece Belirtilen İlana Uygula"
+                            class="btn btn-primary btn-sm" />
+                        <input type="submit" name="all-items" value="Tüm İlanlara Uygula"
+                            class="btn btn-primary btn-sm" />
                     </div>
                 </form>
             </div>
@@ -799,22 +811,22 @@
             inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             return inputValue;
         }
-        $('.batch_update_button').click(function(){
+        $('.batch_update_button').click(function() {
             $('.batch-update-pop-up').removeClass('d-none')
             var roomOrder = $(this).attr('room-order');
 
             $.ajax({
-                    method: "GET",
-                    url: "{{ route('institutional.get.pay.decs') }}",
-                    data: {
-                        item_order: roomOrder,
-                        project_id : {{$project->id}}
-                    },
-                    success : function(response){
-                        response = JSON.parse(response);
-                        var html = "";
-                        for(var i = 0 ; i < response.pay_dec_count.value; i++){
-                            html += `
+                method: "GET",
+                url: "{{ route('institutional.get.pay.decs') }}",
+                data: {
+                    item_order: roomOrder,
+                    project_id: {{ $project->id }}
+                },
+                success: function(response) {
+                    response = JSON.parse(response);
+                    var html = "";
+                    for (var i = 0; i < response.pay_dec_count.value; i++) {
+                        html += `
                             <div class="pay-desc-item">
                                 <div class="row" style="align-items: flex-end;">
                                     <div class="flex-1">
@@ -830,15 +842,15 @@
                                     </div>
                                 </div>
                             </div>`
-                        }
-
-                        $('.pay-desc').html(html);
-
-                    },
-                    error: function(error) {
-                        console.log(error)
                     }
-                })
+
+                    $('.pay-desc').html(html);
+
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            })
             $('.item_order').val($(this).attr('room-order'))
         })
 
@@ -847,15 +859,15 @@
             $('#rulesOpenModal').addClass('d-block')
         })
 
-        $('.batch-update-pop-up-bg').click(function(){
+        $('.batch-update-pop-up-bg').click(function() {
             $('.batch-update-pop-up').addClass('d-none')
         })
 
-        $('.batch-update-pop-up-content .close').click(function(){
+        $('.batch-update-pop-up-content .close').click(function() {
             $('.batch-update-pop-up').addClass('d-none')
         })
 
-        $('.add-pay-dec').click(function(e){
+        $('.add-pay-dec').click(function(e) {
             e.preventDefault();
             $('.pay-desc').append(`
                 <div class="pay-desc-item">
@@ -877,17 +889,20 @@
 
         })
 
-        $(document).on("keyup",".price-only",function(){
+        $(document).on("keyup", ".price-only", function() {
             $('.price-only .error-text').remove();
-            if($(this).val().replace('.','').replace('.','').replace('.','').replace('.','') != parseInt($(this).val().replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
-                if($(this).closest('.form-group').find('.error-text').length > 0){
+            if ($(this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '') != parseInt($(
+                    this).val().replace('.', '').replace('.', '').replace('.', '').replace('.', '').replace('.',
+                    ''))) {
+                if ($(this).closest('.form-group').find('.error-text').length > 0) {
                     $(this).val("");
-                }else{
-                    $(this).closest('.form-group').append('<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
+                } else {
+                    $(this).closest('.form-group').append(
+                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>')
                     $(this).val("");
                 }
-                
-            }else{
+
+            } else {
                 let inputValue = $(this).val();
 
                 // Sadece sayı karakterlerine izin ver
@@ -902,10 +917,10 @@
         })
 
 
-        $(document).on("click",".remove-pay-dec",function(e){
+        $(document).on("click", ".remove-pay-dec", function(e) {
             e.preventDefault();
             $(this).closest('.pay-desc-item').remove();
-            
+
         })
 
         $('#rulesOpenModal').click(function() {
@@ -996,7 +1011,7 @@
                                             thisx.closest('td').find('.text').find('.value-text')
                                                 .removeClass('badge-phoenix-success').addClass(
                                                     'badge-phoenix-danger')
-                                                    
+
                                         } else {
                                             newVal = "Satışa Açık";
                                             thisx.closest('td').find('.text').find('.value-text')

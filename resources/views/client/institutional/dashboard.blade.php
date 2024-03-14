@@ -71,7 +71,7 @@
                                         style="position: absolute;line-height:.9;color:black;font-size:9px !important; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                                         <i class="fa fa-check"></i></span>
                                 </span>
-                                @if ($store->year)
+                                @if ($store->year && $store->name == "Maliyetine Ev")
                                     <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                         <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
                                             style="display: block; margin: 0 auto;">

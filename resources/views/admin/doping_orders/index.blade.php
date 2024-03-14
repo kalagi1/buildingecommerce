@@ -50,7 +50,7 @@
                                 @if ($dopingOrders->count() > 0)
                                     @foreach ($dopingOrders as $order)
                                         <tr>
-                                            <td class="order_no">{{ $order->bank->receipent_full_name }}</td>
+                                            <td class="order_no">{{ $order->bank ?? $order->bank->receipent_full_name }}</td>
                                             <td class="order_no">{{ $order->key }}</td>
                                             @if($order->standOut->housing_type_id == 0)
                                                 <td class="order_project">

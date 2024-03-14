@@ -437,7 +437,7 @@ function ReactTable(props) {
                                             <TableCell>{row.cartOrders}</TableCell>
                                             <TableCell>{row.paymentPending}</TableCell>
                                             <TableCell>{row.offSale}</TableCell>
-                                            <TableCell>{row.room_count - row.cartOrders - row.offSale}</TableCell>
+                                            <TableCell>{row.room_count - (row.cartOrders + row.paymentPending)}</TableCell>
                                             <TableCell>{
                                                 row.status == 1 ? 
                                                     <div className='text-success'>Yayında</div> 

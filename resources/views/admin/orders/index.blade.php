@@ -88,7 +88,7 @@
                                                 @else
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
-                                                @if (isset($order->is_reference))
+                                                @if (isset($order->isReference))
                                                     <br>
                                                     <strong class="text-success">Bu ilan komşumu gör referansı ile
                                                         satılmıştır. <br>

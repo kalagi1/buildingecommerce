@@ -25,18 +25,20 @@
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();
-        $blockName = null;
         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
         $statusSlug = $status->slug;
 
-        if(isset($blockStart) && $blockStart){
-            
-        }else{
+        if (!isset($blockStart)) {
             $blockStart = null;
         }
 
+        if (!isset($blockName)) {
+            $blockName = null;
+        }
+
+
     @endphp
-    <x-project-item-card :towns="$towns" :cities="$cities" :blockName="null" :project="$project" :statusSlug="$statusSlug"
+    <x-project-item-card :towns="$towns" :cities="$cities" :project="$project" :statusSlug="$statusSlug"
         :blockName="$blockName" :allCounts="$allCounts" :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
         :isUserSame="$roomNumbersUserSame" :blockStart="$blockStart" :bankAccounts="$bankAccounts" :i="$roomKey" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
         :sold="$sold" :lastHousingCount="$lastHousingCount" />
