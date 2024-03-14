@@ -269,7 +269,11 @@ class CartController extends Controller {
         $order->notes = $request->input( 'notes' );
         $order->reference_id = $hasReference ? $hasReference->id : null;
         $order->is_reference = $isReference ? $isReference->id : null;
-        $order->is_swap = $cartJson[ 'item' ][ 'payment-plan' ] == 'pesin' ? 0 : 1;
+        if(isset($cartJson[ 'item' ][ 'payment-plan' ])){
+            $order->is_swap =$cartJson[ 'item' ][ 'payment-plan' ] == 'pesin' ? 0 : 1;
+        }else{
+            $order->is_swap = 0;
+        }
         $order->save();
 
         $cartOrder = CartOrder::where( 'id', $order->id )->with( 'bank' )->first();
@@ -876,18 +880,18 @@ class CartController extends Controller {
                     ->get()
                     ->keyBy( 'key' );
                     $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->get();
-
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
                         if ( isset( $collection ) ) {
                             foreach ( $collection->links as $link ) {
-                                if ( ( $link->item_type == 1 && $link->item_id == $project->id && $link->room_order == $id && $link->user_id != Auth::user()->id ) ) {
+                                if ( (  $link->user_id != Auth::user()->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
                         }
                     }
+
                     $price = $projectHousing[ 'Peşin Fiyat' ]->value ?? $projectHousing[ 'Fiyat' ]->value;
                     $installmentPrice = $pesinat = $taksitSayisi = $aylik = null;
 
@@ -994,27 +998,26 @@ class CartController extends Controller {
                                 'discount_rate'}
                                 [ 0 ] ?? 0,
                             ];
-                        }
-
-                        if ( !$cartItem ) {
-                            return response( [ 'message' => 'fail' ] );
-                        }
-
-                        $cart = [
-                            'item' => $cartItem,
-                            'type' => $type,
-                            'hasCounter' => $hasCounter
-                        ];
-
-                        $request->session()->put( 'cart', $cart );
-                        // Save cart data to session
-                        return response( [ 'message' => 'success' ] );
-                    }
-                } catch ( \Exception $e ) {
-                    // Handle exceptions if any
-                    return response( [ 'message' => 'error', 'error' => $e->getMessage() ], 500 );
                 }
+
+                if ( !$cartItem ) {
+                    return response( [ 'message' => 'fail' ] );
+                }
+                $cart = [
+                    'item' => $cartItem,
+                    'type' => $type,
+                    'hasCounter' => $hasCounter
+                ];
+
+                $request->session()->put( 'cart', $cart );
+                // Save cart data to session
+                return response( [ 'message' => 'success' ] );
             }
+        } catch ( \Exception $e ) {
+            // Handle exceptions if any
+            return response( [ 'message' => 'error', 'error' => $e->getMessage() ], 500 );
+        }
+    }
 
             public function clear( Request $request ) {
                 $request->session()->forget( 'cart' );
