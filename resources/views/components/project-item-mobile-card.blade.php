@@ -32,7 +32,6 @@
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
-            {{-- <a href="{{ route('project.housings.detail', [$project->id, $keyIndex]) }}"> --}}
             <a
                 href="{{ route('project.housings.detail', [
                     'projectSlug' =>
@@ -224,35 +223,38 @@
                     @endphp
 
                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
-                    @if (Auth::check())
-                    <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
-                        style="width:50% !important;color:white !important;background-color:#274abb !important;"
-                        data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}">
-                        <span style="text-align: center; display: flex; align-items: center; justify-content: center;">
-                            <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" stroke-width="2" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" style="margin-right: 2px">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                            Komşumu Gör
-                        </span>
-                    </button>
-                @else
-                <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
-                style="width:50% !important;color:white !important;background-color:#274abb !important;"
-                onclick="window.location.href='{{ route('client.login') }}'">
-                <span style="text-align: center; display: flex; align-items: center; justify-content: center;">
-                    <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" stroke-width="2" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" style="margin-right: 2px">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    Komşumu Gör
-                </span>
-            </button>
-            
-                @endif
-                
+                        @if (Auth::check())
+                            <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
+                                style="width:50% !important;color:white !important;background-color:#274abb !important;"
+                                data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}"
+                                data-order="{{ $sold->id }}">
+                                <span
+                                    style="text-align: center; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor"
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        class="css-i6dzq1" style="margin-right: 2px">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Komşumu Gör
+                                </span>
+                            </button>
+                        @else
+                            <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
+                                style="width:50% !important;color:white !important;background-color:#274abb !important;"
+                                onclick="window.location.href='{{ route('client.login') }}'">
+                                <span
+                                    style="text-align: center; display: flex; align-items: center; justify-content: center;">
+                                    <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor"
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        class="css-i6dzq1" style="margin-right: 2px">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    Komşumu Gör
+                                </span>
+                            </button>
+                        @endif
                     @elseif($neighborView && $neighborView->status == '0')
                         <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:orange !important;border:1px solid orange;color:White">
@@ -268,7 +270,7 @@
                                 Ödeme Onayı </span>
                         </button>
                     @elseif($neighborView && $neighborView->status == '1')
-                        <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                        <button class="btn payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:green !important;color:white;border:1px solid green"
                             data-bs-toggle="modal" data-bs-target="#phoneModal{{ $sold->id }}">
                             <span>
@@ -325,8 +327,7 @@
                             </div>
                         </div>
                     @elseif($isUserSame == true)
-                        <button class="btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                            style="width:50% !important"> <span>
+                        <button class="btn payment-plan-mobile-btn mobileCBtn" style="width:50% !important"> <span>
                                 Size Ait Ürün
                             </span>
                         </button>
@@ -336,8 +337,8 @@
                             $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' &&
                             !$sold)
                         @if (Auth::user())
-                            <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
-                                data-toggle="modal" data-target="#exampleModal{{ $keyIndex }}"
+                            <button class="first-btn payment-plan-mobile-btn mobileCBtn" data-toggle="modal"
+                                data-target="#applyModal{{ $keyIndex }}"
                                 style="width:50% !important;background-color:black !important;border:1px solid black;color:white">
                                 Başvuru Yap
                             </button>
@@ -348,7 +349,7 @@
                             align-items: center;
                             display: flex;
                             justify-content: center;background-color:black !important;border:1px solid black;color:white"
-                                class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn">
+                                class="first-btn payment-plan-mobile-btn mobileCBtn">
                                 Başvuru Yap
                             </a>
                         @endif
@@ -408,13 +409,13 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal{{ $keyIndex }}" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="applyModal{{ $keyIndex }}" tabindex="-1" role="dialog"
+    aria-labelledby="applyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-body">
                 <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
-                    id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
+                    id="applyModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
                     Başvuru Yap</h3>
                 <hr>
                 <form method="POST" action="{{ route('give_offer') }}">
