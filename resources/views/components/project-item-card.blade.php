@@ -536,7 +536,7 @@
                             {{ $project->step1_slug }}
                         @endif
                     </strong>
-                    <ul class="list-group mt-3">
+                    <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
                         </li>
                         <li class="list-group-item" style="width:100%">Telefon:
