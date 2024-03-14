@@ -797,16 +797,19 @@
                 @endif
                 @endif
                 </td>
-                @if ($sold && $sold[0]->status == 1 && $sold[0]->is_disabled == 1)
+                @if ($sold && $sold[0]->status == 1 )
                     <td class="price">
                         @if (isset($sold[0]))
                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
                         @endif
+                        @if ($sold[0]->is_disabled == 1)
                         <a href="#" class="badge badge-phoenix badge-phoenix-info value-text"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">
-                            Komşumu Düzenle
-                        </a>
+                        data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">
+                        Komşumu Düzenle
+                    </a>  
+                        @endif
+                       
                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                             class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                     </td>
