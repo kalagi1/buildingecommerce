@@ -58,7 +58,6 @@ class HomeController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-            return $cartOrders;
             
         return view('admin.orders.index', compact('cartOrders'));
     }
