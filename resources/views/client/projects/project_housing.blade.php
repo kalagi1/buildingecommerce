@@ -867,7 +867,6 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                        $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
@@ -923,7 +922,6 @@
                                                             ? $projectOffer->discount_amount
                                                             : 0;
 
-                                                        $statusSlug = $status->slug;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
                                                     :blockStart="0"

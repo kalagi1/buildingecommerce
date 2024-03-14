@@ -770,7 +770,7 @@ class ProjectController extends Controller
         $cities = City::all()->toArray();
 
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-        $status = HousingStatus::find($statusID);
+        $statusSlug = HousingStatus::find($statusID)->slug;
 
         $turkishAlphabet = [
             'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
@@ -939,8 +939,7 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
         
-
-        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing','status'));
+        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing','statusSlug'));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
