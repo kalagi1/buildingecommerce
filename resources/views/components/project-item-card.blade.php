@@ -246,11 +246,11 @@
                         Ödeme Onayı </span>
                 </span>
             @elseif($neighborView && $neighborView->status == '1')
-                <span class="first-btn see-my-neighbor success">
-                    <a href="tel: {{ $sold->mobile_phone }}" style="color:white">
+            
+                <span class="first-btn see-my-neighbor success" data-bs-toggle="modal" data-bs-target="#phoneModal{{ $sold->id }}">
+                
                         <span>
 
-                            {{ $sold->name }} <br>
                             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
                                 stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                 class="css-i6dzq1">
@@ -261,11 +261,11 @@
                                     d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
                                 </path>
                             </svg>
-                            {{ $sold->mobile_phone }}
+                            İletişime Geç
                         </span>
-                    </a>
-
+                   
                 </span>
+              
             @elseif($isUserSame == true)
                 <span class="first-btn see-my-neighbor success">
                     <span>
@@ -511,6 +511,45 @@
                     </div>
 
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="phoneModal{{ $sold->id }}" tabindex="-1"
+        aria-labelledby="phoneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <strong class="text-center text-black d-block" style="color: black">
+                        @if (isset($projectHousingsList[$keyIndex]['advertise_title[]']))
+                            {{ $projectHousingsList[$keyIndex]['advertise_title[]'] }}
+                            {{ $blockName }}
+                            {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                            {{ "No'lu" }}
+                            {{ $project->step1_slug }}
+                        @else
+                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                            Projesinde {{ $blockName }}
+                            {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                            {{ "No'lu" }}
+                            {{ $project->step1_slug }}
+                        @endif
+                    </strong>
+                    <ul class="list-group mt-3">
+                        <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
+                        </li>
+                        <li class="list-group-item" style="width:100%">Telefon:
+                            {{ $sold->mobile_phone }}</li>
+
+                    </ul>
+                </div>
+                <div class="modal-footer" style="justify-content: end !important">
+                    <a href="tel:{{ $sold->mobile_phone }}"><button class="btn btn-success"
+                            style="width:100px">Ara</button></a>
+
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        style="width:100px">Kapat</button>
                 </div>
             </div>
         </div>
