@@ -94,7 +94,7 @@ function getHouse($project, $key, $roomOrder)
                                     </table>
                                 </div>
                             </div>
-                            @if (!$data['invoice']['order']["is_disabled"])
+                            {{-- @if (!$data['invoice']['order']["is_disabled"])
                             <div class="tm_invoice_footer">
                                 <div class="tm_left_footer">
                                     <p class="tm_mb2"><b class="tm_primary_color">Ödeme Bilgileri:</b></p>
@@ -121,7 +121,7 @@ function getHouse($project, $key, $roomOrder)
                                     </table>
                                 </div>
                             </div>  
-                            @endif
+                            @endif --}}
                           
                         </div>
                         <div class="tm_padd_15_20 tm_gray_bg">
