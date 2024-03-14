@@ -273,13 +273,13 @@
                                         </ul>
                                     @endif
                                 </div>
-                                <div class="coupon-cart-area mb-3">
+                                {{-- <div class="coupon-cart-area mb-3">
                                     <div class="d-flex">
                                         <input type="text" placeholder="İndirim Kupon Kodu" style="height: 40px;"
                                             class="form-control coupon-code">
                                         <button class="btn btn-primary coupon-apply">Uygula</button>
                                     </div>
-                                </div>
+                                </div> --}}
                                 @if (!$cart || empty($cart['item']))
                                     <button type="button" class="btn btn-primary btn-lg btn-block"
                                         style="font-size: 11px;margin: 0 auto;"
