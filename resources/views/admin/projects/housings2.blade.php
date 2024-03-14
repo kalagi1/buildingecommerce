@@ -333,7 +333,7 @@
                                                     @endif
                                                 </td>
 
-                                                @if ($sold && $sold[0]->status == 1)
+                                                @if ($sold && $sold[0]->status == 1 && $sold[0]->is_disabled == 1)
                                                     <td class="price">
                                                         @if (isset($sold[0]))
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
