@@ -244,6 +244,19 @@ class PayController extends Controller
 
     private function createCartOrder($requestData, $userId, $storeId, $amount)
     {
+
+        $referenceCode = null;
+        if (isset($requestData['reference_code'])) {
+           $user = User::where('code', $requestData['reference_code'])->first();
+           $user ? $referenceCode = $user->id : null;
+        }
+
+        $isReference = null;
+        if (isset($requestData['is_reference'])) {
+           $userReference = User::where('id', $requestData['is_reference'])->first();
+           $userReference ? $isReference = $userReference->id : null;
+        }
+
         $cartArray = json_decode($requestData['cart'], true);
         $cartOrder = new CartOrder();
         $cartOrder->user_id = $userId;
@@ -257,9 +270,9 @@ class PayController extends Controller
         $cartOrder->phone = $requestData['phone'];
         $cartOrder->notes = $requestData['notes'];
         $cartOrder->address = $requestData['address'];
-        $cartOrder->is_swap = $cartArray['item']['pesinat'] == 'pesin' ? 0 : 1;
-        $cartOrder->reference_id = $requestData['reference_code'] ? User::where('code', $requestData['reference_code'])->first()->id : null;
-        $cartOrder->is_reference = $requestData['is_reference'] ? User::where('id', $requestData['is_reference'])->first()->id : null;
+        $cartOrder->is_swap = isset($cartArray['item']['payment-plan'])  && $cartArray['item']['payment-plan'] == 'pesin' ? 0 : 1;
+        $cartOrder->reference_id = $referenceCode;
+        $cartOrder->is_reference = $isReference;
         $cartOrder->amount = $amount;
         $cartOrder->save();
         return $cartOrder;
