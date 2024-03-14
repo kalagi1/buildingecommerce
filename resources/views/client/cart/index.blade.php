@@ -350,23 +350,35 @@
                                 </button>
                             @else
                                 @if ($saleType == 'kiralik')
-                                    <button type="button"
+                                    {{-- <button type="button" id="paymentButton"
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        data-toggle="modal" data-target="#paymentModal"
+                                        data-target="#paymentModal"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
-                                    </button>
-                                @else
-                                    <button type="button"
+                                    </button> --}}
+                                    <a href="{{ route('payment.index', ['userId' => Auth::user()->id]) }}"
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        data-toggle="modal" data-target="#paymentModal"
+                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
+                                         <span class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
+                                     </a>
+                                @else
+
+                                    <a href="{{ route('payment.index', ['userId' => Auth::user()->id]) }}"
+                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
+                                        <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
+                                    </a>
+
+                                    {{-- <button type="button" id="paymentButton"
+                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
+                                        data-target="#paymentModal"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
-                                    </button>
+                                    </button> --}}
                                 @endif
                             @endif
 
@@ -692,6 +704,9 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+
+          
+          
         $(document).ready(function() {
 
             var displayedPriceSpan = $('#itemPrice');

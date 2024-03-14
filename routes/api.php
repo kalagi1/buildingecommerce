@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalPro
 use App\Http\Controllers\Api\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PayController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
