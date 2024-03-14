@@ -68,7 +68,7 @@
                             </div>
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
-                                
+                                  
                                     <span
                                         class="btn 
                                     @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
