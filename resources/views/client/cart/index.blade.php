@@ -334,35 +334,18 @@
                                 </button>
                             @else
                                 @if ($saleType == 'kiralik')
-                                    {{-- <button type="button" id="paymentButton"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        data-target="#paymentModal"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span
-                                            class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
-                                        TL <br> KAPORA ÖDE
-                                    </button> --}}
-                                    <a href="{{ route('payment.index', ['userId' => Auth::user()->id]) }}"
+                                    <a href="{{ route('payment.index') }}"
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                          <span class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
                                      </a>
                                 @else
 
-                                    <a href="{{ route('payment.index', ['userId' => Auth::user()->id]) }}"
+                                    <a href="{{ route('payment.index') }}"
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
                                     </a>
-
-                                    {{-- <button type="button" id="paymentButton"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        data-target="#paymentModal"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span
-                                            class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
-                                        TL <br> KAPORA ÖDE
-                                    </button> --}}
                                 @endif
                             @endif
 
@@ -747,8 +730,8 @@
 
 
             function updateCart(selectedOption) {
-                var qt =
-                    "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
+                var qt = "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
+                   
 
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
 

@@ -18,16 +18,20 @@
                     </div>
                 </div>
             </section>
-            <div class="row">
-
-
+             
+            
+            <div class="row"> 
                 <div class="col-md-12">
                     <div class="tr-single-box">
-                        <div class="tr-single-body">
+                        
+                        <div class="row">
+                            
                             @if (!$cart || empty($cart['item']))
-                                <ul>
-                                    <li>Sepette Ürün Bulunmuyor</td>
-                                </ul>
+                                <div class="tr-single-body">
+                                    <ul>
+                                        <li>Sepette Ürün Bulunmuyor</td>
+                                    </ul>
+                                </div>
                             @else
                                 @php
                                     $housingDiscountAmount = 0;
@@ -60,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 col-lg-12 col-xl-6">
+                <div class="col-md-12 col-lg-12 col-xl-7">
                     <div class="tr-single-box">
                         <div class="tr-single-body">
                             <div class="tr-single-header">
@@ -120,7 +124,7 @@
                                             rows="5">
                                     </div>
 
-                                    <div class="col-7">
+                                    <div class="col-sm-6">
                                         @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
                                             <label for="neighborProjects">Komşunuzun referansıyla mı satın
                                                 alıyorsunuz?</label>
@@ -153,7 +157,7 @@
                                             <input id="checkPay" type="checkbox" name="checkPay">
 
                                             <label for="checkPay" class="m-0 ml-1 text-black">
-                                                <a href="/sayfa/mesafeli-kapora-emanet" target="_blank">
+                                                <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi" target="_blank">
                                                     Mesafeli kapora emanet
                                                 </a>
                                                 sözleşmesini okudum ve kabul ediyorum
@@ -206,7 +210,7 @@
                     $number_of_share = $cart['item']['numbershare'] ?? null;
                 @endphp
 
-                <div class="col-md-12 col-lg-12 col-xl-6">
+                <div class="col-md-12 col-lg-12 col-xl-5">
                     <div class="row">
 
                         <div class="col-md-12" style="background: white !important;">
@@ -273,13 +277,7 @@
                                         </ul>
                                     @endif
                                 </div>
-                                {{-- <div class="coupon-cart-area mb-3">
-                                    <div class="d-flex">
-                                        <input type="text" placeholder="İndirim Kupon Kodu" style="height: 40px;"
-                                            class="form-control coupon-code">
-                                        <button class="btn btn-primary coupon-apply">Uygula</button>
-                                    </div>
-                                </div> --}}
+
                                 @if (!$cart || empty($cart['item']))
                                     <button type="button" class="btn btn-primary btn-lg btn-block"
                                         style="font-size: 11px;margin: 0 auto;"
@@ -287,63 +285,61 @@
                                         Alışverişe Devam Et
                                     </button>
                                 @endif
+                                @if ($saleType == 'kiralik')
+                                    <div>
+                                        <div>Ödenecek Tutar :<strong
+                                                class="button-price-inner pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
+                                                TL</strong></div>
+
+                                    </div>
+                                @else
+                                    <div>
+                                        <div>Ödenecek Tutar :<strong
+                                                class="button-price-inner pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                TL</strong></div>
+
+                                    </div>
+                                @endif
 
 
 
-                            </div>
-                        </div>
+                                {{-- <div class="col-md-12 col-lg-12 col-xl-6">  --}}
+                                <div class="col-md-12" style="background: white !important;">
+                                    <div class="tr-single-body">
+                                        <div class="tr-single-header">
 
-
-                        {{-- <div class="col-md-12 col-lg-12 col-xl-6">  --}}
-                        <div class="col-md-12" style="background: white !important;">
-                            <div class="tr-single-body">
-                                <div class="tr-single-header">
-                                    <h4><i class="far fa-credit-card pr-2"></i>Ödeme Seçenekleri</h4>
-                                </div>
-                                <!-- Paypal Option -->
-                                {{-- <div class="payment-card">
-                                        <header class="payment-card-header cursor-pointer" data-toggle="collapse"
-                                            data-target="#paypal" aria-expanded="true">
-                                            <div class="payment-card-title flexbox">
-                                                <h4>PayPal</h4>
-                                            </div>
-                                            <div class="pull-right">
-                                                <img src="images/paypal.png" class="img-responsive" alt="">
-                                            </div>
-                                        </header>
-                                        <div class="collapse show" id="paypal" role="tablist" aria-expanded="false"
-                                            style="">
-                                            <div class="payment-card-body">
-                                                <div class="row mrg-bot-20">
-                                                    <div class="col-sm-6">
-                                                        <span class="custom-checkbox d-block font-12 mb-2">
-                                                            <input type="checkbox" id="promo1">
-                                                            <label for="promo1"></label>
-                                                            Have a promo code?
-                                                        </span>
-                                                        <input type="text" class="form-control">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_option" id="option1" value="option1" checked>
+                                                        <label class="form-check-label mb-2 offset-md-1" for="option1">
+                                                            Kredi Kartı ile Ödeme
+                                                        </label>
                                                     </div>
-                                                    <div class="col-sm-6 padd-top-10 text-right">
-                                                        <label>Total Order</label>
-                                                        <h2 class="mrg-0"><span class="theme-cl">$</span>950</h2>
-                                                    </div>
-                                                    <div class="col-sm-12 bt-1 padd-top-15 pt-3">
-                                                        <span class="custom-checkbox d-block font-12 mb-3">
-                                                            <input type="checkbox" id="privacy">
-                                                            <label for="privacy"></label>
-                                                            By ordering you are agreeing to our <a href="#"
-                                                                class="theme-cl">Privacy policy</a>.
-                                                        </span>
-                                                        <button type="submit" class="btn btn-m btn-success">Checkout</button>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_option" id="option2" value="option2">
+                                                        <label class="form-check-label mb-2 offset-md-1" for="option2">
+                                                           EFT / Havale ile Ödeme
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
                                         </div>
-                                    </div> --}}
-                                <!-- Debit card option -->
-                                <div class="payment-card ">
+                                    </div>
+                                </div>
+
+                                <div id="payment1" class="payment">
+
+                                    {{-- <div class="payment-card"> --}}
                                     <header class="payment-card-header cursor-pointer collapsed" data-toggle="collapse"
-                                        data-target="#debit-credit" aria-expanded="false">
+                                        data-target="#debit-credit" aria-expanded="true">
                                         <div class="payment-card-title flexbox">
                                             <h4>Kredi / Banka Kartı</h4>
                                         </div>
@@ -351,11 +347,10 @@
                                             <img src="images/credit.png" class="img-responsive" alt="">
                                         </div>
                                     </header>
-                                    <div class="collapse" id="debit-credit" role="tablist" aria-expanded="false"
+                                    <div class="collapse show" id="debit-credit" role="tablist" aria-expanded="false"
                                         style="">
                                         <div class="payment-card-body">
                                             <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
-
                                                 @csrf
                                                 <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
                                                 <input type="hidden" id="fullName2" name="fullName">
@@ -373,10 +368,6 @@
                                                 <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
                                                     value="{{ $cart['item']['payment-plan'] ?? null }}">
                                                 <div class="row mrg-bot-20">
-                                                    {{-- <div class="col-sm-6">
-                                                    <label>Kart Sahibinin Adı</label>
-                                                    <input type="text" class="form-control" placeholder="Chris Seail">
-                                                </div> --}}
                                                     <div class="col-sm-6">
                                                         <label for="creditcard">Kart Numarası</label>
                                                         <input type="text" class="form-control" id="creditcard"
@@ -397,15 +388,13 @@
                                                                 input.value = creditCardNumber;
                                                             }
                                                         </script>
-
-
                                                     </div>
                                                 </div>
                                                 <div class="row mrg-bot-20">
                                                     <div class="col-sm-4 col-md-4">
                                                         <label>Son Kullanma Ayı</label>
                                                         {{-- <input type="number" class="form-control" id="month"
-                                                        name="month" placeholder="09"> --}}
+                                                            name="month" placeholder="09"> --}}
                                                         <select class="form-control" id="month" name="month">
                                                             <option value="01">Ocak</option>
                                                             <option value="02">Şubat</option>
@@ -436,33 +425,33 @@
                                                             ?>
                                                         </select>
                                                         {{-- <input type="number" class="form-control" id="year"
-                                                        name="year" placeholder="2022"> --}}
+                                                            name="year" placeholder="2022"> --}}
                                                     </div>
                                                     {{-- <div class="col-sm-4 col-md-4">
-                                                    <label>CCV Kodu</label>
-                                                    <input type="text" class="form-control" placeholder="258">
-                                                </div> --}}
+                                                        <label>CCV Kodu</label>
+                                                        <input type="text" class="form-control" placeholder="258">
+                                                    </div> --}}
                                                 </div>
                                                 {{-- <div class="row mrg-bot-20">
-                                                <div class="col-sm-7">
-                                                    <span class="custom-checkbox d-block font-12 mb-2">
-                                                        <input type="checkbox" id="promo" name="promo">
-                                                        <label for="promo"></label>
-                                                        Bir promosyon kodunuz var mı?
-                                                    </span>
-                                                    <input type="text" class="form-control">
-                                                </div> --}}
+                                                    <div class="col-sm-7">
+                                                        <span class="custom-checkbox d-block font-12 mb-2">
+                                                            <input type="checkbox" id="promo" name="promo">
+                                                            <label for="promo"></label>
+                                                            Bir promosyon kodunuz var mı?
+                                                        </span>
+                                                        <input type="text" class="form-control">
+                                                    </div> --}}
                                                 {{-- <div class="col-sm-5 padd-top-10 text-right">
-                                                    <label>Toplam Sipariş</label>
-                                                    <h2 class="mrg-0"><span class="theme-cl">₺</span>987</h2>
-                                                </div> --}}
+                                                        <label>Toplam Sipariş</label>
+                                                        <h2 class="mrg-0"><span class="theme-cl">₺</span>987</h2>
+                                                    </div> --}}
                                                 {{-- <div class="col-sm-12 bt-1 padd-top-15 pt-3">
-                                                    <span class="custom-checkbox d-block font-12 mb-3">
-                                                        <input type="checkbox" id="privacy1">
-                                                        <label for="privacy1"></label>
-                                                        Sipariş vererek <a href="#" class="theme-cl">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
-                                                    </span>
-                                                </div> --}}
+                                                        <span class="custom-checkbox d-block font-12 mb-3">
+                                                            <input type="checkbox" id="privacy1">
+                                                            <label for="privacy1"></label>
+                                                            Sipariş vererek <a href="#" class="theme-cl">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
+                                                        </span>
+                                                    </div> --}}
                                         </div>
 
                                         <button type="submit" class="btn btn-success 3dPaySuccess">Ödemeyi
@@ -474,74 +463,85 @@
                                             </svg></button>
                                         </form>
                                     </div>
+                                    {{-- </div> --}}
                                 </div>
 
-
-                                {{-- EFT Havale --}}
-                                <div class="payment-card mb-0">
+                                <div id="payment2" class="payment" style="display: none;">
+                                    {{-- EFT Havale --}}
+                                    {{-- <div class="payment-card mb-0"> --}}
                                     <header class="payment-card-header cursor-pointer collapsed" data-toggle="collapse"
-                                        data-target="#paypal" aria-expanded="false">
+                                        data-target="#paypal" aria-expanded="true">
                                         <div class="payment-card-title flexbox">
                                             <h4>EFT / HAVALE</h4>
                                         </div>
                                     </header>
-                                    <div class="collapse" id="paypal" role="tablist" aria-expanded="false"
+                                    <div class="collapse show" id="paypal" role="tablist" aria-expanded="false"
                                         style="">
-                                        <div class="payment-card-body">
-                                            <div class="invoice-total mt-3">
-                                                <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
-                                                <div class="container row mb-3 mt-3">
-                                                    <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
-                                                            id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                                                        alanına yazdığınızdan emin olun.</span>
+                                        {{-- <div class="payment-card-body"> --}}
+                                        <div class="invoice-total mt-3">
+                                            <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
+                                            <div class="container row mb-3 mt-3">
+                                                <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
+                                                        id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                                    alanına yazdığınızdan emin olun.</span>
 
-                                                    {{-- <div class="row"> --}}
-                                                    @if ($bankAccounts && count($bankAccounts) > 0)
-                                                        @foreach ($bankAccounts as $bankAccount)
-                                                            <div class="col-sm-4 col-md-4 bank-account"
-                                                                data-id="{{ $bankAccount->id }}"
-                                                                data-iban="{{ $bankAccount->iban }}"
-                                                                data-title="{{ $bankAccount->receipent_full_name }}">
-                                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
-                                                                    alt=""
-                                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
-                                                    {{-- </div> --}}
+                                                {{-- <div class="row"> --}}
+                                                @if ($bankAccounts && count($bankAccounts) > 0)
+                                                    @foreach ($bankAccounts as $bankAccount)
+                                                        <div class="col-sm-4 col-md-4 bank-account"
+                                                            data-id="{{ $bankAccount->id }}"
+                                                            data-iban="{{ $bankAccount->iban }}"
+                                                            data-title="{{ $bankAccount->receipent_full_name }}">
+                                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
+                                                                alt=""
+                                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                                @endif
+                                                {{-- </div> --}}
 
-                                                </div>
-                                                <div id="ibanInfo" style="font-size: 12px !important"></div>
-                                                <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                                    <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span>
-                                                    kodu
-                                                    kullanarak ödemenizi
-                                                    yapın. IBAN açıklama
-                                                    alanına
-                                                    bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine
-                                                    tıklayarak
-                                                    işlemi
-                                                    bitirin.</span>
                                             </div>
-                                            <div class="d-flex">
-                                                {{-- @if (Auth::check()) disabled @endif --}}
-                                                <button type="button" class="btn btn-m btn-success mt-5 paySuccess"
-                                                    id="completePaymentButton" style="float:right">Ödemeyi
-                                                    Tamamla
-                                                    <svg viewBox="0 0 576 512" class="svgIcon">
-                                                        <path
-                                                            d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                            </div>
+                                            <div id="ibanInfo" style="font-size: 12px !important"></div>
+                                            <span>Ödeme işlemini tamamlamak için, lütfen bu
+                                                <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span>
+                                                kodu
+                                                kullanarak ödemenizi
+                                                yapın. IBAN açıklama
+                                                alanına
+                                                bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine
+                                                tıklayarak
+                                                işlemi
+                                                bitirin.</span>
                                         </div>
+                                        <div class="d-flex">
+                                            {{-- @if (Auth::check()) disabled @endif --}}
+                                            <button type="button" class="btn btn-m btn-success mt-5 paySuccess"
+                                                id="completePaymentButton" style="float:right">Ödemeyi
+                                                Tamamla
+                                                <svg viewBox="0 0 576 512" class="svgIcon">
+                                                    <path
+                                                        d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        {{-- </div> --}}
                                     </div>
+                                    {{-- </div> --}}
                                 </div>
+
+
+                                <!-- Debit card option -->
+
+
+
+
                             </div>
                             {{-- </div> --}}
                         </div>
-                        @endif
+
+
                     </div>
                 </div>
 
@@ -571,6 +571,14 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+        $(document).ready(function() {
+            $('input[type="radio"]').change(function() {
+                var paymentOption = $(this).val();
+                $('.payment').hide();
+                $('#payment' + paymentOption.substring(paymentOption.length - 1)).show();
+            });
+        });
+
         // Function to format numbers
         function number_format(number, decimals, dec_point, thousands_sep) {
             number = number.toFixed(decimals);
@@ -696,7 +704,7 @@
             });
             $('#completePaymentButton').on('click', function() {
                 if ($('.bank-account.selected').length === 0) {
-                    toastr.error('Lütfen banka seçimi yapınız.')
+                    toastr.error('Lütfen EFT/Havale kart seçimi yapınız.')
                 } else {
                     $('#paymentModal').removeClass('show').hide();
                     $('.modal-backdrop').removeClass('show');
@@ -781,7 +789,7 @@
                 $('#orderKey2').val(orderKey);
                 $('#have_discount2').val(have_discount);
                 $('#discount2').val(discount);
-                // $('#have_discount2').val(have_discount);
+                //$('#have_discount2').val(have_discount);
                 $('#is_swap2').val(is_swap);
                 $("#is_reference2").val(is_reference)
 

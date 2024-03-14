@@ -32,9 +32,9 @@ class PayController extends Controller
     protected $testStoreUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
     
 
-    public function index($userId)
+    public function index()
     {
-        
+        $userId = Auth::user()->id;
         $user = User::find($userId);
         $cart = session()->get('cart', []);
         $bankAccounts = BankAccount::all();
@@ -54,158 +54,7 @@ class PayController extends Controller
         return view('payment.index', compact('user','cart','bankAccounts','saleType'));
     }
 
-    // public function initiate3DPayment(Request $request)
-    // {
-    //     // dd($request->all());
-
-        
-    //     //taksik olacak mı sorulacak
-    //     $requestData = $request->all();
-
-    //     // Kullanıcı bilgilerini al
-    //     $fullName = $requestData['fullName'];
-    //     $email = $requestData['email'];
-    //     $tc = $requestData['tc'];
-    //     $phone = $requestData['phone'];
-    //     $address = $requestData['address'];
-    //     $notes = $requestData['notes'];
-    //     $hasReference = null;
-    //     $isReference = null;
-        
-    //     if ($requestData['reference_code']) {
-    //         $hasReference = User::where('code', $requestData['reference_code'])->first();
-    //     }
-    //     if ($requestData['is_reference']) {
-    //         $isReference = User::where('id', $requestData['is_reference'])->first();
-    //     }
-        
-        
-    //     $key = $requestData['key'];
-    //     $creditcard = $requestData['creditcard'];
-    //     $month = $requestData['month'];
-    //     $year = $requestData['year'];
-    //     $cartJson = $request->input('cart');
-
-        
-    //     // // JSON dizesini diziye dönüştür
-    //     $cartArray = json_decode($cartJson, true);
-      
-    //     // dd($cartArray);
-    //     $storeId = null;
-
-    //     if($cartArray['type'] === 'project'){
-    //         $project = Project::where('id', $cartArray['item']['id'])->first();
-    //         $storeId = $project->user->id;
-    //     }
-    //     else{
-    //         $housing = Housing::where('id', $cartArray['item']['id'])->first();
-    //         $storeId = $housing->user_id;
-    //     }
-       
-
-    //     $amount = $cartArray['item']['amount'] - $cartArray['item']['discount_amount'];
-
-    //     $user = Auth::user(); 
-    //     $userId = $user->id;
-
-    //     $cartOrder = new CartOrder();
-    //     $cartOrder->user_id = $userId;
-    //     $cartOrder->key = $key;
-    //     $cartOrder->status = '2';
-    //     $cartOrder->bank_id = '2';
-    //     $cartOrder->store_id = $storeId;
-    //     $cartOrder->cart = $cartJson;
-    //     $cartOrder->full_Name = $fullName;
-    //     $cartOrder->email = $email;
-    //     $cartOrder->tc = $tc;
-    //     $cartOrder->phone = $phone;
-    //     $cartOrder->notes = $notes;
-    //     $cartOrder->address = $address;
-    //     $cartOrder->is_swap = $cartArray['item']['pesinat']== 'pesin' ? 0 : 1;
-      
-    //     $cartOrder->reference_id = $hasReference ? $hasReference->id : null;
-    //     $cartOrder->is_reference = $isReference ? $isReference->id : null;
-
-    //     $cartOrder->amount = $amount;
-    //     $cartOrder->save();
-
-    //     $existingOrder = CartOrder::where('key', $key)
-    //     ->where('user_id', $userId)
-    //     ->first();
-
-    //     $orderId = $existingOrder->id;
-
-    //     $clientId = '190100000';
-    //     $storeKey = '123456';
-       
-    //     // $orderid = $key;
-    //     $orderid =  $orderId;
-    //     $amount = $amount;
-        
-    //     $installment = '';
-    //     $creditCard = $creditcard;
-    //     $expDateMonth = $month;
-    //     $expDateYear = $year;
-
-    //     $okUrl = url('/resultpaymentsuccess');
-    //     $failUrl = url('/resultpaymentfail');
-    //     $callbackUrl = url('/resultpaymentsuccess');
-
-    //     $url = url('/resultpayment');;
-       
-    //     $transactionType = 'Auth';
-    //     $rnd = '5';
-    //     $storetype = '3d_pay_hosting';
-    //     $hashAlgorithm = 'ver3';
-    //     $currency = '949';
-    //     $lang = 'tr';
-        
-    //     $data = [
-    //         'amount' => $amount,
-    //         'callbackurl' =>  $callbackUrl,
-    //         'clientid' => $clientId,
-    //         'currency' => $currency,
-    //         'Ecom_Payment_Card_ExpDate_Year' =>  $expDateYear,
-    //         'Ecom_Payment_Card_ExpDate_Month' => $expDateMonth,
-    //         'failurl' =>  $failUrl,
-    //         'hashAlgorithm' => $hashAlgorithm,
-    //         'islemtipi' => $transactionType,
-    //         'lang' => $lang,
-    //         'oid' => $orderid,
-    //         'okurl' => $okUrl,
-    //         'pan' => $creditCard,
-    //         'rnd' => $rnd,
-    //         'storetype' => $storetype, 
-    //         'taksit'  => $installment,      
-    //     ];
-        
-    //     // Sıralama sırası
-    //     $order = [
-    //         'amount', 'callbackurl', 'clientid','currency','Ecom_Payment_Card_ExpDate_Month','Ecom_Payment_Card_ExpDate_Year', 'failurl', 'hashAlgorithm',
-    //         'islemtipi','lang','oid', 'okurl','pan' ,'rnd', 'storetype','taksit'
-            
-    //     ];
-
-    //     // Verileri sırala
-    //     $sortedValues = array_map(function ($key) use ($data) {
-    //         return $data[$key];
-    //     }, $order);
-
-        
-    //     // Hash hesapla
-    //     $hashString = implode('|', $sortedValues) . '|';
-    //     $hashString .= str_replace('|', '\\|', str_replace('\\', '\\\\', $storeKey)); // storekey ekle
-    //     //print_r($hashString);die;
-    //     $calculatedHashValue = hash('sha512', $hashString);
-    //     $actualHash = base64_encode(pack('H*', $calculatedHashValue));
-       
-
-    //     $data['hash'] = $actualHash;
-
-    //     return view('payment.pay', $data);
-       
-    // }
-
+    
     public function initiate3DPayment(Request $request)
     {
         $requestData = $request->all();
