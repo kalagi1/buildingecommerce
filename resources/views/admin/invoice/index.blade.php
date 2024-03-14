@@ -76,12 +76,25 @@ function getHouse($project, $key, $roomOrder)
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           
+                                            <tr>
+                                                {{-- <td class="tm_width_2"> <img src="{{ $cart['item']['image'] }}"
+                                                    alt=""
+                                                    style="width:100px;height:100px;object-fit:cover"></td> --}}
+                                                <td class="tm_width_5  tm_border_left" style="width: 100px">
+                                                    <?php
+                                                    if (isset($data['project']['project_title'])) {
+                                                        echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] . '/' . $data['project']['neighbourhood']['mahalle_title'] . '</span>';
+                                                    } else {
+                                                        echo $data['project']['title'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['title'] . '/' . $data['project']['neighborhood']['mahalle_title'] . '</span>';
+                                                    }
+                                                    ?>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            {{-- @if (!$data['invoice']['order']["is_disabled"])
+                            @if (!$data['invoice']['order']["is_disabled"])
                             <div class="tm_invoice_footer">
                                 <div class="tm_left_footer">
                                     <p class="tm_mb2"><b class="tm_primary_color">Ödeme Bilgileri:</b></p>
@@ -108,7 +121,7 @@ function getHouse($project, $key, $roomOrder)
                                     </table>
                                 </div>
                             </div>  
-                            @endif --}}
+                            @endif
                           
                         </div>
                         <div class="tm_padd_15_20 tm_gray_bg">
@@ -123,7 +136,7 @@ function getHouse($project, $key, $roomOrder)
                     </div>
                 </div>
             </div>
-            {{-- <div class="tm_invoice_btns tm_hide_print">
+            <div class="tm_invoice_btns tm_hide_print">
                 <a href="javascript:window.print()" id="tm_download_btn" class="tm_invoice_btn tm_color2">
                     <span class="tm_btn_icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
@@ -135,7 +148,7 @@ function getHouse($project, $key, $roomOrder)
                     </span>
                     <span class="tm_btn_text">Download</span>
                 </a>
-            </div> --}}
+            </div>
         </div>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jspdf.min.js"></script>
