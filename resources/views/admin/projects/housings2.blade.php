@@ -875,7 +875,7 @@
                             </div>
                         </div>
                     </div>
-                @else
+                @elseif(!$sold || $sold && $sold[0]->status == "2" )
                     <td class="price">
 
                         <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal"
