@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en">
-
+    <?php
+    $cart = isset($data['invoice']['order']['cart']) ? json_decode($data['invoice']['order']['cart'], true) : null;
+    ?>
 <head>
     <!-- Meta Tags -->
     <meta charset="utf-8">
