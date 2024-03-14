@@ -75,6 +75,7 @@ function getHouse($project, $key, $roomOrder)
 
                                             </tr>
                                         </thead>
+                                        {{dd($data['project'])}}
                                         {{-- <tbody>
                                             <tr>
                                                 <td class="tm_width_2"> <img src="{{ $cart['item']['image'] }}"
