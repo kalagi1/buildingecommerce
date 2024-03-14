@@ -77,8 +77,7 @@ function getHouse($project, $key, $roomOrder)
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td class="tm_width_2"> <img src="{{ isset($cart['item']['image']) ?  $cart['item']['image'] : null}}"
-                                                    alt=""
+                                                <td class="tm_width_2"> <img src="{{ isset($cart['item']) ?  $cart['item']['image'] : null}}"
                                                     style="width:100px;height:100px;object-fit:cover"></td>
                                                 <td class="tm_width_5  tm_border_left" style="width: 100px">
                                                     <?php
