@@ -101,6 +101,7 @@
                                 $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
                                 $sold_check = $sold && in_array($sold->status, ['1', '0']);
                                 $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+
                             @endphp
 
                             <div class="homes-list-div"
@@ -146,10 +147,10 @@
         @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
             <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 600">
                 @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
+                    {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                     ₺
                 @else
-                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                    {{ number_format($discounted_price, 0, ',', '.') }}
                     ₺
                 @endif
             </h6>
@@ -273,13 +274,12 @@
 
                 </span>
             @else
-            <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && empty($share_sale)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                data-payment-order="{{ isset($blockStart) && $blockStart ? ($i - $blockStart + 1) : ($i + 1 )}}">
-            Ödeme Detayı
-        </button>
-        
+                <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
+                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && empty($share_sale)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                    order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                    data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
+                    Ödeme Detayı
+                </button>
             @endif
         @else
             @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
@@ -297,8 +297,8 @@
                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
                     data-block="{{ $blockName }}"
                     data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
-                    order="{{ $keyIndex }}" 
-                    data-payment-order="{{ isset($blockStart) && $blockStart ? ($i - $blockStart + 1) : ($i + 1 )}}">
+                    order="{{ $keyIndex }}"
+                    data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
 
                     Ödeme Detayı
                 </button>

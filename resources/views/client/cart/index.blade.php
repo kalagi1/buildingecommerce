@@ -141,7 +141,12 @@
                                                 href="{{ $cart['type'] == 'housing'
                                                     ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                     : route('project.housings.detail', [
-                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                        'projectSlug' =>
+                                                            optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                            '-' .
+                                                            optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                            '-' .
+                                                            optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                         'housingOrder' => $cart['item']['housing'],
                                                     ]) }}">
@@ -155,7 +160,12 @@
                                                     href="{{ $cart['type'] == 'housing'
                                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                         : route('project.housings.detail', [
-                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                            'projectSlug' =>
+                                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                             'housingOrder' => $cart['item']['housing'],
                                                         ]) }}">
@@ -212,8 +222,13 @@
                                                 isset($cart['item']['installmentPrice'])
                                                     ? $cart['item']['installmentPrice']
                                                     : $discountedPrice;
+                                            $discountedPrice =
+                                                $itemPrice -
+                                                ($housingDiscountAmount
+                                                    ? $housingDiscountAmount
+                                                    : $projectDiscountAmount);
 
-                                            $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                                            $displayedPrice = number_format($discountedPrice, 0, ',', '.');
                                             $share_sale = $cart['item']['isShare'] ?? null;
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
 
