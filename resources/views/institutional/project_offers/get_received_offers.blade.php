@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="content">
-        <h3 class=" mt-2 mb-4">Alınan Teklifler</h3>
+        <h3 class=" mt-2 mb-4">Gelen Başvurular</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm  border-200 fs--1 mb-0">

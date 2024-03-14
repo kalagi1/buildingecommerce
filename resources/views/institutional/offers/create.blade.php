@@ -80,10 +80,10 @@
                                                 required />
                                         </div>
 
-                                        <div id="renderForm"></div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary" type="submit">Kaydet</button>
-                                        </div>
+                                    <div id="renderForm"></div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                                    </div>
 
                                     </form>
 
@@ -96,8 +96,52 @@
         </div>
     </div>
 @endsection
+
 @section('scripts')
+<script>
+    // Sayfa yüklendiğinde çalışacak fonksiyon
+    $(document).ready(function() {
+        // İndirim tutarı alanını dinle
+        $('#validationCustom01').on('input', function() {
+            // Alanın değerini al
+            var discountAmount = $(this).val();
+            // Alanın değerini noktalarla güncelle
+            $(this).val(addDotsToNumber(discountAmount));
+        });
+    });
+
+    // Noktalarla sayıyı güncelleyen fonksiyon
+    function addDotsToNumber(number) {
+        // Sayıyı önce noktasız hale getir
+        var numberWithoutDots = number.replace(/[^\d]/g, '');
+        // Noktaları ekleyerek güncelle
+        return numberWithoutDots.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+</script>
+
+
+
     <script>
+        // Sayfa yüklendiğinde çalışacak fonksiyon
+        $(document).ready(function() {
+            // İndirim tutarı alanını dinle
+            $('#validationCustom01').on('input', function() {
+                // Alanın değerini al
+                var discountAmount = $(this).val();
+                // Alanın değerini noktalarla güncelle
+                $(this).val(addDotsToNumber(discountAmount));
+            });
+        });
+
+        // Noktalarla sayıyı güncelleyen fonksiyon
+        function addDotsToNumber(number) {
+            // Sayıyı önce noktasız hale getir
+            var numberWithoutDots = number.replace(/[^\d]/g, '');
+            // Noktaları ekleyerek güncelle
+            return numberWithoutDots.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+
         $('#type').on('change', function() {
             switch ($(this).val()) {
                 case "housing":
@@ -111,22 +155,23 @@
                     break;
             }
         });
-
-        $('#select-all-ph').on('click', function() {
-            $('#project_housings option').prop('selected', true);
+        $('#select-all-ph').on('change', function() {
+            var isChecked = $(this).prop('checked');
+            $('#project_housings_options input[type="checkbox"]:not(:disabled)').prop('checked', isChecked);
         });
+
 
         $('#project_id').change(function() {
             var selectedProject = $(this).val(); // Seçilen şehir değerini al
-            var countiesSelect = $('#project_housings'); // counties id'li select'i seç
+            var countiesSelect = $('#project_housings_options'); // counties id'li select'i seç
 
             $.ajax({
                 url: '{{ route('institutional.offers.get-project-housings') }}', // Endpoint URL'si (get.counties olarak varsayalım)
                 method: 'GET',
                 data: {
                     id: selectedProject
-                }, 
-                dataType: 'json', 
+                },
+                dataType: 'json',
                 beforeSend: function() {
                     countiesSelect.html('<option value="">"#' + selectedProject + '" numaralı projeye ait konutlar yükleniyor...</option>');
                 },
@@ -139,6 +184,7 @@
                         }));
                     }
                 },
+
                 error: function(xhr, status, error) {
                     // Hata durumunda çalışacak kod
                     console.error('Hata: ' + error);
@@ -146,5 +192,4 @@
             });
         });
     </script>
-    @stack('scripts')
 @endsection

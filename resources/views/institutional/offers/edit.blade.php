@@ -27,21 +27,27 @@
                                 <div class="p-4">
 
                                     <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                        action="{{ route('institutional.offers.update', ['offer' => $offer->id]) }}" enctype="multipart/form-data">
+                                        action="{{ route('institutional.offers.update', ['offer' => $offer->id]) }}"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         @method('put')
-                                        <input type="hidden" name="id" value="<?=$offer->id?>"/>
+                                        <input type="hidden" name="id" value="<?= $offer->id ?>" />
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">İndirim Tutarı (TL)</label>
                                             <input name="discount_amount" class="form-control" id="validationCustom01"
-                                                type="number" min="0" value="{{$offer->discount_amount}}" required="">
+                                                type="text" value="{{ number_format($offer->discount_amount, 0, ',', '.') }}"
+                                                required="">
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
+                                        
+                                        
                                         <div class="col-md-6">
                                             <label for="#" class="form-label">Türü</label>
                                             <select class="form-control" name="type" id="type">
-                                                <option value="housing"{{ $offer->type == 'housing' ? ' selected' : null }}>Konut</option>
-                                                <option value="project"{{ $offer->type == 'project' ? ' selected' : null }}>Proje</option>
+                                                <option value="housing"{{ $offer->type == 'housing' ? ' selected' : null }}>
+                                                    Konut</option>
+                                                <option value="project"{{ $offer->type == 'project' ? ' selected' : null }}>
+                                                    Proje</option>
                                             </select>
                                         </div>
                                         <div class="col-md-6 item-housing" {!! $offer->type == 'project' ? "style=\"display: none;\"" : null !!}>
@@ -49,31 +55,39 @@
                                             <select name="housing_id" id="housing_id" class="form-control">
                                                 <option value="#" selected disabled></option>
                                                 @foreach ($housings as $housing)
-                                                    <option value="{{ $housing->id }}"{{ $offer->housing_id == $housing->id ? ' selected' : null }}>{{ $housing->title }}</option>
+                                                    <option
+                                                        value="{{ $housing->id }}"{{ $offer->housing_id == $housing->id ? ' selected' : null }}>
+                                                        {{ $housing->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-12 item-project" {!! $offer->type == 'housing' ? "style=\"display: none;\"" : null !!}>
                                             <label class="form-label" for="validationCustom01">Proje</label>
                                             <select name="project_id" class="form-control" id="project_id">
-                                                @foreach($projects as $project)
-                                                    <option value="{{$project->id}}"{{$project->id == $offer->project_id ? ' selected' : null}}>{{$project->project_title}}</option>
+                                                @foreach ($projects as $project)
+                                                    <option
+                                                        value="{{ $project->id }}"{{ $project->id == $offer->project_id ? ' selected' : null }}>
+                                                        {{ $project->project_title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-12 item-project" {!! $offer->type == 'housing' ? "style=\"display: none;\"" : null !!}>
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
-                                            <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm Konutları</a>
-                                            <select name="project_housings[]" class="form-control" id="project_housings" multiple>
+                                            <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm
+                                                Konutları</a>
+                                            <select name="project_housings[]" class="form-control" id="project_housings"
+                                                multiple>
                                             </select>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Başlangıç Tarihi</label>
-                                            <input type="date" name="start_date" class="form-control" value="{{$offer->start_date}}" id="start_date" required/>
+                                            <input type="date" name="start_date" class="form-control"
+                                                value="{{ $offer->start_date }}" id="start_date" required />
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Bitiş Tarihi</label>
-                                            <input type="date" name="end_date" class="form-control" value="{{$offer->end_date}}" id="end_date" required/>
+                                            <input type="date" name="end_date" class="form-control"
+                                                value="{{ $offer->end_date }}" id="end_date" required />
                                         </div>
 
                                         <div id="renderForm"></div>
@@ -94,10 +108,27 @@
 @endsection
 @section('scripts')
     <script>
-        $('#type').on('change', function()
-        {
-            switch ($(this).val())
-            {
+         // Sayfa yüklendiğinde çalışacak fonksiyon
+         $(document).ready(function() {
+            // İndirim tutarı alanını dinle
+            $('#validationCustom01').on('input', function() {
+                // Alanın değerini al
+                var discountAmount = $(this).val();
+                // Alanın değerini noktalarla güncelle
+                $(this).val(addDotsToNumber(discountAmount));
+            });
+        });
+
+        // Noktalarla sayıyı güncelleyen fonksiyon
+        function addDotsToNumber(number) {
+            // Sayıyı önce noktasız hale getir
+            var numberWithoutDots = number.replace(/[^\d]/g, '');
+            // Noktaları ekleyerek güncelle
+            return numberWithoutDots.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        $('#type').on('change', function() {
+            switch ($(this).val()) {
                 case "housing":
                     $('.item-housing').slideDown();
                     $('.item-project').slideUp();
@@ -110,47 +141,81 @@
             }
         });
 
-        $('#select-all-ph').on('click', function()
-        {
+        $('#select-all-ph').on('click', function() {
             $('#project_housings option').prop('selected', true);
         });
 
-        $('#project_id').change(function(){
-          var selectedProject = $(this).val(); // Seçilen şehir değerini al
-          let t = false;
-          // AJAX isteği yap
-          $.ajax({
-              url: '{{route("institutional.offers.get-project-housings")}}', // Endpoint URL'si (get.counties olarak varsayalım)
-              method: 'GET',
-              data: { id: selectedProject }, // Şehir verisini isteğe ekle
-              dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
-              success: function(response) {
-                  // Yanıt başarılı olduğunda çalışacak kod
-                  var countiesSelect = $('#project_housings'); // counties id'li select'i seç
-                  countiesSelect.empty(); // Select içeriğini temizle
+        $('#project_id').change(function() {
+            var selectedProject = $(this).val(); // Seçilen şehir değerini al
+            let t = false;
+            var countiesSelect = $('#project_housings'); // counties id'li select'i seç
 
-                  // Dönen yanıttaki ilçeleri döngüyle ekleyin
-                  for (var i = 0; i < response.length; i++) {
-                      countiesSelect.append($('<option>', {
-                          value: response[i]._ROOM_ORDER, // İlçe ID'si
-                          text: response[i].label // İlçe adı
-                      }));
-                  }
+            $.ajax({
+                url: '{{ route('institutional.offers.get-project-housings') }}', // Endpoint URL'si (get.counties olarak varsayalım)
+                method: 'GET',
+                data: {
+                    id: selectedProject
+                }, // Şehir verisini isteğe ekle
+                dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
+                beforeSend: function() {
+                    selectedProject = (parseInt(selectedProject) + 1000000).toString();
+                    countiesSelect.html('<div class="text-center">"#' + selectedProject +
+                        '" numaralı projeye ait konutlar yükleniyor...</div>');
+                },
+                success: function(response) {
+                    // Yanıt başarılı olduğunda çalışacak kod
+                    countiesSelect.empty(); // Select içeriğini temizle
+                    for (var i = 0; i < response.data.room_count; i++) {
+                        var optionText = (i + 1) + " No'lu Daire";
+                        var optionValue = i + 1;
+                        var disabled = response.data.selected_housings.includes(optionValue
+                            .toString());
 
-                  if (!t)
-                  {
-                      $('#project_housings').val({!! $offer->project_housings !!});
-                      t = true;
-                  }
-              },
-              error: function(xhr, status, error) {
-                  // Hata durumunda çalışacak kod
-                  console.error('Hata: ' + error);
-              }
-          });
-      });
+                        var checkbox = $('<input>', {
+                            type: 'checkbox',
+                            value: optionValue,
+                            id: 'housing_' + optionValue,
+                            class: 'form-check-input',
+                            disabled: disabled
+                        });
 
-      $('#project_id').trigger('change');
+                        if (disabled) {
+                            checkbox.prop('checked', false);
+                        }
+
+                        var label = $('<label>', {
+                            for: 'housing_' + optionValue,
+                            class: 'form-check-label',
+                            text: optionText
+                        });
+
+                        var formCheck = $('<div>', {
+                            class: 'form-check'
+                        });
+
+                        formCheck.append(checkbox);
+                        formCheck.append(label);
+
+                        // Checkbox elementini seçeneklere ekle
+                        countiesSelect.append(formCheck);
+                    }
+                    // Projeye ait konutlar seçildiğinde JSON verisi oluştur
+                    $('input[type="checkbox"]').on('change', function() {
+                        var selectedHousings = [];
+                        $('input[type="checkbox"]:checked').each(function() {
+                            selectedHousings.push($(this).val());
+                        });
+                        $('#housing_ids').val(JSON.stringify(selectedHousings));
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Hata durumunda çalışacak kod
+                    console.error('Hata: ' + error);
+                }
+            });
+        });
+
+        $('#project_id').trigger('change');
     </script>
     @stack('scripts')
 @endsection

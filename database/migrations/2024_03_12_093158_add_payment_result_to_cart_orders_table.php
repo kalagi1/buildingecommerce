@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('project_offers', function (Blueprint $table) {
-            $table->integer("city_id")->nullable();
-            $table->integer("county_id")->nullable();
-
+        Schema::table('cart_orders', function (Blueprint $table) {
+           
+            $table->json('payment_result')->nullable();
+            
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('project_offers', function (Blueprint $table) {
+        Schema::table('cart_orders', function (Blueprint $table) {
             //
         });
     }

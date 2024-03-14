@@ -8,7 +8,7 @@
                 <div class="homes">
                     <div class="homes-img h-100 d-flex align-items-center"
                         style="width: 115px; height: 128px;">
-                        <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                        <img loading="lazy" src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive"
                             style="height: 80px !important;">
                     </div>
@@ -57,7 +57,7 @@
                             @else 
                             style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                     <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
+                                        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                                     </span>
                                     @if ($sold == '0')
                                         <span class="text">Rezerve Edildi</span>
@@ -69,7 +69,7 @@
                                 <button class="CartBtn mobileCBtn" data-type='housing'
                                     data-id='{{ $housing->id }}'>
                                     <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
+                                        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
 
                                     </span>
                                     <span class="text">Sepete Ekle</span>
@@ -80,7 +80,7 @@
                         <button onclick="redirectToReservation()"
                             class="reservationBtn mobileCBtn">
                             <span class="IconContainer">
-                                <img src="{{ asset('sc.png') }}" alt="">
+                                <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                             </span>
                             <span class="text">Rezervasyon Yap</span>
                         </button>

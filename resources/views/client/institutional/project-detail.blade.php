@@ -67,7 +67,7 @@
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($institutional->name), 'userID' => $institutional->id]) }}">Emlak
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('institutional.teams', ['slug' => Str::slug($institutional->name), 'userID' => $institutional->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ['slug' => Str::slug($institutional->name), 'userID' => $institutional->id]) }}">Ekibimiz</a>
                         </div>
                         <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf

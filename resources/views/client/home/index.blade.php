@@ -114,7 +114,7 @@
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
-                                            <img src="{{ asset('images/al-sat-acil.png') }}" alt="Al Sat Acil"
+                                            <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}" alt="Al Sat Acil"
                                                 class="img-responsive brand-image-pp" style="border:5px solid #F4A226">
                                             <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
@@ -143,7 +143,7 @@
 
                                                     <div class="profile-initial">{{ $nameInitials }}</div>
                                                 @else
-                                                    <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                    <img loading="lazy" src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                         alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
                                                 @endif
                                                 <span
@@ -349,7 +349,7 @@
                                             aria-label="Close">
                                             <i class="fa fa-close"></i>
                                         </button>
-                                        <div class="offer-content"><img src="{{ asset('popup2.jpeg') }}"
+                                        <div class="offer-content"><img loading="lazy" src="{{ asset('popup2.jpeg') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
                                             <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
                                                 kadar paylaş; paylaştıkça kazan!</h2>
