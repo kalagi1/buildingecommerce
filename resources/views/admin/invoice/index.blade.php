@@ -136,7 +136,7 @@ function getHouse($project, $key, $roomOrder)
                     </div>
                 </div>
             </div>
-            {{-- <div class="tm_invoice_btns tm_hide_print">
+            <div class="tm_invoice_btns tm_hide_print">
                 <a href="javascript:window.print()" id="tm_download_btn" class="tm_invoice_btn tm_color2">
                     <span class="tm_btn_icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
@@ -148,7 +148,7 @@ function getHouse($project, $key, $roomOrder)
                     </span>
                     <span class="tm_btn_text">Download</span>
                 </a>
-            </div> --}}
+            </div>
         </div>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jspdf.min.js"></script>
