@@ -59,7 +59,7 @@ function getHouse($project, $key, $roomOrder)
                                     class="tm_primary_color"><?php echo isset($data['invoice']['created_at']) ? $data['invoice']['created_at'] : ''; ?></b></p>
                         </div>
                     </div>
-                    {{-- <div class="tm_invoice_details">
+                    <div class="tm_invoice_details">
                         <div class="tm_table tm_style1 tm_mb30">
                             <div class="tm_border">
                                 <div class="tm_table_responsive">
@@ -133,7 +133,7 @@ function getHouse($project, $key, $roomOrder)
                                 <li>İletişim No: <?php echo isset($data['project']['user']['phone']) ? $data['project']['user']['phone'] : ''; ?></li>
                             </ul>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
             {{-- <div class="tm_invoice_btns tm_hide_print">
