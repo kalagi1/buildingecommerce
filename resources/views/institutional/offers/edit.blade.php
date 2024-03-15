@@ -75,9 +75,9 @@
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
                                             <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm
                                                 Konutları</a>
-                                            <select name="project_housings[]" class="form-control" id="project_housings"
-                                                multiple>
-                                            </select>
+                                                <div id="project_housings_options" style="height: 200px; overflow-y: scroll;">
+                                                    <!-- Seçenekler burada dinamik olarak oluşturulacak -->
+                                                </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Başlangıç Tarihi</label>
