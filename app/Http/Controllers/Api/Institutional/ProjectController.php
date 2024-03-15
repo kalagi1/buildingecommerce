@@ -212,15 +212,15 @@ class ProjectController extends Controller
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+$encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45); // 45 derece çapraz döndürme
             $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
         }
 
@@ -277,15 +277,15 @@ class ProjectController extends Controller
                 $imageWidth = $imageMg->width();
                 $imageHeight = $imageMg->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
                 $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded = $imageMg->place(public_path('images/filigran2.png'),'center',10,10,10);
                 $encoded->save(public_path('storage/project_images/'.$newFileName));
 
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
@@ -304,15 +304,15 @@ class ProjectController extends Controller
                 $imageWidth = $imageMg->width();
                 $imageHeight = $imageMg->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
                 $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded = $imageMg->place(public_path('images/filigran2.png'),'center',10,10,10);
                 $encoded->save(public_path('situation_images/'.$newFileName));
 
                 $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
@@ -434,15 +434,15 @@ class ProjectController extends Controller
                             $imageWidth = $imageMg->width();
                             $imageHeight = $imageMg->height();
 
-                            if($imageWidth > 450){
-                                $newWidth = 450;
-                                $newHeight = $imageHeight * 450 / $imageWidth;
+                            if($imageWidth > 1200){
+                                $newWidth = 1200;
+                                $newHeight = $imageHeight * 1200 / $imageWidth;
                             }else{
                                 $newWidth = $imageWidth;
                                 $newHeight = $imageHeight;
                             }
                             $imageMg->resize($newWidth, $newHeight);
-                            $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                            $encoded = $imageMg->place(public_path('images/filigran2.png'),'center',10,10,10);
                             $encoded->save(public_path('project_housing_images/'.$newFileName));
 
                             ProjectHousing::create([
@@ -529,15 +529,15 @@ class ProjectController extends Controller
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+$encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45); // 45 derece çapraz döndürme
             $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
 
             $fileDb = 'public/project_images/'.$fileNameCoverImage;
@@ -605,15 +605,15 @@ class ProjectController extends Controller
                     $imageWidth = $imageMg->width();
                     $imageHeight = $imageMg->height();
     
-                    if($imageWidth > 450){
-                        $newWidth = 450;
-                        $newHeight = $imageHeight * 450 / $imageWidth;
+                    if($imageWidth > 1200){
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
                     }else{
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
                     }
                     $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                    $encoded = $imageMg->place(public_path('images/filigran2.png'),'center',10,10,10);
                     $encoded->save(public_path('storage/project_images/'.$newFileName));
     
                     $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
@@ -634,15 +634,15 @@ class ProjectController extends Controller
                     $imageWidth = $imageMg->width();
                     $imageHeight = $imageMg->height();
     
-                    if($imageWidth > 450){
-                        $newWidth = 450;
-                        $newHeight = $imageHeight * 450 / $imageWidth;
+                    if($imageWidth > 1200){
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
                     }else{
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
                     }
                     $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
+                    $encoded = $imageMg->place(public_path('images/filigran2.png'),'center',10,10,10);
                     $encoded->save(public_path('situation_images/'.$newFileName));
     
                     $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
@@ -717,16 +717,16 @@ class ProjectController extends Controller
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+$encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45); // 45 derece çapraz döndürme
             $encoded->save(public_path('housing_images/'.$fileNameCoverImage));
         }
 
@@ -755,16 +755,16 @@ class ProjectController extends Controller
             $image = $manager->read(public_path('housing_images/'.$fileNameGalleryImage));
             $imageWidth = $image->width();
             $imageHeight = $image->height();
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+$encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45); // 45 derece çapraz döndürme
             $encoded->save(public_path('housing_images/'.$fileNameGalleryImage));
             array_push($galleryImages,$fileNameGalleryImage);
         }
