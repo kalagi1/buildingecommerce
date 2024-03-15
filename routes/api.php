@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
-
+Route::get('/my_projects',[InstitutionalProjectController::class,"index"]);
 Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
 
 
