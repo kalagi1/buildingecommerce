@@ -49,7 +49,7 @@
 
                                             <td class="order_name">
                                                 Alıcı Adı: {{ $user->owner->name }} <br>
-                                                Alıcı İletişim No: {{ $user->owner->mobile_phone }}</td>
+                                                Alıcı İletişim No: {{ $user->owner->mobile_phone ? $user->owner->mobile_phone : $user->owner->phone }}</td>
 
                                             <td class="order_name">250 TL</td>
                                             <td class="order_date">
