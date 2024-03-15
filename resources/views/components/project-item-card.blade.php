@@ -540,8 +540,11 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
                         </li>
-                        <li class="list-group-item" style="width:100%">Telefon:
-                            {{ isset($sold->phone) ? $sold->phone : null }}</li>
+                        <li class="list-group-item" style="width:100%">
+                            Telefon:
+                            {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
+                        </li>
+                        
 
                     </ul>
                 </div>
