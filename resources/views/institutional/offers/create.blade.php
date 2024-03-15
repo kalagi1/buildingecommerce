@@ -130,6 +130,7 @@
                 case "housing":
                     $('.item-housing').slideDown();
                     $('.item-project').slideUp();
+                    $(".item-project-housings").slideUp();
                     break;
 
                 case "project":
