@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Api\Client\HousingController;
+use App\Http\Controllers\Api\Client\MenuController;
 use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalProjectController;
 
 
@@ -33,5 +34,7 @@ Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
 Route::get('dashboard-statuses',[HousingController::class,'getDashboardStatuses']);
 
 Route::get('/real-estates',[RealEstateController::class,'getRealEstates']);
+
+Route::get('/menu-list',[MenuController::class,'getMenuList']);
 
 
