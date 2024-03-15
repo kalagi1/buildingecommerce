@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalProjectController;
-use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\Client\ProjectController;
+use App\Http\Controllers\Api\Client\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects']);
 
-Route::get('/my_projects',[InstitutionalProjectController::class,"index"]);
+Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
+
+
