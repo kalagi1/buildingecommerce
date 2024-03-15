@@ -71,7 +71,7 @@
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
     <script>
-        var siteUrl = "{{ URL::to('/') }}/"; // Site URL'si
+        var siteUrl = "{{ URL::to('/') }}/storage/"; // Site URL'si
 
         var projects = @json($offers);
 
