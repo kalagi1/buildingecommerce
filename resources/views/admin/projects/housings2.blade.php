@@ -333,7 +333,7 @@
                                                     @endif
                                                 </td>
 
-                                                @if ($sold && $sold[0]->status == 1)
+                                                @if ($sold && $sold[0]->status == 1 && $sold[0]->is_disabled == 1)
                                                     <td class="price">
                                                         @if (isset($sold[0]))
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
@@ -797,16 +797,19 @@
                 @endif
                 @endif
                 </td>
-                @if ($sold && $sold[0]->status == 1)
+                @if ($sold && $sold[0]->status == 1 )
                     <td class="price">
                         @if (isset($sold[0]))
                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş Detayı</a>
                         @endif
+                        @if ($sold[0]->is_disabled == 1)
                         <a href="#" class="badge badge-phoenix badge-phoenix-info value-text"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">
-                            Komşumu Düzenle
-                        </a>
+                        data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">
+                        Komşumu Düzenle
+                    </a>  
+                        @endif
+                       
                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                             class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                     </td>
@@ -877,11 +880,14 @@
                     </div>
                 @else
                     <td class="price">
-
+                        @if (!$sold || $sold && $sold[0]->status == "2" )
                         <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal{{ $i + 1 }}">
-                            Komşumu Gör
-                        </a><br>
+                        data-bs-target="#exampleModal{{ $i + 1 }}">
+                        Komşumu Gör
+                    </a><br>
+                        @endif
+
+                     
 
                         {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                             class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}

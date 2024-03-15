@@ -175,7 +175,8 @@ class ProjectController extends Controller
                     'cart_orders.is_show_user',
                     'cart_orders.id',
                     'users.name',
-                    'users.mobile_phone'
+                    'users.mobile_phone',
+                    'users.phone'
                 )
                 ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
@@ -261,7 +262,8 @@ class ProjectController extends Controller
                     'cart_orders.is_show_user',
                     'cart_orders.id',
                     'users.name',
-                    'users.mobile_phone'
+                    'users.mobile_phone',
+                    'users.phone'
                 )
                 ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
@@ -887,7 +889,8 @@ class ProjectController extends Controller
                     'cart_orders.is_show_user',
                     'cart_orders.id',
                     'users.name',
-                    'users.mobile_phone'
+                    'users.mobile_phone',
+                    'users.phone'
                 )
                 ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
@@ -1017,7 +1020,8 @@ class ProjectController extends Controller
             'cart_orders.is_show_user',
             'cart_orders.id',
             'users.name',
-            'users.mobile_phone'
+            'users.mobile_phone',
+            'users.phone'
         )
         ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
         ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
@@ -1162,7 +1166,6 @@ class ProjectController extends Controller
     //Teklif Yanıtı
     public function offer_response(Request $request)
     {
-        // print_r($request->all());die;
 
         $response         = $request->input('response');
         $email            = $request->input('email');

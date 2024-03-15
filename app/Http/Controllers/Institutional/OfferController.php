@@ -41,7 +41,7 @@ class OfferController extends Controller {
         ] );
 
         $offer = new Offer();
-        $discount_amount = str_replace( ',', '', $request->input( 'discount_amount' ) );
+        $discount_amount = str_replace( '.', '', $request->input( 'discount_amount' ) );
         $offer->discount_amount = ( float ) $discount_amount;
         $offer->type = $request->input( 'type' );
         $offer->start_date = $request->input( 'start_date' );

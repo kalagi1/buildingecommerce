@@ -52,9 +52,9 @@
                 <div class="homes">
                     <!-- homes img -->
                     <div class="homes-img h-100 d-flex align-items-center" style="width: 100px; height: 128px;">
-                        {{-- <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
+                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$keyIndex]['image[]'] }}"
                             alt="{{ $project->housingType->title }}" class="img-responsive"
-                            style="height: 95px !important;"> --}}
+                            style="height: 95px !important;">
                     </div>
 
                     <span class="mobileNoStyle">
@@ -311,13 +311,16 @@
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
                                             </li>
-                                            <li class="list-group-item" style="width:100%">Telefon:
-                                                {{ $sold->mobile_phone }}</li>
+                                            <li class="list-group-item" style="width:100%">
+                                                Telefon:
+                                                {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
+                                            </li>
+                                            
 
                                         </ul>
                                     </div>
                                     <div class="modal-footer" style="justify-content: end !important">
-                                        <a href="tel:{{ $sold->mobile_phone }}"><button class="btn btn-success"
+                                        <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                                                 style="width:100px">Ara</button></a>
 
                                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"

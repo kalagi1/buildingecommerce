@@ -68,8 +68,7 @@
                             </div>
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
-                                    {{isset($sold) $sold->status}}
-                                    {{$projectHousingsList[$keyIndex]['off_sale[]']}}
+                                  
                                     <span
                                         class="btn 
                                     @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
@@ -541,13 +540,17 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
                         </li>
-                        <li class="list-group-item" style="width:100%">Telefon:
-                            {{ $sold->mobile_phone }}</li>
+                        <li class="list-group-item" style="width:100%">
+                            Telefon:
+                            {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
+                        </li>
+                        
 
                     </ul>
                 </div>
                 <div class="modal-footer" style="justify-content: end !important">
-                    <a href="tel:{{ $sold->mobile_phone }}"><button class="btn btn-success"
+                   
+                    <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                             style="width:100px">Ara</button></a>
 
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"

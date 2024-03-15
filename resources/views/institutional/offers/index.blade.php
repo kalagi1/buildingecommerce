@@ -94,7 +94,7 @@
             var image = document.createElement("img"); // Görsel öğesi oluştur
             image.className = "project-image w-full"; // CSS sınıfı ekle
             if (projectType === 'project') { // Eğer proje tipi 'project' ise
-                image.src = siteUrl + project.project.image; // Proje görselini belirle
+                image.src = siteUrl + project.project.image.replace('public/', ''); // Proje görselini belirle
             } else if (projectType === 'housing') { // Eğer proje tipi 'housing' ise
                 var jsonParse = JSON.parse(project.housing.housing_type_data);
 

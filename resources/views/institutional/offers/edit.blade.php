@@ -75,9 +75,11 @@
                                             <label class="form-label" for="validationCustom01">Projeye Ait Konutlar</label>
                                             <a href="#" class="small float-right" id="select-all-ph">Projenin Tüm
                                                 Konutları</a>
-                                            <select name="project_housings[]" class="form-control" id="project_housings"
-                                                multiple>
-                                            </select>
+                                                <input type="hidden" name="housing_ids" id="housing_ids">
+
+                                                <div id="project_housings_options" style="height: 200px; overflow-y: scroll;">
+                                                    <!-- Seçenekler burada dinamik olarak oluşturulacak -->
+                                                </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">Başlangıç Tarihi</label>
@@ -141,14 +143,15 @@
             }
         });
 
-        $('#select-all-ph').on('click', function() {
-            $('#project_housings option').prop('selected', true);
+        $('#select-all-ph').on('change', function() {
+            var isChecked = $(this).prop('checked');
+            $('#project_housings_options input[type="checkbox"]:not(:disabled)').prop('checked', isChecked);
         });
 
         $('#project_id').change(function() {
             var selectedProject = $(this).val(); // Seçilen şehir değerini al
             let t = false;
-            var countiesSelect = $('#project_housings'); // counties id'li select'i seç
+            var countiesSelect = $('#project_housings_options'); // counties id'li select'i seç
 
             $.ajax({
                 url: '{{ route('institutional.offers.get-project-housings') }}', // Endpoint URL'si (get.counties olarak varsayalım)
@@ -163,7 +166,7 @@
                         '" numaralı projeye ait konutlar yükleniyor...</div>');
                 },
                 success: function(response) {
-                    // Yanıt başarılı olduğunda çalışacak kod
+                    $('.item-project-housings').slideDown();
                     countiesSelect.empty(); // Select içeriğini temizle
                     for (var i = 0; i < response.data.room_count; i++) {
                         var optionText = (i + 1) + " No'lu Daire";
