@@ -1,8 +1,12 @@
 <?php
 
+
 use App\Http\Controllers\Api\Client\HousingController;
 use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalProjectController;
+
+
 use App\Http\Controllers\Api\Client\ProjectController;
+use App\Http\Controllers\Api\Client\RealEstateController;
 use App\Http\Controllers\Api\Client\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +29,9 @@ Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects
 
 Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
 
+
 Route::get('dashboard-statuses',[HousingController::class,'getDashboardStatuses']);
+
+Route::get('/real-estates',[RealEstateController::class,'getRealEstates']);
+
+
