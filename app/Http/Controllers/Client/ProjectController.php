@@ -196,14 +196,15 @@ class ProjectController extends Controller
             $projectHousingsList = [];
             $salesCloseProjectHousingCount = 0;
 
-            $projectHousings->each(function ($item) use (&$projectHousingsList, &$salesCloseProjectHousingCount) {
+            $projectHousings->each(function ($item) use (&$projectHousingsList, &$salesCloseProjectHousingCount, &$projectCartOrders) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;
                 if ($item->name == "off_sale[]") {
-                    if ($projectHousingsList[$item->room_order][$item->name] !== "[]") {
+                    if (isset($projectHousingsList[$item->room_order][$item->name]) &&  $projectHousingsList[$item->room_order][$item->name] !== "[]" && !isset($projectCartOrders[$item->room_order])) {
                         $salesCloseProjectHousingCount++;
                     }
                 }
             });
+            
 
 
 
@@ -314,7 +315,7 @@ class ProjectController extends Controller
         $projectHousings->each(function ($item) use (&$projectHousingsList, &$salesCloseProjectHousingCount) {
             $projectHousingsList[$item->room_order][$item->name] = $item->value;
             if ($item->name == "off_sale[]") {
-                if ($projectHousingsList[$item->room_order][$item->name] !== "[]") {
+                if ($projectHousingsList[$item->room_order][$item->name]->value !== "[]") {
                     $salesCloseProjectHousingCount++;
                 }
             }
