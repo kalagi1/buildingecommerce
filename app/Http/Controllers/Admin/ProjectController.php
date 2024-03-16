@@ -139,7 +139,7 @@ class ProjectController extends Controller {
             $reason = $request->input( 'reason' );
 
             $notificationText = 'Üzgünüz, Proje #' . $projectId . ' "' . $reason . '" sebebinden dolayı reddedildi.';
-            $notificationLink = route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug ] );
+            $notificationLink = route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug ,  'project_id' => $project->id] );
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -189,7 +189,7 @@ class ProjectController extends Controller {
                 }
             }
         } else {
-            $notificationText = 'Proje #' . $projectId . ' pasife alındı. Proje detaylarını güncellemek için [Buraya Tıklayınız](' . route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug ] ) . ').';
+            $notificationText = 'Proje #' . $projectId . ' pasife alındı. Proje detaylarını güncellemek için [Buraya Tıklayınız](' . route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug,  'project_id' => $project->id ] ) . ').';
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -268,7 +268,7 @@ class ProjectController extends Controller {
                     'user_id' => auth()->user()->id,
                     'text' => "#".$projectId." No'lu projeniz pasife alındı!",
                     'item_id' => $project->id,
-                    'link' => route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug ] ),
+                    'link' => route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug, 'project_id' => $project->id ] ),
                     'owner_id' => $project->user->id,
                     'is_visible' => true,
                 ]

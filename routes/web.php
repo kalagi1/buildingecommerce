@@ -77,7 +77,6 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\NotificationController as ControllersNotificationController;
-use App\Http\Controllers\NestPayController;
 use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
@@ -160,7 +159,7 @@ Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::cla
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 
-Route::get('/payment/{userId}', [PayController::class, 'index'])->name('payment.index');
+Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
 Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
@@ -960,7 +959,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
 
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
     Route::get('/edit_project_v2/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV2"])->name('project.edit.v2');
-    Route::get('/edit_project_v3/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV3"])->name('project.edit.v2');
+    Route::get('/edit_project_v3/{projectSlug}/{project_id}', [InstitutionalProjectController::class, "editV3"])->name('project.edit.v3');
     Route::get('/get_housing_type_childrens/{parentSlug}', [InstitutionalProjectController::class, "getHousingTypeChildren"])->name('get.housing.type.childrens');
     Route::get('/projects/{project_id}/logs', [InstitutionalProjectController::class, 'logs'])->name('projects.logs');
     Route::get('/housings/{housing_id}/logs', [InstitutionalHousingController::class, 'logs'])->name('housing.logs');
