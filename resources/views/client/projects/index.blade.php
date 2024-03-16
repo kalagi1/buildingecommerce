@@ -196,9 +196,7 @@
                     <div class="headings-2 pt-0 pb-0">
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                            <div class="homes-tag button alt featured mobileTagProject">
-                                <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                            </div>
+                            
                             <div class="carousel-inner">
                                 <div class="item carousel-item active" data-slide-number="1">
                                     <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
@@ -219,12 +217,6 @@
                                     </div>
                                 @endforeach
 
-
-                                {{-- Carousel Kontrolleri --}}
-                                <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                        class="fa fa-angle-left"></i></a>
-                                <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                        class="fa fa-angle-right"></i></a>
                             </div>
 
                             {{-- Küçük Resim Navigasyonu --}}
