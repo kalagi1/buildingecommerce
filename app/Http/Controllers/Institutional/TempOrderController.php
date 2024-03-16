@@ -163,7 +163,7 @@ class TempOrderController extends Controller
                 $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
                 $image2->rotate(30,'#00000000');
                 $image->resize($newWidth, $newHeight);
-               $encoded = $image->place($image2,'center',10,10,50);
+               $encoded = $image->place($image2,'center',10,10,10);
                 $encoded->save(public_path('situation_images/'.$imageName));
 
                 $data = $tempData;
@@ -498,7 +498,7 @@ class TempOrderController extends Controller
                 $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
                 $image2->rotate(30,'#00000000');
                 $image->resize($newWidth, $newHeight);
-                $encoded = $image->place($image2,'center',10,10,50);
+                $encoded = $image->place($image2,'center',10,10,10);
                 $encoded->save(public_path('storage/project_images/'.$imageName));
             }else{
                 $imageName = "";
@@ -641,7 +641,7 @@ class TempOrderController extends Controller
                 $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
                 $image2->rotate(30,'#00000000');
                 $image->resize($newWidth, $newHeight);
-                $encoded = $image->place($image2,'center',10,10,50);
+                $encoded = $image->place($image2,'center',10,10,10);
                 $encoded->save(public_path('storage/project_images/'.$imageName));
                 $data = $tempData;
                 array_push($data->images,["image" => 'storage/project_images/'.$imageName]);
