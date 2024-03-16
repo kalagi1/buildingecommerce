@@ -146,8 +146,8 @@
                                                         </div>
 
                                                     </div>
-                                                    @if (isset($share_sale) && $share_sale != "[]" && $share_sale != "[]")
-                                                    <span>Hisseli İlan</span>
+                                                    @if (isset($share_sale) && !empty($share_sale) && $share_sale != "[]")
+                                                        <span>Hisseli İlan</span>
                                                     @endif
                                                 </td>
 

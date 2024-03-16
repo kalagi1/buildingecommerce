@@ -794,6 +794,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('/reservations', [DashboardController::class, 'getReservations'])->name('reservations');
 
     Route::get('/projects/{project_id}/housings', [InstitutionalProjectController::class, 'housings'])->name('projects.housings');
+    Route::get('/projects/{project_id}/housings_v2', [InstitutionalProjectController::class, 'housingsV2'])->name('projects.housings');
 
     Route::post('/set_single_data/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingData'])->name('projects.set.single.data');
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
@@ -1137,6 +1138,11 @@ Route::group(['prefix' => 'react'], function () {
     Route::put('/active/{id}',[ApiProjectController::class,"active"]);
     Route::delete('/remove/{id}',[ApiProjectController::class,"destroy"]);
     Route::post('/create_housing',[ApiProjectController::class,"createHousing"]);
+    Route::get('/project_housings/{projectId}',[ApiProjectController::class,"projectHousings"]);
+    Route::post('/save_housing',[ApiProjectController::class,"saveHousing"]);
+    Route::post('/change_image',[ApiProjectController::class,"changeImage"]);
+    Route::post('/save_pay_dec',[ApiProjectController::class,"changePayDecs"]);
+    Route::post('/save_payment_status',[ApiProjectController::class,"savePaymentStatus"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

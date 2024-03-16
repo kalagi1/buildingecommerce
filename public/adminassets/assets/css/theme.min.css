@@ -43189,3 +43189,36 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     right: 0;
     
 }
+
+.image-area{
+    position: relative;
+}
+
+.image-area img{
+    max-width: 100%;
+}
+
+.image-area:hover .image-change{
+    display: flex;
+}
+
+.image-change{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #333333f1;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.info-icon{
+    font-size: 1rem !important;
+    margin-left: 10px !important;
+    cursor: pointer;
+}
