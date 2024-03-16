@@ -204,16 +204,21 @@
 
 
 </ul>
+@php
+    // Example: Set a default value for $maxQtTotal
+    $maxQtTotal = 100; // Set the appropriate default value
+
+    // OR check if $maxQtTotal is defined
+    if (!isset($maxQtTotal)) {
+        $maxQtTotal = 100; // Set the appropriate default value
+    }
+@endphp
+
 
 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
     <div class="bar-chart">
         <div class="progress" style="border-radius: 0 !important">
-            @if (isset($sumCartOrderQt[$keyIndex]))
-           {{$sumCartOrderQt[$keyIndex]['qt_total']}}
-                
-            @endif
             <div class="progress-bar"
-          
                 @if (isset($sumCartOrderQt[$keyIndex]) &&
                         isset($sumCartOrderQt[$keyIndex]['qt_total']) &&
                         isset($maxQtTotal) &&
@@ -226,16 +231,6 @@
 @endif
 
 </div>
-
-@php
-    // Example: Set a default value for $maxQtTotal
-    $maxQtTotal = 100; // Set the appropriate default value
-
-    // OR check if $maxQtTotal is defined
-    if (!isset($maxQtTotal)) {
-        $maxQtTotal = 100; // Set the appropriate default value
-    }
-@endphp
 
 
 
