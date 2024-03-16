@@ -93,6 +93,7 @@
                 </div>
 
                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
+                    asd
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;height:100% !important" @endif>
                         <div class="col-md-9">
