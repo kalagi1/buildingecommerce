@@ -227,8 +227,9 @@ class ProjectController extends Controller
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+
+            $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+            $encoded = $image->place($filigran->response(), 'center', 10, 10, 50);
             $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
         }
 
@@ -293,7 +294,10 @@ class ProjectController extends Controller
                     $newHeight = $imageHeight;
                 }
                 $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+
+                $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+                $encoded = $imageMg->place($filigran->response(), 'center', 10, 10, 50);
+
                 $encoded->save(public_path('storage/project_images/' . $newFileName));
 
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
@@ -320,7 +324,10 @@ class ProjectController extends Controller
                     $newHeight = $imageHeight;
                 }
                 $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+
+                $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+                $encoded = $imageMg->place($filigran->response(), 'center', 10, 10, 50);
+
                 $encoded->save(public_path('situation_images/' . $newFileName));
 
                 $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
@@ -449,7 +456,8 @@ class ProjectController extends Controller
                                 $newHeight = $imageHeight;
                             }
                             $imageMg->resize($newWidth, $newHeight);
-                            $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+                            $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+                            $encoded = $imageMg->place($filigran->response(), 'center', 10, 10, 50);
                             $encoded->save(public_path('project_housing_images/' . $newFileName));
 
                             ProjectHousing::create([
@@ -544,7 +552,8 @@ class ProjectController extends Controller
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); 
+            $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+            $encoded = $image->place($filigran->response(), 'center', 10, 10, 50);
             $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
 
             $fileDb = 'public/project_images/' . $fileNameCoverImage;
@@ -620,7 +629,8 @@ class ProjectController extends Controller
                         $newHeight = $imageHeight;
                     }
                     $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+                    $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+                    $encoded = $imageMg->place($filigran->response(), 'center', 10, 10, 50);
                     $encoded->save(public_path('storage/project_images/' . $newFileName));
 
                     $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
@@ -649,7 +659,8 @@ class ProjectController extends Controller
                         $newHeight = $imageHeight;
                     }
                     $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+                    $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+                    $encoded = $imageMg->place($filigran->response(), 'center', 10, 10, 50);
                     $encoded->save(public_path('situation_images/' . $newFileName));
 
                     $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
@@ -736,7 +747,8 @@ class ProjectController extends Controller
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+            $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+            $encoded = $image->place($filigran->response(), 'center', 10, 10, 50);
             $encoded->save(public_path('housing_images/' . $fileNameCoverImage));
         }
 
@@ -774,7 +786,8 @@ class ProjectController extends Controller
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50);
+            $filigran = $manager->read(public_path('images/filigran2.png'))->rotate(45)->resize(400, 400);
+            $encoded = $image->place($filigran->response(), 'center', 10, 10, 50);
             $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
             array_push($galleryImages, $fileNameGalleryImage);
         }
