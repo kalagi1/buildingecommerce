@@ -96,6 +96,7 @@
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                $projectHousingsList[$keyIndex]['off_sale[]'] ||
                                 (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)) style="background: #EEE !important;height:100% !important" @endif>
                         <div class="col-md-9">
                             @php
