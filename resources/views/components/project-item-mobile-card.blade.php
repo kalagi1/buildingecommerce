@@ -220,6 +220,7 @@
 
                 @if ($sold_check && $sold->status == '1')
                     @php
+                    echo "sds";
                         $neighborView = null;
 
                         if (Auth::check()) {
