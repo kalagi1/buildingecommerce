@@ -36,7 +36,9 @@ class ProjectController extends Controller
     public function index($slug, $id, Request $request)
     {
         
-        $id -= 1000000;
+        if ($id > 1000000) {
+            $id -= 1000000;
+        }
 
         $menu = Cache::rememberForever('menu', function () {
             return Menu::getMenuItems();
@@ -777,7 +779,10 @@ class ProjectController extends Controller
 
     public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request)
     {
-        $projectID -= 1000000;
+        if ($projectID > 1000000) {
+            $projectID -= 1000000;
+        }
+        
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
