@@ -150,6 +150,9 @@ class ProjectController extends Controller {
                 'owner_id' => $project->user->id,
                 'is_visible' => true,
             ] );
+
+            ShareLink::where( 'item_type', "1")->where( 'item_id', $project->id )->delete();
+
         } else if ( $request->input( 'status' ) == 1 ) {
             $reason = 'Başarıyla projeniz aktife alındı';
 
