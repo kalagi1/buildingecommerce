@@ -102,7 +102,6 @@
 
                     @endphp
                     <div class="row align-items-center justify-content-between mobile-position"
-                        {{ isset($sumCartOrderQt[$keyIndex]) ? $sumCartOrderQt[$keyIndex] : 0 }}
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                 $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ||
