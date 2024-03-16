@@ -13,9 +13,14 @@
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
+                                @if (in_array('CreateUser', $userPermissions))
                                 <a class="btn btn-primary px-5" href="{{ route('institutional.users.create') }}">
                                     <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
                                 </a>
+                                @else
+                                
+                                @endif
+                              
                             </div>
                         </div>
                     </div>

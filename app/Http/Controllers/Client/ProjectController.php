@@ -36,7 +36,9 @@ class ProjectController extends Controller
     public function index($slug, $id, Request $request)
     {
         
-        $id -= 1000000;
+        if ($id > 1000000) {
+            $id -= 1000000;
+        }
 
         $menu = Cache::rememberForever('menu', function () {
             return Menu::getMenuItems();
@@ -175,6 +177,7 @@ class ProjectController extends Controller
                     'cart_orders.is_show_user',
                     'cart_orders.id',
                     'users.name',
+                    'users.mobile_phone',
                     'users.phone'
                 )
                 ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
@@ -249,13 +252,27 @@ class ProjectController extends Controller
             ->with("brand", "blocks", 'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
             ->firstOrFail();
 
-        $projectCartOrders = DB::table('cart_orders')
-            ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get()
-            ->keyBy("housing_id");
+       
+            $projectCartOrders = DB::table('cart_orders')
+                ->select(
+                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+                    'cart_orders.status',
+                    'cart_orders.user_id',
+                    'cart_orders.store_id',
+                    'cart_orders.is_show_user',
+                    'cart_orders.id',
+                    'users.name',
+                    'users.mobile_phone',
+                    'users.phone'
+                )
+                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                ->get()
+                ->keyBy("housing_id");
 
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
@@ -762,7 +779,10 @@ class ProjectController extends Controller
 
     public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request)
     {
-        $projectID -= 1000000;
+        if ($projectID > 1000000) {
+            $projectID -= 1000000;
+        }
+        
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
@@ -770,7 +790,8 @@ class ProjectController extends Controller
         $cities = City::all()->toArray();
 
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
-        $status = HousingStatus::find($statusID);
+
+        $statusSlug = HousingStatus::find($statusID)->slug;
 
         $turkishAlphabet = [
             'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
@@ -861,14 +882,28 @@ class ProjectController extends Controller
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
     
+           
             $projectCartOrders = DB::table('cart_orders')
-                ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id, JSON_EXTRACT(cart, "$.item.qt") as qt, JSON_EXTRACT(cart, "$.item.qt") as qt, cart_orders.status,cart_orders.user_id,cart_orders.store_id, cart_orders.is_show_user, cart_orders.id, users.name, users.phone'))
+                ->select(
+                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+                    'cart_orders.status',
+                    'cart_orders.user_id',
+                    'cart_orders.store_id',
+                    'cart_orders.is_show_user',
+                    'cart_orders.id',
+                    'users.name',
+                    'users.mobile_phone',
+                    'users.phone'
+                )
                 ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
                 ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
                 ->get()
                 ->keyBy("housing_id");
+
             $sumCartOrderQt = DB::table('cart_orders')
                 ->select(
                     DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
@@ -940,7 +975,8 @@ class ProjectController extends Controller
         }
         
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing','status'));
+        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing',"statusSlug"));
+
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
@@ -977,13 +1013,27 @@ class ProjectController extends Controller
             $endIndex = $blockHousingCount;
         }
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
+       
         $projectCartOrders = DB::table('cart_orders')
-            ->select(DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id , status'))
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-            ->get()
-            ->keyBy("housing_id");
+        ->select(
+            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+            'cart_orders.status',
+            'cart_orders.user_id',
+            'cart_orders.store_id',
+            'cart_orders.is_show_user',
+            'cart_orders.id',
+            'users.name',
+            'users.mobile_phone',
+            'users.phone'
+        )
+        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+        ->get()
+        ->keyBy("housing_id");
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
         $startIndex = 0;
@@ -1121,7 +1171,6 @@ class ProjectController extends Controller
     //Teklif Yanıtı
     public function offer_response(Request $request)
     {
-        // print_r($request->all());die;
 
         $response         = $request->input('response');
         $email            = $request->input('email');
@@ -1129,7 +1178,6 @@ class ProjectController extends Controller
         $offerInfo        = $request->input('offer_info');
         $offerId          = $request->input('offer_id');
 
-        // Update the ProjectOffers model
         $offer = ProjectOffers::findOrFail($request->input('offer_id'));
 
 

@@ -105,8 +105,7 @@ class ProjectController extends Controller
              return view('components.housing_mobile_cards', compact('housings'))->render();
          } else {
              // Daha fazla konut yoksa, boş bir yanıt gönderin
-             return response()->json(['status' => 'no_more_housings']);
-         }
+             return response()->json(['html' => '']);         }
     }
 
     public function housingsV2(){
@@ -167,8 +166,7 @@ class ProjectController extends Controller
             return view('components.housing_cards', compact('housings'))->render();
         } else {
             // Daha fazla konut yoksa, boş bir yanıt gönderin
-            return response()->json(['status' => 'no_more_housings']);
-        }
+            return response()->json(['html' => '']);        }
     }
     public function loadMoreRooms($projectId, $page, Request $request)
     {

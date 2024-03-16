@@ -15,7 +15,7 @@
                                     target="_blank"
                                     data-saferedirecturl="https://www.google.com/url?q=https://emlaksepette.com&amp;source=gmail&amp;ust=1708527222602000&amp;usg=AOvVaw3Z7TNn9C6dL5vdxRWvzPJb">
                                     <img src="https://emlaksepette.com/images/emlaksepettelogo.png"
-                                        alt="Emlak Sepette Logo"
+                                        alt="Emlak Sepette"
                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:600px;border:none;height:40px;max-height:40px;width:200px"
                                         class="CToWUd" data-bit="iit">
                                 </a>
