@@ -157,7 +157,7 @@ class TempOrderController extends Controller
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
-                $image2 = $manager->read(public_path('images/filigran.png'));
+                $image2 = $manager->read(public_path('images/filigran2.png'));
                 $imageWidth2 = $image2->width();
                 $imageHeight2 = $image2->height();
                 $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
@@ -492,7 +492,7 @@ class TempOrderController extends Controller
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
-                $image2 = $manager->read(public_path('images/filigran.png'));
+                $image2 = $manager->read(public_path('images/filigran2.png'));
                 $imageWidth2 = $image2->width();
                 $imageHeight2 = $image2->height();
                 $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
@@ -635,7 +635,7 @@ class TempOrderController extends Controller
                 }
                 
                 $image = $manager->read(public_path('storage/project_images/'.$imageName));
-                $image2 = $manager->read(public_path('images/filigran.png'));
+                $image2 = $manager->read(public_path('images/filigran2.png'));
                 $imageWidth2 = $image2->width();
                 $imageHeight2 = $image2->height();
                 $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);

@@ -227,7 +227,7 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
-            $image2 = $manager->read(public_path('images/filigran.png'));
+            $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
@@ -552,7 +552,7 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
-            $image2 = $manager->read(public_path('images/filigran.png'));
+            $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
@@ -751,7 +751,7 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
-            $image2 = $manager->read(public_path('images/filigran.png'));
+            $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
@@ -794,7 +794,7 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
-            $image2 = $manager->read(public_path('images/filigran.png'));
+            $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
@@ -1003,7 +1003,7 @@ class ProjectController extends Controller
                     }
                     
                     $image = $manager->read(public_path('project_housing_images/'.$newFileName));
-                    $image2 = $manager->read(public_path('images/filigran.png'));
+                    $image2 = $manager->read(public_path('images/filigran2.png'));
                     $imageWidth2 = $image2->width();
                     $imageHeight2 = $image2->height();
                     $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
