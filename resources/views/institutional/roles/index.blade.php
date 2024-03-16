@@ -14,9 +14,14 @@
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
+                                @if (in_array('CreateRole', $userPermissions))
                                 <a class="btn btn-primary px-5" href="{{ route('institutional.roles.create') }}">
                                     <i class="fa-solid fa-plus me-2"></i>Yeni Ekle
                                 </a>
+                                @else
+                                
+                                @endif
+                             
                             </div>
                         </div>
                     </div>
@@ -54,10 +59,17 @@
                                                     class="btn btn-sm btn-primary">Güncelle</a>
 
                                                 <!-- Silme işlemi için modal -->
-                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                @if (in_array('DeleteRole', $userPermissions))
+                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $role->id }}">
                                                     Sil
-                                                </button>
+                                                    </button>
+                                                @else
+                                                
+                                                @endif
+
+
+                                              
 
                                                 <!-- Silme işlemi için modal -->
                                                 <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"

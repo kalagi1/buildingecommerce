@@ -6,29 +6,26 @@
             <div class="row">
                 <div class="col-md-7 mx-auto">
                     <div class="login-container">
-
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
-                                    id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal"
-                                    aria-selected="true">
+                                <a class="nav-link @if ($errors->has('login_error') || !$errors->any() && !isset($_GET['uye-ol'])) active show @else hide @endif "
+                                    id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal" aria-selected="true">
                                     <h3 class="text-center ">Giriş Yap</h3>
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if ($errors->any() && !$errors->has('login_error')) active show @endif" id="corporate-tab"
-                                    data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate"
-                                    aria-selected="false">
+                                <a class="nav-link @if ($errors->any() && !$errors->has('login_error') || isset($_GET['uye-ol'])) active show @endif" id="corporate-tab"
+                                    data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate" aria-selected="false">
                                     <h3 class="text-center ">Kayıt Ol</h3>
                                 </a>
                             </li>
                         </ul>
-
+                        
                         <div class="login-content">
                             <!-- Sekme İçeriği -->
                             <div class="tab-content" id="myTabContent">
                                 <!-- Normal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade @if ($errors->has('login_error') || !$errors->any()) active show @else hide @endif "
+                                <div class="tab-pane fade @if ($errors->has('login_error') || !$errors->any() && !isset($_GET['uye-ol'])) active show @else hide @endif "
                                     id="normal" role="tabpanel" aria-labelledby="normal-tab">
 
                                     <div class="mt-5">
@@ -144,7 +141,7 @@
                                 </div>
 
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error')) active show @endif"
+                                <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error') || isset($_GET['uye-ol'])) active show @endif"
                                     id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
 
 

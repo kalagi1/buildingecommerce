@@ -57,7 +57,6 @@
             return $html;
         }
         $projectHousings = [];
-        $projectDiscountAmount = null;
     @endphp
     @php
 
@@ -76,7 +75,7 @@
         $shareUrl = $protocol . '://' . $host . $uri;
     @endphp
     @php
-        $discountAmount = 0;
+        $projectDiscountAmount = 0;
 
         $offer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
@@ -86,7 +85,7 @@
             ->first();
 
         if ($offer) {
-            $discountAmount = $offer->discount_amount;
+            $projectDiscountAmount = $offer->discount_amount;
         }
     @endphp
 
@@ -169,7 +168,7 @@
                                     href="{{ route('institutional.housings', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Emlak
                                     İlanları</a>
                                 <a class="navbar-item"
-                                    href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekip</a>
+                                    href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekibimiz</a>
                             </div>
                             <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                                 @csrf
@@ -250,35 +249,43 @@
 
                             @endphp
 
-                            <span style="width:100%;text-align:center">
+                            <div class="listing-title-bar text-center w-100">
 
-                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+
+                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                     <span class="text-center w-100">
                                         1 Pay Fiyatı
                                     </span>
                                 @endif
 
                                 @if ($off_sale_check && $projectDiscountAmount)
-                                    <h4
-                                        style="color: #274abb !important; position: relative; top: 4px; font-weight: 600;font-size:20px">
-                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                            ₺
-                                        @else
-                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                            ₺
-                                        @endif
-                                    </h4>
+                                    <h4>
+                                        <div style="text-align: center">
+                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                                {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                ₺
+                                            @else
+                                                {{ number_format($discounted_price, 0, ',', '.') }}
+                                                ₺
+                                            @endif
+                                            <br>
+                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
+                                                stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                            </svg>
 
-                                    <h4
-                                        style="color: #e54242 !important;position: relative;top:4px;font-weight:600;font-size: 11px;text-decoration:line-through;">
-                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                        ₺
+                                            <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </del>
+                                        </div>
                                     </h4>
                                 @elseif ($off_sale_check)
                                     <h4
-                                        style="color: #274abb !important; position: relative; top: 4px; font-weight: 600;font-size:20px">
-                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                        style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
+                                        @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                             {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                             ₺
                                         @else
@@ -287,7 +294,7 @@
                                         @endif
                                     </h4>
                                 @endif
-                            </span>
+                            </div>
                         </div>
 
                     </div>
@@ -431,14 +438,14 @@
                                         </button>
                                     @else
                                         @if (
-                                            (isset($soldStatus) && $soldStatus != '2' && empty($share_sale)) ||
+                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == "[]") ||
                                                 (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                             <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White" @endif>
-                                                @if ($soldStatus == '0' && empty($share_sale))
+                                                @if ($soldStatus == '0' && $share_sale == "[]")
                                                     <span class="text">Rezerve Edildi</span>
                                                 @elseif (
-                                                    ($soldStatus == '1' && empty($share_sale)) ||
+                                                    ($soldStatus == '1' && $share_sale == "[]") ||
                                                         (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                                     <span class="text">Satıldı</span>
                                                 @endif
@@ -806,8 +813,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                    <div class=""
-                                                                        id="project-room-mobile{{ $blockKey }}">
+                                                                <div class=""
+                                                                    id="project-room-mobile{{ $blockKey }}">
 
                                                                 </div>
                                                             </div>
@@ -867,16 +874,15 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                        $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
-                                                    :blockStart="0"
-                                                        :towns="$towns" :cities="$cities" :key="$key"
-                                                        :statusSlug="$statusSlug" :blockName="$blockName" :blockHousingCount="$blockHousingCount"
-                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :towns="$towns" :cities="$cities"
+                                                        :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -922,16 +928,14 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-
-                                                        $statusSlug = $status->slug;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                    :blockStart="0"
-                                                        :blockName="$blockName" :project="$project" :allCounts="$allCounts"
-                                                        :statusSlug="$statusSlug" :key="$key" :blockHousingCount="$blockHousingCount"
-                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :blockName="$blockName" :project="$project"
+                                                        :allCounts="$allCounts" :statusSlug="$statusSlug" :key="$key"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -1179,8 +1183,9 @@
 
             var order = $(this).attr('order');
             var soldStatus = $(this).data('sold');
-            var block = $(this).data("block");
-            var paymentOrder = $(this).data("payment-order");
+            var block = $(this).data("block") ? $(this).data("block") : " ";
+            var paymentOrder = $(this).data("payment-order") ? $(this).data("payment-order") : $(this).attr(
+            'order');
 
 
             var cart = {
@@ -1658,7 +1663,7 @@
         }
 
 
-     
+
 
         function checkOffer(offers, housingOrder) {
             var returnData = null;
@@ -1680,200 +1685,198 @@
 
         var isLoading = false;
     </script>
-  
-  <script>
-        
-    var itemsPerPage = 10;
-    var isLoading = false; // Kontrol flag'ı ekledik
-    var currentBlock = 0;
-    var currentPage = 0;
-  var maxPages = null;
-    $(document).ready(function() {
-      
-        @if ($project->have_blocks)
+
+    <script>
+        var itemsPerPage = 10;
+        var isLoading = false; // Kontrol flag'ı ekledik
+        var currentBlock = 0;
+        var currentPage = 0;
+        var maxPages = null;
+        $(document).ready(function() {
+
+            @if ($project->have_blocks)
+                currentPage = 0;
+                var projectBlocks = @json($project->blocks);
+                maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
+
+                if (window.innerWidth >= 768) {
+                    loadMoreDataBlock(0);
+                } else {
+                    loadMoreDataBlockMobil(0);
+                }
+                $(window).scroll(function() {
+                    var projectRoom = $('#project-room' + currentBlock);
+                    var projectRoomMobile = $('#project-room-mobile' + currentBlock);
+
+                    // Web
+                    if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                        .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataBlock(currentPage);
+                        }
+                    }
+
+                    // Mobil
+                    if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                        projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataBlockMobil(currentPage);
+                        }
+                    }
+                });
+            @else
+
+                currentPage = 1;
+                maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+
+                $(window).scroll(function() {
+                    var projectRoom = $('#project-room');
+                    var projectRoomMobile = $('#project-room-mobile');
+
+                    // Web
+                    if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                        .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreData(currentPage);
+                        }
+                    }
+
+                    // Mobil
+                    if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                        projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataMobile(currentPage);
+                        }
+                    }
+                });
+            @endif
+        });
+
+        function loadMoreData(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataMobile(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room-mobile').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataBlock(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/" + currentBlock + "/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room' + currentBlock).append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataBlockMobil(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-block-mobile') }}/{{ $project->id }}/" + currentBlock + "/" +
+                    page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    console.log($('#project-room-mobile' + currentBlock));
+                    $('#project-room-mobile' + currentBlock).append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function changeTabContent(tabName, key) {
             currentPage = 0;
-            var projectBlocks = @json($project->blocks);
-             maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
+            currentBlock = key;
+
 
             if (window.innerWidth >= 768) {
                 loadMoreDataBlock(0);
+                $('#project-room' + currentBlock).html("");
             } else {
                 loadMoreDataBlockMobil(0);
+                $('#project-room-mobile' + currentBlock).html("");
             }
-            $(window).scroll(function() {
-                var projectRoom = $('#project-room' + currentBlock);
-                var projectRoomMobile = $('#project-room-mobile' + currentBlock);
 
-                // Web
-                if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
-                    .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-                    if (currentPage < maxPages) {
-                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                        currentPage++;
-                        loadMoreDataBlock(currentPage);
-                    }
-                }
+            projectBlocks = @json($project->blocks);
+            maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
 
-                // Mobil
-                if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
-                    projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-                    if (currentPage < maxPages) {
-                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                        currentPage++;
-                        loadMoreDataBlockMobil(currentPage);
-                    }
-                }
+            document.querySelectorAll('.nav-item-block').forEach(function(content) {
+                content.classList.remove('active');
             });
-        @else
-
-            currentPage = 1;
-            maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
-
-            $(window).scroll(function() {
-                var projectRoom = $('#project-room');
-                var projectRoomMobile = $('#project-room-mobile');
-
-                // Web
-                if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
-                    .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
-                    if (currentPage < maxPages) {
-                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                        currentPage++;
-                        loadMoreData(currentPage);
-                    }
-                }
-
-                // Mobil
-                if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
-                    projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
-                    if (currentPage < maxPages) {
-                        isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
-                        currentPage++;
-                        loadMoreDataMobile(currentPage);
-                    }
-                }
+            document.querySelectorAll('.tab-content-block').forEach(function(content) {
+                content.classList.remove('active');
             });
-        @endif
-    });
+            document.getElementById('contentblock-' + tabName).classList.add('active');
+            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
 
-    function loadMoreData(page) {
-        $.ajax({
-            url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
-            type: 'get',
-            beforeSend: function() {
-                $('.ajax-load').show();
-            },
-            success: function(response) {
-                $('#project-room').append(response);
-                $('.ajax-load').hide();
-                isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-            },
-            error: function(jqXHR, ajaxOptions, thrownError) {
-                console.log(thrownError);
+            var blockIndex = $('#contentblock-' + tabName).index() - 1;
+            var startIndex = 0;
+            var endIndex = 12;
 
-                $('.ajax-load').hide();
-                isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-            }
-        });
-    }
-
-    function loadMoreDataMobile(page) {
-        $.ajax({
-            url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
-            type: 'get',
-            beforeSend: function() {
-                $('.ajax-load').show();
-            },
-            success: function(response) {
-                $('#project-room-mobile').append(response);
-                $('.ajax-load').hide();
-                isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-            },
-            error: function(jqXHR, ajaxOptions, thrownError) {
-                console.log(thrownError);
-
-                $('.ajax-load').hide();
-                isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-            }
-        });
-    }
-
-    function loadMoreDataBlock(page) {
-        $.ajax({
-            url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/" + currentBlock + "/" + page,
-            type: 'get',
-            beforeSend: function() {
-                $('.ajax-load').show();
-            },
-            success: function(response) {
-                $('#project-room' + currentBlock).append(response);
-                $('.ajax-load').hide();
-                isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-            },
-            error: function(jqXHR, ajaxOptions, thrownError) {
-                console.log(thrownError);
-
-                $('.ajax-load').hide();
-                isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-            }
-        });
-    }
-
-    function loadMoreDataBlockMobil(page) {
-        $.ajax({
-            url: "{{ url('/load-more-rooms-block-mobile') }}/{{ $project->id }}/" + currentBlock + "/" +
-                page,
-            type: 'get',
-            beforeSend: function() {
-                $('.ajax-load').show();
-            },
-            success: function(response) {
-                console.log($('#project-room-mobile' + currentBlock));
-                $('#project-room-mobile' + currentBlock).append(response);
-                $('.ajax-load').hide();
-                isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
-            },
-            error: function(jqXHR, ajaxOptions, thrownError) {
-                console.log(thrownError);
-
-                $('.ajax-load').hide();
-                isLoading = false; // Hata durumunda flag'ı false olarak ayarla
-            }
-        });
-    }
-
-    function changeTabContent(tabName, key) {
-        currentPage = 0;
-        currentBlock = key;
-
-
-        if (window.innerWidth >= 768) {
-            loadMoreDataBlock(0);
-            $('#project-room' + currentBlock).html("");
-        } else {
-            loadMoreDataBlockMobil(0);
-            $('#project-room-mobile' + currentBlock).html("");
         }
-
-        projectBlocks = @json($project->blocks);
-        maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
-
-        document.querySelectorAll('.nav-item-block').forEach(function(content) {
-            content.classList.remove('active');
-        });
-        document.querySelectorAll('.tab-content-block').forEach(function(content) {
-            content.classList.remove('active');
-        });
-        document.getElementById('contentblock-' + tabName).classList.add('active');
-        var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
-
-        var blockIndex = $('#contentblock-' + tabName).index() - 1;
-        var startIndex = 0;
-        var endIndex = 12;
-      
-    }
-
-</script>
+    </script>
 @endsection
 
 @section('styles')

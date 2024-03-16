@@ -15,12 +15,16 @@
                             </p>
                         </div>
                     </div>
+                    @if (in_array('CreateProject', $userPermissions))
                     <div class="button-footer center">
                         <a class="sc-button" href="{{ route('institutional.project.create.v3') }}">  
                             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>                        
                             <span>Proje İlanı Ekle</span>
                         </a>
-                    </div>  
+                    </div> 
+                @else
+                    <p></p>
+                @endif
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-12">
@@ -35,10 +39,16 @@
                         </div>
                     </div>
                     <div class="button-footer center">
+                        @if (in_array('CreateHousing', $userPermissions))
                         <a class="sc-button" href="{{ route('institutional.housing.create.v3') }}">                            
                             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                             <span>Emlak İlanı Ekle</span>
                         </a>
+                        @else
+                        
+                        @endif
+                      
+                       
                     </div>  
                 </div>
             </div>

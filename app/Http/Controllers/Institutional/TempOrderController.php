@@ -149,9 +149,9 @@ class TempOrderController extends Controller
                 $imageWidth = $image->width();
                 $imageHeight = $image->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
@@ -479,9 +479,9 @@ class TempOrderController extends Controller
                 $imageWidth = $image->width();
                 $imageHeight = $image->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
@@ -614,9 +614,9 @@ class TempOrderController extends Controller
                 $imageWidth = $image->width();
                 $imageHeight = $image->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;

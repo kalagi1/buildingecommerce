@@ -105,8 +105,11 @@ class ProjectController extends Controller
              return view('components.housing_mobile_cards', compact('housings'))->render();
          } else {
              // Daha fazla konut yoksa, boş bir yanıt gönderin
-             return response()->json(['status' => 'no_more_housings']);
-         }
+             return response()->json(['html' => '']);         }
+    }
+
+    public function housingsV2(){
+        return view('institutional.projects.housings_v2');
     }
 
     public function loadMoreHousings(Request $request)
@@ -163,8 +166,7 @@ class ProjectController extends Controller
             return view('components.housing_cards', compact('housings'))->render();
         } else {
             // Daha fazla konut yoksa, boş bir yanıt gönderin
-            return response()->json(['status' => 'no_more_housings']);
-        }
+            return response()->json(['html' => '']);        }
     }
     public function loadMoreRooms($projectId, $page, Request $request)
     {
@@ -1328,7 +1330,6 @@ class ProjectController extends Controller
                     }
                 }
             }
-
             for ($i = 0; $i < 1; $i++) {
                 for ($j = 0; $j < count($housingTypeInputs); $j++) {
                     if ($housingTypeInputs[$j]->type == "file") {
@@ -1375,7 +1376,7 @@ class ProjectController extends Controller
                                 }
                             }
                         } else {
-                            ProjectHousing::create([
+                            $projectHousing = ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => is_object($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($i + 1))) || is_array($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder))) ? json_encode(array_reduce($request->input(substr($housingTypeInputs[$j]->name, 0, -2) . ($roomOrder)), 'array_merge', [])) : '[]',
@@ -1386,7 +1387,6 @@ class ProjectController extends Controller
                     }
                 }
             }
-
             return redirect()->route('institutional.projects.housings', $project->id);
         } catch (Throwable $e) {
 

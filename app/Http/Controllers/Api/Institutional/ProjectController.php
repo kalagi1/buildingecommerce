@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Throwable;
 
 class ProjectController extends Controller
 {
@@ -47,57 +48,60 @@ class ProjectController extends Controller
     {
         return $projects->map(function ($project) use ($counts, $propertyName) {
             $project->$propertyName = $counts->where('project_id', $project->id)->first()->count ?? 0;
-    
+
             if ($propertyName == 'cartOrders') {
                 $totalAmount = CartOrder::where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where("status", "1")->sum("amount");
-    
+
                 $project->totalAmount = number_format($totalAmount, 3, '.', '');
             }
-    
+
             return $project;
         });
     }
-    
-    public function index(Request $request){
+
+    public function index(Request $request)
+    {
         $userId = auth()->user()->parent_id ?? auth()->user()->id;
-        $fullProjectsCount = Project::where('user_id', $userId)->where('status',$request->input('status'))->count();
-        
+        $fullProjectsCount = Project::where('user_id', $userId)->where('status', $request->input('status'))->count();
+
         $projects = Project::select(DB::raw('*, (select count(*) from project_housings WHERE name = "off_sale[]" AND value != "[]" AND project_id = projects.id) as offSale'))->where('user_id', $userId)
-            ->with( "housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel')
+            ->with("housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel')
             ->orderByDesc('created_at')
-            ->where('status',$request->input('status'))
+            ->where('status', $request->input('status'))
             ->take($request->input('take'))
             ->skip($request->input('start'))
             ->get();
 
         $userProjectIds = $projects->pluck('id');
-    
+
         $projectCounts = $this->getProjectCounts($userProjectIds, '1');
         $paymentPendingCounts = $this->getProjectCounts($userProjectIds, '0');
-        
-    
+
+
         $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
         $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
-    
+
         return json_encode([
             "data" => $projects,
             "total_projects_count" => $fullProjectsCount
         ]);
     }
 
-    public function getHousingStatuses(Request $request){
-        $housingStatuses = HousingStatus::where('is_project',1)->get();
+    public function getHousingStatuses(Request $request)
+    {
+        $housingStatuses = HousingStatus::where('is_project', 1)->get();
 
         return json_encode([
             "data" => $housingStatuses
         ]);
     }
 
-    public function getHousingTypes(Request $request){
-        if($request->input('parent_id')){
-            $housingTypes = HousingTypeParent::where('parent_id',$request->input('parent_id'))->get();
-        }else{
+    public function getHousingTypes(Request $request)
+    {
+        if ($request->input('parent_id')) {
+            $housingTypes = HousingTypeParent::where('parent_id', $request->input('parent_id'))->get();
+        } else {
             $housingTypes = HousingTypeParent::whereNull('parent_id')->get();
         }
 
@@ -106,15 +110,17 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function getHousingTypesEnd(Request $request){
-        $housingTypes = HousingTypeParentConnection::with("housingType")->where('parent_id',$request->input('parent_id'))->get();
-        
+    public function getHousingTypesEnd(Request $request)
+    {
+        $housingTypes = HousingTypeParentConnection::with("housingType")->where('parent_id', $request->input('parent_id'))->get();
+
         return json_encode([
             "data" => $housingTypes
         ]);
     }
 
-    public function getCities(){
+    public function getCities()
+    {
         $cities = City::get();
 
         return json_encode([
@@ -122,37 +128,39 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function getCounties(Request $request){
-        $counties = District::where('ilce_sehirkey',$request->input('city_id'))->get();
+    public function getCounties(Request $request)
+    {
+        $counties = District::where('ilce_sehirkey', $request->input('city_id'))->get();
 
         return json_encode([
             "data" => $counties
         ]);
     }
 
-    public function getNeighborhoods(Request $request){
-        $neighborhoods = Neighborhood::where('mahalle_ilcekey',$request->input('county_id'))->get();
+    public function getNeighborhoods(Request $request)
+    {
+        $neighborhoods = Neighborhood::where('mahalle_ilcekey', $request->input('county_id'))->get();
 
         return json_encode([
             "data" => $neighborhoods
         ]);
     }
 
-    public function createProject(Request $request){
-        $housingTypeParentConnection = HousingTypeParentConnection::where('id',$request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
+    public function createProject(Request $request)
+    {
+        $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
         $housingTypeInputs = json_decode($housingTypeParentConnection->housingType->form_json);
 
         $roomValidations = [];
         $roomValidationsMessages = [];
 
-        foreach($housingTypeInputs as $input){
-            if(!str_contains($input->className, 'project-disabled')){
-                if($input->required){
-                    $roomValidations["blocks.*.rooms.*.".str_replace('[]','',$input->name)] = "required";
-                    $roomValidationsMessages["blocks.*.rooms.*.".str_replace('[]','',$input->name).'.required'] = ":position nolu bloğun :second-position nolu konutunda ".$input->label." alanı girilmelidir.";
+        foreach ($housingTypeInputs as $input) {
+            if (!str_contains($input->className, 'project-disabled')) {
+                if ($input->required) {
+                    $roomValidations["blocks.*.rooms.*." . str_replace('[]', '', $input->name)] = "required";
+                    $roomValidationsMessages["blocks.*.rooms.*." . str_replace('[]', '', $input->name) . '.required'] = ":position nolu bloğun :second-position nolu konutunda " . $input->label . " alanı girilmelidir.";
                 }
             }
-            
         }
 
         $manager = new ImageManager(
@@ -192,52 +200,57 @@ class ProjectController extends Controller
         //     ...$roomValidationsMessages
         // ]);
 
-        $housingTypeParent1 = HousingTypeParent::where('id',$request->input('selectedTypes')[1])->firstOrFail(); 
-        $housingTypeParent2 = HousingTypeParent::where('id',$request->input('selectedTypes')[2])->firstOrFail(); 
+        $housingTypeParent1 = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->firstOrFail();
+        $housingTypeParent2 = HousingTypeParent::where('id', $request->input('selectedTypes')[2])->firstOrFail();
         $instUser = User::where("id", Auth::user()->id)->first();
         $endDate = Carbon::now();
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
-        if($request->file('projectData')['cover_image']){
+        if ($request->file('projectData')['cover_image']) {
 
             $file = $request->file('projectData')['cover_image'];
 
             // Dosyanın hedef dizini
             $destinationPath = public_path('storage/project_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-    
+
             // Dosyayı belirlenen hedefe taşı
-            $fileNameCoverImage = $projectSlug.'_cover_image_'.time().'.'.$file->getClientOriginalExtension();
+            $fileNameCoverImage = $projectSlug . '_cover_image_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
 
-            $image = $manager->read(public_path('storage/project_images/'.$fileNameCoverImage));
+            $image = $manager->read(public_path('storage/project_images/' . $fileNameCoverImage));
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
-            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'top-left', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'top-right', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'bottom-left', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'bottom-right', 10, 10, 50, 45);
+
+            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
         }
 
-        
+
 
         $totalCount = $request->input('totalRoomCount');
 
-        if($request->file('projectData')['document']){
+        if ($request->file('projectData')['document']) {
             $file = $request->file('projectData')['document'];
 
-            $destinationPath = public_path('housing_documents'); 
-            
-            $fileNameDocument = $projectSlug.'_document_'.time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('housing_documents');
+
+            $fileNameDocument = $projectSlug . '_document_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameDocument);
         }
 
-        $housingTypeParentConnection = HousingTypeParentConnection::where('id',$request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
+        $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
         $housingTypeInputs = json_decode($housingTypeParentConnection->housingType->form_json);
 
         $project = Project::create([
@@ -251,7 +264,7 @@ class ProjectController extends Controller
             "project_end_date" => $request->input('projectData')['end_date']  ?? null,
             "slug" => Str::slug($request->input('projectData')['project_title']),
             "address" => "asd",
-            "location" => str_replace('-',',',$request->input('projectData')['coordinates']),
+            "location" => str_replace('-', ',', $request->input('projectData')['coordinates']),
             "description" => $request->input('projectData')['description'],
             "room_count" => $totalCount,
             "city_id" => $request->input('projectData')['city_id'],
@@ -259,34 +272,35 @@ class ProjectController extends Controller
             "neighbourhood_id" => $request->input('projectData')['neighbourhood_id'],
             "user_id" => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
             "status_id" => 1,
-            "image" => 'public/project_images/'.$fileNameCoverImage,
+            "image" => 'public/project_images/' . $fileNameCoverImage,
             'document' => $fileNameDocument,
             "end_date" => $endDate->format('Y-m-d'),
             "status" => 2,
             "have_blocks" => $request->input('haveBlocks') == "true"
         ]);
-        
+
         foreach ($request->file('projectData')['gallery'] as $key => $image) {
-            $newFileName = $projectSlug . '-gallery-' . ($key + 1).time() . '.' . $image->getClientOriginalExtension();
+            $newFileName = $projectSlug . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
 
 
             if ($image->move($destinationPath, $newFileName)) {
-                    
-                $imageMg = $manager->read(public_path('storage/project_images/'.$newFileName));
+
+                $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
                 $imageWidth = $imageMg->width();
                 $imageHeight = $imageMg->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
+
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
                 $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
-                $encoded->save(public_path('storage/project_images/'.$newFileName));
+                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                $encoded->save(public_path('storage/project_images/' . $newFileName));
 
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
                 $projectImage->image = 'public/project_images/' . $newFileName;
@@ -296,24 +310,25 @@ class ProjectController extends Controller
         }
 
         foreach ($request->file('projectData')['situations'] as $key => $situation) {
-            $newFileName = $projectSlug . '-situation-' . ($key + 1) .time(). '.' . $situation->getClientOriginalExtension();
+            $newFileName = $projectSlug . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
             $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
 
             if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                $imageMg = $manager->read(public_path('situation_images/'.$newFileName));
+                $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
                 $imageWidth = $imageMg->width();
                 $imageHeight = $imageMg->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
+
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
                 $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
-                $encoded->save(public_path('situation_images/'.$newFileName));
+                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                $encoded->save(public_path('situation_images/' . $newFileName));
 
                 $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
                 $projectImage->situation = 'public/situation_images/' . $newFileName;
@@ -322,27 +337,26 @@ class ProjectController extends Controller
             }
         }
 
-        
+
 
         ProjectHousingType::create([
             "project_id" => $project->id,
             "housing_type_id" => $request->input('selectedTypes')[0],
         ]);
 
-        if($request->input('haveBlocks') && $request->input('haveBlocks') == "true"){
-            foreach($request->input('blocks') as $key => $block){
+        if ($request->input('haveBlocks') && $request->input('haveBlocks') == "true") {
+            foreach ($request->input('blocks') as $key => $block) {
                 Block::create([
                     "project_id" => $project->id,
                     "block_name" => $block['name'],
                     "housing_count" => $block['roomCount']
                 ]);
             }
-            
         }
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
         $status = HousingStatus::find($statusID);
 
-        $notificationLink =  route('project.detail', ['slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug,'id' => $project->id]);
+        $notificationLink =  route('project.detail', ['slug' => $project->slug . "-" . $status->slug . "-" . $project->step2_slug . "-" . $project->housingtype->slug, 'id' => $project->id]);
         $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
         DocumentNotification::create([
             'user_id' => $instUser->parent_id ? $instUser->parent_id : $instUser->id,
@@ -359,13 +373,14 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function createRoom(Request $request){
+    public function createRoom(Request $request)
+    {
         $manager = new ImageManager(
             new Driver()
         );
 
-        $project = Project::where('id',$request->input('project_id'))->first();
-        $housingType = HousingType::where('id',$project->housing_type_id)->first();
+        $project = Project::where('id', $request->input('project_id'))->first();
+        $housingType = HousingType::where('id', $project->housing_type_id)->first();
         $housingTypeInputs = json_decode($housingType->form_json);
 
         $housingTemp = $request->input('room_order');
@@ -374,8 +389,8 @@ class ProjectController extends Controller
         for ($j = 0; $j < count($housingTypeInputs); $j++) {
             if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
                 if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
-                    if(isset($room['payment-plan']) &&  $room['payment-plan']){
-                        if (str_contains($room['payment-plan'],'taksitli')) {
+                    if (isset($room['payment-plan']) &&  $room['payment-plan']) {
+                        if (str_contains($room['payment-plan'], 'taksitli')) {
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
@@ -417,11 +432,10 @@ class ProjectController extends Controller
                 ProjectHousing::create([
                     "key" => $housingTypeInputs[$j]->label,
                     "name" => $housingTypeInputs[$j]->name,
-                    "value" => isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) ? json_encode(explode(',',$room[substr($housingTypeInputs[$j]->name, 0, -2)])) : json_encode([]),
+                    "value" => isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) ? json_encode(explode(',', $room[substr($housingTypeInputs[$j]->name, 0, -2)])) : json_encode([]),
                     "project_id" => $project->id,
                     "room_order" => $housingTemp,
                 ]);
-
             } else if ($housingTypeInputs[$j]->type == "file") {
                 if (!$housingTypeInputs[$j]->multiple) {
                     $imageRoom = $request->file('room')['image'];
@@ -429,21 +443,22 @@ class ProjectController extends Controller
                         $newFileName = $project->slug . '-project-housing-image-' . ($housingTemp) . '.' . $imageRoom->getClientOriginalExtension();
                         $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
                         if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
-                            
-                            $imageMg = $manager->read(public_path('project_housing_images/'.$newFileName));
+
+                            $imageMg = $manager->read(public_path('project_housing_images/' . $newFileName));
                             $imageWidth = $imageMg->width();
                             $imageHeight = $imageMg->height();
 
-                            if($imageWidth > 450){
-                                $newWidth = 450;
-                                $newHeight = $imageHeight * 450 / $imageWidth;
+                            if($imageWidth > 1200){
+                                $newWidth = 1200;
+                                $newHeight = $imageHeight * 1200 / $imageWidth;
                             }else{
+
                                 $newWidth = $imageWidth;
                                 $newHeight = $imageHeight;
                             }
                             $imageMg->resize($newWidth, $newHeight);
-                            $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
-                            $encoded->save(public_path('project_housing_images/'.$newFileName));
+                            $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                            $encoded->save(public_path('project_housing_images/' . $newFileName));
 
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
@@ -454,36 +469,34 @@ class ProjectController extends Controller
                             ]);
                         }
                     }
-
-                    
                 }
             }
         }
 
         ProjectHousing::create([
-            "key" => "pay-dec-count".($housingTemp+1),
-            "name" => "pay-dec-count".($housingTemp+1),
+            "key" => "pay-dec-count" . ($housingTemp + 1),
+            "name" => "pay-dec-count" . ($housingTemp + 1),
             "value" => isset($room["payDecs"]) && $room["payDecs"] ? count($room["payDecs"]) : 0,
             "project_id" => $project->id,
             "room_order" => $housingTemp,
         ]);
 
-        if(isset($room["payDecs"]) && $room["payDecs"]){
-            for($j = 0; $j < count($room["payDecs"]); $j++){
-                if(isset($room["payDecs"][$j]["price"])){
+        if (isset($room["payDecs"]) && $room["payDecs"]) {
+            for ($j = 0; $j < count($room["payDecs"]); $j++) {
+                if (isset($room["payDecs"][$j]["price"])) {
                     ProjectHousing::create([
-                        "key" => "pay_desc_price".($housingTemp).$j,
-                        "name" => "pay_desc_price".($housingTemp).$j,
+                        "key" => "pay_desc_price" . ($housingTemp) . $j,
+                        "name" => "pay_desc_price" . ($housingTemp) . $j,
                         "value" => str_replace('.', '', $room["payDecs"][$j]["price"]),
                         "project_id" => $project->id,
                         "room_order" => $housingTemp,
                     ]);
                 }
 
-                if(isset($room["payDecs"][$j]["date"])){
+                if (isset($room["payDecs"][$j]["date"])) {
                     ProjectHousing::create([
-                        "key" => "pay_desc_date".($housingTemp).$j,
-                        "name" => "pay_desc_date".($housingTemp).$j,
+                        "key" => "pay_desc_date" . ($housingTemp) . $j,
+                        "name" => "pay_desc_date" . ($housingTemp) . $j,
                         "value" => $room["payDecs"][$j]["date"],
                         "project_id" => $project->id,
                         "room_order" => $housingTemp,
@@ -496,56 +509,59 @@ class ProjectController extends Controller
             "room_order" => $request->input('room_order')
         ]);
     }
-    
-    public function show($id){
-        $project = Project::with("images","situations")->where('id',$id)->first();
+
+    public function show($id)
+    {
+        $project = Project::with("images", "situations")->where('id', $id)->first();
 
         return json_encode([
             "data" => $project
         ]);
     }
 
-    public function updateProject($id,Request $request){
-        $project = Project::where('id',$id)->first();
+    public function updateProject($id, Request $request)
+    {
+        $project = Project::where('id', $id)->first();
 
         $manager = new ImageManager(
             new Driver()
         );
 
         $projectData = $request->input('projectData');
-        $location = explode('-',$projectData['coordinates']);
+        $location = explode('-', $projectData['coordinates']);
 
-        if(isset($request->file('projectData')['cover_image']) && $request->file('projectData')['cover_image']){
+        if (isset($request->file('projectData')['cover_image']) && $request->file('projectData')['cover_image']) {
             $file = $request->file('projectData')['cover_image'];
 
             // Dosyanın hedef dizini
             $destinationPath = public_path('storage/project_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-    
+
             // Dosyayı belirlenen hedefe taşı
-            $fileNameCoverImage = Str::slug($projectData['project_title']).'_cover_image_'.time().'.'.$file->getClientOriginalExtension();
+            $fileNameCoverImage = Str::slug($projectData['project_title']) . '_cover_image_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
 
-            $image = $manager->read(public_path('storage/project_images/'.$fileNameCoverImage));
+            $image = $manager->read(public_path('storage/project_images/' . $fileNameCoverImage));
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
+
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
-            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); // 45 derece çapraz döndürme
+            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
 
-            $fileDb = 'public/project_images/'.$fileNameCoverImage;
-        }else{
+            $fileDb = 'public/project_images/' . $fileNameCoverImage;
+        } else {
             $fileDb = $project->image;
         }
 
-        Project::where('id',$id)->update([
+        Project::where('id', $id)->update([
             "project_title" => $projectData['project_title'],
             "slug" => Str::slug($projectData['project_title']),
             "description" => $projectData['description'],
@@ -556,18 +572,18 @@ class ProjectController extends Controller
             "city_id" => $projectData['city_id'],
             "county_id" => $projectData['county_id'],
             "neighbourhood_id" => $projectData['neighbourhood_id'],
-            "location" => $location[0].','.$location[1],
+            "location" => $location[0] . ',' . $location[1],
             "image" => $fileDb,
             "status" => "2",
         ]);
 
         $imageOrderx = 0;
-        if(isset($request->deleted_images) && $request->deleted_images){
-            foreach (explode(',',$request->deleted_images) as $key => $imageOrder) {
+        if (isset($request->deleted_images) && $request->deleted_images) {
+            foreach (explode(',', $request->deleted_images) as $key => $imageOrder) {
                 $projectImageToDelete = ProjectImage::where('project_id', $project->id)
-                ->offset($imageOrder - $imageOrderx)
-                ->take(1)
-                ->first();
+                    ->offset($imageOrder - $imageOrderx)
+                    ->take(1)
+                    ->first();
 
                 if ($projectImageToDelete) {
                     $projectImageToDelete->delete();
@@ -576,15 +592,15 @@ class ProjectController extends Controller
                 $imageOrderx++;
             }
         }
-        
+
         $imageOrderx = 0;
-        if(isset($request->deleted_situations) && $request->deleted_situations){
-            foreach (explode(',',$request->deleted_situations) as $key => $imageOrder) {
-                $projectImageToDelete = ProjectSituation::where('project_id',$project->id)
-                ->offset($imageOrder - $imageOrderx)
-                ->take(1)
-                ->first();
-                
+        if (isset($request->deleted_situations) && $request->deleted_situations) {
+            foreach (explode(',', $request->deleted_situations) as $key => $imageOrder) {
+                $projectImageToDelete = ProjectSituation::where('project_id', $project->id)
+                    ->offset($imageOrder - $imageOrderx)
+                    ->take(1)
+                    ->first();
+
                 if ($projectImageToDelete) {
                     $projectImageToDelete->delete();
                 }
@@ -592,30 +608,31 @@ class ProjectController extends Controller
                 $imageOrderx++;
             }
         }
-        
-        if(isset($request->file('projectData')['gallery']) && $request->file('projectData')['gallery']){
+
+        if (isset($request->file('projectData')['gallery']) && $request->file('projectData')['gallery']) {
             foreach ($request->file('projectData')['gallery'] as $key => $image) {
-                $newFileName = Str::slug($projectData['project_title']) . '-gallery-' . ($key + 1).time() . '.' . $image->getClientOriginalExtension();
+                $newFileName = Str::slug($projectData['project_title']) . '-gallery-' . ($key + 1) . time() . '.' . $image->getClientOriginalExtension();
                 $destinationPath = public_path('storage/project_images'); // Yeni dosya adı ve yolu
-    
-    
+
+
                 if ($image->move($destinationPath, $newFileName)) {
-                        
-                    $imageMg = $manager->read(public_path('storage/project_images/'.$newFileName));
+
+                    $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
                     $imageWidth = $imageMg->width();
                     $imageHeight = $imageMg->height();
+
     
-                    if($imageWidth > 450){
-                        $newWidth = 450;
-                        $newHeight = $imageHeight * 450 / $imageWidth;
+                    if($imageWidth > 1200){
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
                     }else{
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
                     }
                     $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
-                    $encoded->save(public_path('storage/project_images/'.$newFileName));
-    
+                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                    $encoded->save(public_path('storage/project_images/' . $newFileName));
+
                     $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
                     $projectImage->image = 'public/project_images/' . $newFileName;
                     $projectImage->project_id = $project->id;
@@ -624,27 +641,28 @@ class ProjectController extends Controller
             }
         }
 
-        if(isset($request->file('projectData')['situations'])){
+        if (isset($request->file('projectData')['situations'])) {
             foreach ($request->file('projectData')['situations'] as $key => $situation) {
-                $newFileName = Str::slug($projectData['project_title']) . '-situation-' . ($key + 1) .time(). '.' . $situation->getClientOriginalExtension();
+                $newFileName = Str::slug($projectData['project_title']) . '-situation-' . ($key + 1) . time() . '.' . $situation->getClientOriginalExtension();
                 $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
-    
+
                 if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                    $imageMg = $manager->read(public_path('situation_images/'.$newFileName));
+                    $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
                     $imageWidth = $imageMg->width();
                     $imageHeight = $imageMg->height();
     
-                    if($imageWidth > 450){
-                        $newWidth = 450;
-                        $newHeight = $imageHeight * 450 / $imageWidth;
+                    if($imageWidth > 1200){
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
                     }else{
+
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
                     }
                     $imageMg->resize($newWidth, $newHeight);
-                    $encoded = $imageMg->place(public_path('images/filigran.png'),'center',10,10,10);
-                    $encoded->save(public_path('situation_images/'.$newFileName));
-    
+                    $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                    $encoded->save(public_path('situation_images/' . $newFileName));
+
                     $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
                     $projectImage->situation = 'public/situation_images/' . $newFileName;
                     $projectImage->project_id = $project->id;
@@ -658,8 +676,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function deactive($id){
-        Project::where('id',$id)->update([
+    public function deactive($id)
+    {
+        Project::where('id', $id)->update([
             "status" => 0
         ]);
 
@@ -668,8 +687,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function active($id){
-        Project::where('id',$id)->update([
+    public function active($id)
+    {
+        Project::where('id', $id)->update([
             "status" => 1
         ]);
 
@@ -682,7 +702,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        ShareLink::where('item_type',1)->where('item_id',$project->id)->delete();
+        ShareLink::where('item_type', 1)->where('item_id', $project->id)->delete();
 
         $project->delete();
 
@@ -691,112 +711,114 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function createHousing(Request $request){
-        $housingTypeParentConnection = HousingTypeParentConnection::where('id',$request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
+    public function createHousing(Request $request)
+    {
+        $housingTypeParentConnection = HousingTypeParentConnection::where('id', $request->input('selectedTypes')[count($request->input('selectedTypes')) - 1])->first();
         $housingTypeInputs = json_decode($housingTypeParentConnection->housingType->form_json);
-        
+
         $manager = new ImageManager(
             new Driver()
         );
 
         $projectSlug = Str::slug($request->input('projectData')['project_title']);
         $projectData = $request->input('projectData');
-        
-        if($request->file('projectData')['cover_image']){
+
+        if ($request->file('projectData')['cover_image']) {
 
             $file = $request->file('projectData')['cover_image'];
 
             // Dosyanın hedef dizini
             $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-    
+
             // Dosyayı belirlenen hedefe taşı
-            $fileNameCoverImage = $projectSlug.'_housing_cover_image_'.time().'.'.$file->getClientOriginalExtension();
+            $fileNameCoverImage = $projectSlug . '_housing_cover_image_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
 
-            $image = $manager->read(public_path('housing_images/'.$fileNameCoverImage));
+            $image = $manager->read(public_path('housing_images/' . $fileNameCoverImage));
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
+
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
-            $encoded->save(public_path('housing_images/'.$fileNameCoverImage));
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); // 45 derece çapraz döndürme
+            $encoded->save(public_path('housing_images/' . $fileNameCoverImage));
         }
 
-        if($request->file('projectData')['document']){
+        if ($request->file('projectData')['document']) {
 
             $file = $request->file('projectData')['document'];
 
             // Dosyanın hedef dizini
             $destinationPath = public_path('housing_documents'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-    
+
             // Dosyayı belirlenen hedefe taşı
-            $fileNameDocument = $projectSlug.'_housing_document_'.time().'.'.$file->getClientOriginalExtension();
+            $fileNameDocument = $projectSlug . '_housing_document_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
         }
 
         $galleryImages = [];
 
-        foreach ( $request->file('projectData')['gallery'] as $order => $imagex ) {
+        foreach ($request->file('projectData')['gallery'] as $order => $imagex) {
             $file = $imagex;
             // Dosyanın hedef dizini
             $destinationPath = public_path('housing_images'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-    
+
             // Dosyayı belirlenen hedefe taşı
-            $fileNameGalleryImage = $projectSlug.'_housing_gallery_image_'.$order.time().'.'.$file->getClientOriginalExtension();
+            $fileNameGalleryImage = $projectSlug . '_housing_gallery_image_' . $order . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameGalleryImage);
-            $image = $manager->read(public_path('housing_images/'.$fileNameGalleryImage));
+            $image = $manager->read(public_path('housing_images/' . $fileNameGalleryImage));
             $imageWidth = $image->width();
             $imageHeight = $image->height();
-            if($imageWidth > 450){
-                $newWidth = 450;
-                $newHeight = $imageHeight * 450 / $imageWidth;
+            if($imageWidth > 1200){
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
             }else{
+
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
-            $encoded->save(public_path('housing_images/'.$fileNameGalleryImage));
-            array_push($galleryImages,$fileNameGalleryImage);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); // 45 derece çapraz döndürme
+            $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
+            array_push($galleryImages, $fileNameGalleryImage);
         }
-        
-        $housingTypeParent1 = HousingTypeParent::where('id',$request->input('selectedTypes')[0])->firstOrFail(); 
-        $housingTypeParent2 = HousingTypeParent::where('id',$request->input('selectedTypes')[1])->firstOrFail(); 
+
+        $housingTypeParent1 = HousingTypeParent::where('id', $request->input('selectedTypes')[0])->firstOrFail();
+        $housingTypeParent2 = HousingTypeParent::where('id', $request->input('selectedTypes')[1])->firstOrFail();
 
         $postData = [];
-        foreach($request->input('room') as $key => $pData){
+        foreach ($request->input('room') as $key => $pData) {
             $postData[$key] = [$pData];
         }
 
-        foreach($housingTypeInputs as $input){
-            if($input->type == "checkbox-group"){
-                if(str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')){
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = explode(',',$postData[str_replace('[]','',$input->name)][0]);
+        foreach ($housingTypeInputs as $input) {
+            if ($input->type == "checkbox-group") {
+                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                     }
-                }else{
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = explode(',',$postData[str_replace('[]','',$input->name)][0]);
+                } else {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                     }
                 }
-                
-            }else{
-                if(str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')){
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = str_replace('.','',$postData[str_replace('[]','',$input->name)][0]);
+            } else {
+                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0]);
                     }
-                }else{
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = $postData[str_replace('[]','',$input->name)][0];
+                } else {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = $postData[str_replace('[]', '', $input->name)][0];
                     }
                 }
             }
@@ -820,21 +842,21 @@ class ProjectController extends Controller
                 'status_id' => 1,
                 'document' => $fileNameDocument,
                 'status' => 2,
-                'housing_type_data' => json_encode( $postData, JSON_UNESCAPED_UNICODE ),
+                'housing_type_data' => json_encode($postData, JSON_UNESCAPED_UNICODE),
                 'user_id' => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,
-                'latitude' => explode('-',$request->input('projectData')['coordinates'])[0],
-                'longitude' => explode('-',$request->input('projectData')['coordinates'])[1],
+                'latitude' => explode('-', $request->input('projectData')['coordinates'])[0],
+                'longitude' => explode('-', $request->input('projectData')['coordinates'])[1],
                 'status' => 2,
             ]
         );
 
-        $defaultHousingconnection = HousingStatus::where( 'is_default', 1 )->where( 'is_housing', 1 )->first();
-        HousingStatusConnection::create( [
+        $defaultHousingconnection = HousingStatus::where('is_default', 1)->where('is_housing', 1)->first();
+        HousingStatusConnection::create([
             'housing_status_id' => $defaultHousingconnection->id,
             'housing_id' => $project->id
-        ] );
+        ]);
 
-        
+
 
         return json_encode([
             "status" => true,
@@ -842,12 +864,12 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function saveTempProject(Request $request){
-        $tempOrder = TempOrder::where('user_id',auth()->user()->id)->where('item_type',2)->first();
+    public function saveTempProject(Request $request)
+    {
+        $tempOrder = TempOrder::where('user_id', auth()->user()->id)->where('item_type', 2)->first();
 
-        if($tempOrder){
-
-        }else{
+        if ($tempOrder) {
+        } else {
             $data = [
                 "projectData" => $request->input('projectData'),
                 "haveBlocks" => $request->input('haveBlocks'),
@@ -862,7 +884,166 @@ class ProjectController extends Controller
                 "step_order" => 1
             ]);
         }
+    }
 
+    public function projectHousings($projectId,Request $request){
+        $project = Project::with("blocks")->where('id',$projectId)->first();
+
+        if($project->have_blocks){
+            $blocks = Block::where('project_id',$project->id)->get();
+            $blockStart = 0;
+            foreach($blocks as $index => $block){
+                if($index < $request->input('block')){
+                    $blockStart += $block->housing_count;
+                }
+            }
+            if($blockStart+intval($request->input('end')) > $blockStart+$blocks[$request->input('block')]->housing_count){
+                $end = $blockStart+$blocks[$request->input('block')]->housing_count;
+            }else{
+                $end = $blockStart+intval($request->input('end'));
+            }
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','>',$blockStart+intval($request->input('start')))->where('room_order','<=',$end)->get();
+        }else{
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+        }
+
+        $projectHousingsList = [];
+        $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
         
+        $projectHousingCount = ProjectHousing::where('project_id', $project->id)->groupBy('room_order')->count();
+
+        $sumCartOrderQt = DB::table('cart_orders')
+            ->select(
+                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+            )
+            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+            ->get();
+
+
+        $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+            ->mapWithKeys(function ($group) {
+                return [
+                    $group->first()->housing_id => [
+                        'housing_id' => $group->first()->housing_id,
+                        'qt_total' => $group->sum('qt'),
+                    ]
+                ];
+            })
+            ->all();
+
+        $solds = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? ', [ $project->id]);
+
+        return json_encode([
+            "project" => $project,
+            "rows" => $projectHousingsList,
+            "projectHousingCount" => $projectHousingCount,
+            "sumCartOrderQt" => $sumCartOrderQt,
+            "solds" => $solds
+        ]);
+    }
+
+    public function saveHousing(Request $request){
+        if($request->input('is_dot')){
+            ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
+                "name" => $request->input('column_name')."[]",
+                "value" => str_replace('.','',$request->input('value'))
+            ]);
+        }else{
+            ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
+                "name" => $request->input('column_name')."[]",
+                "value" => str_replace('.','',$request->input('value'))
+            ]);
+        }
+
+        return json_encode([
+            "status" => true,
+        ]);
+    }
+
+    public function changeImage(Request $request){
+        try{
+            $project = Project::with("blocks")->where('id',$request->input('project_id'))->first();
+            $imageRoom = $request->file('value');
+            if ($imageRoom) {
+                $newFileName = $project->slug . '-project-housing-image-' . ($request->input('room_order')).time() . '.' . $imageRoom->getClientOriginalExtension();
+                $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
+
+                if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
+                    ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
+                        "name" => "image[]",
+                        "value" => $newFileName
+                    ]);
+                }
+            }
+
+            return json_encode([
+                "status" => true
+            ]);
+        }catch(Throwable $e){
+            return json_encode([
+                "error" => $e->getMessage(),
+                "status" => false
+            ]);
+        }
+    }
+
+    public function changePayDecs(Request $request){
+        for($i = 0; $i < count($request->input('rooms')); $i++){
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('rooms')[$i])->where('name','pay-dec-count'.$i+1)->delete();
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('rooms')[$i])->where('name','LIKE','%pay_desc_price'.($i+1).'%')->delete();
+            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('rooms')[$i])->where('name','LIKE','%pay_desc_date'.($i+1).'%')->delete();
+        }
+
+        for($i = 0; $i < count($request->input('rooms')); $i++){
+            ProjectHousing::create([
+                "key" => "pay-dec-count".($request->input('rooms')[$i]),
+                "name" => "pay-dec-count".($request->input('rooms')[$i]),
+                "value" => str_replace('.', '', count($request->input('value'))),
+                "project_id" => $request->input('project_id'),
+                "room_order" => $request->input('rooms')[$i],
+            ]);
+            for($j = 0; $j < count($request->input('value')); $j++){
+                if(isset($request->input('value')[$j]["price"])){
+                    ProjectHousing::create([
+                        "key" => "pay_desc_price".($request->input('rooms')[$i]).$j,
+                        "name" => "pay_desc_price".($request->input('rooms')[$i]).$j,
+                        "value" => str_replace('.', '', $request->input('value')[$j]["price"]),
+                        "project_id" => $request->input('project_id'),
+                        "room_order" => $request->input('rooms')[$i],
+                    ]);
+                }
+
+                if(isset($request->input('value')[$j]["date"])){
+                    ProjectHousing::create([
+                        "key" => "pay_desc_date".($request->input('rooms')[$i]).$j,
+                        "name" => "pay_desc_date".($request->input('rooms')[$i]).$j,
+                        "value" => $request->input('value')[$j]["date"],
+                        "project_id" => $request->input('project_id'),
+                        "room_order" => $request->input('rooms')[$i],
+                    ]);
+                }
+            }
+        }
+
+        return json_encode([
+            "status" => true
+        ]);
+    }
+
+    public function savePaymentStatus(Request $request){
+        ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name','off_sale[]')->update([
+            "name" => "off_sale[]",
+            "value" => str_replace('.','',$request->input('value'))
+        ]);
+
+        return json_encode([
+            "status" => true,
+        ]);
     }
 }
