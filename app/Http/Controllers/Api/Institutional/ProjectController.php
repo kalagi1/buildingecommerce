@@ -227,10 +227,7 @@ class ProjectController extends Controller
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45)
-                ->opacity(0.5) // Opaklık değeri (0 ile 1 arasında)
-                ->resize(200, 200); // Boyutunu ayarla
-
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 10, 45);
             $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
         }
 
@@ -546,10 +543,7 @@ class ProjectController extends Controller
                 $newHeight = $imageHeight;
             }
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45)
-                ->opacity(0.5) // Opaklık değeri (0 ile 1 arasında)
-                ->resize(200, 200); // Boyutunu ayarla
- // 45 derece çapraz döndürme
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 10, 45); // 45 derece çapraz döndürme
             $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
 
             $fileDb = 'public/project_images/' . $fileNameCoverImage;
@@ -741,10 +735,7 @@ class ProjectController extends Controller
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45)
-                ->opacity(0.5) // Opaklık değeri (0 ile 1 arasında)
-                ->resize(200, 200); // Boyutunu ayarla
- // 45 derece çapraz döndürme
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 10, 45); // 45 derece çapraz döndürme
             $encoded->save(public_path('housing_images/' . $fileNameCoverImage));
         }
 
@@ -782,10 +773,7 @@ class ProjectController extends Controller
             }
 
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'),'center',10,10,10,45)
-                ->opacity(0.5) // Opaklık değeri (0 ile 1 arasında)
-                ->resize(200, 200); // Boyutunu ayarla
- // 45 derece çapraz döndürme
+            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 10, 45); // 45 derece çapraz döndürme
             $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
             array_push($galleryImages, $fileNameGalleryImage);
         }
