@@ -749,9 +749,10 @@ function HousingList({projectId}) {
                                                         if(room > lastBlockCountTemp3){
                                                             lastBlockCountTemp2 += project.blocks[i].housing_count;
                                                         }
-
+                                                        
                                                         lastBlockCountTemp += project.blocks[i].housing_count;
                                                         lastBlockCountTemp3 += project.blocks[i].housing_count;
+                                                        console.log(room,lastBlockCountTemp3,lastBlockCountTemp2)
                                                     }
 
                                                     return(

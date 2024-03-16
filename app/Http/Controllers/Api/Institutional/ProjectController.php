@@ -227,14 +227,14 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
+            $image2 = $manager->read(public_path('images/filigran.png'));
+            $imageWidth2 = $image2->width();
+            $imageHeight2 = $image2->height();
+            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(45,'#00000000');
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'top-left', 10, 10, 50, 45);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'top-right', 10, 10, 50, 45);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'bottom-left', 10, 10, 50, 45);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'bottom-right', 10, 10, 50, 45);
-
-            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
+            $encoded = $image->place($image2,'center',10,10,10);
+            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
         }
 
 
@@ -552,9 +552,14 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
+            $image2 = $manager->read(public_path('images/filigran.png'));
+            $imageWidth2 = $image2->width();
+            $imageHeight2 = $image2->height();
+            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(45,'#00000000');
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); // 45 derece çapraz döndürme
-            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
+            $encoded = $image->place($image2,'center',10,10,10);
+            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
 
             $fileDb = 'public/project_images/' . $fileNameCoverImage;
         } else {
@@ -746,10 +751,14 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
-
+            $image2 = $manager->read(public_path('images/filigran.png'));
+            $imageWidth2 = $image2->width();
+            $imageHeight2 = $image2->height();
+            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(45,'#00000000');
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); // 45 derece çapraz döndürme
-            $encoded->save(public_path('housing_images/' . $fileNameCoverImage));
+            $encoded = $image->place($image2,'center',10,10,10);
+            $encoded->save(public_path('housing_images/'.$fileNameCoverImage));
         }
 
         if ($request->file('projectData')['document']) {
@@ -785,11 +794,15 @@ class ProjectController extends Controller
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
-
+            $image2 = $manager->read(public_path('images/filigran.png'));
+            $imageWidth2 = $image2->width();
+            $imageHeight2 = $image2->height();
+            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(45,'#00000000');
             $image->resize($newWidth, $newHeight);
-            $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45); // 45 derece çapraz döndürme
-            $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
-            array_push($galleryImages, $fileNameGalleryImage);
+            $encoded = $image->place($image2,'center',10,10,10);
+            $encoded->save(public_path('housing_images/'.$fileNameGalleryImage));
+            array_push($galleryImages,$fileNameGalleryImage);
         }
 
         $housingTypeParent1 = HousingTypeParent::where('id', $request->input('selectedTypes')[0])->firstOrFail();
@@ -799,26 +812,26 @@ class ProjectController extends Controller
         foreach ($request->input('room') as $key => $pData) {
             $postData[$key] = [$pData];
         }
-
-        foreach ($housingTypeInputs as $input) {
-            if ($input->type == "checkbox-group") {
-                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
+        foreach($housingTypeInputs as $input){
+            if($input->type == "checkbox-group"){
+                if(str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')){
+                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
+                        $postData[str_replace('[]','',$input->name)] = explode(',',$postData[str_replace('[]','',$input->name)][0]);
                     }
                 } else {
                     if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
                         $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                     }
                 }
-            } else {
-                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0]);
+                
+            }else{
+                if(str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')){
+                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
+                        $postData[str_replace('[]','',$input->name)] = [str_replace('.','',$postData[str_replace('[]','',$input->name)][0])];
                     }
-                } else {
-                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
-                        $postData[str_replace('[]', '', $input->name)] = $postData[str_replace('[]', '', $input->name)][0];
+                }else{
+                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
+                        $postData[str_replace('[]','',$input->name)] = [$postData[str_replace('[]','',$input->name)][0]];
                     }
                 }
             }
@@ -855,7 +868,6 @@ class ProjectController extends Controller
             'housing_status_id' => $defaultHousingconnection->id,
             'housing_id' => $project->id
         ]);
-
 
 
         return json_encode([

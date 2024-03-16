@@ -95,7 +95,8 @@
 <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js"></script>
 
-<script src="{{URL::to('/')}}/build/assets/app-cbfe9c21.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-4552ed59.js"></script>
+
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
