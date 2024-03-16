@@ -399,7 +399,7 @@ class ProjectController extends Controller {
             "name" => $request->name,
             "idNumber" => $request->tc,
             "mobile_phone"  => $request->phone,
-            "phone" => null,
+            "phone" => $request->phone,
         ]);
 
         $cartJson['item']['id'] = (int)$projectID;
@@ -461,7 +461,7 @@ class ProjectController extends Controller {
                 "name" => $request->name,
                 "idNumber" => $request->tc,
                 "mobile_phone"  => $request->phone,
-                "phone" => null,
+                "phone" => $request->phone,
             ]);
 
             $update= CartOrder::where('id',$request->cartOrderID)->update($updatedData);

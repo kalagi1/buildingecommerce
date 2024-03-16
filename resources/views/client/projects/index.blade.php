@@ -65,12 +65,6 @@
 
 
 
-    @foreach ($offer as $item)
-        @php
-            $projectHousings = json_decode($item['project_housings'], true);
-            $projectDiscountAmount = $item['discount_amount'];
-        @endphp
-    @endforeach
 
     <div class="loading-full d-none">
         <div class="back-opa">
@@ -151,7 +145,7 @@
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Emlak
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekibimiz</a>
                         </div>
                         <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf
@@ -713,6 +707,7 @@
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
+                            
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="container">
@@ -833,9 +828,11 @@
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
+
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
+                                                            
                                                         $statusSlug = $status->slug;
                                                     @endphp
 
