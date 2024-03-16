@@ -808,6 +808,11 @@ class ProjectController extends Controller
         $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->first();
         $cities = City::all()->toArray();
 
+        if (!$project) {
+            return redirect('/')
+            ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
+        }
+
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
 
         $statusSlug = HousingStatus::find($statusID)->slug;

@@ -19,7 +19,7 @@
         @if (Auth::check() && Auth::user()->type == '2')
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
-                    <h3 class="mb-0 text-primary position-relative fw-bold" style="margin-bottom: 10px !important">
+                    <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
                         <span class="bg-soft pe-2">
                             Sayın {{ $userLog->name }}, Emlak Sepette'ye Hoş Geldiniz.
                         </span><span
@@ -39,7 +39,7 @@
             @else
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
-                    <h3 class="mb-0 text-primary position-relative fw-bold" style="margin-bottom: 10px !important">
+                    <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
                         <span class="bg-soft pe-2">
                             Sayın {{ $userLog->name }}, Emlak Sepette'ye Hoş Geldiniz.
                         </span><span
@@ -366,6 +366,25 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="row">
+                <div class="col-12 col-xl-6 col-xxl-5">
+                    <div class="card border h-100 w-100 overflow-hidden">
+                      <div class="bg-holder d-block bg-card" style="background-image:url({{ asset('popup2.jpeg') }});background-position: top right;"></div>
+                        
+                      <div class="card-body px-5 position-relative">
+                        <div class="badge badge-phoenix fs-10 badge-phoenix-warning mb-4"><span class="fw-bold">Emlak Kulüp</span></div>
+                        <h3 class="mb-5">Sen de kazananlar kulübündensin !</h3>
+                        <p class="text-body-tertiary fw-semibold">Emlak Kulübüne üye ol, dilediğin
+                            kadar paylaş; paylaştıkça kazan!. </p>
+                      </div>
+                      <div class="card-footer border-0 py-0 px-5 z-1">
+                        <p class="text-body-tertiary fw-semibold">Emlak Kulüp<br class="d-none d-xxl-block"> SEN DE KATIL !</p>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
         @endif
 
     </div>

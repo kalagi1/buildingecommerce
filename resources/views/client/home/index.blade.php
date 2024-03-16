@@ -202,6 +202,7 @@
     @else
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
+    
 
     @if ($secondhandHousings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white">
