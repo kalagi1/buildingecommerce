@@ -1163,6 +1163,10 @@
                             },
                             error: function(error) {
 
+                                window.location.href = "/giris-yap";
+
+                                console.error(error);
+
                             }
                         });
                     }

@@ -109,6 +109,10 @@ class ProjectController extends Controller
          }
     }
 
+    public function housingsV2(){
+        return view('institutional.projects.housings_v2');
+    }
+
     public function loadMoreHousings(Request $request)
     {
         // AJAX isteğiyle gelen sayfa numarasını al
@@ -1385,7 +1389,6 @@ class ProjectController extends Controller
                     }
                 }
             }
-            dd("asd");
             return redirect()->route('institutional.projects.housings', $project->id);
         } catch (Throwable $e) {
 

@@ -90,6 +90,8 @@
 
 <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js"></script>
 <!--FormBuilder-->
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
