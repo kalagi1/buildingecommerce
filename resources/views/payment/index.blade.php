@@ -121,7 +121,7 @@
                                     </div>
 
                                     <div class="col-7">
-                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && $share_sale == "[]")
                                             <label for="neighborProjects">Komşunuzun referansıyla mı satın
                                                 alıyorsunuz?</label>
                                             <select class="form-control" id="is_reference" name="is_reference">
@@ -135,7 +135,7 @@
                                     </div>
 
                                     <div class="col-sm-12 pt-5">
-                                        @if ($cart['type'] == 'project' && empty($share_sale))
+                                        @if ($cart['type'] == 'project' && $share_sale == "[]")
                                             <div class="d-flex align-items-center mb-3">
                                                 <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
                                                 <i class="fa fa-info-circle ml-2"

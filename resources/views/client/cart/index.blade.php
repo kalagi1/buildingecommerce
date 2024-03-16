@@ -236,7 +236,7 @@
 
                                         <td>
                                             <span style="width:100%;text-align:center">
-                                                @if (isset($share_sale) && !empty($share_sale))
+                                                @if (isset($share_sale) && $share_sale != "[]")
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
@@ -522,7 +522,7 @@
                                                 <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
-                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && $share_sale == "[]")
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="neighborProjects">Komşunuzun referansıyla mı satın
@@ -541,7 +541,7 @@
 
                                     </div>
 
-                                    @if ($cart['type'] == 'project' && empty($share_sale))
+                                    @if ($cart['type'] == 'project' && $share_sale == "[]")
                                         <div class="d-flex align-items-center">
                                             <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
 

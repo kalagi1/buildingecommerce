@@ -64,7 +64,7 @@
                                             <br>
                                             @if ($item['item_type'] == 1)
                                                 {!! $item['room_order'] . " No'lu Daire <br>" !!}
-                                            @endif <span
+                                            @endif <spanW
                                                 style="font-size: 9px !important;font-weight:700">
                                                 {{ isset($item['item_type']) && $item['item_type'] == 1
                                                     ? $item['project']['city']['title'] .
@@ -76,10 +76,10 @@
                                                         ? $item['housing']['city']['title']
                                                         : 'City Not Available') }}
                                                 <br>
-                                            </span>
+                                            </spanW>
                                         </td>
                                         <td>
-                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                 <span class="text-center w-100">
                                                     1 Pay Fiyatı
                                                 </span><br>
@@ -93,13 +93,13 @@
 
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
-                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                     {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
                                                                 @else
                                                                     {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                 @endif
                                                             @elseif ($item['project_values']['daily_rent[]'])
-                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                     {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                 @else
                                                                     {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
@@ -117,13 +117,13 @@
                                                     <span style="color: green; ">
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
-                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                     {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
                                                                 @else
                                                                     {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                 @endif
                                                             @elseif ($item['project_values']['daily_rent[]'])
-                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                     {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                 @else
                                                                     {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
@@ -176,7 +176,7 @@
                                                             $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                         @endphp
                                                         <strong>
-                                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                 {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                             @else
                                                                 {{ number_format($earningAmount, 0, ',', '.') }}
@@ -327,13 +327,13 @@
                                                     <span>
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
-                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                     {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
                                                                 @else
                                                                     {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                 @endif
                                                             @elseif ($item['project_values']['daily_rent[]'])
-                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                                     {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                 @else
                                                                     {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
@@ -386,7 +386,7 @@
                                                         $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                     @endphp
                                                     <strong>
-                                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                        @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                             {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
                                                         @else
                                                             {{ number_format($earningAmount, 0, ',', '.') }}

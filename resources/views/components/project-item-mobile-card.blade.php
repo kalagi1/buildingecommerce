@@ -132,14 +132,14 @@
                         </button>
                     @else
                         @if (
-                            ($sold && $sold->status != '2' && empty($share_sale)) ||
+                            ($sold && $sold->status != '2' && $share_sale == "[]") ||
                                 (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
                                 @if ($sold->status == '0') style="background: orange !important; color: White;" @else  style="background: #EA2B2E !important; color: White;" @endif>
-                                @if ($sold->status == '0' && empty($share_sale))
+                                @if ($sold->status == '0' && $share_sale == "[]")
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
-                                    ($sold->status == '1' && empty($share_sale)) ||
+                                    ($sold->status == '1' && $share_sale == "[]") ||
                                         (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                                     <span class="text">Satıldı</span>
                                 @endif
@@ -157,7 +157,7 @@
                                             $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
                                     @endphp
 
-                                    @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                    @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                         <span class="text-center w-100 d-block">
                                             1 Pay Fiyatı
                                         </span>
@@ -166,7 +166,7 @@
                                     @if ($off_sale_check && $projectDiscountAmount)
                                         <h6
                                             style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
                                             @else
@@ -183,7 +183,7 @@
                                     @elseif ($off_sale_check)
                                         <h6
                                             style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                 {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                 ₺
                                             @else
