@@ -232,7 +232,9 @@
                     </div>
 
                     <div class="ajax-load" style="display: none;">
-                        Yükleniyor...
+                        <div class="spinner-border" role="status">
+                           
+                          </div>
                     </div>
                 </div>
 
@@ -252,7 +254,9 @@
                                 @endforelse
                             </div>
                             <div class="ajax-load" style="display: none;">
-                                Yükleniyor...
+                                <div class="spinner-border" role="status">
+                                   
+                                  </div>
                             </div>
                         </div>
                     </section>
@@ -393,50 +397,60 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        var page = 1; // Başlangıç sayfası
+        var page = 1; 
         var isLoading = false;
         var housingRow = $('#housingRow');
         var housingMobileRow = $('#housingMobileRow');
         var itemsPerPage = 4;
-
+        var maxPages = null;
+        var housingCounts = @json($secondhandHousings);
+        maxPages = Math.ceil(housingCounts.length / itemsPerPage);
+        function centerAjaxLoadElements() {
+        var ajaxLoadElements = document.querySelectorAll('.ajax-load');
+        
+        ajaxLoadElements.forEach(function(element) {
+            element.style.display = 'flex';
+            element.style.justifyContent = 'center';
+            element.style.margin = '0 auto';
+        });
+    }
         function loadMoreHousings() {
-            if (isLoading) return;
+            if (isLoading || page >= maxPages) return; 
             isLoading = true;
+            centerAjaxLoadElements();
             $('.ajax-load').show();
-
-            page++; // Sonraki sayfaya geç
+    
+            page++; 
             var url = "{{ route('load-more-housings') }}?page=" + page;
-
+    
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('housingRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
-
                 })
                 .catch(error => console.error('Error:', error));
         }
-
+    
         function loadMoreMobileHousings() {
-            if (isLoading) return;
+            if (isLoading || page >= maxPages) return; 
             isLoading = true;
             $('.ajax-load').show();
-
-            page++; // Sonraki sayfaya geç
+    
+            page++; 
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
-
+    
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('housingMobileRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
-
                 })
                 .catch(error => console.error('Error:', error));
         }
-
+    
         window.addEventListener('scroll', function() {
             if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
                 50 && !isLoading && window.innerWidth >= 768) {
@@ -449,6 +463,7 @@
             }
         });
     </script>
+    
 
     <script>
         var errorMessage = "{{ session('error') }}";
