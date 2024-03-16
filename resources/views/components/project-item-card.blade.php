@@ -68,7 +68,7 @@
                             </div>
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
-                                  
+
                                     <span
                                         class="btn 
                                     @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
@@ -247,26 +247,24 @@
                         Ödeme Onayı </span>
                 </span>
             @elseif($neighborView && $neighborView->status == '1')
-            
-                <span class="first-btn see-my-neighbor success" data-bs-toggle="modal" data-bs-target="#phoneModal{{ $sold->id }}">
-                
-                        <span>
+                <span class="first-btn see-my-neighbor success" data-bs-toggle="modal"
+                    data-bs-target="#phoneModal{{ $sold->id }}">
 
-                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
-                                stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                                class="css-i6dzq1">
-                                <polyline points="19 1 23 5 19 9"></polyline>
-                                <line x1="15" y1="5" x2="23" y2="5">
-                                </line>
-                                <path
-                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                                </path>
-                            </svg>
-                            İletişime Geç
-                        </span>
-                   
+                    <span>
+
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <polyline points="19 1 23 5 19 9"></polyline>
+                            <line x1="15" y1="5" x2="23" y2="5">
+                            </line>
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        İletişime Geç
+                    </span>
+
                 </span>
-              
             @elseif($isUserSame == true)
                 <span class="first-btn see-my-neighbor success">
                     <span>
@@ -310,8 +308,10 @@
         @endif
 
 
-        @if (($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) || ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
-        <button class="btn second-btn"
+        @if (
+            ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) ||
+                ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
+            <button class="btn second-btn"
                 style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
                 <span class="text">Satışa Kapatıldı</span>
             </button>
@@ -517,8 +517,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="phoneModal{{ $sold->id }}" tabindex="-1"
-        aria-labelledby="phoneModalLabel" aria-hidden="true">
+    <div class="modal fade" id="phoneModal{{ $sold->id }}" tabindex="-1" aria-labelledby="phoneModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -544,12 +544,12 @@
                             Telefon:
                             {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
                         </li>
-                        
+
 
                     </ul>
                 </div>
                 <div class="modal-footer" style="justify-content: end !important">
-                   
+
                     <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                             style="width:100px">Ara</button></a>
 

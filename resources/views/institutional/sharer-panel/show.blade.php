@@ -24,7 +24,8 @@
                                     @php
                                         $discountedPrice = null;
                                         $price = null;
-
+                                        $share_sale = null;
+                                        $number_of_share = null;
                                         if (
                                             $item['item_type'] == 2 &&
                                             isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0])
@@ -35,12 +36,10 @@
                                                 json_decode($item['housing']['housing_type_data'])->price[0] -
                                                 $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
-                                        } elseif (
-                                            $item['item_type'] == 1 &&
-                                            isset($item['project_values']['discount_rate[]']) &&
-                                            $item['project_values']['discount_rate[]'] != 0
-                                        ) {
-                                            $discountRate = $item['project_values']['discount_rate[]'];
+                                        } elseif ($item['item_type'] == 1) {
+                                            $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
+                                            $share_sale = $item['project_values']['share_sale[]'] ?? null;
+                                            $number_of_share = $item['project_values']['number_of_shares[]'] ?? null;
                                             $price = $item['project_values']['price[]'] - $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
                                         }
@@ -54,8 +53,8 @@
 
                                         <td>
                                             <a
-                                            href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
-                                            <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
+                                                href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
+                                                <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                     alt="home-1" class="img-responsive"
                                                     style="height: 70px !important; object-fit: cover;width:100px">
                                             </a>
@@ -80,6 +79,11 @@
                                             </span>
                                         </td>
                                         <td>
+                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                <span class="text-center w-100">
+                                                    1 Pay Fiyatı
+                                                </span><br>
+                                            @endif
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                 @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
                                                     <span style="color: green;">
@@ -89,9 +93,17 @@
 
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
-                                                                {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                    {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                @endif
                                                             @elseif ($item['project_values']['daily_rent[]'])
-                                                                {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                    {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                @endif
                                                             @endif
                                                         @else
                                                             @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
@@ -105,9 +117,17 @@
                                                     <span style="color: green; ">
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
-                                                                {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                    {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                @endif
                                                             @elseif ($item['project_values']['daily_rent[]'])
-                                                                {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                    {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                @endif
                                                             @endif
                                                         @else
                                                             @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
@@ -156,7 +176,11 @@
                                                             $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                         @endphp
                                                         <strong>
-                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
+                                                            @else
+                                                                {{ number_format($earningAmount, 0, ',', '.') }}
+                                                            @endif ₺
                                                         </strong>
                                                     @endif
                                                 @else
@@ -217,12 +241,10 @@
                                     json_decode($item['housing']['housing_type_data'])->price[0] -
                                     $item['discount_amount'];
                                 $discountedPrice = $price - ($price * $discountRate) / 100;
-                            } elseif (
-                                $item['item_type'] == 1 &&
-                                isset($item['project_values']['discount_rate[]']) &&
-                                $item['project_values']['discount_rate[]'] != 0
-                            ) {
-                                $discountRate = $item['project_values']['discount_rate[]'];
+                            } elseif ($item['item_type'] == 1) {
+                                $discountRate = $item['project_values']['discount_rate[]'] ?? 0;
+                                $share_sale = $item['project_values']['share_sale[]'] ?? null;
+                                $number_of_share = $item['project_values']['number_of_shares[]'] ?? null;
                                 $price = $item['project_values']['price[]'] - $item['discount_amount'];
                                 $discountedPrice = $price - ($price * $discountRate) / 100;
                             }
@@ -231,8 +253,8 @@
                             <div class="align-items-center d-flex " style="padding-right:0; width: 70px;">
                                 <div class="project-inner project-head">
                                     <a
-                                    href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
-                                    <div class="homes">
+                                        href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
+                                        <div class="homes">
                                             <div class="homes-img h-100 d-flex align-items-center">
                                                 <img src="{{ $item['item_type'] == 1 ? URL::to('/') . '/project_housing_images/' . $item['project_values']['image[]'] : URL::to('/') . '/housing_images/' . json_decode($item['housing']['housing_type_data'])->image }}"
                                                     alt="home-1" class="img-responsive"
@@ -246,7 +268,7 @@
                                 <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
                                     <a
-                                    href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
+                                        href="{{ $item['item_type'] == 1 ? route('project.housings.detail', ['projectSlug' => $item['project']['slug'], 'projectID' => $item['project']['id'] + 1000000, 'housingOrder' => $item['room_order']]) : route('housing.show', ['housingSlug' => $item['housing']['step1_slug'] . '-' . $item['housing']['step2_slug'] . '-' . $item['housing']['slug'], 'housingID' => $item['housing']['id'] + 2000000]) }}">
                                         <div class="d-flex"
                                             style="gap: 8px;justify-content:space-between;align-items:center">
 
@@ -279,6 +301,7 @@
                                     </a>
 
                                     <div class="d-flex" style="align-items: center;justify-content:space-between">
+                                        
                                         @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                             <span class="badge badge-phoenix fs-10 badge-phoenix-danger">
                                                 @if (isset($discountRate) && $discountRate != 0 && isset($discountedPrice))
@@ -302,12 +325,19 @@
                                                     </del>
                                                 @else
                                                     <span>
-                                                        {{-- <del style="color: green;"> --}}
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
-                                                                {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                    {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                @endif
                                                             @elseif ($item['project_values']['daily_rent[]'])
-                                                                {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                                    {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                                                @else
+                                                                    {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                @endif
                                                             @endif
                                                         @else
                                                             @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
@@ -356,7 +386,12 @@
                                                         $earningAmount = $discountedPrice * 0.02 * $sharePercent;
                                                     @endphp
                                                     <strong>
-                                                        {{ number_format($earningAmount, 0, ',', '.') }} ₺
+                                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                                            {{ number_format($earningAmount / $number_of_share, 0, ',', '.') }}
+                                                        @else
+                                                            {{ number_format($earningAmount, 0, ',', '.') }}
+                                                        @endif
+                                                        ₺
                                                     </strong>
                                                 @endif
                                             @else
