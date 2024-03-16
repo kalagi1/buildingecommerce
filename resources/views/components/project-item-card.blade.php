@@ -94,20 +94,21 @@
 
                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
                     @php
-                    $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                    $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                    $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                    $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                    $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+                        $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+                        $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+                        $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
+                        $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                        $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
 
-                @endphp
+                    @endphp
                     <div class="row align-items-center justify-content-between mobile-position"
+                        {{ isset($sumCartOrderQt[$keyIndex]) ? $sumCartOrderQt[$keyIndex] : 0 }}
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                 $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ||
                                 (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)) style="background: #EEE !important;height:100% !important" @endif>
                         <div class="col-md-9">
-                           
+
 
                             <div class="homes-list-div"
                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="flex-direction: column !important;" @endif>
