@@ -50,7 +50,7 @@
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        var socket = io("https://emlaksepette.com/");
+        var socket = io("http://127.0.0.1:8000/");
 
         function sendMessage() {
             var message = $('#message').val();
