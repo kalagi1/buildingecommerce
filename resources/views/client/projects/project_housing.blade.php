@@ -306,9 +306,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                <div class="homes-tag button alt featured mobileTagProject">
-                                    <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                                </div>
+                                
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -332,11 +330,6 @@
                                     @endforeach
 
 
-                                    {{-- Carousel Kontrolleri --}}
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                            class="fa fa-angle-left"></i></a>
-                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
                                 </div>
 
                                 {{-- Küçük Resim Navigasyonu --}}
