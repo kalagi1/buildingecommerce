@@ -138,8 +138,8 @@
                     
                                                 </div>
                                                 <div class="footer">
-                                                    <a href="http://127.0.0.1:8000/magaza/master-realtor/profil">
-                                                        <img src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701685905.png"
+                                                    <a href="https://emlaksepette.com/magaza/master-realtor/profil">
+                                                        <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701685905.png"
                                                             alt="" class="mr-2"> Master Realtor
                                                     </a>
                                                     <span class="price-mobile">
@@ -175,7 +175,7 @@
                                                             <button class="CartBtn second-btn" data-type="project" data-project="{{$project->id}}"
                                                                 style="height: auto !important" data-id="{{$items[$i]['room_order']}}">
                                                                 <span class="IconContainer">
-                                                                    <img src="http://127.0.0.1:8000/link.png" alt="">
+                                                                    <img src="https://emlaksepette.com/link.png" alt="">
                                                                 </span>
                                                                 <span class="text">Linklerden çıkar</span>
                                                             </button>
@@ -183,7 +183,7 @@
                                                             <button class="CartBtn second-btn" data-type="project" data-project="{{$project->id}}"
                                                                 style="height: auto !important" data-id="{{$items[$i]['room_order']}}">
                                                                 <span class="IconContainer">
-                                                                    <img src="http://127.0.0.1:8000/link.png" alt="">
+                                                                    <img src="https://emlaksepette.com/link.png" alt="">
                                                                 </span>
                                                                 <span class="text">Sepete Ekle</span>
                                                             </button>
@@ -192,7 +192,7 @@
                                                         <button class="CartBtn second-btn" data-type="project" data-project="{{$project->id}}"
                                                             style="height: auto !important" data-id="{{$items[$i]['room_order']}}">
                                                             <span class="IconContainer">
-                                                                <img src="http://127.0.0.1:8000/link.png" alt="">
+                                                                <img src="https://emlaksepette.com/link.png" alt="">
                                                             </span>
                                                             <span class="text">Sepete Ekle</span>
                                                         </button>
@@ -309,8 +309,8 @@
                     
                                                 </div>
                                                 <div class="footer">
-                                                    <a href="http://127.0.0.1:8000/magaza/master-realtor/profil">
-                                                        <img src="http://127.0.0.1:8000/storage/profile_images/profile_image_1701685905.png"
+                                                    <a href="https://emlaksepette.com/magaza/master-realtor/profil">
+                                                        <img src="https://emlaksepette.com/storage/profile_images/profile_image_1701685905.png"
                                                             alt="" class="mr-2"> Master Realtor
                                                     </a>
                                                     <span class="price-mobile">
@@ -343,7 +343,7 @@
                                                             <button class="CartBtn second-btn" data-type="housing"
                                                                 style="height: auto !important" data-id="{{$housing->id}}">
                                                                 <span class="IconContainer">
-                                                                    <img src="http://127.0.0.1:8000/link.png" alt="">
+                                                                    <img src="https://emlaksepette.com/link.png" alt="">
                                                                 </span>
                                                                 <span class="text">Linklerden çıkar</span>
                                                             </button>
@@ -351,7 +351,7 @@
                                                             <button class="CartBtn second-btn" data-type="housing"
                                                                 style="height: auto !important" data-id="{{$housing->id}}">
                                                                 <span class="IconContainer">
-                                                                    <img src="http://127.0.0.1:8000/link.png" alt="">
+                                                                    <img src="https://emlaksepette.com/link.png" alt="">
                                                                 </span>
                                                                 <span class="text">Sepete Ekle</span>
                                                             </button>
@@ -360,7 +360,7 @@
                                                         <button class="CartBtn second-btn" data-type="housing"
                                                             style="height: auto !important" data-id="{{$housing->id}}">
                                                             <span class="IconContainer">
-                                                                <img src="http://127.0.0.1:8000/link.png" alt="">
+                                                                <img src="https://emlaksepette.com/link.png" alt="">
                                                             </span>
                                                             <span class="text">Sepete Ekle</span>
                                                         </button>
