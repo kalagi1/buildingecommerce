@@ -144,7 +144,7 @@
     <span style="width:100%;text-align:center">
 
 
-        @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
+        @if ($off_sale_check && $projectDiscountAmount && !$sold_check && (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                 <span class="text-center w-100">
                     1 Pay Fiyatı
@@ -166,7 +166,7 @@
                 {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                 ₺
             </h6>
-        @elseif ($off_sale_check && !$sold_check)
+        @elseif ($off_sale_check && !$sold_check && (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                 <span class="text-center w-100">
                     1 Pay Fiyatı
