@@ -101,8 +101,6 @@
                     $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
 
                 @endphp
-                    {{$number_of_share}}
-                    {{$sumCartOrderQt[$keyIndex]['qt_total']}}
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
