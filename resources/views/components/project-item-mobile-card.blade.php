@@ -134,14 +134,14 @@
                         </button>
                     @else
                         @if (
-                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                            ($sold && $sold->status != '2' && $share_sale == '[]' ||  empty($share_sale)) ||
                                 (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
                                 @if ($sold->status == '0') style="background: orange !important; color: White;" @else  style="background: #EA2B2E !important; color: White;" @endif>
-                                @if ($sold->status == '0' && $share_sale == '[]')
+                                @if ($sold->status == '0' && $share_sale == '[]' ||  empty($share_sale))
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
-                                    ($sold->status == '1' && $share_sale == '[]') ||
+                                    ($sold->status == '1' && $share_sale == '[]' ||  empty($share_sale)) ||
                                         (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                                     <span class="text">Satıldı</span>
                                 @endif

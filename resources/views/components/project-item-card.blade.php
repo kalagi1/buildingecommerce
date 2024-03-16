@@ -103,7 +103,7 @@
                     @endphp
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
-                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                            ($sold && $sold->status != '2' && $share_sale == '[]' ||  empty($share_sale) || empty($share_sale)) ||
                                 $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ||
                                 (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)) style="background: #EEE !important;height:100% !important" @endif>
                         <div class="col-md-9">
@@ -300,7 +300,7 @@
                 </span>
             @else
                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == '[]') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == '[]' ||  empty($share_sale) || empty($share_sale)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
                     order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                     data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                     Ödeme Detayı
@@ -342,16 +342,15 @@
                 <span class="text">Satışa Kapatıldı</span>
             </button>
         @else
-        {{$share_sale}}
             @if (
-                ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                ($sold && $sold->status != '2' && $share_sale == '[]' ||  empty($share_sale) ) ||
                     (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                 <button class="btn second-btn"
                     @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
-                    @if ($sold->status == '0' && $share_sale == '[]')
+                    @if ($sold->status == '0' && $share_sale == '[]' ||  empty($share_sale) )
                         <span class="text">Rezerve Edildi</span>
                     @elseif (
-                        ($sold->status == '1' && $share_sale == '[]') ||
+                        ($sold->status == '1' && $share_sale == '[]' ||  empty($share_sale) ) ||
                             (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                         <span class="text">Satıldı</span>
                     @endif
