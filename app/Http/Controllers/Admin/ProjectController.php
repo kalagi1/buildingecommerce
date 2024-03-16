@@ -156,9 +156,9 @@ class ProjectController extends Controller {
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
         
-            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası]
+            $notificationText = 'Proje #' . $projectId + 1000000 . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası]
             (' . route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug
-            ,'id' => $project->id+1000000 ] ) . ').';
+            ,'id' => $project->id + 1000000 ] ) . ').';
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -236,7 +236,7 @@ class ProjectController extends Controller {
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
-                'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
+                'text' => '#'.$projectId + 1000000 ." No'lu projeniz şu anda yayında!",
                 'item_id' => $project->id,
                 'link' => route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug,'id' => $project->id+1000000 ] ),
                 'owner_id' => $project->user->id,
@@ -266,7 +266,7 @@ class ProjectController extends Controller {
             DocumentNotification::create(
                 [
                     'user_id' => auth()->user()->id,
-                    'text' => "#".$projectId." No'lu projeniz pasife alındı!",
+                    'text' => "#". $projectId + 1000000 ." No'lu projeniz pasife alındı!",
                     'item_id' => $project->id,
                     'link' => route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug, 'project_id' => $project->id ] ),
                     'owner_id' => $project->user->id,
@@ -280,7 +280,7 @@ class ProjectController extends Controller {
             Log::create( [
                 'item_type' => 1,
                 'item_id' => $projectId,
-                'reason' => "#".$projectId." No'lu projeniz admin tarafından pasife alındı.",
+                'reason' => "#".$projectId + 1000000  ." No'lu projeniz admin tarafından pasife alındı.",
                 'is_rejected' => 0,
                 'user_id' => auth()->user()->id,
             ] );
@@ -288,7 +288,7 @@ class ProjectController extends Controller {
             Log::create( [
                 'item_type' => 1,
                 'item_id' => $projectId,
-                'reason' => "#".$projectId." No'lu projeniz admin tarafından aktif edildi.",
+                'reason' => "#".$projectId + 1000000 ." No'lu projeniz admin tarafından aktif edildi.",
                 'is_rejected' => 0,
                 'user_id' => auth()->user()->id,
             ] );
