@@ -140,7 +140,7 @@
                                     <div class="the-agents p-2 w-100">
                                         <ul class="the-agents-details mt-0 text-center w-100">
                                             <li>{{ $item->name }}</li>
-                                            <li>{{ $item->role->name }}</li>
+                                            <li>{{ $item->title }}</li>
                                             <li>Referans Kodu: {{ $item->code }}</li>
                                         </ul>
                                     </div>
