@@ -446,7 +446,7 @@ class HousingController extends Controller {
         $imageNames = [];
         $tempOrder = 0;
         foreach ( $uploadedFiles as $fileKey => $file ) {
-            $imageName = Str::slug( $housing->title ) . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $imageName = Str::slug( $housing->title ) . '-' . time().$fileKey . '.' . $file->getClientOriginalExtension();
             $file->move( public_path( 'housing_images' ), $imageName );
 
             array_push( $formJson->images, $imageName );

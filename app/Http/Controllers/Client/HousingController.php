@@ -122,8 +122,8 @@ class HousingController extends Controller
             $labels = [];
             $housingTypeData = json_decode($housing->housing_type_data, true);
 
+            $housingType = HousingType::find($housing->housing_type_id);
             foreach ($housingTypeData as $key => $value) {
-                $housingType = HousingType::find($housing->housing_type_id);
 
                 if ($housingType) {
                     $formJsonItems = json_decode($housingType->form_json, true) ?? [];
