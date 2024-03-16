@@ -9,9 +9,10 @@
         $key = 0;
 
         $roomKey = $roomNumber - 1;
+        
         $roomNumbersUserSame =
-            isset($projectCartOrders[$roomNumber + 1]) &&
-            (Auth::check() ? $projectCartOrders[$roomNumber + 1]->user_id == Auth::user()->id : false);
+            isset($projectCartOrders[$roomNumber]) &&
+            (Auth::check() ? $projectCartOrders[$roomNumber]->user_id == Auth::user()->id : false);
         $projectOffer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
             ->where(function ($query) use ($roomNumber) {

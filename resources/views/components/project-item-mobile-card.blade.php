@@ -228,7 +228,6 @@
                                 ->where('housing', $keyIndex)
                                 ->first();
                         }
-                        echo $isUserSame;
                     @endphp
 
                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
