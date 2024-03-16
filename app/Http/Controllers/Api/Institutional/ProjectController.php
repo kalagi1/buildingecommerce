@@ -228,6 +228,11 @@ class ProjectController extends Controller
             }
             $image->resize($newWidth, $newHeight);
             $encoded = $image->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'top-left', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'top-right', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'bottom-left', 10, 10, 50, 45);
+            $encoded = $image->place(public_path('images/filigran2.png'), 'bottom-right', 10, 10, 50, 45);
+
             $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
         }
 
