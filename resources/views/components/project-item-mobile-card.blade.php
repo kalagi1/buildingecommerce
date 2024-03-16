@@ -232,8 +232,6 @@
                         $isUserSameText = $isUserSame ? "evet" : "hayır";
                     @endphp
 
-                    {{$isUserSameText}}
-
                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
                         @if (Auth::check())
                             <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
