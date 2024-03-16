@@ -209,7 +209,7 @@
     <div class="bar-chart">
         <div class="progress" style="border-radius: 0 !important">
             @if (isset($sumCartOrderQt[$keyIndex]))
-           {{$sumCartOrderQt[$keyIndex]}}
+           {{$sumCartOrderQt[$keyIndex]['qt_total']}}
                 
             @endif
             <div class="progress-bar"
