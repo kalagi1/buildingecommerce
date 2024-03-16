@@ -25,7 +25,7 @@
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span  class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
+                    <span class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
                         imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit
                         ücret talep
                         etmeyiz. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracılık ederiz.
@@ -36,7 +36,7 @@
 
                 </div>
             </div>
-            @else
+        @else
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
                     <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
@@ -45,7 +45,8 @@
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span  class="mt-5">Emlak Sepette'ye üye olduğunuz için teşekkür ederiz. Sitemizde keyifli alışverişler dileriz.</span>
+                    <span class="mt-5">Emlak Sepette'ye üye olduğunuz için teşekkür ederiz. Sitemizde keyifli alışverişler
+                        dileriz.</span>
 
 
                 </div>
@@ -182,7 +183,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color:green">Toplam Kazanç</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{number_format( $balanceStatus1, 2, ',', '.' )}}  ₺
+                                                {{ number_format($balanceStatus1, 2, ',', '.') }} ₺
                                             </h4>
                                         </div>
                                     </div>
@@ -204,7 +205,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color:orange">Onaydaki Komisyon Tutarı</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{number_format( $balanceStatus0, 2, ',', '.' )}}  ₺
+                                                {{ number_format($balanceStatus0, 2, ',', '.') }} ₺
 
                                             </h4>
                                         </div>
@@ -230,7 +231,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color: red">Reddedilen Komisyon Tutarı</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{number_format( $balanceStatus2, 2, ',', '.' )}}  ₺
+                                                {{ number_format($balanceStatus2, 2, ',', '.') }} ₺
 
                                             </h4>
                                         </div>
@@ -366,25 +367,19 @@
                     </div>
                 </div>
             </div>
-            @else
+        @else
             <div class="row">
                 <div class="col-12 col-xl-6 col-xxl-5">
-                    <div class="card border h-100 w-100 overflow-hidden">
-                      <div class="bg-holder d-block bg-card" style="background-image:url({{ asset('popup2.jpeg') }});background-position: top right;"></div>
-                        
-                      <div class="card-body px-5 position-relative">
-                        <div class="badge badge-phoenix fs-10 badge-phoenix-warning mb-4"><span class="fw-bold">Emlak Kulüp</span></div>
-                        <h3 class="mb-5">Sen de kazananlar kulübündensin !</h3>
-                        <p class="text-body-tertiary fw-semibold">Emlak Kulübüne üye ol, dilediğin
-                            kadar paylaş; paylaştıkça kazan!. </p>
-                      </div>
-                      <div class="card-footer border-0 py-0 px-5 z-1">
-                        <p class="text-body-tertiary fw-semibold">Emlak Kulüp<br class="d-none d-xxl-block"> SEN DE KATIL !</p>
-                      </div>
-                    </div>
-                  </div>
-            </div>
+                    <a href="{{ route('institutional.sharer.index') }}">
+                        <div class="card border h-100 w-100 overflow-hidden">
 
+                            <div class="card-body position-relative">
+                                <img src="{{ asset('popup2.jpeg') }}" alt="" style="width:100%;height:100%;object-fit:cover">
+                            </div>
+                        </div></a>
+                    
+                </div>
+            </div>
         @endif
 
     </div>

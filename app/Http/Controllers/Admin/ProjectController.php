@@ -18,6 +18,7 @@ use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousings;
+use App\Models\ShareLink;
 use App\Models\StandOutUser;
 use App\Models\User;
 use Carbon\Carbon;
@@ -202,9 +203,14 @@ class ProjectController extends Controller {
         }
 
         $project = Project::where( 'id', $projectId )->firstOrFail();
-        Project::where( 'id', $projectId )->update( [
+       $projectUpdate = Project::where( 'id', $projectId )->update( [
             'status' => $request->input( 'status' ),
         ] );
+
+
+        if ( $projectUpdate && $request->input( 'status' ) != 1 ) { 
+            ShareLink::where( 'item_type', "1")->where( 'item_id', $project->id )->delete();
+        }
 
         Log::create( [
             'item_type' => 1,
@@ -284,6 +290,8 @@ class ProjectController extends Controller {
                 'is_rejected' => 0,
                 'user_id' => auth()->user()->id,
             ] );
+            ShareLink::where( 'item_type', "1")->where( 'item_id', $projectId )->delete();
+
         } else {
             Log::create( [
                 'item_type' => 1,

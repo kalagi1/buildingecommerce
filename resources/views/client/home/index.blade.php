@@ -114,8 +114,9 @@
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
-                                            <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}" alt="Al Sat Acil"
-                                                class="img-responsive brand-image-pp" style="border:5px solid #F4A226">
+                                            <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}"
+                                                alt="Al Sat Acil" class="img-responsive brand-image-pp"
+                                                style="border:5px solid #F4A226">
                                             <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
                                     </div>
@@ -143,7 +144,8 @@
 
                                                     <div class="profile-initial">{{ $nameInitials }}</div>
                                                 @else
-                                                    <img loading="lazy" src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                    <img loading="lazy"
+                                                        src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                         alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
                                                 @endif
                                                 <span
@@ -202,7 +204,7 @@
     @else
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
-    
+
 
     @if ($secondhandHousings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white">
@@ -219,16 +221,16 @@
                     </a>
                 </div>
 
-                <div class="mobile-show" >
+                <div class="mobile-show">
                     <div id="housingMobileRow">
                         @forelse ($secondhandHousings->take(4) as $housing)
-                        @php($sold = $housing->sold)
-                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                            <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                        @endif
-                    @endforeach
+                            @php($sold = $housing->sold)
+                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                            @endif
+                        @endforeach
                     </div>
-                  
+
                     <div class="ajax-load" style="display: none;">
                         Yükleniyor...
                     </div>
@@ -440,9 +442,10 @@
                 50 && !isLoading && window.innerWidth >= 768) {
                 loadMoreHousings();
             }
-            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow.outerHeight() -
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow
+                .outerHeight() -
                 50 && !isLoading && window.innerWidth < 768) {
-                    loadMoreMobileHousings();
+                loadMoreMobileHousings();
             }
         });
     </script>
