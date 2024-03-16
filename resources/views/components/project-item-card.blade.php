@@ -144,7 +144,7 @@
     <span style="width:100%;text-align:center">
 
 
-        @if ($off_sale_check && $projectDiscountAmount && !$sold_check && (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
+        @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                 <span class="text-center w-100">
                     1 Pay Fiyatı
@@ -166,7 +166,7 @@
                 {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                 ₺
             </h6>
-        @elseif ($off_sale_check && !$sold_check && (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share))
+        @elseif ($off_sale_check && !$sold_check)
             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                 <span class="text-center w-100">
                     1 Pay Fiyatı
@@ -182,7 +182,22 @@
                     ₺
                 @endif
             </h6>
+        @elseif(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)
+            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                <span class="text-center w-100">
+                    1 Pay Fiyatı
+                </span>
+            @endif
 
+            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
+                    ₺
+                @else
+                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                    ₺
+                @endif
+            </h6>
         @endif
     </span>
 </li>
