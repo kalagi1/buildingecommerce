@@ -208,7 +208,12 @@
 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
     <div class="bar-chart">
         <div class="progress" style="border-radius: 0 !important">
+            @if (isset($sumCartOrderQt[$keyIndex]))
+           {{$sumCartOrderQt[$keyIndex]}}
+                
+            @endif
             <div class="progress-bar"
+          
                 @if (isset($sumCartOrderQt[$keyIndex]) &&
                         isset($sumCartOrderQt[$keyIndex]['qt_total']) &&
                         isset($maxQtTotal) &&
