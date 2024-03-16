@@ -393,53 +393,50 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        var page = 1; 
+        var page = 1; // Başlangıç sayfası
         var isLoading = false;
         var housingRow = $('#housingRow');
         var housingMobileRow = $('#housingMobileRow');
-        var itemsPerPage = 4;
-        var maxPages = null;
-        var housingCounts = @json($secondhandHousings);
-        console.log(housingCounts.length);
-        maxPages = Math.ceil(housingCounts.length / itemsPerPage);
-        console.log(maxPages);
-    
+
+
         function loadMoreHousings() {
-            if (isLoading || page >= maxPages) return; // Sayfa sayısı maxPages'e ulaştığında veya yükleme yapıldığında işlemi durdur
+            if (isLoading) return;
             isLoading = true;
             $('.ajax-load').show();
-    
+
             page++; // Sonraki sayfaya geç
             var url = "{{ route('load-more-housings') }}?page=" + page;
-    
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('housingRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
+
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         function loadMoreMobileHousings() {
-            if (isLoading || page >= maxPages) return; // Sayfa sayısı maxPages'e ulaştığında veya yükleme yapıldığında işlemi durdur
+            if (isLoading) return;
             isLoading = true;
             $('.ajax-load').show();
-    
+
             page++; // Sonraki sayfaya geç
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
-    
+
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('housingMobileRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
+
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         window.addEventListener('scroll', function() {
             if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
                 50 && !isLoading && window.innerWidth >= 768) {
@@ -452,7 +449,6 @@
             }
         });
     </script>
-    
 
     <script>
         var errorMessage = "{{ session('error') }}";
