@@ -233,7 +233,7 @@ class ProjectController extends Controller
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
             $image2->rotate(30,'#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,50);
+           $encoded = $image->place($image2,'center',10,10,10);
             $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
         }
 
@@ -558,7 +558,7 @@ class ProjectController extends Controller
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
             $image2->rotate(30,'#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,50);
+           $encoded = $image->place($image2,'center',10,10,10);
             $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
 
             $fileDb = 'public/project_images/' . $fileNameCoverImage;
@@ -757,7 +757,7 @@ class ProjectController extends Controller
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
             $image2->rotate(30,'#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,50);
+           $encoded = $image->place($image2,'center',10,10,10);
             $encoded->save(public_path('housing_images/'.$fileNameCoverImage));
         }
 
@@ -800,7 +800,7 @@ class ProjectController extends Controller
             $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
             $image2->rotate(30,'#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,50);
+           $encoded = $image->place($image2,'center',10,10,10);
             $encoded->save(public_path('housing_images/'.$fileNameGalleryImage));
             array_push($galleryImages,$fileNameGalleryImage);
         }
@@ -1009,7 +1009,7 @@ class ProjectController extends Controller
                     $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
                     $image2->rotate(30,'#00000000');
                     $image->resize($newWidth, $newHeight);
-                    $encoded = $image->place($image2,'center',10,10,50);
+                    $encoded = $image->place($image2,'center',10,10,10);
                     $encoded->save(public_path('project_housing_images/'.$newFileName));
                     
                     ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
