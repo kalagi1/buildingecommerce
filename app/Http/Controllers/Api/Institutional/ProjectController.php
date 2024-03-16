@@ -982,11 +982,36 @@ class ProjectController extends Controller
         try{
             $project = Project::with("blocks")->where('id',$request->input('project_id'))->first();
             $imageRoom = $request->file('value');
+            $manager = new ImageManager(
+                new Driver()
+            );
             if ($imageRoom) {
                 $newFileName = $project->slug . '-project-housing-image-' . ($request->input('room_order')).time() . '.' . $imageRoom->getClientOriginalExtension();
                 $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
 
                 if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
+                    $image = $manager->read(public_path('project_housing_images/'.$newFileName));
+                    $imageWidth = $image->width();
+                    $imageHeight = $image->height();
+                    
+                    if($imageWidth > 1200){
+                        $newWidth = 1200;
+                        $newHeight = $imageHeight * 1200 / $imageWidth;
+                    }else{
+                        $newWidth = $imageWidth;
+                        $newHeight = $imageHeight;
+                    }
+                    
+                    $image = $manager->read(public_path('project_housing_images/'.$newFileName));
+                    $image2 = $manager->read(public_path('images/filigran.png'));
+                    $imageWidth2 = $image2->width();
+                    $imageHeight2 = $image2->height();
+                    $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+                    $image2->rotate(30,'#00000000');
+                    $image->resize($newWidth, $newHeight);
+                    $encoded = $image->place($image2,'center',10,10,50);
+                    $encoded->save(public_path('project_housing_images/'.$newFileName));
+                    
                     ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
                         "name" => "image[]",
                         "value" => $newFileName
