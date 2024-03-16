@@ -397,7 +397,7 @@
         var isLoading = false;
         var housingRow = $('#housingRow');
         var housingMobileRow = $('#housingMobileRow');
-
+        var itemsPerPage = 4;
 
         function loadMoreHousings() {
             if (isLoading) return;

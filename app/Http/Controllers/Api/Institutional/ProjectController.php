@@ -220,21 +220,21 @@ class ProjectController extends Controller
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 1200){
+            if ($imageWidth > 1200) {
                 $newWidth = 1200;
                 $newHeight = $imageHeight * 1200 / $imageWidth;
-            }else{
+            } else {
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
             }
             $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
-            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-            $image2->rotate(30,'#00000000');
+            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(30, '#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,15);
-            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
+            $encoded = $image->place($image2, 'center', 10, 10, 20);
+            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
         }
 
 
@@ -290,10 +290,10 @@ class ProjectController extends Controller
                 $imageWidth = $imageMg->width();
                 $imageHeight = $imageMg->height();
 
-                if($imageWidth > 1200){
+                if ($imageWidth > 1200) {
                     $newWidth = 1200;
                     $newHeight = $imageHeight * 1200 / $imageWidth;
-                }else{
+                } else {
 
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
@@ -318,10 +318,10 @@ class ProjectController extends Controller
                 $imageWidth = $imageMg->width();
                 $imageHeight = $imageMg->height();
 
-                if($imageWidth > 1200){
+                if ($imageWidth > 1200) {
                     $newWidth = 1200;
                     $newHeight = $imageHeight * 1200 / $imageWidth;
-                }else{
+                } else {
 
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
@@ -448,10 +448,10 @@ class ProjectController extends Controller
                             $imageWidth = $imageMg->width();
                             $imageHeight = $imageMg->height();
 
-                            if($imageWidth > 1200){
+                            if ($imageWidth > 1200) {
                                 $newWidth = 1200;
                                 $newHeight = $imageHeight * 1200 / $imageWidth;
-                            }else{
+                            } else {
 
                                 $newWidth = $imageWidth;
                                 $newHeight = $imageHeight;
@@ -544,10 +544,10 @@ class ProjectController extends Controller
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 1200){
+            if ($imageWidth > 1200) {
                 $newWidth = 1200;
                 $newHeight = $imageHeight * 1200 / $imageWidth;
-            }else{
+            } else {
 
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
@@ -555,11 +555,11 @@ class ProjectController extends Controller
             $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
-            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-            $image2->rotate(30,'#00000000');
+            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(30, '#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,15);
-            $encoded->save(public_path('storage/project_images/'.$fileNameCoverImage));
+            $encoded = $image->place($image2, 'center', 10, 10, 20);
+            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
 
             $fileDb = 'public/project_images/' . $fileNameCoverImage;
         } else {
@@ -626,11 +626,11 @@ class ProjectController extends Controller
                     $imageWidth = $imageMg->width();
                     $imageHeight = $imageMg->height();
 
-    
-                    if($imageWidth > 1200){
+
+                    if ($imageWidth > 1200) {
                         $newWidth = 1200;
                         $newHeight = $imageHeight * 1200 / $imageWidth;
-                    }else{
+                    } else {
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
                     }
@@ -655,11 +655,11 @@ class ProjectController extends Controller
                     $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
                     $imageWidth = $imageMg->width();
                     $imageHeight = $imageMg->height();
-    
-                    if($imageWidth > 1200){
+
+                    if ($imageWidth > 1200) {
                         $newWidth = 1200;
                         $newHeight = $imageHeight * 1200 / $imageWidth;
-                    }else{
+                    } else {
 
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
@@ -743,10 +743,10 @@ class ProjectController extends Controller
             $imageWidth = $image->width();
             $imageHeight = $image->height();
 
-            if($imageWidth > 1200){
+            if ($imageWidth > 1200) {
                 $newWidth = 1200;
                 $newHeight = $imageHeight * 1200 / $imageWidth;
-            }else{
+            } else {
 
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
@@ -754,11 +754,11 @@ class ProjectController extends Controller
             $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
-            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-            $image2->rotate(30,'#00000000');
+            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(30, '#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,15);
-            $encoded->save(public_path('housing_images/'.$fileNameCoverImage));
+            $encoded = $image->place($image2, 'center', 10, 10, 20);
+            $encoded->save(public_path('housing_images/' . $fileNameCoverImage));
         }
 
         if ($request->file('projectData')['document']) {
@@ -786,10 +786,10 @@ class ProjectController extends Controller
             $image = $manager->read(public_path('housing_images/' . $fileNameGalleryImage));
             $imageWidth = $image->width();
             $imageHeight = $image->height();
-            if($imageWidth > 1200){
+            if ($imageWidth > 1200) {
                 $newWidth = 1200;
                 $newHeight = $imageHeight * 1200 / $imageWidth;
-            }else{
+            } else {
 
                 $newWidth = $imageWidth;
                 $newHeight = $imageHeight;
@@ -797,12 +797,12 @@ class ProjectController extends Controller
             $image2 = $manager->read(public_path('images/filigran2.png'));
             $imageWidth2 = $image2->width();
             $imageHeight2 = $image2->height();
-            $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-            $image2->rotate(30,'#00000000');
+            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(30, '#00000000');
             $image->resize($newWidth, $newHeight);
-           $encoded = $image->place($image2,'center',10,10,15);
-            $encoded->save(public_path('housing_images/'.$fileNameGalleryImage));
-            array_push($galleryImages,$fileNameGalleryImage);
+            $encoded = $image->place($image2, 'center', 10, 10, 20);
+            $encoded->save(public_path('housing_images/' . $fileNameGalleryImage));
+            array_push($galleryImages, $fileNameGalleryImage);
         }
 
         $housingTypeParent1 = HousingTypeParent::where('id', $request->input('selectedTypes')[0])->firstOrFail();
@@ -812,26 +812,25 @@ class ProjectController extends Controller
         foreach ($request->input('room') as $key => $pData) {
             $postData[$key] = [$pData];
         }
-        foreach($housingTypeInputs as $input){
-            if($input->type == "checkbox-group"){
-                if(str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')){
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = explode(',',$postData[str_replace('[]','',$input->name)][0]);
+        foreach ($housingTypeInputs as $input) {
+            if ($input->type == "checkbox-group") {
+                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                     }
                 } else {
                     if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
                         $postData[str_replace('[]', '', $input->name)] = explode(',', $postData[str_replace('[]', '', $input->name)][0]);
                     }
                 }
-                
-            }else{
-                if(str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')){
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = [str_replace('.','',$postData[str_replace('[]','',$input->name)][0])];
+            } else {
+                if (str_contains($input->className, 'price-only') || str_contains($input->className, 'number-only')) {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = [str_replace('.', '', $postData[str_replace('[]', '', $input->name)][0])];
                     }
-                }else{
-                    if(isset($postData[str_replace('[]','',$input->name)]) && $postData[str_replace('[]','',$input->name)]){
-                        $postData[str_replace('[]','',$input->name)] = [$postData[str_replace('[]','',$input->name)][0]];
+                } else {
+                    if (isset($postData[str_replace('[]', '', $input->name)]) && $postData[str_replace('[]', '', $input->name)]) {
+                        $postData[str_replace('[]', '', $input->name)] = [$postData[str_replace('[]', '', $input->name)][0]];
                     }
                 }
             }
@@ -898,32 +897,33 @@ class ProjectController extends Controller
         }
     }
 
-    public function projectHousings($projectId,Request $request){
-        $project = Project::with("blocks")->where('id',$projectId)->first();
+    public function projectHousings($projectId, Request $request)
+    {
+        $project = Project::with("blocks")->where('id', $projectId)->first();
 
-        if($project->have_blocks){
-            $blocks = Block::where('project_id',$project->id)->get();
+        if ($project->have_blocks) {
+            $blocks = Block::where('project_id', $project->id)->get();
             $blockStart = 0;
-            foreach($blocks as $index => $block){
-                if($index < $request->input('block')){
+            foreach ($blocks as $index => $block) {
+                if ($index < $request->input('block')) {
                     $blockStart += $block->housing_count;
                 }
             }
-            if($blockStart+intval($request->input('end')) > $blockStart+$blocks[$request->input('block')]->housing_count){
-                $end = $blockStart+$blocks[$request->input('block')]->housing_count;
-            }else{
-                $end = $blockStart+intval($request->input('end'));
+            if ($blockStart + intval($request->input('end')) > $blockStart + $blocks[$request->input('block')]->housing_count) {
+                $end = $blockStart + $blocks[$request->input('block')]->housing_count;
+            } else {
+                $end = $blockStart + intval($request->input('end'));
             }
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','>',$blockStart+intval($request->input('start')))->where('room_order','<=',$end)->get();
-        }else{
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '>', $blockStart + intval($request->input('start')))->where('room_order', '<=', $end)->get();
+        } else {
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '>', $request->input('start'))->where('room_order', '<=', $request->input('end'))->get();
         }
 
         $projectHousingsList = [];
         $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
             $projectHousingsList[$item->room_order][$item->name] = $item->value;
         });
-        
+
         $projectHousingCount = ProjectHousing::where('project_id', $project->id)->groupBy('room_order')->count();
 
         $sumCartOrderQt = DB::table('cart_orders')
@@ -949,7 +949,7 @@ class ProjectController extends Controller
             })
             ->all();
 
-        $solds = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? ', [ $project->id]);
+        $solds = DB::select('SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project" AND JSON_EXTRACT(cart, "$.item.id") = ? ', [$project->id]);
 
         return json_encode([
             "project" => $project,
@@ -960,16 +960,17 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function saveHousing(Request $request){
-        if($request->input('is_dot')){
-            ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
-                "name" => $request->input('column_name')."[]",
-                "value" => str_replace('.','',$request->input('value'))
+    public function saveHousing(Request $request)
+    {
+        if ($request->input('is_dot')) {
+            ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', $request->input('column_name') . '[]')->update([
+                "name" => $request->input('column_name') . "[]",
+                "value" => str_replace('.', '', $request->input('value'))
             ]);
-        }else{
-            ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
-                "name" => $request->input('column_name')."[]",
-                "value" => str_replace('.','',$request->input('value'))
+        } else {
+            ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', $request->input('column_name') . '[]')->update([
+                "name" => $request->input('column_name') . "[]",
+                "value" => str_replace('.', '', $request->input('value'))
             ]);
         }
 
@@ -978,41 +979,42 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function changeImage(Request $request){
-        try{
-            $project = Project::with("blocks")->where('id',$request->input('project_id'))->first();
+    public function changeImage(Request $request)
+    {
+        try {
+            $project = Project::with("blocks")->where('id', $request->input('project_id'))->first();
             $imageRoom = $request->file('value');
             $manager = new ImageManager(
                 new Driver()
             );
             if ($imageRoom) {
-                $newFileName = $project->slug . '-project-housing-image-' . ($request->input('room_order')).time() . '.' . $imageRoom->getClientOriginalExtension();
+                $newFileName = $project->slug . '-project-housing-image-' . ($request->input('room_order')) . time() . '.' . $imageRoom->getClientOriginalExtension();
                 $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
 
                 if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
-                    $image = $manager->read(public_path('project_housing_images/'.$newFileName));
+                    $image = $manager->read(public_path('project_housing_images/' . $newFileName));
                     $imageWidth = $image->width();
                     $imageHeight = $image->height();
-                    
-                    if($imageWidth > 1200){
+
+                    if ($imageWidth > 1200) {
                         $newWidth = 1200;
                         $newHeight = $imageHeight * 1200 / $imageWidth;
-                    }else{
+                    } else {
                         $newWidth = $imageWidth;
                         $newHeight = $imageHeight;
                     }
-                    
-                    $image = $manager->read(public_path('project_housing_images/'.$newFileName));
+
+                    $image = $manager->read(public_path('project_housing_images/' . $newFileName));
                     $image2 = $manager->read(public_path('images/filigran2.png'));
                     $imageWidth2 = $image2->width();
                     $imageHeight2 = $image2->height();
-                    $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-                    $image2->rotate(30,'#00000000');
+                    $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+                    $image2->rotate(30, '#00000000');
                     $image->resize($newWidth, $newHeight);
-                    $encoded = $image->place($image2,'center',10,10,15);
-                    $encoded->save(public_path('project_housing_images/'.$newFileName));
-                    
-                    ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name',$request->input('column_name').'[]')->update([
+                    $encoded = $image->place($image2, 'center', 10, 10, 20);
+                    $encoded->save(public_path('project_housing_images/' . $newFileName));
+
+                    ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', $request->input('column_name') . '[]')->update([
                         "name" => "image[]",
                         "value" => $newFileName
                     ]);
@@ -1022,7 +1024,7 @@ class ProjectController extends Controller
             return json_encode([
                 "status" => true
             ]);
-        }catch(Throwable $e){
+        } catch (Throwable $e) {
             return json_encode([
                 "error" => $e->getMessage(),
                 "status" => false
@@ -1030,36 +1032,37 @@ class ProjectController extends Controller
         }
     }
 
-    public function changePayDecs(Request $request){
-        for($i = 0; $i < count($request->input('rooms')); $i++){
-            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('rooms')[$i])->where('name','pay-dec-count'.$i+1)->delete();
-            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('rooms')[$i])->where('name','LIKE','%pay_desc_price'.($i+1).'%')->delete();
-            ProjectHousing::where('project_id',$request->input('project_id'))->where('room_order',$request->input('rooms')[$i])->where('name','LIKE','%pay_desc_date'.($i+1).'%')->delete();
+    public function changePayDecs(Request $request)
+    {
+        for ($i = 0; $i < count($request->input('rooms')); $i++) {
+            ProjectHousing::where('project_id', $request->input('project_id'))->where('room_order', $request->input('rooms')[$i])->where('name', 'pay-dec-count' . $i + 1)->delete();
+            ProjectHousing::where('project_id', $request->input('project_id'))->where('room_order', $request->input('rooms')[$i])->where('name', 'LIKE', '%pay_desc_price' . ($i + 1) . '%')->delete();
+            ProjectHousing::where('project_id', $request->input('project_id'))->where('room_order', $request->input('rooms')[$i])->where('name', 'LIKE', '%pay_desc_date' . ($i + 1) . '%')->delete();
         }
 
-        for($i = 0; $i < count($request->input('rooms')); $i++){
+        for ($i = 0; $i < count($request->input('rooms')); $i++) {
             ProjectHousing::create([
-                "key" => "pay-dec-count".($request->input('rooms')[$i]),
-                "name" => "pay-dec-count".($request->input('rooms')[$i]),
+                "key" => "pay-dec-count" . ($request->input('rooms')[$i]),
+                "name" => "pay-dec-count" . ($request->input('rooms')[$i]),
                 "value" => str_replace('.', '', count($request->input('value'))),
                 "project_id" => $request->input('project_id'),
                 "room_order" => $request->input('rooms')[$i],
             ]);
-            for($j = 0; $j < count($request->input('value')); $j++){
-                if(isset($request->input('value')[$j]["price"])){
+            for ($j = 0; $j < count($request->input('value')); $j++) {
+                if (isset($request->input('value')[$j]["price"])) {
                     ProjectHousing::create([
-                        "key" => "pay_desc_price".($request->input('rooms')[$i]).$j,
-                        "name" => "pay_desc_price".($request->input('rooms')[$i]).$j,
+                        "key" => "pay_desc_price" . ($request->input('rooms')[$i]) . $j,
+                        "name" => "pay_desc_price" . ($request->input('rooms')[$i]) . $j,
                         "value" => str_replace('.', '', $request->input('value')[$j]["price"]),
                         "project_id" => $request->input('project_id'),
                         "room_order" => $request->input('rooms')[$i],
                     ]);
                 }
 
-                if(isset($request->input('value')[$j]["date"])){
+                if (isset($request->input('value')[$j]["date"])) {
                     ProjectHousing::create([
-                        "key" => "pay_desc_date".($request->input('rooms')[$i]).$j,
-                        "name" => "pay_desc_date".($request->input('rooms')[$i]).$j,
+                        "key" => "pay_desc_date" . ($request->input('rooms')[$i]) . $j,
+                        "name" => "pay_desc_date" . ($request->input('rooms')[$i]) . $j,
                         "value" => $request->input('value')[$j]["date"],
                         "project_id" => $request->input('project_id'),
                         "room_order" => $request->input('rooms')[$i],
@@ -1073,10 +1076,11 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function savePaymentStatus(Request $request){
-        ProjectHousing::where('project_id',$request->input('project_id'))->whereIn('room_order',$request->input('rooms'))->where('name','off_sale[]')->update([
+    public function savePaymentStatus(Request $request)
+    {
+        ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', 'off_sale[]')->update([
             "name" => "off_sale[]",
-            "value" => str_replace('.','',$request->input('value'))
+            "value" => str_replace('.', '', $request->input('value'))
         ]);
 
         return json_encode([
