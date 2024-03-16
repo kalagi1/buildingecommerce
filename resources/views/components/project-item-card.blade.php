@@ -93,22 +93,26 @@
                 </div>
 
                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                    <div class="row align-items-center justify-content-between mobile-position"
-                        @if (($sold && $sold->status != '2') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') style="background: #EEE !important;height:100% !important" @endif>
-                        <div class="col-md-9">
-                            @php
-                                $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                                $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                                $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                                $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+                    @php
+                        $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+                        $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+                        $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
+                        $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                        $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
 
-                            @endphp
+                    @endphp
+                    <div class="row align-items-center justify-content-between mobile-position"
+                        @if (
+                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ||
+                                (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)) style="background: #EEE !important;height:100% !important" @endif>
+                        <div class="col-md-9">
+
 
                             <div class="homes-list-div"
-                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0) style="flex-direction: column !important;" @endif>
+                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="flex-direction: column !important;" @endif>
                                 <ul class="homes-list clearfix pb-3 d-flex"
-                                    @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0) style="height: 90px !important" @endif>
+                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="height: 90px !important" @endif>
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                             aria-hidden="true"></i>
@@ -139,15 +143,16 @@
 <li class="the-icons mobile-hidden">
     <span style="width:100%;text-align:center">
 
-        @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
-            <span class="text-center w-100">
-                1 Pay Fiyatı
-            </span>
-        @endif
 
         @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
+            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                <span class="text-center w-100">
+                    1 Pay Fiyatı
+                </span>
+            @endif
+
             <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                     {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                     ₺
                 @else
@@ -162,8 +167,14 @@
                 ₺
             </h6>
         @elseif ($off_sale_check && !$sold_check)
+            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                <span class="text-center w-100">
+                    1 Pay Fiyatı
+                </span>
+            @endif
+
             <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                     {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
                     ₺
                 @else
@@ -171,15 +182,40 @@
                     ₺
                 @endif
             </h6>
+        @elseif(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)
+            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                <span class="text-center w-100">
+                    1 Pay Fiyatı
+                </span>
+            @endif
 
+            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                    {{ number_format($projectHousingsList[$keyIndex]['price[]'] / $number_of_share, 0, ',', '.') }}
+                    ₺
+                @else
+                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                    ₺
+                @endif
+            </h6>
         @endif
     </span>
 </li>
 
 
 </ul>
+@php
+    // Example: Set a default value for $maxQtTotal
+    $maxQtTotal = 100; // Set the appropriate default value
 
-@if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+    // OR check if $maxQtTotal is defined
+    if (!isset($maxQtTotal)) {
+        $maxQtTotal = 100; // Set the appropriate default value
+    }
+@endphp
+
+
+@if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
     <div class="bar-chart">
         <div class="progress" style="border-radius: 0 !important">
             <div class="progress-bar"
@@ -195,16 +231,6 @@
 @endif
 
 </div>
-
-@php
-    // Example: Set a default value for $maxQtTotal
-    $maxQtTotal = 100; // Set the appropriate default value
-
-    // OR check if $maxQtTotal is defined
-    if (!isset($maxQtTotal)) {
-        $maxQtTotal = 100; // Set the appropriate default value
-    }
-@endphp
 
 
 
@@ -274,7 +300,7 @@
                 </span>
             @else
                 <button class="first-btn payment-plan-button" project-id="{{ $project->id }}"
-                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == "[]") || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == '[]') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
                     order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                     data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                     Ödeme Detayı
@@ -317,14 +343,14 @@
             </button>
         @else
             @if (
-                ($sold && $sold->status != '2' && $share_sale == "[]") ||
+                ($sold && $sold->status != '2' && $share_sale == '[]') ||
                     (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                 <button class="btn second-btn"
                     @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
-                    @if ($sold->status == '0' && $share_sale == "[]")
+                    @if ($sold->status == '0' && $share_sale == '[]')
                         <span class="text">Rezerve Edildi</span>
                     @elseif (
-                        ($sold->status == '1' && $share_sale == "[]") ||
+                        ($sold->status == '1' && $share_sale == '[]') ||
                             (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                         <span class="text">Satıldı</span>
                     @endif
