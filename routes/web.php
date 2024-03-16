@@ -77,7 +77,6 @@ use App\Http\Controllers\Institutional\StoreBannerController;
 use App\Http\Controllers\Institutional\TempOrderController;
 use App\Http\Controllers\Institutional\UserController as InstitutionalUserController;
 use App\Http\Controllers\NotificationController as ControllersNotificationController;
-use App\Http\Controllers\NestPayController;
 use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
@@ -160,7 +159,7 @@ Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::cla
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
 
-Route::get('/payment/{userId}', [PayController::class, 'index'])->name('payment.index');
+Route::get('/checkout', [PayController::class, 'index'])->name('payment.index');
 Route::get('/3d-payment', [PayController::class, 'payPage'])->name('3dPayPage');
 Route::post('/3d-payment', [PayController::class, 'initiate3DPayment'])->name('3d.pay');
 Route::post('/resultpaymentsuccess', [PayController::class, 'resultPaymentSuccess'])->name('result.payment');
