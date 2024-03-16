@@ -50,6 +50,8 @@
                                             ->first();
 
                                         $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                        $share_sale = $cart['item']['isShare'] ?? null;
+                                        $number_of_share = $cart['item']['numbershare'] ?? null;
                                     }
                                 @endphp
 
@@ -121,7 +123,7 @@
                                     </div>
 
                                     <div class="col-7">
-                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && $share_sale == "[]")
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && $share_sale == '[]')
                                             <label for="neighborProjects">Komşunuzun referansıyla mı satın
                                                 alıyorsunuz?</label>
                                             <select class="form-control" id="is_reference" name="is_reference">
@@ -135,7 +137,7 @@
                                     </div>
 
                                     <div class="col-sm-12 pt-5">
-                                        @if ($cart['type'] == 'project' && $share_sale == "[]")
+                                        @if ($cart['type'] == 'project' && $share_sale == '[]')
                                             <div class="d-flex align-items-center mb-3">
                                                 <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
                                                 <i class="fa fa-info-circle ml-2"
@@ -170,6 +172,7 @@
 
                 @php
                     $itemPrice = $cart['item']['amount'];
+                    $share_sale = null;
 
                     if ($cart['hasCounter']) {
                         if ($cart['type'] == 'housing') {
@@ -202,8 +205,7 @@
                             : $discountedPrice;
 
                     $displayedPrice = number_format($itemPrice, 0, ',', '.');
-                    $share_sale = $cart['item']['isShare'] ?? null;
-                    $number_of_share = $cart['item']['numbershare'] ?? null;
+
                 @endphp
 
                 <div class="col-md-12 col-lg-12 col-xl-6">
