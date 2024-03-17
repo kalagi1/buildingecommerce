@@ -3,12 +3,12 @@
 
 
 @section('content')
-    @php
+    {{-- @php
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
         $uri = $_SERVER['REQUEST_URI'];
         $shareUrl = $protocol . '://' . $host . $uri;
-    @endphp
+    @endphp --}}
     <section class="payment-method notfound">
         <div class="container">
             <section class="headings-2 pt-0 hee">
@@ -24,6 +24,8 @@
                     </div>
                 </div>
             </section>
+
+
 
 
             {{-- {{dd($housing)}} --}}
@@ -64,7 +66,7 @@
                             </a>
                         </div>
                         <div class="box-1">
-                            <div class="title-heading fs-30 fw-7 lh-45" id="titleContainer">{{ $project->project_title }}</div>
+                            <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">{{ $project->step2_slug }}</div>
                                 <div class="text-address">
@@ -72,6 +74,7 @@
                                 </div>
                                 <div class="icon-inner flex">
                                     <div class="years-icon flex align-center">
+                                        {{-- <i class="fal fa-calendar"></i> --}}
                                         <p class="text-color-2">{{ $project->step1_slug }}</p>
                                     </div>
                                     <div class="view-icon flex align-center">
@@ -82,42 +85,46 @@
                             </div>
 
                             <div class="icon-box flex">
-                              
-
-                                <ul class="row column">
-                                    @foreach (['column1', 'column2', 'column3'] as $column)
-                                        @php
-                                            $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                                            $column_additional =
-                                                $project->listItemValues->{$column . '_additional'} ?? '';
-                                            $column_name_exists =
-                                                $column_name &&
-                                                isset(
-                                                    $projectHousingsList[$cart['item']['housing']][$column_name . '[]'],
-                                                );
-                                        @endphp
-                                        @if ($column_name_exists)
-                                            <div class="icons icon-1 flex">
-                                                <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
-                                                <span class="fw-6">
-                                                    {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
-                                                    @if ($column_additional)
-                                                        {{ $column_additional }}
-                                                    @endif
-                                                </span>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </ul>
-
-                                {{--                             
-                            <div class="icons icon-1 flex"><span>Beds: </span><span class="fw-6">4</span></div>
-                            <div class="icons icon-2 flex"><span>Baths: </span><span class="fw-6">2</span></div>
-                            <div class="icons icon-3 flex"><span>Sqft: </span><span class="fw-6">1150</span></div> --}}
+                                @foreach (['column1', 'column2', 'column3'] as $column)
+                                    @php
+                                        $column_name = $project->listItemValues->{$column . '_name'} ?? '';
+                                        $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
+                                        $column_name_exists =
+                                            $column_name &&
+                                            isset($projectHousingsList[$cart['item']['housing']][$column_name . '[]']);
+                                    @endphp
+                                    @if ($column_name_exists)
+                                        <div class="icons icon-1 flex">
+                                            <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
+                                            <span class="fw-6">
+                                                {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
+                                                @if ($column_additional)
+                                                    {{ $column_additional }}
+                                                @endif
+                                            </span>
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         <div class="box-2 text-end">
                             <div class="icon-boxs flex">
+                                {{-- <a href="#">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a> --}}
+                                {{-- <a href="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="18" cy="5" r="3" />
+                                        <circle cx="6" cy="12" r="3" />
+                                        <circle cx="18" cy="19" r="3" />
+                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                                    </svg>
+                                </a> --}}
                                 <a
                                     href="{{ $cart['type'] == 'housing'
                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
@@ -131,28 +138,23 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5.625 15.75L2.25 12.375M2.25 12.375L5.625 9M2.25 12.375H12.375M12.375 2.25L15.75 5.625M15.75 5.625L12.375 9M15.75 5.625H5.625"
-                                            stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 15l-6-6-6 6" />
                                     </svg>
                                 </a>
+
                                 {{-- <a href="#">
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5.41251 8.18025C5.23091 7.85348 4.94594 7.59627 4.60234 7.44899C4.25874 7.3017 3.87596 7.27268 3.51408 7.36648C3.1522 7.46029 2.83171 7.6716 2.60293 7.96725C2.37414 8.2629 2.25 8.62616 2.25 9C2.25 9.37384 2.37414 9.73709 2.60293 10.0327C2.83171 10.3284 3.1522 10.5397 3.51408 10.6335C3.87596 10.7273 4.25874 10.6983 4.60234 10.551C4.94594 10.4037 5.23091 10.1465 5.41251 9.81975M5.41251 8.18025C5.54751 8.42325 5.62476 8.70225 5.62476 9C5.62476 9.29775 5.54751 9.5775 5.41251 9.81975M5.41251 8.18025L12.587 4.19475M5.41251 9.81975L12.587 13.8052M12.587 4.19475C12.6922 4.39285 12.8358 4.568 13.0095 4.70995C13.1832 4.85189 13.3834 4.95779 13.5985 5.02146C13.8135 5.08512 14.0392 5.10527 14.2621 5.08072C14.4851 5.05617 14.7009 4.98742 14.897 4.87849C15.093 4.76957 15.2654 4.62264 15.404 4.44631C15.5427 4.26998 15.6448 4.06778 15.7043 3.85154C15.7639 3.63529 15.7798 3.40934 15.751 3.18689C15.7222 2.96445 15.6494 2.74997 15.5368 2.556C15.3148 2.17375 14.9518 1.89385 14.5256 1.77646C14.0995 1.65907 13.6443 1.71356 13.2579 1.92821C12.8715 2.14287 12.5848 2.50056 12.4593 2.92439C12.3339 3.34823 12.3797 3.80436 12.587 4.19475ZM12.587 13.8052C12.4794 13.999 12.4109 14.2121 12.3856 14.4323C12.3603 14.6526 12.3787 14.8756 12.4396 15.0888C12.5005 15.3019 12.6028 15.501 12.7406 15.6746C12.8784 15.8482 13.0491 15.993 13.2429 16.1006C13.4367 16.2083 13.6498 16.2767 13.87 16.302C14.0902 16.3273 14.3133 16.309 14.5264 16.2481C14.7396 16.1872 14.9386 16.0849 15.1122 15.947C15.2858 15.8092 15.4306 15.6385 15.5383 15.4447C15.7557 15.0534 15.8087 14.5917 15.6857 14.1612C15.5627 13.7308 15.2737 13.3668 14.8824 13.1494C14.491 12.932 14.0293 12.8789 13.5989 13.0019C13.1684 13.1249 12.8044 13.4139 12.587 13.8052Z"
-                                            stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
-                                    </svg>
-                                </a> --}}
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.3222 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a> --}}
                             </div>
                             <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                 TL</div>
-                            {{-- <div class="text-sq fs-12 lh-16"></div> --}}
+                            {{-- <div class="text-sq fs-12 lh-16">1964 Sq Ft</div> --}}
                         </div>
                     </div>
                 @else
@@ -176,8 +178,7 @@
                             </a>
                         </div>
                         <div class="box-1">
-                            <div class="title-heading fs-30 fw-7 lh-45" id="titleContainer">
-                                {{ $housing->housing_title }}</div>
+                            <div class="title-heading fs-30 fw-7 lh-45">{{ $housing->housing_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">{{ $housing->step2_slug }}</div>
                                 <div class="text-address">
@@ -185,6 +186,7 @@
                                 </div>
                                 <div class="icon-inner flex">
                                     <div class="years-icon flex align-center">
+                                        {{-- <i class="fal fa-calendar"></i> --}}
                                         <p class="text-color-2">{{ $housing->step1_slug }}</p>
                                     </div>
                                     <div class="view-icon flex align-center">
@@ -193,6 +195,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="icon-box flex">
                                 <ul class="row column">
 
@@ -246,16 +249,26 @@
                                     @endif
 
                                 </ul>
-
-
-                                {{--                             
-                        <div class="icons icon-1 flex"><span>Beds: </span><span class="fw-6">4</span></div>
-                        <div class="icons icon-2 flex"><span>Baths: </span><span class="fw-6">2</span></div>
-                        <div class="icons icon-3 flex"><span>Sqft: </span><span class="fw-6">1150</span></div> --}}
                             </div>
                         </div>
                         <div class="box-2 text-end">
                             <div class="icon-boxs flex">
+                                {{-- <a href="#">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a> --}}
+                                {{-- <a href="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="18" cy="5" r="3" />
+                                        <circle cx="6" cy="12" r="3" />
+                                        <circle cx="18" cy="19" r="3" />
+                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                                    </svg>
+                                </a> --}}
                                 <a
                                     href="{{ $cart['type'] == 'housing'
                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
@@ -269,32 +282,27 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5.625 15.75L2.25 12.375M2.25 12.375L5.625 9M2.25 12.375H12.375M12.375 2.25L15.75 5.625M15.75 5.625L12.375 9M15.75 5.625H5.625"
-                                            stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round"></path>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 15l-6-6-6 6" />
                                     </svg>
                                 </a>
+
                                 {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5.41251 8.18025C5.23091 7.85348 4.94594 7.59627 4.60234 7.44899C4.25874 7.3017 3.87596 7.27268 3.51408 7.36648C3.1522 7.46029 2.83171 7.6716 2.60293 7.96725C2.37414 8.2629 2.25 8.62616 2.25 9C2.25 9.37384 2.37414 9.73709 2.60293 10.0327C2.83171 10.3284 3.1522 10.5397 3.51408 10.6335C3.87596 10.7273 4.25874 10.6983 4.60234 10.551C4.94594 10.4037 5.23091 10.1465 5.41251 9.81975M5.41251 8.18025C5.54751 8.42325 5.62476 8.70225 5.62476 9C5.62476 9.29775 5.54751 9.5775 5.41251 9.81975M5.41251 8.18025L12.587 4.19475M5.41251 9.81975L12.587 13.8052M12.587 4.19475C12.6922 4.39285 12.8358 4.568 13.0095 4.70995C13.1832 4.85189 13.3834 4.95779 13.5985 5.02146C13.8135 5.08512 14.0392 5.10527 14.2621 5.08072C14.4851 5.05617 14.7009 4.98742 14.897 4.87849C15.093 4.76957 15.2654 4.62264 15.404 4.44631C15.5427 4.26998 15.6448 4.06778 15.7043 3.85154C15.7639 3.63529 15.7798 3.40934 15.751 3.18689C15.7222 2.96445 15.6494 2.74997 15.5368 2.556C15.3148 2.17375 14.9518 1.89385 14.5256 1.77646C14.0995 1.65907 13.6443 1.71356 13.2579 1.92821C12.8715 2.14287 12.5848 2.50056 12.4593 2.92439C12.3339 3.34823 12.3797 3.80436 12.587 4.19475ZM12.587 13.8052C12.4794 13.999 12.4109 14.2121 12.3856 14.4323C12.3603 14.6526 12.3787 14.8756 12.4396 15.0888C12.5005 15.3019 12.6028 15.501 12.7406 15.6746C12.8784 15.8482 13.0491 15.993 13.2429 16.1006C13.4367 16.2083 13.6498 16.2767 13.87 16.302C14.0902 16.3273 14.3133 16.309 14.5264 16.2481C14.7396 16.1872 14.9386 16.0849 15.1122 15.947C15.2858 15.8092 15.4306 15.6385 15.5383 15.4447C15.7557 15.0534 15.8087 14.5917 15.6857 14.1612C15.5627 13.7308 15.2737 13.3668 14.8824 13.1494C14.491 12.932 14.0293 12.8789 13.5989 13.0019C13.1684 13.1249 12.8044 13.4139 12.587 13.8052Z"
-                                        stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round"></path>
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.3222 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                 </svg>
                             </a> --}}
                             </div>
                             <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                 TL</div>
-                            {{-- <div class="text-sq fs-12 lh-16"></div> --}}
+                            {{-- <div class="text-sq fs-12 lh-16">1964 Sq Ft</div> --}}
                         </div>
                     </div>
-                @endif
 
+                @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="">
@@ -422,7 +430,8 @@
                                                             title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
                                                             style="font-size: 18px; color: black;"></i>
                                                         <label for="is_show_user" class="m-0 ml-1 text-black">
-                                                            Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı kabul
+                                                            Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
+                                                            kabul
                                                             ediyorum.
                                                         </label>
                                                     </div>
@@ -519,7 +528,8 @@
                                                                 stroke="currentColor" stroke-width="2" fill="none"
                                                                 stroke-linecap="round" stroke-linejoin="round"
                                                                 class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                </polyline>
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
                                                             <span
@@ -534,7 +544,8 @@
                                                                 stroke="currentColor" stroke-width="2" fill="none"
                                                                 stroke-linecap="round" stroke-linejoin="round"
                                                                 class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
+                                                                </polyline>
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
                                                             <span style="margin-left: 2px">{{ $discountRate }}
@@ -876,33 +887,6 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
-        // İlgili div'i al
-        var titleDiv = document.getElementById("titleContainer");
-
-        // Div içeriğini al
-        var titleText = titleDiv.innerText;
-
-        // Belirli bir uzunluğu belirle
-        var maxLength = 20; // Örnek olarak 20 karakteri geçince böleceğiz
-
-        // Metnin uzunluğunu kontrol et
-        if (titleText.length > maxLength) {
-            // Metni belirli uzunluktan böle ve ikiye ayır
-            var firstHalf = titleText.substring(0, maxLength);
-            var secondHalf = titleText.substring(maxLength);
-
-            // İkinci yarıdaki ilk boşluğun indeksini bul
-            var spaceIndex = secondHalf.indexOf(" ");
-            if (spaceIndex !== -1) {
-                // İkinci yarıyı boşluktan önce ve sonra ikiye ayır
-                firstHalf += secondHalf.substring(0, spaceIndex);
-                secondHalf = secondHalf.substring(spaceIndex);
-            }
-
-            // İlk yarıyı ilk satıra, ikinci yarıyı ikinci satıra yazdır
-            titleDiv.innerHTML = firstHalf + "<br>" + secondHalf;
-        }
-
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
             var textArea = document.createElement("textarea");
@@ -1172,6 +1156,10 @@
 
         }
 
+        .text-end {
+            text-align: end;
+        }
+
         .wrap-house .title-heading {
             font-size: 20px !important;
             font-weight: 700;
@@ -1267,12 +1255,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: 8px;
+            margin-left: 123px;
             margin-bottom: 6px;
-        }
-
-        .box-0 {
-            margin-right: -380px;
         }
 
         .text-sq {
@@ -1288,15 +1272,24 @@
             color: #0259b6 !important;
         }
 
-        .column {
-            margin-top: 10px;
+        .box-0 {
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            height: auto;
         }
 
-        .title-heading {
-            word-wrap: break-word !important;
-            /* Eski tarayıcılar için */
-            overflow-wrap: break-word !important;
-            /* Yeni tarayıcılar için */
+        .box-1 {
+            margin-right: auto;
+            padding-left: inherit;
+        }
+
+        @media only screen and (max-width: 991px) .wrap-house {
+            display: block;
+        }
+
+
+        @media only screen and (max-width: 425px) .wrap-house {
+            display: block;
         }
     </style>
 @endsection
