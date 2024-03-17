@@ -463,7 +463,6 @@
                             </div>
                         </div>
                     </div>
-
                     @php
                         $itemPrice = $cart['item']['amount'];
 

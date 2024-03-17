@@ -283,7 +283,8 @@ class LoginController extends Controller {
         // Google OAuth 2.0 ayarları
         $googleClientId = '100415302281-rvn82j7fm253npg6invrb35v8pbg9dl7.apps.googleusercontent.com';
         $googleClientSecret = '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';
-        $redirectUri = 'https://test.emlaksepette.com/login-with-google';
+        $redirectUri = 'https://emlaksepette.com/login-with-google';
+
         $authUrl = 'https://accounts.google.com/o/oauth2/auth';
 
         // Kullanıcının izin vermesi için Google'a yönlendirme

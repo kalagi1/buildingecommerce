@@ -13,9 +13,14 @@
                         </div>
                         <div class="col-auto">
                             <div class="col-auto">
+                                @if (in_array('CreateUser', $userPermissions))
                                 <a class="btn btn-primary px-5" href="{{ route('institutional.users.create') }}">
                                     <i class="fa-solid fa-plus me-2"></i>Yeni Kullanıcı Ekle
                                 </a>
+                                @else
+                                
+                                @endif
+                              
                             </div>
                         </div>
                     </div>
@@ -44,6 +49,8 @@
                                             data-sort="userEmail">E-posta</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userType">Kullanıcı Tipi</th>
+                                            <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                            data-sort="userType">Unvan</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userStatus">Durum</th>
                                         <th>İşlemler</th>
@@ -57,6 +64,10 @@
                                             <td>{{ $user->email }}</td>
                                             <td>
                                                 <span class="badge bg-warning"> {{ $user->role->name }}</span>
+
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-warning"> {{ $user->title }}</span>
 
                                             </td>
                                             <td>

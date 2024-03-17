@@ -141,7 +141,12 @@
                                                 href="{{ $cart['type'] == 'housing'
                                                     ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                     : route('project.housings.detail', [
-                                                        'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                        'projectSlug' =>
+                                                            optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                            '-' .
+                                                            optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                            '-' .
+                                                            optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                         'housingOrder' => $cart['item']['housing'],
                                                     ]) }}">
@@ -155,7 +160,12 @@
                                                     href="{{ $cart['type'] == 'housing'
                                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
                                                         : route('project.housings.detail', [
-                                                            'projectSlug' => optional(App\Models\Project::find($cart['item']['id']))->slug."-".optional(App\Models\Project::find($cart['item']['id']))->step2_slug."-".optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                            'projectSlug' =>
+                                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
                                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                                             'housingOrder' => $cart['item']['housing'],
                                                         ]) }}">
@@ -178,7 +188,6 @@
                                         </td>
                                         @php
                                             $itemPrice = $cart['item']['amount'];
-
                                             if ($cart['hasCounter']) {
                                                 if ($cart['type'] == 'housing') {
                                                     $housing = App\Models\Housing::find($cart['item']['id']);
@@ -198,7 +207,6 @@
                                                         ->where('room_order', $roomOrder)
                                                         ->get()
                                                         ->keyBy('name');
-
                                                     $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
                                                     $projectAmount = $itemPrice - $projectDiscountAmount;
                                                     $discountedPrice =
@@ -214,15 +222,21 @@
                                                 isset($cart['item']['installmentPrice'])
                                                     ? $cart['item']['installmentPrice']
                                                     : $discountedPrice;
+                                            $discountedPrice =
+                                                $itemPrice -
+                                                ($housingDiscountAmount
+                                                    ? $housingDiscountAmount
+                                                    : $projectDiscountAmount);
 
-                                            $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                                            $displayedPrice = number_format($discountedPrice, 0, ',', '.');
                                             $share_sale = $cart['item']['isShare'] ?? null;
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
+
                                         @endphp
 
                                         <td>
                                             <span style="width:100%;text-align:center">
-                                                @if (isset($share_sale) && !empty($share_sale))
+                                                @if (isset($share_sale) && $share_sale != "[]")
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
@@ -236,8 +250,7 @@
 
                                                 @if ($discountRate != 0)
                                                     <span>
-                                                        <del style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}
-                                                            ₺</del>
+                                                        <del style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}₺</del>
                                                     </span>
                                                 @endif
 
@@ -266,26 +279,25 @@
                             <div class="booking-price-detail side-list no-border mb-3">
                                 @if (!$cart || empty($cart['item']))
                                     <ul>
-                                        <li>Toplam Fiyat<strong class="pull-right">00.00
-                                                TL</strong></li>
+                                        <li>Toplam Fiyat<strong class="pull-right">00.00TL</strong></li>
                                     </ul>
                                 @else
                                     <ul>
-                                        <li>İlan Fiyatı<strong class="pull-right">
-                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }}
-                                                TL</strong></li>
-
+                                        <li>İlan Fiyatı<strong class="pull-right"> {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                            <li style="color:#EA2B2E">Mağaza İndirimi :<strong class="pull-right">
+                                            <li style="color:#EA2B2E">Mağaza İndirimi :
+                                                <strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="currentColor" stroke-width="2" fill="none"
                                                         stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                         <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
-                                                    <span
-                                                        style="margin-left: 2px">{{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
-                                                        ₺ </span></strong></li>
+                                                    <span style="margin-left: 2px">
+                                                        {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }} ₺ 
+                                                    </span>
+                                                </strong>
+                                            </li>
                                         @endif
 
                                         @if (isset($discountRate) && $discountRate != '0')
@@ -493,7 +505,7 @@
                                                 <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
-                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && $share_sale == "[]")
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="neighborProjects">Komşunuzun referansıyla mı satın
@@ -512,7 +524,7 @@
 
                                     </div>
 
-                                    @if ($cart['type'] == 'project' && empty($share_sale))
+                                    @if ($cart['type'] == 'project' && $share_sale == "[]")
                                         <div class="d-flex align-items-center">
                                             <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
 
