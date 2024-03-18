@@ -237,6 +237,11 @@
                                     </div>
                                 @endforeach
                             </div>
+                                {{-- Carousel Kontrolleri --}}
+                                <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
+                                    class="fa fa-angle-left"></i></a>
+                            <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
+                                    class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1375,6 +1380,16 @@
                 }
             }]
         });
+
+        // Büyük görsel kaydığında küçük görselleri de eşleştirme
+$('#listingDetailsSlider').on('slid.bs.carousel', function () {
+    var index = $('#listingDetailsSlider .carousel-item.active').data('slide-number');
+    $('.listingDetailsSliderNav').slick('slickGoTo', index);
+
+    var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+    console.log("Büyük Görsel Data Slide Number: ", index);
+    console.log("Küçük Görsel Index: ", smallIndex);
+});
     </script>
 
     <script>
