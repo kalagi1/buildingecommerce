@@ -691,8 +691,8 @@
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
                                                                 name="payment_option" id="option1" value="option1"
-                                                                checked>
-                                                            <label class="form-check-label pt-1  mb-2 offset-md-1"
+                                                                >
+                                                            <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
                                                             </label>
@@ -700,9 +700,9 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option2" value="option2">
-                                                            <label class="form-check-label pt-1  mb-2 offset-md-1"
+                                                            <input class="form-check-input" type="radio" 
+                                                                name="payment_option" id="option2" value="option2" checked>
+                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
                                                                 for="option2">
                                                                 EFT / Havale ile Ödeme
                                                             </label>
@@ -996,6 +996,13 @@
             });
         });
 
+        $(document).ready(function() {
+            // Sayfa yüklendiğinde varsayılan olarak seçili olan ödeme yönteminin değerini al
+            var paymentOption = $('input[name="payment_option"]:checked').val();
+
+            // İlgili içeriği göstermek için değişiklik olayını tetikle
+            $('input[name="payment_option"][value="' + paymentOption + '"]').change();
+        });
 
         // Function to format numbers
         function number_format(number, decimals, dec_point, thousands_sep) {
@@ -1388,6 +1395,12 @@
                 border: 1px solid #E5E5EA;
 
             }
+        }
+
+        .form-check {
+            position: relative;
+            display: block;
+            padding-left: 0;
         }
     </style>
 @endsection
