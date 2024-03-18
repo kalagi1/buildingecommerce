@@ -71,7 +71,7 @@
                                         style="position: absolute;line-height:.9;color:black;font-size:9px !important; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                                         <i class="fa fa-check"></i></span>
                                 </span>
-                                @if ($store->year)
+                                @if ($store->year && $store->name == "Maliyetine Ev")
                                     <span class="badgeYearIcon" style="display: inline-block; position: relative;">
                                         <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
                                             style="display: block; margin: 0 auto;">
@@ -84,22 +84,7 @@
                             @endif
 
                         </div>
-                        @if (Auth::check())
-                            @if ($store->id == Auth::user()->id)
-                                <a href="{{ url('institutional/choise-advertise-type') }}"
-                                    style="margin-left: auto; margin-right:30px">
-                                    <button type="button" class="buyUserRequest ml-3">
-                                        <span class="buyUserRequest__text">
-                                            <div class="mobile-show"><i class="fa fa-plus"></i></div>
-                                            <div class="mobile-hidden">İlan Ekle</div>
-                                        </span>
-                                        <span class="buyUserRequest__icon">
-                                            <img src="{{ asset('sc.png') }}" alt="" srcset="">
-                                        </span>
-                                    </button>
-                                </a>
-                            @endif
-                        @endif
+                
                     </div>
 
                 </div>
@@ -117,7 +102,7 @@
                                 <a class="navbar-item"
                                 href="{{ route('institutional.housings',["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Emlak İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('institutional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekibimiz</a>
                             
                         </div>
                         <div class="search-form">

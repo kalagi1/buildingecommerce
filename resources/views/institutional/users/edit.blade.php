@@ -32,14 +32,34 @@
                         <div class="card-body p-0">
                             <div class="p-4">
                                 <form class="row g-3 needs-validation" novalidate="" method="POST"
-                                    action="{{ route('institutional.users.update', $subUser->id) }}">
+                                    action="{{ route('institutional.users.update', $subUser->id) }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
+
+
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <input class="d-none" id="upload-settings-porfile-picture"
+                                                name="profile_image" type="file" accept=".jpeg, .jpg, .png"><label
+                                                class="avatar avatar-4xl status-online cursor-pointer"
+                                                for="upload-settings-porfile-picture"><img
+                                                    class="rounded-circle img-thumbnail shadow-sm border-0"
+                                                    src="{{ asset('storage/profile_images/' . $subUser->profile_image) }}"
+                                                    width="200" alt=""></label>
+                                        </div>
+                                    </div>
 
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
                                         <input name="name" class="form-control" id="name" type="text"
                                             value="{{ old('name', $subUser->name) }}" required="">
+                                        <div class="valid-feedback">Looks good!</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="name">Unvan</label>
+                                        <input name="title" class="form-control"  value="{{ old('title', $subUser->title) }}" id="title" type="text" value=""
+                                            required="">
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">

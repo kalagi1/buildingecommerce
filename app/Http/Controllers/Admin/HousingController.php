@@ -12,6 +12,7 @@ use App\Models\HousingType;
 use App\Models\Log;
 use App\Models\HousingComment;
 use App\Models\HousingTypeParent;
+use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -81,9 +82,9 @@ class HousingController extends Controller {
         ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
         ->orderByDesc( 'housings.updated_at' )
         ->get();
-        
+
         $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 3)
+        ->where( 'status', 3 )
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -103,7 +104,7 @@ class HousingController extends Controller {
         ->get();
 
         $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 2)
+        ->where( 'status', 2 )
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -141,8 +142,7 @@ class HousingController extends Controller {
         ->onlyTrashed()
         ->get();
 
-
-        return view( 'admin.housings.index', compact( 'activeHousingTypes',"disabledHousingTypes","disabledHousingTypes",'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes' ) );
+        return view( 'admin.housings.index', compact( 'activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes' ) );
     }
 
     /**
@@ -183,9 +183,9 @@ class HousingController extends Controller {
         $housingData = json_decode( $housing->housing_type_data );
         $housingTypeData = HousingType::where( 'id', $housing->housing_type_id )->first();
         $housingTypeData = json_decode( $housingTypeData->form_json );
-        $parent = HousingTypeParent::where("slug", $housing->step1_slug)->first();        
+        $parent = HousingTypeParent::where( 'slug', $housing->step1_slug )->first();
 
-        return vieW( 'admin.housings.detail', compact( 'housing', 'parent','defaultMessages', 'housingData', 'housingTypeData' ) );
+        return vieW( 'admin.housings.detail', compact( 'housing', 'parent', 'defaultMessages', 'housingData', 'housingTypeData' ) );
     }
 
     public function setStatus( $housingId, Request $request ) {
@@ -201,9 +201,10 @@ class HousingController extends Controller {
             $reason = '#'.$code. "No'lu emlak ilanınız pasife alındı.";
         }
         $housing = Housing::where( 'id', $housingId )->firstOrFail();
-        Housing::where( 'id', $housingId )->update( [
+        $housingUpdate = Housing::where( 'id', $housingId )->update( [
             'status' => $request->input( 'status' )
         ] );
+
 
         Log::create( [
             'item_type' => 2,
@@ -240,6 +241,9 @@ class HousingController extends Controller {
                 'reason' => '#'.$code." No'lu emlak ilanınız admin tarafından pasife alındı.",
                 'is_rejected' => 0
             ] );
+
+            ShareLink::where( 'item_type', 2 )->where( 'item_id', $housingId )->delete();
+
         } else {
             Log::create( [
                 'item_type' => 2,

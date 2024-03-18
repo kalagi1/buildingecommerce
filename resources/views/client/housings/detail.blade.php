@@ -7,6 +7,46 @@
     );
 @endphp
 @php
+    function convertMonthToTurkishCharacter($date)
+    {
+        $aylar = [
+            'January' => 'Ocak',
+            'February' => 'Şubat',
+            'March' => 'Mart',
+            'April' => 'Nisan',
+            'May' => 'Mayıs',
+            'June' => 'Haziran',
+            'July' => 'Temmuz',
+            'August' => 'Ağustos',
+            'September' => 'Eylül',
+            'October' => 'Ekim',
+            'November' => 'Kasım',
+            'December' => 'Aralık',
+            'Monday' => 'Pazartesi',
+            'Tuesday' => 'Salı',
+            'Wednesday' => 'Çarşamba',
+            'Thursday' => 'Perşembe',
+            'Friday' => 'Cuma',
+            'Saturday' => 'Cumartesi',
+            'Sunday' => 'Pazar',
+            'Jan' => 'Oca',
+            'Feb' => 'Şub',
+            'Mar' => 'Mar',
+            'Apr' => 'Nis',
+            'May' => 'May',
+            'Jun' => 'Haz',
+            'Jul' => 'Tem',
+            'Aug' => 'Ağu',
+            'Sep' => 'Eyl',
+            'Oct' => 'Eki',
+            'Nov' => 'Kas',
+            'Dec' => 'Ara',
+        ];
+        return strtr($date, $aylar);
+    }
+
+@endphp
+@php
 
     function getData($housing, $key)
     {
@@ -122,7 +162,7 @@
                                     href="{{ route('institutional.housings', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Emlak
                                     İlanları</a>
                                 <a class="navbar-item"
-                                    href="{{ route('institutional.teams', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Ekip</a>
+                                    href="{{ route('institutional.teams', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Ekibimiz</a>
                             </div>
                             <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                                 @csrf
@@ -133,7 +173,7 @@
                                         <h5>Projeler</h5>
                                         <div class="header-search__suggestions__section__items">
                                             @foreach ($housing->user->projects as $item)
-                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
+                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id + 1000000]) }}"
                                                     class="project-item"
                                                     data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
                                             @endforeach
@@ -188,23 +228,29 @@
                                             <div class="listing-title-bar mobileMovePrice">
                                                 <h4>
                                                     @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24"
-                                                            stroke="currentColor" stroke-width="2" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
                                                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
                                                     @endif
                                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                        @php
+                                                            $price = $housing->step2_slug == 'gunluk-kiralik' ? json_decode($housing->housing_type_data)->daily_rent[0] : json_decode($housing->housing_type_data)->price[0];
+                                                            $discountedPrice = $price - $discountAmount;
+                                                        @endphp
+                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                            {{ getData($housing, 'daily_rent') - $discountAmount }} ₺
-
-                                                            <span style="font-size:12px; color:#EA2B2E;margin-left:10px">(1
-                                                                Gece)</span>
-                                                        @else
-                                                            {{ number_format(getData($housing, 'price') - $discountAmount, 0, ',', '.') }}
-                                                            ₺
+                                                            <span style="font-size:12px; color:#EA2B2E">(1 Gece)</span>
+                                                        @endif
+                                                        @if ($discountAmount)
+                                                            <br>
+                                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                                            </svg>
+                                                            <del style="font-size:11px; color:#EA2B2E">
+                                                                {{ number_format($price, 0, ',', '.') }}
+                                                            </del>
                                                         @endif
                                                     @endif
                                                 </h4>
@@ -214,45 +260,28 @@
                                 @endif
                             @else
                                 <div class="single detail-wrapper mr-2">
-                                    <div class="detail-wrapper-bodys">
+                                    <div class="detail-wrapper-body">
                                         <div class="listing-title-bar mobileMovePrice">
                                             <h4>
-                                                <div>
-                                                    @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="18" height="18"
-                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="css-i6dzq1">
-                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                            <polyline points="17 18 23 18 23 12"></polyline>
-                                                        </svg>
-                                                    @endif
+                                                <div style="text-align: center">
                                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                        @php
+                                                            $price = $housing->step2_slug == 'gunluk-kiralik' ? json_decode($housing->housing_type_data)->daily_rent[0] : json_decode($housing->housing_type_data)->price[0];
+                                                            $discountedPrice = $price - $discountAmount;
+                                                        @endphp
+                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                         @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                            @if ($discountAmount)
-                                                                <del style="font-size:11px; color:#EA2B2E">
-                                                                    {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                                </del>
-                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $discountAmount, 0, ',', '.') }}
-                                                                ₺
-                                                            @else
-                                                                {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
-                                                                ₺
-                                                            @endif
-                                                            <span style="font-size:11px; color:#EA2B2E">
-                                                                1 Gece</span>
-                                                        @else
-                                                            @if ($discountAmount)
-                                                                <del style="font-size:11px; color:#EA2B2E">
-                                                                    {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-
-                                                                </del>
-                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0] - $discountAmount, 0, ',', '.') }}
-                                                                ₺
-                                                            @else
-                                                                {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
-                                                                ₺
-                                                            @endif
+                                                            <span style="font-size:11px; color:#EA2B2E">1 Gece</span>
+                                                        @endif
+                                                        @if ($discountAmount)
+                                                            <br>
+                                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                                            </svg>
+                                                            <del style="font-size:11px; color:#EA2B2E">
+                                                                {{ number_format($price, 0, ',', '.') }}
+                                                            </del>
                                                         @endif
                                                     @endif
                                                 </div>
@@ -261,10 +290,10 @@
                                     </div>
                                 </div>
                             @endif
-
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="row">
                 <div class="col-md-8 blog-pots">
@@ -525,6 +554,17 @@
                                         </div>
                                         <table class="table">
                                             <tbody>
+                                                <tr style="border-top: none !important">
+                                                    <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                            {!! optional($housing->city)->title .
+                                                                ' / ' .
+                                                                optional($housing->county)->title .
+                                                                ' / ' .
+                                                                optional($housing->neighborhood)->mahalle_title ??
+                                                                '' !!}</span>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <span> İlan No :</span>
@@ -535,26 +575,32 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        İl-İlçe{!! optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ':' !!}
-                                                        <span class="det">
-                                                            {!! optional($housing->city)->title .
-                                                                ' / ' .
-                                                                optional($housing->county)->title .
-                                                                ' / ' .
-                                                                optional($housing->neighborhood)->mahalle_title ??
-                                                                '' !!}
+                                                        <span> İlan Tarihi :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                                         </span>
                                                     </td>
-
                                                 </tr>
+
 
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
-                                                            Telefon :
+                                                            Kurumsal Telefon :
                                                             <span class="det">
                                                                 <a style="text-decoration: none;color:inherit"
                                                                     href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                                @if ($housing->user->mobile_phone)
+                                                    <tr>
+                                                        <td>
+                                                            Cep :
+                                                            <span class="det">
+                                                                <a style="text-decoration: none;color:inherit"
+                                                                    href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -1049,60 +1095,60 @@
                                             class="float-right font-weight-bold outDate">10 jan 2019</span></li>
                                 </ul>
                             </div>
-                            
-                                <div class="col-md-12 pt-4">
-                                    <h2 class="font-weight-bold">Ödeme Detayları</h2>
-                                    <ul class="list-group">
-                                        <li class="list-group-item bg-light ">
-                                            <span class="font-weight-bold">&nbsp;X Gece</span>
-                                            <span class="dayCount float-left font-weight-bold">
-                                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                                                    @if ($housing->step2_slug == 'gunluk-kiralik')
-                                                        {{ getData($housing, 'daily_rent') - $discountAmount }} ₺
-                                                    @else
-                                                        {{ number_format(getData($housing, 'price') - $discountAmount, 0, ',', '.') }} ₺
-                                                    @endif
+
+                            <div class="col-md-12 pt-4">
+                                <h2 class="font-weight-bold">Ödeme Detayları</h2>
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light ">
+                                        <span class="font-weight-bold">&nbsp;X Gece</span>
+                                        <span class="dayCount float-left font-weight-bold">
+                                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
+                                                @if ($housing->step2_slug == 'gunluk-kiralik')
+                                                    {{ getData($housing, 'daily_rent') - $discountAmount }} ₺
+                                                @else
+                                                    {{ number_format(getData($housing, 'price') - $discountAmount, 0, ',', '.') }}
+                                                    ₺
                                                 @endif
-                                            </span>
-                                            <span
-                                                class="float-right font-weight-bold totalPrice">$263</span>
-                                        </li>
-                                        
+                                            @endif
+                                        </span>
+                                        <span class="float-right font-weight-bold totalPrice">$263</span>
+                                    </li>
 
-                                               
-                                        <li class="list-group-item bg-light">Şimdi Ödenecek Tutar:&nbsp;<span
-                                                class="float-right font-weight-bold newTotalPrice">$263</span> </li>
-                                        <li class="list-group-item bg-light">Kapıda Ödenecek Tutar<span
-                                                class="float-right font-weight-bold newTotalPrice">$263</span> </li>
-                                        <li class="list-group-item bg-light">Toplam Tutar<span
-                                                class="float-right font-weight-bold totalPrice">$150</span></li>
-                                    </ul>
-                                </div>
 
-                                <div class="col-md-12 pt-4">
-                                    <h2 class="font-weight-bold">Destek Detayları</h2>
-                                    <ul class="list-group">
-                                        <li class="list-group-item bg-light">
-                                            <i class=" float-left fas fa-phone-alt mt-1 mr-4"></i> <span
-                                                class="float-left font-weight-bold"></span> 444 3 284
-                                        </li>
-                                        <li class="list-group-item bg-light">
-                                            <i class=" float-left fas fa-envelope mt-1 mr-3"></i> <span
-                                                class="float-left font-weight-bold"></span> destek@emlaksepette.com
-                                        </li>
-                                    </ul>
-                                </div>
 
-                                <div class="col-md-12 pt-4">
-                                    <h2 class="font-weight-bold">EFT/Havale Detayları</h2>
-                                    <ul class="list-group">
-                                        <li class="list-group-item bg-light">EFT/Havale Kodu<span
-                                                class="float-right font-weight-bold  totalPriceCode">$60<span>
-                                        </li>
-                                    </ul>
-                                </div>
-    
-                            
+                                    <li class="list-group-item bg-light">Şimdi Ödenecek Tutar:&nbsp;<span
+                                            class="float-right font-weight-bold newTotalPrice">$263</span> </li>
+                                    <li class="list-group-item bg-light">Kapıda Ödenecek Tutar<span
+                                            class="float-right font-weight-bold newTotalPrice">$263</span> </li>
+                                    <li class="list-group-item bg-light">Toplam Tutar<span
+                                            class="float-right font-weight-bold totalPrice">$150</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-12 pt-4">
+                                <h2 class="font-weight-bold">Destek Detayları</h2>
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light">
+                                        <i class=" float-left fas fa-phone-alt mt-1 mr-4"></i> <span
+                                            class="float-left font-weight-bold"></span> 444 3 284
+                                    </li>
+                                    <li class="list-group-item bg-light">
+                                        <i class=" float-left fas fa-envelope mt-1 mr-3"></i> <span
+                                            class="float-left font-weight-bold"></span> destek@emlaksepette.com
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-12 pt-4">
+                                <h2 class="font-weight-bold">EFT/Havale Detayları</h2>
+                                <ul class="list-group">
+                                    <li class="list-group-item bg-light">EFT/Havale Kodu<span
+                                            class="float-right font-weight-bold  totalPriceCode">$60<span>
+                                    </li>
+                                </ul>
+                            </div>
+
+
 
                             @foreach ($bankAccounts as $bankAccount)
                                 <div class="col-md-4 pt-4 px-4 pb-4  bank-account" data-id="{{ $bankAccount->id }}"
@@ -1326,7 +1372,7 @@
         }
 
         function submitForm() {
-             // Rate değerini al
+            // Rate değerini al
             var rateValue = $('#rate').val();
 
             // Eğer rate değeri boş veya 0 ise, 1 olarak ayarla
@@ -1364,7 +1410,7 @@
         $(document).ready(function() {
             $('.listingDetailsSliderNav').slick({
                 slidesToShow: 5,
-                slidesToScroll: 4,
+                slidesToScroll: 1,
                 dots: false,
                 loop: false,
                 autoplay: false,
@@ -1413,7 +1459,7 @@
         //     }
         // });
 
-        
+
 
 
         function showLocation() {
@@ -1618,7 +1664,7 @@
                     // Minimum 7 gün tarih aralığı kontrolü
                     var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
                     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                    
+
                     // Gerekli alanları kontrol et
                     if (!fullName || !email || !tc || !phone || !address) {
                         toastr.error("Lütfen tüm zorunlu alanları doldurun.")
@@ -1677,7 +1723,7 @@
                         error: function(xhr, status, error) {
                             toastr.error(
                                 'İşlem sırasında bir hata oluştu. Lütfen tekrar deneyin veya destek ekibimizle iletişime geçin.'
-                                );
+                            );
                         }
 
                     });
@@ -2059,9 +2105,10 @@
         }
 
         @media (max-width:768px) {
-            .list-group-item.bg-light{
-                width:100%
+            .list-group-item.bg-light {
+                width: 100%
             }
+
             .mobile-action {
                 margin-left: 10px
             }

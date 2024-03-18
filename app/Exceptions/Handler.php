@@ -29,16 +29,32 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function render($request, Throwable $exception)
-    {
-        if ($exception instanceof HttpException && $exception->getStatusCode() == 403) {
-            return response()->view('errors.403', [], 403); // 403 hatası sayfasını gönderin
-        }
+   
+public function render($request, Throwable $exception)
+{
+    if ($exception instanceof HttpException) {
+        $statusCode = $exception->getStatusCode();
 
-        if ($exception instanceof HttpException && $exception->getStatusCode() == 404) {
-            return response()->view('errors.404', [], 404); // 403 hatası sayfasını gönderin
+        switch ($statusCode) {
+            case 403:
+                return $this->renderCustom403Page();
+            case 404:
+                return $this->renderCustom404Page();
         }
-
-        return parent::render($request, $exception);
     }
+
+    return parent::render($request, $exception);
+}
+
+protected function renderCustom403Page()
+{
+    return redirect('/')
+        ->with('error', 'Bu sayfa için görüntüleme yetkiniz bulunamadı.');
+}
+
+protected function renderCustom404Page()
+{
+    return redirect('/')
+        ->with('error', 'Sayfa bulunamadı.');
+}
 }

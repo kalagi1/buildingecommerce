@@ -4,16 +4,20 @@
 
 @section('content')
     <div class="content">
-        <h3 class=" mt-2 mb-4" >Alınan Teklifler</h3>
+        <h3 class=" mt-2 mb-4">Gelen Başvurular</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm  border-200 fs--1 mb-0">
                     <thead>
                         <tr>
+                            <th>Profil</th>
                             <th>Teklif Eden</th>
-                            <th>Proje Başlığı</th>
+                            <th style="width:200px">Proje Başlığı</th>
+                            <th>İsim</th>
+                            <th>Telefon</th>
+                            <th>Meslek</th>
+
                             <th>E-mail</th>
-                            <th>Teklif Aralığı</th>
                             <th>Açıklama</th>
                             <th>Yanıtla</th>
                         </tr>
@@ -28,20 +32,23 @@
                                                 <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
                                                     class="avatar-img rounded-circle" alt="">
                                             </div>
-                                            <div>
-                                                {{ $item->user->name }}
-                                            </div>
                                         </div>
                                     </td>
+                                    <td> {{ $item->user->name }} <br><br>
+                                        <span style="font-size: 10px;color:black;font-weight:700"> {{ $item->city ? $item->city->title: null }} 
+                                            {{ $item->district ? " - ".  $item->district->ilce_title: null }}</span></td>
 
                                     <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
                                     </td>
+                                    <td>{{ $item->name }} 
+                                       </td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->title }}</td>
                                     <td>{{ $item->email }}</td>
-                                    <td>{{ $item->offer_price_range }}</td>
+
                                     <td>{{ $item->offer_description }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#responseModal{{ $item->id }}">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#responseModal{{ $item->id }}" >
                                             Yanıtla
                                         </button>
                                     </td>
@@ -54,7 +61,7 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="responseModalLabel{{ $item->id }}">Yanıtla
                                                 </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
+                                                <button type="button" class="close" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -85,7 +92,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Kapat</button>
+                                                            data-bs-dismiss="modal">Kapat</button>
                                                         <button type="submit" class="btn btn-info">Yanıtla</button>
                                                     </div>
                                                 </form>
@@ -104,51 +111,56 @@
         <h3 class=" mt-2 mb-4 mt-4">Yanıtlanan Teklifler</h3>
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
-                    <table class="table table-sm fs--1 mb-0">
-                        <thead>
-                            <tr>
-                                <th>Teklif Eden</th>
-                                <th>Proje Başlığı</th>
-                                <th>E-mail</th>
-                                <th>Teklif Aralığı</th>
-                                <th>Açıklama</th>
-                                <th>Yanıt Durumu</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $item)
-                                @if ($item->offer_response == 1)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-xl mr-2">
-                                                    <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
-                                                        class="avatar-img rounded-circle" alt="">
-                                                </div>
-                                                <div>
-                                                    {{ $item->user->name }}
-                                                </div>
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                        <tr>
+                            <th>Teklif Eden</th>
+                            <th>Proje Başlığı</th>
+                            <th>İsim</th>
+                            <th>Telefon</th>
+                            <th>Meslek</th>
+                            <th>E-mail</th>
+                           
+                            <th>Açıklama</th>
+                            <th>Yanıt Durumu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $item)
+                            @if ($item->offer_response == 1)
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-xl mr-2">
+                                                <img src="{{ asset('storage/profile_images/' . $item->user->profile_image) }}"
+                                                    class="avatar-img rounded-circle" alt="">
                                             </div>
-                                        </td>
-                                        <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
-                                        </td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->offer_price_range }}</td>
-                                        <td>{{ $item->offer_description }}</td>
-                                        <td>
-                                            @if ($item->response_status == 0)
-                                                <span class="badge badge-danger">Olumsuz</span>
-                                            @elseif($item->response_status == 1)
-                                                <span class="badge badge-success">Olumlu</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                            <div>
+                                                {{ $item->user->name }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ $item->project->project_title . ' Projesindeki ' . $item->room_id . " No'lu İlan" }}
+                                    </td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->phone }}</td>
+                                    <td>{{ $item->title }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->offer_description }}</td>
+                                    <td>
+                                        @if ($item->response_status == 0)
+                                            <span class="badge badge-danger">Olumsuz</span>
+                                        @elseif($item->response_status == 1)
+                                            <span class="badge badge-success">Olumlu</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+        </div>
     </div>
 @endsection
 
@@ -212,25 +224,13 @@
     </script>
 @endsection
 
-{{-- @section('scripts')
+ @section('scripts')
 
-<script src="https://cdn.tiny.cloud/1/uzaxwtnfjkyj1l9egzl3mea3go0cq6xgmlkoanf5eb2jry8u/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-     CKEDITOR.replace('content', {
-            filebrowserUploadUrl: "{{ route('admin.ckeditor.upload', ['_token' => csrf_token()]) }}",
-            filebrowserUploadMethod: 'form'
-        });
-    //  tinymce.init({
-    //     selector: 'textarea#body', // Hedef elementin id'si
-    //     plugins: 'link code anchor autolink charmap codesample emoticons image lists media searchreplace table visualblocks wordcount', // İhtiyacınıza göre eklentileri ayarlayabilirsiniz
-    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    //     menubar: true,
-    //     branding: true
-    // });
-</script>
-@endsection --}}
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+@endsection 
 
 @section('css')
+
     <style>
         .custom-control-input:checked+.custom-control-label::before {
             background-color: green !important;

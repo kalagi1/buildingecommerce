@@ -19,13 +19,13 @@
         @if (Auth::check() && Auth::user()->type == '2')
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
-                    <h3 class="mb-0 text-primary position-relative fw-bold" style="margin-bottom: 10px !important">
+                    <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
                         <span class="bg-soft pe-2">
                             Sayın {{ $userLog->name }}, Emlak Sepette'ye Hoş Geldiniz.
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span style="color:black" class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
+                    <span class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
                         imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit
                         ücret talep
                         etmeyiz. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracılık ederiz.
@@ -36,16 +36,17 @@
 
                 </div>
             </div>
-            @else
+        @else
             <div class="d-flex mb-5 " id="scrollspyStats">
                 <div class="col">
-                    <h3 class="mb-0 text-primary position-relative fw-bold" style="margin-bottom: 10px !important">
+                    <h3 class="mb-0 text-black position-relative fw-bold" style="margin-bottom: 10px !important">
                         <span class="bg-soft pe-2">
                             Sayın {{ $userLog->name }}, Emlak Sepette'ye Hoş Geldiniz.
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span style="color:black" class="mt-5">Emlak Sepette'ye üye olduğunuz için teşekkür ederiz. Sitemizde keyifli alışverişler dileriz.</span>
+                    <span class="mt-5">Emlak Sepette'ye üye olduğunuz için teşekkür ederiz. Sitemizde keyifli alışverişler
+                        dileriz.</span>
 
 
                 </div>
@@ -182,7 +183,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color:green">Toplam Kazanç</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{number_format( $balanceStatus1, 2, ',', '.' )}}  ₺
+                                                {{ number_format($balanceStatus1, 2, ',', '.') }} ₺
                                             </h4>
                                         </div>
                                     </div>
@@ -204,7 +205,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color:orange">Onaydaki Komisyon Tutarı</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{number_format( $balanceStatus0, 2, ',', '.' )}}  ₺
+                                                {{ number_format($balanceStatus0, 2, ',', '.') }} ₺
 
                                             </h4>
                                         </div>
@@ -230,7 +231,7 @@
                                         <div>
                                             <p class="fw-bold mb-1" style="color: red">Reddedilen Komisyon Tutarı</p>
                                             <h4 class="fw-bolder text-nowrap">
-                                                {{number_format( $balanceStatus2, 2, ',', '.' )}}  ₺
+                                                {{ number_format($balanceStatus2, 2, ',', '.') }} ₺
 
                                             </h4>
                                         </div>
@@ -364,6 +365,19 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+        @else
+            <div class="row">
+                <div class="col-12 col-xl-6 col-xxl-5">
+                    <a href="{{ route('institutional.sharer.index') }}">
+                        <div class="card border h-100 w-100 overflow-hidden">
+
+                            <div class="card-body position-relative">
+                                <img src="{{ asset('popup2.jpeg') }}" alt="" style="width:100%;height:100%;object-fit:cover">
+                            </div>
+                        </div></a>
+                    
                 </div>
             </div>
         @endif

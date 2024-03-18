@@ -1,7 +1,45 @@
 @extends('client.layouts.master')
 
 @section('content')
-
+    @php
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+    @endphp
     @php
         function implodeData($array)
         {
@@ -27,12 +65,6 @@
 
 
 
-    @foreach ($offer as $item)
-        @php
-            $projectHousings = json_decode($item['project_housings'], true);
-            $projectDiscountAmount = $item['discount_amount'];
-        @endphp
-    @endforeach
 
     <div class="loading-full d-none">
         <div class="back-opa">
@@ -113,7 +145,7 @@
                                 href="{{ route('institutional.housings', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Emlak
                                 İlanları</a>
                             <a class="navbar-item"
-                                href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">Ekibimiz</a>
                         </div>
                         <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf
@@ -164,13 +196,9 @@
                     <div class="headings-2 pt-0 pb-0">
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                            <div class="homes-tag button alt featured mobileTagProject">
-                                <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                            </div>
+                            
                             <div class="carousel-inner">
-
-                                {{-- Kapak Görseli --}}
-                                <div class="item carousel-item active" data-slide-number="0">
+                                <div class="item carousel-item active" data-slide-number="1">
                                     <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                         data-lightbox="image-gallery">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
@@ -180,7 +208,7 @@
 
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -189,28 +217,20 @@
                                     </div>
                                 @endforeach
 
-
-                                {{-- Carousel Kontrolleri --}}
-                                <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                        class="fa fa-angle-left"></i></a>
-                                <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                        class="fa fa-angle-right"></i></a>
                             </div>
 
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
                                 <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
                                 </div>
-
-                                {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key + 1 }}"
-                                            data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key }}"
+                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -227,25 +247,35 @@
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body" style="padding: 0 !important">
                                     <div class="sidebar-widget author-widget2">
-                                        <h2 class="classifiedInfo"> {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                            @if ($project->neighbourhood)
-                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
-                                            @endif
-                                        </h2>
-                                        {{-- <div class="author-box clearfix d-flex align-items-center">
-                                            <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                alt="author-image" class="author__img">
-                                            <div> <a
-                                                    href="{{ route('institutional.dashboard', Str::slug($project->user->name)) }}">
-                                                    <h4 class="author__title">{!! $project->user->name !!}</h4>
-                                                </a>
-                                                <p class="author__meta">
-                                                    {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
-                                                </p>
-                                            </div>
-                                        </div> --}}
+
                                         <table class="table homes-content" style="margin-bottom: 0 !important">
                                             <tbody>
+                                                <tr style="border-top: none !important">
+                                                    <td style="border-top: none !important">
+                                                        <span class="det" style="color: #EA2B2E !important;">
+                                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                            @if ($project->neighbourhood)
+                                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İlan No:</span>
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ $project->id + 1000000 }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İlan Tarihi:</span>
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Proje Durumu:</span>
@@ -263,9 +293,16 @@
 
                                                 <tr>
                                                     <td>
-                                                        <span class="autoWidthTr">Telefon:</span>
+                                                        <span class="autoWidthTr">Kurumsal Telefon:</span>
                                                         <span class="det"
                                                             style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Cep :</span>
+                                                        <span class="det"
+                                                            style="color: black;">{!! $project->user->mobile_phone ? $project->user->mobile_phone : 'Belirtilmedi' !!}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -469,6 +506,8 @@
 
                             <table class="table" style="margin-bottom: 0 !important">
                                 <tbody class="trStyle">
+
+
                                     <tr>
                                         <td colspan="2">
                                             <strong><span class="mr-1">Proje Adı:</span></strong>
@@ -652,13 +691,14 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade blog-info details mb-30" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
-
+                        <div class="tab-pane fade blog-info details mb-30 descriptionProject" id="home"
+                            role="tabpanel" aria-labelledby="home-tab">
                             {!! $project->description !!}
                         </div>
+
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
+
 
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
@@ -671,7 +711,7 @@
                                                         @foreach ($project->blocks as $key => $block)
                                                             <li class="nav-item-block {{ $key == $blockIndex ? ' active' : '' }}"
                                                                 role="presentation"
-                                                                onclick="changeTabContent('{{ $block['id'] }}')">
+                                                                onclick="changeTabContent('{{ $block['id'] }}',{{ $key }})">
                                                                 <div class="tab-title">
                                                                     <span>{{ $block['block_name'] }}</span>
                                                                 </div>
@@ -687,6 +727,7 @@
                                                                 $blockHousingCount = $block['housing_count'];
                                                                 $previousBlockHousingCount = 0;
                                                                 $allCounts = 0;
+                                                                $blockName = $block['block_name'];
 
                                                                 if ($blockKey > 0) {
                                                                     $previousBlockHousingCount =
@@ -714,107 +755,20 @@
                                                             @endphp
                                                             <div class="mobile-hidden">
                                                                 <div class="container">
-                                                                    <div class="row project-filter-reverse blog-pots">
-                                                                        @for ($i = 0; $i < $blockHousingCount; $i++)
-                                                                            @php
-                                                                                if (isset($projectCartOrders[$i + 1])) {
-                                                                                    $sold = $projectCartOrders[$i + 1];
-                                                                                } else {
-                                                                                    $sold = null;
-                                                                                }
-                                                                                $isUserSame =
-                                                                                    isset($projectCartOrders[$i + 1]) &&
-                                                                                    (Auth::check()
-                                                                                        ? $projectCartOrders[$i + 1]
-                                                                                                ->user_id ==
-                                                                                            Auth::user()->id
-                                                                                        : false);
+                                                                    <div class="row project-filter-reverse blog-pots"
+                                                                        id="project-room{{ $blockKey }}">
 
-                                                                                $projectOffer = App\Models\Offer::where(
-                                                                                    'type',
-                                                                                    'project',
-                                                                                )
-                                                                                    ->where('project_id', $project->id)
-                                                                                    ->where(function ($query) use ($i) {
-                                                                                        $query
-                                                                                            ->orWhereJsonContains(
-                                                                                                'project_housings',
-                                                                                                [$i + 1],
-                                                                                            )
-                                                                                            ->orWhereJsonContains(
-                                                                                                'project_housings',
-                                                                                                (string) ($i + 1),
-                                                                                            ); // Handle as string as JSON might store values as strings
-                                                                                    })
-                                                                                    ->where('start_date', '<=', now())
-                                                                                    ->where('end_date', '>=', now())
-                                                                                    ->first();
-                                                                                $projectDiscountAmount = $projectOffer
-                                                                                    ? $projectOffer->discount_amount
-                                                                                    : 0;
-                                                                            @endphp
-
-                                                                            <x-project-item-card :project="$project"
-                                                                                :allCounts="$allCounts"
-                                                                                :key="$key" :blockHousingCount="$blockHousingCount"
-                                                                                :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                                                                :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                                                :i="$i" :projectHousingsList="$projectHousingsList"
-                                                                                :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
-                                                                                :lastHousingCount="$lastHousingCount" />
-                                                                        @endfor
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                @for ($i = 0; $i < $blockHousingCount; $i++)
-                                                                    @php
-                                                                        if (isset($projectCartOrders[$i + 1])) {
-                                                                            $sold = $projectCartOrders[$i + 1];
-                                                                        } else {
-                                                                            $sold = null;
-                                                                        }
-                                                                        $isUserSame =
-                                                                            isset($projectCartOrders[$i + 1]) &&
-                                                                            (Auth::check()
-                                                                                ? $projectCartOrders[$i + 1]->user_id ==
-                                                                                    Auth::user()->id
-                                                                                : false);
+                                                                <div class=""
+                                                                    id="project-room-mobile{{ $blockKey }}">
 
-                                                                        $projectOffer = App\Models\Offer::where(
-                                                                            'type',
-                                                                            'project',
-                                                                        )
-                                                                            ->where('project_id', $project->id)
-                                                                            ->where(function ($query) use ($i) {
-                                                                                $query
-                                                                                    ->orWhereJsonContains(
-                                                                                        'project_housings',
-                                                                                        [$i + 1],
-                                                                                    )
-                                                                                    ->orWhereJsonContains(
-                                                                                        'project_housings',
-                                                                                        (string) ($i + 1),
-                                                                                    ); // Handle as string as JSON might store values as strings
-                                                                            })
-                                                                            ->where('start_date', '<=', now())
-                                                                            ->where('end_date', '>=', now())
-                                                                            ->first();
-                                                                        $projectDiscountAmount = $projectOffer
-                                                                            ? $projectOffer->discount_amount
-                                                                            : 0;
-                                                                            $blockName =  $block['block_name'];
-                                                                    @endphp
-
-                                                                    <x-project-item-mobile-card :project="$project"
-                                                                    :blockName="$blockName"
-                                                                        :allCounts="$allCounts" :key="$key"
-                                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                                        :bankAccounts="$bankAccounts" :i="$i"
-                                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                                                @endfor
+                                                                </div>
+                                                            </div>
+                                                            <div class="ajax-load" style="display: none;">
+                                                                Yükleniyor...
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -829,9 +783,12 @@
                                 <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
+                                            @php
+                                                $blockName = null;
+                                            @endphp
 
-                                            <div class="row project-filter-reverse blog-pots">
-                                                @for ($i = 0; $i < $project->room_count; $i++)
+                                            <div class="row project-filter-reverse blog-pots" id="project-room">
+                                                @for ($i = 0; $i < min($project->room_count, 10); $i++)
                                                     @php
 
                                                         if (isset($projectCartOrders[$i + 1])) {
@@ -863,65 +820,81 @@
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
+
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
+
+                                                        $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
-                                                        :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                        :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                        :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                        :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :towns="$towns" :cities="$cities"
+                                                        :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
-
                                             </div>
+                                            <div class="ajax-load" style="display: none;">
+                                                Yükleniyor...
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="mobile-show">
                                         <div class="container">
+                                            <div id="project-room-mobile">
+                                                @for ($i = 0; $i < min($project->room_count, 10); $i++)
+                                                    @php
+                                                        $sold = isset($projectCartOrders[$i + 1])
+                                                            ? $projectCartOrders[$i + 1]
+                                                            : null;
 
-                                            @for ($i = 0; $i < $project->room_count; $i++)
-                                                @php
-                                                    $sold = isset($projectCartOrders[$i + 1])
-                                                        ? $projectCartOrders[$i + 1]
-                                                        : null;
+                                                        $room_order = $i + 1;
+                                                        $allCounts = 0;
+                                                        $blockHousingCount = 0;
+                                                        $previousBlockHousingCount = 0;
+                                                        $key = 0;
+                                                        $isUserSame =
+                                                            isset($projectCartOrders[$i + 1]) &&
+                                                            (Auth::check()
+                                                                ? $projectCartOrders[$i + 1]->user_id ==
+                                                                    Auth::user()->id
+                                                                : false);
 
-                                                    $room_order = $i + 1;
-                                                    $allCounts = 0;
-                                                    $blockHousingCount = 0;
-                                                    $previousBlockHousingCount = 0;
-                                                    $key = 0;
-                                                    $isUserSame =
-                                                        isset($projectCartOrders[$i + 1]) &&
-                                                        (Auth::check()
-                                                            ? $projectCartOrders[$i + 1]->user_id == Auth::user()->id
-                                                            : false);
+                                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                                            ->where('project_id', $project->id)
+                                                            ->where(function ($query) use ($i) {
+                                                                $query
+                                                                    ->orWhereJsonContains('project_housings', [$i + 1])
+                                                                    ->orWhereJsonContains(
+                                                                        'project_housings',
+                                                                        (string) ($i + 1),
+                                                                    ); // Handle as string as JSON might store values as strings
+                                                            })
+                                                            ->where('start_date', '<=', now())
+                                                            ->where('end_date', '>=', now())
+                                                            ->first();
+                                                        $projectDiscountAmount = $projectOffer
+                                                            ? $projectOffer->discount_amount
+                                                            : 0;
 
-                                                    $projectOffer = App\Models\Offer::where('type', 'project')
-                                                        ->where('project_id', $project->id)
-                                                        ->where(function ($query) use ($i) {
-                                                            $query
-                                                                ->orWhereJsonContains('project_housings', [$i + 1])
-                                                                ->orWhereJsonContains(
-                                                                    'project_housings',
-                                                                    (string) ($i + 1),
-                                                                ); // Handle as string as JSON might store values as strings
-                                                        })
-                                                        ->where('start_date', '<=', now())
-                                                        ->where('end_date', '>=', now())
-                                                        ->first();
-                                                    $projectDiscountAmount = $projectOffer
-                                                        ? $projectOffer->discount_amount
-                                                        : 0;
-                                                @endphp
-                                                <x-project-item-mobile-card
-                                                :blockName="null" :project="$project" :allCounts="$allCounts"
-                                                    :key="$key" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount"
-                                                    :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame" :bankAccounts="$bankAccounts"
-                                                    :i="$i" :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount"
-                                                    :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                                            @endfor
+                                                        $statusSlug = $status->slug;
+                                                    @endphp
+                                                    <x-project-item-mobile-card :towns="$towns" :cities="$cities"
+                                                        :blockStart="0" :blockName="$blockName" :project="$project"
+                                                        :allCounts="$allCounts" :statusSlug="$statusSlug" :key="$key"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
+                                                @endfor
+                                            </div>
+                                            <div class="ajax-load" style="display: none;">
+                                                Yükleniyor...
+                                            </div>
                                         </div>
 
                                     </div>
@@ -967,72 +940,7 @@
 
 
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
 
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="invoice">
-                        <div class="invoice-header mb-3">
-                            <span>Ödeme Tarihi: {{ date('d.m.Y') }}</span> <br>
-                            <span style="color:#e54242;font-weight:700">Tutar: 250 TL</span>
-
-                        </div>
-
-                        <div class="invoice-body">
-                            <div class="invoice-total mt-3">
-                                <div class="mt-3">
-                                    <span><strong style="color:black">Komşumu Gör Özelliği:</strong> Bu özellik, komşunuzun
-                                        iletişim bilgilerine ulaşabilmeniz için aktif edilmelidir.</span><br>
-                                    <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
-                                        edin:</span>
-                                    <ul>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
-                                                aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen tutarı
-                                            aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
-                                        <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
-                                                aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör" düğmesi
-                                            aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
-                                    </ul>
-                                </div>
-                                <div class="container row mb-3 mt-3">
-                                    @foreach ($bankAccounts as $bankAccount)
-                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                            data-iban="{{ $bankAccount->iban }}"
-                                            data-title="{{ $bankAccount->receipent_full_name }}">
-                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
-                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div id="ibanInfo" style="font-size: 12px !important"></div>
-                                <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                    <span style="color:#EA2B2E;font-weight:bold" id="uniqueCode"></span> kodu
-                                    kullanarak ödemenizi
-                                    yapın. IBAN açıklama
-                                    alanına
-                                    bu kodu eklemeyi unutmayın.</span>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="d-flex">
-                        <button type="button"
-                            class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
-                            id="completePaymentButton" style="width:150px;float:right">
-                            250 TL Öde
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
     <div id="loadingOverlay">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
@@ -1048,9 +956,251 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
+        var itemsPerPage = 10;
+        var isLoading = false; // Kontrol flag'ı ekledik
+        var currentBlock = 0;
+        var currentPage = 0;
+        var maxPages = null;
+        $(document).ready(function() {
+
+            @if ($project->have_blocks)
+                currentPage = 0;
+                var projectBlocks = @json($project->blocks);
+                maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
+
+                if (window.innerWidth >= 768) {
+                    loadMoreDataBlock(0);
+                } else {
+                    loadMoreDataBlockMobil(0);
+                }
+                $(window).scroll(function() {
+                    var projectRoom = $('#project-room' + currentBlock);
+                    var projectRoomMobile = $('#project-room-mobile' + currentBlock);
+
+                    // Web
+                    if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                        .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataBlock(currentPage);
+                        }
+                    }
+
+                    // Mobil
+                    if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                        projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataBlockMobil(currentPage);
+                        }
+                    }
+                });
+            @else
+
+                currentPage = 1;
+                maxPages = Math.ceil({{ $project->room_count }} / itemsPerPage);
+
+                $(window).scroll(function() {
+                    var projectRoom = $('#project-room');
+                    var projectRoomMobile = $('#project-room-mobile');
+
+                    // Web
+                    if ($(window).scrollTop() + $(window).height() >= projectRoom.offset().top + projectRoom
+                        .outerHeight() - 50 && !isLoading && window.innerWidth >= 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreData(currentPage);
+                        }
+                    }
+
+                    // Mobil
+                    if ($(window).scrollTop() + $(window).height() >= projectRoomMobile.offset().top +
+                        projectRoomMobile.outerHeight() - 50 && !isLoading && window.innerWidth < 768) {
+                        if (currentPage < maxPages) {
+                            isLoading = true; // Yüklenme başladığında flag'ı true olarak ayarla
+                            currentPage++;
+                            loadMoreDataMobile(currentPage);
+                        }
+                    }
+                });
+            @endif
+        });
+
+        function loadMoreData(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataMobile(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-mobile') }}/{{ $project->id }}/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room-mobile').append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataBlock(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-block') }}/{{ $project->id }}/" + currentBlock + "/" + page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    $('#project-room' + currentBlock).append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function loadMoreDataBlockMobil(page) {
+            $.ajax({
+                url: "{{ url('/load-more-rooms-block-mobile') }}/{{ $project->id }}/" + currentBlock + "/" +
+                    page,
+                type: 'get',
+                beforeSend: function() {
+                    $('.ajax-load').show();
+                },
+                success: function(response) {
+                    console.log($('#project-room-mobile' + currentBlock));
+                    $('#project-room-mobile' + currentBlock).append(response);
+                    $('.ajax-load').hide();
+                    isLoading = false; // Yüklenme tamamlandığında flag'ı false olarak ayarla
+                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+
+                    $('.ajax-load').hide();
+                    isLoading = false; // Hata durumunda flag'ı false olarak ayarla
+                }
+            });
+        }
+
+        function changeTabContent(tabName, key) {
+            currentPage = 0;
+            currentBlock = key;
+
+
+            if (window.innerWidth >= 768) {
+                loadMoreDataBlock(0);
+                $('#project-room' + currentBlock).html("");
+            } else {
+                loadMoreDataBlockMobil(0);
+                $('#project-room-mobile' + currentBlock).html("");
+            }
+
+            projectBlocks = @json($project->blocks);
+            maxPages = Math.ceil(projectBlocks[key]["housing_count"] / itemsPerPage);
+
+            document.querySelectorAll('.nav-item-block').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content-block').forEach(function(content) {
+                content.classList.remove('active');
+            });
+            document.getElementById('contentblock-' + tabName).classList.add('active');
+            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
+
+            var blockIndex = $('#contentblock-' + tabName).index() - 1;
+            var startIndex = 0;
+            var endIndex = 12;
+
+        }
+    </script>
+    <script>
+        var successMessage = "{{ session('success') }}";
+
+        if (successMessage) {
+            Toastify({
+                text: successMessage,
+                duration: 5000,
+                gravity: 'bottom',
+                position: 'center',
+                backgroundColor: 'green',
+                stopOnFocus: true,
+            }).showToast();
+        }
+
+        $('.citySelect').change(function() {
+            var selectedCity = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('.countySelect');
+                    countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
+                    $.each(data, function(index, county) {
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        //       $(document).ready(function() {
+        //     var $carousel = $('#listingDetailsSlider');
+
+        //     $carousel.carousel({
+        //         interval: false // Karusel otomatik geçişini devre dışı bırak
+        //     });
+
+        //     // Carousel kaydırıldığında
+        //     $carousel.on('slide.bs.carousel', function() {
+        //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
+
+        //         // Sayfa aşağı kaydır
+        //         $('html, body').animate({
+        //             scrollTop: scrollPosition
+        //         }, 500);
+        //     });
+        // });
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {
@@ -1181,6 +1331,9 @@
                     console.log("Ürün sepete eklendi: " + response);
                 },
                 error: function(error) {
+                    if (error.message == 'error') {
+                        alert('dasdsada');
+                    }
                     // Hata durumunda buraya gelir
                     toast.error(error)
                     console.error("Hata oluştu: " + error);
@@ -1197,7 +1350,7 @@
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 4,
+            slidesToScroll: 1,
             dots: false,
             loop: false,
             autoplay: false,
@@ -1222,22 +1375,6 @@
                 }
             }]
         });
-
-        function changeTabContent(tabName) {
-            document.querySelectorAll('.nav-item-block').forEach(function(content) {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-content-block').forEach(function(content) {
-                content.classList.remove('active');
-            });
-            document.getElementById('contentblock-' + tabName).classList.add('active');
-            console.log($('#contentblock-' + tabName).index())
-            var block = document.getElementById('contentblock-' + tabName).dataset.blockName;
-
-            var blockIndex = $('#contentblock-' + tabName).index() - 1;
-            var startIndex = 0;
-            var endIndex = 12;
-        }
     </script>
 
     <script>
@@ -1250,101 +1387,6 @@
                 else
                     $(this).removeClass('d-none');
             });
-        });
-    </script>
-
-    <script>
-        $('#completePaymentButton').prop('disabled', false);
-
-        $('.bank-account').on('click', function() {
-            // Tüm banka görsellerini seçim olmadı olarak ayarla
-            $('.bank-account').removeClass('selected');
-
-            // Seçilen banka görselini işaretle
-            $(this).addClass('selected');
-
-            // İlgili IBAN bilgisini al
-            var selectedBankIban = $(this).data('iban');
-            var selectedBankIbanID = $(this).data('id');
-            var selectedBankTitle = $(this).data('title');
-            $('#bankaID').val(selectedBankIbanID);
-
-
-            var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
-                selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
-            $('#ibanInfo').html(ibanInfo);
-
-        });
-
-        $('#completePaymentButton').on('click', function() {
-
-            if ($('.bank-account.selected').length === 0) {
-                toastr.error('Lütfen banka seçimi yapınız.')
-
-            } else {
-                $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
-
-                $.ajax({
-                    url: "{{ route('neighbor.store') }}", // Sepete veri eklemek için uygun URL'yi belirtin
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
-                        order_id: $(this).data('order'),
-                        status: 0,
-                        key: $("#uniqueCode").html(),
-                        amount: "100"
-                    },
-                    success: function(response) {
-                        $("#loadingOverlay").css("visibility", "hidden");
-                        $('#paymentModal').removeClass('show').hide();
-                        $('.modal-backdrop').removeClass('show');
-                        $('.modal-backdrop').remove();
-                        if (response.success) {
-                            toastr.success(
-                                'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                            location.reload();
-                        }
-                    },
-                    error: function(error) {
-                        toastr.error("Bu işlemle ilgili daha önce talepte bulunmuşsunuz.");
-                        location.reload();
-                    }
-                });
-            }
-        });
-
-        function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const codeLength = 8; // Kod uzunluğu
-
-            let randomCode = '';
-            for (let i = 0; i < codeLength; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                randomCode += characters.charAt(randomIndex);
-            }
-
-            return randomCode;
-        }
-        $(".see-my-neighbor").on("click", function() {
-
-
-            if (!{{ Auth::check() ? 'true' : 'false' }}) {
-                // User is not authenticated, show error toast
-                // You can use a library like toastr.js or any other method to display a toast
-                // Example using toastr.js
-                toastr.error('Lütfen giriş yapın!');
-                return;
-            }
-
-            var uniqueCode = generateRandomCode();
-
-
-            $('#uniqueCode, #uniqueCodeRetry').text(uniqueCode);
-            $("#orderKey").val(uniqueCode);
-
-            var soldId = $(this).data('order');
-            $('#completePaymentButton').attr('data-order', soldId);
         });
     </script>
 @endsection
@@ -1361,8 +1403,7 @@
 
         .modal-input {
             padding: 1em !important;
-            border: 1px solid #ccc !important;
-            border-radius: 0.4em !important;
+            border: 1px solid #eee !important;
             margin: 0.5em 0em;
             width: 100%;
             transition: border-color 0.3s;
@@ -1377,7 +1418,6 @@
         .modal-btn-kapat {
             padding: 0.8em 2em;
             font-weight: 600;
-            letter-spacing: 2px;
             transition: background-color 0.3s;
             width: 45%;
             border: none;
@@ -1464,7 +1504,7 @@
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px !important;
+            height: 35px !important;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1603,7 +1643,7 @@
         .button-effect {
             border: solid 1px #e6e6e6;
             width: 48px;
-            height: 48px !important;
+            height: 35px !important;
             border-radius: 50%;
             display: flex;
             align-items: center;

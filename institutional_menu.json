@@ -12,7 +12,7 @@
         "id": "GetReceivedOffers",
         "label": "Mağazam Emlak Sepette",
         "icon": "users",
-        "text": "Alınan Teklifler",
+        "text": "Gelen Başvurular",
         "key": "GetReceivedOffers",
         "url": "institutional.get_received_offers",
         "activePath": "/institutional/get_received_offers"
@@ -21,7 +21,7 @@
         "id": "GetGivenOffers",
         "label": "Mağazam Emlak Sepette",
         "icon": "users",
-        "text": "Verilen Teklifler",
+        "text": "Başvurularım",
         "key": "GetGivenOffers",
         "url": "institutional.get_given_offers",
         "activePath": "/institutional/get_given_offers"
@@ -49,7 +49,7 @@
         "icon": "plus",
         "text": "Proje İlanlarım",
         "key": "Projects",
-        "url": "institutional.projects.index",
+        "url": "institutional.react.projects",
         "activePath": "/institutional/projects"
     },
 

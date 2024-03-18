@@ -114,8 +114,9 @@
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
-                                            <img src="{{ asset('images/al-sat-acil.png') }}" alt="Al Sat Acil"
-                                                class="img-responsive brand-image-pp" style="border:5px solid #F4A226">
+                                            <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}"
+                                                alt="Al Sat Acil" class="img-responsive brand-image-pp"
+                                                style="border:5px solid #F4A226">
                                             <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
                                     </div>
@@ -143,7 +144,8 @@
 
                                                     <div class="profile-initial">{{ $nameInitials }}</div>
                                                 @else
-                                                    <img src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                    <img loading="lazy"
+                                                        src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                         alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
                                                 @endif
                                                 <span
@@ -203,6 +205,7 @@
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
 
+
     @if ($secondhandHousings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white">
             <div class="container">
@@ -219,19 +222,27 @@
                 </div>
 
                 <div class="mobile-show">
-                    @foreach ($secondhandHousings as $housing)
-                        @php($sold = $housing->sold)
-                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                            <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                        @endif
-                    @endforeach
+                    <div id="housingMobileRow">
+                        @forelse ($secondhandHousings->take(4) as $housing)
+                            @php($sold = $housing->sold)
+                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                            @endif
+                        @endforeach
+                    </div>
+
+                    <div class="ajax-load" style="display: none;">
+                        <div class="spinner-border" role="status">
+                           
+                          </div>
+                    </div>
                 </div>
 
                 <div class="mobile-hidden" style="margin-top: 20px">
                     <section class="properties-right list featured portfolio blog pb-5 bg-white">
-                        <div class="container">
-                            <div class="row">
-                                @forelse ($secondhandHousings as $housing)
+                        <div class="container" id="housingContainer">
+                            <div class="row" id="housingRow">
+                                @forelse ($secondhandHousings->take(4) as $housing)
                                     @php($sold = $housing->sold)
                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
                                         <div class="col-md-3">
@@ -242,9 +253,16 @@
                                     <p>Henüz İlan Yayınlanmadı</p>
                                 @endforelse
                             </div>
+                            <div class="ajax-load" style="display: none;">
+                                <div class="spinner-border" role="status">
+                                   
+                                  </div>
+                            </div>
                         </div>
                     </section>
                 </div>
+
+
             </div>
         </section>
     @endif
@@ -316,7 +334,7 @@
         </div>
     @endif --}}
 
-    @if (Auth::check() && Auth::user()->has_club == 0)
+    @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
@@ -338,12 +356,17 @@
                                             aria-label="Close">
                                             <i class="fa fa-close"></i>
                                         </button>
-                                        <div class="offer-content"><img src="{{ asset('popup.png') }}"
+                                        <div class="offer-content"><img loading="lazy" src="{{ asset('popup2.jpeg') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
-                                                <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin kadar paylaş; paylaştıkça kazan!</h2>
-                                                <a href="{{ route('institutional.sharer.index') }}" style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
-                                                <button style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
-                                                   SEN DE KATIL !
+                                            <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
+                                                kadar paylaş; paylaştıkça kazan!</h2>
+                                            <a @if (Auth::check()) href="{{ route('institutional.sharer.index') }}"
+                                            @else
+                                            href="{{ route('client.login') }}" @endif
+                                                style="font-size: 11px;display:flex;align-items:Center;justify-content:center">
+                                                <button
+                                                    style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px">
+                                                    SEN DE KATIL !
                                                 </button>
                                             </a>
                                         </div>
@@ -361,7 +384,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     $('#customModal').modal('show');
-                }, 30000);
+                }, 5000);
             });
         </script>
     @endif
@@ -370,6 +393,93 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Include Toastify CSS and JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        var page = 1; 
+        var isLoading = false;
+        var housingRow = $('#housingRow');
+        var housingMobileRow = $('#housingMobileRow');
+        var itemsPerPage = 4;
+        var maxPages = null;
+        var housingCounts = @json($secondhandHousings);
+        maxPages = Math.ceil(housingCounts.length / itemsPerPage);
+        function centerAjaxLoadElements() {
+        var ajaxLoadElements = document.querySelectorAll('.ajax-load');
+        
+        ajaxLoadElements.forEach(function(element) {
+            element.style.display = 'flex';
+            element.style.justifyContent = 'center';
+            element.style.margin = '0 auto';
+        });
+    }
+        function loadMoreHousings() {
+            if (isLoading || page >= maxPages) return; 
+            isLoading = true;
+            centerAjaxLoadElements();
+            $('.ajax-load').show();
+    
+            page++; 
+            var url = "{{ route('load-more-housings') }}?page=" + page;
+    
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('housingRow').innerHTML += data;
+                    isLoading = false;
+                    $('.ajax-load').hide();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        function loadMoreMobileHousings() {
+            if (isLoading || page >= maxPages) return; 
+            isLoading = true;
+            $('.ajax-load').show();
+    
+            page++; 
+            var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
+    
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('housingMobileRow').innerHTML += data;
+                    isLoading = false;
+                    $('.ajax-load').hide();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        window.addEventListener('scroll', function() {
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
+                50 && !isLoading && window.innerWidth >= 768) {
+                loadMoreHousings();
+            }
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow
+                .outerHeight() -
+                50 && !isLoading && window.innerWidth < 768) {
+                loadMoreMobileHousings();
+            }
+        });
+    </script>
+    
+
+    <script>
+        var errorMessage = "{{ session('error') }}";
+
+        if (errorMessage) {
+            Toastify({
+                text: errorMessage,
+                duration: 5000,
+                gravity: 'bottom',
+                position: 'center',
+                backgroundColor: '#ff4d4d',
+                stopOnFocus: true,
+            }).showToast();
+        }
+    </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();

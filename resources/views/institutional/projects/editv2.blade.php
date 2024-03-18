@@ -1995,6 +1995,10 @@
             }
         })
 
+        $('.rules_confirm').click(function(e){
+            e.stopPropagation();
+        })
+
         $('.pricing-item').click(function() {
             $('.pricing-item').find('input').removeAttr('checked');
             $('.pricing-item').find('.price-radio').removeClass('select');
@@ -3045,7 +3049,7 @@
 
                         if (response.status) {
                             window.location.href =
-                                "{{ route('institutional.projects.index') }}?update_item=1"
+                                "{{ route('institutional.react.projects') }}"
                         }
                     }
                 })
@@ -3254,15 +3258,6 @@
         })
     </script>
     <script>
-        var $select = $('#housing_status').selectize();
-        var selectize = $select[0].selectize;
-        selectize.on('item_click', function(item) {
-            console.log("asd");
-            selectize.removeItem(item);
-        });
-
-
-
         $('#housing_status').change(function() {
             var value = $(this).val();
             var html = "<option value=''>Statü Seç</option>";

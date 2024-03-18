@@ -28,14 +28,6 @@
                                             <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
-                                    @foreach (App\Models\Page::where('widget', $widgetGroup->widget)->get() as $p)
-                                        @if (
-                                            $p->slug != 'bireysel-uyelik-sozlesmesi' &&
-                                                $p->slug != 'kurumsal-uyelik-sozlesmesi' &&
-                                                $p->slug != 'mesafeli-kiralama-sozlesmesi')
-                                            <li><a href="{{ url('sayfa/' . $p->slug) }}">{{ $p->title }}</a></li>
-                                        @endif
-                                    @endforeach
                                 </ul>
                             </div>
 
@@ -48,7 +40,7 @@
     <div class="second-footer bg-white-3">
         <div class="container">
             <p class="d-flex align-items-center" style="gap: 16px;">
-                <span>2023 © Copyright - All Rights Reserved. @kodturk</span>
+                <span>2023 © Copyright - Tüm hakları saklıdır. @kodturk</span>
 
             </p>
             <ul class="netsocials">
@@ -275,7 +267,6 @@
 <script src="{{ URL::to('/') }}/js/forms-2.js"></script>
 <script src="{{ URL::to('/') }}/js/range.js"></script>
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
-
 
 
 <script>
@@ -519,6 +510,8 @@
     });
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
+        var block = $(this).data("block");
+        var paymentOrder = $(this).data("payment-order");
         var soldStatus = $(this).data('sold');
 
         var cart = {
@@ -557,6 +550,17 @@
                 data: cart,
                 success: function(response) {
                     for (var i = 0; i < response.room_info.length; i++) {
+                        var numberOfShares = 0;
+                        var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
+                            .room_order);
+                        if (shareSale && shareSale == '["Var"]') {
+                            var numberOfShares = parseFloat(getDataJS(response,
+                                "number_of_shares[]",
+                                response.room_info[i].room_order));
+
+
+                        }
+
                         if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                             .room_order == parseInt(order)) {
 
@@ -593,34 +597,64 @@
                             const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
                                 "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
                             ]
+                            orderHousing = parseInt(order);
+
+                            html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" + (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing, response.room_info[i].room_order), 10)) + " >" + response.project_title +
+                                " Projesinde " + block + " " + paymentOrder + " No'lu İlan Ödeme Planı</th></tr>";
+
+
                             for (var j = 0; j < paymentPlanData.length; j++) {
 
                                 if (!tempPlans.includes(paymentPlanData[j])) {
                                     if (paymentPlanData[j] == "pesin") {
-                                        var priceData = getDataJS(response, "price[]", response
-                                            .room_info[i].room_order);
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "price[]", response
+                                                .room_info[i].room_order);
                                         var installementData = "";
                                         var advanceData = "";
                                         var monhlyPrice = "";
                                     } else {
 
 
-                                        var priceData = getDataJS(response, "installments-price[]",
-                                            response.room_info[i].room_order);
+                                        var priceData = numberOfShares != 0 ? (getDataJS(response,
+                                                "installments-price[]", response
+                                                .room_info[i].room_order) / numberOfShares) :
+                                            getDataJS(response, "installments-price[]", response
+                                                .room_info[i].room_order);
+
                                         var installementData = getDataJS(response, "installments[]",
                                             response.room_info[i].room_order);
-                                        var advanceData = formatPrice(getDataJS(response,
+
+                                        var advanceData = numberOfShares != 0 ? formatPrice(
+                                            getDataJS(response,
+                                                "advance[]",
+                                                response.room_info[i].room_order) /
+                                            numberOfShares) + "₺" : formatPrice(getDataJS(
+                                            response,
                                             "advance[]",
                                             response.room_info[i].room_order)) + "₺";
 
-                                        var monhlyPrice = (formatPrice(((parseFloat(getDataJS(
-                                                    response,
-                                                    "installments-price[]", response
-                                                    .room_info[i].room_order)) -
-                                                parseFloat(getDataJS(response,
-                                                    "advance[]", response.room_info[
-                                                        i].room_order)) - payDecPrice) /
-                                            parseInt(installementData)))) + '₺';
+                                        var monhlyPrice = numberOfShares != 0 ? formatPrice(((
+                                                    parseFloat(
+                                                        getDataJS(
+                                                            response,
+                                                            "installments-price[]", response
+                                                            .room_info[i].room_order)) -
+                                                    parseFloat(getDataJS(response,
+                                                        "advance[]", response.room_info[
+                                                            i].room_order)) - payDecPrice) /
+                                                parseInt(installementData)) / numberOfShares) +
+                                            "₺" : formatPrice((parseFloat(getDataJS(
+                                                        response,
+                                                        "installments-price[]", response
+                                                        .room_info[i].room_order)) -
+                                                    parseFloat(getDataJS(response,
+                                                        "advance[]", response.room_info[
+                                                            i].room_order)) - payDecPrice) /
+                                                parseInt(installementData)) + "₺";
                                     }
                                     var isMobile = window.innerWidth < 768;
 
@@ -681,17 +715,19 @@
 
 
                                     if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ? "<strong>Peşinat:</strong> " :
-                                            "") + advanceData + "</td>";
+                                        html += advanceData ? "<td>" + (isMobile ?
+                                            "<strong>Peşinat:</strong> " :
+                                            "") + advanceData + "</td>" : null;
                                     }
 
-                                    if (!isMobile || isNotEmpty(advanceData)) {
-                                        html += "<td>" + (isMobile ?
+                                    if (!isMobile || isNotEmpty(monhlyPrice)) {
+                                        html += monhlyPrice ? "<td>" + (isMobile ?
                                             "<strong>Aylık Ödenecek Tutar:</strong> " :
-                                            "") + monhlyPrice + "</td>";
+                                            "") + monhlyPrice + "</td>" : null;
                                     }
 
-                                    if (!isMobile && isNotEmpty(advanceData) && paymentPlanDatax[
+                                    if (!isMobile && isNotEmpty(installmentsPrice) &&
+                                        paymentPlanDatax[
                                             paymentPlanData[j]] != "Taksitli") {
                                         var installmentsPrice = parseFloat(getDataJS(response,
                                             "installments-price[]", response.room_info[i]
@@ -1091,9 +1127,9 @@
 
                             },
                             error: function(error) {
-                                window.location.href = "/giris-yap";
+                                // window.location.href = "/giris-yap";
 
-                                console.error(error);
+                                // console.error(error);
                             }
                         });
                     }
@@ -1114,6 +1150,8 @@
                             data: JSON.stringify(cart),
                             contentType: "application/json;charset=UTF-8",
                             success: function(response) {
+
+
                                 toastr.success("Ürün Sepete Eklendi");
                                 if (!button.classList.contains("mobile")) {
                                     button.textContent = "Sepete Eklendi";
@@ -1124,9 +1162,11 @@
 
                             },
                             error: function(error) {
+
                                 window.location.href = "/giris-yap";
 
                                 console.error(error);
+
                             }
                         });
                     }
@@ -1187,6 +1227,8 @@
             }
             return false;
         }
+
+
 
         function checkProjectFavorites() {
             // Favorileri sorgula ve uygun renk ve ikonları ayarla

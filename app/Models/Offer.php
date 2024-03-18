@@ -15,4 +15,8 @@ class Offer extends Model
     {
         return $this->belongsTo(Project::class, 'project_id');
     }
+    function housing()
+    {
+        return $this->belongsTo(Housing::class, 'housing_id');
+    }
 }

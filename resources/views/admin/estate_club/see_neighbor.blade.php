@@ -49,7 +49,7 @@
 
                                             <td class="order_name">
                                                 Alıcı Adı: {{ $user->owner->name }} <br>
-                                                Alıcı İletişim No: {{ $user->owner->phone }}</td>
+                                                Alıcı İletişim No: {{ $user->owner->mobile_phone ? $user->owner->mobile_phone : $user->owner->phone }}</td>
 
                                             <td class="order_name">250 TL</td>
                                             <td class="order_date">
@@ -64,7 +64,7 @@
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-warning btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">İnceleniyor</button>
-                                                @elseif ($user->status == 3)
+                                                @elseif ($user->status == 2)
                                                     <button class="badge badge-phoenix fs-10 badge-phoenix-danger btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#confirmationModal{{ $user->id }}">Reddedildi</button>

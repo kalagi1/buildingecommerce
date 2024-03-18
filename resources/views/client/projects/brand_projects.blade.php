@@ -125,7 +125,7 @@
                                 href="{{ route('institutional.housings', ["slug" => Str::slug($brand->user->name), "userID" => $brand->user->id]) }}">Emlak
                                 İlanları</a>
                                 <a class="navbar-item"
-                                href="{{ route('institutional.teams', ["slug" => Str::slug($brand->user->name), "userID" => $brand->user->id]) }}">Ekip</a>
+                                href="{{ route('institutional.teams', ["slug" => Str::slug($brand->user->name), "userID" => $brand->user->id]) }}">Ekibimiz</a>
                         </div>
                         <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
                             @csrf
@@ -209,10 +209,10 @@
                                         <div class="homes-content p-3" style="padding:20px !important">
                                             <!-- homes address -->
                                             <h3><a
-                                                    href="{{route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">{{ $housing->housing_title }}</a>
+                                                    href="{{route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">{{ $housing->housing_title }}</a>
                                             </h3>
                                             <p class="homes-address mb-3">
-                                                <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
+                                                <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                                                     <i class="fa fa-map-marker"></i><span>{{ $housing->address }}</span>
                                                 </a>
                                             </p>
@@ -239,7 +239,7 @@
                                                 </li>
 
                                                 <li style="display: flex; justify-content: center;">
-                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) }}
+                                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
                                                 </li>
                                             </ul>
                                             <ul class="homes-list clearfix pb-3"

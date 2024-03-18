@@ -3,12 +3,12 @@
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
         <div class="project-inner project-head">
-            <a href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
+            <a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
 
                 <div class="homes">
                     <div class="homes-img h-100 d-flex align-items-center"
                         style="width: 115px; height: 128px;">
-                        <img src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                        <img loading="lazy" src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive"
                             style="height: 80px !important;">
                     </div>
@@ -20,7 +20,7 @@
         <div class="bg-white px-3 h-100 d-flex flex-column justify-content-center">
 
             <a style="text-decoration: none;height:100%"
-            href="{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
+            href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}">
                 <div class="d-flex"
                     style="gap: 8px;justify-content:space-between;align-items:start">
                     <h4 class="mobile-left-width">
@@ -57,7 +57,7 @@
                             @else 
                             style="background: #EA2B2E !important;width:100%;color:White" @endif>
                                     <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
+                                        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                                     </span>
                                     @if ($sold == '0')
                                         <span class="text">Rezerve Edildi</span>
@@ -69,7 +69,7 @@
                                 <button class="CartBtn mobileCBtn" data-type='housing'
                                     data-id='{{ $housing->id }}'>
                                     <span class="IconContainer">
-                                        <img src="{{ asset('sc.png') }}" alt="">
+                                        <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
 
                                     </span>
                                     <span class="text">Sepete Ekle</span>
@@ -80,14 +80,14 @@
                         <button onclick="redirectToReservation()"
                             class="reservationBtn mobileCBtn">
                             <span class="IconContainer">
-                                <img src="{{ asset('sc.png') }}" alt="">
+                                <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                             </span>
                             <span class="text">Rezervasyon Yap</span>
                         </button>
                         
                         <script>
                             function redirectToReservation() {
-                                window.location.href = "{{ route('housing.show', ['housingSlug' =>  $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
+                                window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                             }
                         </script>
                     @endif

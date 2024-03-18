@@ -69,7 +69,7 @@
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                         <tr>
-                                            <td class="order_no">{{ $order->key }}</td>
+                                            <td class="order_no">{{ $order->id }}</td>
                                             <td class="order_image">
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
@@ -88,7 +88,7 @@
                                                 @else
                                                     {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
                                                 @endif
-                                                @if (isset($order->is_reference))
+                                                @if (isset($order->isReference))
                                                     <br>
                                                     <strong class="text-success">Bu ilan komşumu gör referansı ile
                                                         satılmıştır. <br>
