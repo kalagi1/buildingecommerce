@@ -42,7 +42,7 @@
                                         'housingOrder' => $cart['item']['housing'],
                                     ]) }}">
                                 <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                    style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
+                                    class="img-fluid">
                             </a>
                         </div>
                         <div class="box-1">
@@ -850,8 +850,8 @@
                                                                 data-title="{{ $bankAccount->receipent_full_name }}">
                                                                 <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
                                                                     alt=""
-                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer">
-                                                                <button
+                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer"> 
+                                                                    <button
                                                                     class="btn btn-sm btn-outline-secondary copy-iban-button"
                                                                     onclick="copyIban('{{ $bankAccount->iban }}')">
                                                                     <i class="fas fa-copy"></i>
@@ -1326,7 +1326,8 @@
         .box-0 {
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
             width: 200px;
-            height: auto;
+            height: 200px;
+            object-fit:cover;
         }
 
         .box-1 {
@@ -1343,7 +1344,7 @@
             display: block;
         }
 
-        @media screen and (max-width: 425px) {
+        @media screen and (max-width: 768px) {
             .flex {
                 /* display: -webkit-box; */
                 display: -moz-box;
@@ -1367,6 +1368,13 @@
                 border: 1px solid #E5E5EA;
 
             }
+
+            .box-0 {
+                    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+                    width: 200px;
+                    height:200px;
+                    object-fit: cover;
+                }
 
             .mobile {
                 display: inline-block !important;
