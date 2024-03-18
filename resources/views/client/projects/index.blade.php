@@ -201,11 +201,8 @@
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item carousel-item {{ $key === 0 ? 'active' : '' }}"
                                         data-slide-number="{{ $key }}">
-                                        <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                            data-lightbox="image-gallery">
-                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                                class="img-fluid" alt="slider-listing">
-                                        </a>
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
+                                            class="img-fluid" alt="slider-listing">
                                     </div>
                                 @endforeach
                             </div>
@@ -960,6 +957,38 @@
         var currentPage = 0;
         var maxPages = null;
         $(document).ready(function() {
+            // Önceki slayta geçme
+            $('.carousel-control-prev').click(function() {
+                $('#listingDetailsSlider').carousel('prev');
+            });
+
+            // Sonraki slayta geçme
+            $('.carousel-control-next').click(function() {
+                $('#listingDetailsSlider').carousel('next');
+            });
+
+            // Mobil cihazlarda kaydırma işlevselliği
+            $('#listingDetailsSlider').on('touchstart', function(event) {
+                var xClick = event.originalEvent.touches[0].pageX;
+                $(this).one('touchmove', function(event) {
+                    var xMove = event.originalEvent.touches[0].pageX;
+                    var sensitivityInPx = 5;
+
+                    if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                        $(this).carousel('next');
+                    } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                        $(this).carousel('prev');
+                    }
+                });
+            });
+
+            // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+            $('#listingDetailsSlider').on('touchend', function() {
+                $(this).off('touchmove');
+            });
+        });
+
+        $(document).ready(function() {
 
             @if ($project->have_blocks)
                 currentPage = 0;
@@ -1178,23 +1207,6 @@
     </script>
 
     <script>
-        //       $(document).ready(function() {
-        //     var $carousel = $('#listingDetailsSlider');
-
-        //     $carousel.carousel({
-        //         interval: false // Karusel otomatik geçişini devre dışı bırak
-        //     });
-
-        //     // Carousel kaydırıldığında
-        //     $carousel.on('slide.bs.carousel', function() {
-        //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
-
-        //         // Sayfa aşağı kaydır
-        //         $('html, body').animate({
-        //             scrollTop: scrollPosition
-        //         }, 500);
-        //     });
-        // });
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {
