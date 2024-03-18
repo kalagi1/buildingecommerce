@@ -67,31 +67,26 @@
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
                                     @if ($project->step2_slug)
                                         @if ($project->step2_slug == 'kiralik')
-                                            Kiralık
+                                            Kiralık  {{ $project->housingType->title }}
                                         @elseif ($project->step2_slug == 'satilik')
-                                            Satılık
+                                            Satılık {{ $project->housingType->title }}
                                         @else
-                                            Günlük Kiralık
+                                            Günlük Kiralık {{ $project->housingType->title }}
                                         @endif
                                     @endif
                                 </div>
-                                <div class="text-address">
-                                    <p>{{ $project->housingType->title }}</p>
-                                </div>
+                                {{-- <div class="text-address">
+                                    <p></p>
+                                </div> --}}
                                 <div class="icon-inner flex">
                                     <div class="years-icon flex align-center">
-                                        <i class="fas fa-map"></i>
+                                        <i class="fa fa-map-marker"></i>
                                         <p class="text-color-2">
                                             {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
                                             @if ($project->neighbourhood)
                                                 {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                             @endif
                                         </p>
-                                    </div>
-
-                                    <div class="years-icon flex align-center">
-                                        {{-- <i class="fal fa-calendar"></i> --}}
-                                        <p class="text-color-2">{{ $project->step1_slug }}</p>
                                     </div>
                                     <div class="view-icon flex align-center">
                                         {{-- <i class="far fa-eye"></i> --}}
@@ -196,7 +191,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                    <div class="show">İlanı Gör</div>
+                                    <div class="mobile">İlanı Gör</div>
                                 </a>
 
                             </div>
@@ -227,22 +222,25 @@
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
                                     @if ($housing->step2_slug == 'kiralik')
-                                        Kiralık
+                                        Kiralık {{ $housing->housing_type_title }}
                                     @elseif ($housing->step2_slug == 'gunluk-kiralik')
-                                        Günlük Kiralık
+                                        Günlük Kiralık {{ $housing->housing_type_title }}
                                     @else
-                                        Satılık
+                                        Satılık {{ $housing->housing_type_title }}
                                     @endif
                                 </div>
-                                <div class="text-address">
-                                    <p>{{ $housing->housing_type_title }}</p>
+                                {{-- <div class="text-address">
+                                    
+                                </div> --}}
+                                <div class="years-icon flex align-center">
+                                    <i class="fa fa-map-marker"></i>
+                                    <p class="text-color-2">
+                                        {{ $housing->city_title }}
+                                        {{ '/' }}
+                                        {{ $housing->county_title }}
+                                    </p>
                                 </div>
                                 <div class="icon-inner flex">
-                                    <div class="years-icon flex align-center">
-
-                                        {{-- <i class="fal fa-calendar"></i> --}}
-                                        <p class="text-color-2">{{ $housing->step1_slug }}</p>
-                                    </div>
                                     <div class="view-icon flex align-center">
                                         {{-- <i class="far fa-eye"></i> --}}
                                         <p class="text-color-2">{{ $housing->create_company }}</p>
@@ -368,7 +366,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                   <div class="show">İlanı Gör</div>
+                                   <div class="mobile">İlanı Gör</div>
                                 </a>
 
                             </div>
@@ -376,7 +374,7 @@
                     </div>
 
                 @endif
-                <div class="row">
+                <div class="row mr-4">
                     <div class="col-md-12">
                         <div class="">
                             <div class="row">
@@ -574,7 +572,7 @@
                         $number_of_share = $cart['item']['numbershare'] ?? null;
                     @endphp
 
-                    <div class="col-md-12 col-lg-12 col-xl-5">
+                    <div class="col-md-12 col-lg-12 col-xl-5 mb-5">
                         <div class="row">
 
                             <div class="col-md-12" style="background: white !important;">
@@ -687,6 +685,17 @@
                                             <div class="tr-single-header">
 
                                                 <div class="row">
+                                                   
+                                                    <div class="col">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" 
+                                                                name="payment_option" id="option2" value="option2" checked>
+                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
+                                                                for="option2">
+                                                                EFT / Havale ile Ödeme
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
@@ -695,16 +704,6 @@
                                                             <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" 
-                                                                name="payment_option" id="option2" value="option2" checked>
-                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
-                                                                for="option2">
-                                                                EFT / Havale ile Ödeme
                                                             </label>
                                                         </div>
                                                     </div>
@@ -869,7 +868,7 @@
                                                     {{-- <div class="row"> --}}
                                                     @if ($bankAccounts && count($bankAccounts) > 0)
                                                         @foreach ($bankAccounts as $bankAccount)
-                                                            <div class="col-sm-4 col-md-4 bank-account"
+                                                            <div class="col-sm-5 col-md-5 bank-account"
                                                                 data-id="{{ $bankAccount->id }}"
                                                                 data-iban="{{ $bankAccount->iban }}"
                                                                 data-title="{{ $bankAccount->receipent_full_name }}">
@@ -973,7 +972,7 @@
             document.body.removeChild(textArea);
 
             // Kullanıcıya kopyalandı bildirimini göster
-            alert("IBAN kopyalandı: " + iban);
+            //alert("IBAN kopyalandı: " + iban);
         }
 
         var payableAmount = 0;
@@ -1227,7 +1226,7 @@
 @section('styles')
     <style>
         .wrap-house {
-            border-radius: 10px;
+            // border-radius: 10px;
             padding: 32px;
             box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.0784313725);
             justify-content: space-between;
@@ -1248,7 +1247,7 @@
         .sales {
             padding: 6px, 8px, 6px, 8px;
             background-color: #EA2B2E;
-            width: 62px;
+            width: 100px;
             color: #fff;
             height: 20px;
             display: flex;
@@ -1362,9 +1361,9 @@
             padding-left: inherit;
         }
 
-        i.fas.fa-map {
-            margin-right: 5px;
-            margin-top: 5px;
+        i.fa.fa-map-marker {
+            margin-right: 2px;
+            margin-top: 3px;
         }
 
         @media only screen and (max-width: 991px) .wrap-house {
@@ -1395,12 +1394,26 @@
                 border: 1px solid #E5E5EA;
 
             }
+
+            .mobile{
+            display:inline-block !important;
+            }
         }
+
+        .mobile{
+            display:none;
+            }
 
         .form-check {
             position: relative;
             display: block;
             padding-left: 0;
         }
+
+        .copy-iban-button {
+            width: 20px;
+            height: 20px !important;
+    }
+       
     </style>
 @endsection
