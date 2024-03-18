@@ -10,6 +10,7 @@ use App\Models\TempOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\ImageManager;
 use Throwable;
 
@@ -149,15 +150,20 @@ class TempOrderController extends Controller
                 $imageWidth = $image->width();
                 $imageHeight = $image->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
+                $image2 = $manager->read(public_path('images/filigran2.png'));
+                $imageWidth2 = $image2->width();
+                $imageHeight2 = $image2->height();
+                $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+                $image2->rotate(30,'#00000000');
                 $image->resize($newWidth, $newHeight);
-                $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+               $encoded = $image->place($image2,'center',10,10,15);
                 $encoded->save(public_path('situation_images/'.$imageName));
 
                 $data = $tempData;
@@ -479,15 +485,20 @@ class TempOrderController extends Controller
                 $imageWidth = $image->width();
                 $imageHeight = $image->height();
 
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
+                $image2 = $manager->read(public_path('images/filigran2.png'));
+                $imageWidth2 = $image2->width();
+                $imageHeight2 = $image2->height();
+                $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+                $image2->rotate(30,'#00000000');
                 $image->resize($newWidth, $newHeight);
-                $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded = $image->place($image2,'center',10,10,15);
                 $encoded->save(public_path('storage/project_images/'.$imageName));
             }else{
                 $imageName = "";
@@ -556,6 +567,7 @@ class TempOrderController extends Controller
         $manager = new ImageManager(
             new Driver()
         );
+
         if($request->input('item_type') != "3"){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
             if(!$tempOrder){
@@ -613,16 +625,23 @@ class TempOrderController extends Controller
                 $image = $manager->read(public_path('storage/project_images/'.$imageName));
                 $imageWidth = $image->width();
                 $imageHeight = $image->height();
-
-                if($imageWidth > 450){
-                    $newWidth = 450;
-                    $newHeight = $imageHeight * 450 / $imageWidth;
+                
+                if($imageWidth > 1200){
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
                 }else{
                     $newWidth = $imageWidth;
                     $newHeight = $imageHeight;
                 }
+                
+                $image = $manager->read(public_path('storage/project_images/'.$imageName));
+                $image2 = $manager->read(public_path('images/filigran2.png'));
+                $imageWidth2 = $image2->width();
+                $imageHeight2 = $image2->height();
+                $image2->resize($newWidth / 10 * 7 , (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+                $image2->rotate(30,'#00000000');
                 $image->resize($newWidth, $newHeight);
-                $encoded = $image->place(public_path('images/filigran.png'),'center',10,10,10);
+                $encoded = $image->place($image2,'center',10,10,15);
                 $encoded->save(public_path('storage/project_images/'.$imageName));
                 $data = $tempData;
                 array_push($data->images,["image" => 'storage/project_images/'.$imageName]);

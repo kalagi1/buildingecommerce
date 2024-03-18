@@ -196,9 +196,7 @@
                     <div class="headings-2 pt-0 pb-0">
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                            <div class="homes-tag button alt featured mobileTagProject">
-                                <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                            </div>
+                            
                             <div class="carousel-inner">
                                 <div class="item carousel-item active" data-slide-number="1">
                                     <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
@@ -714,7 +712,7 @@
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
-                            
+
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="container">
@@ -777,8 +775,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                    <div class=""
-                                                                        id="project-room-mobile{{ $blockKey }}">
+                                                                <div class=""
+                                                                    id="project-room-mobile{{ $blockKey }}">
 
                                                                 </div>
                                                             </div>
@@ -839,17 +837,17 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                            
+
                                                         $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
-                                                    :blockStart="0"
-                                                        :towns="$towns" :cities="$cities" :key="$key"
-                                                        :statusSlug="$statusSlug" :blockName="$blockName" :blockHousingCount="$blockHousingCount"
-                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :towns="$towns" :cities="$cities"
+                                                        :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -899,12 +897,12 @@
                                                         $statusSlug = $status->slug;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                    :blockStart="0"
-                                                        :blockName="$blockName" :project="$project" :allCounts="$allCounts"
-                                                        :statusSlug="$statusSlug" :key="$key" :blockHousingCount="$blockHousingCount"
-                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :blockName="$blockName" :project="$project"
+                                                        :allCounts="$allCounts" :statusSlug="$statusSlug" :key="$key"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -975,18 +973,17 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
-        
         var itemsPerPage = 10;
         var isLoading = false; // Kontrol flag'ı ekledik
         var currentBlock = 0;
         var currentPage = 0;
-      var maxPages = null;
+        var maxPages = null;
         $(document).ready(function() {
-          
+
             @if ($project->have_blocks)
                 currentPage = 0;
                 var projectBlocks = @json($project->blocks);
-                 maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
+                maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
 
                 if (window.innerWidth >= 768) {
                     loadMoreDataBlock(0);
@@ -1163,9 +1160,8 @@
             var blockIndex = $('#contentblock-' + tabName).index() - 1;
             var startIndex = 0;
             var endIndex = 12;
-          
-        }
 
+        }
     </script>
     <script>
         var successMessage = "{{ session('success') }}";

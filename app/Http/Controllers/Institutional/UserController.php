@@ -98,6 +98,8 @@ class UserController extends Controller {
             'password.required' => 'Şifre alanı zorunludur.',
             'password.min' => 'Şifre en az 3 karakterden oluşmalıdır.',
             'type.required' => 'Tip alanı zorunludur.',
+            'title.required' => 'Unvan alanı zorunludur.',
+
         ];
 
         $rules = [
@@ -105,6 +107,8 @@ class UserController extends Controller {
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:3',
             'type' => 'required',
+            'title' => 'required',
+
         ];
 
         $validatedData = $request->validate( $rules, $messages );
@@ -116,6 +120,8 @@ class UserController extends Controller {
 
         $user = new User();
         $user->name = $validatedData[ 'name' ];
+        $user->title = $validatedData[ 'title' ];
+
         $user->email = $validatedData[ 'email' ];
         $user->profile_image = 'indir.png';
         $user->password = bcrypt( $validatedData[ 'password' ] );
@@ -157,6 +163,7 @@ class UserController extends Controller {
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'type' => 'required',
+            'title' => 'required',
             'is_active' => 'nullable',
         ];
 
@@ -168,6 +175,7 @@ class UserController extends Controller {
         // Kullanıcıyı bulun veya hata döndürün
         $user->name = $validatedData[ 'name' ];
         $user->email = $validatedData[ 'email' ];
+        $user->title = $validatedData[ 'title' ];
         $user->type = $validatedData[ 'type' ];
         $user->status = $request->has( 'is_active' ) ? 1 : 5;
         

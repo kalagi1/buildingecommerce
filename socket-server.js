@@ -21,5 +21,5 @@ io.on('connection', (socket) => {
 });
 
 http.listen(3000, () => {
-  console.log('Socket.io server dinleniyor: http://127.0.0.1:8000');
+  console.log('Socket.io server dinleniyor: https://emlaksepette.com');
 });
