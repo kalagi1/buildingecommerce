@@ -11,9 +11,41 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     public function getMenuList(){
-
         $menuList = Menu::all();
-
-        return response()->json($menuList);
-    }//End
+        $formattedMenu = [];
+    
+        // Parent olmayan menülerin ilk olarak düzenlenmesi
+        foreach ($menuList as $menu) {
+            if ($menu->parent_id === null) {
+                $formattedMenu[$menu->id] = [
+                    'id' => $menu->id,
+                    'href' => $menu->href,
+                    'text' => $menu->text,
+                    'target' => $menu->target,
+                    'submenus' => $this->getSubmenus($menuList, $menu->id)
+                ];
+            }
+        }
+    
+        return response()->json(array_values($formattedMenu));
+    }
+    
+    private function getSubmenus($menuList, $parentId) {
+        $submenus = [];
+    
+        foreach ($menuList as $menu) {
+            if ($menu->parent_id == $parentId) {
+                $submenus[] = [
+                    'id' => $menu->id,
+                    'href' => $menu->href,
+                    'text' => $menu->text,
+                    'target' => $menu->target,
+                    'submenus' => $this->getSubmenus($menuList, $menu->id)
+                ];
+            }
+        }
+    
+        return $submenus;
+    }
+    
 }
