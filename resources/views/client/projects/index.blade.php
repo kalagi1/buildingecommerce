@@ -196,19 +196,11 @@
                     <div class="headings-2 pt-0 pb-0">
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                            
                             <div class="carousel-inner">
-                                <div class="item carousel-item active" data-slide-number="1">
-                                    <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
-                                        data-lightbox="image-gallery">
-                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
-                                            class="img-fluid" alt="slider-listing">
-                                    </a>
-                                </div>
-
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
+                                    <div class="item carousel-item {{ $key === 0 ? 'active' : '' }}"
+                                        data-slide-number="{{ $key }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -216,27 +208,13 @@
                                         </a>
                                     </div>
                                 @endforeach
-
-
-                                {{-- Carousel Kontrolleri --}}
-                                {{-- <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                        class="fa fa-angle-left"></i></a>
-                                <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                        class="fa fa-angle-right"></i></a> --}}
                             </div>
-
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
-                                <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
-                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
-                                            class="img-fluid carousel-indicator-image" alt="listing-small">
-                                    </a>
-                                </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}"
-                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key }}" data-slide-to="{{ $key }}"
+                                            data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -244,13 +222,16 @@
                                 @endforeach
                             </div>
                             <nav aria-label="Page navigation example">
-                                <ul class="pagination" >
-                                  <li class="page-item page-item-left"><a class="page-link" href="#"><i class="fas fa-arrow-left"></i></a></li>
-                                  <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
-                                  <li class="page-item page-item-right"><a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a></li>
+                                <ul class="pagination">
+                                    <li class="page-item page-item-left"><a class="page-link" href="#"><i
+                                                class="fas fa-arrow-left"></i></a></li>
+                                    <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
+                                    <li class="page-item page-item-right"><a class="page-link" href="#"><i
+                                                class="fas fa-arrow-right"></i></a></li>
                                 </ul>
-                              </nav>
+                            </nav>
                         </div>
+
                     </div>
                 </div>
 
@@ -1363,12 +1344,12 @@
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 1,
+            slidesToScroll: 5,
             dots: false,
             loop: false,
             autoplay: false,
             arrows: false,
-            margin: 20,
+            margin: 0,
             adaptiveHeight: true,
             responsive: [{
                 breakpoint: 993,
@@ -1400,24 +1381,33 @@
 
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
-    var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-    var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
-    $('.pagination .page-item-middle .page-link').text((index + 1) + '/' + totalSlides); // Ortadaki li etiketinin metnini güncelle
-}
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
 
 
-// Sol ok tuşuna tıklandığında
-$('.pagination .page-item-left').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
-    
-});
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            $('#listingDetailsSlider').carousel('prev');
+            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+            // $('.pagination .page-item-middle .page-link').text(index);
+            $('.listingDetailsSliderNav').slick('slickGoTo', index);
+            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-// Sağ ok tuşuna tıklandığında
-$('.pagination .page-item-right').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
-});
+        });
+
+        // Sağ ok tuşuna tıklandığında
+        $('.pagination .page-item-right').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('next');
+            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+            // $('.pagination .page-item-middle .page-link').text(index);
+            $('.listingDetailsSliderNav').slick('slickGoTo', index);
+            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        });
 
 
 
@@ -1433,11 +1423,7 @@ $('.pagination .page-item-right').on('click', function(event) {
             // $('.pagination .page-item-middle .page-link').text(index);
             $('.listingDetailsSliderNav').slick('slickGoTo', index);
             var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-            
-            console.log("Büyük Görsel Data Slide Number: ", index);
-            console.log("Küçük Görsel Index: ", smallIndex);
         });
-
     </script>
 
     <script>
@@ -1457,55 +1443,67 @@ $('.pagination .page-item-right').on('click', function(event) {
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-
         .pagination {
             display: flex;
-            justify-content: center; /* Yatayda ortala */
-            align-items: center; /* Dikeyde ortala */
+            justify-content: center;
+            /* Yatayda ortala */
+            align-items: center;
+            /* Dikeyde ortala */
             background-color: #e6e6e6;
 
         }
-     
+
         .pagination .page-item i {
-            font-size: 20px; /* Ok ikonunun boyutunu ayarla */
-            color: #333; /* Ok rengini ayarla */
+            font-size: 12px;
+            /* Ok ikonunun boyutunu ayarla */
+            color: #333;
+            /* Ok rengini ayarla */
+        }
+
+        .pagination {
+            height: 35px;
+            border-radius: 0 !important;
         }
 
         .pagination .page-item a {
-            display: block; /* Linki blok elementi yap */
-            padding: 5px; /* Boşluk ekle */
-            text-decoration: none; /* Link altı çizgisini kaldır */
+            display: block;
+            /* Linki blok elementi yap */
+            padding: 5px;
+            /* Boşluk ekle */
+            text-decoration: none;
+            /* Link altı çizgisini kaldır */
         }
 
-/* Sağ ve sol okların stilini tanımla */
-.pagination .page-item-left,
-.pagination .page-item-right {
-    background-color: #e8e8e8;
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    margin: 0 10px;
-    transition: background-color 0.3s; /* Geçiş efekti ekle */
-}
+        /* Sağ ve sol okların stilini tanımla */
+        .pagination .page-item-left,
+        .pagination .page-item-right {
+            background-color: #e8e8e8;
+            border: none;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+            /* Geçiş efekti ekle */
+        }
 
-/* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
-.pagination .page-item-left:hover,
-.pagination .page-item-right:hover {
-    background-color: #dcdcdc;
-}
+        /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
+        .pagination .page-item-left:hover,
+        .pagination .page-item-right:hover {
+            background-color: #dcdcdc;
+        }
 
-/* Font Awesome simgelerinin rengini belirle */
-.pagination .page-item-left i,
-.pagination .page-item-right i {
-    color: #333; /* Başlangıçta simge rengi */
-    transition: color 0.3s; /* Geçiş efekti ekle */
-}
+        /* Font Awesome simgelerinin rengini belirle */
+        .pagination .page-item-left i,
+        .pagination .page-item-right i {
+            color: #333;
+            /* Başlangıçta simge rengi */
+            transition: color 0.3s;
+            /* Geçiş efekti ekle */
+        }
 
-/* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
-.pagination .page-item-left:hover i,
-.pagination .page-item-right:hover i {
-    color: white;
-}
+        /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
+        .pagination .page-item-left:hover i,
+        .pagination .page-item-right:hover i {
+            color: white;
+        }
 
 
 
