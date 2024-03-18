@@ -10,21 +10,7 @@
         $shareUrl = $protocol . '://' . $host . $uri;
     @endphp --}}
     <section class="payment-method notfound">
-        <div class="container">
-            <section class="headings-2 pt-0 hee">
-                <div class="pro-wrapper">
-                    <div class="detail-wrapper-body">
-                        <div class="listing-title-bar">
-                            @if (session('error'))
-                                <div class="alert alert-danger">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </section>
-            {{-- {{dd($project)}} --}}
+        <div class="container  pt-5">
 
             @if (!$cart || empty($cart['item']))
                 <div class="tr-single-box">
@@ -39,8 +25,6 @@
                     </div>
                 </div>
             @else
-                {{-- {{ dd($cart) }} --}}
-                {{-- {{dd($project)}} --}}
                 @if ($cart['type'] == 'project')
                     <div class="wrap-house wg-dream flex bg-white">
                         <div class="box-0">
@@ -67,7 +51,7 @@
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
                                     @if ($project->step2_slug)
                                         @if ($project->step2_slug == 'kiralik')
-                                            Kiralık  {{ $project->housingType->title }}
+                                            Kiralık {{ $project->housingType->title }}
                                         @elseif ($project->step2_slug == 'satilik')
                                             Satılık {{ $project->housingType->title }}
                                         @else
@@ -92,7 +76,7 @@
                                         {{-- <i class="far fa-eye"></i> --}}
                                         <p class="text-color-2">{{ $project->create_company }}</p>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -100,10 +84,10 @@
                                 <div class="icons icon-1 flex">
                                     <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
                                     <span class="fw-6">
-                                       {{$cart['item']['housing']}} No'lu
+                                        {{ $cart['item']['housing'] }} No'lu
                                     </span>
                                 </div>
-                                
+
                                 @foreach (['column1', 'column2', 'column3'] as $column)
                                     @php
                                         $column_name = $project->listItemValues->{$column . '_name'} ?? '';
@@ -158,11 +142,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M18 15l-6-6-6 6" />
-                                    </svg>
+                                        İLANI GÖR
                                 </a>
 
                                 {{-- <a href="#">
@@ -334,11 +314,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M18 15l-6-6-6 6" />
-                                    </svg>
+                                        İLANI GÖR
                                 </a>
 
                                 {{-- <a href="#">
@@ -366,7 +342,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                   <div class="mobile">İlanı Gör</div>
+                                    <div class="mobile">İlanı Gör</div>
                                 </a>
 
                             </div>
@@ -685,11 +661,12 @@
                                             <div class="tr-single-header">
 
                                                 <div class="row">
-                                                   
+
                                                     <div class="col">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" 
-                                                                name="payment_option" id="option2" value="option2" checked>
+                                                            <input class="form-check-input" type="radio"
+                                                                name="payment_option" id="option2" value="option2"
+                                                                checked>
                                                             <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
                                                                 for="option2">
                                                                 EFT / Havale ile Ödeme
@@ -699,8 +676,7 @@
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option1" value="option1"
-                                                                >
+                                                                name="payment_option" id="option1" value="option1">
                                                             <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
@@ -934,8 +910,6 @@
 
         </div>
 
-        </div>
-        </div>
         @endif
     </section>
 @endsection
@@ -1326,9 +1300,8 @@
         }
 
         .icon-boxs a {
-            width: 40px;
+            width: 100px;
             height: 40px;
-            border-radius: 10px;
             border: 1px solid #E5E5EA;
             display: flex;
             align-items: center;
@@ -1395,14 +1368,14 @@
 
             }
 
-            .mobile{
-            display:inline-block !important;
+            .mobile {
+                display: inline-block !important;
             }
         }
 
-        .mobile{
-            display:none;
-            }
+        .mobile {
+            display: none;
+        }
 
         .form-check {
             position: relative;
@@ -1413,7 +1386,6 @@
         .copy-iban-button {
             width: 20px;
             height: 20px !important;
-    }
-       
+        }
     </style>
 @endsection
