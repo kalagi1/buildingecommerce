@@ -40,6 +40,7 @@ class MenuController extends Controller
                     'href' => $menu->href,
                     'text' => $menu->text,
                     'target' => $menu->target,
+                    'parent_id' =>$menu->parent_id,
                     'submenus' => $this->getSubmenus($menuList, $menu->id)
                 ];
             }

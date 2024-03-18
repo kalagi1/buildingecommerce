@@ -245,11 +245,6 @@
                                     </div>
                                 @endforeach
                             </div>
-                                {{-- Carousel Kontrolleri --}}
-                                <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                    class="fa fa-angle-left"></i></a>
-                            <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                    class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
