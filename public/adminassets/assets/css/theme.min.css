@@ -42003,7 +42003,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         display: flex;
         align-items: center;
         border: 1px solid #EA2B2E;
-        background-color: #EA2B2E;
+        background-color: #EA2B2E !important;
     }
 
     .buyUserRequest,
