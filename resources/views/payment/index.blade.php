@@ -1206,6 +1206,7 @@
             box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.0784313725);
             justify-content: space-between;
             margin-bottom: 40px;
+            align-items:center;
 
         }
 
@@ -1304,7 +1305,6 @@
             align-items: center;
             justify-content: center;
             margin-left: 123px;
-            margin-bottom: 6px;
         }
 
         .text-sq {
