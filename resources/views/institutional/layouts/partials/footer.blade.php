@@ -99,6 +99,19 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
+<script>
+    $('*[data-bs-toggle="dropdown"]').click(function(){
+        if($(this).hasClass('show')){
+            $(this).removeClass('show');
+            $(this).parent().children('.dropdown-menu').removeClass('show');
+            $(this).parent().children('.dropdown-menu').removeAttr('data-bs-popper')
+        }else{
+            $(this).addClass('show');
+            $(this).parent().children('.dropdown-menu').addClass('show');
+            $(this).parent().children('.dropdown-menu').attr('data-bs-popper','static')
+        }
+    })
+</script>
 
 @yield('scripts')
 </body>
