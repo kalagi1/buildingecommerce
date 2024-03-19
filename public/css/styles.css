@@ -24490,6 +24490,7 @@ form label.error {
     cursor: pointer;
     text-align: center;
     padding: 5px 10px;
+    border: 1px solid green !important;
 }
 .see-my-neighbor.payment {
     background: orange !important;
