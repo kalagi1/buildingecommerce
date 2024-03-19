@@ -105,7 +105,7 @@
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                 $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ||
-                                (isset($sumCartOrderQt[$keyIndex]) && $sold && $sold->status == '2' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)) style="background: #EEE !important;height:100% !important" @endif>
+                                (isset($sumCartOrderQt[$keyIndex]) && $sold && $sold->status != '2' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)) style="background: #EEE !important;height:100% !important" @endif>
                         <div class="col-md-9">
 
 
