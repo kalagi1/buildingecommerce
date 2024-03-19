@@ -182,7 +182,7 @@
                     ₺
                 @endif
             </h6>
-        @elseif(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)
+        @elseif(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share && !$sold_check)
             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                 <span class="text-center w-100">
                     1 Pay Fiyatı
@@ -238,7 +238,7 @@
 
 <div class="col-md-3 mobile-hidden" style="height: 100%; padding: 0">
     <div class="homes-button" style="width: 100%; height: 100px !important">
-        @if ($sold_check && $sold->status == '1')
+        @if ($sold_check && $sold->status == '1' )
             @php
                 $neighborView = null;
 

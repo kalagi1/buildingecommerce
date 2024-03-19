@@ -458,7 +458,7 @@ function ReactTable(props) {
                                             <TableCell>
                                                 {
                                                     row.status == 2 ?
-                                                        <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-warning'>Admin Onayının Arından işlem Yapabilirsiniz</button>
+                                                        <button className='badge badge-phoenix badge-phoenix-warning'>Admin Onayının Arından işlem Yapabilirsiniz</button>
                                                     : 
                                                         row.status == 0 ? 
                                                             <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-success'>Aktife Al</button>
