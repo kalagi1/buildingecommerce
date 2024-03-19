@@ -1395,5 +1395,10 @@
             width: 20px;
             height: 20px !important;
         }
+
+        img.img-fluid {
+        width: 100%;
+        height: 100% !important;
+    }
     </style>
 @endsection
