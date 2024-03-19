@@ -238,7 +238,7 @@
 
 <div class="col-md-3 mobile-hidden" style="height: 100%; padding: 0">
     <div class="homes-button" style="width: 100%; height: 100px !important">
-        @if ($sold_check && $sold->status == '1' )
+        @if ($sold_check && $sold->status == '1')
             @php
                 $neighborView = null;
 
@@ -344,15 +344,15 @@
         @else
             @if (
                 ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                    (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
+                    (isset($sumCartOrderQt[$keyIndex]) && $sold && $sold->status != '2' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                 <button class="btn second-btn"
                     @if ($sold->status == '0') style="background: orange !important; color: White; height: auto !important" @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
                     @if ($sold->status == '0' && $share_sale == '[]')
                         <span class="text">Rezerve Edildi</span>
                     @elseif (
                         ($sold->status == '1' && $share_sale == '[]') ||
-                            (isset($sumCartOrderQt[$keyIndex]) && $sold->status == '1' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
-                        <span class="text">Satıldı </span>
+                            (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
+                        <span class="text">Satıldı</span>
                     @endif
                 </button>
             @else
