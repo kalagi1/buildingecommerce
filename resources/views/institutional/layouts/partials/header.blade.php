@@ -436,7 +436,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
+                    <li class="nav-item dropdown"><a class="nav-link1 lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
