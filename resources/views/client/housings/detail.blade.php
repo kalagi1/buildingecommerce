@@ -228,14 +228,22 @@
                                             <div class="listing-title-bar mobileMovePrice">
                                                 <h4>
                                                     @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
                                                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
                                                     @endif
                                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                         @php
-                                                            $price = $housing->step2_slug == 'gunluk-kiralik' ? json_decode($housing->housing_type_data)->daily_rent[0] : json_decode($housing->housing_type_data)->price[0];
+                                                            $price =
+                                                                $housing->step2_slug == 'gunluk-kiralik'
+                                                                    ? json_decode($housing->housing_type_data)
+                                                                        ->daily_rent[0]
+                                                                    : json_decode($housing->housing_type_data)
+                                                                        ->price[0];
                                                             $discountedPrice = $price - $discountAmount;
                                                         @endphp
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
@@ -244,7 +252,10 @@
                                                         @endif
                                                         @if ($discountAmount)
                                                             <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
                                                                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
@@ -266,7 +277,12 @@
                                                 <div style="text-align: center">
                                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                         @php
-                                                            $price = $housing->step2_slug == 'gunluk-kiralik' ? json_decode($housing->housing_type_data)->daily_rent[0] : json_decode($housing->housing_type_data)->price[0];
+                                                            $price =
+                                                                $housing->step2_slug == 'gunluk-kiralik'
+                                                                    ? json_decode($housing->housing_type_data)
+                                                                        ->daily_rent[0]
+                                                                    : json_decode($housing->housing_type_data)
+                                                                        ->price[0];
                                                             $discountedPrice = $price - $discountAmount;
                                                         @endphp
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
@@ -275,7 +291,10 @@
                                                         @endif
                                                         @if ($discountAmount)
                                                             <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
                                                                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
@@ -293,7 +312,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="row">
                 <div class="col-md-8 blog-pots">
@@ -350,13 +369,16 @@
                                             </a>
                                         </div>
                                     @endforeach
-                                   
+
                                 </div>
                                 <nav aria-label="Page navigation example">
-                                    <ul class="pagination" >
-                                      <li class="page-item page-item-left"><a class="page-link" href="#"><i class="fas fa-arrow-left"></i></a></li>
-                                      <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
-                                      <li class="page-item page-item-right"><a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a></li>
+                                    <ul class="pagination">
+                                        <li class="page-item page-item-left"><a class="page-link" href="#"><i
+                                                    class="fas fa-arrow-left"></i></a></li>
+                                        <li class="page-item page-item-middle"><a class="page-link" href="#"></a>
+                                        </li>
+                                        <li class="page-item page-item-right"><a class="page-link" href="#"><i
+                                                    class="fas fa-arrow-right"></i></a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -1444,38 +1466,57 @@
                 }]
             });
         });
-             // Sayfa yüklendiğinde
+        // Sayfa yüklendiğinde
         $(document).ready(function() {
             updateIndex(); // Index değerini güncelle
 
-                   // Slayt geçiş işlemi tamamlandığında
-$('#listingDetailsSlider').on('slid.bs.carousel', function() {
-    updateIndex(); // Index değerini güncelle
-});
+            // Slayt geçiş işlemi tamamlandığında
+            $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+                updateIndex(); // Index değerini güncelle
+            });
 
         });
+        // Mobil cihazlarda kaydırma işlevselliği
+        $('#listingDetailsSlider').on('touchstart', function(event) {
+            var xClick = event.originalEvent.touches[0].pageX;
+            $(this).one('touchmove', function(event) {
+                var xMove = event.originalEvent.touches[0].pageX;
+                var sensitivityInPx = 5;
 
+                if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                    $(this).carousel('next');
+                } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                    $(this).carousel('prev');
+                }
+            });
+        });
+
+        // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+        $('#listingDetailsSlider').on('touchend', function() {
+            $(this).off('touchmove');
+        });
 
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
-    var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-    var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
-    $('.pagination .page-item-middle .page-link').text((index + 1) + '/' + totalSlides); // Ortadaki li etiketinin metnini güncelle
-}
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
+            totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
 
 
-// Sol ok tuşuna tıklandığında
-$('.pagination .page-item-left').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
-    
-});
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
 
-// Sağ ok tuşuna tıklandığında
-$('.pagination .page-item-right').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
-});
+        });
+
+        // Sağ ok tuşuna tıklandığında
+        $('.pagination .page-item-right').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+        });
 
 
 
@@ -1486,16 +1527,16 @@ $('.pagination .page-item-right').on('click', function(event) {
 
 
         $(document).ready(function() {
-    // Büyük görsel kaydığında küçük görselleri de eşleştirme
-    $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-        var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-        $('.listingDetailsSliderNav').slick('slickGoTo', index);
-        var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-        
-        console.log("Büyük Görsel Data Slide Number: ", index);
-        console.log("Küçük Görsel Index: ", smallIndex);
-    });
-});
+            // Büyük görsel kaydığında küçük görselleri de eşleştirme
+            $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+
+                console.log("Büyük Görsel Data Slide Number: ", index);
+                console.log("Küçük Görsel Index: ", smallIndex);
+            });
+        });
 
 
 
@@ -2142,36 +2183,44 @@ $('.pagination .page-item-right').on('click', function(event) {
 
 @section('styles')
     <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            /* Yatayda ortala */
+            align-items: center;
+            /* Dikeyde ortala */
+            background-color: #e6e6e6;
+
+        }
+
+        .pagination .page-item i {
+            font-size: 12px;
+            /* Ok ikonunun boyutunu ayarla */
+            color: #333;
+            /* Ok rengini ayarla */
+        }
 
         .pagination {
-                    display: flex;
-                    justify-content: center; /* Yatayda ortala */
-                    align-items: center; /* Dikeyde ortala */
-                    background-color: #e6e6e6;
+            height: 35px;
+            border-radius: 0 !important;
+        }
 
-                }
-            
-                .pagination .page-item i {
-                    font-size: 20px; /* Ok ikonunun boyutunu ayarla */
-                    color: #333; /* Ok rengini ayarla */
-                }
-
-                .pagination .page-item a {
-                    display: block; /* Linki blok elementi yap */
-                    padding: 5px; /* Boşluk ekle */
-                    text-decoration: none; /* Link altı çizgisini kaldır */
-                }
-
-        /* Sağ ve sol okların stilini tanımla */
+        .pagination .page-item a {
+            display: block;
+            /* Linki blok elementi yap */
+            padding: 5px;
+            /* Boşluk ekle */
+            text-decoration: none;
+            /* Link altı çizgisini kaldır */
+        }
         .pagination .page-item-left,
         .pagination .page-item-right {
             background-color: #e8e8e8;
             border: none;
-            border-radius: 50%;
-            padding: 10px;
             margin: 0 10px;
-            transition: background-color 0.3s; /* Geçiş efekti ekle */
+            transition: background-color 0.3s;
         }
+
 
         /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
         .pagination .page-item-left:hover,
@@ -2182,8 +2231,10 @@ $('.pagination .page-item-right').on('click', function(event) {
         /* Font Awesome simgelerinin rengini belirle */
         .pagination .page-item-left i,
         .pagination .page-item-right i {
-            color: #333; /* Başlangıçta simge rengi */
-            transition: color 0.3s; /* Geçiş efekti ekle */
+            color: #333;
+            /* Başlangıçta simge rengi */
+            transition: color 0.3s;
+            /* Geçiş efekti ekle */
         }
 
         /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
@@ -2191,6 +2242,7 @@ $('.pagination .page-item-right').on('click', function(event) {
         .pagination .page-item-right:hover i {
             color: white;
         }
+
         .totalPriceCode {
             color: #007bff;
         }

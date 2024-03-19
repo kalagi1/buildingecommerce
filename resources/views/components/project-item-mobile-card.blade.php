@@ -380,7 +380,7 @@
     <div class="d-flex justify-content-between align-items-center" style="height: 100%">
 
         <ul class="d-flex justify-content-start align-items-center h-100 w-100"
-            style="list-style: none;padding:0;font-weight:700;padding: 10px;justify-content:start;margin-bottom:0 !important">
+            style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
 
             @foreach (['column1', 'column2', 'column3'] as $column)
                 @php

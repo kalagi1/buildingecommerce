@@ -252,7 +252,7 @@
                             <div class="listing-title-bar text-center w-100">
 
 
-                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                     <span class="text-center w-100">
                                         1 Pay Fiyatı
                                     </span>
@@ -261,7 +261,7 @@
                                 @if ($off_sale_check && $projectDiscountAmount)
                                     <h4>
                                         <div style="text-align: center">
-                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
                                             @else
@@ -285,7 +285,7 @@
                                 @elseif ($off_sale_check)
                                     <h4
                                         style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
-                                        @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                             {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                             ₺
                                         @else
@@ -306,7 +306,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                
+
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -354,12 +354,15 @@
                                     @endforeach
                                 </div>
                                 <nav aria-label="Page navigation example">
-                                    <ul class="pagination" >
-                                      <li class="page-item page-item-left"><a class="page-link" href="#"><i class="fas fa-arrow-left"></i></a></li>
-                                      <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
-                                      <li class="page-item page-item-right"><a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a></li>
+                                    <ul class="pagination">
+                                        <li class="page-item page-item-left"><a class="page-link" href="#"><i
+                                                    class="fas fa-arrow-left"></i></a></li>
+                                        <li class="page-item page-item-middle"><a class="page-link" href="#"></a>
+                                        </li>
+                                        <li class="page-item page-item-right"><a class="page-link" href="#"><i
+                                                    class="fas fa-arrow-right"></i></a></li>
                                     </ul>
-                                  </nav>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -438,14 +441,14 @@
                                         </button>
                                     @else
                                         @if (
-                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == "[]") ||
+                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == '[]') ||
                                                 (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                             <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White" @endif>
-                                                @if ($soldStatus == '0' && $share_sale == "[]")
+                                                @if ($soldStatus == '0' && $share_sale == '[]')
                                                     <span class="text">Rezerve Edildi</span>
                                                 @elseif (
-                                                    ($soldStatus == '1' && $share_sale == "[]") ||
+                                                    ($soldStatus == '1' && $share_sale == '[]') ||
                                                         (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                                     <span class="text">Satıldı</span>
                                                 @endif
@@ -1179,8 +1182,8 @@
             }]
         });
 
-         // Sayfa yüklendiğinde
-         $(document).ready(function() {
+        // Sayfa yüklendiğinde
+        $(document).ready(function() {
             updateIndex(); // Index değerini güncelle
         });
 
@@ -1191,24 +1194,25 @@
 
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
-    var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-    var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
-    $('.pagination .page-item-middle .page-link').text((index + 1) + '/' + totalSlides); // Ortadaki li etiketinin metnini güncelle
-}
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
+            totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
 
 
-// Sol ok tuşuna tıklandığında
-$('.pagination .page-item-left').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
-    
-});
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
 
-// Sağ ok tuşuna tıklandığında
-$('.pagination .page-item-right').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
-});
+        });
+
+        // Sağ ok tuşuna tıklandığında
+        $('.pagination .page-item-right').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+        });
 
 
 
@@ -1217,14 +1221,32 @@ $('.pagination .page-item-right').on('click', function(event) {
             $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 
+    // Mobil cihazlarda kaydırma işlevselliği
+    $('#listingDetailsSlider').on('touchstart', function(event) {
+                var xClick = event.originalEvent.touches[0].pageX;
+                $(this).one('touchmove', function(event) {
+                    var xMove = event.originalEvent.touches[0].pageX;
+                    var sensitivityInPx = 5;
 
+                    if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                        $(this).carousel('next');
+                    } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                        $(this).carousel('prev');
+                    }
+                });
+            });
+
+            // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+            $('#listingDetailsSlider').on('touchend', function() {
+                $(this).off('touchmove');
+            });
         // Büyük görsel kaydığında küçük görselleri de eşleştirme
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
             var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
             // $('.pagination .page-item-middle .page-link').text(index);
             $('.listingDetailsSliderNav').slick('slickGoTo', index);
             var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-            
+
             console.log("Büyük Görsel Data Slide Number: ", index);
             console.log("Küçük Görsel Index: ", smallIndex);
         });
@@ -1238,7 +1260,7 @@ $('.pagination .page-item-right').on('click', function(event) {
             var soldStatus = $(this).data('sold');
             var block = $(this).data("block") ? $(this).data("block") : " ";
             var paymentOrder = $(this).data("payment-order") ? $(this).data("payment-order") : $(this).attr(
-            'order');
+                'order');
 
 
             var cart = {
@@ -1935,55 +1957,67 @@ $('.pagination .page-item-right').on('click', function(event) {
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-
-.pagination {
+        .pagination {
             display: flex;
-            justify-content: center; /* Yatayda ortala */
-            align-items: center; /* Dikeyde ortala */
+            justify-content: center;
+            /* Yatayda ortala */
+            align-items: center;
+            /* Dikeyde ortala */
             background-color: #e6e6e6;
 
         }
-     
+
         .pagination .page-item i {
-            font-size: 20px; /* Ok ikonunun boyutunu ayarla */
-            color: #333; /* Ok rengini ayarla */
+            font-size: 12px;
+            /* Ok ikonunun boyutunu ayarla */
+            color: #333;
+            /* Ok rengini ayarla */
+        }
+
+        .pagination {
+            height: 35px;
+            border-radius: 0 !important;
         }
 
         .pagination .page-item a {
-            display: block; /* Linki blok elementi yap */
-            padding: 5px; /* Boşluk ekle */
-            text-decoration: none; /* Link altı çizgisini kaldır */
+            display: block;
+            /* Linki blok elementi yap */
+            padding: 5px;
+            /* Boşluk ekle */
+            text-decoration: none;
+            /* Link altı çizgisini kaldır */
         }
 
-/* Sağ ve sol okların stilini tanımla */
-.pagination .page-item-left,
-.pagination .page-item-right {
-    background-color: #e8e8e8;
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    margin: 0 10px;
-    transition: background-color 0.3s; /* Geçiş efekti ekle */
-}
+        /* Sağ ve sol okların stilini tanımla */
+        .pagination .page-item-left,
+        .pagination .page-item-right {
+            background-color: #e8e8e8;
+            border: none;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+        }
 
-/* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
-.pagination .page-item-left:hover,
-.pagination .page-item-right:hover {
-    background-color: #dcdcdc;
-}
+        /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
+        .pagination .page-item-left:hover,
+        .pagination .page-item-right:hover {
+            background-color: #dcdcdc;
+        }
 
-/* Font Awesome simgelerinin rengini belirle */
-.pagination .page-item-left i,
-.pagination .page-item-right i {
-    color: #333; /* Başlangıçta simge rengi */
-    transition: color 0.3s; /* Geçiş efekti ekle */
-}
+        /* Font Awesome simgelerinin rengini belirle */
+        .pagination .page-item-left i,
+        .pagination .page-item-right i {
+            color: #333;
+            /* Başlangıçta simge rengi */
+            transition: color 0.3s;
+            /* Geçiş efekti ekle */
+        }
 
-/* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
-.pagination .page-item-left:hover i,
-.pagination .page-item-right:hover i {
-    color: white;
-}
+        /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
+        .pagination .page-item-left:hover i,
+        .pagination .page-item-right:hover i {
+            color: white;
+        }
+
         .mobile-tab-content {
             display: none;
         }
