@@ -182,7 +182,7 @@
                     ₺
                 @endif
             </h6>
-        @elseif(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share && !$sold_check)
+        @elseif(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)
             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                 <span class="text-center w-100">
                     1 Pay Fiyatı
@@ -352,7 +352,7 @@
                     @elseif (
                         ($sold->status == '1' && $share_sale == '[]') ||
                             (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
-                        <span class="text">Satıldı</span>
+                        <span class="text">Satıldı {{$sold->status}}</span>
                     @endif
                 </button>
             @else
