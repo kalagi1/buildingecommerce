@@ -327,7 +327,7 @@
                                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                                 </svg></label></div>
                     </li>
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         @php
                             $notifications = App\Models\DocumentNotification::with('user')
                                 ->orderBy('created_at', 'desc')
@@ -435,7 +435,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
