@@ -351,8 +351,8 @@
                         <span class="text">Rezerve Edildi</span>
                     @elseif (
                         ($sold->status == '1' && $share_sale == '[]') ||
-                            (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
-                        <span class="text">Satıldı {{$sold->status}}</span>
+                            (isset($sumCartOrderQt[$keyIndex]) && $sold->status == '1' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
+                        <span class="text">Satıldı </span>
                     @endif
                 </button>
             @else
