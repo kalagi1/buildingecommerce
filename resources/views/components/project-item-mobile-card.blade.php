@@ -225,7 +225,7 @@
                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
                         @if (Auth::check())
                             <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
-                                style="width:50% !important;color:white !important;background-color:#274abb !important;"
+                                style="width:50% !important;color:white !important;background-color:green !important;"
                                 data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}"
                                 data-order="{{ $sold->id }}">
                                 <span
@@ -241,7 +241,7 @@
                             </button>
                         @else
                             <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
-                                style="width:50% !important;color:white !important;background-color:#274abb !important;"
+                                style="width:50% !important;color:white !important;background-color:green !important;"
                                 onclick="window.location.href='{{ route('client.login') }}'">
                                 <span
                                     style="text-align: center; display: flex; align-items: center; justify-content: center;">
