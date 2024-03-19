@@ -364,6 +364,7 @@
                                                                 </div>
                                                                 <div class="flex-1 me-sm-3">
                                                                     <h4 class="fs--1 text-black">
+                                                                        {{dd( $notification->user)}}
                                                                         {{ $notification->user ?? $notification->user->name }}</h4>
                                                                     <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
                                                                         {!! $notification->text !!}</p>
