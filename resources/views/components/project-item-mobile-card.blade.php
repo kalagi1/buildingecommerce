@@ -135,7 +135,7 @@
                     @else
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                                (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
+                                (isset($sumCartOrderQt[$keyIndex]) && $sold && $sold->status == '2' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
                                 @if ($sold->status == '0') style="background: orange !important; color: White;" @else  style="background: #EA2B2E !important; color: White;" @endif>
                                 @if ($sold->status == '0' && $share_sale == '[]')
