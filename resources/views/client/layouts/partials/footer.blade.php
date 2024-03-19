@@ -279,6 +279,8 @@
         if (!isLoggedIn) {
             toastr.warning('Lütfen Giriş Yapınız', 'Uyarı');
             redirectToLogin();
+            return; // Uyarıdan sonrasını çalıştırmamak için return kullanın
+
         }
 
 
