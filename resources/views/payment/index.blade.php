@@ -197,8 +197,7 @@
                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                         'housingOrder' => $cart['item']['housing'],
                                     ]) }}">
-                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                    style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
+                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
                             </a>
                         </div>
                         <div class="box-1">
@@ -471,9 +470,10 @@
                                             @endif
                                         </div>
 
-                                        <div class="col-sm-12 pt-5">
+                                  
                                             @if (isset($cart) && isset($cart['type']))
                                                 @if ($cart['type'] == 'project' && empty($share_sale))
+                                                <div class="col-sm-12 pt-5">
                                                     <div class="d-flex align-items-center mb-3">
                                                         <input id="is_show_user" type="checkbox" value="off"
                                                             name="is_show_user">
@@ -486,16 +486,13 @@
                                                             ediyorum.
                                                         </label>
                                                     </div>
-                                                @else
-                                                    <div class="d-flex align-items-center mb-3">
-                                                        <!-- Housing ile ilgili başka bir şeyler yapabilirsiniz -->
-                                                    </div>
+                                                </div>
                                                 @endif
                                             @endif
 
 
 
-                                        </div>
+                                      
 
                                         <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
@@ -1287,10 +1284,6 @@
         .fw-6 {
             font-weight: 600;
             margin-right: 5px;
-        }
-
-        .lh-45 {
-            line-height: 45px;
         }
 
         .row {
