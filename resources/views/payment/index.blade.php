@@ -503,9 +503,9 @@
 
                                                 <label for="checkPay" class="m-0 ml-1 text-black">
                                                     <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi" target="_blank">
-                                                        Mesafeli kapora emanet
+                                                        Mesafeli kapora emanet sözleşmesini
                                                     </a>
-                                                    sözleşmesini okudum ve kabul ediyorum
+                                                     okudum ve kabul ediyorum
                                                 </label>
                                             </div>
                                         </div>
