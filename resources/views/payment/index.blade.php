@@ -1215,7 +1215,7 @@
         }
 
         .wrap-house .title-heading {
-            font-size: 20px !important;
+            font-size: 18px !important;
             font-weight: 700;
             color: black;
         }
