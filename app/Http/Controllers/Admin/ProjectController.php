@@ -18,6 +18,7 @@ use App\Models\Offer;
 use App\Models\Project;
 use App\Models\ProjectHousing;
 use App\Models\ProjectHousings;
+use App\Models\ShareLink;
 use App\Models\StandOutUser;
 use App\Models\User;
 use Carbon\Carbon;
@@ -149,6 +150,9 @@ class ProjectController extends Controller {
                 'owner_id' => $project->user->id,
                 'is_visible' => true,
             ] );
+
+            ShareLink::where( 'item_type', "1")->where( 'item_id', $project->id )->delete();
+
         } else if ( $request->input( 'status' ) == 1 ) {
             $reason = 'Başarıyla projeniz aktife alındı';
 
@@ -156,9 +160,9 @@ class ProjectController extends Controller {
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
         
-            $notificationText = 'Proje #' . $projectId . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası]
+            $notificationText = 'Proje #' . $projectId + 1000000 . ' şu anda yayında! Tebrikler! Daha fazla detay için [Proje Detay Sayfası]
             (' . route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug
-            ,'id' => $project->id+1000000 ] ) . ').';
+            ,'id' => $project->id + 1000000 ] ) . ').';
 
             DocumentNotification::create( [
                 'user_id' => auth()->user()->id,
@@ -202,9 +206,14 @@ class ProjectController extends Controller {
         }
 
         $project = Project::where( 'id', $projectId )->firstOrFail();
-        Project::where( 'id', $projectId )->update( [
+       $projectUpdate = Project::where( 'id', $projectId )->update( [
             'status' => $request->input( 'status' ),
         ] );
+
+
+        if ( $projectUpdate && $request->input( 'status' ) != 1 ) { 
+            ShareLink::where( 'item_type', "1")->where( 'item_id', $project->id )->delete();
+        }
 
         Log::create( [
             'item_type' => 1,
@@ -236,7 +245,7 @@ class ProjectController extends Controller {
         DocumentNotification::create(
             [
                 'user_id' => auth()->user()->id,
-                'text' => '#'.$projectId." No'lu projeniz şu anda yayında!",
+                'text' => '#'.$projectId + 1000000 ." No'lu projeniz şu anda yayında!",
                 'item_id' => $project->id,
                 'link' => route( 'project.detail', [ 'slug' => $project->slug."-".$status->slug."-".$project->step2_slug."-".$project->housingtype->slug,'id' => $project->id+1000000 ] ),
                 'owner_id' => $project->user->id,
@@ -266,7 +275,7 @@ class ProjectController extends Controller {
             DocumentNotification::create(
                 [
                     'user_id' => auth()->user()->id,
-                    'text' => "#".$projectId." No'lu projeniz pasife alındı!",
+                    'text' => "#". $projectId + 1000000 ." No'lu projeniz pasife alındı!",
                     'item_id' => $project->id,
                     'link' => route( 'institutional.project.edit.v2', [ 'projectSlug' => $project->slug, 'project_id' => $project->id ] ),
                     'owner_id' => $project->user->id,
@@ -280,15 +289,17 @@ class ProjectController extends Controller {
             Log::create( [
                 'item_type' => 1,
                 'item_id' => $projectId,
-                'reason' => "#".$projectId." No'lu projeniz admin tarafından pasife alındı.",
+                'reason' => "#".$projectId + 1000000  ." No'lu projeniz admin tarafından pasife alındı.",
                 'is_rejected' => 0,
                 'user_id' => auth()->user()->id,
             ] );
+            ShareLink::where( 'item_type', "1")->where( 'item_id', $projectId )->delete();
+
         } else {
             Log::create( [
                 'item_type' => 1,
                 'item_id' => $projectId,
-                'reason' => "#".$projectId." No'lu projeniz admin tarafından aktif edildi.",
+                'reason' => "#".$projectId + 1000000 ." No'lu projeniz admin tarafından aktif edildi.",
                 'is_rejected' => 0,
                 'user_id' => auth()->user()->id,
             ] );
