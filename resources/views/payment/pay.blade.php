@@ -7,7 +7,7 @@
     <title></title>
 </head>
 <body onload="javascript:moveWindow()">
-    <form name="pay_form" method="post" action="https://entegrasyon.asseco-see.com.tr/fim/est3dgate">
+    <form name="pay_form" method="post" action="https://sanalpos2.ziraatbank.com.tr/fim/est3Dgate">
 
         <input type="hidden" name="clientid" value="{{$clientid}}"/>
         <input type="hidden" name="callbackurl" value="{{$callbackurl}}"/>
