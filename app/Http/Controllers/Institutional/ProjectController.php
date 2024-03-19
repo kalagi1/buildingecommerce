@@ -52,60 +52,67 @@ use Throwable;
 class ProjectController extends Controller
 {
 
-    public function loadMoreMobileHousings(Request $request) {
-         // AJAX isteğiyle gelen sayfa numarasını al
-         $page = $request->input('page', 1);
+    public function loadMoreMobileHousings(Request $request)
+    {
+        // AJAX isteğiyle gelen sayfa numarasını al
+        $page = $request->input('page', 1);
 
-         // Sayfalama işlemi için, her sayfada kaç konut gösterileceğini belirleyin
-         $perPage = 4;
- 
-         // Konutları çek
-         $housings = Housing::with('images')
-             ->select(
-                 'housings.id',
-                 'housings.slug',
-                 'housings.title AS housing_title',
-                 'housings.created_at',
-                 'housings.step1_slug',
-                 'housings.step2_slug',
-                 'housing_types.title as housing_type_title',
-                 'housings.housing_type_data',
-                 'project_list_items.column1_name as column1_name',
-                 'project_list_items.column2_name as column2_name',
-                 'project_list_items.column3_name as column3_name',
-                 'project_list_items.column4_name as column4_name',
-                 'project_list_items.column1_additional as column1_additional',
-                 'project_list_items.column2_additional as column2_additional',
-                 'project_list_items.column3_additional as column3_additional',
-                 'project_list_items.column4_additional as column4_additional',
-                 'housings.address',
-                 DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
-                 DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
-                 'cities.title AS city_title',
-                 'districts.ilce_title AS county_title',
-                 'neighborhoods.mahalle_title AS neighborhood_title',
-                 DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount')
-             )
-             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-             ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-             ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-             ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-             ->where('housings.status', 1)
-             ->where('project_list_items.item_type', 2)
-             ->orderByDesc('doping_time')
-             ->orderByDesc('housings.created_at')
-             ->skip(($page - 1) * $perPage)
-             ->take($perPage)
-             ->get();
- 
-         // Eğer daha fazla konut varsa, yeni konutları gönderin
-         if ($housings->count() > 0) {
-             return view('components.housing_mobile_cards', compact('housings'))->render();
-         } else {
-             // Daha fazla konut yoksa, boş bir yanıt gönderin
-             return response()->json(['html' => '']);         }
+        // Sayfalama işlemi için, her sayfada kaç konut gösterileceğini belirleyin
+        $perPage = 4;
+
+        // Konutları çek
+        $housings = Housing::with('images')
+            ->select(
+                'housings.id',
+                'housings.slug',
+                'housings.title AS housing_title',
+                'housings.created_at',
+                'housings.step1_slug',
+                'housings.step2_slug',
+                'housing_types.title as housing_type_title',
+                'housings.housing_type_data',
+                'project_list_items.column1_name as column1_name',
+                'project_list_items.column2_name as column2_name',
+                'project_list_items.column3_name as column3_name',
+                'project_list_items.column4_name as column4_name',
+                'project_list_items.column1_additional as column1_additional',
+                'project_list_items.column2_additional as column2_additional',
+                'project_list_items.column3_additional as column3_additional',
+                'project_list_items.column4_additional as column4_additional',
+                'housings.address',
+                DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
+                DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
+                'cities.title AS city_title',
+                'districts.ilce_title AS county_title',
+                'neighborhoods.mahalle_title AS neighborhood_title',
+                DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount')
+            )
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+            ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+            ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+            ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+            ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+            ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+            ->where('housings.status', 1)
+            ->where('project_list_items.item_type', 2)
+            ->orderByDesc('doping_time')
+            ->orderByDesc('housings.created_at')
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get();
+
+        // Eğer daha fazla konut varsa, yeni konutları gönderin
+        if ($housings->count() > 0) {
+            return view('components.housing_mobile_cards', compact('housings'))->render();
+        } else {
+            // Daha fazla konut yoksa, boş bir yanıt gönderin
+            return response()->json(['html' => '']);
+        }
+    }
+
+    public function housingsV2()
+    {
+        return view('institutional.projects.housings_v2');
     }
 
     public function loadMoreHousings(Request $request)
@@ -160,9 +167,7 @@ class ProjectController extends Controller
         // Eğer daha fazla konut varsa, yeni konutları gönderin
         if ($housings->count() > 0) {
             return view('components.housing_cards', compact('housings'))->render();
-        } else {
-            // Daha fazla konut yoksa, boş bir yanıt gönderin
-            return response()->json(['html' => '']);        }
+        }
     }
     public function loadMoreRooms($projectId, $page, Request $request)
     {
@@ -385,7 +390,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function loadMoreRoomsBlock($projectId, $blockIndexx , $page, Request $request)
+    public function loadMoreRoomsBlock($projectId, $blockIndexx, $page, Request $request)
     {
         $paxe = $page;
         $perPage = 10;
@@ -587,30 +592,30 @@ class ProjectController extends Controller
             $pageInfo = json_decode($pageInfo);
 
 
-            $blocks = Block::where('project_id',$project->id)->get();
+            $blocks = Block::where('project_id', $project->id)->get();
             $blockStart = 0;
-            foreach($blocks as $blockKey => $block){
-                if($blockKey < $blockIndexx){
-                    $blockStart += $block->housing_count; 
+            foreach ($blocks as $blockKey => $block) {
+                if ($blockKey < $blockIndexx) {
+                    $blockStart += $block->housing_count;
                 }
             }
 
 
             $blockItemCount = $blocks[$blockIndexx]->housing_count;
             // Odaları çek
-            if($page == 0){
+            if ($page == 0) {
                 $start = $blockStart + 0;
-                $end = min( $start + $perPage, $blockStart + $blockItemCount);
-            }else{
-                $start = ( $blockStart + ($page) * $perPage);
-                $end = min( $start + $perPage, $blockStart + $blockItemCount);
+                $end = min($start + $perPage, $blockStart + $blockItemCount);
+            } else {
+                $start = ($blockStart + ($page) * $perPage);
+                $end = min($start + $perPage, $blockStart + $blockItemCount);
             }
 
-             $blockName= $blocks[$blockIndexx]->block_name;
+            $blockName = $blocks[$blockIndexx]->block_name;
 
-            
+
             if ($start < $end) {
-                return view('components.room-list', compact('project', 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "blockName","bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
+                return view('components.room-list', compact('project', 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "blockName", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex', 'blockStart'))->render();
             }
 
             // Odalar yoksa boş bir yanıt döndür
@@ -621,7 +626,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function loadMoreRoomsBlockMobile($projectId, $blockIndexx , $page, Request $request)
+    public function loadMoreRoomsBlockMobile($projectId, $blockIndexx, $page, Request $request)
     {
         $paxe = $page;
         $perPage = 10;
@@ -823,27 +828,27 @@ class ProjectController extends Controller
             $pageInfo = json_decode($pageInfo);
 
 
-            $blocks = Block::where('project_id',$project->id)->get();
+            $blocks = Block::where('project_id', $project->id)->get();
             $blockStart = 0;
-            foreach($blocks as $blockKey => $block){
-                if($blockKey < $blockIndexx){
-                    $blockStart += $block->housing_count; 
+            foreach ($blocks as $blockKey => $block) {
+                if ($blockKey < $blockIndexx) {
+                    $blockStart += $block->housing_count;
                 }
             }
 
             $blockItemCount = $blocks[$blockIndexx]->housing_count;
             // Odaları çek
-            if($page == 0){
+            if ($page == 0) {
                 $start = $blockStart + 0;
-                $end = min( $start + $perPage, $blockStart + $blockItemCount);
-            }else{
-                $start = ( $blockStart + ($page) * $perPage);
-                $end = min( $start + $perPage, $blockStart + $blockItemCount);
+                $end = min($start + $perPage, $blockStart + $blockItemCount);
+            } else {
+                $start = ($blockStart + ($page) * $perPage);
+                $end = min($start + $perPage, $blockStart + $blockItemCount);
             }
-            $blockName= $blocks[$blockIndexx]->block_name;
+            $blockName = $blocks[$blockIndexx]->block_name;
 
             if ($start < $end) {
-                return view('components.room-list-mobile', compact('project',"blockName" ,'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex','blockStart'))->render();
+                return view('components.room-list-mobile', compact('project', "blockName", 'start', 'end', "pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex', 'blockStart'))->render();
             }
 
             // Odalar yoksa boş bir yanıt döndür
@@ -1383,7 +1388,6 @@ class ProjectController extends Controller
                     }
                 }
             }
-            dd("asd");
             return redirect()->route('institutional.projects.housings', $project->id);
         } catch (Throwable $e) {
 
@@ -2622,7 +2626,7 @@ class ProjectController extends Controller
         ProjectImage::where('project_id', $tempData->id)->delete();
         foreach ($tempData->images as $key => $image) {
             $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
-            $projectImage->image = 'public/project_images/' .str_replace('storage/project_images/', '',str_replace('public/project_images/', '', $image->image));
+            $projectImage->image = 'public/project_images/' . str_replace('storage/project_images/', '', str_replace('public/project_images/', '', $image->image));
             $projectImage->project_id = $tempData->id;
             $projectImage->save();
         }

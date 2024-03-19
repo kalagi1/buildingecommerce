@@ -252,7 +252,7 @@
                             <div class="listing-title-bar text-center w-100">
 
 
-                                @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                     <span class="text-center w-100">
                                         1 Pay Fiyatı
                                     </span>
@@ -261,7 +261,7 @@
                                 @if ($off_sale_check && $projectDiscountAmount)
                                     <h4>
                                         <div style="text-align: center">
-                                            @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
                                             @else
@@ -285,7 +285,7 @@
                                 @elseif ($off_sale_check)
                                     <h4
                                         style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
-                                        @if (isset($share_sale) && !empty($share_sale) && $number_of_share != 0)
+                                        @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                             {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                             ₺
                                         @else
@@ -306,9 +306,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                <div class="homes-tag button alt featured mobileTagProject">
-                                    <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                                </div>
+                                
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
@@ -332,11 +330,6 @@
                                     @endforeach
 
 
-                                    {{-- Carousel Kontrolleri --}}
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                            class="fa fa-angle-left"></i></a>
-                                    <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
                                 </div>
 
                                 {{-- Küçük Resim Navigasyonu --}}
@@ -438,14 +431,14 @@
                                         </button>
                                     @else
                                         @if (
-                                            (isset($soldStatus) && $soldStatus != '2' && empty($share_sale)) ||
+                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == "[]") ||
                                                 (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                             <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White" @endif>
-                                                @if ($soldStatus == '0' && empty($share_sale))
+                                                @if ($soldStatus == '0' && $share_sale == "[]")
                                                     <span class="text">Rezerve Edildi</span>
                                                 @elseif (
-                                                    ($soldStatus == '1' && empty($share_sale)) ||
+                                                    ($soldStatus == '1' && $share_sale == "[]") ||
                                                         (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                                     <span class="text">Satıldı</span>
                                                 @endif

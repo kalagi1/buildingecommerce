@@ -42,6 +42,12 @@
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-md-12">
+                                <label class="form-label" for="name">Unvan</label>
+                                <input name="title" class="form-control" id="title" type="text" value=""
+                                    required="">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="col-md-12">
                                 <label class="form-label" for="email">Email</label>
                                 <input name="email" class="form-control" id="email" type="email" value=""
                                     required="">

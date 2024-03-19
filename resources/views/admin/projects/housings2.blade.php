@@ -257,7 +257,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="sold">
-                                                    @if (isset($share_sale) && !empty($share_sale) && $share_sale != '[]')
+                                                    @if (isset($share_sale) && $share_sale != "[]" && $share_sale != '[]')
                                                         <span class=" d-block mb-2">
                                                             @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                                 {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
@@ -727,7 +727,7 @@
                                             @endif
                                         </td>
                                         <td class="sold">
-                                            @if (isset($share_sale) && !empty($share_sale) && $share_sale != '[]')
+                                            @if (isset($share_sale) && $share_sale != "[]" && $share_sale != '[]')
                                                 <span class=" d-block mb-2">
                                                     @if (isset($sumCartOrderQt[$i + 1]) && isset($sumCartOrderQt[$i + 1]['qt_total']))
                                                         {{ $sumCartOrderQt[$i + 1]['qt_total'] }}
@@ -763,15 +763,15 @@
                                                 </div>
                                             @else
                                                 @if (
-                                                    ($sold && $sold[0]->status == 1 && empty($share_sale)) ||
+                                                    ($sold && $sold[0]->status == 1 && $share_sale == "[]") ||
                                                         (isset($sumCartOrderQt[$i + 1]) && $sumCartOrderQt[$i + 1]['qt_total'] == $number_of_share))
                                                     <button class="badge badge-phoenix badge-phoenix-danger">Satıldı
                                                     </button>
                     </div>
-                @elseif ($sold && $sold[0]->status == 0 && empty($share_sale))
+                @elseif ($sold && $sold[0]->status == 0 && $share_sale == "[]")
                     <button class="badge badge-phoenix badge-phoenix-warning">Ödeme
                         Bekleniyor</button>
-                @elseif ($sold && $sold[0]->status == 2 && empty($share_sale))
+                @elseif ($sold && $sold[0]->status == 2 && $share_sale == "[]")
                     <button class="badge badge-phoenix badge-phoenix-success">Tekrar
                         Satışta</button>
                 @else

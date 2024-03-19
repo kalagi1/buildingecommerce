@@ -196,56 +196,39 @@
                     <div class="headings-2 pt-0 pb-0">
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                            <div class="homes-tag button alt featured mobileTagProject">
-                                <a href="javascript:void()" style="color:White;">{{ $project->project_title }}</a>
-                            </div>
                             <div class="carousel-inner">
-                                <div class="item carousel-item active" data-slide-number="1">
-                                    <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
-                                        data-lightbox="image-gallery">
-                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
-                                            class="img-fluid" alt="slider-listing">
-                                    </a>
-                                </div>
-
                                 {{-- Diğer Görseller --}}
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key }}">
-                                        <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                            data-lightbox="image-gallery">
-                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                                class="img-fluid" alt="slider-listing">
-                                        </a>
+                                    <div class="item carousel-item {{ $key === 0 ? 'active' : '' }}"
+                                        data-slide-number="{{ $key }}">
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
+                                            class="img-fluid" alt="slider-listing">
                                     </div>
                                 @endforeach
-
-
-                                {{-- Carousel Kontrolleri --}}
-                                <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
-                                        class="fa fa-angle-left"></i></a>
-                                <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                        class="fa fa-angle-right"></i></a>
                             </div>
-
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
-                                <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
-                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[1]['image[]'] }}"
-                                            class="img-fluid carousel-indicator-image" alt="listing-small">
-                                    </a>
-                                </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}"
-                                            data-slide-to="{{ $key }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key }}" data-slide-to="{{ $key }}"
+                                            data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
                                     </div>
                                 @endforeach
                             </div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item page-item-left"><a class="page-link" href="#"><i
+                                                class="fas fa-arrow-left"></i></a></li>
+                                    <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
+                                    <li class="page-item page-item-right"><a class="page-link" href="#"><i
+                                                class="fas fa-arrow-right"></i></a></li>
+                                </ul>
+                            </nav>
                         </div>
+
                     </div>
                 </div>
 
@@ -707,7 +690,7 @@
                         <div class="tab-pane fade show active  blog-info details housingsListTab mb-30 " id="contact"
                             role="tabpanel" aria-labelledby="contact-tab">
 
-                            
+
                             @if ($project->have_blocks == 1)
                                 <div class="ui-elements properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="container">
@@ -770,8 +753,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="mobile-show">
-                                                                    <div class=""
-                                                                        id="project-room-mobile{{ $blockKey }}">
+                                                                <div class=""
+                                                                    id="project-room-mobile{{ $blockKey }}">
 
                                                                 </div>
                                                             </div>
@@ -832,17 +815,17 @@
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-                                                            
+
                                                         $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
-                                                    :blockStart="0"
-                                                        :towns="$towns" :cities="$cities" :key="$key"
-                                                        :statusSlug="$statusSlug" :blockName="$blockName" :blockHousingCount="$blockHousingCount"
-                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :towns="$towns" :cities="$cities"
+                                                        :key="$key" :statusSlug="$statusSlug" :blockName="$blockName"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -892,12 +875,12 @@
                                                         $statusSlug = $status->slug;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
-                                                    :blockStart="0"
-                                                        :blockName="$blockName" :project="$project" :allCounts="$allCounts"
-                                                        :statusSlug="$statusSlug" :key="$key" :blockHousingCount="$blockHousingCount"
-                                                        :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt" :isUserSame="$isUserSame"
-                                                        :bankAccounts="$bankAccounts" :i="$i" :projectHousingsList="$projectHousingsList"
-                                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                                        :blockStart="0" :blockName="$blockName" :project="$project"
+                                                        :allCounts="$allCounts" :statusSlug="$statusSlug" :key="$key"
+                                                        :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$i"
+                                                        :projectHousingsList="$projectHousingsList" :projectDiscountAmount="$projectDiscountAmount" :sold="$sold"
+                                                        :lastHousingCount="$lastHousingCount" />
                                                 @endfor
                                             </div>
                                             <div class="ajax-load" style="display: none;">
@@ -968,18 +951,49 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
-        
         var itemsPerPage = 10;
         var isLoading = false; // Kontrol flag'ı ekledik
         var currentBlock = 0;
         var currentPage = 0;
-      var maxPages = null;
+        var maxPages = null;
         $(document).ready(function() {
-          
+            // Önceki slayta geçme
+            $('.carousel-control-prev').click(function() {
+                $('#listingDetailsSlider').carousel('prev');
+            });
+
+            // Sonraki slayta geçme
+            $('.carousel-control-next').click(function() {
+                $('#listingDetailsSlider').carousel('next');
+            });
+
+            // Mobil cihazlarda kaydırma işlevselliği
+            $('#listingDetailsSlider').on('touchstart', function(event) {
+                var xClick = event.originalEvent.touches[0].pageX;
+                $(this).one('touchmove', function(event) {
+                    var xMove = event.originalEvent.touches[0].pageX;
+                    var sensitivityInPx = 5;
+
+                    if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                        $(this).carousel('next');
+                    } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                        $(this).carousel('prev');
+                    }
+                });
+            });
+
+            // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+            $('#listingDetailsSlider').on('touchend', function() {
+                $(this).off('touchmove');
+            });
+        });
+
+        $(document).ready(function() {
+
             @if ($project->have_blocks)
                 currentPage = 0;
                 var projectBlocks = @json($project->blocks);
-                 maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
+                maxPages = Math.ceil(projectBlocks[currentBlock]["housing_count"] / itemsPerPage);
 
                 if (window.innerWidth >= 768) {
                     loadMoreDataBlock(0);
@@ -1156,9 +1170,8 @@
             var blockIndex = $('#contentblock-' + tabName).index() - 1;
             var startIndex = 0;
             var endIndex = 12;
-          
-        }
 
+        }
     </script>
     <script>
         var successMessage = "{{ session('success') }}";
@@ -1194,23 +1207,6 @@
     </script>
 
     <script>
-        //       $(document).ready(function() {
-        //     var $carousel = $('#listingDetailsSlider');
-
-        //     $carousel.carousel({
-        //         interval: false // Karusel otomatik geçişini devre dışı bırak
-        //     });
-
-        //     // Carousel kaydırıldığında
-        //     $carousel.on('slide.bs.carousel', function() {
-        //         var scrollPosition = $carousel.offset().top + $carousel.height() - 30;
-
-        //         // Sayfa aşağı kaydır
-        //         $('html, body').animate({
-        //             scrollTop: scrollPosition
-        //         }, 500);
-        //     });
-        // });
         function checkOffer(offers, housingOrder) {
             var returnData = null;
             for (i = 0; i < offers.length; i++) {
@@ -1360,12 +1356,12 @@
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 1,
+            slidesToScroll: 5,
             dots: false,
             loop: false,
             autoplay: false,
             arrows: false,
-            margin: 20,
+            margin: 0,
             adaptiveHeight: true,
             responsive: [{
                 breakpoint: 993,
@@ -1384,6 +1380,61 @@
                     arrows: false
                 }
             }]
+        });
+        // Sayfa yüklendiğinde
+        $(document).ready(function() {
+            updateIndex(); // Index değerini güncelle
+        });
+
+        // Slayt geçiş işlemi tamamlandığında
+        $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+            updateIndex(); // Index değerini güncelle
+        });
+
+        // Index değerini güncelleyen fonksiyon
+        function updateIndex() {
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
+
+
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            $('#listingDetailsSlider').carousel('prev');
+            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+            // $('.pagination .page-item-middle .page-link').text(index);
+            $('.listingDetailsSliderNav').slick('slickGoTo', index);
+            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+
+        });
+
+        // Sağ ok tuşuna tıklandığında
+        $('.pagination .page-item-right').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('next');
+            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+            // $('.pagination .page-item-middle .page-link').text(index);
+            $('.listingDetailsSliderNav').slick('slickGoTo', index);
+            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        });
+
+
+
+        $('.listingDetailsSliderNav').on('click', 'a', function() {
+            var index2 = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider').carousel(parseInt(index2));
+        });
+
+
+        // Büyük görsel kaydığında küçük görselleri de eşleştirme
+        $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+            // $('.pagination .page-item-middle .page-link').text(index);
+            $('.listingDetailsSliderNav').slick('slickGoTo', index);
+            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
         });
     </script>
 
@@ -1404,6 +1455,70 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            /* Yatayda ortala */
+            align-items: center;
+            /* Dikeyde ortala */
+            background-color: #e6e6e6;
+
+        }
+
+        .pagination .page-item i {
+            font-size: 12px;
+            /* Ok ikonunun boyutunu ayarla */
+            color: #333;
+            /* Ok rengini ayarla */
+        }
+
+        .pagination {
+            height: 35px;
+            border-radius: 0 !important;
+        }
+
+        .pagination .page-item a {
+            display: block;
+            /* Linki blok elementi yap */
+            padding: 5px;
+            /* Boşluk ekle */
+            text-decoration: none;
+            /* Link altı çizgisini kaldır */
+        }
+
+        /* Sağ ve sol okların stilini tanımla */
+        .pagination .page-item-left,
+        .pagination .page-item-right {
+            background-color: #e8e8e8;
+            border: none;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+            /* Geçiş efekti ekle */
+        }
+
+        /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
+        .pagination .page-item-left:hover,
+        .pagination .page-item-right:hover {
+            background-color: #dcdcdc;
+        }
+
+        /* Font Awesome simgelerinin rengini belirle */
+        .pagination .page-item-left i,
+        .pagination .page-item-right i {
+            color: #333;
+            /* Başlangıçta simge rengi */
+            transition: color 0.3s;
+            /* Geçiş efekti ekle */
+        }
+
+        /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
+        .pagination .page-item-left:hover i,
+        .pagination .page-item-right:hover i {
+            color: white;
+        }
+
+
+
         .modal-label {
             margin: 0.3em 0em;
             font-size: 13px;

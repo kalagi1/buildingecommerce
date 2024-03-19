@@ -57,6 +57,12 @@
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-12">
+                                        <label class="form-label" for="name">Unvan</label>
+                                        <input name="title" class="form-control"  value="{{ old('title', $subUser->title) }}" id="title" type="text" value=""
+                                            required="">
+                                        <div class="valid-feedback">Looks good!</div>
+                                    </div>
+                                    <div class="col-md-12">
                                         <label class="form-label" for="email">Email</label>
                                         <input name="email" class="form-control" id="email" type="email"
                                             value="{{ old('email', $subUser->email) }}" required="">

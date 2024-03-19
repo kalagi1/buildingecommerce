@@ -49,6 +49,8 @@
                                             data-sort="userEmail">E-posta</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userType">Kullanıcı Tipi</th>
+                                            <th class="sort white-space-nowrap align-middle ps-0" scope="col"
+                                            data-sort="userType">Unvan</th>
                                         <th class="sort white-space-nowrap align-middle ps-0" scope="col"
                                             data-sort="userStatus">Durum</th>
                                         <th>İşlemler</th>
@@ -62,6 +64,10 @@
                                             <td>{{ $user->email }}</td>
                                             <td>
                                                 <span class="badge bg-warning"> {{ $user->role->name }}</span>
+
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-warning"> {{ $user->title }}</span>
 
                                             </td>
                                             <td>

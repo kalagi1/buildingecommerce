@@ -35,8 +35,10 @@ class ProjectController extends Controller
 {
     public function index($slug, $id, Request $request)
     {
-        
-        $id -= 1000000;
+
+        if ($id > 1000000) {
+            $id -= 1000000;
+        }
 
         $menu = Cache::rememberForever('menu', function () {
             return Menu::getMenuItems();
@@ -48,92 +50,92 @@ class ProjectController extends Controller
             ->with("brand", "blocks", 'listItemValues', "neighbourhood", "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
             ->first();
 
-            $cities = City::all()->toArray();
+        $cities = City::all()->toArray();
 
-            $turkishAlphabet = [
-                'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
-                'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
-            ];
-            
-            usort($cities, function($a, $b) use ($turkishAlphabet) {
-                $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
-                $endPriorityLetters = ["Y", "Z"];
-            
-                // Check if $a and $b are in the priority list
-                $aPriority = array_search(strtoupper($a['title']), $priorityCities);
-                $bPriority = array_search(strtoupper($b['title']), $priorityCities);
-            
-                // If both are in the priority list, sort based on their position in the list
-                if ($aPriority !== false && $bPriority !== false) {
-                    return $aPriority - $bPriority;
-                }
-            
-                // If only $a is in the priority list, move it to the top
-                elseif ($aPriority !== false) {
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+
+        usort($cities, function ($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['title']), $priorityCities);
+
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
+
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
                     return -1;
                 }
-            
-                // If only $b is in the priority list, move it to the top
-                elseif ($bPriority !== false) {
+
+                return $comparison;
+            }
+        });
+
+
+        $towns = Town::all()->toArray();
+
+        usort($towns, function ($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
+
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
+
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
                     return 1;
-                }
-            
-                // If neither $a nor $b is in the priority list, sort based on the first letter of the title
-                else {
-                    $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
-            
-                    // If the first letters are the same, check if they are 'Y' or 'Z'
-                    if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
-                        return 1;
-                    } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
-                        return -1;
-                    }
-            
-                    return $comparison;
-                }
-            });
-            
-    
-            $towns = Town::all()->toArray();
-    
-            usort($towns, function($a, $b) use ($turkishAlphabet) {
-                $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
-                $endPriorityLetters = ["Y", "Z"];
-            
-                // Check if $a and $b are in the priority list
-                $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
-                $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
-            
-                // If both are in the priority list, sort based on their position in the list
-                if ($aPriority !== false && $bPriority !== false) {
-                    return $aPriority - $bPriority;
-                }
-            
-                // If only $a is in the priority list, move it to the top
-                elseif ($aPriority !== false) {
+                } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
                     return -1;
                 }
-            
-                // If only $b is in the priority list, move it to the top
-                elseif ($bPriority !== false) {
-                    return 1;
-                }
-            
-                // If neither $a nor $b is in the priority list, sort based on the first letter of the title
-                else {
-                    $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
-            
-                    // If the first letters are the same, check if they are 'Y' or 'Z'
-                    if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
-                        return 1;
-                    } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
-                        return -1;
-                    }
-            
-                    return $comparison;
-                }
-            });
-            
+
+                return $comparison;
+            }
+        });
+
         if ($project) {
 
             $projectHousing = $project->roomInfo->keyBy('name');
@@ -188,14 +190,22 @@ class ProjectController extends Controller
 
 
 
-            $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
             $lastHousingCount = 0;
 
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order','<=',10)->get();
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', 10)->get();
             $projectHousingsList = [];
-            $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
+            $salesCloseProjectHousingCount = 0;
+
+            $projectHousings->each(function ($item) use (&$projectHousingsList, &$salesCloseProjectHousingCount, &$projectCartOrders) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;
+                if ($item->name == "off_sale[]") {
+                    if (isset($projectHousingsList[$item->room_order][$item->name]) &&  $projectHousingsList[$item->room_order][$item->name] !== "[]" && !isset($projectCartOrders[$item->room_order])) {
+                        $salesCloseProjectHousingCount++;
+                    }
+                }
             });
+            
+
 
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
@@ -237,7 +247,7 @@ class ProjectController extends Controller
             return redirect('/')
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
-        return view('client.projects.index', compact("pageInfo","towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
+        return view('client.projects.index', compact("pageInfo", "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'projectHousing', 'projectHousingSetting', 'parent', 'status', 'salesCloseProjectHousingCount', 'lastHousingCount', 'currentBlockHouseCount', 'menu', "offer", 'project', 'projectCartOrders', 'startIndex', 'blockIndex', 'endIndex'));
     }
 
     public function ajaxIndex($slug, Request $request)
@@ -250,27 +260,27 @@ class ProjectController extends Controller
             ->with("brand", "blocks", 'listItemValues', "roomInfo", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')
             ->firstOrFail();
 
-       
-            $projectCartOrders = DB::table('cart_orders')
-                ->select(
-                    DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
-                    DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
-                    'cart_orders.status',
-                    'cart_orders.user_id',
-                    'cart_orders.store_id',
-                    'cart_orders.is_show_user',
-                    'cart_orders.id',
-                    'users.name',
-                    'users.mobile_phone',
-                    'users.phone'
-                )
-                ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-                ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-                ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-                ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-                ->get()
-                ->keyBy("housing_id");
+
+        $projectCartOrders = DB::table('cart_orders')
+            ->select(
+                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+                'cart_orders.status',
+                'cart_orders.user_id',
+                'cart_orders.store_id',
+                'cart_orders.is_show_user',
+                'cart_orders.id',
+                'users.name',
+                'users.mobile_phone',
+                'users.phone'
+            )
+            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+            ->get()
+            ->keyBy("housing_id");
 
 
         $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
@@ -298,7 +308,18 @@ class ProjectController extends Controller
         if ($endIndex > $blockHousingCount) {
             $endIndex = $blockHousingCount;
         }
-        $salesCloseProjectHousingCount = ProjectHousing::where('name', 'off_sale[]')->where('project_id', $project->id)->where('value', '!=', '[]')->count();
+        $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', 10)->get();
+        $projectHousingsList = [];
+        $salesCloseProjectHousingCount = 0;
+
+        $projectHousings->each(function ($item) use (&$projectHousingsList, &$salesCloseProjectHousingCount) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+            if ($item->name == "off_sale[]") {
+                if ($projectHousingsList[$item->room_order][$item->name]->value !== "[]") {
+                    $salesCloseProjectHousingCount++;
+                }
+            }
+        });
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
 
 
@@ -334,7 +355,7 @@ class ProjectController extends Controller
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
         $status = HousingStatus::find($statusID);
 
-        return view('client.projects.detail', compact('menu', 'projectHousingsList', 'project', 'offer','status'));
+        return view('client.projects.detail', compact('menu', 'projectHousingsList', 'project', 'offer', 'status'));
     }
 
     public function projectPaymentPlan(Request $request)
@@ -736,16 +757,16 @@ class ProjectController extends Controller
             $type = HousingType::where('slug', $slug)->first();
             if (!$type) {
                 return redirect('/')
-                ->with('error', 'Sayfa bulunamadı.');
+                    ->with('error', 'Sayfa bulunamadı.');
             }
             $title = $type->title;
             $projects = Project::with("city", "county")->where("housing_type_id", $type->id)->get();
         } else {
             if (!$status) {
                 return redirect('/')
-                ->with('error', 'Sayfa bulunamadı.');            
+                    ->with('error', 'Sayfa bulunamadı.');
             }
-            
+
             $title = $status->name;
             if ($status->id == 1) {
                 $projects = Project::all();
@@ -777,12 +798,20 @@ class ProjectController extends Controller
 
     public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request)
     {
-        $projectID -= 1000000;
+        if ($projectID > 1000000) {
+            $projectID -= 1000000;
+        }
+
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
         $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->first();
         $cities = City::all()->toArray();
+
+        if (!$project) {
+            return redirect('/')
+            ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
+        }
 
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
 
@@ -792,92 +821,92 @@ class ProjectController extends Controller
             'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
             'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
         ];
-        
-        usort($cities, function($a, $b) use ($turkishAlphabet) {
+
+        usort($cities, function ($a, $b) use ($turkishAlphabet) {
             $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
             $endPriorityLetters = ["Y", "Z"];
-        
+
             // Check if $a and $b are in the priority list
             $aPriority = array_search(strtoupper($a['title']), $priorityCities);
             $bPriority = array_search(strtoupper($b['title']), $priorityCities);
-        
+
             // If both are in the priority list, sort based on their position in the list
             if ($aPriority !== false && $bPriority !== false) {
                 return $aPriority - $bPriority;
             }
-        
+
             // If only $a is in the priority list, move it to the top
             elseif ($aPriority !== false) {
                 return -1;
             }
-        
+
             // If only $b is in the priority list, move it to the top
             elseif ($bPriority !== false) {
                 return 1;
             }
-        
+
             // If neither $a nor $b is in the priority list, sort based on the first letter of the title
             else {
                 $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
-        
+
                 // If the first letters are the same, check if they are 'Y' or 'Z'
                 if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
                     return 1;
                 } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
                     return -1;
                 }
-        
+
                 return $comparison;
             }
         });
-        
+
 
         $towns = Town::all()->toArray();
 
-        usort($towns, function($a, $b) use ($turkishAlphabet) {
+        usort($towns, function ($a, $b) use ($turkishAlphabet) {
             $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
             $endPriorityLetters = ["Y", "Z"];
-        
+
             // Check if $a and $b are in the priority list
             $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
             $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
-        
+
             // If both are in the priority list, sort based on their position in the list
             if ($aPriority !== false && $bPriority !== false) {
                 return $aPriority - $bPriority;
             }
-        
+
             // If only $a is in the priority list, move it to the top
             elseif ($aPriority !== false) {
                 return -1;
             }
-        
+
             // If only $b is in the priority list, move it to the top
             elseif ($bPriority !== false) {
                 return 1;
             }
-        
+
             // If neither $a nor $b is in the priority list, sort based on the first letter of the title
             else {
                 $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
-        
+
                 // If the first letters are the same, check if they are 'Y' or 'Z'
                 if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
                     return 1;
                 } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
                     return -1;
                 }
-        
+
                 return $comparison;
             }
         });
-        
+
         if ($project) {
             $projectHousing = $project->roomInfo->keyBy('name');
             $projectImages = ProjectImage::where('project_id', $project->id)->get();
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
-    
-           
+
+
             $projectCartOrders = DB::table('cart_orders')
                 ->select(
                     DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
@@ -909,8 +938,8 @@ class ProjectController extends Controller
                 ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
                 ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
                 ->get();
-    
-    
+
+
             $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
                 ->mapWithKeys(function ($group) {
                     return [
@@ -921,7 +950,7 @@ class ProjectController extends Controller
                     ];
                 })
                 ->all();
-    
+
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->first();
             $selectedPage = $request->input('selected_page') ?? 0;
             $blockIndex = $request->input('block_id') ?? 0;
@@ -940,12 +969,12 @@ class ProjectController extends Controller
             $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
                 $projectHousingsList[$item->room_order][$item->name] = $item->value;
             });
-    
+
             $endIndex = $project->house_count + 20;
-    
+
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
-    
-    
+
+
             $pageInfo = [
                 "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
                     ? $projectHousingsList[$housingOrder]['advertise_title[]']
@@ -960,18 +989,17 @@ class ProjectController extends Controller
                         : "Emlak Sepette"),
                 "meta_author" => "Emlak Sepette",
             ];
-    
+
             $pageInfo = json_encode($pageInfo);
             $pageInfo = json_decode($pageInfo);
             // print_r($housingOrder);die;
-        }else{
+        } else {
             return redirect('/')
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
-        
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns","cities","sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing',"statusSlug"));
 
+        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
@@ -1008,27 +1036,27 @@ class ProjectController extends Controller
             $endIndex = $blockHousingCount;
         }
         $currentBlockHouseCount = $project->blocks[$blockIndex]->housing_count;
-       
+
         $projectCartOrders = DB::table('cart_orders')
-        ->select(
-            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
-            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
-            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
-            'cart_orders.status',
-            'cart_orders.user_id',
-            'cart_orders.store_id',
-            'cart_orders.is_show_user',
-            'cart_orders.id',
-            'users.name',
-            'users.mobile_phone',
-            'users.phone'
-        )
-        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
-        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
-        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
-        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
-        ->get()
-        ->keyBy("housing_id");
+            ->select(
+                DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+                DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+                'cart_orders.status',
+                'cart_orders.user_id',
+                'cart_orders.store_id',
+                'cart_orders.is_show_user',
+                'cart_orders.id',
+                'users.name',
+                'users.mobile_phone',
+                'users.phone'
+            )
+            ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+            ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $project->id)
+            ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+            ->get()
+            ->keyBy("housing_id");
         $selectedPage = $request->input('selected_page') ?? 0;
         $blockIndex = $request->input('block_id') ?? 0;
         $startIndex = 0;
@@ -1122,14 +1150,14 @@ class ProjectController extends Controller
     //Mağazanın Alınan Tekliflerin listesi
     public function get_received_offers()
     {
-        $data = ProjectOffers::with('project',"city","district")->where('store_id', auth()->id())->get();
+        $data = ProjectOffers::with('project', "city", "district")->where('store_id', auth()->id())->get();
         return view('institutional.project_offers.get_received_offers', compact('data'));
     } //End
 
     //Kullanıcının Verdiği Tekliflerin listesi
     public function get_given_offers()
     {
-        $data = ProjectOffers::with('project',"city","district")->where('user_id', auth()->id())->get();
+        $data = ProjectOffers::with('project', "city", "district")->where('user_id', auth()->id())->get();
 
         return view('institutional.project_offers.get_given_offers', compact('data'));
     } //End
@@ -1161,7 +1189,7 @@ class ProjectController extends Controller
         ProjectOffers::create($data);
 
         return redirect()->back()->with('success', 'Başvurunuz başarıyla alındı !');
-    } 
+    }
 
     //Teklif Yanıtı
     public function offer_response(Request $request)
