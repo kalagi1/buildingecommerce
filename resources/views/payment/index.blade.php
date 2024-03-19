@@ -41,8 +41,7 @@
                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                         'housingOrder' => $cart['item']['housing'],
                                     ]) }}">
-                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                    class="img-fluid">
+                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
                             </a>
                         </div>
                         <div class="box-1">
@@ -109,6 +108,7 @@
                                     @endif
                                 @endforeach
                             </div>
+
                         </div>
                         <div class="box-2 text-end ">
 
@@ -142,7 +142,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                        İLANI GÖR
+                                    İLANI GÖR
                                 </a>
 
                                 {{-- <a href="#">
@@ -154,9 +154,13 @@
                             <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                 TL</div>
-                            {{-- <div class="text-sq fs-12 lh-16">1964 Sq Ft</div> --}}
-
-
+                            <div class="text-sq fs-12 lh-16">
+                                @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                    <br><br>
+                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse!</span>
+                                @endif
+                            </div>
+                            
                             <div class="show-mobile">
                                 <a
                                     href="{{ $cart['type'] == 'housing'
@@ -314,7 +318,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                        İLANI GÖR
+                                    İLANI GÖR
                                 </a>
 
                                 {{-- <a href="#">
@@ -844,18 +848,18 @@
                                                     {{-- <div class="row"> --}}
                                                     @if ($bankAccounts && count($bankAccounts) > 0)
                                                         @foreach ($bankAccounts as $bankAccount)
+                                                            <a class=" copy-iban-button"
+                                                                onclick="copyIban('{{ $bankAccount->iban }}')">
+                                                                <li class="fa fa-copy"></li>
+                                                            </a>
                                                             <div class="col-sm-5 col-md-5 bank-account"
                                                                 data-id="{{ $bankAccount->id }}"
                                                                 data-iban="{{ $bankAccount->iban }}"
                                                                 data-title="{{ $bankAccount->receipent_full_name }}">
                                                                 <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
                                                                     alt=""
-                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer"> 
-                                                                    <button
-                                                                    class="btn btn-sm btn-outline-secondary copy-iban-button"
-                                                                    onclick="copyIban('{{ $bankAccount->iban }}')">
-                                                                    <i class="fas fa-copy"></i>
-                                                                </button>
+                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer">
+
                                                             </div>
                                                         @endforeach
                                                     @endif
@@ -946,7 +950,7 @@
             document.body.removeChild(textArea);
 
             // Kullanıcıya kopyalandı bildirimini göster
-            //alert("IBAN kopyalandı: " + iban);
+            toastr.success("IBAN kopyalandı: " + iban);
         }
 
         var payableAmount = 0;
@@ -1327,7 +1331,7 @@
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
             width: 200px;
             height: 200px;
-            object-fit:cover;
+            object-fit: cover;
         }
 
         .box-1 {
@@ -1370,11 +1374,11 @@
             }
 
             .box-0 {
-                    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-                    width: 200px;
-                    height:200px;
-                    object-fit: cover;
-                }
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+                width: 200px;
+                height: 200px;
+                object-fit: cover;
+            }
 
             .mobile {
                 display: inline-block !important;
@@ -1394,6 +1398,16 @@
         .copy-iban-button {
             width: 20px;
             height: 20px !important;
+        }
+
+        img.img-fluid {
+            width: 100%;
+            height: 100% !important;
+        }
+
+        a.copy-iban-button {
+            color: #8e8a8a;
+            font-size: 15px;
         }
     </style>
 @endsection
