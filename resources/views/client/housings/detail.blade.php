@@ -324,10 +324,10 @@
                                     @endforeach
 
                                     {{-- Carousel Kontrolleri --}}
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
+                                    {{-- <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
                                             class="fa fa-angle-left"></i></a>
                                     <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
+                                            class="fa fa-angle-right"></i></a> --}}
                                 </div>
 
                                 {{-- Küçük Resim Navigasyonu --}}
@@ -350,7 +350,15 @@
                                             </a>
                                         </div>
                                     @endforeach
+                                   
                                 </div>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination" >
+                                      <li class="page-item page-item-left"><a class="page-link" href="#"><i class="fas fa-arrow-left"></i></a></li>
+                                      <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
+                                      <li class="page-item page-item-right"><a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a></li>
+                                    </ul>
+                                </nav>
                             </div>
 
 
@@ -1436,6 +1444,64 @@
                 }]
             });
         });
+             // Sayfa yüklendiğinde
+        $(document).ready(function() {
+            updateIndex(); // Index değerini güncelle
+
+                   // Slayt geçiş işlemi tamamlandığında
+$('#listingDetailsSlider').on('slid.bs.carousel', function() {
+    updateIndex(); // Index değerini güncelle
+});
+
+        });
+
+
+        // Index değerini güncelleyen fonksiyon
+        function updateIndex() {
+    var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+    var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+    $('.pagination .page-item-middle .page-link').text((index + 1) + '/' + totalSlides); // Ortadaki li etiketinin metnini güncelle
+}
+
+
+// Sol ok tuşuna tıklandığında
+$('.pagination .page-item-left').on('click', function(event) {
+    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+    $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
+    
+});
+
+// Sağ ok tuşuna tıklandığında
+$('.pagination .page-item-right').on('click', function(event) {
+    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+    $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+});
+
+
+
+        $('.listingDetailsSliderNav').on('click', 'a', function() {
+            var index2 = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider').carousel(parseInt(index2));
+        });
+
+
+        $(document).ready(function() {
+    // Büyük görsel kaydığında küçük görselleri de eşleştirme
+    $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+        var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        
+        console.log("Büyük Görsel Data Slide Number: ", index);
+        console.log("Küçük Görsel Index: ", smallIndex);
+    });
+});
+
+
+
+
+
+
         jQuery('.rating-area .rating').on('mouseover', function() {
             jQuery('.rating-area .rating polygon').attr('fill', 'none');
             for (var i = 0; i <= $(this).index(); ++i)
@@ -2076,6 +2142,55 @@
 
 @section('styles')
     <style>
+
+        .pagination {
+                    display: flex;
+                    justify-content: center; /* Yatayda ortala */
+                    align-items: center; /* Dikeyde ortala */
+                    background-color: #e6e6e6;
+
+                }
+            
+                .pagination .page-item i {
+                    font-size: 20px; /* Ok ikonunun boyutunu ayarla */
+                    color: #333; /* Ok rengini ayarla */
+                }
+
+                .pagination .page-item a {
+                    display: block; /* Linki blok elementi yap */
+                    padding: 5px; /* Boşluk ekle */
+                    text-decoration: none; /* Link altı çizgisini kaldır */
+                }
+
+        /* Sağ ve sol okların stilini tanımla */
+        .pagination .page-item-left,
+        .pagination .page-item-right {
+            background-color: #e8e8e8;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            margin: 0 10px;
+            transition: background-color 0.3s; /* Geçiş efekti ekle */
+        }
+
+        /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
+        .pagination .page-item-left:hover,
+        .pagination .page-item-right:hover {
+            background-color: #dcdcdc;
+        }
+
+        /* Font Awesome simgelerinin rengini belirle */
+        .pagination .page-item-left i,
+        .pagination .page-item-right i {
+            color: #333; /* Başlangıçta simge rengi */
+            transition: color 0.3s; /* Geçiş efekti ekle */
+        }
+
+        /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
+        .pagination .page-item-left:hover i,
+        .pagination .page-item-right:hover i {
+            color: white;
+        }
         .totalPriceCode {
             color: #007bff;
         }
