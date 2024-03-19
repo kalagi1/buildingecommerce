@@ -871,6 +871,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/offers', [InstitutionalOfferController::class, 'index'])->name('offers.index');
     });
 
+    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('institutional.users.update.order');
     // User Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
         Route::get('/users/create', [InstitutionalUserController::class, 'create'])->name('users.create');

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller {
     public function index() {
-        $users = User::with( 'role' )->where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
+        $users = User::with( 'role' )->where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->orderBy("order","asc")->get();
         return view( 'institutional.users.index', compact( 'users' ) );
     }
 
@@ -215,4 +215,12 @@ class UserController extends Controller {
         // Kullanıcıları listeleme sayfasına yönlendirme yapabilirsiniz
         return redirect()->route('institutional.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
+
+    public function updateUserOrder(Request $request){
+        foreach ($request->input('orders') as $key => $order) {
+            User::where('id', $order['id'])->update(['order' => $key +1]);
+        }
+
+        return response()->json(['message' => 'Order updated successfully']);
+    }//End
 }

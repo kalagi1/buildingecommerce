@@ -245,7 +245,7 @@ class InstitutionalController extends Controller
     {
 
         $institutional = User::where("id", $userID)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
-        $teams = User::with("role")->where("parent_id", $institutional->id)->get();
+        $teams = User::with("role")->where("parent_id", $institutional->id)->orderBy("order","asc")->get();
         return view("client.institutional.teams", compact("teams","institutional"));
     }
 
