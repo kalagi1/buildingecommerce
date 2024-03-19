@@ -41,8 +41,7 @@
                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                         'housingOrder' => $cart['item']['housing'],
                                     ]) }}">
-                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                    class="img-fluid">
+                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
                             </a>
                         </div>
                         <div class="box-1">
@@ -109,6 +108,7 @@
                                     @endif
                                 @endforeach
                             </div>
+
                         </div>
                         <div class="box-2 text-end ">
 
@@ -142,7 +142,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                        İLANI GÖR
+                                    İLANI GÖR
                                 </a>
 
                                 {{-- <a href="#">
@@ -154,9 +154,13 @@
                             <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                 TL</div>
-                            {{-- <div class="text-sq fs-12 lh-16">1964 Sq Ft</div> --}}
-
-
+                            <div class="text-sq fs-12 lh-16">
+                                @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                 
+                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse!</span>
+                                @endif
+                            </div>
+                            
                             <div class="show-mobile">
                                 <a
                                     href="{{ $cart['type'] == 'housing'
@@ -193,8 +197,7 @@
                                         'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                         'housingOrder' => $cart['item']['housing'],
                                     ]) }}">
-                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}"
-                                    style="width: 100px;height:100px;object-fit:cover" class="img-fluid">
+                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
                             </a>
                         </div>
                         <div class="box-1">
@@ -314,7 +317,7 @@
                                             'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
                                             'housingOrder' => $cart['item']['housing'],
                                         ]) }}">
-                                        İLANI GÖR
+                                    İLANI GÖR
                                 </a>
 
                                 {{-- <a href="#">
@@ -467,9 +470,10 @@
                                             @endif
                                         </div>
 
-                                        <div class="col-sm-12 pt-5">
+                                  
                                             @if (isset($cart) && isset($cart['type']))
                                                 @if ($cart['type'] == 'project' && empty($share_sale))
+                                                <div class="col-sm-12 pt-5">
                                                     <div class="d-flex align-items-center mb-3">
                                                         <input id="is_show_user" type="checkbox" value="off"
                                                             name="is_show_user">
@@ -482,16 +486,13 @@
                                                             ediyorum.
                                                         </label>
                                                     </div>
-                                                @else
-                                                    <div class="d-flex align-items-center mb-3">
-                                                        <!-- Housing ile ilgili başka bir şeyler yapabilirsiniz -->
-                                                    </div>
+                                                </div>
                                                 @endif
                                             @endif
 
 
 
-                                        </div>
+                                      
 
                                         <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
@@ -499,9 +500,9 @@
 
                                                 <label for="checkPay" class="m-0 ml-1 text-black">
                                                     <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi" target="_blank">
-                                                        Mesafeli kapora emanet
+                                                        Mesafeli kapora emanet sözleşmesini
                                                     </a>
-                                                    sözleşmesini okudum ve kabul ediyorum
+                                                     okudum ve kabul ediyorum
                                                 </label>
                                             </div>
                                         </div>
@@ -844,18 +845,18 @@
                                                     {{-- <div class="row"> --}}
                                                     @if ($bankAccounts && count($bankAccounts) > 0)
                                                         @foreach ($bankAccounts as $bankAccount)
+                                                            <a class=" copy-iban-button"
+                                                                onclick="copyIban('{{ $bankAccount->iban }}')">
+                                                                <li class="fa fa-copy"></li>
+                                                            </a>
                                                             <div class="col-sm-5 col-md-5 bank-account"
                                                                 data-id="{{ $bankAccount->id }}"
                                                                 data-iban="{{ $bankAccount->iban }}"
                                                                 data-title="{{ $bankAccount->receipent_full_name }}">
                                                                 <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
                                                                     alt=""
-                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer"> 
-                                                                    <button
-                                                                    class="btn btn-sm btn-outline-secondary copy-iban-button"
-                                                                    onclick="copyIban('{{ $bankAccount->iban }}')">
-                                                                    <i class="fas fa-copy"></i>
-                                                                </button>
+                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer">
+
                                                             </div>
                                                         @endforeach
                                                     @endif
@@ -946,7 +947,7 @@
             document.body.removeChild(textArea);
 
             // Kullanıcıya kopyalandı bildirimini göster
-            //alert("IBAN kopyalandı: " + iban);
+            toastr.success("IBAN kopyalandı: " + iban);
         }
 
         var payableAmount = 0;
@@ -1205,6 +1206,7 @@
             box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.0784313725);
             justify-content: space-between;
             margin-bottom: 40px;
+            align-items:center;
 
         }
 
@@ -1213,7 +1215,7 @@
         }
 
         .wrap-house .title-heading {
-            font-size: 20px !important;
+            font-size: 18px !important;
             font-weight: 700;
             color: black;
         }
@@ -1285,10 +1287,6 @@
             margin-right: 5px;
         }
 
-        .lh-45 {
-            line-height: 45px;
-        }
-
         .row {
             display: -ms-flexbox;
             display: flex;
@@ -1307,7 +1305,6 @@
             align-items: center;
             justify-content: center;
             margin-left: 123px;
-            margin-bottom: 6px;
         }
 
         .text-sq {
@@ -1325,9 +1322,9 @@
 
         .box-0 {
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            height: 200px;
-            object-fit:cover;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
         }
 
         .box-1 {
@@ -1370,11 +1367,11 @@
             }
 
             .box-0 {
-                    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-                    width: 200px;
-                    height:200px;
-                    object-fit: cover;
-                }
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+                width: 200px;
+                height: 200px;
+                object-fit: cover;
+            }
 
             .mobile {
                 display: inline-block !important;
@@ -1394,6 +1391,18 @@
         .copy-iban-button {
             width: 20px;
             height: 20px !important;
+        }
+
+        img.img-fluid {
+            width: 100%;
+            object-fit: contain;
+            height: 100% !important;
+        }
+
+        a.copy-iban-button {
+            color: #8e8a8a;
+            font-size: 15px;
+            cursor: pointer;
         }
     </style>
 @endsection

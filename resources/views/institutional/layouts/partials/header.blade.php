@@ -435,8 +435,10 @@
                                 </div>
                             </div>
                         </div>
-                    </li> --}}
-                    <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
+                    </li>
+                    --}}
+                    <li class="nav-item dropdown"><a class="nav-link1 lh-1 pe-0" id="navbarDropdownUser"
+
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
@@ -6163,7 +6165,6 @@
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>
                             </div>
-                        </a>
                     </div>
                     {{-- <div class="search-box navbar-top-search-box d-none d-lg-block"
                         data-list='{"valueNames":["title"]}' style="width:25rem;">
