@@ -109,13 +109,14 @@
             <div class="portfolio ">
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="http://127.0.0.1:8000/kategori/al-sat-acil" class="homes-img">
+                        <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
                                         <div class="homes">
-                                            <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}" alt="Al Sat Acil"
-                                                class="img-responsive brand-image-pp" style="border:5px solid #F4A226">
+                                            <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}"
+                                                alt="Al Sat Acil" class="img-responsive brand-image-pp"
+                                                style="border:5px solid #F4A226">
                                             <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
                                     </div>
@@ -143,7 +144,8 @@
 
                                                     <div class="profile-initial">{{ $nameInitials }}</div>
                                                 @else
-                                                    <img loading="lazy" src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
+                                                    <img loading="lazy"
+                                                        src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
                                                         alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
                                                 @endif
                                                 <span
@@ -185,7 +187,7 @@
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="http://127.0.0.1:8000/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -203,6 +205,7 @@
         <p>Henüz Öne Çıkarılan Proje Bulunamadı</p>
     @endif
 
+
     @if ($secondhandHousings->isNotEmpty())
         <section class="featured portfolio rec-pro disc bg-white">
             <div class="container">
@@ -210,7 +213,7 @@
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
                     </div>
-                    <a href="http://127.0.0.1:8000/kategori/emlak-ilanlari" style="font-size: 11px;">
+                    <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
                             class="w-100">
                             Tümünü Gör
@@ -218,18 +221,20 @@
                     </a>
                 </div>
 
-                <div class="mobile-show" >
+                <div class="mobile-show">
                     <div id="housingMobileRow">
                         @forelse ($secondhandHousings->take(4) as $housing)
-                        @php($sold = $housing->sold)
-                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                            <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                        @endif
-                    @endforeach
+                            @php($sold = $housing->sold)
+                            @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                            @endif
+                        @endforeach
                     </div>
-                  
+
                     <div class="ajax-load" style="display: none;">
-                        Yükleniyor...
+                        <div class="spinner-border" role="status">
+                           
+                          </div>
                     </div>
                 </div>
 
@@ -249,7 +254,9 @@
                                 @endforelse
                             </div>
                             <div class="ajax-load" style="display: none;">
-                                Yükleniyor...
+                                <div class="spinner-border" role="status">
+                                   
+                                  </div>
                             </div>
                         </div>
                     </section>
@@ -390,61 +397,73 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
-        var page = 1; // Başlangıç sayfası
+        var page = 1; 
         var isLoading = false;
         var housingRow = $('#housingRow');
         var housingMobileRow = $('#housingMobileRow');
-
-
+        var itemsPerPage = 4;
+        var maxPages = null;
+        var housingCounts = @json($secondhandHousings);
+        maxPages = Math.ceil(housingCounts.length / itemsPerPage);
+        function centerAjaxLoadElements() {
+        var ajaxLoadElements = document.querySelectorAll('.ajax-load');
+        
+        ajaxLoadElements.forEach(function(element) {
+            element.style.display = 'flex';
+            element.style.justifyContent = 'center';
+            element.style.margin = '0 auto';
+        });
+    }
         function loadMoreHousings() {
-            if (isLoading) return;
+            if (isLoading || page >= maxPages) return; 
             isLoading = true;
+            centerAjaxLoadElements();
             $('.ajax-load').show();
-
-            page++; // Sonraki sayfaya geç
+    
+            page++; 
             var url = "{{ route('load-more-housings') }}?page=" + page;
-
+    
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('housingRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
-
                 })
                 .catch(error => console.error('Error:', error));
         }
-
+    
         function loadMoreMobileHousings() {
-            if (isLoading) return;
+            if (isLoading || page >= maxPages) return; 
             isLoading = true;
             $('.ajax-load').show();
-
-            page++; // Sonraki sayfaya geç
+    
+            page++; 
             var url = "{{ route('load-more-mobile-housings') }}?page=" + page;
-
+    
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('housingMobileRow').innerHTML += data;
                     isLoading = false;
                     $('.ajax-load').hide();
-
                 })
                 .catch(error => console.error('Error:', error));
         }
-
+    
         window.addEventListener('scroll', function() {
             if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingRow.outerHeight() -
                 50 && !isLoading && window.innerWidth >= 768) {
                 loadMoreHousings();
             }
-            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow.outerHeight() -
+            if ($(window).scrollTop() + $(window).height() >= housingRow.offset().top + housingMobileRow
+                .outerHeight() -
                 50 && !isLoading && window.innerWidth < 768) {
-                    loadMoreMobileHousings();
+                loadMoreMobileHousings();
             }
         });
     </script>
+    
 
     <script>
         var errorMessage = "{{ session('error') }}";

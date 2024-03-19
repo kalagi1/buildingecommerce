@@ -94,8 +94,6 @@ class HomeController extends Controller
             ->where('project_list_items.item_type', 2)
             ->orderByDesc('doping_time')
             ->orderByDesc('housings.created_at')
-            ->skip(0)
-            ->take(4)
             ->get();
 
 

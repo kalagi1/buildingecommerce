@@ -49,7 +49,6 @@ class RealEstateController extends Controller
         ->orderByDesc('doping_time')
         ->orderByDesc('housings.created_at')
         ->skip(0)
-        ->take(4)
         ->get();
 
         return response()->json($secondhandHousings);
