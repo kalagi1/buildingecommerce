@@ -276,6 +276,11 @@
     $('body').on('click', '.addCollection', function(event) {
 
         event.preventDefault();
+        if (!isLoggedIn) {
+            toastr.warning('Lütfen Giriş Yapınız', 'Uyarı');
+            redirectToLogin();
+        }
+
 
         $(".modal-backdrop").show();
 
@@ -283,17 +288,13 @@
         var productId = $(this).data("id");
         var project = null;
         var type = $(this).data("type");
-            $('#membershipPopup').modal('show');
+        $('#membershipPopup').modal('show');
 
         if ($(this).data("type") == "project") {
             project = $(this).data("project");
         }
-        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
-        } else if (!isLoggedIn) {
-            toastr.error('Lütfen Giriş yapınız', 'Hata');
-            redirectToLogin();
-        } else if (isLoggedIn && hasClub == 1) {
-            console.log("asd");
+        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {} else if (isLoggedIn && hasClub ==
+            1) {
             $('#addCollectionModal').modal('show');
 
             $(".addCollection").data('cart-info', {
@@ -601,8 +602,12 @@
                             orderHousing = parseInt(order);
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" + (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing, response.room_info[i].room_order), 10)) + " >" + response.project_title +
-                                " Projesinde " + block + " " + paymentOrder + " No'lu İlan Ödeme Planı</th></tr>";
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
+                                (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
+                                    response.room_info[i].room_order), 10)) + " >" + response
+                                .project_title +
+                                " Projesinde " + block + " " + paymentOrder +
+                                " No'lu İlan Ödeme Planı</th></tr>";
 
 
                             for (var j = 0; j < paymentPlanData.length; j++) {
