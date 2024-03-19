@@ -156,7 +156,7 @@
                                 TL</div>
                             <div class="text-sq fs-12 lh-16">
                                 @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                    <br><br>
+                                 
                                     <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse!</span>
                                 @endif
                             </div>
@@ -1329,8 +1329,8 @@
 
         .box-0 {
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
         }
 
@@ -1402,6 +1402,7 @@
 
         img.img-fluid {
             width: 100%;
+            object-fit: contain;
             height: 100% !important;
         }
 
