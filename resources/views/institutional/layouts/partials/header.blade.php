@@ -146,6 +146,7 @@
                                     } elseif ($menuItem['key'] == 'Housings') {
                                         $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
                                             ->where('status', 2)
+                                            ->where("user_id",Auth::user()->id)
                                             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                                             ->select(
                                                 'housings.id',
@@ -164,7 +165,7 @@
                                             ->orderByDesc('housings.updated_at')
                                             ->count() ?: null;
                                     } elseif ($menuItem['key'] == "Projects") {
-                                        $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
+                                        $pendingProjects = \App\Models\Project::where('status', 2)->where("user_id",Auth::user()->id)->orderByDesc('updated_at')->get();
                                     } elseif ($menuItem['key'] == "GetOrders") {
                                         $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
                                     }elseif ($menuItem['key'] == "GetReservations") {
