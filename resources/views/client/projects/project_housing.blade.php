@@ -311,21 +311,15 @@
 
                                     {{-- Kapak Görseli --}}
                                     <div class="item carousel-item active" data-slide-number="0">
-                                        <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
-                                            data-lightbox="image-gallery">
                                             <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
                                                 class="img-fluid" alt="slider-listing">
-                                        </a>
                                     </div>
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                                data-lightbox="image-gallery">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                     class="img-fluid" alt="slider-listing">
-                                            </a>
                                         </div>
                                     @endforeach
 

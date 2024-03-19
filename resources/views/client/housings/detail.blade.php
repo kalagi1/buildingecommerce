@@ -324,21 +324,15 @@
 
                                     {{-- Kapak Görseli --}}
                                     <div class="item carousel-item active" data-slide-number="0">
-                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
-                                            data-lightbox="image-gallery">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid" alt="slider-listing">
-                                        </a>
                                     </div>
 
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}"
-                                                data-lightbox="image-gallery">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                     alt="slider-listing">
-                                            </a>
                                         </div>
                                     @endforeach
 
@@ -363,7 +357,7 @@
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
                                         <div class="item" style="margin: 10px; cursor: pointer">
                                             <a id="carousel-selector-{{ $imageKey + 1 }}"
-                                                data-slide-to="{{ $imageKey }}" data-target="#listingDetailsSlider">
+                                                data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ asset('housing_images/' . $image) }}"
                                                     class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
