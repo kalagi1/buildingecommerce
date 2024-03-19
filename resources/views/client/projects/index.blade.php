@@ -1566,8 +1566,7 @@
 
         .modal-title {
             font-size: 2.5rem;
-            margin-right: 30%;
-            margin-left: 43%;
+            text-align: center;
             font-size: 15px !important;
             margin-top: 0.8em;
             margin-bottom: 0.8em;
