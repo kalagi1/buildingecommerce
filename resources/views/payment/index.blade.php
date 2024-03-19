@@ -45,6 +45,8 @@
                             </a>
                         </div>
                         <div class="box-1">
+                            <div class="">
+                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}</div>
                             <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
@@ -201,6 +203,7 @@
                             </a>
                         </div>
                         <div class="box-1">
+                            <div> {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}</div>
                             <div class="title-heading fs-30 fw-7 lh-45">{{ $housing->housing_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
