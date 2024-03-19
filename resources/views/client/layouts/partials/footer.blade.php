@@ -283,16 +283,17 @@
         var productId = $(this).data("id");
         var project = null;
         var type = $(this).data("type");
+            $('#membershipPopup').modal('show');
 
         if ($(this).data("type") == "project") {
             project = $(this).data("project");
         }
         if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
-            $('#membershipPopup').modal('show');
         } else if (!isLoggedIn) {
             toastr.error('Lütfen Giriş yapınız', 'Hata');
             redirectToLogin();
         } else if (isLoggedIn && hasClub == 1) {
+            console.log("asd");
             $('#addCollectionModal').modal('show');
 
             $(".addCollection").data('cart-info', {
