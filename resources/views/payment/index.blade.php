@@ -1409,6 +1409,7 @@
         a.copy-iban-button {
             color: #8e8a8a;
             font-size: 15px;
+            cursor: pointer;
         }
     </style>
 @endsection
