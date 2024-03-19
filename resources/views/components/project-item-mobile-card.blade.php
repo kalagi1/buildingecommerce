@@ -133,9 +133,9 @@
                             <span class="text">Satışa Kapatıldı</span>
                         </button>
                     @else
-                        @if (
-                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                                (isset($sumCartOrderQt[$keyIndex]) && $sold && $sold->status == '2' && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
+                    @if (
+                        ($sold_check && $share_sale == '[]') ||
+                            (isset($sumCartOrderQt[$keyIndex]) && $sold_check && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
                                 @if ($sold->status == '0') style="background: orange !important; color: White;" @else  style="background: #EA2B2E !important; color: White;" @endif>
                                 @if ($sold->status == '0' && $share_sale == '[]')
@@ -149,16 +149,6 @@
                         @else
                             <div>
                                 <span class="ml-auto text-primary priceFont">
-                                    @php
-                                        $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                                        $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                                        $number_of_share =
-                                            $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                                        $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                        $discounted_price =
-                                            $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
-                                    @endphp
-
 
                                     @if ($off_sale_check && $projectDiscountAmount)
 
