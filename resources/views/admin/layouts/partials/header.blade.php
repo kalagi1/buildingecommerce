@@ -298,10 +298,11 @@
                         @php
                             $notifications = App\Models\DocumentNotification::with('user')
                                 ->orderBy('created_at', 'desc')
-                                ->where('owner_id', '4')
+                                ->where('owner_id', '4')    
                                 ->where('readed', '0')
                                 ->limit(10)
                                 ->get();
+                                dd($notifications);
                         @endphp
 
                         <a class="nav-link" href="#" style="min-width: 2.5rem" role="button"
