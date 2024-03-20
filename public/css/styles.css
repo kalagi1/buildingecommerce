@@ -24494,6 +24494,7 @@ form label.error {
 }
 .see-my-neighbor.payment {
     background: orange !important;
+    border: 1px solid orange !important
 }
 .see-my-neighbor.success {
     background: green !important;
