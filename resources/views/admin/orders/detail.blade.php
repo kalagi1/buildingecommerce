@@ -28,7 +28,7 @@
         </div>
         <div class="card p-3">
             <div>
-                <a href="" class="button-back"><i class="fa fa-arrow-left"></i> Geri Dön</a>
+                <a href="" class="button-back"><i class="fa fa-angle-left"></i> Geri Dön</a>
             </div>
             <div class="order-detail-content mt-3">
                 <h5>#{{$order->id + 3000000}} Nolu Sipariş Detayı</h5>

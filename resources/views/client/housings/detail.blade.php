@@ -368,11 +368,11 @@
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">
                                         <li class="page-item page-item-left"><a class="page-link" href="#"><i
-                                                    class="fas fa-arrow-left"></i></a></li>
+                                                    class="fas fa-angle-left"></i></a></li>
                                         <li class="page-item page-item-middle"><a class="page-link" href="#"></a>
                                         </li>
                                         <li class="page-item page-item-right"><a class="page-link" href="#"><i
-                                                    class="fas fa-arrow-right"></i></a></li>
+                                                    class="fas fa-angle-right"></i></a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -2180,10 +2180,7 @@
         .pagination {
             display: flex;
             justify-content: center;
-            /* Yatayda ortala */
             align-items: center;
-            /* Dikeyde ortala */
-            background-color: #e6e6e6;
 
         }
 
@@ -2201,18 +2198,26 @@
 
         .pagination .page-item a {
             display: block;
-            /* Linki blok elementi yap */
-            padding: 5px;
-            /* Boşluk ekle */
-            text-decoration: none;
-            /* Link altı çizgisini kaldır */
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            border-top-right-radius: 100% !important;
+            border-bottom-right-radius: 100% !important;
+            border-radius: 50% !important;
+            align-items: center;
         }
         .pagination .page-item-left,
         .pagination .page-item-right {
             background-color: #e8e8e8;
-            border: none;
-            margin: 0 10px;
-            transition: background-color 0.3s;
+    border-radius: 50% !important;
+    width: 35px;
+    border: none;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
         }
 
 
