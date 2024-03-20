@@ -252,7 +252,7 @@
                             <div class="listing-title-bar text-center w-100">
 
 
-                                @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                     <span class="text-center w-100">
                                         1 Pay Fiyatı
                                     </span>
@@ -261,7 +261,7 @@
                                 @if ($off_sale_check && $projectDiscountAmount)
                                     <h4>
                                         <div style="text-align: center">
-                                            @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
                                             @else
@@ -285,7 +285,7 @@
                                 @elseif ($off_sale_check)
                                     <h4
                                         style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
-                                        @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
+                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                             {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                             ₺
                                         @else
@@ -306,26 +306,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
-                                
+
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
                                     <div class="item carousel-item active" data-slide-number="0">
-                                        <a href="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
-                                            data-lightbox="image-gallery">
-                                            <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
-                                                class="img-fluid" alt="slider-listing">
-                                        </a>
+                                        <img src="{{ URL::to('/') . '/project_housing_images/' . $projectHousingsList[$housingOrder]['image[]'] }}"
+                                            class="img-fluid" alt="slider-listing">
                                     </div>
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                                data-lightbox="image-gallery">
-                                                <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                                    class="img-fluid" alt="slider-listing">
-                                            </a>
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
+                                                class="img-fluid" alt="slider-listing">
                                         </div>
                                     @endforeach
 
@@ -354,12 +348,15 @@
                                     @endforeach
                                 </div>
                                 <nav aria-label="Page navigation example">
-                                    <ul class="pagination" >
-                                      <li class="page-item page-item-left"><a class="page-link" href="#"><i class="fas fa-arrow-left"></i></a></li>
-                                      <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
-                                      <li class="page-item page-item-right"><a class="page-link" href="#"><i class="fas fa-arrow-right"></i></a></li>
+                                    <ul class="pagination">
+                                        <li class="page-item page-item-left"><a class="page-link" href="#"><i
+                                                    class="fas fa-angle-left"></i></a></li>
+                                        <li class="page-item page-item-middle"><a class="page-link" href="#"></a>
+                                        </li>
+                                        <li class="page-item page-item-right"><a class="page-link" href="#"><i
+                                                    class="fas fa-angle-right"></i></a></li>
                                     </ul>
-                                  </nav>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -438,14 +435,14 @@
                                         </button>
                                     @else
                                         @if (
-                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == "[]") ||
+                                            (isset($soldStatus) && $soldStatus != '2' && $share_sale == '[]') ||
                                                 (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                             <button class="btn second-btn  soldBtn"
                                                 @if ($soldStatus == '0') style="background: orange !important;color:White" @else style="background: #EA2B2E !important;color:White" @endif>
-                                                @if ($soldStatus == '0' && $share_sale == "[]")
+                                                @if ($soldStatus == '0' && $share_sale == '[]')
                                                     <span class="text">Rezerve Edildi</span>
                                                 @elseif (
-                                                    ($soldStatus == '1' && $share_sale == "[]") ||
+                                                    ($soldStatus == '1' && $share_sale == '[]') ||
                                                         (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                                     <span class="text">Satıldı</span>
                                                 @endif
@@ -1179,8 +1176,8 @@
             }]
         });
 
-         // Sayfa yüklendiğinde
-         $(document).ready(function() {
+        // Sayfa yüklendiğinde
+        $(document).ready(function() {
             updateIndex(); // Index değerini güncelle
         });
 
@@ -1191,24 +1188,25 @@
 
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
-    var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-    var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
-    $('.pagination .page-item-middle .page-link').text((index + 1) + '/' + totalSlides); // Ortadaki li etiketinin metnini güncelle
-}
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
 
 
-// Sol ok tuşuna tıklandığında
-$('.pagination .page-item-left').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
-    
-});
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
 
-// Sağ ok tuşuna tıklandığında
-$('.pagination .page-item-right').on('click', function(event) {
-    event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-    $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
-});
+        });
+
+        // Sağ ok tuşuna tıklandığında
+        $('.pagination .page-item-right').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+        });
 
 
 
@@ -1217,14 +1215,32 @@ $('.pagination .page-item-right').on('click', function(event) {
             $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 
+        // Mobil cihazlarda kaydırma işlevselliği
+        $('#listingDetailsSlider').on('touchstart', function(event) {
+            var xClick = event.originalEvent.touches[0].pageX;
+            $(this).one('touchmove', function(event) {
+                var xMove = event.originalEvent.touches[0].pageX;
+                var sensitivityInPx = 5;
 
+                if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                    $(this).carousel('next');
+                } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                    $(this).carousel('prev');
+                }
+            });
+        });
+
+        // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+        $('#listingDetailsSlider').on('touchend', function() {
+            $(this).off('touchmove');
+        });
         // Büyük görsel kaydığında küçük görselleri de eşleştirme
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
             var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
             // $('.pagination .page-item-middle .page-link').text(index);
             $('.listingDetailsSliderNav').slick('slickGoTo', index);
             var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-            
+
             console.log("Büyük Görsel Data Slide Number: ", index);
             console.log("Küçük Görsel Index: ", smallIndex);
         });
@@ -1238,7 +1254,7 @@ $('.pagination .page-item-right').on('click', function(event) {
             var soldStatus = $(this).data('sold');
             var block = $(this).data("block") ? $(this).data("block") : " ";
             var paymentOrder = $(this).data("payment-order") ? $(this).data("payment-order") : $(this).attr(
-            'order');
+                'order');
 
 
             var cart = {
@@ -1934,652 +1950,5 @@ $('.pagination .page-item-right').on('click', function(event) {
 
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-
-.pagination {
-            display: flex;
-            justify-content: center; /* Yatayda ortala */
-            align-items: center; /* Dikeyde ortala */
-            background-color: #e6e6e6;
-
-        }
-     
-        .pagination .page-item i {
-            font-size: 20px; /* Ok ikonunun boyutunu ayarla */
-            color: #333; /* Ok rengini ayarla */
-        }
-
-        .pagination .page-item a {
-            display: block; /* Linki blok elementi yap */
-            padding: 5px; /* Boşluk ekle */
-            text-decoration: none; /* Link altı çizgisini kaldır */
-        }
-
-/* Sağ ve sol okların stilini tanımla */
-.pagination .page-item-left,
-.pagination .page-item-right {
-    background-color: #e8e8e8;
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    margin: 0 10px;
-    transition: background-color 0.3s; /* Geçiş efekti ekle */
-}
-
-/* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
-.pagination .page-item-left:hover,
-.pagination .page-item-right:hover {
-    background-color: #dcdcdc;
-}
-
-/* Font Awesome simgelerinin rengini belirle */
-.pagination .page-item-left i,
-.pagination .page-item-right i {
-    color: #333; /* Başlangıçta simge rengi */
-    transition: color 0.3s; /* Geçiş efekti ekle */
-}
-
-/* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
-.pagination .page-item-left:hover i,
-.pagination .page-item-right:hover i {
-    color: white;
-}
-        .mobile-tab-content {
-            display: none;
-        }
-
-        .mobile-tab-content.active {
-            display: block !important;
-        }
-
-        .storeInfo {
-            margin-top: 30px;
-        }
-
-        .trStyle,
-        .trStyle tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-
-
-        .trStyle tr {
-            width: 33%;
-        }
-
-        .trStyle tr td {
-            width: 100%;
-            font-size: 11px;
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #dee2e6;
-        }
-
-        .mobileTagProject {
-            display: none
-        }
-
-        .mobile-action-move {
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly
-        }
-
-        @media (max-width:768px) {
-            .mobile-action {
-                margin-left: 10px
-            }
-
-            .mobile-action-move h4 {
-                font-size: 18px;
-                font-weight: 700;
-                color: #274abb;
-                display: flex;
-                width: 100%;
-                margin-bottom: 0;
-                align-items: center;
-                justify-content: center;
-                text-transform: capitalize !important;
-            }
-
-            .buttons {
-                margin-right: 10px
-            }
-
-
-            .detail-wrapper-body,
-            .mobile-action {
-                display: flex;
-                align-items: center;
-                justify-content: center
-            }
-
-            .listing-title-bar {
-                color: black;
-                font-size: 12px !important;
-                width: 100%;
-                display: block;
-                text-align: left;
-            }
-
-            .brand-head {
-                margin-bottom: 0 !important;
-            }
-
-            .addCollectionMobile {
-                margin-bottom: 20px !important
-            }
-
-            .mobileTagProject {
-                width: 150px !important;
-                z-index: 9;
-                position: absolute !important;
-                display: block !important;
-                bottom: 0;
-                left: 30% !important;
-                margin: 0 auto;
-            }
-
-            .listingDetailsSliderNav {
-                display: none !important;
-            }
-
-            #listingDetailsSlider {
-                padding: 0 !important;
-                margin-bottom: 30px !important;
-
-            }
-
-            .title-fs {
-                display: none !important;
-            }
-
-
-            .inner-pages .pro-wrapper .detail-wrapper-body p {
-                margin-bottom: 0 !important;
-            }
-
-            .nav-tabs {
-                margin-top: 0 !important;
-            }
-
-            .storeInfo {
-                margin: 20px !important;
-                margin-bottom: 0 !important;
-                margin-top: 0 !important;
-            }
-
-            .trStyle tr {
-                width: 100%;
-            }
-        }
-
-        .tab-content-block {
-            display: none
-        }
-
-        .tab-content-block.active {
-            display: block !important
-        }
-
-        .button-effect {
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .housing-detail-box {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap
-        }
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        .desktop-hidden {
-            display: none;
-        }
-
-        .homes-content .footer {
-            display: none
-        }
-
-        .price-mobile {
-            display: flex;
-            align-items: self-end;
-        }
-
-        @media (max-width: 768px) {
-
-            .payment-plan-table td strong {
-                font-weight: 700 !important
-            }
-
-            .payment-plan-table thead {
-                display: none !important;
-            }
-
-            .payment-plan-table th,
-            .payment-plan-table td {
-                display: block !important;
-                width: 100%;
-            }
-
-            .payment-plan-table th {
-                text-align: left;
-                margin-bottom: 10px;
-            }
-
-            .housingsListTab {
-                padding: 0 !important;
-            }
-
-            .widget-boxed {
-                margin-bottom: 30px;
-            }
-
-            .car {
-                margin-top: 10px
-            }
-
-            .mobile-hidden {
-                display: none
-            }
-
-            .desktop-hidden {
-                display: block;
-            }
-
-            .mobile-position {
-                width: 100%;
-                margin: 0 auto;
-                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-            }
-
-            .inner-pages .portfolio .homes-content .homes-list-div ul {
-                flex-wrap: wrap
-            }
-
-            .homes-content .footer {
-                display: block;
-                background: none;
-                border-top: 1px solid #e8e8e8;
-                padding-top: 1rem;
-                font-size: 13px;
-                color: #666;
-            }
-
-
-
-        }
-
-
-        .loading-spinner {
-            text-align: center
-        }
-    </style>
-    <style>
-        .modal-label {
-            margin: 0.3em 0em;
-            font-size: 13px;
-            font: bold;
-            color: #000000 !important;
-        }
-
-        .modal-input {
-            padding: 1em !important;
-            border: 1px solid #eee !important;
-            margin: 0.5em 0em;
-            width: 100%;
-            transition: border-color 0.3s;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .modal-btn-gonder,
-        .modal-btn-kapat {
-            padding: 0.8em 2em;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            width: 45%;
-            border: none;
-            height: 45px;
-        }
-
-        .modal-btn-gonder {
-            background-color: #ea2b2e;
-            color: #fff;
-        }
-
-        .modal-btn-kapat {
-            background-color: #1e1e1e;
-            color: #fff;
-        }
-
-        form {
-            margin: 1em;
-        }
-
-
-        .modal-title {
-            font-size: 2.5rem;
-            text-align: center;
-            font-size: 15px !important;
-            margin-top: 0.8em;
-            margin-bottom: 0.8em;
-        }
-
-        .trStyle tr {
-            width: 33%;
-        }
-
-        .trStyle,
-        .trStyle tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .trStyle tr td {
-            width: 100%;
-            display: flex;
-            justify-content: space-between font-size: 11px;
-            border: 1px solid #dee2e6;
-        }
-
-        .table td {
-            display: flex;
-            justify-content: space-between
-        }
-
-        .table td,
-        .table th {
-            padding: .55rem;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block !important;
-        }
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-hidden {
-                display: none
-            }
-
-            .trStyle tr {
-                width: 100%;
-            }
-
-            .housingsListTab {
-                padding: 0 !important;
-            }
-        }
-
-        .button-effect {
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 35px !important;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .housing-detail-box {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap
-        }
-
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        .desktop-hidden {
-            display: none;
-        }
-
-        .homes-content .footer {
-            display: none
-        }
-
-        .price-mobile {
-            display: flex;
-            align-items: self-end;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-hidden {
-                display: none
-            }
-
-            .desktop-hidden {
-                display: block;
-            }
-
-            .mobile-position {
-                width: 100%;
-                margin: 0 auto;
-                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-            }
-
-            .inner-pages .portfolio .homes-content .homes-list-div ul {
-                flex-wrap: wrap
-            }
-
-            .homes-content .footer {
-                display: block;
-                background: none;
-                border-top: 1px solid #e8e8e8;
-                padding-top: 1rem;
-                font-size: 13px;
-                color: #666;
-            }
-
-        }
-
-        @media (max-width:768px) {
-            .storeInfo {
-                display: none !important;
-            }
-
-            .listingDetailsSliderNav {
-                display: none !important;
-            }
-
-            #listingDetailsSlider {
-                padding: 0 !important;
-                margin-bottom: 30px !important;
-            }
-
-            .storeInfo {
-                margin-bottom: 30px !important;
-                width: 100%;
-                padding-right: 15px;
-                padding-left: 15px;
-                margin-right: auto;
-                margin-left: auto;
-            }
-
-        }
-
-        .title {
-            font-family: sans-serif;
-            color: red;
-            text-align: center;
-        }
-
-        .mobile-tab-content {
-            display: none;
-        }
-
-        .mobile-tab-content.active {
-            display: block !important;
-        }
-
-        .trStyle,
-        .trStyle tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-
-        .title-fs {
-            display: none
-        }
-
-        @media (max-width:768px) {
-
-            .title-fs {
-                display: block;
-                border-bottom: none !important;
-            }
-
-            .inner-pages .headings-2 .listing-title-bar h3 span {
-                font-size: 16px !important;
-            }
-
-            .trStyle tr {
-                width: 100%;
-            }
-        }
-
-        .tab-content-block {
-            display: none
-        }
-
-        .tab-content-block.active {
-            display: block !important
-        }
-
-        .button-effect {
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 35px !important;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .housing-detail-box {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap
-        }
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        .desktop-hidden {
-            display: none;
-        }
-
-        .homes-content .footer {
-            display: none
-        }
-
-        .price-mobile {
-            display: flex;
-            align-items: self-end;
-        }
-
-        .mobileTagProject {
-            display: none
-        }
-
-        @media (max-width: 768px) {
-            .mobileTagProject {
-                width: 150px !important;
-                position: absolute !important;
-                display: block !important;
-                bottom: 0;
-                left: 30% !important;
-                margin: 0 auto;
-            }
-
-            .payment-plan-table th,
-            .payment-plan-table td {
-                display: block !important;
-                width: 100%;
-            }
-
-            .payment-plan-table th {
-                text-align: left;
-                margin-bottom: 10px;
-            }
-
-            .housingsListTab {
-                padding: 0 !important;
-            }
-
-            .widget-boxed {
-                margin-bottom: 30px;
-            }
-
-            .car {
-                margin-top: 10px
-            }
-
-            .mobile-hidden {
-                display: none
-            }
-
-            .desktop-hidden {
-                display: block;
-            }
-
-            .mobile-position {
-                width: 100%;
-                margin: 0 auto;
-                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-            }
-
-            .inner-pages .portfolio .homes-content .homes-list-div ul {
-                flex-wrap: wrap
-            }
-
-            .homes-content .footer {
-                display: block;
-                background: none;
-                border-top: 1px solid #e8e8e8;
-                padding-top: 1rem;
-                font-size: 13px;
-                color: #666;
-            }
-
-        }
-
-        .classifiedInfo {
-            font-size: 11px;
-            color: #039;
-            padding: 3px 10px 10px 0;
-        }
-
-        .loading-spinner {
-            text-align: center
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/project-housing.css') }}">
 @endsection

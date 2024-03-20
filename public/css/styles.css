@@ -30495,7 +30495,8 @@ a {
         font-size: 11px;
     }
 
-    .mobileAddCollection:hover {
+    .mobileAddCollection:hover,
+    .disabledShareButton:hover  {
         background-color: white !important;
         color: black !important
     }

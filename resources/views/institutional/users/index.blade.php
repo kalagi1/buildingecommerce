@@ -39,7 +39,7 @@
 
                     <div class="card shadow-none border border-300 my-4 p-5">
                         <div class="table-responsive scrollbar">
-                            <table class="table fs--1 mb-0 border-top border-200">
+                            <table class="table fs--1 mb-0 border-top border-200" id="sortable-container2">
                                 <thead>
                                     <tr>
                                         <th style="width:10%;">ID</th>
@@ -58,8 +58,8 @@
                                 </thead>
                                 <tbody class="list" id="user-list-table-body">
                                     @foreach ($users as $key => $user)
-                                        <tr class="position-static">
-                                            <td>{{ $key + 1 }}</td>
+                                        <tr class="position-static user-item" data-order="{{ $user->order }}" data-id="{{ $user->id }}">
+                                            <td>{{ $user->order }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td>
@@ -167,5 +167,41 @@
     </div>
 @endsection
 
-@push('scripts')
-@endpush
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sortable = new Sortable(document.getElementById('user-list-table-body'), {
+        animation: 150,
+        onUpdate: function(evt) {
+            const item = evt.item;
+            const orders = Array.from(item.parentNode.getElementsByClassName('user-item'))
+                .map(function(element) {
+                    return {
+                        id: element.dataset.id,
+                        order: Array.from(element.parentNode.children).indexOf(element) + 1,
+                    };
+                });
+                console.log('roıjsdogmsdzom')
+            // jQuery kullanarak bir AJAX isteği gönder
+            $.ajax({
+                type: 'POST',
+                url: '/institutional/update-user-order',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    orders: orders
+                },
+                success: function(response) {
+                    location.reload();
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        },
+    });
+});
+
+    </script>
+@endsection

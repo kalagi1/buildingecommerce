@@ -18,21 +18,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 class PayController extends Controller
 {
-    
-    
-     
     //test ortamı 
-    protected $storeNumber = '190100000';
-    protected $adminUsername = '190933121admin';
-    protected $adminPassword = 'TEST1010';
-    protected $apiUsername = '190933121api';
-    protected $apiPassword = 'TEST1010';
-    protected $storeKey = '123456';
-    protected $reportLoginUrl = 'https://entegrasyon.asseco-see.com.tr/ziraat/report/user.login';
-    protected $testUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dgate';
-    protected $apiUrl = 'https://entegrasyon.asseco-see.com.tr/fim/api';
-    protected $testStoreUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
-    
+    // protected $storeNumber = '190100000';
+    // protected $adminUsername = '190933121admin';
+    // protected $adminPassword = 'TEST1010';
+    // protected $apiUsername = '190933121api';
+    // protected $apiPassword = 'TEST1010';
+    // protected $storeKey = '123456';
+    // protected $reportLoginUrl = 'https://entegrasyon.asseco-see.com.tr/ziraat/report/user.login';
+    // protected $testUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dgate';
+    // protected $apiUrl = 'https://entegrasyon.asseco-see.com.tr/fim/api';
+    // protected $testStoreUrl = 'https://entegrasyon.asseco-see.com.tr/fim/est3dteststore';
 
     public function index()
     {
@@ -138,6 +134,61 @@ class PayController extends Controller
         return view('payment.pay', $data);
     }
 
+    private function preparePaymentData($requestData,$orderId, $amount)
+    {
+        // $clientId = '190100000';
+        // $storeKey = '123456';
+        $clientId = '190933121';
+        $storeKey = 'MasteR3457';
+        $expDateMonth = $requestData['month'];
+        $expDateYear = $requestData['year'];
+        $okUrl = url('/resultpaymentsuccess');
+        $failUrl = url('/resultpaymentfail');
+        $callbackUrl = url('/resultpaymentsuccess');
+       // $url = url('/resultpayment');
+        $transactionType = 'Auth';
+        $rnd = '5';
+        $storetype = '3d_pay_hosting';
+        $hashAlgorithm = 'ver3';
+        $currency = '949';
+        $lang = 'tr';
+        
+        $data = [
+            'amount' => $amount,
+            'callbackurl' =>  $callbackUrl,
+            'clientid' => $clientId,
+            'currency' => $currency,
+            'Ecom_Payment_Card_ExpDate_Year' =>  $expDateYear,
+            'Ecom_Payment_Card_ExpDate_Month' => $expDateMonth,
+            'failurl' =>  $failUrl,
+            'hashAlgorithm' => $hashAlgorithm,
+            'islemtipi' => $transactionType,
+            'lang' => $lang,
+            'oid' => $orderId,
+            'okurl' => $okUrl,
+            'pan' => $requestData['creditcard'],
+            'rnd' => $rnd,
+            'storetype' => $storetype, 
+            'taksit'  => '',
+        ];
+
+        $order = ['amount', 'callbackurl', 'clientid','currency','Ecom_Payment_Card_ExpDate_Month','Ecom_Payment_Card_ExpDate_Year', 'failurl', 'hashAlgorithm',
+                'islemtipi','lang','oid', 'okurl','pan' ,'rnd', 'storetype','taksit'];
+
+        $sortedValues = array_map(function ($key) use ($data) {
+            return $data[$key];
+        }, $order);
+
+        $hashString = implode('|', $sortedValues) . '|';
+        $hashString .= str_replace('|', '\\|', str_replace('\\', '\\\\', $storeKey));
+        $calculatedHashValue = hash('sha512', $hashString);
+        $actualHash = base64_encode(pack('H*', $calculatedHashValue));
+        $data['hash'] = $actualHash;
+
+        return $data;
+    }
+
+
     private function getUserId($requestData)
     {
         $user = Auth::user(); 
@@ -210,58 +261,7 @@ class PayController extends Controller
         return $cartOrder->id;
     }
 
-    private function preparePaymentData($requestData,$orderId, $amount)
-    {
-        $clientId = '190100000';
-        $storeKey = '123456';
-        $expDateMonth = $requestData['month'];
-        $expDateYear = $requestData['year'];
-        $okUrl = url('/resultpaymentsuccess');
-        $failUrl = url('/resultpaymentfail');
-        $callbackUrl = url('/resultpaymentsuccess');
-       // $url = url('/resultpayment');
-        $transactionType = 'Auth';
-        $rnd = '5';
-        $storetype = '3d_pay_hosting';
-        $hashAlgorithm = 'ver3';
-        $currency = '949';
-        $lang = 'tr';
-        
-        $data = [
-            'amount' => $amount,
-            'callbackurl' =>  $callbackUrl,
-            'clientid' => $clientId,
-            'currency' => $currency,
-            'Ecom_Payment_Card_ExpDate_Year' =>  $expDateYear,
-            'Ecom_Payment_Card_ExpDate_Month' => $expDateMonth,
-            'failurl' =>  $failUrl,
-            'hashAlgorithm' => $hashAlgorithm,
-            'islemtipi' => $transactionType,
-            'lang' => $lang,
-            'oid' => $orderId,
-            'okurl' => $okUrl,
-            'pan' => $requestData['creditcard'],
-            'rnd' => $rnd,
-            'storetype' => $storetype, 
-            'taksit'  => '',
-        ];
-
-        $order = ['amount', 'callbackurl', 'clientid','currency','Ecom_Payment_Card_ExpDate_Month','Ecom_Payment_Card_ExpDate_Year', 'failurl', 'hashAlgorithm',
-                'islemtipi','lang','oid', 'okurl','pan' ,'rnd', 'storetype','taksit'];
-
-        $sortedValues = array_map(function ($key) use ($data) {
-            return $data[$key];
-        }, $order);
-
-        $hashString = implode('|', $sortedValues) . '|';
-        $hashString .= str_replace('|', '\\|', str_replace('\\', '\\\\', $storeKey));
-        $calculatedHashValue = hash('sha512', $hashString);
-        $actualHash = base64_encode(pack('H*', $calculatedHashValue));
-        $data['hash'] = $actualHash;
-
-        return $data;
-    }
-
+   
 
     public function resultPaymentSuccess(Request $request)
     {
@@ -293,7 +293,7 @@ class PayController extends Controller
     {
         $data = $request->all();
 
-        $existingOrder = CartOrder::where('id', $data['ReturnOid'])->first();
+        $existingOrder = CartOrder::where('id', $data['oid'])->first();
 
         
         if ($existingOrder) {

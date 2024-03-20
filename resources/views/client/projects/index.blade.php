@@ -197,10 +197,14 @@
 
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                             <div class="carousel-inner">
-                                {{-- Diğer Görseller --}}
+                                {{-- Kapak Görseli --}}
+                                <div class="item carousel-item active" data-slide-number="0">
+                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                        class="img-fluid" alt="slider-listing">
+                                </div>
+
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item {{ $key === 0 ? 'active' : '' }}"
-                                        data-slide-number="{{ $key }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             class="img-fluid" alt="slider-listing">
                                     </div>
@@ -208,10 +212,16 @@
                             </div>
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
+                                <div class="item active" style="margin: 10px; cursor: pointer">
+                                    <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                            class="img-fluid carousel-indicator-image" alt="listing-small">
+                                    </a>
+                                </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key }}" data-slide-to="{{ $key }}"
-                                            data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key + 1 }}"
+                                            data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -221,10 +231,10 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item page-item-left"><a class="page-link" href="#"><i
-                                                class="fas fa-arrow-left"></i></a></li>
+                                                class="fas fa-angle-left"></i></a></li>
                                     <li class="page-item page-item-middle"><a class="page-link" href="#"></a></li>
                                     <li class="page-item page-item-right"><a class="page-link" href="#"><i
-                                                class="fas fa-arrow-right"></i></a></li>
+                                                class="fas fa-angle-right"></i></a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -1454,424 +1464,5 @@
 
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        .pagination {
-            display: flex;
-            justify-content: center;
-            /* Yatayda ortala */
-            align-items: center;
-            /* Dikeyde ortala */
-            background-color: #e6e6e6;
-
-        }
-
-        .pagination .page-item i {
-            font-size: 12px;
-            /* Ok ikonunun boyutunu ayarla */
-            color: #333;
-            /* Ok rengini ayarla */
-        }
-
-        .pagination {
-            height: 35px;
-            border-radius: 0 !important;
-        }
-
-        .pagination .page-item a {
-            display: block;
-            /* Linki blok elementi yap */
-            padding: 5px;
-            /* Boşluk ekle */
-            text-decoration: none;
-            /* Link altı çizgisini kaldır */
-        }
-
-        /* Sağ ve sol okların stilini tanımla */
-        .pagination .page-item-left,
-        .pagination .page-item-right {
-            background-color: #e8e8e8;
-            border: none;
-            margin: 0 10px;
-            transition: background-color 0.3s;
-            /* Geçiş efekti ekle */
-        }
-
-        /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
-        .pagination .page-item-left:hover,
-        .pagination .page-item-right:hover {
-            background-color: #dcdcdc;
-        }
-
-        /* Font Awesome simgelerinin rengini belirle */
-        .pagination .page-item-left i,
-        .pagination .page-item-right i {
-            color: #333;
-            /* Başlangıçta simge rengi */
-            transition: color 0.3s;
-            /* Geçiş efekti ekle */
-        }
-
-        /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
-        .pagination .page-item-left:hover i,
-        .pagination .page-item-right:hover i {
-            color: white;
-        }
-
-
-
-        .modal-label {
-            margin: 0.3em 0em;
-            font-size: 13px;
-            font: bold;
-            color: #000000 !important;
-        }
-
-        .modal-input {
-            padding: 1em !important;
-            border: 1px solid #eee !important;
-            margin: 0.5em 0em;
-            width: 100%;
-            transition: border-color 0.3s;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .modal-btn-gonder,
-        .modal-btn-kapat {
-            padding: 0.8em 2em;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            width: 45%;
-            border: none;
-            height: 45px;
-        }
-
-        .modal-btn-gonder {
-            background-color: #ea2b2e;
-            color: #fff;
-        }
-
-        .modal-btn-kapat {
-            background-color: #1e1e1e;
-            color: #fff;
-        }
-
-        form {
-            margin: 1em;
-        }
-
-
-        .modal-title {
-            font-size: 2.5rem;
-            text-align: center;
-            font-size: 15px !important;
-            margin-top: 0.8em;
-            margin-bottom: 0.8em;
-        }
-
-        .trStyle tr {
-            width: 33%;
-        }
-
-        .trStyle,
-        .trStyle tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .trStyle tr td {
-            width: 100%;
-            display: flex;
-            justify-content: space-between font-size: 11px;
-            border: 1px solid #dee2e6;
-        }
-
-        .table td {
-            display: flex;
-            justify-content: space-between
-        }
-
-        .table td,
-        .table th {
-            padding: .55rem;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block !important;
-        }
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-hidden {
-                display: none
-            }
-
-            .trStyle tr {
-                width: 100%;
-            }
-
-            .housingsListTab {
-                padding: 0 !important;
-            }
-        }
-
-        .button-effect {
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 35px !important;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .housing-detail-box {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap
-        }
-
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        .desktop-hidden {
-            display: none;
-        }
-
-        .homes-content .footer {
-            display: none
-        }
-
-        .price-mobile {
-            display: flex;
-            align-items: self-end;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-hidden {
-                display: none
-            }
-
-            .desktop-hidden {
-                display: block;
-            }
-
-            .mobile-position {
-                width: 100%;
-                margin: 0 auto;
-                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-            }
-
-            .inner-pages .portfolio .homes-content .homes-list-div ul {
-                flex-wrap: wrap
-            }
-
-            .homes-content .footer {
-                display: block;
-                background: none;
-                border-top: 1px solid #e8e8e8;
-                padding-top: 1rem;
-                font-size: 13px;
-                color: #666;
-            }
-
-        }
-
-        @media (max-width:768px) {
-            .storeInfo {
-                display: none !important;
-            }
-
-            .listingDetailsSliderNav {
-                display: none !important;
-            }
-
-            #listingDetailsSlider {
-                padding: 0 !important;
-                margin-bottom: 30px !important;
-            }
-
-            .storeInfo {
-                margin-bottom: 30px !important;
-                width: 100%;
-                padding-right: 15px;
-                padding-left: 15px;
-                margin-right: auto;
-                margin-left: auto;
-            }
-
-        }
-
-        .title {
-            font-family: sans-serif;
-            color: red;
-            text-align: center;
-        }
-
-        .mobile-tab-content {
-            display: none;
-        }
-
-        .mobile-tab-content.active {
-            display: block !important;
-        }
-
-        .trStyle,
-        .trStyle tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-
-        .title-fs {
-            display: none
-        }
-
-        @media (max-width:768px) {
-
-            .title-fs {
-                display: block;
-                border-bottom: none !important;
-            }
-
-            .inner-pages .headings-2 .listing-title-bar h3 span {
-                font-size: 16px !important;
-            }
-
-            .trStyle tr {
-                width: 100%;
-            }
-        }
-
-        .tab-content-block {
-            display: none
-        }
-
-        .tab-content-block.active {
-            display: block !important
-        }
-
-        .button-effect {
-            border: solid 1px #e6e6e6;
-            width: 48px;
-            height: 35px !important;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .housing-detail-box {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap
-        }
-
-        .mobile-hidden {
-            display: flex;
-        }
-
-        .desktop-hidden {
-            display: none;
-        }
-
-        .homes-content .footer {
-            display: none
-        }
-
-        .price-mobile {
-            display: flex;
-            align-items: self-end;
-        }
-
-        .mobileTagProject {
-            display: none
-        }
-
-        @media (max-width: 768px) {
-            .mobileTagProject {
-                width: 150px !important;
-                position: absolute !important;
-                display: block !important;
-                bottom: 0;
-                left: 30% !important;
-                margin: 0 auto;
-            }
-
-            .payment-plan-table th,
-            .payment-plan-table td {
-                display: block !important;
-                width: 100%;
-            }
-
-            .payment-plan-table th {
-                text-align: left;
-                margin-bottom: 10px;
-            }
-
-            .housingsListTab {
-                padding: 0 !important;
-            }
-
-            .widget-boxed {
-                margin-bottom: 30px;
-            }
-
-            .car {
-                margin-top: 10px
-            }
-
-            .mobile-hidden {
-                display: none
-            }
-
-            .desktop-hidden {
-                display: block;
-            }
-
-            .mobile-position {
-                width: 100%;
-                margin: 0 auto;
-                box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
-            }
-
-            .inner-pages .portfolio .homes-content .homes-list-div ul {
-                flex-wrap: wrap
-            }
-
-            .homes-content .footer {
-                display: block;
-                background: none;
-                border-top: 1px solid #e8e8e8;
-                padding-top: 1rem;
-                font-size: 13px;
-                color: #666;
-            }
-
-        }
-
-        .classifiedInfo {
-            font-size: 11px;
-            color: #039;
-            padding: 3px 10px 10px 0;
-        }
-
-        .loading-spinner {
-            text-align: center
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/project.css') }}">
 @endsection
