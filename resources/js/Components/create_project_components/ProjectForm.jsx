@@ -265,6 +265,9 @@ function ProjectForm({anotherBlockErrors,selectedBlock,setSelectedBlock,selected
                                 center={center}
                                 onLoad={onLoad}
                                 onUnmount={onUnmount}
+                                options={{
+                                    gestureHandling: "greedy"
+                                }}
                             >
                               { /* Child components, such as markers, info windows, etc. */ }
                               {selectedLocation && <Marker position={selectedLocation} />}

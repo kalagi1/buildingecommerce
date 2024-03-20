@@ -33,8 +33,8 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 }
                 setProjectData({
                     ...projectData,
-                    [fileName+'_imagesx'] : tempImages,
-                    [fileName] : tempImages2
+                    [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
+                    [fileName] : [...projectData[fileName], ...tempImages2]
                 });
 
                 setImageLoading(false);
@@ -91,8 +91,8 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 }
                 setProjectData({
                     ...projectData,
-                    [fileName+'_imagesx'] : tempImages,
-                    [fileName] : tempImages2
+                    [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
+                    [fileName] : [...projectData[fileName], ...tempImages2]
                 });
 
                 setImageLoading(false);
