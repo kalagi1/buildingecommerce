@@ -567,7 +567,7 @@
                         </li>
                         <li class="list-group-item" style="width:100%">
                             Telefon:
-                            {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
+                            {{ !empty($sold->phone) ? $sold->phone : (isset($sold->mobile_phone) && $sold->mobile_phone && !is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
                         </li>
 
 

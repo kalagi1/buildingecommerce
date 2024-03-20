@@ -251,11 +251,16 @@ class CartController extends Controller {
                 $amount = number_format( $amount, 2, ',', '.' );
             } else {
                 $discountRate = floatval( $cartJson[ 'item' ][ 'discount_rate' ] ?? 0 );
-                $amount = $amountWithoutDiscount - ( $amountWithoutDiscount * isset( $lastClick ) ?  ( $discountRate / 100 ): 0 );
+                if(isset( $lastClick )){
+                    $discountX = $amountWithoutDiscount * ( $discountRate / 100 );
+                }else{
+                    $discountX = 0;
+                }
+                $amount = $amountWithoutDiscount - $discountX;
+
                 $amount = number_format( $amount * 0.02, 2, ',', '.' );
             }
-        }
-
+        } 
         $order->amount = $amount;
         $order->cart = json_encode( $cartJson );
         $order->status = '0';
@@ -458,6 +463,7 @@ class CartController extends Controller {
             $store = $project->user->name;
             $storeID = $project->user->id;
 
+
             $room = $productDetails->housing;
             $shareOpen = isset( getHouse( $project, 'share-open[]', $productDetails->housing )->value ) ? getHouse( $project, 'share-open[]', $productDetails->housing )->value : null;
 
@@ -533,6 +539,14 @@ class CartController extends Controller {
                             'earn' => $sharedAmount_balance,
                             'earn2' => 0,
 
+                        ] );
+                    }else{
+                        CartPrice::create( [
+                            'user_id' => $order->user_id,
+                            'cart_id' => $order->id,
+                            'status' => '0',
+                            'earn' => $cartJson[ 'item' ][ 'amount' ] * 0.02,
+                            'earn2' => 0,
                         ] );
                     }
                 } else if ( !$lastClick ) {
@@ -675,6 +689,7 @@ class CartController extends Controller {
             Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
         }
 
+        dd("asd");
         session()->forget( 'cart' );
 
         return response()->json( [ 'cart_order' => $order->id ] );
