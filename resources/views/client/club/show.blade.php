@@ -157,13 +157,21 @@
 
                                                         @if (isset($discountRate) && $discountRate != 0)
                                                             <span style="color: green;">
-                                                                {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                    {{ number_format(($discountedPrice / $number_of_share), 0, ',', '.') }} ₺
+                                                                @else 
+                                                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                @endif
                                                             </span><br>
 
                                                             <del style="color: red;">
                                                                 @if ($item['item_type'] == 1)
                                                                     @if (isset($item['project_values']['price[]']))
-                                                                        {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                            {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                        @else 
+                                                                            {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                        @endif
                                                                     @elseif ($item['project_values']['daily_rent[]'])
                                                                         {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
                                                                     @endif
@@ -547,7 +555,11 @@
                                                         @endif
                                                         @if (isset($discountRate) && $discountRate != 0)
                                                             <span style="color: green;">
-                                                                {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                    {{ number_format(($discountedPrice / $number_of_share), 0, ',', '.') }} ₺
+                                                                @else 
+                                                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                @endif
                                                             </span><br>
                                                             <del style="color: red;">
                                                                 @if ($item['item_type'] == 1)

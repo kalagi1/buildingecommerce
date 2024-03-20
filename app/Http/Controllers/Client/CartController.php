@@ -688,6 +688,7 @@ class CartController extends Controller {
             Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
         }
 
+        dd("asd");
         session()->forget( 'cart' );
 
         return response()->json( [ 'cart_order' => $order->id ] );
