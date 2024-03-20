@@ -148,35 +148,28 @@
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
 
-
-
-                                            @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    <span class="text-center w-100">
-                                                        1 / {{ $number_of_share }} Pay Fiyatı
-                                                    </span>
-                                                @endif
-
+                                            @if ($off_sale_check  && !$sold_check && $share_sale_empty)
+                                           
                                                 <h6
                                                     style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                        ₺
-                                                    @else
-                                                        {{ number_format($discounted_price, 0, ',', '.') }}
-                                                        ₺
-                                                    @endif
-                                                </h6>
-
-                                                <h6
-                                                    style="color: #e54242 !important;position: relative;top:4px;font-weight:700;font-size: 11px;text-decoration:line-through;">
-                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                    {{ number_format($discounted_price, 0, ',', '.') }}
                                                     ₺
                                                 </h6>
-                                            @elseif(isset($share_sale) &&
+                                                @if ($projectDiscountAmount)
+                                                <h6
+                                                style="color: #e54242 !important;position: relative;top:4px;font-weight:700;font-size: 11px;text-decoration:line-through;">
+                                                {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </h6>
+                                                @endif
+
+                                              
+                                            @elseif((isset($share_sale) &&
                                                     $share_sale != '[]' &&
                                                     isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                                    isset($share_sale) &&
+                                                    $share_sale != '[]' &&  !isset($sumCartOrderQt[$keyIndex]))
                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                     <span class="text-center w-100">
                                                         1 / {{ $number_of_share }} Pay Fiyatı
