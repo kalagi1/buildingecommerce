@@ -1324,9 +1324,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
@@ -1381,7 +1378,8 @@
                     lat: {{ $housing->latitude }},
                     lng: {{ $housing->longitude }}
                 },
-                zoom: 16
+                zoom: 16,
+				gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1571,7 +1569,8 @@
                     lat: {{ $housing->longitude }},
                     lng: {{ $housing->latitude }}
                 },
-                zoom: 12
+                zoom: 12,
+				gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({
