@@ -46,6 +46,17 @@
     align-items: center;
 }
 
+.pagination .page-item:hover,
+.pagination .page-item .page-link:hover{
+    background-color: white !important;
+    background: white !important;
+}
+
+.pagination .page-item:hover i,
+.pagination .page-item .page-link:hover i{
+    color:#EA2B2E !important
+}
+
 /* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
 .pagination .page-item-left:hover,
 .pagination .page-item-right:hover {
