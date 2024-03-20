@@ -1381,7 +1381,8 @@
                     lat: {{ $housing->latitude }},
                     lng: {{ $housing->longitude }}
                 },
-                zoom: 16
+                zoom: 16,
+				gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1571,7 +1572,8 @@
                     lat: {{ $housing->longitude }},
                     lng: {{ $housing->latitude }}
                 },
-                zoom: 12
+                zoom: 12,
+				gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({

@@ -1022,7 +1022,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script async defer
@@ -1069,7 +1068,8 @@
                     lat: {{ explode(',', $project->location)[0] }},
                     lng: {{ explode(',', $project->location)[1] }}
                 },
-                zoom: 16
+                zoom: 16,
+				gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1091,7 +1091,8 @@
                     lat: {{ explode(',', $project->location)[0] }},
                     lng: {{ explode(',', $project->location)[1] }}
                 },
-                zoom: 12
+                zoom: 12,
+				gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({

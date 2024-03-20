@@ -1244,7 +1244,8 @@
                     lat: {{ explode(',', $project->location)[0] }},
                     lng: {{ explode(',', $project->location)[1] }}
                 },
-                zoom: 16
+                zoom: 16,
+				gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1266,7 +1267,8 @@
                     lat: {{ explode(',', $project->location)[0] }},
                     lng: {{ explode(',', $project->location)[1] }}
                 },
-                zoom: 12
+                zoom: 12,
+				gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({
@@ -1463,6 +1465,5 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
 @endsection
