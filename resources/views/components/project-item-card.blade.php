@@ -27,7 +27,15 @@
         $keyIndex = $i + 1 + $allCounts;
     }
 @endphp
+@php
+    $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+    $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+    $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
+    $sold_check = $sold && in_array($sold->status, ['1', '0']);
+    $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+    $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
 
+@endphp
 @if (isset($projectHousingsList[$keyIndex]))
     <div class="col-md-12 col-12">
         <div class="project-card mb-3">
@@ -92,14 +100,7 @@
                 </div>
 
                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-                    @php
-                        $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                        $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                        $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                        $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                        $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
-
-                    @endphp
+               
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
@@ -307,9 +308,9 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale == '[]') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                            data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
+                                            data-payment-order="{{ $keyIndex }}">
                                             Ödeme Detayı
                                         </button>
                                     @endif
@@ -329,9 +330,9 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}" data-block="{{ $blockName }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]' ? '1' : '0' }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}"
-                                            data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
+                                            data-payment-order="{{ $keyIndex }}">
 
                                             Ödeme Detayı
                                         </button>
