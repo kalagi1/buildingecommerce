@@ -63,7 +63,6 @@ class CartController extends Controller {
         ->first();
 
         $cartJson = $request->session()->get( 'cart' );
-
         $order = new CartOrder;
 
         $order->user_id = auth()->user()->id;
@@ -689,7 +688,6 @@ class CartController extends Controller {
             Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
         }
 
-        dd("asd");
         session()->forget( 'cart' );
 
         return response()->json( [ 'cart_order' => $order->id ] );

@@ -27,7 +27,15 @@
     }
 
 @endphp
+@php
+    $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
+    $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
+    $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
+    $sold_check = $sold && in_array($sold->status, ['1', '0']);
+    $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
+    $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
 
+@endphp
 
 <div class="d-flex" style="flex-wrap: nowrap">
     <div class="align-items-center d-flex" style="padding-right:0; width: 110px;">
@@ -118,13 +126,7 @@
             <div class="d-flex align-items-end projectItemFlex">
                 <div style="width: 50%;
                                 align-items: center;">
-                    @php
-                        $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
-                        $share_sale = $projectHousingsList[$keyIndex]['share_sale[]'] ?? null;
-                        $number_of_share = $projectHousingsList[$keyIndex]['number_of_shares[]'] ?? null;
-                        $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                        $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
-                    @endphp
+
                     @if (
                         ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold) ||
                             ($sold && $sold->status == '2' && $projectHousingsList[$keyIndex]['off_sale[]'] != '[]'))
@@ -133,15 +135,26 @@
                             <span class="text">Satışa Kapatıldı</span>
                         </button>
                     @else
-                    @if (
-                        ($sold_check && $share_sale == '[]') ||
-                            (isset($sumCartOrderQt[$keyIndex]) && $sold_check && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
+                        @if (
+                            ($sold_check && $share_sale_empty) ||
+                                (isset($sumCartOrderQt[$keyIndex]) &&
+                                    $sold_check &&
+                                    $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
-                                @if ($sold->status == '0') style="background: orange !important; color: White;" @else  style="background: #EA2B2E !important; color: White;" @endif>
-                                @if ($sold->status == '0' && $share_sale == '[]')
+                            @if (
+                                ($sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
+                                    (isset($share_sale) &&
+                                        $share_sale != '[]' &&
+                                        isset($sumCartOrderQt[$keyIndex]) &&
+                                        $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
+                    @elseif ($sold->status == '1')
+                        style="background: #EA2B2E !important; color: White; "
+                    @else
+                        style="background: #EA2B2E !important; color: White; " @endif>
+                                @if ($sold->status == '0' && $share_sale_empty)
                                     <span class="text">Rezerve Edildi</span>
                                 @elseif (
-                                    ($sold->status == '1' && $share_sale == '[]') ||
+                                    ($sold->status == '1' && $share_sale_empty) ||
                                         (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                                     <span class="text">Satıldı</span>
                                 @endif
@@ -154,7 +167,7 @@
 
                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                             <span class="text-center w-100 d-block">
-                                                1 Pay Fiyatı
+                                                1 / {{ $number_of_share }} Pay Fiyatı
                                             </span>
                                         @endif
                                         <h6
@@ -176,7 +189,7 @@
                                     @elseif ($off_sale_check)
                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                             <span class="text-center w-100 d-block">
-                                                1 Pay Fiyatı
+                                                1 / {{ $number_of_share }} Pay Fiyatı
                                             </span>
                                         @endif
                                         <h6
@@ -219,7 +232,7 @@
                                 ->first();
                         }
 
-                        $isUserSameText = $isUserSame ? "evet" : "hayır";
+                        $isUserSameText = $isUserSame ? 'evet' : 'hayır';
                     @endphp
 
                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
@@ -272,7 +285,7 @@
                     @elseif($neighborView && $neighborView->status == '1')
                         <button class="btn payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:green !important;color:white;border:1px solid green"
-                            data-bs-toggle="modal" data-bs-target="#phoneModal{{ $sold->id }}">
+                            data-bs-toggle="modal" data-bs-target="#contactModal{{ $sold->id }}">
                             <span>
                                 <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor"
                                     stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
@@ -286,50 +299,7 @@
                                 İletişime Geç
                             </span>
                         </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="phoneModal{{ $sold->id }}" tabindex="-1"
-                            aria-labelledby="phoneModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <strong class="text-center text-black d-block" style="color: black">
-                                            @if (isset($projectHousingsList[$keyIndex]['advertise_title[]']))
-                                                {{ $projectHousingsList[$keyIndex]['advertise_title[]'] }}
-                                                {{ $blockName }}
-                                                {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
-                                                {{ "No'lu" }}
-                                                {{ $project->step1_slug }}
-                                            @else
-                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                Projesinde {{ $blockName }}
-                                                {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
-                                                {{ "No'lu" }}
-                                                {{ $project->step1_slug }}
-                                            @endif
-                                        </strong>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
-                                            </li>
-                                            <li class="list-group-item" style="width:100%">
-                                                Telefon:
-                                                {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
-                                            </li>
-
-
-                                        </ul>
-                                    </div>
-                                    <div class="modal-footer" style="justify-content: end !important">
-                                        <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button
-                                                class="btn btn-success" style="width:100px">Ara</button></a>
-
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                            style="width:100px">Kapat</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @elseif($isUserSame == true)
+                    @elseif($isUserSame == true && isset($share_sale) && $share_sale == '[]')
                         <button class="btn payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color: green !important;
                         color: white;
@@ -337,6 +307,15 @@
                             <span>
                                 Size Ait Ürün
                             </span>
+                        </button>
+                        @else
+                        <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
+                            style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
+                            project-id="{{ $project->id }}"
+                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
+                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                            data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
+                            Ödeme Detayı
                         </button>
                     @endif
                 @else
@@ -516,6 +495,49 @@
 </div>
 
 @if ($sold_check && $sold->status == '1')
+
+    <!-- Modal -->
+    <div class="modal fade" id="contactModal{{ $sold->id }}" tabindex="-1" aria-labelledby="contactModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <strong class="text-center text-black d-block" style="color: black">
+                        @if (isset($projectHousingsList[$keyIndex]['advertise_title[]']))
+                            {{ $projectHousingsList[$keyIndex]['advertise_title[]'] }}
+                            {{ $blockName }}
+                            {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                            {{ "No'lu" }}
+                            {{ $project->step1_slug }}
+                        @else
+                            {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                            Projesinde {{ $blockName }}
+                            {{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}
+                            {{ "No'lu" }}
+                            {{ $project->step1_slug }}
+                        @endif
+                    </strong>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="width:100%">İsim: {{ $sold->name }}
+                        </li>
+                        <li class="list-group-item" style="width:100%">
+                            Telefon:
+                            {{ !empty($sold->phone) ? $sold->phone : (!is_null($sold->mobile_phone) ? $sold->mobile_phone : 'Belirtilmedi') }}
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="modal-footer" style="justify-content: end !important">
+                    <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
+                            style="width:100px">Ara</button></a>
+
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        style="width:100px">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="neighborViewModal{{ $sold->id }}" tabindex="-1"
         aria-labelledby="neighborViewModalLabel" aria-hidden="true">
