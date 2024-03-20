@@ -54,14 +54,77 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
             
             setProjectDataFunc(fileName,file)
         }
-       
     }
 
+    const fileUpload2 = async (filesx) => {
+        if(!document){
+            if(multiple){
+                const files = filesx;
+                const tempImages = [];
+                const tempImages2 = []; 
+    
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    tempImages2.push(file);
+                    const reader = new FileReader();
+    
+                    // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
+                    const loadPromise = new Promise((resolve) => {
+                        reader.onload = () => {
+                            resolve(reader.result);
+                        };
+                    });
+    
+                    if (file) {
+                        reader.readAsDataURL(file); // Resmi oku
+                        const imageDataUrl = await loadPromise; // Resim yüklendiğinde Promise tamamlanana kadar bekler
+                        tempImages.push(imageDataUrl); // Geçici resimler dizisine ekle
+                    }
+                }
+                
+                setProjectData({
+                    ...projectData,
+                    [fileName+'_imagesx'] : tempImages,
+                    [fileName] : tempImages2
+                });
+            }else{
+                const file = filesx[0];
+                const reader = new FileReader();
+        
+                reader.onload = () => {
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagex'] : reader.result,
+                        [fileName] : file
+                    });
+                };
+        
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        }else{
+            const file = filesx[0];
+            
+            setProjectDataFunc(fileName,file)
+        }
+    }
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files;
+        fileUpload2(file);
+        console.log(e,file);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
 
     return(
         <div>
             <span className="section-title mt-4 housing_after_step">{title}</span>
-            <div className="cover-photo-full card py-2 px-5 housing_after_step">
+            <div  onDrop={handleDrop} onDragOver={handleDragOver} className="cover-photo-full card py-2 px-5 housing_after_step">
                 <input accept={accept} ref={inputRef} multiple={multiple} onChange={fileUpload} type="file" name="cover-image" className="cover_image d-none"/>
                 <div onClick={() => {inputRef.current.click();}} id={fileName}  className={"upload-container col-md-4 col-xl-3 cover-photo-area "+(allErrors.includes(fileName) ? "error-border" : "")}>
                     <div className="border-container">
