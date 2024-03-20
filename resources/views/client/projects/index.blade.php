@@ -228,7 +228,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <nav aria-label="Page navigation example">
+                            <nav aria-label="Page navigation example" style="margin-top: 7px">
                                 <ul class="pagination">
                                     <li class="page-item page-item-left"><a class="page-link" href="#"><i
                                                 class="fas fa-angle-left"></i></a></li>

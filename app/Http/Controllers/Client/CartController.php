@@ -63,7 +63,6 @@ class CartController extends Controller {
         ->first();
 
         $cartJson = $request->session()->get( 'cart' );
-
         $order = new CartOrder;
 
         $order->user_id = auth()->user()->id;

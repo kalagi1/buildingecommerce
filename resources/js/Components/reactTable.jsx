@@ -250,7 +250,7 @@ function ReactTable(props) {
     const [loading,setLoading] = useState(true);
     useEffect(() => {
         setLoading(true);
-        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -265,7 +265,7 @@ function ReactTable(props) {
         setLoading(true);
         setPage(newPage);
         var start = newPage * rowPerPage;
-        axios.get(`https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
+        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=${start}&take=${rowPerPage}`).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);
             setLoading(false);
@@ -282,7 +282,7 @@ function ReactTable(props) {
         setRowPerPage(parseInt(event.target.value, 10));
         setPage(0);
 
-        axios.get(`https://emlaksepette.com/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
+        axios.get(`http://127.0.0.1:8000/react/my_projects?status=${tabIndex}&start=0&take=${event.target.value}`).then((res) => {
             setRows(res.data.data);
             setTotalProjectsCount(res.data.total_projects_count);   
             setLoading(false);
@@ -302,7 +302,7 @@ function ReactTable(props) {
                 axios.post(baseUrl+'deactive/'+id,{"_method":"PUT"}).then((res) => {
                     if(res.data.status){
                         setLoading(true);
-                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
                             Swal.fire("Başarıyla projeyi pasife aldınız", "", "success");
                             setRows(res.data.data);
                             setTotalProjectsCount(res.data.total_projects_count);
@@ -355,7 +355,7 @@ function ReactTable(props) {
                 axios.post(baseUrl+'remove/'+id,{"_method":"DELETE"}).then((res) => {
                     if(res.data.status){
                         setLoading(true);
-                        axios.get('https://emlaksepette.com/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
+                        axios.get('http://127.0.0.1:8000/react/my_projects?status='+tabIndex+'&start=0&take='+rowPerPage).then((res) => {
                             Swal.fire("Başarıyla projeyi sildiniz", "", "success");
                             setRows(res.data.data);
                             setTotalProjectsCount(res.data.total_projects_count);

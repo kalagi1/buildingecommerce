@@ -39,11 +39,11 @@
 .pagination .page-item-right {
     background-color: #e8e8e8;
     border-radius: 50% !important;
-    width: 35px;
+    width: 30px;
     border: none;
     margin: 0 10px;
     transition: background-color 0.3s;
-    height: 35px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,9 +68,10 @@
     background-color: white !important;
     background: white !important;
 }
-
 .pagination .page-item:hover i,
-.pagination .page-item .page-link:hover i{
+.pagination .page-item .page-link:hover i,
+.pagination .page-item:hover a,
+.pagination .page-item .page-link:hover a{
     color:#EA2B2E !important
 }
 /* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
