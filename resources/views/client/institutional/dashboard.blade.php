@@ -86,7 +86,7 @@
                         </div>
                 
                     </div>
-                    <button class="storeShareBtn">Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i></button>
+                    <button class="storeShareBtn" onclick="shareStore('{{ route('institutional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}')">Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i></button>
                 </div>
 
                 <div class="card-body">
@@ -436,6 +436,13 @@
             ]
         });
     </script>
+    <script>
+        function shareStore(url) {
+            // WhatsApp üzerinde paylaşım yapmak için aşağıdaki URL'yi kullanabilirsiniz
+            window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(url));
+        }
+    </script>
+    
 @endsection
 
 @section('styles')
