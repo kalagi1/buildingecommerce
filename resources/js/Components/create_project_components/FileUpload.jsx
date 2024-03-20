@@ -1,38 +1,43 @@
 import React, { useRef, useState } from 'react'
 function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors}) {
     const inputRef = useRef();
-    const [loading,setLoading] = useState(false);
+    const [uploadingOrder,setUploadingOrder] = useState([[]]);
+    const [imageLoading,setImageLoading] = useState(false);
+    const [loadingImageCount,setLoadingImageCount] = useState(0);
+    const [imagesLoadingHtml,setImagesLoadingHtml] = useState([]);
     const fileUpload = async (event) => {
         if(!document){
             if(multiple){
                 const files = event.target.files;
                 const tempImages = [];
                 const tempImages2 = []; 
-    
+                setLoadingImageCount(files.length);
+                loadingImageSkeletion(files.length);
+                setImageLoading(true);
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     tempImages2.push(file);
                     const reader = new FileReader();
     
                     // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
-                    const loadPromise = new Promise((resolve) => {
-                        reader.onload = () => {
-                            resolve(reader.result);
-                        };
-                    });
-    
                     if (file) {
-                        reader.readAsDataURL(file); // Resmi oku
-                        const imageDataUrl = await loadPromise; // Resim yüklendiğinde Promise tamamlanana kadar bekler
+                        const imageDataUrl = await new Promise((resolve) => {
+                            reader.onload = () => {
+                                setTimeout(() => resolve(reader.result), 1000); // Her resim yüklendiğinde 1 saniye bekleyin
+                            };
+                            reader.readAsDataURL(file); // Resmi oku
+                        });
                         tempImages.push(imageDataUrl); // Geçici resimler dizisine ekle
+                        setUploadingOrder([tempImages]);
                     }
                 }
-                
                 setProjectData({
                     ...projectData,
                     [fileName+'_imagesx'] : tempImages,
                     [fileName] : tempImages2
                 });
+
+                setImageLoading(false);
             }else{
                 const file = event.target.files[0];
                 const reader = new FileReader();
@@ -44,13 +49,15 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         [fileName] : file
                     });
                 };
+
+                
         
                 if (file) {
                     reader.readAsDataURL(file);
                 }
             }
         }else{
-            const file = event.target.files[0];
+            const file = filesx[0];
             
             setProjectDataFunc(fileName,file)
         }
@@ -62,31 +69,33 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 const files = filesx;
                 const tempImages = [];
                 const tempImages2 = []; 
-    
+                setLoadingImageCount(files.length);
+                loadingImageSkeletion(files.length);
+                setImageLoading(true);
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     tempImages2.push(file);
                     const reader = new FileReader();
     
                     // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
-                    const loadPromise = new Promise((resolve) => {
-                        reader.onload = () => {
-                            resolve(reader.result);
-                        };
-                    });
-    
                     if (file) {
-                        reader.readAsDataURL(file); // Resmi oku
-                        const imageDataUrl = await loadPromise; // Resim yüklendiğinde Promise tamamlanana kadar bekler
+                        const imageDataUrl = await new Promise((resolve) => {
+                            reader.onload = () => {
+                                setTimeout(() => resolve(reader.result), 1000); // Her resim yüklendiğinde 1 saniye bekleyin
+                            };
+                            reader.readAsDataURL(file); // Resmi oku
+                        });
                         tempImages.push(imageDataUrl); // Geçici resimler dizisine ekle
+                        setUploadingOrder([tempImages]);
                     }
                 }
-                
                 setProjectData({
                     ...projectData,
                     [fileName+'_imagesx'] : tempImages,
                     [fileName] : tempImages2
                 });
+
+                setImageLoading(false);
             }else{
                 const file = filesx[0];
                 const reader = new FileReader();
@@ -98,6 +107,8 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         [fileName] : file
                     });
                 };
+
+                
         
                 if (file) {
                     reader.readAsDataURL(file);
@@ -114,12 +125,21 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
         e.preventDefault();
         const file = e.dataTransfer.files;
         fileUpload2(file);
-        console.log(e,file);
     };
 
     const handleDragOver = (e) => {
         e.preventDefault();
     };
+
+    const loadingImageSkeletion = (loadingImageCountx) => {
+        var tempHtml = [];
+        for(var i = 0; i < loadingImageCountx; i++){
+            tempHtml.push(<div>asdasd</div>)
+        }
+
+        setImagesLoadingHtml(tempHtml);
+    }
+    console.log(imagesLoadingHtml);
 
     return(
         <div>
@@ -145,8 +165,36 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                             </div>
                         : ''
                     :
-                        loading ?
-                            <div className='fa fa-spinner'></div>
+                        imageLoading ?
+                            <div>
+                                <span className='d-block' style={{marginTop:'20px'}}>
+                                    Yüklenen Resim Sayısı : {uploadingOrder[0].length} / {loadingImageCount}
+                                </span>
+                                <div className="cover-photo">
+                                    {
+                                        multiple ? 
+                                            Array.from({ length: loadingImageCount }).map((_, imageIndex) => {
+                                                const imageUrl = uploadingOrder[0]?.[imageIndex]; // Güvenli erişim işleci (?.) kullanarak hata kontrolü sağlanıyor
+                                            
+                                                if (imageUrl) {
+                                                    return (
+                                                        <div className="project_imagex">
+                                                            <img src={imageUrl} />
+                                                        </div>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <div className="project_imagex">
+                                                            <span style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%'}}><i className='fa fa-spinner spinner-borderx'></i></span>
+                                                        </div>
+                                                    );
+                                                }
+                                            })
+                                        : 
+                                            ""
+                                    } 
+                                </div>
+                            </div>
                         :
                             projectData[fileName+'_imagex'] || projectData[fileName+'_imagesx'] ?
                                 <div className="cover-photo">
