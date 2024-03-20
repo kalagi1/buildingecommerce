@@ -581,7 +581,7 @@ img {
 .brand-head .brands-square {
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .brand-head .brand-logo {
@@ -24500,7 +24500,22 @@ form label.error {
     background: green !important;
 }
 
-
+.storeShareBtn{
+    width: 150px;
+    height: 30px;
+    margin-right: 20px;
+    border: none;
+    background-color: white;
+    border: 1px solid white;
+    display: flex;
+    border-radius: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: .5s;
+    overflow: hidden;
+    position: relative;
+}
 .see-my-neighbor .animation {
     border-radius: 100%;
     animation: ripple 0.6s linear infinite;

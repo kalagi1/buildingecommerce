@@ -86,7 +86,7 @@
                         </div>
                 
                     </div>
-
+                    <button class="storeShareBtn">Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i></button>
                 </div>
 
                 <div class="card-body">
