@@ -628,15 +628,21 @@ img {
     justify-content: left;
 }
 
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 @media (max-width: 768px) {
-    .brand-head .navbar-items{
+    .brand-head .navbar-items {
         overflow-x: scroll;
     }
 
-    .brand-head .navbar-items::-webkit-scrollbar{
-       display: none;
+    .brand-head .navbar-items::-webkit-scrollbar {
+        display: none;
     }
-    
+
 }
 
 .brand-head .navbar-item {
@@ -24515,15 +24521,17 @@ form label.error {
     padding: 5px 10px;
     border: 1px solid green !important;
 }
+
 .see-my-neighbor.payment {
     background: orange !important;
     border: 1px solid orange !important
 }
+
 .see-my-neighbor.success {
     background: green !important;
 }
 
-.storeShareBtn{
+.storeShareBtn {
     width: 150px;
     height: 30px;
     margin-right: 20px;
@@ -24539,6 +24547,7 @@ form label.error {
     overflow: hidden;
     position: relative;
 }
+
 .see-my-neighbor .animation {
     border-radius: 100%;
     animation: ripple 0.6s linear infinite;
@@ -29957,6 +29966,7 @@ a {
     font-weight: 600;
     font-size: 12px;
 }
+
 .user-notloggedin-container {
     padding: 16px !important;
     display: flex;
@@ -29967,7 +29977,8 @@ a {
     box-sizing: border-box;
 
 }
-.new-login-dropdown{
+
+.new-login-dropdown {
     display: none;
     font-weight: 400;
     background-color: #fff;
@@ -29981,11 +29992,13 @@ a {
     height: auto;
     top: 50px;
 }
+
 .userIconWrapper {
     position: relative;
     cursor: pointer;
     padding: 15px 0;
 }
+
 .userIconWrapper:hover .new-login-dropdown {
     display: block;
 }
@@ -30125,7 +30138,7 @@ a {
         background-color: red
     }
 
-    .paymentTableTitle{
+    .paymentTableTitle {
         white-space: normal !important;
     }
 }
@@ -30471,7 +30484,7 @@ a {
 
 
 .button-effect {
-    width: 35px !important; 
+    width: 35px !important;
     height: 35px !important;
     border-radius: 50%;
     display: flex;
@@ -30535,13 +30548,13 @@ a {
     }
 
     .mobileAddCollection:hover,
-    .disabledShareButton:hover  {
+    .disabledShareButton:hover {
         background-color: white !important;
         color: black !important
     }
 }
 
-.share-area{
+.share-area {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30552,7 +30565,7 @@ a {
     font-size: 22px;
 }
 
-.price-share{
+.price-share {
     font-size: 20px;
     font-weight: 700;
     color: #274abb;
@@ -30562,7 +30575,7 @@ a {
     text-transform: capitalize !important;
 }
 
-.payment-button-share{
+.payment-button-share {
     color: white;
     font-size: 11px;
     background-color: black;
@@ -30575,11 +30588,11 @@ a {
     height: 40px;
 }
 
-.project-card{
+.project-card {
     position: relative;
 }
 
-.sharer-button button{
+.sharer-button button {
     background: #EA2B2E !important;
     border: #EA2B2E !important;
     width: 150px;
@@ -30592,7 +30605,7 @@ a {
     margin-bottom: 1rem;
 }
 
-.sharers{
+.sharers {
     border: 1px solid #333;
     margin-left: 20px;
 }

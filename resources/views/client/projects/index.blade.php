@@ -856,7 +856,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel"
-        aria-hidden="true">
+      aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -897,7 +897,7 @@
 
             });
 
-            $(document).on("change",".citySelect2", function() {
+            $(document).on("change", ".citySelect2", function() {
                 var selectedCity = $(this).val();
                 console.log(selectedCity);
                 $.ajax({
@@ -1156,7 +1156,6 @@
                 stopOnFocus: true,
             }).showToast();
         }
-
     </script>
 
     <script>
