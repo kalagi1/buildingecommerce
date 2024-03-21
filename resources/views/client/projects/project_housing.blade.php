@@ -76,19 +76,13 @@
     @endphp
     @php
         $projectDiscountAmount = 0;
-        $projectOffer = App\Models\Offer::where('type', 'project')
-            ->where('project_id', $project->id)
-            ->whereRaw('FIND_IN_SET(?, project_housings)', [$housingOrder])
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->first();
         $offer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
-            ->whereRaw('FIND_IN_SET(?, project_housings)', [$housingOrder])
+            ->whereJsonContains('project_housings', $housingOrder)
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();
-        echo $projectOffer;
+        echo $offer;
 
         if ($offer) {
             $projectDiscountAmount = $offer->discount_amount;
