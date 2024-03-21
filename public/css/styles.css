@@ -628,6 +628,17 @@ img {
     justify-content: left;
 }
 
+@media (max-width: 768px) {
+    .brand-head .navbar-items{
+        overflow-x: scroll;
+    }
+
+    .brand-head .navbar-items::-webkit-scrollbar{
+       display: none;
+    }
+    
+}
+
 .brand-head .navbar-item {
     text-decoration: none;
     color: black;

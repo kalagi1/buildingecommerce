@@ -33,51 +33,53 @@
                             @endif
                         @endif
 
+                       <div class="mobile-hidden">
                         @if (Route::is('housing.show'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">{{ $housing->title }}</p>
-                        @endif
-
-                        @if (Route::is('club.dashboard'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">Koleksiyonlar</p>
-                        @endif
-
-                        @if (Route::is('project.housings.detail'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">{{ $project->project_title }} {{ $housingOrder }} NO'LU
-                                {{ mb_strtoupper($project->step1_slug) }}</p>
-                        @endif
-
-                        @if (Route::is('institutional.profile'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">Mağaza Profili</p>
-                        @endif
-
-                        @if (Route::is('institutional.projects.detail'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">Proje İlanları</p>
-                        @endif
-
-                        @if (Route::is('institutional.housings'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">Emlak İlanları</p>
-                        @endif
-
-                        @if (Route::is('institutional.teams'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">Ekibimiz</p>
-                        @endif
-
-                        @if (Route::is('sharer.links.showClientLinks'))
-                            <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                            <p class="brand-name">{{ $collection->name }} ({{ count($mergedItems) }} İlan)</p>
-                        @endif
-
-                        @if (Route::is("project.detail"))
                         <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                        <p class="brand-name">{{ $project->project_title }}</p>
-                        @endif
+                        <p class="brand-name">{{ $housing->title }}</p>
+                    @endif
+
+                    @if (Route::is('club.dashboard'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Koleksiyonlar</p>
+                    @endif
+
+                    @if (Route::is('project.housings.detail'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">{{ $project->project_title }} {{ $housingOrder }} NO'LU
+                            {{ mb_strtoupper($project->step1_slug) }}</p>
+                    @endif
+
+                    @if (Route::is('institutional.profile'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Mağaza Profili</p>
+                    @endif
+
+                    @if (Route::is('institutional.projects.detail'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Proje İlanları</p>
+                    @endif
+
+                    @if (Route::is('institutional.housings'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Emlak İlanları</p>
+                    @endif
+
+                    @if (Route::is('institutional.teams'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">Ekibimiz</p>
+                    @endif
+
+                    @if (Route::is('sharer.links.showClientLinks'))
+                        <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                        <p class="brand-name">{{ $collection->name }} ({{ count($mergedItems) }} İlan)</p>
+                    @endif
+
+                    @if (Route::is("project.detail"))
+                    <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
+                    <p class="brand-name">{{ $project->project_title }}</p>
+                    @endif
+                       </div>
                     </div>
                 </div>
                 <button class="storeShareBtn"
