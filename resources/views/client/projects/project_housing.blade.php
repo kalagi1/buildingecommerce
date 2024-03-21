@@ -866,23 +866,16 @@
 
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query
-                                                                    ->orWhereJsonContains('project_housings', [$i + 1])
-                                                                    ->orWhereJsonContains(
-                                                                        'project_housings',
-                                                                        (string) ($i + 1),
-                                                                    ); // Handle as string as JSON might store values as strings
-                                                            })
+                                                            ->whereJsonContains('project_housings', $i+1)
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
 
+                                                            echo $i+1;
+
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-
-                                                        $statusSlug = $status->slug;
                                                     @endphp
 
                                                     <x-project-item-card :project="$project" :allCounts="$allCounts"
@@ -923,22 +916,13 @@
 
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query
-                                                                    ->orWhereJsonContains('project_housings', [$i + 1])
-                                                                    ->orWhereJsonContains(
-                                                                        'project_housings',
-                                                                        (string) ($i + 1),
-                                                                    ); // Handle as string as JSON might store values as strings
-                                                            })
+                                                            ->whereJsonContains('project_housings', $i+1)
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
-
-                                                        $statusSlug = $status->slug;
                                                     @endphp
                                                     <x-project-item-mobile-card :towns="$towns" :cities="$cities"
                                                         :blockStart="0" :blockName="$blockName" :project="$project"
@@ -960,7 +944,6 @@
 
                                 </div>
                             @endif
-
 
                         </div>
                         <div class="tab-pane fad blog-info details mb-30" id="payment" role="tabpanel"
