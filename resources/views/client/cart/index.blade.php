@@ -127,6 +127,9 @@
                                                 ->where('end_date', '>=', now())
                                                 ->first();
 
+                                                echo  $cart['item']['housing'];
+                                                echo $projectOffer;
+
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
 
