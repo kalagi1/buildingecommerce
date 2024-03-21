@@ -94,9 +94,12 @@
                         <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
                             href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Mağaza
                             Profili</a>
-                        <a class="navbar-item {{ Route::is('institutional.projects.detail*') ? 'active' : '' }}"
+                            @if ($store->corporate_type != "Emlakçı")
+                            <a class="navbar-item {{ Route::is('institutional.projects.detail*') ? 'active' : '' }}"
                             href="{{ route('institutional.projects.detail', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Proje
-                            İlanları</a>
+                            İlanları</a> 
+                            @endif
+                       
                         <a class="navbar-item {{ Route::is('institutional.housings*') ? 'active' : '' }}"
                             href="{{ route('institutional.housings', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Emlak
                             İlanları</a>
