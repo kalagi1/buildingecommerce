@@ -122,7 +122,14 @@
                                         } else {
                                             $projectOffer = App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $cart['item']['id'])
-                                                ->whereJsonContains('project_housings', $cart['item']['housing'])
+                                                ->where(function ($query) use ($i) {
+                                                                $query
+                                                                    ->orWhereJsonContains('project_housings', [$cart['item']['housing']])
+                                                                    ->orWhereJsonContains(
+                                                                        'project_housings',
+                                                                        (string) ($cart['item']['housing']),
+                                                                    ); // Handle as string as JSON might store values as strings
+                                                            })
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
