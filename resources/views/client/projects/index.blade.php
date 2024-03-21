@@ -886,7 +886,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     $('#applySampleModal').modal('show');
-                }, 5000);
+                }, 1000);
             });
         }
         $(document).ready(function() {
