@@ -871,6 +871,8 @@
                                                             ->where('end_date', '>=', now())
                                                             ->first();
 
+                                                            echo $i+1;
+
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
