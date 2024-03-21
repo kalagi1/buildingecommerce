@@ -360,12 +360,7 @@
             ]
         });
     </script>
-    <script>
-        function shareStore(url) {
-            // WhatsApp üzerinde paylaşım yapmak için aşağıdaki URL'yi kullanabilirsiniz
-            window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(url));
-        }
-    </script>
+  
 @endsection
 
 @section('styles')
