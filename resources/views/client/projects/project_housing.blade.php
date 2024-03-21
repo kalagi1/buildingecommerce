@@ -82,6 +82,8 @@
             ->where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();
+            echo $housingOrder;
+            echo $project->id;
 
         if ($offer) {
             $projectDiscountAmount = $offer->discount_amount;
