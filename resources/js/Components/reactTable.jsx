@@ -406,16 +406,16 @@ function ReactTable(props) {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>No.</TableCell>
-                                                <TableCell>Proje Adı</TableCell>
-                                                <TableCell>Toplam İlan Sayısı</TableCell>
-                                                <TableCell>Satış Adeti</TableCell>
-                                                <TableCell>Onaydaki Siparişler</TableCell>
-                                                <TableCell>Satışa Kapalı Adet</TableCell>
-                                                <TableCell>Satışa Açık Adet</TableCell>
-                                                <TableCell>Yayın Durumu</TableCell>
-                                                <TableCell>İlanları Düzenle</TableCell>
-                                                <TableCell>İşlem Kayıtları & Genel Düzenleme</TableCell>
-                                                <TableCell>Sil</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Proje Adı</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Toplam İlan Sayısı</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Satış Adeti</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Onaydaki Siparişler</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Satışa Kapalı Adet</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Satışa Açık Adet</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Yayın Durumu</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>İlanları Düzenle</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>İşlem Kayıtları & Genel Düzenleme</TableCell>
+                                                <TableCell style={{whiteSpace:'nowrap'}}>Sil</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -430,7 +430,7 @@ function ReactTable(props) {
                                                 <TableCell >
                                                     {row.project_title} 
                                                     <br/>
-                                                    <span className='table-location'>
+                                                    <span className='table-location' style={{whiteSpace:'nowrap'}}>
                                                         {row.city.title} / {row.county.ilce_title} / {row.neighbourhood?.mahalle_title}
                                                     </span>
                                                 </TableCell>
@@ -453,21 +453,25 @@ function ReactTable(props) {
                                                     <a href={`https://emlaksepette.com/institutional/projects/${row.id}/housings_v2`} class="badge badge-phoenix badge-phoenix-success">İlanları Düzenle</a>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
-                                                    <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                    <div className="d-flex">
+                                                        <a class="badge badge-phoenix badge-phoenix-warning" href={`https://emlaksepette.com/institutional/projects/${row.id}/logs`}>İşlem Kayıtları</a>
+                                                        <a class="badge badge-phoenix badge-phoenix-success mx-3" href={`https://emlaksepette.com/institutional/edit_project_v2/${row.slug}/${row.id}`}>Genel Düzenleme</a>
+                                                    </div>
                                                 </TableCell>
                                                 <TableCell>
-                                                    {
-                                                        row.status == 2 ?
-                                                            <button className='badge badge-phoenix badge-phoenix-warning'>Admin Onayının Arından işlem Yapabilirsiniz</button>
-                                                        : 
-                                                            row.status == 0 ? 
-                                                                <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-success'>Aktife Al</button>
-                                                            :  
-                                                                <button onClick={() => {deactive(row.id)}} className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
+                                                    <div className="d-flex">
+                                                        {
+                                                            row.status == 2 ?
+                                                                <button className='badge badge-phoenix badge-phoenix-warning'>Admin Onayının Arından işlem Yapabilirsiniz</button>
+                                                            : 
+                                                                row.status == 0 ? 
+                                                                    <button onClick={() => {active(row.id)}} className='badge badge-phoenix badge-phoenix-success'>Aktife Al</button>
+                                                                :  
+                                                                    <button onClick={() => {deactive(row.id)}} className='badge badge-phoenix badge-phoenix-danger'>Pasife Al</button>
 
-                                                    }
-                                                    <button onClick={() => {remove(row.id)}} className='badge badge-phoenix badge-phoenix-danger mx-3'>Sil</button>
+                                                        }
+                                                        <button onClick={() => {remove(row.id)}} className='badge badge-phoenix badge-phoenix-danger mx-3'>Sil</button>
+                                                    </div>
                                                 </TableCell>
                                             </TableRow>
                                         ))}

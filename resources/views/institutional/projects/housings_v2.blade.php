@@ -4,7 +4,7 @@
 
 
 @section('content')
-    <div class="content">
+    <div class="content px-0">
         <div id="react_render_area"></div>
     </div>
 @endsection

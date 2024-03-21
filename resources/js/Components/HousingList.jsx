@@ -702,7 +702,7 @@ function HousingList({projectId}) {
     return(
         <div>
             <ToastContainer/>
-            <div className="card p-4">
+            <div className="card py-4">
                 <div className="estate-table">
                     <div className="table-breadcrumb">
                         <ul>
@@ -810,175 +810,177 @@ function HousingList({projectId}) {
                         : 
                             rows.length > 0 ?
                                 <>
-                                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell><input onChange={() => {selectedAllCheck ? selectAll() : selectAll()}} checked={selectedAllCheck} type="checkbox" /></TableCell>
-                                                <TableCell>No.</TableCell>
-                                                <TableCell>İlan Resmi</TableCell>
-                                                <TableCell>İlan Adı</TableCell>
-                                                <TableCell>Fiyat</TableCell>
-                                                <TableCell>Taksitli Fiyat</TableCell>
-                                                <TableCell>Ara Ödemeler</TableCell>
-                                                <TableCell>Taksit Sayısı</TableCell>
-                                                <TableCell>Peşinat</TableCell>
-                                                <TableCell>Satış Durumu</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                        {rows.map((row,key) => (
-                                            <TableRow
-                                            key={row.id}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell scope="row">
-                                                    {
-                                                        <input onChange={() => changeRoom(getLastCount() + key)} checked={selectedRooms.includes(getLastCount() + key + 1)} type="checkbox" />
-                                                    }
-                                                </TableCell>
-                                                <TableCell scope="row">
-                                                    {(rowPerPage * page) + key + 1}
-                                                </TableCell>
-                                                <TableCell scope="row">
-                                                    <div className='image-area' style={{width:'50px',height:'50px',display:'flex',alignItems:'center',justifyItems:'center'}}>
-                                                        <div className="image-change" onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateImageModalOpen(true);setSelectedColumn("image");setSelectedType('İlan Resimi');}}>
-                                                            Resmi Değiştir
-                                                        </div>
-                                                        <img src={frontEndUrl+'project_housing_images/'+row['image[]']} alt="" />
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <div className="d-flex">
-                                                        {row['advertise_title[]']} 
-                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advertise_title");setIsDotType(false);setSelectedType('İlan Başlığı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                    </div>
-                                                    <strong>
+                                    <TableContainer>
+                                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell><input onChange={() => {selectedAllCheck ? selectAll() : selectAll()}} checked={selectedAllCheck} type="checkbox" /></TableCell>
+                                                    <TableCell>No.</TableCell>
+                                                    <TableCell>İlan Resmi</TableCell>
+                                                    <TableCell>İlan Adı</TableCell>
+                                                    <TableCell>Fiyat</TableCell>
+                                                    <TableCell>Taksitli Fiyat</TableCell>
+                                                    <TableCell>Ara Ödemeler</TableCell>
+                                                    <TableCell>Taksit Sayısı</TableCell>
+                                                    <TableCell>Peşinat</TableCell>
+                                                    <TableCell>Satış Durumu</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                            {rows.map((row,key) => (
+                                                <TableRow
+                                                key={row.id}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell scope="row">
                                                         {
-                                                            !row['share_sale[]'] || row['share_sale[]'] == "[]"? 
-                                                                ""
-                                                            : "Hisseli Satış"
+                                                            <input onChange={() => changeRoom(getLastCount() + key)} checked={selectedRooms.includes(getLastCount() + key + 1)} type="checkbox" />
                                                         }
-                                                    </strong>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <div className="d-flex">
-                                                        {dotNumberFormat(row['price[]'])} ₺
-                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("price");setIsDotType(true);setSelectedType('Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <div className="d-flex">
-                                                        {dotNumberFormat(row['installments-price[]'])} ₺
-                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments-price");setIsDotType(true);setSelectedType('Taksitli Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setUpdatePayDecModalOpen(true)}} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
-                                                        Ara ödemeleri güncelle 
-                                                        <br/>
-                                                        {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Adet ara ödeme bulunmakta
-                                                    </span>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <div className="d-flex">
-                                                        {row['installments[]']}
-                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments");setIsDotType(true);setSelectedType('Taksit Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell >
-                                                    <div className="d-flex">
-                                                        {dotNumberFormat(row['advance[]'])} ₺
-                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <div className="d-flex">
+                                                    </TableCell>
+                                                    <TableCell scope="row">
+                                                        {(rowPerPage * page) + key + 1}
+                                                    </TableCell>
+                                                    <TableCell scope="row">
+                                                        <div className='image-area' style={{width:'50px',height:'50px',display:'flex',alignItems:'center',justifyItems:'center'}}>
+                                                            <div className="image-change" onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateImageModalOpen(true);setSelectedColumn("image");setSelectedType('İlan Resimi');}}>
+                                                                Resmi Değiştir
+                                                            </div>
+                                                            <img src={frontEndUrl+'project_housing_images/'+row['image[]']} alt="" />
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div style={{whiteSpace:'nowrap',alignItems:'center'}} className="d-flex">
+                                                            {row['advertise_title[]']} 
+                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advertise_title");setIsDotType(false);setSelectedType('İlan Başlığı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                        </div>
+                                                        <strong>
+                                                            {
+                                                                !row['share_sale[]'] || row['share_sale[]'] == "[]"? 
+                                                                    ""
+                                                                : "Hisseli Satış"
+                                                            }
+                                                        </strong>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            {dotNumberFormat(row['price[]'])} ₺
+                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("price");setIsDotType(true);setSelectedType('Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            {dotNumberFormat(row['installments-price[]'])} ₺
+                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments-price");setIsDotType(true);setSelectedType('Taksitli Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setUpdatePayDecModalOpen(true)}} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                            Ara ödemeleri güncelle 
+                                                            <br/>
+                                                            {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Adet ara ödeme bulunmakta
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            {row['installments[]']}
+                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments");setIsDotType(true);setSelectedType('Taksit Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            {dotNumberFormat(row['advance[]'])} ₺
+                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <div className="d-flex">
 
-                                                        <div>
-                                                            {
-                                                                row['share_sale[]'] && row['share_sale[]'] != "[]" ? 
-                                                                    <div className="mb-2 d-flex">
-                                                                        <span className='badge badge-phoenix badge-phoenix-info'>
-                                                                            Hisse Sayısı
-                                                                        </span>
-                                                                        <span className='badge badge-phoenix badge-phoenix-success mx-2'>
-                                                                        {
-                                                                            row['share_sale[]'] != "[]" ? 
-                                                                                findOrderQt(getLastCount() + key + 1)+" / "+row['number_of_shares[]']
-                                                                            : ""
-                                                                        }
-                                                                        </span>
-                                                                    </div>
-                                                                : ""
-                                                            }
-                                                            
-                                                            {
-                                                                row['share_sale[]'] && row['share_sale[]'] != "[]" ? 
-                                                                    <div className="d-flex">
-                                                                        {
-                                                                            findOrderQt(getLastCount() + key + 1) == 0 ?
-                                                                                row['off_sale[]'] == '[]' ?
-                                                                                    <button className="badge badge-phoenix badge-phoenix-success value-text">
-                                                                                        Satışa Açık
-                                                                                    </button>
-                                                                                : 
-                                                                                    <button className="badge badge-phoenix badge-phoenix-danger value-text">
-                                                                                        Satışa Kapatıldı 
-                                                                                    </button>
-                                                                            : <button className="badge badge-phoenix badge-phoenix-success value-text">
-                                                                                Satışa Açık
-                                                                            </button>
-                                                                        }
-                                                                        {
-                                                                            findOrderQt(getLastCount() + key + 1) == 0 ?
-                                                                                <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                            : 
-                                                                                <Tooltip title="Bu ilanda hisse satıldığı için satış durumunda değişiklik yapılamaz" placement="top">
-                                                                                    <InfoIcon className='info-icon'/>
-                                                                                </Tooltip>
-                                                                        }
-                                                                    </div>
+                                                            <div>
+                                                                {
+                                                                    row['share_sale[]'] && row['share_sale[]'] != "[]" ? 
+                                                                        <div className="mb-2 d-flex">
+                                                                            <span className='badge badge-phoenix badge-phoenix-info'>
+                                                                                Hisse Sayısı
+                                                                            </span>
+                                                                            <span className='badge badge-phoenix badge-phoenix-success mx-2'>
+                                                                            {
+                                                                                row['share_sale[]'] != "[]" ? 
+                                                                                    findOrderQt(getLastCount() + key + 1)+" / "+row['number_of_shares[]']
+                                                                                : ""
+                                                                            }
+                                                                            </span>
+                                                                        </div>
                                                                     : ""
-                                                            }
-                                                            {
-                                                                !row['share_sale[]'] || row['share_sale[]'] == "[]" ? 
-                                                                    <div className="d-flex">
-                                                                        {
-                                                                            findSold(getLastCount() + key + 1) != null ? 
-                                                                                findSold(getLastCount() + key + 1) == 0 ? 
-                                                                                    <button className="badge badge-phoenix badge-phoenix-warning">Ödeme Bekleniyor</button>
-                                                                                : 
-                                                                                    findSold(getLastCount() + key + 1) == 1 ? 
-                                                                                        <button class="badge badge-phoenix badge-phoenix-danger">Satıldı </button>
-                                                                                    : 
-                                                                                        <button class="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
-                                                                            : 
-                                                                                row['off_sale[]'] == '[]' ?
-                                                                                    <div className='d-flex'>
+                                                                }
+                                                                
+                                                                {
+                                                                    row['share_sale[]'] && row['share_sale[]'] != "[]" ? 
+                                                                        <div className="d-flex">
+                                                                            {
+                                                                                findOrderQt(getLastCount() + key + 1) == 0 ?
+                                                                                    row['off_sale[]'] == '[]' ?
                                                                                         <button className="badge badge-phoenix badge-phoenix-success value-text">
                                                                                             Satışa Açık
                                                                                         </button>
-                                                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                                    </div>  
-                                                                                : 
-                                                                                    <div className='d-flex'>
+                                                                                    : 
                                                                                         <button className="badge badge-phoenix badge-phoenix-danger value-text">
                                                                                             Satışa Kapatıldı 
                                                                                         </button>
-                                                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
-                                                                                    </div>  
-                                                                        }
-                                                                    </div>
-                                                                : ""
-                                                            }
-                                                            
+                                                                                : <button className="badge badge-phoenix badge-phoenix-success value-text">
+                                                                                    Satışa Açık
+                                                                                </button>
+                                                                            }
+                                                                            {
+                                                                                findOrderQt(getLastCount() + key + 1) == 0 ?
+                                                                                    <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                                : 
+                                                                                    <Tooltip title="Bu ilanda hisse satıldığı için satış durumunda değişiklik yapılamaz" placement="top">
+                                                                                        <InfoIcon className='info-icon'/>
+                                                                                    </Tooltip>
+                                                                            }
+                                                                        </div>
+                                                                        : ""
+                                                                }
+                                                                {
+                                                                    !row['share_sale[]'] || row['share_sale[]'] == "[]" ? 
+                                                                        <div className="d-flex">
+                                                                            {
+                                                                                findSold(getLastCount() + key + 1) != null ? 
+                                                                                    findSold(getLastCount() + key + 1) == 0 ? 
+                                                                                        <button className="badge badge-phoenix badge-phoenix-warning">Ödeme Bekleniyor</button>
+                                                                                    : 
+                                                                                        findSold(getLastCount() + key + 1) == 1 ? 
+                                                                                            <button class="badge badge-phoenix badge-phoenix-danger">Satıldı </button>
+                                                                                        : 
+                                                                                            <button class="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
+                                                                                : 
+                                                                                    row['off_sale[]'] == '[]' ?
+                                                                                        <div className='d-flex'>
+                                                                                            <button className="badge badge-phoenix badge-phoenix-success value-text">
+                                                                                                Satışa Açık
+                                                                                            </button>
+                                                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                                        </div>  
+                                                                                    : 
+                                                                                        <div className='d-flex'>
+                                                                                            <button className="badge badge-phoenix badge-phoenix-danger value-text">
+                                                                                                Satışa Kapatıldı 
+                                                                                            </button>
+                                                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setChangePaymentStatusOpen(true)}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                                        </div>  
+                                                                            }
+                                                                        </div>
+                                                                    : ""
+                                                                }
+                                                                
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                        </TableBody>
-                                    </Table>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
                                     <TablePagination
                                         rowsPerPageOptions={[5, 10, 15,20, { label: 'All', value: 999 }]}
                                         colSpan={3}
