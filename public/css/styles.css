@@ -628,11 +628,6 @@ img {
     justify-content: left;
 }
 
-.modal {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
 @media (max-width: 768px) {
     .brand-head .navbar-items {
