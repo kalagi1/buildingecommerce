@@ -678,7 +678,7 @@
             $(document).ready(function() {
                 $('#applySampleModal img').click(function() {
                     $('#applySampleModal').modal('hide');
-                    $('#exampleModal30').modal('show');
+                    $('#exampleModal10').modal('show');
                 });
             });
 
