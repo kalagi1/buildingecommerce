@@ -120,7 +120,6 @@
 
                                             $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
                                         } else {
-                                            echo $cart['item']['housing'];
                                             $projectOffer = App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $cart['item']['id'])
                                                 ->whereRaw('FIND_IN_SET(?, project_housings)', [
@@ -285,7 +284,6 @@
                                         <li>İlan Fiyatı<strong class="pull-right">
                                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                            {{ $projectDiscountAmount }} {{ ' ' }} {{ $housingDiscountAmount }}
                                             <li style="color:#EA2B2E">Mağaza İndirimi :
                                                 <strong class="pull-right">
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
