@@ -897,6 +897,7 @@
 
             $('.citySelect2').change(function() {
                 var selectedCity = $(this).val();
+                console.log(selectedCity);
                 $.ajax({
                     type: 'GET',
                     url: '/get-counties/' + selectedCity,
