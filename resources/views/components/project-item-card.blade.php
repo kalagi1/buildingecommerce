@@ -636,6 +636,23 @@
                 $('.ibanInfo').html(ibanInfo);
             });
 
+            $('.citySelect').change(function() {
+            var selectedCity = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/get-counties/' + selectedCity,
+                success: function(data) {
+                    var countySelect = $('.countySelect');
+                    countySelect.empty();
+                    countySelect.append('<option value="">İlçe Seçiniz</option>');
+                    $.each(data, function(index, county) {
+                        countySelect.append('<option value="' + county.ilce_key + '">' + county
+                            .ilce_title +
+                            '</option>');
+                    });
+                }
+            });
+        });
 
             $('#completePaymentButton{{ $sold->id }}').on('click', function() {
                 // Ödeme sırasındaki satış ID'sini al
