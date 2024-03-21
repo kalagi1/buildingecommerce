@@ -153,5 +153,9 @@
         .mobile-hidden-flex{
             display: none !important;
         }
+
+        .collection{
+            width:100% !important;
+        }
     }
 </style>
