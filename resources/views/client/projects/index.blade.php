@@ -856,6 +856,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel"
+    style="display: flex;align-items:center"
       aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
