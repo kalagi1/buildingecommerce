@@ -127,8 +127,8 @@
                                 </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key + 1 }}"
-                                            data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-{{ $key + 1 }}" data-slide-to="{{ $key + 1 }}"
+                                            data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -854,7 +854,17 @@
             <span class="sr-only">Loading...</span>
         </div>
     </div>
-
+    <!-- Modal -->
+    <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img loading="lazy" src="{{ asset('images/apply-popup.jpg') }}" class="img-fluid blur-up lazyloaded"
+                        alt="" style="width:100%;height:100%;cursor:pointer">
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -866,6 +876,24 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        var project = "{{ $project->id }}";
+
+        if (project == "383") {
+            document.addEventListener("DOMContentLoaded", function() {
+                setTimeout(function() {
+                    $('#applySampleModal').modal('show');
+                }, 1000);
+            });
+        }
+        $(document).ready(function() {
+            $('#applyModal img').click(function() {
+                $('#exampleModal30').modal('show');
+            });
+        });
+    </script>
 
     <script>
         var itemsPerPage = 10;
@@ -1152,7 +1180,7 @@
                     lng: {{ explode(',', $project->location)[1] }}
                 },
                 zoom: 16,
-				gestureHandling: 'greedy'
+                gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1175,7 +1203,7 @@
                     lng: {{ explode(',', $project->location)[1] }}
                 },
                 zoom: 12,
-				gestureHandling: 'greedy'
+                gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({

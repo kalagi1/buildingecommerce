@@ -408,11 +408,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-body">
-                    <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
+                    {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                         id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
                         için
                         Başvuru Yap</h3>
-                    <hr>
+                    <hr> --}}
                     <form method="POST" action="{{ route('give_offer') }}">
                         @csrf
                         {{-- {{ $i+1 }} --}}
@@ -673,6 +673,13 @@
                         }
                     });
                 }
+            });
+
+            $(document).ready(function() {
+                $('#applySampleModal img').click(function() {
+                    $('#applySampleModal').modal('hide');
+                    $('#exampleModal30').modal('show');
+                });
             });
 
             function generateRandomCode() {

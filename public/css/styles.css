@@ -25569,7 +25569,7 @@ ul {
 
 .seller-profile .seller-info-container {
     display: grid;
-    grid-template-columns: repeat(3, 3fr);
+    grid-template-columns: repeat(4, 4fr);
     grid-row-gap: 20px;
     grid-column-gap: 18px;
     margin-bottom: 20px

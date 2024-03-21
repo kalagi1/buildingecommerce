@@ -25,35 +25,40 @@
             <div class="seller-profile">
                 <div class="seller-info-container">
 
-                    <div class="seller-info-container__wrapper"><img src="{{ url('images/artboard-2.svg') }}"
-                            alt="icon" class="seller-info-container__wrapper__img">
-                        <div class="seller-info-container__wrapper__text-container"><span
-                                class="seller-info-container__wrapper__text-container__title">Katılma Tarihi</span><span
+                    <div class="seller-info-container__wrapper">
+                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                class="seller-info-container__wrapper__text-container__title">  Katılma Tarihi</span><span
                                 class="seller-info-container__wrapper__text-container__value">
                                 {{ $institutional->created_at->setTimezone('Europe/Istanbul')->format('d.m.Y') }}
                             </span>
                         </div>
                     </div>
-                    <div class="seller-info-container__wrapper"><img src="{{ url('phone.png') }}" alt="icon"
-                            class="seller-info-container__wrapper__img">
-                        <div class="seller-info-container__wrapper__text-container"><span
-                                class="seller-info-container__wrapper__text-container__title">İletişim </span><span
+                    <div class="seller-info-container__wrapper">
+                        
+                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                class="seller-info-container__wrapper__text-container__title"> İletişim </span><span
                                 class="seller-info-container__wrapper__text-container__value">
-                                <span> Telefon :
+                                <span> Telefon:
                                     {{ $institutional->phone ? $institutional->phone : 'Belirtilmedi.' }} <br>
-                                    E-Mail : {{ $institutional->email ? $institutional->email : 'Belirtilmedi' }}</span>
+                                    Email:  {{ $institutional->email ? $institutional->email : 'Belirtilmedi' }}</span>
 
                             </span>
                         </div>
                     </div>
-                    <div class="seller-info-container__wrapper"><img src="{{ url('images/artboard.svg') }}" alt="icon"
-                            class="seller-info-container__wrapper__img">
-                        <div class="seller-info-container__wrapper__text-container"><span
-                                class="seller-info-container__wrapper__text-container__title">Konum</span><span
+                    <div class="seller-info-container__wrapper">
+                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                class="seller-info-container__wrapper__text-container__title">  Konum</span><span
                                 class="seller-info-container__wrapper__text-container__value">
                                 {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->neighborhood->mahalle_title }} </span></div>
+
+                    </div>
+                    <div class="seller-info-container__wrapper">
+                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                class="seller-info-container__wrapper__text-container__title"> <i class="fa fa-globe"></i></span><span
+                                class="seller-info-container__wrapper__text-container__value">
+                                Websiteye Git</span></div>
 
                     </div>
                 </div>
@@ -256,6 +261,9 @@
             color: #999;
             margin-left: 20px;
             margin-bottom: 10px;
+        }
+        .seller-info-container__wrapper__text-container__title i {
+            font-size: 25px;
         }
     </style>
 @endsection
