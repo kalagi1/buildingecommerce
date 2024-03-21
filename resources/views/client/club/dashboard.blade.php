@@ -71,8 +71,8 @@
                         </div>
                         <div class="collection-content">
                             <div class="collection-images">
-                                @foreach ($collection->links as $link)
-                                    @php
+                                @foreach ($collection->links->take(4) as $link)
+                                @php
                                         $projectFirstImage = null;
                                         if ($link->item_type == 1) {
                                             $data = $link->projectHousingData($link->project->id, $link->room_order);
@@ -456,9 +456,10 @@
         .collection-images img {
             border: 1px solid #e6e6e6;
             border-radius: 4px;
-            width: 42px;
+            width: 50px;
             height: 64px;
             margin-right: 10px;
+            object-fit: cover;
         }
 
         .collection-content {
