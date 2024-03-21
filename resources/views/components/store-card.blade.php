@@ -33,7 +33,7 @@
                             @endif
                         @endif
 
-                       <div class="mobile-hidden">
+                       <div class="mobile-hidden-flex">
                         @if (Route::is('housing.show'))
                         <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
                         <p class="brand-name">{{ $housing->title }}</p>
@@ -142,3 +142,16 @@
         window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(url));
     }
 </script>
+
+<style>
+
+    .mobile-hidden-flex{
+        display: flex;
+    }
+
+    @media (max-width: 768px) {
+        .mobile-hidden-flex{
+            display: none !important;
+        }
+    }
+</style>
