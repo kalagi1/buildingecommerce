@@ -19,9 +19,9 @@
                             <div class="border rounded-2 px-3 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm">
                                 <div class="card-header border-bottom bg-white mb-3"
                                     style="display: flex;
-                                justify-content: space-between;
-                                padding: 5px;
-                                align-items: center;">
+                                    justify-content: space-between;
+                                    padding: 5px;
+                                    align-items: center;">
                                     <strong style="font-size: 11px;text-align:left">
                                         <span style="color:#e54242"><i class="fa fa-eye"></i>
                                             {{ count($collection->clicks) }} Görüntülenme</span>
@@ -89,9 +89,9 @@
                                         </div>
                                     </div>
                                 </div>
-                              
-       
-                             
+
+
+
                                 <div class="modal fade" id="editCollectionModal{{ $collection->id }}" tabindex="-1"
                                     aria-labelledby="editCollectionModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -111,8 +111,7 @@
                                                         <label for="collectionName" class="form-label">Koleksiyon
                                                             Adı</label>
                                                         <input type="text" class="form-control" id="collectionName"
-                                                            name="collectionName" value="{{ $collection->name }}"
-                                                            required>
+                                                            name="collectionName" value="{{ $collection->name }}" required>
                                                     </div>
 
                                                     <button type="submit" class="btn btn-primary">Güncelle</button>
@@ -123,60 +122,82 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-7">
                                         <div class="d-flex align-items-center mb-2">
 
-                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">Koleksiyon Adı: <span
-                                                    class="fw-semibold text-primary ms-1">{{ $collection->name }}</span></p>
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">Koleksiyon
+                                                Adı: <span
+                                                    class="fw-semibold text-primary ms-1">{{ $collection->name }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2 mt-3">
+
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">İlan Sayısı :
+                                                <span class="fw-semibold text-primary ms-1">
+                                                    {{ count($collection->links) }} İlan</span>
+                                            </p>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
-        
-                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">İlan Sayısı : <span
-                                                    class="fw-semibold text-primary ms-1"> {{count($collection->links)}} İlan</span></p>
+
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">
+                                                Mağazamda paylaş
+                                                <span style="margin-left:5px">
+                                                    <div class="form-check form-switch text-center d-block pb-0 mb-0">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            id="brandToggle_{{ $collection->id }}"
+                                                            {{ $collection->status == 1 ? 'checked' : '' }}
+                                                            onchange="toggleBrandStatus({{ $collection->id }}, this)" />
+                                                    </div>
+                                                </span>
+                                            </p>
+
+
                                         </div>
+
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <div class="col-md-12">
                                             <a href="{{ route('institutional.sharer.links.index', ['id' => $collection->id]) }}"
                                                 class="text-decoration-none">
                                                 <button style="width:100%;font-size:10px;padding:8px 0"
-                                                class="badge badge-phoenix fs-10 badge-phoenix-warning" type="button">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i> DÜZENLE
-                                            </button>
+                                                    class="badge badge-phoenix fs-10 badge-phoenix-warning"
+                                                    type="button">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i> DÜZENLE
+                                                </button>
                                             </a>
                                         </div>
                                         <div class="col-md-12">
-                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name),'userid' => Auth::user()->id, 'id' => $collection->id]) }}"
+                                            <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}"
                                                 class="text-decoration-none" target="_blank" style="width: 100%">
-    
+
                                                 <button style="width:100%;font-size:10px;padding:8px 0"
                                                     class="badge badge-phoenix fs-10 badge-phoenix-info" type="button">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i>  ÖNİZLE
+                                                    <i class="fa fa-eye" aria-hidden="true"></i> ÖNİZLE
                                                 </button>
                                             </a>
                                         </div>
                                         <div class="col-md-12">
                                             <button class="badge badge-phoenix fs-10 badge-phoenix-success"
-                                                    style="width:100%;font-size:10px;padding:8px 0" type="button"
-                                                    onclick="copyLink('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' =>Auth::user()->id , 'id' => $collection->id]) }}')">
+                                                style="width:100%;font-size:10px;padding:8px 0" type="button"
+                                                onclick="copyLink('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                 <i class="fa fa-copy" aria-hidden="true"></i> LİNKİ KOPYALA
                                             </button>
-                                            
+
                                         </div>
                                         <div class="col-md-12">
                                             <button class="badge badge-phoenix fs-10 badge-phoenix-success"
-                                                    style="width:100%;font-size:10px;padding:8px 0" type="button"
-                                                    onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' =>Auth::user()->id , 'id' => $collection->id]) }}')">
+                                                style="width:100%;font-size:10px;padding:8px 0" type="button"
+                                                onclick="copyLinkAndShare('{{ route('sharer.links.showClientLinks', ['slug' => Str::slug(Auth::user()->name), 'userid' => Auth::user()->id, 'id' => $collection->id]) }}')">
                                                 <i class="fa fa-whatsapp" aria-hidden="true"></i> WHATSAPPTA PAYLAŞ
                                             </button>
                                         </div>
-                                        
+
                                         <!-- Add this script at the end of your HTML body or after Bootstrap's JavaScript files -->
                                         <script>
                                             function copyLinkAndShare(link) {
                                                 window.location.href = "whatsapp://send?text=" + encodeURIComponent(link);
                                             }
-                                        
+
                                             function copyLink(text) {
                                                 var textArea = document.createElement("textarea");
                                                 textArea.value = text;
@@ -186,12 +207,12 @@
                                                 document.body.removeChild(textArea);
                                             }
                                         </script>
-                                        
-                                     
-                                        
-                                        
+
+
+
+
                                     </div>
-                                   
+
                                 </div>
 
                             </div>
@@ -207,7 +228,7 @@
         </div>
     </div>
 
-       
+
     <script>
         function copyLink(link) {
             var tempInput = document.createElement('input');
@@ -216,7 +237,30 @@
             tempInput.select();
             document.execCommand('copy');
             document.body.removeChild(tempInput);
-            alert("Kopyalandı");        }
+            alert("Kopyalandı");
+        }
+
+        function toggleBrandStatus(collectionID, element) {
+            const status = element.checked ? 1 : 0;
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('update.collection.status') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    collectionID: collectionID,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $(element).closest('.brand-item').attr('data-is-show', isShow);
+                    }
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        }
     </script>
 @endsection
 

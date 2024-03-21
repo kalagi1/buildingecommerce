@@ -51,38 +51,42 @@
 
     <x-store-card :store="$store" />
 
- 
+
 
     <section>
         <div class="container">
-            <div class="card border mb-3" data-list="{&quot;valueNames&quot;:[&quot;icon-list-item&quot;]}">
+            <div class="collections">
+                @foreach ($collections as $collection)
+                    <div class="collection">
+                        <div class="collection-head">
+                            <div><a
+                                    href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><img
+                                        class="collection-owner"
+                                        src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
+                                        class="label with-image"> {{ $collection->name }}</span></a></div>
+                            <ul class="collection-actions">
+                                <li><button><i class="fa fa-share-alt"></i><span>Paylaş</span></button></li>
 
-                <div class="card-body">
-                    <div class="row list" id="icon-list">
-                        @foreach ($collections as $collection)
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <a href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
-                                    class="text-decoration-none">
-
-                                    <span class="icon-list-item d-none">{{ $collection->name }}</span>
-                                    <div class="border rounded-2 p-3 mb-4 text-center bg-body-emphasis dark__bg-gray-1000 shadow-sm"
-                                        style="color:black">
-                                        <span class="numberCollection"
-                                            style="display:flex;align-items:center;justify-content:center">
-                                            <span>{{ count($collection->links) }} İlan</span>
-                                        </span>
-                                        <input style="cursor: pointer;background-color: #EA2B2E;color:White !important;"
-                                            class="form-control form-control-sm mt-3 text-center w-100 text-dark dark__text-gray-100 bg-body-secondary dark__bg-gray-1100"
-                                            type="text" readonly="readonly" value="{{ $collection->name }}">
-                                    </div>
-                                </a>
+                            </ul>
+                        </div>
+                        <div class="collection-content">
+                            <div class="collection-images">
+                                @foreach ($collection->links as $link)
+                                    <img src="{{ $link->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $link->project->image : URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image}}"
+                                        alt="product-image">
+                                @endforeach
                             </div>
-                        @endforeach
-
-
-
+                            <div class="collection-navigation">
+                                <div class="collection-stats">
+                                    <span class="collection-show-count"><i class="fa fa-eye"></i>
+                                        {{ count($collection->clicks) }}</span>
+                                </div><a
+                                    href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><span>Koleksiyona
+                                        Git</span> ({{ count($collection->links) }} İlan)</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -353,6 +357,154 @@
                 font-weight: 600;
                 font-size: 11px;
             }
+        }
+
+        .collections {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 0 auto;
+            justify-content: space-between;
+        }
+
+        .collection {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #e6e6e6;
+            width: calc(50% - 10px);
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .collection-head {
+            display: flex;
+            justify-content: space-between;
+            color: #333;
+            border-bottom: 1px solid #e6e6e6;
+            font-size: 16px;
+            padding: 12px 15px;
+            height: 44px;
+            box-sizing: border-box;
+        }
+
+        .collection-head div,
+        .collection-head a {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex: 1;
+            width: calc(100% - 100px);
+        }
+
+        .collection-owner {
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .collection-head a span.label.with-image {
+            width: calc(100% - 44px);
+        }
+
+        .collection-head div span.label,
+        .collection-head a span.label {
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: calc(100% - 10px);
+        }
+
+        .collection-head .collection-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .collection-head button i {
+            margin-right: 5px
+        }
+
+        .collection-head button {
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            color: black;
+            font-size: 12px;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+        }
+
+        .collection-images img {
+            border: 1px solid #e6e6e6;
+            border-radius: 4px;
+            width: 42px;
+            height: 64px;
+            margin-right: 10px;
+        }
+
+        .collection-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .collection-content .collection-images {
+            display: flex;
+        }
+
+        .collection-content .collection-navigation {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .collection-stats {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #666666;
+            font-weight: 600;
+            line-height: 15px;
+            letter-spacing: 0;
+            text-align: center;
+            padding-right: 10px;
+        }
+
+        .collection-stats .spacer {
+            background: #999999;
+            opacity: 0.3;
+            width: 1px;
+            height: 10px;
+            display: inline-block;
+            margin: 0 7px;
+        }
+
+        .collection-stats i {
+            margin-right: 6px;
+            font-size: 9px;
+        }
+
+        .collection-content a {
+            color: #EA2B2E;
+            text-align: center;
+            padding: 10px 0;
+            transition: all 0.3s ease-out;
+        }
+
+        .collection-show-count {
+            color: black;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 @endsection

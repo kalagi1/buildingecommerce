@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("title")->nullable();
+        Schema::table('collections', function (Blueprint $table) {
+            $table->boolean("status")->default(0)->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('collections', function (Blueprint $table) {
             //
         });
     }
