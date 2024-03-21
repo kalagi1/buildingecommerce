@@ -455,7 +455,7 @@
                                 <div class="form-group">
                                     <label for="" class="q-label">İl</label>
                                     <select
-                                        class="form-control citySelect {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                        class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
                                         name="city_id">
                                         <option value="">Seçiniz</option>
                                         @foreach ($towns as $item)
@@ -636,7 +636,7 @@
                 $('.ibanInfo').html(ibanInfo);
             });
 
-            $('.citySelect').change(function() {
+            $('.citySelect2').change(function() {
             var selectedCity = $(this).val();
             $.ajax({
                 type: 'GET',
