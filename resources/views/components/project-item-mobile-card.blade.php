@@ -400,10 +400,10 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-body" style="height: calc(100vh - 200px);overflow-y:scroll">
-                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
+                {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                     id="applyModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
                     Başvuru Yap</h3>
-                <hr>
+                <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
                     {{-- {{ $i+1 }} --}}
