@@ -855,7 +855,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -889,11 +890,30 @@
             });
         }
         $(document).ready(function() {
-                $('#applySampleModal img').click(function() {
-                    $('#applySampleModal').modal('hide');
-                    $('#exampleModal10').modal('show');
+            $('#applySampleModal img').click(function() {
+                $('#applySampleModal').modal('hide');
+                $('#exampleModal10').modal('show');
+            });
+
+            $('.citySelect').change(function() {
+                var selectedCity = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-counties/' + selectedCity,
+                    success: function(data) {
+                        var countySelect = $('.countySelect');
+                        countySelect.empty();
+                        countySelect.append('<option value="">İlçe Seçiniz</option>');
+                        $.each(data, function(index, county) {
+                            countySelect.append('<option value="' + county.ilce_key +
+                                '">' + county
+                                .ilce_title +
+                                '</option>');
+                        });
+                    }
                 });
             });
+        });
     </script>
 
     <script>
