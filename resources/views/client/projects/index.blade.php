@@ -858,7 +858,7 @@
     <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel"
     
       aria-hidden="true">
-        <div class="modal-dialog" style="display: flex !important;align-items:center;justify-content:center;width:100%;height:100%">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
                     <img loading="lazy" src="{{ asset('images/apply-popup.jpg') }}" class="img-fluid blur-up lazyloaded"
