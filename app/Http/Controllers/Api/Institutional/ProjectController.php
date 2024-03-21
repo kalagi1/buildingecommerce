@@ -963,12 +963,21 @@ class ProjectController extends Controller
     public function saveHousing(Request $request)
     {
         if ($request->input('is_dot')) {
-            ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', $request->input('column_name') . '[]')->update([
+            ProjectHousing::where('project_id', $request->input('project_id'))
+            ->whereIn('room_order', $request->input('rooms'))
+            ->where('name', $request->input('column_name') . '[]')
+            ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '".$request->input('project_id')."' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing') = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2)))"))
+            ->update([
                 "name" => $request->input('column_name') . "[]",
                 "value" => str_replace('.', '', $request->input('value'))
             ]);
+            
         } else {
-            ProjectHousing::where('project_id', $request->input('project_id'))->whereIn('room_order', $request->input('rooms'))->where('name', $request->input('column_name') . '[]')->update([
+            ProjectHousing::where('project_id', $request->input('project_id'))
+            ->whereIn('room_order', $request->input('rooms'))
+            ->where('name', $request->input('column_name') . '[]')
+            ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '".$request->input('project_id')."' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
+            ->update([
                 "name" => $request->input('column_name') . "[]",
                 "value" => str_replace('.', '', $request->input('value'))
             ]);

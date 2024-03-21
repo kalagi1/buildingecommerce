@@ -43245,3 +43245,19 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
     line-height: 18px !important;
 }
+
+.non-sale{
+    background-color: #e5424299;
+}
+
+.non-sale td{
+    color: #492222 !important;
+}
+
+.wait-sale{
+    background-color: #f1f89f;
+}
+
+.wait-sale td{
+    color: #492222 !important;
+}
