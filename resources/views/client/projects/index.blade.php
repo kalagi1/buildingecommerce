@@ -895,7 +895,7 @@
                 $('#exampleModal10').modal('show');
             });
 
-            $('.citySelect2').change(function() {
+            $(document).on("change",".citySelect2", function() {
                 var selectedCity = $(this).val();
                 console.log(selectedCity);
                 $.ajax({
@@ -914,6 +914,7 @@
                     }
                 });
             });
+
         });
     </script>
 

@@ -636,7 +636,7 @@
                 $('.ibanInfo').html(ibanInfo);
             });
 
-            $('.citySelect2').change(function() {
+            $(document).on("change",".citySelect2", function() {
                 var selectedCity = $(this).val();
                 console.log(selectedCity);
                 $.ajax({
@@ -655,6 +655,7 @@
                     }
                 });
             });
+
 
             $('#completePaymentButton{{ $sold->id }}').on('click', function() {
                 // Ödeme sırasındaki satış ID'sini al

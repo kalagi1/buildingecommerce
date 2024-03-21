@@ -672,7 +672,7 @@
             });
         });
 
-        $('.citySelect2').change(function() {
+        $(document).on("change",".citySelect2", function() {
                 var selectedCity = $(this).val();
                 console.log(selectedCity);
                 $.ajax({
@@ -691,6 +691,7 @@
                     }
                 });
             });
+
         function generateRandomCode() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             const codeLength = 8; // Kod uzunluğu
