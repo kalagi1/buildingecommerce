@@ -113,8 +113,6 @@ Route::post('notification/read', [NotificationController::class, "markAsRead"])-
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
 Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
 
-Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
-Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
 Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
@@ -134,9 +132,11 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
-Route::get('/emlak-kulup/{slug}', [ClubController::class, "dashboard"])->name('club.dashboard');
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
 
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
+Route::get('/magaza/{slug}/{userID}/degerlendirmeler', [InstitutionalController::class, "comments"])->name('institutional.comments');
+
 Route::get('/magaza/{slug}/{userID}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('institutional.projects.detail');
 Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('institutional.housings');
 Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('institutional.teams');

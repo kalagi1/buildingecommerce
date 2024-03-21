@@ -578,6 +578,19 @@ img {
 }
 
 
+.badgeYearIcon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5px;
+}
+
+.badgeYearIcon img {
+    width: 25px;
+    height: 25px;
+}
+
 .brand-head .brands-square {
     display: flex;
     align-items: center;

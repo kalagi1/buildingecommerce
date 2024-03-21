@@ -48,85 +48,9 @@
             return $a;
         }
     @endphp
-    <div class="brand-head">
-        <div class="container">
-            <div class="card mb-3">
-                <div class="card-img-top" style="background-color: {{ $store->banner_hex_code }}">
-                    <div class="brands-square w-100">
-                        <img src="{{ url('storage/profile_images/' . $store->profile_image) }}" alt=""
-                            class="brand-logo">
-                        <div style="display: flex;margin-left:5px">
 
-                            <p class="brand-name"><a href="{{ route('institutional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}"
-                                    style="color:White">
-                                    {{ $store->name }}</a>
-                            </p>
 
-                            @if ($store->corporate_account_status)
-                                <span class="badgeYearIcon" style="display: inline-block; position: relative;">
-                                    <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
-                                        style="display: block; margin: 0 auto;">
-
-                                    <span
-                                        style="position: absolute;line-height:.9;color:black;font-size:9px !important; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                        <i class="fa fa-check"></i></span>
-                                </span>
-                                @if ($store->year && $store->name == "Maliyetine Ev")
-                                    <span class="badgeYearIcon" style="display: inline-block; position: relative;">
-                                        <img src="{{ asset('badge_fa1c1ff1863d3279ba0e8a1583c94547.png') }}" alt=""
-                                            style="display: block; margin: 0 auto;">
-
-                                        <span
-                                            style="position: absolute;line-height:.9;color:black;font-size:9px !important; top: 50%; left: 50%; transform: translate(-50%, -50%);">{{ $store->year }}
-                                            Yıl</span>
-                                    </span>
-                                @endif
-                            @endif
-
-                        </div>
-                
-                    </div>
-                    <button class="storeShareBtn" onclick="shareStore('{{ route('institutional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}')">Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i></button>
-                </div>
-
-                <div class="card-body">
-                    <nav class="navbar" style="padding: 0 !important">
-                        <div class="navbar-items">
-                            <a class="navbar-item active"
-                                href="{{ route('institutional.dashboard', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Anasayfa</a>
-                            <a class="navbar-item"
-                                href="{{ route('institutional.profile', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Mağaza Profili</a>
-                            <a class="navbar-item"
-                                href="{{ route('institutional.projects.detail', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Proje
-                                İlanları</a>
-                                <a class="navbar-item"
-                                href="{{ route('institutional.housings',["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Emlak İlanları</a>
-                                <a class="navbar-item"
-                                href="{{ route('institutional.teams', ["slug" => Str::slug($store->name), "userID" => $store->id]) }}">Ekibimiz</a>
-                            
-                        </div>
-                        <div class="search-form">
-                            <input class="search-input" type="text" placeholder="Mağazada Ara" id="search-project"
-                                aria-label="Search" name="q">
-                            <div class="header-search__suggestions">
-                                <div class="header-search__suggestions__section">
-                                    <h5>Projeler</h5>
-                                    <div class="header-search__suggestions__section__items">
-                                        @foreach ($store->projects as $item)
-                                            <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id+1000000]) }}"
-                                                class="project-item"
-                                                data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-store-card :store="$store" />
 
 
     @if (count($store->banners))
@@ -181,44 +105,44 @@
     @endif
 
     @if ($secondhandHousings->isNotEmpty())
-    <section class="featured portfolio rec-pro disc bg-white">
-        <div class="container">
-            <div class="featured-heads mb-3">
-                <div class="section-title">
-                    <h2>Emlak İlanları</h2>
+        <section class="featured portfolio rec-pro disc bg-white">
+            <div class="container">
+                <div class="featured-heads mb-3">
+                    <div class="section-title">
+                        <h2>Emlak İlanları</h2>
+                    </div>
+                </div>
+
+                <div class="mobile-show">
+                    @foreach ($secondhandHousings as $housing)
+                        @php($sold = $housing->sold)
+                        @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                            <x-housing-card-mobile :housing="$housing" :sold="$sold" />
+                        @endif
+                    @endforeach
+                </div>
+
+                <div class="mobile-hidden" style="margin-top: 20px">
+                    <section class="properties-right list featured portfolio blog pb-5 bg-white">
+                        <div class="container">
+                            <div class="row">
+                                @forelse ($secondhandHousings as $housing)
+                                    @php($sold = $housing->sold)
+                                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
+                                        <div class="col-md-3">
+                                            <x-housing-card :housing="$housing" :sold="$sold" />
+                                        </div>
+                                    @endif
+                                @empty
+                                    <p>Henüz İlan Yayınlanmadı</p>
+                                @endforelse
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-
-            <div class="mobile-show">
-                @foreach ($secondhandHousings as $housing)
-                    @php($sold = $housing->sold)
-                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                        <x-housing-card-mobile :housing="$housing" :sold="$sold" />
-                    @endif
-                @endforeach
-            </div>
-
-            <div class="mobile-hidden" style="margin-top: 20px">
-                <section class="properties-right list featured portfolio blog pb-5 bg-white">
-                    <div class="container">
-                        <div class="row">
-                            @forelse ($secondhandHousings as $housing)
-                                @php($sold = $housing->sold)
-                                @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]) && (($sold && $sold != '1') || !$sold))
-                                    <div class="col-md-3">
-                                        <x-housing-card :housing="$housing" :sold="$sold" />
-                                    </div>
-                                @endif
-                            @empty
-                                <p>Henüz İlan Yayınlanmadı</p>
-                            @endforelse
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </section>
-@endif
+        </section>
+    @endif
 
 @endsection
 
@@ -442,7 +366,6 @@
             window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(url));
         }
     </script>
-    
 @endsection
 
 @section('styles')
@@ -509,17 +432,6 @@
             fill: #FFFFFF;
         }
 
-        .badgeYearIcon{
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-left: 5px;
-        }
-
-        .badgeYearIcon img {
-            width: 25px;
-            height: 25px;
-        }
+       
     </style>
 @endsection

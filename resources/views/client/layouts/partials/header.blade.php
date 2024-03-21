@@ -531,19 +531,21 @@
                                         </a>
                                         <div class="new-login-dropdown">
                                             <div class="user-notloggedin-container container-padding">
-                                                <div class="login-button"> <a href="{{ route('client.login') }}" class="userIcon"
-                                                    style="color: white;
+                                                <div class="login-button"> <a href="{{ route('client.login') }}"
+                                                        class="userIcon"
+                                                        style="color: white;
                                                     text-align: center;
                                                     justify-content: center;
                                                     margin-right:0 !important">
-                                                    Giriş Yap
-                                                </a></div>
-                                                <div class="signup-button signup-button-container"><a href="{{ url("giris-yap?uye-ol=/")}}" class="userIcon"
-                                                    style="color: black;
+                                                        Giriş Yap
+                                                    </a></div>
+                                                <div class="signup-button signup-button-container"><a
+                                                        href="{{ url('giris-yap?uye-ol=/') }}" class="userIcon"
+                                                        style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">
-                                                   Üye Ol
-                                                </a></div>
+                                                        Üye Ol
+                                                    </a></div>
                                             </div>
                                         </div>
                                     </div>
