@@ -319,12 +319,12 @@
                                         @if (Auth::user())
                                             <button class="first-btn payment-plan-button" data-toggle="modal"
                                                 data-target="#exampleModal{{ $keyIndex }}">
-                                                u Yap
+                                                Başvuru Yap
                                             </button>
                                         @else
                                             <a href="{{ route('client.login') }}"
                                                 class="first-btn payment-plan-button">
-                                                u Yap
+                                                Başvuru Yap
                                             </a>
                                         @endif
                                     @else
