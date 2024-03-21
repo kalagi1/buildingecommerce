@@ -889,10 +889,11 @@
             });
         }
         $(document).ready(function() {
-            $('#applyModal img').click(function() {
-                $('#exampleModal30').modal('show');
+                $('#applySampleModal img').click(function() {
+                    $('#applySampleModal').modal('hide');
+                    $('#exampleModal30').modal('show');
+                });
             });
-        });
     </script>
 
     <script>
