@@ -420,55 +420,55 @@
                                 </div>
                                 <div class="col-md-7 col-7">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
-                                    <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White; ">
-                                        <span class="text">Satışa Kapatıldı</span>
-                                    </button>
-                                @elseif ($sold && $sold->status == '2' && $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
-                                    <button class="btn second-btn"
-                                        style="background: #EA2B2E !important; width: 100%; color: White;">
-                                        <span class="text">Satışa Kapatıldı</span>
-                                    </button>
-                                @else
-                                    @if (
-                                        ($sold && $sold->status != '2' && $share_sale == '[]') ||
-                                            ($sold && $sold->status != '2' && empty($share_sale)) ||
-                                            (isset($sumCartOrderQt[$housingOrder]) &&
-                                                $sold &&
-                                                $sold->status != '2' &&
-                                                $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
                                         <button class="btn second-btn"
-                                            @if (
-                                                ($sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
-                                                    (isset($share_sale) &&
-                                                        $share_sale != '[]' &&
-                                                        isset($sumCartOrderQt[$housingOrder]) &&
-                                                        $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;width:100% "
+                                            style="background: #EA2B2E !important; width: 100%; color: White; ">
+                                            <span class="text">Satışa Kapatıldı</span>
+                                        </button>
+                                    @elseif ($sold && $sold->status == '2' && $projectHousingsList[$housingOrder]['off_sale[]'] != '[]')
+                                        <button class="btn second-btn"
+                                            style="background: #EA2B2E !important; width: 100%; color: White;">
+                                            <span class="text">Satışa Kapatıldı</span>
+                                        </button>
+                                    @else
+                                        @if (
+                                            ($sold && $sold->status != '2' && $share_sale == '[]') ||
+                                                ($sold && $sold->status != '2' && empty($share_sale)) ||
+                                                (isset($sumCartOrderQt[$housingOrder]) &&
+                                                    $sold &&
+                                                    $sold->status != '2' &&
+                                                    $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
+                                            <button class="btn second-btn"
+                                                @if (
+                                                    ($sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
+                                                        (isset($share_sale) &&
+                                                            $share_sale != '[]' &&
+                                                            isset($sumCartOrderQt[$housingOrder]) &&
+                                                            $sumCartOrderQt[$housingOrder]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;width:100% "
                                     @elseif ($sold->status == '1')
                                         style="background: #EA2B2E !important; color: White;width:100%"
                                     @else
                                         style="background: #EA2B2E !important; color: White;width:100% " @endif>
-                                            @if (($sold->status == '0' && $share_sale == '[]') || ($sold->status == '0' && empty($share_sale)))
-                                                <span class="text">Rezerve Edildi</span>
-                                            @elseif (
-                                                ($sold->status == '1' && $share_sale == '[]') ||
-                                                    ($sold->status == '1' && empty($share_sale)) ||
-                                                    (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
-                                                <span class="text">Satıldı</span>
-                                            @endif
-                                        </button>
-                                    @else
-                                        <button class="CartBtn second-btn mobileCBtn" data-type='project'
-                                            data-project='{{ $project->id }}' 
-                                            data-id='{{ $housingOrder }}' data-share="{{ $share_sale }}"
-                                            data-number-share="{{ $number_of_share }}">
-                                            <span class="IconContainer">
-                                                <img src="{{ asset('sc.png') }}" alt="">
-                                            </span>
-                                            <span class="text">Sepete Ekle</span>
-                                        </button>
+                                                @if (($sold->status == '0' && $share_sale == '[]') || ($sold->status == '0' && empty($share_sale)))
+                                                    <span class="text">Rezerve Edildi</span>
+                                                @elseif (
+                                                    ($sold->status == '1' && $share_sale == '[]') ||
+                                                        ($sold->status == '1' && empty($share_sale)) ||
+                                                        (isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share))
+                                                    <span class="text">Satıldı</span>
+                                                @endif
+                                            </button>
+                                        @else
+                                            <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                                data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
+                                                data-share="{{ $share_sale }}"
+                                                data-number-share="{{ $number_of_share }}">
+                                                <span class="IconContainer">
+                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                </span>
+                                                <span class="text">Sepete Ekle</span>
+                                            </button>
+                                        @endif
                                     @endif
-                                @endif
 
                                 </div>
                             </div>
@@ -867,17 +867,13 @@
 
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
-                                                            ->where(function ($query) use ($i) {
-                                                                $query
-                                                                    ->orWhereJsonContains('project_housings', [$i + 1])
-                                                                    ->orWhereJsonContains(
-                                                                        'project_housings',
-                                                                        (string) ($i + 1),
-                                                                    ); // Handle as string as JSON might store values as strings
-                                                            })
+                                                            ->whereRaw('FIND_IN_SET(?, project_housings)', [
+                                                                $i + 1,
+                                                            ])
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
+
                                                         $projectDiscountAmount = $projectOffer
                                                             ? $projectOffer->discount_amount
                                                             : 0;
@@ -1079,7 +1075,7 @@
                     lng: {{ explode(',', $project->location)[1] }}
                 },
                 zoom: 16,
-				gestureHandling: 'greedy'
+                gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1102,7 +1098,7 @@
                     lng: {{ explode(',', $project->location)[1] }}
                 },
                 zoom: 12,
-				gestureHandling: 'greedy'
+                gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({
