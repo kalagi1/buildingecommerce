@@ -20,8 +20,6 @@ class ClubController extends Controller {
 
         $collections = Collection::with( 'links.project', 'links.housing' )->where( 'status', 1 )->where( 'user_id', $user->id )->get();
 
-   
-
         return view( 'client.club.dashboard', compact( 'store', 'collections', 'slug' ) );
     }
 }

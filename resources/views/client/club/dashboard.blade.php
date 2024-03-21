@@ -72,7 +72,20 @@
                         <div class="collection-content">
                             <div class="collection-images">
                                 @foreach ($collection->links as $link)
-                                    <img src="{{ $link->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $link->project->image : URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image}}"
+                                    @php
+                                        $projectFirstImage = null;
+                                        if ($link->item_type == 1) {
+                                            $data = $link->projectHousingData($link->project->id, $link->room_order);
+                                            foreach ($data as $key => $value) {
+                                                if (isset($value['name']) && $value['name'] == 'image[]') {
+                                                    $projectFirstImage = $value['value'];
+                                                }
+                                            }
+                                        }
+                                    @endphp
+
+
+                                    <img src="{{ $link->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $projectFirstImage : URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image }}"
                                         alt="product-image">
                                 @endforeach
                             </div>
