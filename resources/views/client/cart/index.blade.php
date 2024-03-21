@@ -122,9 +122,7 @@
                                         } else {
                                             $projectOffer = App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $cart['item']['id'])
-                                                ->whereRaw('FIND_IN_SET(?, project_housings)', [
-                                                    $cart['item']['housing'],
-                                                ])
+                                                ->whereJsonContains('project_housings', $cart['item']['housing'])
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
