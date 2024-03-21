@@ -893,6 +893,8 @@
             $('#applySampleModal img').click(function() {
                 $('#applySampleModal').modal('hide');
                 $('#exampleModal10').modal('show');
+                $('#applyModal10').modal('show');
+
             });
 
             $(document).on("change",".citySelect2", function() {
