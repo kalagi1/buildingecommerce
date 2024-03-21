@@ -76,12 +76,11 @@
     @endphp
     @php
         $projectDiscountAmount = 0;
-
         $offer = App\Models\Offer::where('type', 'project')
             ->where('project_id', $project->id)
-            ->where('project_housings', 'LIKE', '%' . $housingOrder . '%')
-            ->where('start_date', '<=', date('Y-m-d H:i:s'))
-            ->where('end_date', '>=', date('Y-m-d H:i:s'))
+            ->whereRaw('FIND_IN_SET(?, project_housings)', [$housingOrder])
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
             ->first();
 
         if ($offer) {
