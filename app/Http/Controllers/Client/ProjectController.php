@@ -1168,7 +1168,7 @@ class ProjectController extends Controller
     {
 
         $data = [
-            'user_id'           => 4,
+            'user_id'           => Auth::check() ? auth()->id() : 4,
             'store_id'          => $request->projectUserId,
             'project_id'        => $request->projectId,
             'room_id'           => $request->roomId,
