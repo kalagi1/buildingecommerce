@@ -27,27 +27,27 @@
 
                     <div class="seller-info-container__wrapper">
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title">  Katılma Tarihi</span><span
+                                class="seller-info-container__wrapper__text-container__title"> Katılma Tarihi</span><span
                                 class="seller-info-container__wrapper__text-container__value">
                                 {{ $institutional->created_at->setTimezone('Europe/Istanbul')->format('d.m.Y') }}
                             </span>
                         </div>
                     </div>
                     <div class="seller-info-container__wrapper">
-                        
+
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
                                 class="seller-info-container__wrapper__text-container__title"> İletişim </span><span
                                 class="seller-info-container__wrapper__text-container__value">
                                 <span> Telefon:
                                     {{ $institutional->phone ? $institutional->phone : 'Belirtilmedi.' }} <br>
-                                    Email:  {{ $institutional->email ? $institutional->email : 'Belirtilmedi' }}</span>
+                                    Email: {{ $institutional->email ? $institutional->email : 'Belirtilmedi' }}</span>
 
                             </span>
                         </div>
                     </div>
                     <div class="seller-info-container__wrapper">
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title">  Konum</span><span
+                                class="seller-info-container__wrapper__text-container__title"> Konum</span><span
                                 class="seller-info-container__wrapper__text-container__value">
                                 {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
@@ -55,10 +55,13 @@
 
                     </div>
                     <div class="seller-info-container__wrapper">
-                        <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title"> <i class="fa fa-globe"></i></span><span
-                                class="seller-info-container__wrapper__text-container__value">
-                                Websiteye Git</span></div>
+                        <a href="{{ $institutional->website }}" class="w-100 text-center" target="_blank">
+                            <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
+                                    class="seller-info-container__wrapper__text-container__title"> <i
+                                        class="fa fa-globe"></i></span><span
+                                    class="seller-info-container__wrapper__text-container__value">
+                                    Websiteye Git</span></div>
+                        </a>
 
                     </div>
                 </div>
@@ -71,8 +74,6 @@
 
         </div>
     </section>
-
-
 @endsection
 
 @section('scripts')
@@ -262,6 +263,7 @@
             margin-left: 20px;
             margin-bottom: 10px;
         }
+
         .seller-info-container__wrapper__text-container__title i {
             font-size: 25px;
         }
