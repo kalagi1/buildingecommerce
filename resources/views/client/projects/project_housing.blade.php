@@ -866,7 +866,7 @@
 
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
-                                                            ->whereRaw('FIND_IN_SET(?, project_housings)', [$i + 1])
+                                                            ->whereRaw('FIND_IN_SET(?, project_housings)', [$i])
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
@@ -914,7 +914,7 @@
 
                                                         $projectOffer = App\Models\Offer::where('type', 'project')
                                                             ->where('project_id', $project->id)
-                                                            ->whereRaw('FIND_IN_SET(?, project_housings)', [$i + 1])
+                                                            ->whereRaw('FIND_IN_SET(?, project_housings)', [$i])
                                                             ->where('start_date', '<=', now())
                                                             ->where('end_date', '>=', now())
                                                             ->first();
