@@ -126,10 +126,14 @@
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
+                                            $offer = App\Models\Offer::where('type', 'project')
+                                                ->where('project_id', $cart['item']['id'])
+                                                ->whereJsonContains('project_housings', $cart['item']['housing'])
+                                                ->where('start_date', '<=', now())
+                                                ->where('end_date', '>=', now())
+                                                ->first();
 
-                                                echo  $cart['item']['housing'];
-                                                echo $projectOffer;
-
+                                                echo $offer;
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
                                         }
 
@@ -744,7 +748,7 @@
 
             function updateCart(selectedOption) {
                 var qt =
-                "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
+                    "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
 
 
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
