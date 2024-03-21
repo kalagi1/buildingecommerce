@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react'
+import { ReactSortable } from 'react-sortablejs';
+
+
 function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors}) {
     const inputRef = useRef();
     const [uploadingOrder,setUploadingOrder] = useState([[]]);
     const [imageLoading,setImageLoading] = useState(false);
     const [loadingImageCount,setLoadingImageCount] = useState(0);
-    const [imagesLoadingHtml,setImagesLoadingHtml] = useState([]);
     const fileUpload = async (event) => {
         if(!document){
             if(multiple){
@@ -12,7 +14,6 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 const tempImages = [];
                 const tempImages2 = []; 
                 setLoadingImageCount(files.length);
-                loadingImageSkeletion(files.length);
                 setImageLoading(true);
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
@@ -31,11 +32,19 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         setUploadingOrder([tempImages]);
                     }
                 }
-                setProjectData({
-                    ...projectData,
-                    [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
-                    [fileName] : [...projectData[fileName], ...tempImages2]
-                });
+                if(projectData[fileName+'_imagesx']){
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
+                        [fileName] : [...projectData[fileName], ...tempImages2]
+                    });
+                }else{
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...tempImages],
+                        [fileName] : [...tempImages2]
+                    });
+                }
 
                 setImageLoading(false);
             }else{
@@ -57,7 +66,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 }
             }
         }else{
-            const file = filesx[0];
+            const file = event.target.files[0];
             
             setProjectDataFunc(fileName,file)
         }
@@ -70,7 +79,6 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                 const tempImages = [];
                 const tempImages2 = []; 
                 setLoadingImageCount(files.length);
-                loadingImageSkeletion(files.length);
                 setImageLoading(true);
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
@@ -89,12 +97,20 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         setUploadingOrder([tempImages]);
                     }
                 }
-                setProjectData({
-                    ...projectData,
-                    [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
-                    [fileName] : [...projectData[fileName], ...tempImages2]
-                });
-
+                if(projectData[fileName+'_imagesx']){
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
+                        [fileName] : [...projectData[fileName], ...tempImages2]
+                    });
+                }else{
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...tempImages],
+                        [fileName] : [...tempImages2]
+                    });
+                }
+                
                 setImageLoading(false);
             }else{
                 const file = filesx[0];
@@ -131,15 +147,33 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
         e.preventDefault();
     };
 
-    const loadingImageSkeletion = (loadingImageCountx) => {
-        var tempHtml = [];
-        for(var i = 0; i < loadingImageCountx; i++){
-            tempHtml.push(<div>asdasd</div>)
-        }
+    const changeArrayValues = (array,index1, value1, index2, value2) => {
+        // Yeni bir dizi oluştur
+        
+        // İlk değeri değiştir
+        array[index1] = value1;
+        
+        // İkinci değeri değiştir
+        array[index2] = value2;
+        
+        return array;
+    };
 
-        setImagesLoadingHtml(tempHtml);
+    const removeImage = (imageIndex) => {
+        console.log(projectData[fileName+'_imagesx'],projectData[fileName],projectData,fileName,fileName+'_imagesx')
+        var newImages = projectData[fileName+'_imagesx'].filter((image,imageOrder) => {
+            return imageIndex != imageOrder
+        })
+        var newImages2 = projectData[fileName].filter((image,imageOrder) => {
+            return imageIndex != imageOrder
+        })
+        
+        setProjectData({
+            ...projectData,
+            [fileName+'_imagesx'] : newImages,
+            [fileName] : newImages2
+        });
     }
-    console.log(imagesLoadingHtml);
 
     return(
         <div>
@@ -200,18 +234,37 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                                 <div className="cover-photo">
                                     {
                                         multiple ? 
-                                            projectData[fileName+'_imagesx'].map((image,imageIndex) => {
-                                                return (
-                                                    
-                                                    <div className="project_imagex">
-                                                        <img src={image}/>
-
-                                                        <div onClick={() => {removeImage(imageIndex)}} className="remove-area">
-                                                            <i className='fa fa-trash'></i>
+                                            <ReactSortable
+                                                animation={200}
+                                                swap
+                                                list={projectData[fileName+'_imagesx']}
+                                                onSort={(e) => {
+                                                    var newList = changeArrayValues(projectData[fileName+'_imagesx'],e.newIndex,projectData[fileName+'_imagesx'][e.oldIndex],e.oldIndex,projectData[fileName+'_imagesx'][e.newIndex])
+                                                    var newList2 = changeArrayValues(projectData[fileName],e.newIndex,projectData[fileName][e.oldIndex],e.oldIndex,projectData[fileName][e.newIndex])
+                                                    console.log(newList)
+                                                    setProjectData({
+                                                        ...projectData,
+                                                        [fileName+'_imagex'] : newList,
+                                                        [fileName] : newList2
+                                                    });
+                                                }}
+                                                setList={() => {
+                                                    console.log("asd");
+                                                }}
+                                            >
+                                            {
+                                                projectData[fileName+'_imagesx'].map((image,imageIndex) => {
+                                                    return (
+                                                        <div className="project_imagex">
+                                                            <img src={image} />
+                                                            <div onClick={() => {removeImage(imageIndex)}} className="remove-area">
+                                                                <i className='fa fa-trash'></i>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                            })
+                                                    )
+                                                })
+                                            }
+                                            </ReactSortable>
                                         : 
                                             <div className="project_imagex">
                                                 <img src={projectData[fileName+'_imagex']}/>
