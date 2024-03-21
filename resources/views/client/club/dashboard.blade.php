@@ -65,7 +65,11 @@
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
                                         class="label with-image"> {{ $collection->name }}</span></a></div>
                             <ul class="collection-actions">
-                                <li><button><i class="fa fa-share-alt"></i><span>Paylaş</span></button></li>
+                                <li> <button>
+                                    <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}">
+                                        <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
+                                    </a>
+                                </button></li>
 
                             </ul>
                         </div>
@@ -435,6 +439,7 @@
         .collection-head .collection-actions {
             display: flex;
             align-items: center;
+            margin-bottom: 0 !important;
         }
 
         .collection-head button i {
