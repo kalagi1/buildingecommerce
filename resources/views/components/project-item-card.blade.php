@@ -319,12 +319,12 @@
                                         @if (Auth::user())
                                             <button class="first-btn payment-plan-button" data-toggle="modal"
                                                 data-target="#exampleModal{{ $keyIndex }}">
-                                                Başvuru Yap
+                                                u Yap
                                             </button>
                                         @else
                                             <a href="{{ route('client.login') }}"
                                                 class="first-btn payment-plan-button">
-                                                Başvuru Yap
+                                                u Yap
                                             </a>
                                         @endif
                                     @else
@@ -636,26 +636,7 @@
                 $('.ibanInfo').html(ibanInfo);
             });
 
-            $(document).on("change",".citySelect2", function() {
-                var selectedCity = $(this).val();
-                console.log(selectedCity);
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-counties/' + selectedCity,
-                    success: function(data) {
-                        var countySelect = $('.countySelect');
-                        countySelect.empty();
-                        countySelect.append('<option value="">İlçe Seçiniz</option>');
-                        $.each(data, function(index, county) {
-                            countySelect.append('<option value="' + county.ilce_key +
-                                '">' + county
-                                .ilce_title +
-                                '</option>');
-                        });
-                    }
-                });
-            });
-
+           
 
             $('#completePaymentButton{{ $sold->id }}').on('click', function() {
                 // Ödeme sırasındaki satış ID'sini al

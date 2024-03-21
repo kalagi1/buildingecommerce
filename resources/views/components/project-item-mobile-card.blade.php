@@ -672,25 +672,6 @@
             });
         });
 
-        $(document).on("change",".citySelect2", function() {
-                var selectedCity = $(this).val();
-                console.log(selectedCity);
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-counties/' + selectedCity,
-                    success: function(data) {
-                        var countySelect = $('.countySelect');
-                        countySelect.empty();
-                        countySelect.append('<option value="">İlçe Seçiniz</option>');
-                        $.each(data, function(index, county) {
-                            countySelect.append('<option value="' + county.ilce_key +
-                                '">' + county
-                                .ilce_title +
-                                '</option>');
-                        });
-                    }
-                });
-            });
 
         function generateRandomCode() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
