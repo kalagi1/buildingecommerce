@@ -41,6 +41,12 @@ class RealEstateController extends Controller
     }
 
     public function store(Request $request){
+
+        // Kullanıcı giriş yapmış mı kontrol et
+        if (!Auth::check()) {
+            return redirect()->route('client.login');
+        }
+
         $request->validate([
             'name' => 'required|string',
             'phone' => 'required|string',
@@ -108,7 +114,7 @@ class RealEstateController extends Controller
             "isinma" => $request->input('isinma'),
             "oda_salon" => $request->input('oda_salon'),
             "tapu" => $request->input('tapu'),
-            "user_id" => Auth::user()->id,
+            "user_id" => Auth::user()->id ?? null,
             "dsl" => in_array("DSL",$request->input('features')) ? 1 : 0,
             "asansor" => in_array("ASANSÖR",$request->input('features')) ? 1 : 0,
             "esyali" => in_array("EŞYALI",$request->input('features')) ? 1 : 0,

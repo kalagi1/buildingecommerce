@@ -87,7 +87,7 @@
                                         <img src="{{ asset('sat_kirala/form.svg') }}" alt="SVG Resim" class="gorsel" width="16%" height="auto"  style=" border-bottom: 2px solid red; padding-bottom:10px;">
                                     </div>
                                 
-                                    <p class="cardP3 mt-5">1.Formu Doldurun</p>
+                                    <p class="cardP3 mt-5">Formu Doldurun</p>
                                     <p class="cardP4 mt-3">Satmak veya kiralamak istediğiniz gayrimenkulünüzün ilan bilgilerini girin (Fiyat,Lokasyon vb) profesyonel gayrimenkul danışmanlarımız sizi arasın.</p>
                                 </div>
                                 <div class="mt-3 mb-3">             
@@ -100,7 +100,7 @@
                                     <div class="mt-3 mb-3">             
                                         <img src="{{ asset('sat_kirala/Vector.svg') }}" alt="SVG Resim" class="gorsel" width="16%" height="auto" style=" border-bottom: 2px solid red; padding-bottom:10px;">
                                     </div>
-                                    <p class="cardP3 mt-5">2.Profesyonel Emlak Danışmanlığı</p>
+                                    <p class="cardP3 mt-5">Profesyonel Emlak Danışmanlığı</p>
                                     <p class="cardP4 mt-3">İlanınız gerekli incelemeler sonrasında onaylandığında profesyonel emlak danışmanlarımız satış süreciyle ilgili tüm süreçlerde danışmanlık hizmeti vermektedir. Gayrimenkulünüzün Fotoğraf çekimleri, potansiyel alıcı/müşteri bulma, satış sürecindeki devir ve tüm yasal işlemleri adınıza takip etmektedir.</p>
                                 </div>
                                 <div class="mt-3 mb-3">             
@@ -113,7 +113,7 @@
                                     <div class="mt-3 mb-3">             
                                         <img src="{{ asset('sat_kirala/money.svg') }}" alt="SVG Resim" class="gorsel" width="16%" height="auto" style=" border-bottom: 2px solid red; padding-bottom:10px;">
                                     </div>
-                                    <p class="cardP3 mt-5">3.Hızlı Güvenli ve Kolay Satın</p>
+                                    <p class="cardP3 mt-5">Hızlı Güvenli ve Kolay Satın</p>
                                     <p class="cardP4 mt-3">Gayrimenkulünüzün sorunsuz zahmetsiz hızlı ve kolay satışını tamamlayın.</p>
                                 </div>
                             </div>  
@@ -434,51 +434,6 @@
             line-height: 55.42px;
             color:#333333;
         }
-
-        .btnSatKirala{
-            width: 141.29px;
-            height: 54px;
-            top: 255px;
-            left: 183px;
-            gap: 0px;
-            border-radius: 0px 20px 0px 20px !important;
-            opacity: 0px;
-            color: white;
-            border: 1px solid #EA2B2E;
-            background-color: #EA2B2E;
-            font-size: 18px;
-        }
-
-        .btnSatKirala2{
-            width: 71.29px;
-            height: 54px;
-            top: 255px;
-            left: 183px;
-            gap: 0px;
-            /* border-radius: 0px 20px 0px 20px !important; */
-            opacity: 0px;
-            color: white;
-            /* border: 1px solid #EA2B2E; */
-            border: none;
-            background-color: white;
-            font-size: 18px;
-            margin: auto;
-        }
-
-        .btnSatKirala3{
-            width: 71.29px;
-            height: 54px;
-            top: 255px;
-            left: 183px;
-            gap: 0px;
-            border-radius: 0px 20px 0px 20px !important;
-            opacity: 0px;
-            color: white;
-            border: 1px solid #EA2B2E;
-            background-color: #EA2B2E;
-            font-size: 18px;
-        }
-
         .message2{
             gap: 0px;
             opacity: 0px;
@@ -570,6 +525,7 @@
             gap: 0px;
             opacity: 1;
             margin-right: 20px;
+            padding: 15px;
             border: none; 
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
             transition: box-shadow 0.3s ease;
