@@ -410,6 +410,7 @@
             background-color: #f0f0f0;
             margin-right: 40px; /* İhtiyaca göre sağ tarafta boşluk bırakabilirsiniz */ 
             font-size: 20px;
+            cursor: pointer;
             color: #333333;
             border-bottom: 2px solid gray;
             transition: color 0.3s, border-bottom 0.3s;
@@ -525,6 +526,7 @@
             gap: 0px;
             opacity: 1;
             margin-right: 20px;
+            height: 100%;
             padding: 15px;
             border: none; 
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
