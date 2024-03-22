@@ -108,7 +108,7 @@
                                 <div class="item carousel-item active" data-slide-number="0">
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                         class="img-fluid" alt="slider-listing">
-                                        
+
                                 </div>
 
                                 @foreach ($project->images as $key => $housingImage)
@@ -118,6 +118,16 @@
                                     </div>
                                 @endforeach
                             </div>
+                            {{-- Büyük Resmin Altına Büyütülmüş Fotoğraf ve Zoom Butonu --}}
+                            {{-- <div class="carousel-caption d-none d-md-block">
+                                <div id="lightboxContent">
+                                    <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                        data-lightbox="image-gallery">
+                                        <button id="zoomButton" class="btn btn-primary">Zoom</button>
+                                    </a>
+                                </div>
+                            </div> --}}
+
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
                                 <div class="item active" style="margin: 10px; cursor: pointer">
@@ -854,8 +864,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="applySampleModal" tabindex="-1" aria-labelledby="applySampleModalLabel"
-    
-      aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -956,7 +965,7 @@
                 $(this).off('touchmove');
             });
         });
-     
+
         $(document).ready(function() {
 
             @if ($project->have_blocks)
