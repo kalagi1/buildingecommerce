@@ -673,7 +673,7 @@
                                                 $text = 'Yönetim';
                                                 break;
                                             default:
-                                                $link = url('sat-kirala/');
+                                                $link = url('sat-kirala-nedir/');
                                                 $text = 'Sat Kirala';
                                         }
                                     @endphp
@@ -697,7 +697,7 @@
                                             </button>
                                         </a>
                                     @else
-                                        <a href="{{ url('/sat-kirala') }}">
+                                        <a href="{{ url('/sat-kirala-nedir') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> Sat Kirala</span>
                                                 <span class="buyUserRequest__icon">

@@ -6,13 +6,10 @@
     <div class="form pt-4">
         <div class="row">
             <div class="col-md-12 mt-3 mb-3">
-                <h3 style="font-size: 22px;">Emlak Sepette Aracılığıyla Mülkünü Sat/Kirala</h3>
+                <h3 style="font-size: 22px;">Formu Doldur</h3>
                 
                 <div class="mt-3 mb-3">
-                    <p>Emlak Sepette Aracılığıyla Mülkünü Sat/Kirala
-                        Hoşgeldiniz.
-                        Garantili Gayrimenkul satışı. Türkiye de bir ilk!
-                        Mülkünüzün 81 ildeki emlak danışmanlarıyla en hızlı şekilde , %100 güvenli ve garantili satışı için hemen formu doldurun. Gayrimenkulünüz için en uygun emlak firmasını / emlak danışmanını bulalım.</p>
+                    <p>Gayrimenkulunüzün detaylarını girin. Onay durumunda size dönüş sağlayacağz.</p>
                 </div>
 
                 <form action="{{route('real.estate.post')}}" method="post">
@@ -31,15 +28,15 @@
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="">İsim Soyisim</label>
-                            <input type="text" value="{{old('name')}}" name="name" class="form-control">
+                            <input type="text" value="{{old('name')}}" name="name" class="form-control inputForm">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Telefon Numarası</label>
-                            <input type="text" value="{{old('phone')}}" name="phone" class="form-control">
+                            <input type="text" value="{{old('phone')}}" name="phone" class="form-control inputForm">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">E-Posta Adresi</label>
-                            <input type="email" value="{{old('email')}}" name="email" class="form-control">
+                            <input type="email" value="{{old('email')}}" name="email" class="form-control inputForm">
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -77,12 +74,41 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-md-12">
-                            <label for="">Adres</label>
+                        <div class="container mt-3 mb-3">
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div style="flex: 1; margin-right: 10px;">
+                                    <label for="city">İl:</label>
+                                    <select class="form-control" id="city">
+                                        <option value="">İl Seçiniz</option>
+                                        @foreach($cities as $city)
+                                            <option value="{{$city->id}}">{{ $city->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            
+                                <div style="flex: 1; margin-right: 10px;">
+                                    <label for="district">İlçe:</label>
+                                    <select class="form-control" id="district" disabled>
+                                        <option value="">İlçe Seçiniz</option>
+                                    </select>
+                                </div>
+                            
+                                <div style="flex: 1;">
+                                    <label for="neighborhood">Mahalle:</label>
+                                    <select class="form-control" id="neighborhood" disabled>
+                                        <option value="">Mahalle Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12 mt-3 mb-3">
+                            <label for="">Adres Açıklaması</label>
                             <input type="text" value="{{old('adres')}}" name="adres" class="form-control">
                         </div>
+
                         <div class="form-group col-md-12">
-                            <label for="">İstenen Fiyat</label>
+                            <label for="">Gayrimenkulünüz için belirlediğiniz fiyat</label>
                             <input type="text" value="{{old('istenilen_fiyat')}}" name="istenilen_fiyat" class="form-control price-only">
                         </div>
                         <div class="form-group col-md-12">
@@ -111,8 +137,19 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label for="">Yapı Tipi</label>
-                                    <input type="text"  value="{{old('yapi_tipi')}}" name="yapi_tipi" class="form-control">
-                                </div>
+                                <select class="form-select form-control" aria-label="Default select example" name="yapi_tipi">
+                                    <option selected>Seçiniz</option>
+                                    <option value="Yok">Yok</option>
+                                    <option value="Ahşap">Ahşap</option>
+                                    <option value="Kütük">Kütük</option>
+                                    <option value="Betonarme">Betonarme</option>
+                                    <option value="Çelik">Çelik</option>
+                                    <option value="Prefabrik">Prefabrik</option>
+                                    <option value="Yarı Kagir">Yarı Kagir</option>
+                                    <option value="Tam Kagi">Tam Kagir</option>             
+                                </select>
+                            </div>
+
                                 <div class="form-group col-md-4">
                                     <label for="">Bina Kat</label>
                                     <input type="number"  value="{{old('bina_kat')}}" name="bina_kat" class="form-control price-only">
@@ -135,27 +172,125 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="cephe">Cephe</label>
-                                    <input type="text"  value="{{old('cephe')}}" class="form-control" name="cephe">
+                                    <select class="form-select form-control" aria-label="Default select example" name="cephe">
+                                        <option selected>Seçiniz</option>
+                                        <option value="Kuzey">Kuzey</option>
+                                        <option value="Güney">Güney</option>
+                                        <option value="Doğu">Doğu</option>
+                                        <option value="Batı">Batı</option>
+                                      </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="manzara">Manzara</label>
-                                    <input type="text"  value="{{old('manzara')}}" class="form-control" name="manzara">
+                                    <select class="form-select form-control" aria-label="Default select example" name="manzara">
+                                        <option selected>Seçiniz</option>
+                                        <option value="Doğa">Doğa</option>
+                                        <option value="Deniz">Deniz</option>
+                                        <option value="Orman">Orman</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="banyoTuvalet">Banyo/Tuvalet</label>
-                                    <input type="number"  value="{{old('banyo_tuvalet')}}" class="form-control price-only" name="banyo_tuvalet">
+                                    <select class="form-select form-control" aria-label="Default select example" name="banyo_tuvalet">
+                                        <option selected>Seçiniz</option>
+                                        <option value="Yok">Yok</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10 ve üzeri">10 ve üzeri</option>
+
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="isinma">Isınma</label>
-                                    <input type="text"  value="{{old('isinma')}}" class="form-control" name="isinma">
+                                    <select class="form-select form-control" aria-label="Default select example" name="isinma">
+                                        <option selected>Seçiniz</option>
+                                        <option value="Yok">Yok</option>
+                                        <option value="Kombi (Doğalgaz)">Kombi (Doğalgaz)</option>
+                                        <option value="Yerden Isıtma">Yerden Isıtma</option>
+                                        <option value="Merkezi">Merkezi</option>
+                                        <option value="Merkezi (Pay Ölçer)">Merkezi (Pay Ölçer)</option>
+                                        <option value="Klima">Klima</option>
+                                        <option value="Doğalgaz Sobası">Doğalgaz Sobası</option>
+                                        <option value="Kat Kaloriferi">Kat Kaloriferi</option>
+                                        <option value="Kombi (Elektrik)">Kombi (Elektrik)</option>
+                                        <option value="Fancoil Ünitesi">Fancoil Ünitesi</option>
+                                        <option value="Güneş Enerjisi">Güneş Enerjisi</option>
+                                        <option value="Elektrikli Radyatör">Elektrikli Radyatör</option>
+                                        <option value="Jeotermal">Jeotermal</option>
+                                        <option value="Şömine">Şömine</option>
+                                        <option value="VRV">VRV</option>
+                                        <option value="Isı Pompası">Isı Pompası</option>
+                                        <option value="Soba">Soba</option>
+                                        <option value="Kalerifor">Kalerifor</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="odaSalon">Oda ve Salon</label>
-                                    <input type="text"  value="{{old('oda_salon')}}" class="form-control" name="oda_salon">
+                                    <select class="form-select form-control" aria-label="Default select example" name="oda_salon">
+                                        <option selected>Seçiniz</option>
+                                        <option value="1+0">1+0</option>
+                                        <option value="1.5+1">1.5+1</option>
+                                        <option value="2+0">2+0</option>
+                                        <option value="2+1">2+1</option>
+                                        <option value="2.5+1">2.5+1</option>
+                                        <option value="3+0">3+0</option>
+                                        <option value="3+1">3+1</option>
+                                        <option value="3.5+1">3.5+1</option>
+                                        <option value="3+2">3+2</option>
+                                        <option value="3+3">3+3</option>
+                                        <option value="4+0">4+0</option>
+                                        <option value="4+1">4+1</option>
+                                        <option value="4.5+1">4.5+1</option>
+                                        <option value="4+2">4+2</option>
+                                        <option value="4+3">4+3</option>
+                                        <option value="4+4">4+4</option>
+                                        <option value="5+1">5+1</option>
+                                        <option value="5.5+1">5.5+1</option>
+                                        <option value="5+2">5+2</option>
+                                        <option value="5+3">5+3</option>
+                                        <option value="5+4">5+4</option>
+                                        <option value="6+1">6+1</option>
+                                        <option value="6+2">6+2</option>
+                                        <option value="6.5+1">6.5+1</option>
+                                        <option value="6+3">6+3</option>
+                                        <option value="6+4">6+4</option>
+                                        <option value="7+1">7+1</option>
+                                        <option value="7+2">7+2</option>
+                                        <option value="7+3">7+3</option>
+                                        <option value="8+1">8+1</option>
+                                        <option value="8+2">8+2</option>
+                                        <option value="8+3">8+3</option>
+                                        <option value="8+4">8+4</option>
+                                        <option value="9+1">9+1</option>
+                                        <option value="9+2">9+2</option>
+                                        <option value="9+3">9+3</option>
+                                        <option value="9+4">9+4</option>
+                                        <option value="9+5">9+5</option>
+                                        <option value="9+6">9+6</option>
+                                        <option value="10+1">10+1</option>
+                                        <option value="10+2">10+2</option>
+                                        <option value="11+1">11+1</option>
+                                        <option value="12 ve üzeri">12 ve üzeri</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="tapu">Tapu</label>
-                                    <input type="text"  value="{{old('tapu')}}" class="form-control" name="tapu">
+                                    <select class="form-select form-control" aria-label="Default select example" name="tapu">
+                                        <option selected>Seçiniz</option>
+                                        <option value="Hisseli Tapu">Hisseli Tapu</option>
+                                        <option value="Müstakil Tapulu">Müstakil Tapulu</option>
+                                        <option value="Kat Mülkiyetli">Kat Mülkiyetli</option>
+                                        <option value="Kat İrtifaklı">Kat İrtifaklı</option>
+                                        <option value="Arsa Tapulu">Arsa Tapulu</option>
+                                        <option value="Bilinmiyor">Bilinmiyor</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -362,7 +497,7 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary"
-                        style="width: 200px; float:right">Sat/Kirala</button>
+                        style="width: 200px; float:right">Başvuruyu Tamamla</button>
                     </div>
                 </form>
             </div>
@@ -402,8 +537,105 @@
             }
         })
     </script>
+    <script>
+$(document).ready(function() {
+
+    // İl seçildiğinde ilçelerin yüklenmesi
+    $('#city').change(function() {
+        var cityId = $(this).val();
+        if(cityId) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('get-districts', ['city_id' => '__cityId__']) }}".replace('__cityId__', cityId), // cityId parametresini rotaya ekliyoruz
+                success: function(data) {
+                    console.log(data);
+                    if(data) {
+                        $('#district').html('<option value="">İlçe Seçiniz</option>');
+                        $.each(data, function(index, district) {
+                            $('#district').append('<option value="'+ district.ilce_key +'">'+ district.ilce_title +'</option>');
+                        });
+                        $('#district').prop('disabled', false);
+                    } else {
+                        $('#district').html('<option value="">İlçe bulunamadı</option>');
+                        $('#district').prop('disabled', true);
+                    }
+                }
+            });
+        } else {
+            $('#district').html('<option value="">İlçe Seçiniz</option>');
+            $('#district').prop('disabled', true);
+        }
+    });
+
+    // İlçe seçildiğinde mahallelerin yüklenmesi
+    $('#district').change(function() {
+        var districtId = $(this).val();
+        console.log(districtId)
+        if(districtId) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('get-neighborhoods', ['districtId' => '__districtId__']) }}".replace('__districtId__', districtId), 
+                success: function(data) {
+                    console.log(data)
+                    if(data) {
+                        $('#neighborhood').html('<option value="">Mahalle Seçiniz</option>');
+                        $.each(data, function(index, neighborhoods) {
+                            $('#neighborhood').append('<option value="'+ neighborhoods.mahalle_id +'">'+ neighborhoods.mahalle_title +'</option>');
+                        });
+                        $('#neighborhood').prop('disabled', false);
+                    } else {
+                        $('#neighborhood').html('<option value="">Mahalle bulunamadı</option>');
+                        $('#neighborhood').prop('disabled', true);
+                    }
+                }
+            });
+        } else {
+            $('#neighborhood').html('<option value="">Mahalle Seçiniz</option>');
+            $('#neighborhood').prop('disabled', true);
+        }
+    });
+
+    
+    // İlçe veya mahalle seçildiğinde adres açıklaması inputunu güncelle
+    $('#district, #neighborhood').change(function() {
+        
+        var city = $('#city option:selected').text();
+        var district = $('#district option:selected').text();
+        var neighborhood = $('#neighborhood option:selected').text();
+        var address = city + ' ili, ' + district + ' ilçesi, ' + neighborhood + ' mahallesi';
+        $('input[name="adres"]').val(address);
+    });
+
+
+
+
+
+});
+
+
+
+
+
+        </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .inputForm{
+            width: 331px;
+            height: 26px;
+            border-radius: 5px !important;  
+            color: #FFFFFF;
+            border: 1px solid #CCCCCCCC !important;
+        }
+
+        .inputForm:hover{
+            width: 331px;
+            height: 26px;
+            border-radius: 5px !important;
+
+            border: 1px solid #5ea3fc !important;
+        }
+    </style>
 @endsection

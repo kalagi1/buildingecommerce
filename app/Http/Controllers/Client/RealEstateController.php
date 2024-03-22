@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Neighborhood;
 use App\Models\RealEstateForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +22,22 @@ class RealEstateController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
-        return view('client.realestate-form.index',compact('pageInfo'));
+
+        $cities = City::all();
+        return view('client.realestate-form.index',compact('pageInfo','cities'));
+    }
+
+    public function index2(){
+        $pageInfo = [
+            "meta_title" => "Sat Kirala",
+            "meta_keywords" => "Emlak Sepette,Sat Kirala",
+            "meta_description" => "Emlak Kulüp Sat Kirala",
+            "meta_author" => "Emlak Sepette",
+        ];
+
+        $pageInfo = json_encode($pageInfo);
+        $pageInfo = json_decode($pageInfo);
+        return view('client.realestate-form.index2',compact('pageInfo'));
     }
 
     public function store(Request $request){
@@ -134,4 +152,23 @@ class RealEstateController extends Controller
 
         return redirect()->route('real.estate.index',["status" => "new_form_send"]);
     }
+
+ 
+
+    public function getDistricts($cityId){
+   
+        $districts = District::where('ilce_sehirkey', $cityId)->get();
+ 
+        return response()->json($districts);
+    }//End
+
+    public function getNeighborhoods($districtId){
+   
+        $neighborhoods = Neighborhood::where('mahalle_ilcekey', $districtId)->get();
+
+        // $neighborhoods = DB::table('neighborhoods')->where('')
+ 
+        return response()->json($neighborhoods);    
+    }//End
+
 }

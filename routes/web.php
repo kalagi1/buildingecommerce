@@ -102,8 +102,15 @@ Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->n
 
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 
+Route::get('/sat-kirala-nedir', [RealEstateController::class, "index2"])->name('real.estate.index2');
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
+
+Route::get('/get-districts/{city_id}', [RealEstateController::class, 'getDistricts'])->name('get-districts');
+
+Route::get('/get-neighborhoods/{districtId}', [RealEstateController::class, 'getNeighborhoods'])->name('get-neighborhoods');
+
+
 
 // Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/ilan/{housingSlug}/{housingID}/detay', [ClientHousingController::class, "show"])->name('housing.show');
