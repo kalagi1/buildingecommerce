@@ -496,9 +496,9 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 fl-wrap filter-tags clearfix mt-3 mb-3">
+                    <div class="col-md-12 fl-wrap filter-tags clearfix mt-3 mb-3">
                         <fieldset>
-                            <div class="checkboxes float-left">                        
+                            <div class="checkboxes float-right">                        
                                 <div class="filter-tags-wrap ">
                                     <input id="check-b" type="checkbox" name="check-b">
                                     <label for="check-b" style="font-size: 11px;">
@@ -513,7 +513,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary"
+                        <button type="submit" class="btn btn-primary mr-5"
                         style="width: 200px; float:right">Başvuruyu Tamamla</button>
                     </div>
                 </form>
