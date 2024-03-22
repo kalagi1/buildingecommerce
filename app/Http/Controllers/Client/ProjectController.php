@@ -1192,25 +1192,15 @@ class ProjectController extends Controller
     }
 
     //Teklif Yanıtı
-    public function offer_response(Request $request)
-    {
+    public function offer_response(Request $request){
 
         $response         = $request->input('response');
         $email            = $request->input('email');
-        $username         = $request->input('username');
         $offerInfo        = $request->input('offer_info');
-        $offerId          = $request->input('offer_id');
 
         $offer = ProjectOffers::findOrFail($request->input('offer_id'));
 
-
-        if ($request->response_toggle == 'on') {
-            $offer->response_status = 1;
-            $offer->sales_status = 1;
-        } elseif ($request->response_toggle == 'off') {
-            $offer->response_status = 0;
-        }
-
+        $offer->response_description = $response;    
         $offer->offer_response = 1;
         $offer->save();
 

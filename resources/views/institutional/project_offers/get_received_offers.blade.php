@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
                         @foreach ($data as $item)
-                            @if ($item->offer_response == 0)
+                           
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -48,9 +48,15 @@
 
                                     <td>{{ $item->offer_description }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#responseModal{{ $item->id }}" >
-                                            Yanıtla
-                                        </button>
+                                        @if(!$item->response_description)
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#responseModal{{ $item->id }}" >
+                                                Yanıtla
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#responseModalYanit{{ $item->id }}" >
+                                                Yanıtı Gör
+                                            </button>
+                                        @endif    
                                     </td>
                                 </tr>
                                 <!-- Modal -->
@@ -79,17 +85,6 @@
                                                         <label class="form-label" for="response">Yanıtınız</label>
                                                         <textarea class="form-control" id="content_{{ $item->id }}" name="response" rows="10" required></textarea>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input"
-                                                                id="response_toggle{{ $item->id }}"
-                                                                name="response_toggle" data-onstyle="success"
-                                                                onchange="updateResponseText({{ $item->id }})">
-                                                            <label class="custom-control-label"
-                                                                for="response_toggle{{ $item->id }}">Olumsuz
-                                                                Değerlendirildi</label>
-                                                        </div>
-                                                    </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Kapat</button>
@@ -100,7 +95,36 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                                <!--Yanıtı Gör Modal -->
+                                <div class="modal fade" id="responseModalYanit{{ $item->id }}" tabindex="-1" role="dialog"
+                                aria-labelledby="responseModalYanitLabel{{ $item->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="responseModalYanitLabel{{ $item->id }}">Yanıt
+                                            </h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                                
+                                            <div class="form-group">
+                                                <p>  {!! $item->response_description !!}</p>
+                                            </div>
+                                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Kapat</button>
+                                                    <button type="submit" class="btn btn-info">Yanıtla</button>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
                         @endforeach
                     </tbody>
                 </table>
@@ -108,8 +132,8 @@
         </div>
 
 
-        <h3 class=" mt-2 mb-4 mt-4">Yanıtlanan Teklifler</h3>
-        <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
+      {{-- <h3 class=" mt-2 mb-4 mt-4">Yanıtlanan Teklifler</h3> --}}
+        {{-- <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white">
             <div class="table-responsive mx-n1 px-1 scrollbar">
                 <table class="table table-sm fs--1 mb-0">
                     <thead>
@@ -148,19 +172,46 @@
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->offer_description }}</td>
                                     <td>
-                                        @if ($item->response_status == 0)
-                                            <span class="badge badge-danger">Olumsuz</span>
-                                        @elseif($item->response_status == 1)
-                                            <span class="badge badge-success">Olumlu</span>
-                                        @endif
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#responseModalYanit{{ $item->id }}" >
+                                            Yanıtı Gör
+                                        </button>       
                                     </td>
                                 </tr>
+                                   <!--Yanıtı Gör Modal -->
+                                   <div class="modal fade" id="responseModalYanit{{ $item->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="responseModalYanitLabel{{ $item->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="responseModalYanitLabel{{ $item->id }}">Yanıt
+                                                </h5>
+                                                <button type="button" class="close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                  
+                                                <div class="form-group">
+                                                    <p>  {!! $item->response_description !!}</p>
+                                                </div>
+                                                
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Kapat</button>
+                                                        <button type="submit" class="btn btn-info">Yanıtla</button>
+                                                    </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                         @endforeach
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 
@@ -170,13 +221,13 @@
     <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
 
     <script>
-        function uncheckNegative(itemId) {
-            document.getElementById('negative_response' + itemId).checked = false;
-        }
+        // function uncheckNegative(itemId) {
+        //     document.getElementById('negative_response' + itemId).checked = false;
+        // }
 
-        function uncheckPositive(itemId) {
-            document.getElementById('positive_response' + itemId).checked = false;
-        }
+        // function uncheckPositive(itemId) {
+        //     document.getElementById('positive_response' + itemId).checked = false;
+        // }
 
 
 
