@@ -178,6 +178,25 @@ class InstitutionalController extends Controller
        
     }
 
+    
+    public function comments($slug, $userID)
+    {
+
+                $institutional = User::where("id", $userID)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
+                
+                $pageInfo = [
+                    "meta_title" => $institutional->name,
+                    "meta_keywords" => "Emlak Sepette,".$institutional->name,
+                    "meta_description" => "Emlak Kulüp ".$institutional->name,
+                    "meta_author" => "Emlak Sepette",
+                ];
+        
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+                return view("client.institutional.comments", compact("institutional","pageInfo"));
+       
+    }
+
     public function housingList($slug)
     {
         $users = User::all();
@@ -245,7 +264,7 @@ class InstitutionalController extends Controller
     {
 
         $institutional = User::where("id", $userID)->with('projects.housings', 'housings', 'city', 'town', 'district', "neighborhood", 'brands', "banners")->first();
-        $teams = User::with("role")->where("parent_id", $institutional->id)->get();
+        $teams = User::with("role")->where("parent_id", $institutional->id)->orderBy("order","asc")->get();
         return view("client.institutional.teams", compact("teams","institutional"));
     }
 

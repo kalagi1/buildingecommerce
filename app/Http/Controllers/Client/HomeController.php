@@ -16,6 +16,7 @@ use App\Models\Slider;
 use App\Models\StandOutUser;
 use App\Models\User;
 use App\Models\CartOrder;
+use App\Models\Collection;
 use App\Models\Filter;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
@@ -49,7 +50,24 @@ class HomeController extends Controller
         }
     }
 
-   
+    public function updateCollectionStatus(Request $request)
+    {
+        $collectionID = $request->input('collectionID');
+        $status = $request->input('status');
+
+        try {
+            
+            $brand = Collection::findOrFail($collectionID);
+            $brand->status = $status;
+            $brand->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Handle any errors, log or return an error response
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
 
     public function index()
     {

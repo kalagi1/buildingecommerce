@@ -165,7 +165,7 @@
                             <div class="text-sq fs-12 lh-16">
                                 @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
                                  
-                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse!</span>
+                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın alıyorsunuz!</span>
                                 @endif
                             </div>
                             

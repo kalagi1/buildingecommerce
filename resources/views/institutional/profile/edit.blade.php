@@ -59,6 +59,12 @@
                                             value="{{ old('iban', $user->iban) }}">
                                     </div>
 
+                                    <div class="mt-3">
+                                        <label class="q-label">Website Linki</label>
+                                        <input type="url" name="website" class="form-control"
+                                            value="{{ old('website', $user->website) }}">
+                                    </div>
+
                                     @if (Auth::check() && Auth::user()->type == 2)
                                         <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>

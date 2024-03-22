@@ -137,7 +137,11 @@
                                             </td>
                                         </tr>
                                     @else
+
                                         @php($o = json_decode($item->cart->cart ?? null))
+                                        @if(!isset($o->type))
+                                            {{dd($item)}}
+                                        @endif
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                         <tr>
@@ -190,7 +194,7 @@
                                             </td>
                                             <td>
                                                 @if (isset($item->earn))
-                                                    <span class="text-success">Kazanç: {{ $item->earn ?? null }} ₺</span>
+                                                    <span class="text-success">Kazanç: {{number_format((float)$item->earn, 2, ',', '.') ?? null }} ₺</span>
                                                 @else
                                                     -
                                                 @endif

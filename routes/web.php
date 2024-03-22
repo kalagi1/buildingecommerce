@@ -96,12 +96,21 @@ use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectContro
 Route::get('/', [HomeController::class, "index"])->name('index');
 Route::get('/emlak-kulup', [SharerController::class,"view"])->name('sharer.index.view');
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
+Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
+
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
 
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class,"showClientLinks"])->name('sharer.links.showClientLinks');
 
+Route::get('/sat-kirala-nedir', [RealEstateController::class, "index2"])->name('real.estate.index2');
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
 Route::post('/sat-kirala-form', [RealEstateController::class, "store"])->name('real.estate.post');
+
+Route::get('/get-districts/{city_id}', [RealEstateController::class, 'getDistricts'])->name('get-districts');
+
+Route::get('/get-neighborhoods/{districtId}', [RealEstateController::class, 'getNeighborhoods'])->name('get-neighborhoods');
+
+
 
 // Route::get('/ikinci-el-konutlar/{id}', [ClientHousingController::class, "show"])->name('housing.show');
 Route::get('/ilan/{housingSlug}/{housingID}/detay', [ClientHousingController::class, "show"])->name('housing.show');
@@ -113,8 +122,6 @@ Route::post('notification/read', [NotificationController::class, "markAsRead"])-
 Route::post('/rezervasyon-yap', [ReservationController::class,"store"])->name('reservation.store');
 Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
 
-Route::get('/paylasimci-paneli', [SharerController::class,"sharerPanel"])->name('sharer.panel');
-Route::get('/paylasimci-paneli/{username}', [SharerController::class,"sharerPanelByAnotherUser"])->name('sharer.panel.another.user');
 Route::get('/search/results',[HomeController::class, "searchResults"])->name('search.results');
 
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
@@ -134,9 +141,11 @@ Route::get('/project_payment_plan', [ClientProjectController::class, "projectPay
 Route::get('/proje/detay/{slug}', [ClientProjectController::class, "detail"])->name('project.housing.detail');
 Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboard"])->name('institutional.dashboard');
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
-Route::get('/emlak-kulup/{slug}', [ClubController::class, "dashboard"])->name('club.dashboard');
+Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
 
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
+Route::get('/magaza/{slug}/{userID}/degerlendirmeler', [InstitutionalController::class, "comments"])->name('institutional.comments');
+
 Route::get('/magaza/{slug}/{userID}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('institutional.projects.detail');
 Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('institutional.housings');
 Route::get('/magaza/{slug}/{userID}/ekibimiz', [InstitutionalController::class, "teams"])->name('institutional.teams');
@@ -871,6 +880,7 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/offers', [InstitutionalOfferController::class, 'index'])->name('offers.index');
     });
 
+    Route::post('/update-user-order',  [InstitutionalUserController::class, 'updateUserOrder'])->name('institutional.users.update.order');
     // User Controller İzin Kontrolleri
     Route::middleware(['checkPermission:CreateUser'])->group(function () {
         Route::get('/users/create', [InstitutionalUserController::class, 'create'])->name('users.create');

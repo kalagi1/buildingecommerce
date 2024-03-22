@@ -270,12 +270,39 @@
 
 
 <script>
+    $(document).ready(function(){
+        $('.listingDetailsSliderNav .item').on('mouseenter', function(){
+            var slideNumber = $(this).find('a').attr('data-slide-to');
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]').addClass('active');
+            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
+        }).on('mouseleave', function(){
+            $(this).css('border', 'solid 1px #e6e6e6'); // Hover bittiğinde border rengini boş bırak
+        });
+    });
+
+    $(document).ready(function(){
+        $('.listingDetailsSliderNav .item a').on('click', function(){
+            var slideNumber = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]').addClass('active');
+            $('.listingDetailsSliderNav .item').removeClass('active');
+            $(this).closest('.item').addClass('active');
+        });
+    });
     var isLoggedIn = {!! json_encode(auth()->check()) !!};
     var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
 
     $('body').on('click', '.addCollection', function(event) {
 
         event.preventDefault();
+        if (!isLoggedIn) {
+            toastr.warning('Lütfen Giriş Yapınız', 'Uyarı');
+            redirectToLogin();
+            return; // Uyarıdan sonrasını çalıştırmamak için return kullanın
+
+        }
+
 
         $(".modal-backdrop").show();
 
@@ -283,16 +310,13 @@
         var productId = $(this).data("id");
         var project = null;
         var type = $(this).data("type");
+        $('#membershipPopup').modal('show');
 
         if ($(this).data("type") == "project") {
             project = $(this).data("project");
         }
-        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
-            $('#membershipPopup').modal('show');
-        } else if (!isLoggedIn) {
-            toastr.error('Lütfen Giriş yapınız', 'Hata');
-            redirectToLogin();
-        } else if (isLoggedIn && hasClub == 1) {
+        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {} else if (isLoggedIn && hasClub ==
+            1) {
             $('#addCollectionModal').modal('show');
 
             $(".addCollection").data('cart-info', {
@@ -600,8 +624,12 @@
                             orderHousing = parseInt(order);
 
                             html += "<tr class='" + (isMobile ? "mobile-hidden" : "") +
-                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" + (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing, response.room_info[i].room_order), 10)) + " >" + response.project_title +
-                                " Projesinde " + block + " " + paymentOrder + " No'lu İlan Ödeme Planı</th></tr>";
+                                "' style='background-color: #EEE !important;' ><th style='text-align:center' class='paymentTableTitle' colspan=" +
+                                (3 + parseInt(getDataJS(response, "pay-dec-count" + orderHousing,
+                                    response.room_info[i].room_order), 10)) + " >" + response
+                                .project_title +
+                                " Projesinde " + block + " " + paymentOrder +
+                                " No'lu İlan Ödeme Planı</th></tr>";
 
 
                             for (var j = 0; j < paymentPlanData.length; j++) {
@@ -1421,7 +1449,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+    const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1568,7 +1596,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
+        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

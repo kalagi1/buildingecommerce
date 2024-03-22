@@ -42966,7 +42966,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .table-breadcrumb{
-    background: #ea2b28ac;
+    background: #e54242;
     font-size: 14px;
     padding: 10px 20px;
     border-radius: 8px;
@@ -43221,4 +43221,43 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     font-size: 1rem !important;
     margin-left: 10px !important;
     cursor: pointer;
+}
+
+.css-1ygcj2i-MuiTableCell-root{
+    font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+    font-weight: bold !important;
+    font-size: 13px !important;
+}
+
+.css-1ex1afd-MuiTableCell-root{
+    font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.progress-bar-animated{
+    
+}
+
+.css-q34dxg{
+    font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.css-1bigob2{
+    font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+    line-height: 18px !important;
+}
+
+.non-sale{
+    background-color: #e5424299;
+}
+
+.non-sale td{
+    color: #492222 !important;
+}
+
+.wait-sale{
+    background-color: #f1f89f;
+}
+
+.wait-sale td{
+    color: #492222 !important;
 }

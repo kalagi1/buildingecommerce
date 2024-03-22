@@ -1,38 +1,52 @@
 import React, { useRef, useState } from 'react'
+import { ReactSortable } from 'react-sortablejs';
+
+
 function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,document,title,setProjectData,allErrors}) {
     const inputRef = useRef();
-    const [loading,setLoading] = useState(false);
+    const [uploadingOrder,setUploadingOrder] = useState([[]]);
+    const [imageLoading,setImageLoading] = useState(false);
+    const [loadingImageCount,setLoadingImageCount] = useState(0);
     const fileUpload = async (event) => {
         if(!document){
             if(multiple){
                 const files = event.target.files;
                 const tempImages = [];
                 const tempImages2 = []; 
-    
+                setLoadingImageCount(files.length);
+                setImageLoading(true);
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
                     tempImages2.push(file);
                     const reader = new FileReader();
     
                     // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
-                    const loadPromise = new Promise((resolve) => {
-                        reader.onload = () => {
-                            resolve(reader.result);
-                        };
-                    });
-    
                     if (file) {
-                        reader.readAsDataURL(file); // Resmi oku
-                        const imageDataUrl = await loadPromise; // Resim yüklendiğinde Promise tamamlanana kadar bekler
+                        const imageDataUrl = await new Promise((resolve) => {
+                            reader.onload = () => {
+                                setTimeout(() => resolve(reader.result), 1000); // Her resim yüklendiğinde 1 saniye bekleyin
+                            };
+                            reader.readAsDataURL(file); // Resmi oku
+                        });
                         tempImages.push(imageDataUrl); // Geçici resimler dizisine ekle
+                        setUploadingOrder([tempImages]);
                     }
                 }
-                
-                setProjectData({
-                    ...projectData,
-                    [fileName+'_imagesx'] : tempImages,
-                    [fileName] : tempImages2
-                });
+                if(projectData[fileName+'_imagesx']){
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
+                        [fileName] : [...projectData[fileName], ...tempImages2]
+                    });
+                }else{
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...tempImages],
+                        [fileName] : [...tempImages2]
+                    });
+                }
+
+                setImageLoading(false);
             }else{
                 const file = event.target.files[0];
                 const reader = new FileReader();
@@ -44,6 +58,8 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                         [fileName] : file
                     });
                 };
+
+                
         
                 if (file) {
                     reader.readAsDataURL(file);
@@ -54,14 +70,115 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
             
             setProjectDataFunc(fileName,file)
         }
-       
     }
 
+    const fileUpload2 = async (filesx) => {
+        if(!document){
+            if(multiple){
+                const files = filesx;
+                const tempImages = [];
+                const tempImages2 = []; 
+                setLoadingImageCount(files.length);
+                setImageLoading(true);
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    tempImages2.push(file);
+                    const reader = new FileReader();
+    
+                    // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
+                    if (file) {
+                        const imageDataUrl = await new Promise((resolve) => {
+                            reader.onload = () => {
+                                setTimeout(() => resolve(reader.result), 1000); // Her resim yüklendiğinde 1 saniye bekleyin
+                            };
+                            reader.readAsDataURL(file); // Resmi oku
+                        });
+                        tempImages.push(imageDataUrl); // Geçici resimler dizisine ekle
+                        setUploadingOrder([tempImages]);
+                    }
+                }
+                if(projectData[fileName+'_imagesx']){
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
+                        [fileName] : [...projectData[fileName], ...tempImages2]
+                    });
+                }else{
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagesx'] : [...tempImages],
+                        [fileName] : [...tempImages2]
+                    });
+                }
+                
+                setImageLoading(false);
+            }else{
+                const file = filesx[0];
+                const reader = new FileReader();
+        
+                reader.onload = () => {
+                    setProjectData({
+                        ...projectData,
+                        [fileName+'_imagex'] : reader.result,
+                        [fileName] : file
+                    });
+                };
+
+                
+        
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            }
+        }else{
+            const file = filesx[0];
+            
+            setProjectDataFunc(fileName,file)
+        }
+    }
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files;
+        fileUpload2(file);
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+    };
+
+    const changeArrayValues = (array,index1, value1, index2, value2) => {
+        // Yeni bir dizi oluştur
+        
+        // İlk değeri değiştir
+        array[index1] = value1;
+        
+        // İkinci değeri değiştir
+        array[index2] = value2;
+        
+        return array;
+    };
+
+    const removeImage = (imageIndex) => {
+        console.log(projectData[fileName+'_imagesx'],projectData[fileName],projectData,fileName,fileName+'_imagesx')
+        var newImages = projectData[fileName+'_imagesx'].filter((image,imageOrder) => {
+            return imageIndex != imageOrder
+        })
+        var newImages2 = projectData[fileName].filter((image,imageOrder) => {
+            return imageIndex != imageOrder
+        })
+        
+        setProjectData({
+            ...projectData,
+            [fileName+'_imagesx'] : newImages,
+            [fileName] : newImages2
+        });
+    }
 
     return(
         <div>
             <span className="section-title mt-4 housing_after_step">{title}</span>
-            <div className="cover-photo-full card py-2 px-5 housing_after_step">
+            <div  onDrop={handleDrop} onDragOver={handleDragOver} className="cover-photo-full card py-2 px-5 housing_after_step">
                 <input accept={accept} ref={inputRef} multiple={multiple} onChange={fileUpload} type="file" name="cover-image" className="cover_image d-none"/>
                 <div onClick={() => {inputRef.current.click();}} id={fileName}  className={"upload-container col-md-4 col-xl-3 cover-photo-area "+(allErrors.includes(fileName) ? "error-border" : "")}>
                     <div className="border-container">
@@ -82,25 +199,72 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                             </div>
                         : ''
                     :
-                        loading ?
-                            <div className='fa fa-spinner'></div>
+                        imageLoading ?
+                            <div>
+                                <span className='d-block' style={{marginTop:'20px'}}>
+                                    Yüklenen Resim Sayısı : {uploadingOrder[0].length} / {loadingImageCount}
+                                </span>
+                                <div className="cover-photo">
+                                    {
+                                        multiple ? 
+                                            Array.from({ length: loadingImageCount }).map((_, imageIndex) => {
+                                                const imageUrl = uploadingOrder[0]?.[imageIndex]; // Güvenli erişim işleci (?.) kullanarak hata kontrolü sağlanıyor
+                                            
+                                                if (imageUrl) {
+                                                    return (
+                                                        <div className="project_imagex">
+                                                            <img src={imageUrl} />
+                                                        </div>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <div className="project_imagex">
+                                                            <span style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%'}}><i className='fa fa-spinner spinner-borderx'></i></span>
+                                                        </div>
+                                                    );
+                                                }
+                                            })
+                                        : 
+                                            ""
+                                    } 
+                                </div>
+                            </div>
                         :
                             projectData[fileName+'_imagex'] || projectData[fileName+'_imagesx'] ?
                                 <div className="cover-photo">
                                     {
                                         multiple ? 
-                                            projectData[fileName+'_imagesx'].map((image,imageIndex) => {
-                                                return (
-                                                    
-                                                    <div className="project_imagex">
-                                                        <img src={image}/>
-
-                                                        <div onClick={() => {removeImage(imageIndex)}} className="remove-area">
-                                                            <i className='fa fa-trash'></i>
+                                            <ReactSortable
+                                                animation={200}
+                                                swap
+                                                list={projectData[fileName+'_imagesx']}
+                                                onSort={(e) => {
+                                                    var newList = changeArrayValues(projectData[fileName+'_imagesx'],e.newIndex,projectData[fileName+'_imagesx'][e.oldIndex],e.oldIndex,projectData[fileName+'_imagesx'][e.newIndex])
+                                                    var newList2 = changeArrayValues(projectData[fileName],e.newIndex,projectData[fileName][e.oldIndex],e.oldIndex,projectData[fileName][e.newIndex])
+                                                    console.log(newList)
+                                                    setProjectData({
+                                                        ...projectData,
+                                                        [fileName+'_imagex'] : newList,
+                                                        [fileName] : newList2
+                                                    });
+                                                }}
+                                                setList={() => {
+                                                    console.log("asd");
+                                                }}
+                                            >
+                                            {
+                                                projectData[fileName+'_imagesx'].map((image,imageIndex) => {
+                                                    return (
+                                                        <div className="project_imagex">
+                                                            <img src={image} />
+                                                            <div onClick={() => {removeImage(imageIndex)}} className="remove-area">
+                                                                <i className='fa fa-trash'></i>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                            })
+                                                    )
+                                                })
+                                            }
+                                            </ReactSortable>
                                         : 
                                             <div className="project_imagex">
                                                 <img src={projectData[fileName+'_imagex']}/>

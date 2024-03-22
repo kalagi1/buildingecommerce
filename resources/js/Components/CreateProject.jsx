@@ -454,7 +454,6 @@ function CreateProject(props) {
 
     return(
         <>
-            <button onClick={saveTemp}>Template Kaydet</button>
             <TopCreateProjectNavigator step={step} setStep={setStep}/>
             <Modal
                 open={loadingModal}

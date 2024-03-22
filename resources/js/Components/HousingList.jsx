@@ -110,154 +110,152 @@ function HousingList({projectId}) {
 
     const TableRowsLoader = ({ rowsNum }) => {
         return [...Array(rowsNum)].map((row, index) => (
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                            <TableCell>
-                                <Skeleton animation="wave" variant="text" />
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>    
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                        <TableCell>
+                            <Skeleton animation="wave" variant="text" />
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
         ));
     };
 
@@ -320,12 +318,12 @@ function HousingList({projectId}) {
     const selectAll = () => {
         if(!selectedAllCheck){
             if(haveBlocks){
+                console.log("asd");
                 var tempSelected = [];
                 var lastBlockCount = 0;
                 var lastBlockCount2 = 0;
 
                 for(var i = 0; i < project.blocks.length; i++){
-                    console.log(project.blocks,project.blocks[i],project.blocks[i].housing_count);
                     if(i != selectedBlock){
                         for(var j = 0; j< project.blocks[i].housing_count; j++){
                             if(selectedRooms.includes(lastBlockCount2 + j + 1)){
@@ -342,14 +340,18 @@ function HousingList({projectId}) {
                 }
 
                 for(var i = 0 ; i < totalProjectsCount; i++){
-                    tempSelected.push(lastBlockCount+i+1);
+                    if(findSold(lastBlockCount+i+1) == 2 || !findSold(lastBlockCount+i+1)){
+                        tempSelected.push(lastBlockCount+i+1);
+                    }
                 }
         
                 setSelectedRooms(tempSelected);
             }else{
                 var tempSelected = [];
                 for(var i = 0 ; i < totalProjectsCount; i++){
-                    tempSelected.push(i+1);
+                    if(findSold(i+1) == 2 || !findSold(i+1)){
+                        tempSelected.push(i+1);
+                    }
                 }
         
                 setSelectedRooms(tempSelected);
@@ -425,6 +427,8 @@ function HousingList({projectId}) {
                 toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
                 
                 axiosRequestGetData(page)
+            }else{
+                toast.error(res.data.error)
             }
         })
     }
@@ -453,6 +457,8 @@ function HousingList({projectId}) {
                 toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
                 
                 axiosRequestGetData(page)
+            }else{
+                toast.error(res.data.error)
             }
         })
     }
@@ -630,7 +636,7 @@ function HousingList({projectId}) {
     }
 
     const findSold = (roomOrder) => {
-        var haveSold = solds.find((sold) => {var item = JSON.parse(sold.cart); console.log(item,item.item.housing); return item.item.housing == roomOrder});
+        var haveSold = solds.find((sold) => {var item = JSON.parse(sold.cart); return item.item.housing == roomOrder});
         if(haveSold){
             return haveSold.status;
         }else{
@@ -675,6 +681,19 @@ function HousingList({projectId}) {
         })
     }
 
+    const setPayDecs = (roomOrder) => {
+        roomOrder = roomOrder - 1;
+        var temps = [];
+        for(var i = 0; i < rows[roomOrder]["pay-dec-count"+(roomOrder + 1)]; i++){
+            temps.push({
+                price : dotNumberFormat(rows[roomOrder]["pay_desc_price"+(roomOrder + 1)+i]),
+                date : rows[roomOrder]["pay_desc_date"+(roomOrder + 1)+i]
+            });
+        }
+
+        setPayDecData(temps);
+    }
+
     useEffect(() => {
         if(haveBlocks){
             var blockItemCount = 0;
@@ -704,7 +723,7 @@ function HousingList({projectId}) {
     return(
         <div>
             <ToastContainer/>
-            <div className="card p-4">
+            <div className="card py-4">
                 <div className="estate-table">
                     <div className="table-breadcrumb">
                         <ul>
@@ -752,7 +771,6 @@ function HousingList({projectId}) {
                                                         
                                                         lastBlockCountTemp += project.blocks[i].housing_count;
                                                         lastBlockCountTemp3 += project.blocks[i].housing_count;
-                                                        console.log(room,lastBlockCountTemp3,lastBlockCountTemp2)
                                                     }
 
                                                     return(
@@ -812,7 +830,7 @@ function HousingList({projectId}) {
                         : 
                             rows.length > 0 ?
                                 <>
-                                    <TableContainer component={Paper}>
+                                    <TableContainer>
                                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                             <TableHead>
                                                 <TableRow>
@@ -831,12 +849,15 @@ function HousingList({projectId}) {
                                             <TableBody>
                                             {rows.map((row,key) => (
                                                 <TableRow
+                                                className={findSold(getLastCount() + key + 1) == 1 ? "non-sale" : findSold(getLastCount() + key + 1) == 0 ? "wait-sale" : ""}
                                                 key={row.id}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell scope="row">
                                                         {
-                                                            <input onChange={() => changeRoom(getLastCount() + key)} checked={selectedRooms.includes(getLastCount() + key + 1)} type="checkbox" />
+                                                            findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                <input onChange={() => changeRoom(getLastCount() + key)} checked={selectedRooms.includes(getLastCount() + key + 1)} type="checkbox" />
+                                                            : ""
                                                         }
                                                     </TableCell>
                                                     <TableCell scope="row">
@@ -851,9 +872,13 @@ function HousingList({projectId}) {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex">
+                                                        <div style={{whiteSpace:'nowrap',alignItems:'center'}} className="d-flex">
                                                             {row['advertise_title[]']} 
-                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advertise_title");setIsDotType(false);setSelectedType('İlan Başlığı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setChangeData(row['advertise_title[]']);setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advertise_title");setIsDotType(false);setSelectedType('İlan Başlığı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
                                                         </div>
                                                         <strong>
                                                             {
@@ -864,34 +889,55 @@ function HousingList({projectId}) {
                                                         </strong>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex">
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
                                                             {dotNumberFormat(row['price[]'])} ₺
-                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("price");setIsDotType(true);setSelectedType('Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("price");setIsDotType(true);setSelectedType('Fiyat');setChangeData(dotNumberFormat(row['price[]']))}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex">
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
                                                             {dotNumberFormat(row['installments-price[]'])} ₺
-                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments-price");setIsDotType(true);setSelectedType('Taksitli Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setChangeData(dotNumberFormat(row['installments-price[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments-price");setIsDotType(true);setSelectedType('Taksitli Fiyat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setUpdatePayDecModalOpen(true)}} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
-                                                            Ara ödemeleri güncelle 
-                                                            <br/>
-                                                            {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Adet ara ödeme bulunmakta
-                                                        </span>
+                                                        {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setUpdatePayDecModalOpen(true);setPayDecs(getLastCount() + key + 1)}} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
+                                                                    Ara ödemeleri güncelle 
+                                                                    <br/>
+                                                                    {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Adet ara ödeme bulunmakta
+                                                                </span>
+                                                            : 
+                                                                <span className='badge badge-phoenix badge-phoenix-success'>Ara Ödemeleri Gör ({row['pay-dec-count'+(getLastCount() + key + 1)]})</span>
+                                                        }
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex">
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
                                                             {row['installments[]']}
-                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments");setIsDotType(true);setSelectedType('Taksit Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setChangeData(dotNumberFormat(row['installments[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("installments");setIsDotType(true);setSelectedType('Taksit Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex">
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
                                                             {dotNumberFormat(row['advance[]'])} ₺
-                                                            <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setChangeData(dotNumberFormat(row['advance[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
