@@ -623,6 +623,10 @@ img {
     justify-content: space-between;
 }
 
+.listingDetailsSliderNav .item{
+    border: solid 1px #e6e6e6;
+}
+
 .brand-head .navbar-items {
     display: flex;
     justify-content: left;

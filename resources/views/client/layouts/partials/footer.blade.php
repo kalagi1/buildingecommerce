@@ -275,9 +275,9 @@
             var slideNumber = $(this).find('a').attr('data-slide-to');
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
             $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]').addClass('active');
-            $(this).css('border', '1px solid #EA2B2E !important'); // Border rengini kırmızı yap
+            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
         }).on('mouseleave', function(){
-            $(this).css('border-color', ''); // Hover bittiğinde border rengini boş bırak
+            $(this).css('border', 'solid 1px #e6e6e6'); // Hover bittiğinde border rengini boş bırak
         });
     });
     var isLoggedIn = {!! json_encode(auth()->check()) !!};
