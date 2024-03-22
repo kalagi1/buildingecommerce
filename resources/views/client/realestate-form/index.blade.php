@@ -495,6 +495,23 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-6 fl-wrap filter-tags clearfix mt-3 mb-3">
+                        <fieldset>
+                            <div class="checkboxes float-left">                        
+                                <div class="filter-tags-wrap ">
+                                    <input id="check-b" type="checkbox" name="check-b">
+                                    <label for="check-b" style="font-size: 11px;">
+                                        <a href="https://emlaksepette.com/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
+                                            Sat Kirala Formu sözleşmesini
+                                        </a>
+                                        okudum onaylıyorum.
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary"
                         style="width: 200px; float:right">Başvuruyu Tamamla</button>
@@ -510,6 +527,15 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+
+$(document).ready(function() {
+        $('#check-b').change(function() {
+            if ($(this).is(':checked')) {
+                $('#applicationForm').submit();
+            }
+        });
+    });
+    
         @if(request('status') == "new_form_send")
             toastr.success("Başarıyla sat kirala formunuz iletildi. En kısa sürede sizinle iletişime geçilecektir.");
         @endif
