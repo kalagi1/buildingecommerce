@@ -626,6 +626,9 @@ img {
 .listingDetailsSliderNav .item{
     border: solid 1px #e6e6e6;
 }
+.listingDetailsSliderNav .item.active{
+    border: 1px solid #EA2B2E !important;
+}
 
 .brand-head .navbar-items {
     display: flex;
