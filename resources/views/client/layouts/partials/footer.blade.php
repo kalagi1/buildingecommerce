@@ -270,6 +270,13 @@
 
 
 <script>
+       $(document).ready(function(){
+        $('.listingDetailsSliderNav .item').on('mouseenter', function(){
+            var slideNumber = $(this).find('a').attr('data-slide-to');
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]').addClass('active');
+        });
+    });
     var isLoggedIn = {!! json_encode(auth()->check()) !!};
     var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
 

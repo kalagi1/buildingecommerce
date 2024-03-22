@@ -108,6 +108,7 @@
                                 <div class="item carousel-item active" data-slide-number="0">
                                     <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                         class="img-fluid" alt="slider-listing">
+                                        
                                 </div>
 
                                 @foreach ($project->images as $key => $housingImage)
@@ -846,9 +847,6 @@
             </div>
     </section>
 
-
-
-
     <div id="loadingOverlay">
         <div class="spinner-border text-primary" role="status">
             <span class="sr-only">Loading...</span>
@@ -958,7 +956,7 @@
                 $(this).off('touchmove');
             });
         });
-
+     
         $(document).ready(function() {
 
             @if ($project->have_blocks)
