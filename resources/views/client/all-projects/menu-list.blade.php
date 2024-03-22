@@ -289,45 +289,48 @@
                                                                 @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
                                                         @else
                                                         style="display: none !important;" @endif>
-                                                                @foreach ($filter['values'] as $key => $value)
-                                                                    @if (isset($filter['toggle']) && $filter['toggle'] == true)
-                                                                        <!-- Switch-slider öğesi -->
-                                                                        <div class="mb-2 d-flex align-items-center">
-                                                                            <label class="switch-slider">
-                                                                                <input name="{{ $filter['name'] }}[]"
-                                                                                    type="checkbox" value="{{ $value->value }}"
-                                                                                    class="filter-now form-control switch"
-                                                                                    id="{{ $filter['name'] . $key }}">
-                                                                                <span class="slider"></span>
-                                                                            </label>
-                                                                            <label for="{{ $filter['name'] . $key }}"
-                                                                                class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                        </div>
-                                                                    @else
-                                                                        @if ($filter['type'] == 'select')
-                                                                            @if ($key != 0)
-                                                                                <div class="mb-2 d-flex align-items-center">
-                                                                                    <input name="{{ $filter['name'] }}[]"
-                                                                                        type="checkbox"
-                                                                                        value="{{ $value->value }}"
-                                                                                        class="filter-now form-control"
-                                                                                        id="{{ $filter['name'] . $key }}">
-                                                                                    <label for="{{ $filter['name'] . $key }}"
-                                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                                </div>
-                                                                            @endif
-                                                                        @elseif($filter['type'] == 'checkbox-group')
-                                                                            <div class="mb-2 d-flex align-items-center">
-                                                                                <input name="{{ $filter['name'] }}[]"
-                                                                                    type="checkbox" value="{{ $value->value }}"
-                                                                                    class="filter-now form-control"
-                                                                                    id="{{ $filter['name'] . $key }}">
-                                                                                <label for="{{ $filter['name'] . $key }}"
-                                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                            </div>
-                                                                        @endif
-                                                                    @endif
-                                                                @endforeach
+                                                        @if (isset($filter['values']))
+                                                        @foreach ($filter['values'] as $key => $value)
+                                                        @if (isset($filter['toggle']) && $filter['toggle'] == true)
+                                                            <!-- Switch-slider öğesi -->
+                                                            <div class="mb-2 d-flex align-items-center">
+                                                                <label class="switch-slider">
+                                                                    <input name="{{ $filter['name'] }}[]"
+                                                                        type="checkbox" value="{{ $value->value }}"
+                                                                        class="filter-now form-control switch"
+                                                                        id="{{ $filter['name'] . $key }}">
+                                                                    <span class="slider"></span>
+                                                                </label>
+                                                                <label for="{{ $filter['name'] . $key }}"
+                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                            </div>
+                                                        @else
+                                                            @if ($filter['type'] == 'select')
+                                                                @if ($key != 0)
+                                                                    <div class="mb-2 d-flex align-items-center">
+                                                                        <input name="{{ $filter['name'] }}[]"
+                                                                            type="checkbox"
+                                                                            value="{{ $value->value }}"
+                                                                            class="filter-now form-control"
+                                                                            id="{{ $filter['name'] . $key }}">
+                                                                        <label for="{{ $filter['name'] . $key }}"
+                                                                            class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                    </div>
+                                                                @endif
+                                                            @elseif($filter['type'] == 'checkbox-group')
+                                                                <div class="mb-2 d-flex align-items-center">
+                                                                    <input name="{{ $filter['name'] }}[]"
+                                                                        type="checkbox" value="{{ $value->value }}"
+                                                                        class="filter-now form-control"
+                                                                        id="{{ $filter['name'] . $key }}">
+                                                                    <label for="{{ $filter['name'] . $key }}"
+                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                </div>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                        @endif
+                                                               
                                                             </div>
                                                         </div>
                                                     </div>
@@ -403,47 +406,50 @@
                                                             @if ($filter['label'] == 'Peşin Fiyat' || $filter['label'] == 'Fiyat') style="display: flex !important;"
                                                         @else
                                                         style="display: none !important;" @endif>
-                                                            @foreach ($filter['values'] as $key => $value)
-                                                                @if (isset($filter['toggle']) && $filter['toggle'] == true)
-                                                                    <!-- Switch-slider öğesi -->
+                                                        @if (isset($filter['values']))
+                                                        @foreach ($filter['values'] as $key => $value)
+                                                        @if (isset($filter['toggle']) && $filter['toggle'] == true)
+                                                            <!-- Switch-slider öğesi -->
+                                                            <div class="mb-2 d-flex align-items-center">
+                                                                <label class="switch-slider">
+                                                                    <input name="{{ $filter['name'] }}[]"
+                                                                        type="checkbox"
+                                                                        value="{{ $value->value }}"
+                                                                        class="filter-now form-control switch"
+                                                                        id="{{ $filter['name'] . $key }}">
+                                                                    <span class="slider"></span>
+                                                                </label>
+                                                                <label for="{{ $filter['name'] . $key }}"
+                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                            </div>
+                                                        @else
+                                                            @if ($filter['type'] == 'select')
+                                                                @if ($key != 0)
                                                                     <div class="mb-2 d-flex align-items-center">
-                                                                        <label class="switch-slider">
-                                                                            <input name="{{ $filter['name'] }}[]"
-                                                                                type="checkbox"
-                                                                                value="{{ $value->value }}"
-                                                                                class="filter-now form-control switch"
-                                                                                id="{{ $filter['name'] . $key }}">
-                                                                            <span class="slider"></span>
-                                                                        </label>
+                                                                        <input name="{{ $filter['name'] }}[]"
+                                                                            type="checkbox"
+                                                                            value="{{ $value->value }}"
+                                                                            class="filter-now form-control"
+                                                                            id="{{ $filter['name'] . $key }}">
                                                                         <label for="{{ $filter['name'] . $key }}"
                                                                             class="form-check-label w-100 ml-4">{{ $value->label }}</label>
                                                                     </div>
-                                                                @else
-                                                                    @if ($filter['type'] == 'select')
-                                                                        @if ($key != 0)
-                                                                            <div class="mb-2 d-flex align-items-center">
-                                                                                <input name="{{ $filter['name'] }}[]"
-                                                                                    type="checkbox"
-                                                                                    value="{{ $value->value }}"
-                                                                                    class="filter-now form-control"
-                                                                                    id="{{ $filter['name'] . $key }}">
-                                                                                <label for="{{ $filter['name'] . $key }}"
-                                                                                    class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                            </div>
-                                                                        @endif
-                                                                    @elseif($filter['type'] == 'checkbox-group')
-                                                                        <div class="mb-2 d-flex align-items-center">
-                                                                            <input name="{{ $filter['name'] }}[]"
-                                                                                type="checkbox"
-                                                                                value="{{ $value->value }}"
-                                                                                class="filter-now form-control"
-                                                                                id="{{ $filter['name'] . $key }}">
-                                                                            <label for="{{ $filter['name'] . $key }}"
-                                                                                class="form-check-label w-100 ml-4">{{ $value->label }}</label>
-                                                                        </div>
-                                                                    @endif
                                                                 @endif
-                                                            @endforeach
+                                                            @elseif($filter['type'] == 'checkbox-group')
+                                                                <div class="mb-2 d-flex align-items-center">
+                                                                    <input name="{{ $filter['name'] }}[]"
+                                                                        type="checkbox"
+                                                                        value="{{ $value->value }}"
+                                                                        class="filter-now form-control"
+                                                                        id="{{ $filter['name'] . $key }}">
+                                                                    <label for="{{ $filter['name'] . $key }}"
+                                                                        class="form-check-label w-100 ml-4">{{ $value->label }}</label>
+                                                                </div>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                        @endif
+                                                          
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1241,11 +1247,11 @@
                 var filterValues = {};
 
                 @foreach ($filters as $filter)
-                    @if ($filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
+                    @if (isset($filter['type']) && $filter['type'] == 'select' || $filter['type'] == 'checkbox-group')
                         filterValues["{{ $filter['name'] }}"] = getCheckedValues(
                             'input[name="{{ $filter['name'] }}[]"]');
                     @else
-                        @if ($filter['text_style'] == 'min-max')
+                        @if (isset($filter['text_style']) && $filter['text_style'] == 'min-max')
                             filterValues["{{ $filter['name'] }}-min"] = getInputValue(
                                 'input[name="{{ $filter['name'] }}-min"]').replace(/\./g, "");
                             filterValues["{{ $filter['name'] }}-max"] = getInputValue(
@@ -1536,8 +1542,8 @@
         .trip-search {
             border: 1px solid #eaeff5;
             padding: 9px
-        }
-
+        }ƒ
+ƒ
         #sorting-options {
             display: flex !important;
             justify-content: space-around;

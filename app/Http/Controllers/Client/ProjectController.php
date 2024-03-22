@@ -678,6 +678,50 @@ class ProjectController extends Controller
                 }
             }
         } else {
+
+
+            if(empty($housingTypeSlug) && !empty($housingTypeSlugName)){
+                $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
+
+               
+                    // HousingTypeParent içindeki bağlantıları al
+                $parentConnections = $connections->parents->pluck('connections')->flatten();
+                
+                // Benzersiz housing_type_id değerlerini bul
+                $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
+
+
+                
+                
+                $filtersDb = Filter::where('item_type', 2)
+                                    ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                                    ->get()
+                                    ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                                    ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                                    ->toArray();
+
+                foreach ($filtersDb as $data) {
+                        $filterItem = [
+                            "label" => $data['filter_label'],
+                            "type" => $data['filter_type'],
+                            "name" => $data['filter_name'],
+                        ];
+
+                        if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                            $filterItem["values"] = [];
+                        } else if ($data['filter_type']== "text") {
+                            $filterItem['text_style'] = $data['text_style'];
+                        } else if ($data['filter_type']== "toggle") {
+                            $filterItem['toggle'] = true;
+                        }
+
+                        array_push($filters, $filterItem);
+                    
+                }
+
+
+
+            }
             if ($housingTypeSlug && $newHousingType) {
                 $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
@@ -740,6 +784,8 @@ class ProjectController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
+
+
 
         return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
     }
