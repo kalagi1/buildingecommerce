@@ -1338,32 +1338,32 @@
 
         $(document).ready(function() {
             $('.listingDetailsSliderNav').slick({
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                dots: false,
-                loop: false,
-                autoplay: false,
-                arrows: false,
-                margin: 20,
-                adaptiveHeight: true,
-                responsive: [{
-                    breakpoint: 993,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 2,
-                        dots: false,
-                        arrows: false
-                    }
-                }, {
-                    breakpoint: 769,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        dots: false,
-                        arrows: false
-                    }
-                }]
-            });
+            slidesToShow: 5,
+            slidesToScroll: 5,
+            dots: false,
+            loop: false,
+            autoplay: false,
+            arrows: false,
+            margin: 0,
+            adaptiveHeight: true,
+            responsive: [{
+                breakpoint: 993,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2,
+                    dots: false,
+                    arrows: false
+                }
+            }, {
+                breakpoint: 769,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    dots: false,
+                    arrows: false
+                }
+            }]
+        });
         });
         // Sayfa yüklendiğinde
         $(document).ready(function() {
