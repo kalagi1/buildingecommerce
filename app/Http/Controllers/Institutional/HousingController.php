@@ -593,4 +593,8 @@ class HousingController extends Controller {
 
         return redirect()->route( 'institutional.housing.list' );
     }
+
+    public function saveTempProject(){
+        return "asd";
+    }
 }
