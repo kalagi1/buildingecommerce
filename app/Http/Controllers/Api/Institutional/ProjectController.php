@@ -1096,4 +1096,22 @@ class ProjectController extends Controller
             "status" => true,
         ]);
     }
+
+    public function saveTemplate(Request $request){
+        TempOrder::create([
+            "user_id" => auth()->user()->id,
+            "data" => json_encode($request->all()),
+            "item_type" => 1,
+            "step_order" => 2
+        ]);
+        return $request->all();
+    }
+
+    public function getLastData(){
+        $lastData = TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->first();
+
+        return json_encode([
+            "lastData" => json_decode($lastData->data)
+        ]);
+    }
 }
