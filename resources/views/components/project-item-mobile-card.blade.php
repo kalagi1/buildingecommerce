@@ -25,7 +25,45 @@
     } else {
         $keyIndex = $i + 1 + $allCounts;
     }
-
+    if (!function_exists('convertMonthToTurkishCharacter')) {
+            function convertMonthToTurkishCharacter($date)
+            {
+                $aylar = [
+                    'January' => 'Ocak',
+                    'February' => 'Şubat',
+                    'March' => 'Mart',
+                    'April' => 'Nisan',
+                    'May' => 'Mayıs',
+                    'June' => 'Haziran',
+                    'July' => 'Temmuz',
+                    'August' => 'Ağustos',
+                    'September' => 'Eylül',
+                    'October' => 'Ekim',
+                    'November' => 'Kasım',
+                    'December' => 'Aralık',
+                    'Monday' => 'Pazartesi',
+                    'Tuesday' => 'Salı',
+                    'Wednesday' => 'Çarşamba',
+                    'Thursday' => 'Perşembe',
+                    'Friday' => 'Cuma',
+                    'Saturday' => 'Cumartesi',
+                    'Sunday' => 'Pazar',
+                    'Jan' => 'Oca',
+                    'Feb' => 'Şub',
+                    'Mar' => 'Mar',
+                    'Apr' => 'Nis',
+                    'May' => 'May',
+                    'Jun' => 'Haz',
+                    'Jul' => 'Tem',
+                    'Aug' => 'Ağu',
+                    'Sep' => 'Eyl',
+                    'Oct' => 'Eki',
+                    'Nov' => 'Kas',
+                    'Dec' => 'Ara',
+                ];
+                return strtr($date, $aylar);
+            }
+        }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -358,8 +396,8 @@
 <div class="w-100" style="height: 25px; background-color: #8080802e; margin-top: 15px">
     <div class="d-flex justify-content-between align-items-center" style="height: 100%">
 
-        <ul class="d-flex justify-content-start align-items-center h-100 w-100"
-            style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
+        <ul class="d-flex align-items-center h-100 w-100"
+            style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:space-between !important;margin-bottom:0 !important">
 
             @foreach (['column1', 'column2', 'column3'] as $column)
                 @php
@@ -380,6 +418,13 @@
                     </li>
                 @endif
             @endforeach
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                </span>
+            </li>
+
         </ul>
 
         <span
