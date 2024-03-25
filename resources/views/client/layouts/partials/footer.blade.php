@@ -272,7 +272,10 @@
 <script>
     $(document).ready(function(){
         $('.listingDetailsSliderNav .item').on('mouseenter', function(){
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
             var slideNumber = $(this).find('a').attr('data-slide-to');
+            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
             $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]').addClass('active');
             $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
