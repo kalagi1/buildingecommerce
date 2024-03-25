@@ -311,14 +311,20 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label" for="validationCustom04">Faaliyet Alanı</label>
-                                        <input name="corporate_type" class="form-control" id="corporate_type" type="text" value="{{ $userDetail->corporate_type }}">
+                                        <select name="corporate_type" id="corporate_type" class="form-control">
+                                            @foreach(['Emlakçı', 'İnşaat', 'Turizm', 'Banka'] as $type)
+                                                <option value="{{ $type }}" {{ $userDetail->corporate_type === $type ? 'selected' : '' }}>{{ $type }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    
 
                                     <div class="col-md-6">
                                         <label class="form-label" for="validationCustom04">IBAN</label>
                                         <input name="iban" class="form-control" id="iban" type="text" value="{{ $userDetail->iban }}">
                                     </div>
 
+                                    
                                        {{-- daire --}}
                                     <div class="col-md-6">
                                         <label class="form-label" for="taxOffice">Vergi Dairesi</label>
@@ -338,8 +344,15 @@
                                     {{-- no --}}
                                     <div class="col-md-6">
                                         <label class="form-label" for="validationCustom04">Vergi No</label>
-                                        <input name="taxNumber" class="form-control" id="taxNumber" type="text" value="{{ $userDetail->taxNumber }}">
+                                        <input name="taxNumber" class="form-control" id="taxNumber" type="number" value="{{ $userDetail->taxNumber }}">
                                     </div>
+
+                                    @if($userDetail->account_type == 'Şahıs Şirketi')
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="validationCustom04">TC</label>
+                                            <input name="idNumber" class="form-control" id="idNumber" type="number" value="{{ $userDetail->idNumber }}">
+                                        </div>
+                                    @endif
 
                                     <div class="col-md-12">
                                         <div class="form-check form-switch">
