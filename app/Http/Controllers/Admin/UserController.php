@@ -340,7 +340,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $roles = Role::all();
+        $roles = Role::where("parent_id", "4")->get();
         $userDetail = User::with("comments", "owners", "parent", "town", "child", "role", "projects", "city", "district", "neighborhood", "housings", "plan")->findOrFail($id);
 
         $taxOffices = TaxOffice::all();
