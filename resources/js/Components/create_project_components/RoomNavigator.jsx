@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBlock,formData,validationErrors,setValidationErrors}) {
+function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBlock,formData,validationErrors,setValidationErrors,haveBlock}) {
     const [copyValue,setCopyValue] = useState("");
     const [tempItems,setTempItems] = useState([]);
     const [copyLoading,setCopyLoading] = useState(false);
@@ -68,15 +68,25 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
         var tempItems2 = [];
         for(var i = 0; i < blocks.length; i++){
             for(var j = 0 ; j < blocks[i].roomCount; j++){
-                tempItems2.push({
-                    label : blocks[i].name +' '+ (j+1) +' No\'lu Konut',
-                    value : i+"-"+j
-                })
+                if(haveBlock){
+                    tempItems2.push({
+                        label : blocks[i].name +' '+ (j+1) +' No\'lu Konut',
+                        value : i+"-"+j
+                    })
+                }else{
+                    if(j < selectedRoom){
+                        tempItems2.push({
+                            label : (j+1) +' No\'lu Konut',
+                            value : i+"-"+j
+                        })
+                    }
+                }
+                
             }
         }
 
         setTempItems(tempItems2)
-    },[selectedBlock])
+    },[selectedBlock,selectedRoom])
 
     const copyItem = (selectBlock,selectRoom) => {
         setCopyLoading(false);
@@ -128,27 +138,30 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
             <div className="row w-100">
                 <div className="col-md-12 mbpx-10">
                     <div className="row jc-space-between">
-                        <div className="col-md-5">
+                        <div className="col-md-4">
                             <div className="d-flex" style={{alignItems:'center'}}>
                                 <div className="show-houing-order " style={{width:'calc(100% - 30px)'}}>
                                     <div className="full-load" style={{width:percentOccupancy()+'%'}}></div>
-                                     <span>Daire <span className="room-order-progress">1</span> / <span className="percent-housing">{percentOccupancy().toFixed(2)}</span>%</span></div>
+                                     <span>Daire <span className="room-order-progress">{selectedRoom + 1}</span> / <span className="percent-housing">{percentOccupancy().toFixed(2)}</span>%</span></div>
                                 <div className="icon" style={{marginLeft:'5px'}} data-toggle="tooltip" data-placement="top" title="Doldurduğunuz konutun doluluk oranını görüntüleyebilirsiniz">
                                     <i className="fa fa-circle-info"></i>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-2">
-                            <button className='btn btn-primary' onClick={allCopy}>Hepsine Kopyala</button>
+                        <div className="col-md-4">
+                            <button className='btn btn-primary' onClick={allCopy}> Bu Konutu Hepsine Kopyala</button>
                         </div>
-                        <div className="col-md-5">
+                        <div className="col-md-4">
                             <div className="d-flex" style={{alignItems:'center'}}>
                                 <div className="icon" style={{marginRight:'5px'}}>
                                     <i className="fa fa-circle-info"></i>
                                 </div>
                                 
                                 <select value={copyValue} onChange={(e) => {var copyValues= e.target.value.split('-'); copyItem(copyValues[0],copyValues[1])}} className={"form-control  copy-item"} name="" id="">
-                                    <option value="">Kopyalamak istediğiniz daireyi seçin</option>
+                                    <option value="">{
+                                        haveBlock ? 
+                                        "Kopyalamak istediğiniz konutu seçin" : selectedRoom == 0 ? "Kopyalama işlemi için 2 nolu konuta geçin" : "Kopyalamak istediğiniz konutu seçin" 
+                                    }</option>
                                     {tempItems.map((x, i) => {
                                         return(
                                            <option value={x.value}>{x.label}</option>

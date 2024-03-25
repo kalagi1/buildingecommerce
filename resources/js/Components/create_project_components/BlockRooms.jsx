@@ -339,7 +339,7 @@ function BlockRooms({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedR
                     : ""
                 }
             </div>
-            <RoomNavigator validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
+            <RoomNavigator haveBlock={true} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
             <Modal
                 open={open}
                 onClose={() => {setOpen(false)}}

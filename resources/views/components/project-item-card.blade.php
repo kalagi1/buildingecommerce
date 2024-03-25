@@ -26,6 +26,46 @@
     } else {
         $keyIndex = $i + 1 + $allCounts;
     }
+
+    if (!function_exists('convertMonthToTurkishCharacter')) {
+            function convertMonthToTurkishCharacter($date)
+            {
+                $aylar = [
+                    'January' => 'Ocak',
+                    'February' => 'Şubat',
+                    'March' => 'Mart',
+                    'April' => 'Nisan',
+                    'May' => 'Mayıs',
+                    'June' => 'Haziran',
+                    'July' => 'Temmuz',
+                    'August' => 'Ağustos',
+                    'September' => 'Eylül',
+                    'October' => 'Ekim',
+                    'November' => 'Kasım',
+                    'December' => 'Aralık',
+                    'Monday' => 'Pazartesi',
+                    'Tuesday' => 'Salı',
+                    'Wednesday' => 'Çarşamba',
+                    'Thursday' => 'Perşembe',
+                    'Friday' => 'Cuma',
+                    'Saturday' => 'Cumartesi',
+                    'Sunday' => 'Pazar',
+                    'Jan' => 'Oca',
+                    'Feb' => 'Şub',
+                    'Mar' => 'Mar',
+                    'Apr' => 'Nis',
+                    'May' => 'May',
+                    'Jun' => 'Haz',
+                    'Jul' => 'Tem',
+                    'Aug' => 'Ağu',
+                    'Sep' => 'Eyl',
+                    'Oct' => 'Eki',
+                    'Nov' => 'Kas',
+                    'Dec' => 'Ara',
+                ];
+                return strtr($date, $aylar);
+            }
+        }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -115,7 +155,7 @@
 
                             <div class="homes-list-div"
                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="flex-direction: column !important;" @endif>
-                                <ul class="homes-list clearfix pb-3 d-flex"
+                                <ul class="homes-list clearfix pb-3 d-flex justify-content-between"
                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="height: 90px !important" @endif>
                                     <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" style="color: black;"
@@ -144,6 +184,13 @@
                                             </li>
                                         @endif
                                     @endforeach
+
+                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                        <span>
+                                            {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                        </span>
+                                    </li>
 
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
@@ -636,7 +683,7 @@
                 $('.ibanInfo').html(ibanInfo);
             });
 
-           
+
 
             $('#completePaymentButton{{ $sold->id }}').on('click', function() {
                 // Ödeme sırasındaki satış ID'sini al
