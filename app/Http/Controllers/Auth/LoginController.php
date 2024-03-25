@@ -7,8 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -23,33 +22,32 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
+    * Where to redirect users after login.
+    *
+    * @var string
+    */
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+    * Create a new controller instance.
+    *
+    * @return void
+    */
+
+    public function __construct() {
+        $this->middleware( 'guest' )->except( 'logout' );
     }
 
-    public function handleGoogleCallback()
-{
-    $user = Socialite::driver('google')->user();
+    public function handleGoogleCallback() {
+        $user = Socialite::driver( 'google' )->user();
 
-    // Google'dan dönen kullanıcı bilgileriyle işlem yapabilirsiniz
+        // Google'dan dönen kullanıcı bilgileriyle işlem yapabilirsiniz
 
     return redirect('/dashboard');
 }
 
 public function redirectToGoogle()
 {
-    return Socialite::driver('google')->redirect();
-}
+    return Socialite::driver('google' )->redirect();
+    }
 }
