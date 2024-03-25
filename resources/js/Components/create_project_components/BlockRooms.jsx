@@ -7,6 +7,7 @@ import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 function BlockRooms({formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType,allErrors}) {
     const [open,setOpen] = useState(false);
     const [validationErrors,setValidationErrors] = useState([]);
@@ -30,21 +31,25 @@ function BlockRooms({formDataHousing,anotherBlockErrors,selectedBlock,setSelecte
 
     const addBlock = () => {
         setSelectedBlock(blocks.length)
-        setBlocks([
-            ...blocks,
-            {
-                name : blockName,
-                roomCount : roomCount,
-                rooms : [
-                    {}
-                ]
-            }
-        ]);
-
-        setSelectedRoom(0);
-        setBlockName("");
-        setRoomCount(0);
-        setOpen(false);
+        if(roomCount > 0){
+            setBlocks([
+                ...blocks,
+                {
+                    name : blockName,
+                    roomCount : roomCount,
+                    rooms : [
+                        {}
+                    ]
+                }
+            ]);
+    
+            setSelectedRoom(0);
+            setBlockName("");
+            setRoomCount(0);
+            setOpen(false);
+        }else{
+            toast.error("Lütfen geçerli bir konut sayısı giriniz");
+        }
     }
 
     const blockDataSet = (blockIndex,keyx,value) => {
@@ -353,7 +358,7 @@ function BlockRooms({formDataHousing,anotherBlockErrors,selectedBlock,setSelecte
                     </div>
                     <div className="form-group">
                         <label htmlFor="">Bu Blokta Kaç Tane Konut Var</label>
-                        <input type="text" value={roomCount} onChange={(e) => {setRoomCount(e.target.value)}} className='form-control' />
+                        <input type="number" value={roomCount == 0 ? "" : roomCount} onChange={(e) => {setRoomCount(e.target.value)}} className='form-control' />
                     </div>
                     <div className="form-group">
                         <button class="btn btn-success confirm-button-block" onClick={addBlock}>Bloğu Ekle</button>
