@@ -72,6 +72,8 @@ class AppServiceProvider extends ServiceProvider
                 $view->with("cartItemCount", $cartItemCount);
 
             }
+            $menu = Menu::getMenuItems();
+            $view->with("menu", $menu);
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });
