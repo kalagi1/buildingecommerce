@@ -7,7 +7,7 @@ import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
 import Swal from 'sweetalert2';
-function BlockRooms({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType,allErrors}) {
+function BlockRooms({formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType,allErrors}) {
     const [open,setOpen] = useState(false);
     const [validationErrors,setValidationErrors] = useState([]);
     const [blockName,setBlockName] = useState("");
@@ -339,7 +339,7 @@ function BlockRooms({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedR
                     : ""
                 }
             </div>
-            <RoomNavigator haveBlock={true} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
+            <RoomNavigator formDataHousing={formDataHousing} haveBlock={true} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
             <Modal
                 open={open}
                 onClose={() => {setOpen(false)}}

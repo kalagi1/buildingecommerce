@@ -11,11 +11,12 @@ import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { fromAddress, setDefaults } from 'react-geocode';
 import FileUpload from './FileUpload';
 import FinishArea from './FinishArea';
-function ProjectForm({anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
+function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,projectData,allErrors,setProjectDataFunc,haveBlocks,setHaveBlocks,roomCount,setRoomCount,blocks,setBlocks,selectedHousingType,setProjectData,createProject}) {
     const [cities,setCities] = useState([]);
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
     const [map, setMap] = useState(null);
+    const [fullEnded,setFullEnded] = useState(false);
     const [zoom,setZoom] = useState(6);
     const [center,setCenter] = useState({
         lat: -3.745,
@@ -27,6 +28,46 @@ function ProjectForm({anotherBlockErrors,selectedBlock,setSelectedBlock,selected
             setProjectDataFunc('project_title',projectTitle)
         }
     }
+
+    useEffect(() => {
+        var tempErrors = [];
+        if(blocks.length > 0){
+            blocks.forEach((block,blockIndex) => {
+                for(var i = 0; i < block.roomCount; i++){
+                    if(blocks[blockIndex].rooms[i]){
+                        formDataHousing.forEach((formDataHousing) => {
+                            if(!formDataHousing.className.includes('project-disabled')){
+                                if(formDataHousing.required){
+                                    if(blocks.length < 1){
+                                        tempErrors.push(formDataHousing.name.replace("[]",""))
+                                    }else{
+                                        if(!blocks[blockIndex].rooms[i][formDataHousing.name]){
+                                            tempErrors.push(formDataHousing.name.replace("[]","")+blockIndex+i)
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        })
+                    }else{
+                        formDataHousing.forEach((formDataHousing) => {
+                            tempErrors.push(formDataHousing.name.replace("[]","")+blockIndex+i)
+                        })
+                    }
+                }
+            })
+
+            if(tempErrors.length == 0){
+                setFullEnded(true);
+            }else{
+                setFullEnded(false);
+            }
+        }else{
+            setFullEnded(false);
+        }
+        
+        
+    },[blocks])
 
     const dotNumberFormat = (number) => {
         if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
@@ -201,13 +242,15 @@ function ProjectForm({anotherBlockErrors,selectedBlock,setSelectedBlock,selected
                 </label>
                 {
                     haveBlocks ? 
-                        <BlockRooms anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} />
+                        <BlockRooms formDataHousing={formDataHousing} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} />
                     : 
-                        <Rooms anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} selectedHousingType={selectedHousingType} allErrors={allErrors} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount}/>
+                        <Rooms formDataHousing={formDataHousing} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} selectedHousingType={selectedHousingType} allErrors={allErrors} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount}/>
                 }
             </div>
-
-            <div>
+            <div className={'alert alert-danger mt-2 '+(fullEnded ? "d-none" : "")} style={{color:'#fff'}}>
+                Tüm konutların bilgileri doldurulmadan alt alanlara devam edemiyorsunuz. Tüm konut bilgilerini doldurduğunuz anda otomatik açılacaktır.
+            </div>
+            <div className={fullEnded ? "" : "d-none"}>
                 <span className="section-title">Adres Bilgileri</span>
                 <div className="card">
                     <div className="row px-5 py-4">
