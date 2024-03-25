@@ -105,28 +105,20 @@
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                             <div class="carousel-inner">
                                 {{-- Kapak Görseli --}}
-                                <div class="item carousel-item active" data-slide-number="0">
-                                    <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        class="img-fluid" alt="slider-listing">
-
+                                <div class="item carousel-item active" data-slide-number="0" style="position: absolute">
+                                    <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" data-lightbox="project-images">
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" class="img-fluid" alt="slider-listing">
+                                    </a>
                                 </div>
 
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
-                                            class="img-fluid" alt="slider-listing">
+                                        <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}" data-lightbox="project-images">
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}" class="img-fluid" alt="slider-listing">
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
-                            {{-- Büyük Resmin Altına Büyütülmüş Fotoğraf ve Zoom Butonu --}}
-                            {{-- <div class="carousel-caption d-none d-md-block">
-                                <div id="lightboxContent">
-                                    <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
-                                        data-lightbox="image-gallery">
-                                        <button id="zoomButton" class="btn btn-primary">Zoom</button>
-                                    </a>
-                                </div>
-                            </div> --}}
 
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
@@ -886,6 +878,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openLightbox(index) {
+            const slideNumber = index.toString();
+            const slides = document.querySelectorAll('.carousel-inner .item');
+            slides.forEach((slide) => {
+                if (slide.getAttribute('data-slide-number') === slideNumber) {
+                    slide.querySelector('a[data-lightbox="project-images"]').click();
+                }
+            });
+        }
+    </script>
 
     <script>
         var project = "{{ $project->id }}";

@@ -356,6 +356,19 @@ class ProjectController extends Controller
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
         $status = HousingStatus::find($statusID);
 
+        $defaultProjectStatus = HousingStatus::where('is_project',1)->where('is_default',1)->first();
+        $selectedProjectStatus = HousingStatus::where('id',$request->input('selectedTypes')[0])->first();
+
+        ProjectHousingType::create([
+            'housing_type_id' => $defaultProjectStatus->id,
+            'project_id' => $project->id
+        ]);
+
+        ProjectHousingType::create([
+            'housing_type_id' => $selectedProjectStatus->id,
+            'project_id' => $project->id
+        ]);
+
         $notificationLink =  route('project.detail', ['slug' => $project->slug . "-" . $status->slug . "-" . $project->step2_slug . "-" . $project->housingtype->slug, 'id' => $project->id]);
         $notificationText = 'Proje #' . $project->id . ' şu anda admin onayına gönderildi. Onaylandığı takdirde yayına alınacaktır.';
         DocumentNotification::create([
@@ -1094,6 +1107,24 @@ class ProjectController extends Controller
 
         return json_encode([
             "status" => true,
+        ]);
+    }
+
+    public function saveTemplate(Request $request){
+        TempOrder::create([
+            "user_id" => auth()->user()->id,
+            "data" => json_encode($request->all()),
+            "item_type" => 1,
+            "step_order" => 2
+        ]);
+        return $request->all();
+    }
+
+    public function getLastData(){
+        $lastData = TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->first();
+
+        return json_encode([
+            "lastData" => json_decode($lastData->data)
         ]);
     }
 }

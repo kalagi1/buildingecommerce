@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBlock,formData,validationErrors,setValidationErrors}) {
+import { toast } from 'react-toastify';
+function RoomNavigator({formDataHousing,selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBlock,formData,validationErrors,setValidationErrors,haveBlock}) {
     const [copyValue,setCopyValue] = useState("");
     const [tempItems,setTempItems] = useState([]);
     const [copyLoading,setCopyLoading] = useState(false);
@@ -68,15 +69,25 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
         var tempItems2 = [];
         for(var i = 0; i < blocks.length; i++){
             for(var j = 0 ; j < blocks[i].roomCount; j++){
-                tempItems2.push({
-                    label : blocks[i].name +' '+ (j+1) +' No\'lu Konut',
-                    value : i+"-"+j
-                })
+                if(haveBlock){
+                    tempItems2.push({
+                        label : blocks[i].name +' '+ (j+1) +' No\'lu Konut',
+                        value : i+"-"+j
+                    })
+                }else{
+                    if(j < selectedRoom){
+                        tempItems2.push({
+                            label : (j+1) +' No\'lu Konut',
+                            value : i+"-"+j
+                        })
+                    }
+                }
+                
             }
         }
 
         setTempItems(tempItems2)
-    },[selectedBlock])
+    },[selectedBlock,selectedRoom])
 
     const copyItem = (selectBlock,selectRoom) => {
         setCopyLoading(false);
@@ -96,6 +107,13 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
                 return block;
             }
         })
+
+        if(haveBlock){
+            toast.success(blocks[selectBlock].name+" bloğun "+(parseInt(selectRoom) + 1)+" nolu konutu "+blocks[selectedBlock].name+" bloğun "+(selectedRoom + 1)+" nolu konutuna kopyalandı")
+        }else{
+            
+            toast.success((parseInt(selectRoom) + 1)+" nolu konut "+(selectedRoom + 1)+" nolu konuta kopyalandı")
+        }
         
         setBlocks(newBlocks);
         
@@ -103,52 +121,76 @@ function RoomNavigator({selectedRoom,setSelectedRoom,blocks,setBlocks,selectedBl
     }
 
     const allCopy = () => {
-        var tempBlocks = blocks.map((block) => {
-            var tempRooms = [];
-            for( var i = 0 ; i < block.roomCount; i++){
-                tempRooms.push(blocks[selectedBlock].rooms[selectedRoom]);
-            }
+        var tempErrors = [];
+        if(blocks.length > 0){
+            formDataHousing.forEach((formDataHousing) => {
+                if(!formDataHousing.className.includes('project-disabled')){
+                    if(formDataHousing.required){
+                        if(blocks.length < 1){
+                            tempErrors.push(formDataHousing.name.replace("[]",""))
+                        }else{
+                            if(!blocks[selectedBlock].rooms[selectedRoom][formDataHousing.name]){
+                                tempErrors.push(formDataHousing.name.replace("[]",""))
+                            }
+                        }
+                        
+                    }
+                }
+            })
+        }
 
-            return {
-                ...block,
-                rooms : tempRooms
-            }
-        })
+        if(tempErrors.length > 0){
+            toast.error("Bu konutta zorunlu tüm alanlar dolu olmadığı için tüm konutlara kopyalama işlemi yapılamaz");
+        }else{
+            var tempBlocks = blocks.map((block) => {
+                var tempRooms = [];
+                for( var i = 0 ; i < block.roomCount; i++){
+                    tempRooms.push(blocks[selectedBlock].rooms[selectedRoom]);
+                }
+    
+                return {
+                    ...block,
+                    rooms : tempRooms
+                }
+            })
 
-        setBlocks(tempBlocks);
+            setBlocks(tempBlocks);
+
+            toast.success("Bu konutu başarıyla tüm konutlara kopyaladınız")
+        }
+        
     }
 
     return(
         <div className="bottom-housing-area align-center col-xl-6 col-md-6 col-6" style={{justifyContent:'center'}}>
-            {
-                copyLoading ?
-                    <div className='copy-loading-area'><div className="load-area"></div></div>
-                : ''
-            }
+            
             <div className="row w-100">
                 <div className="col-md-12 mbpx-10">
                     <div className="row jc-space-between">
-                        <div className="col-md-5">
+                        <div className="col-md-4">
                             <div className="d-flex" style={{alignItems:'center'}}>
                                 <div className="show-houing-order " style={{width:'calc(100% - 30px)'}}>
                                     <div className="full-load" style={{width:percentOccupancy()+'%'}}></div>
-                                     <span>Daire <span className="room-order-progress">1</span> / <span className="percent-housing">{percentOccupancy().toFixed(2)}</span>%</span></div>
+                                     <span>Konut <span className="room-order-progress">{selectedRoom + 1}</span> / <span className="percent-housing">{percentOccupancy().toFixed(2)}</span>%</span></div>
                                 <div className="icon" style={{marginLeft:'5px'}} data-toggle="tooltip" data-placement="top" title="Doldurduğunuz konutun doluluk oranını görüntüleyebilirsiniz">
                                     <i className="fa fa-circle-info"></i>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-2">
-                            <button className='btn btn-primary' onClick={allCopy}>Hepsine Kopyala</button>
+                        <div className="col-md-4">
+                            <button className='btn btn-primary' onClick={allCopy}> Bu Konutu Hepsine Kopyala</button>
                         </div>
-                        <div className="col-md-5">
+                        <div className="col-md-4">
                             <div className="d-flex" style={{alignItems:'center'}}>
                                 <div className="icon" style={{marginRight:'5px'}}>
                                     <i className="fa fa-circle-info"></i>
                                 </div>
                                 
                                 <select value={copyValue} onChange={(e) => {var copyValues= e.target.value.split('-'); copyItem(copyValues[0],copyValues[1])}} className={"form-control  copy-item"} name="" id="">
-                                    <option value="">Kopyalamak istediğiniz daireyi seçin</option>
+                                    <option value="">{
+                                        haveBlock ? 
+                                        "Kopyalamak istediğiniz konutu seçin" : selectedRoom == 0 ? "Kopyalama işlemi için 2 nolu konuta geçin" : "Kopyalamak istediğiniz konutu seçin" 
+                                    }</option>
                                     {tempItems.map((x, i) => {
                                         return(
                                            <option value={x.value}>{x.label}</option>

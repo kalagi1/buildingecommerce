@@ -8534,7 +8534,6 @@ html input[disabled] {
 
     .itemCircleFont {
         font-size: 11px;
-        margin-right: 11px;
     }
 
     .button-tabs .tab-title {
@@ -18448,7 +18447,6 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 }
 
 .inner-pages .blog .homes-content .homes-list li {
-    width: 25%;
     float: left;
     font-size: 11px;
     line-height: 18px;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TypeList from './create_project_components/TypeList';
 import ProjectForm from './create_project_components/ProjectForm';
 import axios from 'axios';
@@ -35,6 +35,7 @@ function CreateProject(props) {
     const nextStep = (stepOrder) => {
         setStep(stepOrder);
     }
+
 
     function getCoords(elem) { // crossbrowser version
         var box = elem.getBoundingClientRect();
@@ -350,8 +351,6 @@ function CreateProject(props) {
         
     }
 
-    console.log(blocks);
-
     const style = {
         position: 'absolute',
         top: '50%',
@@ -408,7 +407,25 @@ function CreateProject(props) {
             formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
         });
 
-        
+        var housingTemp = 1;
+        blocks.forEach((block, blockIndex) => {
+            block.rooms.forEach((room, roomIndex) => {
+                Object.keys(room).forEach(key => {
+                    if(key == "payDecs"){
+                        room.payDecs.forEach((payDec,payDecIndex) => {
+                            formData.append(`blocks[${blockIndex}][rooms][${roomIndex}][payDecs][${payDecIndex}][price]`, payDec.price);
+                            formData.append(`blocks[${blockIndex}][rooms][${roomIndex}][payDecs][${payDecIndex}][date]`, payDec.date);
+                        })
+                    }else{
+                        if(!key.includes('imagex')){
+                            formData.append(`blocks[${blockIndex}][rooms][${roomIndex}][${key.replace('[]','')}]`, room[key]);
+                        }
+                    }
+                });
+
+                housingTemp++;
+            });
+        });
 
         formData.append('haveBlocks',haveBlocks);
         formData.append('totalRoomCount',totalRoomCount());
@@ -418,28 +435,7 @@ function CreateProject(props) {
 
         var housingTemp = 1;
 
-        blocks.forEach((block, blockIndex) => {
-            block.rooms.forEach((room, roomIndex) => {
-                
-                formData.append('room_order',housingTemp);
-                Object.keys(room).forEach(key => {
-                    if(key == "payDecs"){
-                        room.payDecs.forEach((payDec,payDecIndex) => {
-                            formData.append(`block[${blockIndex}]rooms[${roomIndex}][payDecs][${payDecIndex}][price]`, payDec.price);
-                            formData.append(`block[${blockIndex}]rooms[${roomIndex}][payDecs][${payDecIndex}][date]`, payDec.date);
-                        })
-                    }else{
-                        if(!key.includes('imagex')){
-                            formData.append(`block[${blockIndex}]rooms[${roomIndex}][${key.replace('[]','')}]`, room[key]);
-                        }
-                    }
-                });
-
-                housingTemp++;
-            });
-        });
-
-        axios.post(baseUrl+'save_temp_project',formData,{
+        axios.post(baseUrl+'save_template',formData,{
             headers: {
                 'accept': 'application/json',
                 'Accept-Language': 'en-US,en;q=0.8',
@@ -448,8 +444,6 @@ function CreateProject(props) {
         }).then((res) => {
             console.log(res);
         })
-
-
     }
 
     return(
@@ -472,7 +466,7 @@ function CreateProject(props) {
                 step == 1 ? 
                     <TypeList setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <ProjectForm anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <ProjectForm formDataHousing={JSON.parse(selectedHousingType?.housing_type?.form_json)} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
                     <EndSection/>
             }

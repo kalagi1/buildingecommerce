@@ -1032,7 +1032,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/update_orders/{id}', [InstitutionalHousingController::class, 'updateOrders'])->name('housing.update.orders');
         Route::post('/change_cover_image/{id}', [InstitutionalHousingController::class, 'changeCoverImage'])->name('housing.change.cover.image');
         Route::get('/remove_housing/{id}', [InstitutionalHousingController::class, 'destroy'])->name('housing.remove.housing');
-        Route::post('/save_temp_project', [InstitutionalHousingController::class, 'saveTempProject'])->name('save.temp.project');
     });
 
     Route::middleware(['checkPermission:ListHousingInstitutional'])->group(function () {
@@ -1152,6 +1151,8 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/change_image',[ApiProjectController::class,"changeImage"]);
     Route::post('/save_pay_dec',[ApiProjectController::class,"changePayDecs"]);
     Route::post('/save_payment_status',[ApiProjectController::class,"savePaymentStatus"]);
+    Route::post('/save_template',[ApiProjectController::class,"saveTemplate"]);
+    Route::get('/last_data',[ApiProjectController::class,"getLastData"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
