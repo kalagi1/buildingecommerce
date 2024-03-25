@@ -130,8 +130,7 @@
                                     </thead>
                                     <tbody class="list" id="leal-tables-body">
                                         @foreach ($users as $key => $user)
-                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-
+                                            <tr class="hover-actions-trigger btn-reveal-trigger position-static {{ $user->is_blocked == '1' ? 'bg-warning' : '' }}">
                                                 <td class="name align-middle white-space-nowrap ps-0">
                                                     <div class="d-flex align-items-center"><a href="#!">
                                                             <div class="avatar avatar-xl me-3"><img class="rounded-circle"

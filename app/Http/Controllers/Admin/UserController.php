@@ -367,7 +367,6 @@ class UserController extends Controller
             'iban'           => 'required|string|max:255|nullable',
             'corporate_type' => 'required|string|max:255|nullable',
             'account_type'   => 'required|string|max:255|nullable',
-            'taxNumber'      => 'required|integer|max:10|nullable' 
         ];
 
         // Form doğrulama işlemini gerçekleştirin
@@ -384,7 +383,11 @@ class UserController extends Controller
         $user->account_type   = $validatedData['account_type'];
         $user->taxOfficeCity  = $taxOfficeCity;
         $user->taxOffice      = $request->taxOffice;
-        $user->taxNumber      = $validatedData['taxNumber'];
+        $user->taxNumber      = $request->taxNumber;
+
+        if($user->account_type == 'Şahıs Şirketi'){
+            $user->idNumber = $request->idNumber;
+        }
 
         
         if ($request->hasFile('profile_image')) {
