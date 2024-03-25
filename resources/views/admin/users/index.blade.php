@@ -231,22 +231,22 @@
                                                     {{ isset($user->city) && isset($user->district) && $user->city->title ? $user->city->title.' & '.$user->district->ilce_title : "İl Belirtilmemiş" }}
                                                 </td>
                                                 <td>
-                                                    @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
-                                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                            class="btn btn-sm btn-primary">Düzenle</a>
-                                                    @elseif (in_array('GetUserById', $userPermissions))
-                                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                            class="btn btn-sm btn-primary">Önizle</a>
-                                                    @endif
-
-                                                    @if (in_array('DeleteUser', $userPermissions))
-                                                        <!-- Silme işlemi için modal -->
-                                                        <button type="button" class="btn btn-sm btn-danger"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $user->id }}">
-                                                            Sil
-                                                        </button>
-                                                    @endif
+                                                    <div class="d-flex">
+                                                        @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
+                                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-primary mr-2">Düzenle</a>
+                                                        @elseif (in_array('GetUserById', $userPermissions))
+                                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-primary mr-2">Önizle</a>
+                                                        @endif
+                                                    
+                                                        @if (in_array('DeleteUser', $userPermissions))
+                                                            <!-- Silme işlemi için modal -->
+                                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                                data-bs-target="#deleteModal{{ $user->id }}">
+                                                                Sil
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                    
 
                                                     <!-- Silme işlemi için modal -->
                                                     <div class="modal fade" id="deleteModal{{ $user->id }}"
