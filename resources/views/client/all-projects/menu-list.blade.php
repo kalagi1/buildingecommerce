@@ -735,7 +735,7 @@
                                 id="submit-filters" onclick="$('.filters-input-area').slideToggle();">Filtrele</button>
 
                             <button type="button" onclick="$('.filters-input-area').slideToggle();"
-                                class="d-md-none d-lg-none btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
+                                class="d-md-none  d-lg-none btn bg-white btn-lg btn-block mt-md-2 mb-4e btn-transition"
                                 style="border: 1px solid #CCC;" id="clear-filters">Kapat</button>
 
 
@@ -833,10 +833,12 @@
         $(document).ready(function() {
 
             $("#clear-filters").click(function() {
-                // Adres bilgilerini sıfırla
                 $("#city").val("#").trigger('change'); // İl seçeneğini sıfırla
                 $("#county").val("#").trigger('change'); // İlçe seçeneğini sıfırla
                 $("#neighborhood").val("#").trigger('change'); // Mahalle seçeneğini sıfırla
+                $("input[type='checkbox']").prop('checked', false);
+                $("input").val("");
+
             });
         });
 
