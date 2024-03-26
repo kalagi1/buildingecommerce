@@ -150,11 +150,12 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
-                    <span
-                        class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
-                        data-type='project' data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                    @if (($sold && !$sold->status == '1' || $sold && !$sold->status == '0') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                    <span class="btn addCollection mobileAddCollection " data-type='project'
+                        data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                         <i class="fa fa-bookmark-o"></i>
                     </span>
+                @endif
                     <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
                         style="color: white;" data-project-id="{{ $project->id }}">
                         <i class="fa fa-heart-o"></i>

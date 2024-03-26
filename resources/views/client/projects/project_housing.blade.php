@@ -383,6 +383,8 @@
                             </div>
                         </div>
                     </div>
+
+                    @if (($sold && !$sold->status == '1' || $sold && !$sold->status == '0') || $projectHousingsList[$housingOrder]['off_sale[]'] == '[]')
                     <div class="moveCollection">
                         <div class="add-to-collections-wrapper addCollectionMobile addCollection" data-type='project'
                             data-id="{{ $housingOrder }}" data-project="{{ $project->id }}">
@@ -425,6 +427,8 @@
                             </div>
                         </div>
                     </div>
+                @endif
+              
 
 
                     <div class="mobileMove">

@@ -28,44 +28,44 @@
     }
 
     if (!function_exists('convertMonthToTurkishCharacter')) {
-            function convertMonthToTurkishCharacter($date)
-            {
-                $aylar = [
-                    'January' => 'Ocak',
-                    'February' => 'Şubat',
-                    'March' => 'Mart',
-                    'April' => 'Nisan',
-                    'May' => 'Mayıs',
-                    'June' => 'Haziran',
-                    'July' => 'Temmuz',
-                    'August' => 'Ağustos',
-                    'September' => 'Eylül',
-                    'October' => 'Ekim',
-                    'November' => 'Kasım',
-                    'December' => 'Aralık',
-                    'Monday' => 'Pazartesi',
-                    'Tuesday' => 'Salı',
-                    'Wednesday' => 'Çarşamba',
-                    'Thursday' => 'Perşembe',
-                    'Friday' => 'Cuma',
-                    'Saturday' => 'Cumartesi',
-                    'Sunday' => 'Pazar',
-                    'Jan' => 'Oca',
-                    'Feb' => 'Şub',
-                    'Mar' => 'Mar',
-                    'Apr' => 'Nis',
-                    'May' => 'May',
-                    'Jun' => 'Haz',
-                    'Jul' => 'Tem',
-                    'Aug' => 'Ağu',
-                    'Sep' => 'Eyl',
-                    'Oct' => 'Eki',
-                    'Nov' => 'Kas',
-                    'Dec' => 'Ara',
-                ];
-                return strtr($date, $aylar);
-            }
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
         }
+    }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -117,12 +117,14 @@
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
 
-                                    <span
-                                        class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
-                                        data-type='project' data-project='{{ $project->id }}'
-                                        data-id='{{ $keyIndex }}'>
-                                        <i class="fa fa-bookmark-o"></i>
-                                    </span>
+                                    @if (($sold && !$sold->status == '1' || $sold && !$sold->status == '0') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                                        <span class="btn addCollection mobileAddCollection " data-type='project'
+                                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                            <i class="fa fa-bookmark-o"></i>
+                                        </span>
+                                    @endif
+
+
                                     <span class="btn toggle-project-favorite bg-white"
                                         data-project-housing-id="{{ $keyIndex }}"
                                         data-project-id={{ $project->id }}>
