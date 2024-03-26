@@ -809,6 +809,7 @@
                                                         $label != 'Taksitli Satış' &&
                                                         $label != 'Fiyat' &&
                                                         $label != 'Peşinat' &&
+                                                        $label != 'İlan Başlığı' &&
                                                         $label != 'Günlük Fiyat' &&
                                                         $label != 'Peşin Fiyat' &&
                                                         $label != 'Taksitli Toplam Fiyat' &&
@@ -845,7 +846,7 @@
                                             @if (count($val) > 1)
                                                 @if ($label != 'Galeri')
                                                     <h5 class="mt-5">{{ $label }}</h5>
-                                                    <ul class="homes-list clearfix">
+                                                    <ul class="homes-list clearfix checkSquareIcon">
                                                         @foreach ($val as $item)
                                                             <li><i class="fa fa-check-square"
                                                                     aria-hidden="true"></i><span>{{ $item }}</span>
