@@ -164,7 +164,7 @@
 
 
 
-    <section class="container justify-content-center">
+    <section class="container justify-content-center mt-4">
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
                 <div
