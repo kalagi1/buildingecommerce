@@ -661,7 +661,7 @@ class HomeController extends Controller
                     }
                 }
         }
-        if (empty($housingType) && !empty($housingTypeParentSlug)) {
+        if (empty($housingType) && !empty($housingTypeParentSlug) && empty($slugName)) {
 
             $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)->with("parents.connections.housingType")->first();
 
@@ -709,7 +709,7 @@ class HomeController extends Controller
             }
         }
 
-        if (!empty($housingType)) {
+        if (!empty($housingType) && empty($slugName)) {
 
             $housingTypeData = HousingType::where('id', $housingType)->first();
 

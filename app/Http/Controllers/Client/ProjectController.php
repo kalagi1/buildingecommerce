@@ -714,7 +714,7 @@ class ProjectController extends Controller
             }
 
 
-            if (empty($housingTypeSlug) && !empty($housingTypeSlugName)) {
+            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) && empty($slugName)) {
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
                 $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
@@ -791,7 +791,7 @@ class ProjectController extends Controller
                     array_push($filters, $filterItem);
                 }
             }
-            if ($housingTypeSlug && $newHousingType) {
+            if ($housingTypeSlug && $newHousingType && empty($slugName)) {
                 $filtersDb = Filter::where('item_type', 2)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
                 $filtersDbx = array_keys($filtersDb);
                 $housingTypeData = json_decode($newHousingType->form_json);
