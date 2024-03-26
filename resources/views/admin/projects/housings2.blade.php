@@ -104,6 +104,12 @@
                                                     'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
                                                     [getData($project, 'price[]', $i + 1)->room_order, $project->id],
                                                 );
+
+                                                $soldHisse = DB::select(
+                                                    'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ?',
+                                                    [getData($project, 'price[]', $i + 1)->room_order, $project->id],
+                                                );
+
                                                 $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
                                                 $number_of_share =
                                                     $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
@@ -314,13 +320,10 @@
                                                                     room-order="{{ $i + 1 }}"><i
                                                                         class="fa fa-check"></i></span>
                                                                 <span
-                                                                    class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i
-                                                                        class="fa fa-times"></i></span>
+                                                                    class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                             </div>
                                                             <div class="text d-flex">
-                                                                <button
-                                                                    class="badge badge-phoenix badge-phoenix-success value-text">Satışa
-                                                                    Açık</button>
+                                                                <button class="badge badge-phoenix badge-phoenix-success value-text">Satışa Açık</button>
                                                             </div>
                                                         @endif
                                                     @endif
@@ -328,7 +331,7 @@
 
                                                 @if ($sold && $sold[0]->status == 1 && $sold[0]->is_disabled == 1)
                                                     <td class="price">
-                                                        @if (isset($sold[0]))
+                                                        @if (isset($sold[0]) )
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş
                                                                 Detayı</a><br>
@@ -416,13 +419,51 @@
                                                                 data-bs-target="#exampleModal{{ $i + 1 }}">
                                                                 Komşumu Gör
                                                             </a><br>
-                                                        @endif                                                    
+                                                        @endif           
+                                                        {{-- hisseli detay --}}                                                   
+                                                     
+
+                                                        @if($share_sale && count($soldHisse) > 0)    
+                                                                
+                                                                    <button type="button" class="badge badge-phoenix badge-phoenix-success value-text" data-bs-toggle="modal" data-bs-target="#hisseliSatisModal{{ $j + 1 }}">
+                                                                        Sipariş Detayları
+                                                                    </button><br>
+
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="hisseliSatisModal{{ $j + 1 }}" tabindex="-1" aria-labelledby="hisseliSatisModalLabel{{ $j + 1 }}" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="hisseliSatisModalLabel{{ $j + 1}}">Hisse Sipariş Detay</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    @foreach($soldHisse as $order)
+                                                                                        @php
+                                                                                            $cart = json_decode($order->cart);
+                                                                                            $item = $cart->item;
+                                                                                            $qt = $item->qt;
+                                                                                            $numberShare = $item->numbershare;
+                                                                                        @endphp
+                                                                                        <a href="{{ route('admin.invoice.show', ['order' => $order->id]) }}"
+                                                                                            class="btn btn-sm btn-info value-text mb-2"> {{$order->id}} numaralı siparişin detayı - Hisse Payı {{$qt}} / {{ $numberShare }} </a><br>
+                                                                                    @endforeach
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>  
+                                                        @endif  
+                                                     
                                                         
                                                         {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                         class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
                                                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                             class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                     </td>
+                                        
                                                 @endif
                                                 <div class="modal fade" id="exampleModal{{ $i + 1 }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -853,10 +894,7 @@
                     <td class="price">
                         @if (!$sold || $sold && $sold[0]->status == "2" )
                             @if(!$share_sale)
-                                <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal{{ $i + 1 }}">
-                                Komşumu Gör
-                            </a><br>
+                                <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">Komşumu Gör</a><br>
                             @endif    
                         @endif
                      
