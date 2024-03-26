@@ -1,4 +1,4 @@
-@if (count($items) > 0)
+{{-- @if (count($items) > 0)
     <ul>
         @foreach ($items as $item)
             <li>
@@ -18,4 +18,4 @@
             </li>
         @endforeach
     </ul>
-@endif
+@endif --}}

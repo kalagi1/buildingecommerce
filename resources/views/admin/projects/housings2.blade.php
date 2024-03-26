@@ -27,7 +27,6 @@
 @section('content')
     <div class="content">
         <div id="products">
-
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                 <div class="table-collective-transactions">
                     <div class="updates-buttons d-none my-2">
@@ -105,6 +104,12 @@
                                                     'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
                                                     [getData($project, 'price[]', $i + 1)->room_order, $project->id],
                                                 );
+
+                                                $soldHisse = DB::select(
+                                                    'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ?',
+                                                    [getData($project, 'price[]', $i + 1)->room_order, $project->id],
+                                                );
+
                                                 $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
                                                 $number_of_share =
                                                     $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
@@ -227,7 +232,6 @@
                                                     @endif
                                                 </td>
 
-
                                                 <td class="price">
                                                     @if (getData($project, 'advance[]', $i + 1))
                                                         <div class="d-flex">
@@ -256,6 +260,7 @@
                                                         -
                                                     @endif
                                                 </td>
+
                                                 <td class="sold">
                                                     @if (isset($share_sale) && $share_sale != "[]" && $share_sale != '[]')
                                                         <span class=" d-block mb-2">
@@ -288,9 +293,6 @@
                                                             <button
                                                                 class="badge badge-phoenix badge-phoenix-danger value-text">Satışa
                                                                 Kapatıldı</button>
-                                                            {{-- <span
-                                                                class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                    class="fa fa-edit"></i></span> --}}
                                                         </div>
                                                     @else
                                                         @if (
@@ -318,16 +320,10 @@
                                                                     room-order="{{ $i + 1 }}"><i
                                                                         class="fa fa-check"></i></span>
                                                                 <span
-                                                                    class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i
-                                                                        class="fa fa-times"></i></span>
+                                                                    class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i class="fa fa-times"></i></span>
                                                             </div>
                                                             <div class="text d-flex">
-                                                                <button
-                                                                    class="badge badge-phoenix badge-phoenix-success value-text">Satışa
-                                                                    Açık</button>
-                                                                {{-- <span
-                                                                    class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                        class="fa fa-edit"></i></span> --}}
+                                                                <button class="badge badge-phoenix badge-phoenix-success value-text">Satışa Açık</button>
                                                             </div>
                                                         @endif
                                                     @endif
@@ -335,7 +331,7 @@
 
                                                 @if ($sold && $sold[0]->status == 1 && $sold[0]->is_disabled == 1)
                                                     <td class="price">
-                                                        @if (isset($sold[0]))
+                                                        @if (isset($sold[0]) )
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş
                                                                 Detayı</a><br>
@@ -355,8 +351,7 @@
                                                     @endphp
                                                     <!--KOMŞUMU DUZENLE BLOK Modal -->
                                                     <div class="modal fade" id="exampleModal{{ $i + 1 }}"
-                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -364,11 +359,8 @@
                                                                         id="exampleModalLabel">
                                                                         {{ getData($project, 'advertise_title[]', $i + 1)->value }}
                                                                     </h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
-
                                                                 <div class="modal-body">
                                                                     <form
                                                                         action="{{ route('admin.projects.housings.komsumu.gor.edit', ['id' => $i + 1]) }}"
@@ -384,35 +376,22 @@
                                                                             value="{{ $cartOrder->user_id }}">
 
                                                                         <div class="form-group">
-                                                                            <label for="surname" class="q-label">Email:
-                                                                            </label>
-                                                                            <input type="text" class="modal-input"
-                                                                                id="email" name="email"
-                                                                                value="{{ $cartOrder->email }}">
+                                                                            <label for="surname" class="q-label">Email: </label>
+                                                                            <input type="text" class="modal-input" id="email" name="email" value="{{ $cartOrder->email }}">
                                                                         </div>
 
                                                                         <div class="form-group">
-                                                                            <label for="surname" class="q-label">Ad
-                                                                                Soyad: </label>
-                                                                            <input type="text" class="modal-input"
-                                                                                id="name" name="name"
-                                                                                value="{{ $cartOrder->full_name }}">
+                                                                            <label for="surname" class="q-label">Ad Soyad: </label>
+                                                                            <input type="text" class="modal-input" id="name" name="name" value="{{ $cartOrder->full_name }}">
                                                                         </div>
 
                                                                         <div class="form-group">
-                                                                            <label for="surname" class="q-label">Telefon:
-                                                                            </label>
-                                                                            <input type="number" class="modal-input"
-                                                                                id="phone" name="phone"
-                                                                                value="{{ $cartOrder->phone }}">
+                                                                            <label for="surname" class="q-label">Telefon: </label>
+                                                                            <input type="number" class="modal-input" id="phone" name="phone" value="{{ $cartOrder->phone }}">
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="surname" class="q-label">TC :
-                                                                            </label>
-                                                                            <input type="number" class="modal-input"
-                                                                                id="tc" name="tc"
-                                                                                maxlength="11"
-                                                                                value="{{ $cartOrder->tc }}">
+                                                                            <label for="surname" class="q-label">TC :</label>
+                                                                            <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" value="{{ $cartOrder->tc }}">
                                                                         </div>
 
                                                                         <div class="form-group">
@@ -423,10 +402,8 @@
                                                                         </div>
 
                                                                         <div class="modal-footer">
-                                                                            <button type="submit"
-                                                                                class="modal-btn-gonder">Gönder</button>
-                                                                            <button type="button" class="modal-btn-kapat"
-                                                                                data-dismiss="modal">Kapat</button>
+                                                                            <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                                                            <button type="button" class="modal-btn-kapat" data-bs-dismiss="modal">Kapat</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -434,18 +411,59 @@
                                                         </div>
                                                     </div>
                                                 @else
-                                                    <td class="price">
-                                                        <a type="button"
-                                                            class="badge badge-phoenix badge-phoenix-warning"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal{{ $i + 1 }}">
-                                                            Komşumu Gör
-                                                        </a><br>
+                                                    <td class="price">                                                        
+                                                        @if(!$share_sale)
+                                                            <a type="button"
+                                                                class="badge badge-phoenix badge-phoenix-warning"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal{{ $i + 1 }}">
+                                                                Komşumu Gör
+                                                            </a><br>
+                                                        @endif           
+                                                        {{-- hisseli detay --}}                                                   
+                                                     
+
+                                                        @if($share_sale && count($soldHisse) > 0)    
+                                                                
+                                                                    <button type="button" class="badge badge-phoenix badge-phoenix-success value-text" data-bs-toggle="modal" data-bs-target="#hisseliSatisModal{{ $j + 1 }}">
+                                                                        Sipariş Detayları
+                                                                    </button><br>
+
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="hisseliSatisModal{{ $j + 1 }}" tabindex="-1" aria-labelledby="hisseliSatisModalLabel{{ $j + 1 }}" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="hisseliSatisModalLabel{{ $j + 1}}">Hisse Sipariş Detay</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    @foreach($soldHisse as $order)
+                                                                                        @php
+                                                                                            $cart = json_decode($order->cart);
+                                                                                            $item = $cart->item;
+                                                                                            $qt = $item->qt;
+                                                                                            $numberShare = $item->numbershare;
+                                                                                        @endphp
+                                                                                        <a href="{{ route('admin.invoice.show', ['order' => $order->id]) }}"
+                                                                                            class="btn btn-sm btn-info value-text mb-2"> {{$order->id }}  numaralı siparişin detayı - Hisse Payı {{$qt}} / {{ $numberShare }} </a><br>
+                                                                                    @endforeach
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>  
+                                                        @endif  
+                                                     
+                                                        
                                                         {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                         class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
                                                         <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                             class="badge badge-phoenix badge-phoenix-danger">Sil</a>
                                                     </td>
+                                        
                                                 @endif
                                                 <div class="modal fade" id="exampleModal{{ $i + 1 }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -473,48 +491,47 @@
                                                                         value="{{ $project->id }}">
 
                                                                     <div class="form-group">
-                                                                        <label for="surname" class="q-label">Email:
-                                                                        </label>
-                                                                        <input type="text" class="modal-input"
-                                                                            id="email" name="email" required>
+                                                                        <label for="surname" class="q-label">Email: </label>
+                                                                        <input type="text" class="modal-input" id="email" name="email" required>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="surname" class="q-label">Ad Soyad:
-                                                                        </label>
-                                                                        <input type="text" class="modal-input"
-                                                                            id="name" name="name" required>
-                                                                    </div>
-
-
-
-                                                                    <div class="form-group">
-                                                                        <label for="surname" class="q-label">Telefon:
-                                                                        </label>
-                                                                        <input type="number" class="modal-input"
-                                                                            id="phone" name="phone" required>
+                                                                        <label for="surname" class="q-label">Ad Soyad:</label>
+                                                                        <input type="text" class="modal-input" id="name" name="name" required>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="surname" class="q-label">TC :
-                                                                        </label>
-                                                                        <input type="number" class="modal-input"
-                                                                            id="tc" name="tc" maxlength="11"
-                                                                            required>
+                                                                        <label for="surname" class="q-label">Telefon:</label>
+                                                                        <input type="number" class="modal-input" id="phone" name="phone" required>
                                                                     </div>
 
                                                                     <div class="form-group">
-                                                                        <label for="comment"
-                                                                            class="q-label">Adres:</label>
+                                                                        <label for="surname" class="q-label">TC : </label>
+                                                                        <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="comment" class="q-label">Adres:</label>
                                                                         <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;" name="address"
                                                                             required></textarea>
                                                                     </div>
 
+                                                                    <div class="col-md-12 fl-wrap filter-tags clearfix mt-3 mb-3">
+                                                                        <div class="checkboxes">                        
+                                                                            <div class="filter-tags-wrap ">
+                                                                                <input id="check-b" type="checkbox" name="onay_checkbox">
+                                                                                <label for="check-b" style="font-size: 14px;">                                                     
+                                                                                       Müşteri kişisel bilgilerinin paylaşılması için izin verdi.
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                </div>
+
                                                                     <div class="modal-footer">
                                                                         <button type="submit"
                                                                             class="modal-btn-gonder">Gönder</button>
-                                                                        <button type="button" class="modal-btn-kapat"
-                                                                            data-dismiss="modal">Kapat</button>
+                                                                        <button type="button" class="modal-btn-kapat btn-close"
+                                                                            data-bs-dismiss="modal">Kapat</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -841,25 +858,21 @@
 
                                         <div class="form-group">
                                             <label for="surname" class="q-label">Email: </label>
-                                            <input type="text" class="modal-input" id="email" name="email"
-                                                value="{{ $cartOrder->email }}">
+                                            <input type="text" class="modal-input" id="email" name="email" value="{{ $cartOrder->email }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="surname" class="q-label">Ad Soyad: </label>
-                                            <input type="text" class="modal-input" id="name" name="name"
-                                                value="{{ $cartOrder->full_name }}">
+                                            <input type="text" class="modal-input" id="name" name="name" value="{{ $cartOrder->full_name }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="surname" class="q-label">Telefon: </label>
-                                            <input type="number" class="modal-input" id="phone" name="phone"
-                                                value="{{ $cartOrder->phone }}">
+                                            <input type="number" class="modal-input" id="phone" name="phone" value="{{ $cartOrder->phone }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="surname" class="q-label">TC : </label>
-                                            <input type="number" class="modal-input" id="tc" name="tc"
-                                                maxlength="11" value="{{ $cartOrder->tc }}">
+                                            <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" value="{{ $cartOrder->tc }}">
                                         </div>
 
                                         <div class="form-group">
@@ -870,8 +883,7 @@
 
                                         <div class="modal-footer">
                                             <button type="submit" class="modal-btn-gonder">Gönder</button>
-                                            <button type="button" class="modal-btn-kapat"
-                                                data-dismiss="modal">Kapat</button>
+                                            <button type="button" class="modal-btn-kapat btn-close" data-bs-dismiss="modal">Kapat</button>
                                         </div>
                                     </form>
                                 </div>
@@ -881,12 +893,10 @@
                 @else
                     <td class="price">
                         @if (!$sold || $sold && $sold[0]->status == "2" )
-                        <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal{{ $i + 1 }}">
-                        Komşumu Gör
-                    </a><br>
+                            @if(!$share_sale)
+                                <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">Komşumu Gör</a><br>
+                            @endif    
                         @endif
-
                      
 
                         {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
@@ -916,26 +926,22 @@
 
                                     <div class="form-group">
                                         <label for="surname" class="q-label">Email: </label>
-                                        <input type="text" class="modal-input email_search" id="email_komsumu_gor"
-                                            name="email">
+                                        <input type="text" class="modal-input email_search" id="email_komsumu_gor" name="email">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="surname" class="q-label">Ad Soyad: </label>
-                                        <input type="text" class="modal-input name_komsumu_gor" id="name_komsumu_gor"
-                                            name="name" required>
+                                        <input type="text" class="modal-input name_komsumu_gor" id="name_komsumu_gor" name="name" required>
                                     </div>
 
 
                                     <div class="form-group">
                                         <label for="surname" class="q-label">Telefon: </label>
-                                        <input type="number" class="modal-input phone_komsumu_gor"
-                                            id="phone_komsumu_gor" name="phone" required>
+                                        <input type="number" class="modal-input phone_komsumu_gor" id="phone_komsumu_gor" name="phone" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="surname" class="q-label">TC : </label>
-                                        <input type="number" class="modal-input tc_komsumu_gor" id="tc_komsumu_gor"
-                                            name="tc" maxlength="11" required>
+                                        <input type="number" class="modal-input tc_komsumu_gor" id="tc_komsumu_gor" name="tc" maxlength="11" required>
                                     </div>
 
                                     <div class="form-group">
@@ -944,10 +950,20 @@
                                             style="height: 100px !important;" name="address" required></textarea>
                                     </div>
 
+                                    <div class="col-md-12 fl-wrap filter-tags clearfix mt-3 mb-3">
+                                            <div class="checkboxes">                        
+                                                <div class="filter-tags-wrap ">
+                                                    <input id="check-b" type="checkbox" name="onay_checkbox">
+                                                    <label for="check-b" style="font-size: 14px;">                                                     
+                                                        Müşteri kişisel bilgilerinin paylaşılması için izin verdi.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                    </div>
+
                                     <div class="modal-footer">
                                         <button type="submit" class="modal-btn-gonder">Gönder</button>
-                                        <button type="button" class="modal-btn-kapat"
-                                            data-dismiss="modal">Kapat</button>
+                                        <button type="button" class="modal-btn-kapat" data-bs-dismiss="modal">Kapat</button>
                                     </div>
                                 </form>
                             </div>
@@ -1242,9 +1258,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
-
 
     <script>
         $(document).ready(function() {

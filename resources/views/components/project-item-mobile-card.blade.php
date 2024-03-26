@@ -25,7 +25,45 @@
     } else {
         $keyIndex = $i + 1 + $allCounts;
     }
-
+    if (!function_exists('convertMonthToTurkishCharacter')) {
+            function convertMonthToTurkishCharacter($date)
+            {
+                $aylar = [
+                    'January' => 'Ocak',
+                    'February' => 'Şubat',
+                    'March' => 'Mart',
+                    'April' => 'Nisan',
+                    'May' => 'Mayıs',
+                    'June' => 'Haziran',
+                    'July' => 'Temmuz',
+                    'August' => 'Ağustos',
+                    'September' => 'Eylül',
+                    'October' => 'Ekim',
+                    'November' => 'Kasım',
+                    'December' => 'Aralık',
+                    'Monday' => 'Pazartesi',
+                    'Tuesday' => 'Salı',
+                    'Wednesday' => 'Çarşamba',
+                    'Thursday' => 'Perşembe',
+                    'Friday' => 'Cuma',
+                    'Saturday' => 'Cumartesi',
+                    'Sunday' => 'Pazar',
+                    'Jan' => 'Oca',
+                    'Feb' => 'Şub',
+                    'Mar' => 'Mar',
+                    'Apr' => 'Nis',
+                    'May' => 'May',
+                    'Jun' => 'Haz',
+                    'Jul' => 'Tem',
+                    'Aug' => 'Ağu',
+                    'Sep' => 'Eyl',
+                    'Oct' => 'Eki',
+                    'Nov' => 'Kas',
+                    'Dec' => 'Ara',
+                ];
+                return strtr($date, $aylar);
+            }
+        }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -112,11 +150,12 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
-                    <span
-                        class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
-                        data-type='project' data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                    @if (($sold && !$sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                    <span class="btn addCollection mobileAddCollection " data-type='project'
+                        data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                         <i class="fa fa-bookmark-o"></i>
                     </span>
+                @endif
                     <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
                         style="color: white;" data-project-id="{{ $project->id }}">
                         <i class="fa fa-heart-o"></i>
@@ -141,12 +180,12 @@
                                     $sold_check &&
                                     $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share))
                             <button class="btn second-btn mobileCBtn"
-                            @if (
-                                ($sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
-                                    (isset($share_sale) &&
-                                        $share_sale != '[]' &&
-                                        isset($sumCartOrderQt[$keyIndex]) &&
-                                        $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
+                                @if (
+                                    ($sold->status == '0' && (empty($share_sale) || $share_sale == '[]')) ||
+                                        (isset($share_sale) &&
+                                            $share_sale != '[]' &&
+                                            isset($sumCartOrderQt[$keyIndex]) &&
+                                            $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White;"
                     @elseif ($sold->status == '1')
                         style="background: #EA2B2E !important; color: White; "
                     @else
@@ -308,11 +347,11 @@
                                 Size Ait Ürün
                             </span>
                         </button>
-                        @else
+                    @else
                         <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
                             project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
+                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                             data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                             Ödeme Detayı
@@ -343,7 +382,7 @@
                         <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
                             project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
+                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                             data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                             Ödeme Detayı
@@ -358,8 +397,8 @@
 <div class="w-100" style="height: 25px; background-color: #8080802e; margin-top: 15px">
     <div class="d-flex justify-content-between align-items-center" style="height: 100%">
 
-        <ul class="d-flex justify-content-start align-items-center h-100 w-100"
-            style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:start;margin-bottom:0 !important">
+        <ul class="d-flex align-items-center h-100 w-100"
+            style="list-style: none;padding:0;font-weight:600;padding: 10px;justify-content:space-between !important;margin-bottom:0 !important">
 
             @foreach (['column1', 'column2', 'column3'] as $column)
                 @php
@@ -380,6 +419,13 @@
                     </li>
                 @endif
             @endforeach
+            <li class="d-flex align-items-center itemCircleFont">
+                <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                <span>
+                    {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                </span>
+            </li>
+
         </ul>
 
         <span
@@ -399,11 +445,11 @@
     aria-labelledby="applyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
-            <div class="modal-body">
-                <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
+            <div class="modal-body" style="height: calc(100vh - 200px);overflow-y:scroll">
+                {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                     id="applyModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan için
                     Başvuru Yap</h3>
-                <hr>
+                <hr> --}}
                 <form method="POST" action="{{ route('give_offer') }}">
                     @csrf
                     {{-- {{ $i+1 }} --}}
@@ -446,7 +492,7 @@
                             <div class="form-group">
                                 <label for="" class="q-label">İl</label>
                                 <select
-                                    class="form-control citySelect {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                    class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
                                     name="city_id">
                                     <option value="">Seçiniz</option>
                                     @foreach ($towns as $item)
@@ -664,6 +710,14 @@
                 });
             }
         });
+
+        $(document).ready(function() {
+            $('#applySampleModal img').click(function() {
+                $('#applySampleModal').modal('hide');
+                $('#exampleModal10').modal('show');
+            });
+        });
+
 
         function generateRandomCode() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

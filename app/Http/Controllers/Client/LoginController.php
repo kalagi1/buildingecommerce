@@ -280,10 +280,9 @@ class LoginController extends Controller {
     public function googleLogin() {
         $client = new Client();
 
-        // Google OAuth 2.0 ayarları
-        $googleClientId = '100415302281-rvn82j7fm253npg6invrb35v8pbg9dl7.apps.googleusercontent.com';
-        $googleClientSecret = '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';
-        $redirectUri = 'http://127.0.0.1:8000/login-with-google';
+        $googleClientId =env('GOOGLE_CLIENT_ID');
+        $googleClientSecret =  env('GOOGLE_CLIENT_SECRET');
+        $redirectUri =  env("GOOGLE_REDIRECT_URI");
 
         $authUrl = 'https://accounts.google.com/o/oauth2/auth';
 
@@ -308,10 +307,6 @@ class LoginController extends Controller {
         if ( isset( $_GET[ 'code' ] ) ) {
             $client = new Client();
 
-            // Google OAuth 2.0 ayarları
-            $googleClientId = '931569235924-2pj0kvf79lt9lbqa0tr1dejl664mkr0i.apps.googleusercontent.com';
-            $googleClientSecret = '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';
-            $redirectUri = 'https://emlaksepette.com/login-with-google';
             $tokenUrl = 'https://accounts.google.com/o/oauth2/token';
 
             // 'code' parametresini al
@@ -320,9 +315,9 @@ class LoginController extends Controller {
             $response = $client->post( $tokenUrl, [
                 'form_params' => [
                     'code' => $code,
-                    'client_id' => $googleClientId,
-                    'client_secret' => $googleClientSecret,
-                    'redirect_uri' => $redirectUri,
+                    'client_id' => env('GOOGLE_CLIENT_ID'),
+                    'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+                    'redirect_uri' =>  env("GOOGLE_REDIRECT_URI"),
                     'grant_type' => 'authorization_code',
                 ],
             ] );

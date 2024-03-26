@@ -270,6 +270,37 @@
 
 
 <script>
+    $(document).ready(function() {
+        $('.listingDetailsSliderNav .item').on('mouseenter', function() {
+            var totalSlides = $('#listingDetailsSlider .carousel-item')
+                .length; // Toplam slayt sayısını al
+            var slideNumber = $(this).find('a').attr('data-slide-to');
+            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+                .addClass('active');
+            $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
+            var totalSlides = $('#listingDetailsSlider .carousel-item')
+                .length; // Toplam slayt sayısını al
+            $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }).on('mouseleave', function() {
+            $(this).css('border', 'solid 1px #e6e6e6'); // Hover bittiğinde border rengini boş bırak
+        });
+
+    });
+
+    $(document).ready(function() {
+        $('.listingDetailsSliderNav .item a').on('click', function() {
+            var slideNumber = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+                .addClass('active');
+            $('.listingDetailsSliderNav .item').removeClass('active');
+            $(this).closest('.item').addClass('active');
+        });
+    });
     var isLoggedIn = {!! json_encode(auth()->check()) !!};
     var hasClub = isLoggedIn == true ? {!! auth()->user() ? json_encode(auth()->user()->has_club) : 4 !!} : 4;
 
@@ -279,23 +310,26 @@
         if (!isLoggedIn) {
             toastr.warning('Lütfen Giriş Yapınız', 'Uyarı');
             redirectToLogin();
-            return; // Uyarıdan sonrasını çalıştırmamak için return kullanın
+            return;
 
         }
 
 
-        $(".modal-backdrop").show();
+
+     
 
         var button = $(this);
         var productId = $(this).data("id");
         var project = null;
         var type = $(this).data("type");
-        $('#membershipPopup').modal('show');
 
         if ($(this).data("type") == "project") {
             project = $(this).data("project");
         }
-        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {} else if (isLoggedIn && hasClub ==
+        if (isLoggedIn && hasClub == 0 || hasClub == 2 || hasClub == 3) {
+            $('#membershipPopup').modal('show');
+
+        } else if (isLoggedIn && hasClub ==
             1) {
             $('#addCollectionModal').modal('show');
 
@@ -312,7 +346,7 @@
                 .then(response => response.json())
                 .then(data => {
                     let modalContent =
-                        '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body">';
+                        '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body collection-body">';
 
                     if (data.collections.length > 0) {
                         modalContent +=
