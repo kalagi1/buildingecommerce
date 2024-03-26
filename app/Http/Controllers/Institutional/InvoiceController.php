@@ -33,8 +33,7 @@ class InvoiceController extends Controller
         return view('institutional.invoice.index', compact("data"));
     }
 
-    public function adminshow($order)
-    {
+    public function adminshow($order){
         $order = CartOrder::where("id", $order)->first();
         $cart = json_decode($order->cart);
         $project = null;
