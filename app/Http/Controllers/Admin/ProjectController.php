@@ -399,7 +399,7 @@ class ProjectController extends Controller {
         $order->tc           = $request->tc;
         $order->is_swap      = 0;
         $order->is_reference = 0;
-        $order->is_show_user = 'on';
+        $order->is_show_user = $request->onay_checkbox; //bilgilerin paylaşılması
         $order->amount       = 0;
         $order->is_disabled  = 1; // sonradan eklenen konutlar için
         $order->store_id     = Project::where('id',$projectID)->value('user_id');
@@ -415,7 +415,6 @@ class ProjectController extends Controller {
 
         $cartJson['item']['id'] = (int)$projectID;
         $cartJson['item']['housing'] = (int)$housingID;
-        
 
         $neighborProjects  = [];
         $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $projectID)->where('user_id', $user->id)->get();
