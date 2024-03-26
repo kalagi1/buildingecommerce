@@ -834,8 +834,11 @@
                             </div>
                             <select id="sort-select" class="form-control">
                                 <option value="sort">Sırala</option>
+                                @if ($secondhandHousings )
                                 <option value="price-asc">Fiyata göre (Önce en düşük)</option>
-                                <option value="price-desc">Fiyata göre (Önce en yüksek)</option>
+                                <option value="price-desc">Fiyata göre (Önce en yüksek)</option>   
+                                @endif
+                             
                                 <option value="date-asc">Tarihe göre (Önce en eski ilan)</option>
                                 <option value="date-desc">Tarihe göre (Önce en yeni ilan)</option>
                             </select>
