@@ -429,7 +429,10 @@ class ProjectController extends Controller
 
         if ($deneme) {
             $slug = "al-sat-acil";
+            $slugItem = "al-sat-acil";
+
             $slugName = "Al Sat Acil";
+            $items = HousingTypeParent::with("parents.connections.housingType")->where("parent_id", null)->get();
 
             $secondhandHousings =  Housing::with('images')
                 ->select(
@@ -680,6 +683,35 @@ class ProjectController extends Controller
                 }
             }
         } else {
+
+            if (!empty($slugName)) {
+                $uniqueHousingTypeNames = ["price", "squaremeters"];
+                $filtersDb = Filter::where('item_type', 2)
+                    ->get()
+                    ->where("is_sale", 1)
+                    ->whereIn('filter_name', $uniqueHousingTypeNames)
+                    ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                    ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                    ->toArray();
+                foreach ($filtersDb as $data) {
+                    $filterItem = [
+                        "label" => $data['filter_label'],
+                        "type" => $data['filter_type'],
+                        "name" => $data['filter_name'],
+                    ];
+
+                    if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                        $filterItem["values"] = json_decode($data['options']);
+                    } else if ($data['filter_type'] == "text") {
+                        $filterItem['text_style'] = $data['text_style'];
+                    } else if ($data['filter_type'] == "toggle") {
+                        $filterItem['toggle'] = true;
+                        $filterItem["values"] = json_decode($data['options']);
+                    }
+
+                    array_push($filters, $filterItem);
+                }
+            }
 
 
             if (empty($housingTypeSlug) && !empty($housingTypeSlugName)) {
