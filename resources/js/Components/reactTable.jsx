@@ -406,16 +406,16 @@ function ReactTable(props) {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>No.</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Proje Adı</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Toplam İlan Sayısı</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Satış Adeti</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Onaydaki Siparişler</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Satışa Kapalı Adet</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Satışa Açık Adet</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Yayın Durumu</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>İlanları Düzenle</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>İşlem Kayıtları & Genel Düzenleme</TableCell>
-                                                <TableCell style={{whiteSpace:'nowrap'}}>Sil</TableCell>
+                                                <TableCell>Proje Adı</TableCell>
+                                                <TableCell>Toplam İlan Sayısı</TableCell>
+                                                <TableCell>Satış Adeti</TableCell>
+                                                <TableCell>Onaydaki Siparişler</TableCell>
+                                                <TableCell>Satışa Kapalı Adet</TableCell>
+                                                <TableCell>Satışa Açık Adet</TableCell>
+                                                <TableCell>Yayın Durumu</TableCell>
+                                                <TableCell>İlanları Düzenle</TableCell>
+                                                <TableCell>İşlem Kayıtları & Genel Düzenleme</TableCell>
+                                                <TableCell>Sil</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
