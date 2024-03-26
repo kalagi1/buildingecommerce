@@ -562,7 +562,7 @@
                                                     }
                                                 @endphp
 
-                                                @if (!$isArrayCheck && isset($value) && $value !== '' && $housingSetting->label != 'Fiyat')
+                                                @if (!$isArrayCheck && isset($value) && $value !== '' && $housingSetting->label != 'Fiyat' && $housingSetting->label != 'Günlük Fiyat' && $housingSetting->label != 'Peşin Fiyat' && $housingSetting->label != 'Taksitli Toplam Fiyat ')
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $housingSetting->label }}:</span>

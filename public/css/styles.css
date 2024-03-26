@@ -18446,6 +18446,10 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     float: right
 }
 
+.checkSquareIcon li {
+    width: 25%;
+}
+
 .inner-pages .blog .homes-content .homes-list li {
     float: left;
     font-size: 11px;
