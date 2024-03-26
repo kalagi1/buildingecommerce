@@ -18445,7 +18445,9 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 #slider-range-value2 {
     float: right
 }
-
+.projectCardList li{
+    width:20%
+}
 .modal-open .modal{
     z-index: 9999999; 
 }
