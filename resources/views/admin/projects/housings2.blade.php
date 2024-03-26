@@ -446,7 +446,7 @@
                                                                                             $numberShare = $item->numbershare;
                                                                                         @endphp
                                                                                         <a href="{{ route('admin.invoice.show', ['order' => $order->id]) }}"
-                                                                                            class="btn btn-sm btn-info value-text mb-2"> {{$order->id}} numaralı siparişin detayı - Hisse Payı {{$qt}} / {{ $numberShare }} </a><br>
+                                                                                            class="btn btn-sm btn-info value-text mb-2"> {{$order->id }}  numaralı siparişin detayı - Hisse Payı {{$qt}} / {{ $numberShare }} </a><br>
                                                                                     @endforeach
                                                                                 </div>
                                                                                 <div class="modal-footer">
