@@ -622,46 +622,46 @@ class HomeController extends Controller
         if ($request->input('neighborhood')) {
             $obj = $obj->where('housings.neighborhood_id', $request->input('neighborhood'));
         }
-        if (!empty($slugName) || $request->input("slug") == "al-sat-acil") {
-            $uniqueHousingTypeNames = ["price", "squaremeters"];
-                $filtersDb = Filter::where('item_type', 2)->whereIn('filter_name', $uniqueHousingTypeNames)->get()->keyBy('filter_name')->toArray();
-                $filtersDbx = array_keys($filtersDb);
-                foreach ($filtersDb as $data) {
-                    if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
-                        $inputName = $data['filter_name'];
-                        if ($request->input($inputName)) {
-                            $obj = $obj->where(function ($query) use ($obj, $request, $inputName) {
-                                $query->whereJsonContains('housing_type_data->' . $inputName, [$request->input($inputName)[0]]);
-                                $e = 0;
-                                foreach ($request->input($inputName) as $input) {
-                                    if ($e == 0) {
-                                        $e = 1;
-                                        continue;
-                                    }
-                                    $query->orWhereJsonContains('housing_type_data->' . $inputName, [$input]);
-                                }
-                            });
-                        }
-                    } else if ($data['filter_type'] == 'text') {
-                        if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
-                            $inputName = str_replace('[]', '', $data['filter_name']);
-                            if ($request->input($inputName . '-min')) {
-                                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]")) AS FLOAT) >= ?', [$request->input($inputName . '-min')]);
-                            }
+        // if (!empty($slugName) || $request->input("slug") == "al-sat-acil" && !empty($housingType) &&  !empty($housingTypeParentSlug)) {
+        //     $uniqueHousingTypeNames = ["price", "squaremeters"];
+        //         $filtersDb = Filter::where('item_type', 2)->whereIn('filter_name', $uniqueHousingTypeNames)->get()->keyBy('filter_name')->toArray();
+        //         $filtersDbx = array_keys($filtersDb);
+        //         foreach ($filtersDb as $data) {
+        //             if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+        //                 $inputName = $data['filter_name'];
+        //                 if ($request->input($inputName)) {
+        //                     $obj = $obj->where(function ($query) use ($obj, $request, $inputName) {
+        //                         $query->whereJsonContains('housing_type_data->' . $inputName, [$request->input($inputName)[0]]);
+        //                         $e = 0;
+        //                         foreach ($request->input($inputName) as $input) {
+        //                             if ($e == 0) {
+        //                                 $e = 1;
+        //                                 continue;
+        //                             }
+        //                             $query->orWhereJsonContains('housing_type_data->' . $inputName, [$input]);
+        //                         }
+        //                     });
+        //                 }
+        //             } else if ($data['filter_type'] == 'text') {
+        //                 if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
+        //                     $inputName = str_replace('[]', '', $data['filter_name']);
+        //                     if ($request->input($inputName . '-min')) {
+        //                         $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]")) AS FLOAT) >= ?', [$request->input($inputName . '-min')]);
+        //                     }
     
-                            if ($request->input($inputName . '-max')) {
-                                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]")) AS FLOAT) <= ?', [$request->input($inputName . '-max')]);
-                            }
-                        } else {
-                            $inputName = $data['filter_name'];
-                            if ($request->input($inputName)) {
-                                $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]"))) = ?', $request->input($inputName));
-                            }
-                        }
-                    }
-                }
-        }
-        if (empty($housingType) && !empty($housingTypeParentSlug) && empty($slugName)) {
+        //                     if ($request->input($inputName . '-max')) {
+        //                         $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]")) AS FLOAT) <= ?', [$request->input($inputName . '-max')]);
+        //                     }
+        //                 } else {
+        //                     $inputName = $data['filter_name'];
+        //                     if ($request->input($inputName)) {
+        //                         $obj = $obj->whereRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housing_type_data, "$.' . $inputName . '[0]"))) = ?', $request->input($inputName));
+        //                     }
+        //                 }
+        //             }
+        //         }
+        // }
+        if (empty($housingType) && !empty($housingTypeParentSlug) ) {
 
             $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)->with("parents.connections.housingType")->first();
 
@@ -709,7 +709,7 @@ class HomeController extends Controller
             }
         }
 
-        if (!empty($housingType) && empty($slugName)) {
+        if (!empty($housingType) ) {
 
             $housingTypeData = HousingType::where('id', $housingType)->first();
 
