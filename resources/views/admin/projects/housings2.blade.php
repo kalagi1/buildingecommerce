@@ -480,7 +480,7 @@
                                                                             <div class="filter-tags-wrap ">
                                                                                 <input id="check-b" type="checkbox" name="onay_checkbox">
                                                                                 <label for="check-b" style="font-size: 14px;">                                                     
-                                                                                        Bilgilerimin paylaşılmasını onaylıyorum.
+                                                                                       Müşteri kişisel bilgilerinin paylaşılması için izin verdi.
                                                                                 </label>
                                                                             </div>
                                                                         </div>
@@ -917,7 +917,7 @@
                                                 <div class="filter-tags-wrap ">
                                                     <input id="check-b" type="checkbox" name="onay_checkbox">
                                                     <label for="check-b" style="font-size: 14px;">                                                     
-                                                            Bilgilerimin paylaşılmasını onaylıyorum.
+                                                        Müşteri kişisel bilgilerinin paylaşılması için izin verdi.
                                                     </label>
                                                 </div>
                                             </div>
