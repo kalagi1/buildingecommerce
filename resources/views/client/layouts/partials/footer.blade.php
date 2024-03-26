@@ -273,7 +273,7 @@
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
-            .length; // Toplam slayt sayısını al
+                .length; // Toplam slayt sayısını al
             var slideNumber = $(this).find('a').attr('data-slide-to');
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
@@ -282,7 +282,7 @@
                 .addClass('active');
             $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
-            .length; // Toplam slayt sayısını al
+                .length; // Toplam slayt sayısını al
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }).on('mouseleave', function() {
@@ -316,7 +316,7 @@
 
 
 
-        $(".modal-backdrop").show();
+     
 
         var button = $(this);
         var productId = $(this).data("id");
