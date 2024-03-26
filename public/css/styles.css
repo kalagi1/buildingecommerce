@@ -18446,6 +18446,15 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     float: right
 }
 
+.modal-open .modal{
+    z-index: 9999999; 
+}
+
+.collection-body{
+    height: 500px;
+    overflow-y: scroll;
+}
+
 .checkSquareIcon li {
     width: 25%;
 }
