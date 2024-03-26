@@ -56,7 +56,6 @@ class AppServiceProvider extends ServiceProvider
                 'socialMediaIcons' => SocialMediaIcon::all(),
                 'headerLinks' => Page::where('location', 'header')->get(),
                 'footerLinks' => FooterLink::all(),
-                'menu' => Menu::getMenuItems(),
                 'adBanners' => AdBanner::where("is_visible", "1")->get(),
             ];
     
@@ -72,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
                 $view->with("cartItemCount", $cartItemCount);
 
             }
+            $menu = Menu::getMenuItems();
+            $view->with("menu", $menu);
             $view->with($cachedData);
             $this->composeView($view, 'client_menu.json');
         });

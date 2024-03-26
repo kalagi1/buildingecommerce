@@ -83,7 +83,7 @@ function getHouse($project, $key, $roomOrder)
                                                 <td class="tm_width_5  tm_border_left" style="width: 100px">
                                                     <?php
                                                     if (isset($data['project']['project_title'])) {
-                                                        echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';
+                                                        echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] .' -'.' Hisse Payı ' .$cart['item']['qt'] .'/'. $cart['item']['numbershare'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';
                                                     } else {
                                                         echo $data['project']['title'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['title']  . '</span>';
                                                     }

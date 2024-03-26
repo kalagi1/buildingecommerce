@@ -425,17 +425,18 @@
     <script>
         $('.owl-carousel').owlCarousel({
             loop: true,
-            nav: true,
+            nav: false,
+            dots : true,
             margin: 10,
             responsive: {
                 0: {
                     items: 1
                 },
                 600: {
-                    items: 2
+                    items: 3
                 },
                 1000: {
-                    items: 3
+                    items: 5
                 }
             }
         })

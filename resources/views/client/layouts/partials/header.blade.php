@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=3">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
     <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -531,19 +531,21 @@
                                         </a>
                                         <div class="new-login-dropdown">
                                             <div class="user-notloggedin-container container-padding">
-                                                <div class="login-button"> <a href="{{ route('client.login') }}" class="userIcon"
-                                                    style="color: white;
+                                                <div class="login-button"> <a href="{{ route('client.login') }}"
+                                                        class="userIcon"
+                                                        style="color: white;
                                                     text-align: center;
                                                     justify-content: center;
                                                     margin-right:0 !important">
-                                                    Giriş Yap
-                                                </a></div>
-                                                <div class="signup-button signup-button-container"><a href="{{ url("giris-yap?uye-ol=/")}}" class="userIcon"
-                                                    style="color: black;
+                                                        Giriş Yap
+                                                    </a></div>
+                                                <div class="signup-button signup-button-container"><a
+                                                        href="{{ url('giris-yap?uye-ol=/') }}" class="userIcon"
+                                                        style="color: black;
                                                     text-align: center;
                                                     justify-content: center; margin-right:0 !important">
-                                                   Üye Ol
-                                                </a></div>
+                                                        Üye Ol
+                                                    </a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -671,7 +673,7 @@
                                                 $text = 'Yönetim';
                                                 break;
                                             default:
-                                                $link = url('sat-kirala/');
+                                                $link = url('sat-kirala-nedir/');
                                                 $text = 'Sat Kirala';
                                         }
                                     @endphp
@@ -695,7 +697,7 @@
                                             </button>
                                         </a>
                                     @else
-                                        <a href="{{ url('/sat-kirala') }}">
+                                        <a href="{{ url('/sat-kirala-nedir') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> Sat Kirala</span>
                                                 <span class="buyUserRequest__icon">
@@ -737,13 +739,13 @@
                                 </li>
                             @endforeach
 
-                            @foreach ($headerLinks as $link)
+                            {{-- @foreach ($headerLinks as $link)
                                 <li>
                                     <a href="{{ url('sayfa/' . $link->slug) }}">
                                         {{ $link->meta_title }}
                                     </a>
                                 </li>
-                            @endforeach
+                            @endforeach --}}
                             <li class="club-items">
                                 <a href="{{ url('/emlak-kulup') }}">
                                     <b style="font-weight:800 !important;display:flex">

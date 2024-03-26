@@ -26,6 +26,46 @@
     } else {
         $keyIndex = $i + 1 + $allCounts;
     }
+
+    if (!function_exists('convertMonthToTurkishCharacter')) {
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
+        }
+    }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -77,12 +117,15 @@
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
 
-                                    <span
-                                        class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
-                                        data-type='project' data-project='{{ $project->id }}'
-                                        data-id='{{ $keyIndex }}'>
-                                        <i class="fa fa-bookmark-o"></i>
-                                    </span>
+
+
+                                    @if (($sold && !$sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                                        <span class="btn addCollection mobileAddCollection" data-type='project'
+                                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                            <i class="fa fa-bookmark-o"></i>
+                                        </span>
+                                    @endif
+
                                     <span class="btn toggle-project-favorite bg-white"
                                         data-project-housing-id="{{ $keyIndex }}"
                                         data-project-id={{ $project->id }}>
@@ -100,7 +143,7 @@
                 </div>
 
                 <div class="col-lg-9 col-md-9 homes-content pb-0 mb-44 aos-init aos-animate" data-aos="fade-up">
-               
+
                     <div class="row align-items-center justify-content-between mobile-position"
                         @if (
                             ($sold && $sold->status != '2' && $share_sale == '[]') ||
@@ -115,13 +158,13 @@
 
                             <div class="homes-list-div"
                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="flex-direction: column !important;" @endif>
-                                <ul class="homes-list clearfix pb-3 d-flex"
+                                <ul class="homes-list clearfix pb-3 d-flex projectCardList"
                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="height: 90px !important" @endif>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                    {{-- <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                             aria-hidden="true"></i>
                                         <span>{{ $project->housingType->title }}</span>
-                                    </li>
+                                    </li> --}}
                                     @foreach (['column1', 'column2', 'column3'] as $column)
                                         @php
                                             $column_name = $project->listItemValues->{$column . '_name'} ?? '';
@@ -145,38 +188,44 @@
                                         @endif
                                     @endforeach
 
+                                    <li class="d-flex align-items-center itemCircleFont">
+                                        <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
+                                        <span>
+                                            {{ date('j', strtotime($project->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($project->created_at))) . ' ' . date('Y', strtotime($project->created_at)) }}
+                                        </span>
+                                    </li>
+
                                     <li class="the-icons mobile-hidden">
                                         <span style="width:100%;text-align:center">
 
-
-
-                                            @if ($off_sale_check && $projectDiscountAmount && !$sold_check)
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    <span class="text-center w-100">
-                                                        1 / {{ $number_of_share }} Pay Fiyatı
-                                                    </span>
-                                                @endif
+                                            @if ($off_sale_check && !$sold_check && $share_sale_empty)
 
                                                 <h6
                                                     style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                        ₺
-                                                    @else
-                                                        {{ number_format($discounted_price, 0, ',', '.') }}
-                                                        ₺
-                                                    @endif
-                                                </h6>
-
-                                                <h6
-                                                    style="color: #e54242 !important;position: relative;top:4px;font-weight:700;font-size: 11px;text-decoration:line-through;">
-                                                    {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                    {{ number_format($discounted_price, 0, ',', '.') }}
                                                     ₺
                                                 </h6>
-                                            @elseif(isset($share_sale) &&
+                                                @if ($projectDiscountAmount)
+                                                    <svg viewBox="0 0 24 24" width="18" height="18"
+                                                        stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                        class="css-i6dzq1">
+                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                        <polyline points="17 18 23 18 23 12"></polyline>
+                                                    </svg>
+                                                    <del
+                                                        style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+
+                                                        {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
+                                                        ₺
+                                                    </del>
+                                                @endif
+                                            @elseif(
+                                                (isset($share_sale) &&
                                                     $share_sale != '[]' &&
                                                     isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)
+                                                    $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share) ||
+                                                    (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                     <span class="text-center w-100">
                                                         1 / {{ $number_of_share }} Pay Fiyatı
@@ -285,7 +334,8 @@
 
                                                 <svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
-                                                    stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
                                                     <polyline points="19 1 23 5 19 9"></polyline>
                                                     <line x1="15" y1="5" x2="23"
                                                         y2="5">
@@ -308,7 +358,7 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $keyIndex }}">
                                             Ödeme Detayı
@@ -330,9 +380,8 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}" data-block="{{ $blockName }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
-                                            order="{{ $keyIndex }}"
-                                            data-payment-order="{{ $keyIndex }}">
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                                            order="{{ $keyIndex }}" data-payment-order="{{ $keyIndex }}">
 
                                             Ödeme Detayı
                                         </button>
@@ -409,11 +458,11 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-body">
-                    <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
+                    {{-- <h3 class="modal-title" style="margin:10px;font-size:12px !important;text-align:center"
                         id="exampleModalLabel"> {{ $project->project_title }} Projesi {{ $keyIndex }} No'lu İlan
                         için
                         Başvuru Yap</h3>
-                    <hr>
+                    <hr> --}}
                     <form method="POST" action="{{ route('give_offer') }}">
                         @csrf
                         {{-- {{ $i+1 }} --}}
@@ -456,7 +505,7 @@
                                 <div class="form-group">
                                     <label for="" class="q-label">İl</label>
                                     <select
-                                        class="form-control citySelect {{ $errors->has('city_id') ? 'error-border' : '' }}"
+                                        class="form-control citySelect2 {{ $errors->has('city_id') ? 'error-border' : '' }}"
                                         name="city_id">
                                         <option value="">Seçiniz</option>
                                         @foreach ($towns as $item)
@@ -492,7 +541,7 @@
 
                         <div class="modal-footer" style="justify-content: end !important">
                             <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                                 style="width:150px">Kapat</button>
                         </div>
                     </form>
@@ -638,6 +687,7 @@
             });
 
 
+
             $('#completePaymentButton{{ $sold->id }}').on('click', function() {
                 // Ödeme sırasındaki satış ID'sini al
                 var order = $(this).data('order');
@@ -674,6 +724,13 @@
                         }
                     });
                 }
+            });
+
+            $(document).ready(function() {
+                $('#applySampleModal img').click(function() {
+                    $('#applySampleModal').modal('hide');
+                    $('#exampleModal10').modal('show');
+                });
             });
 
             function generateRandomCode() {

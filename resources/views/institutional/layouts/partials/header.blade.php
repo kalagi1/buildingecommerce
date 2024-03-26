@@ -498,7 +498,7 @@
                                 <div class="card-footer p-0 ">
                                     <div class="px-3 mb-3 mt-3"><a
                                             class="btn btn-phoenix-secondary d-flex flex-center w-100"
-                                            href="{{ route('admin.logout') }}">
+                                            href="{{ route('client.logout') }}">
                                             <span class="me-2" data-feather="log-out"></span>Çıkış Yap
                                         </a>
                                     </div>

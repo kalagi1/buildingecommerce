@@ -172,13 +172,12 @@ class ProfileController extends Controller
         $request->validate([
             "name" => "required",
             "mobile_phone" => "required",
-            "iban" => "required|iban",
+            "iban" => "required",
             "banner_hex_code" => "required",
         ],[
             "name.required" => "İsim alanı zorunludur",
             "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
-            "iban.iban" => "Lütfen geçerli bir iban giriniz.",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
 
@@ -192,6 +191,8 @@ class ProfileController extends Controller
         $phone = $request->input("phone");
         $longitude = $request->input("longitude");
         $latitude = $request->input("latitude");
+        $website = $request->input("website");
+
 
 
 
@@ -217,9 +218,7 @@ class ProfileController extends Controller
         $data['phone'] = $phone;
         $data['longitude'] = $longitude;
         $data['latitude'] = $latitude;
-
-
-
+        $data['website'] = $website;
 
         
         $user->update($data);
