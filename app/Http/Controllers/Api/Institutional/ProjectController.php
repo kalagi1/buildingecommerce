@@ -487,8 +487,8 @@ class ProjectController extends Controller
         }
 
         ProjectHousing::create([
-            "key" => "pay-dec-count" . ($housingTemp + 1),
-            "name" => "pay-dec-count" . ($housingTemp + 1),
+            "key" => "pay-dec-count" . ($housingTemp),
+            "name" => "pay-dec-count" . ($housingTemp),
             "value" => isset($room["payDecs"]) && $room["payDecs"] ? count($room["payDecs"]) : 0,
             "project_id" => $project->id,
             "room_order" => $housingTemp,

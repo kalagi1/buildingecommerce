@@ -280,7 +280,6 @@ class LoginController extends Controller {
     public function googleLogin() {
         $client = new Client();
 
-        // Google OAuth 2.0 ayarları
         $googleClientId =env('GOOGLE_CLIENT_ID');
         $googleClientSecret =  env('GOOGLE_CLIENT_SECRET');
         $redirectUri =  env("GOOGLE_REDIRECT_URI");

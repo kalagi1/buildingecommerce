@@ -134,7 +134,8 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0"
+        googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
+        language : "tr"
     })
 
     const onLoad = useCallback(function callback(map) {
@@ -157,6 +158,18 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
         setMap(null)
     }, [])
     
+    const controlText = {
+        roadmap: 'Harita',
+        satellite: 'Uydu',
+    };
+
+    const mapTypeControlOptions = {
+        mapTypeIds: ['roadmap', 'satellite'],
+        mapTypeIdsCustom: {
+          roadmap: controlText.roadmap,
+          satellite: controlText.satellite,
+        },
+    };
 
     return(
         <div>
@@ -247,10 +260,10 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                         <Rooms formDataHousing={formDataHousing} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} selectedHousingType={selectedHousingType} allErrors={allErrors} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount}/>
                 }
             </div>
-            <div className={'alert alert-danger mt-2 '+(fullEnded ? "d-none" : "")} style={{color:'#fff'}}>
+            <div className={'alert alert-danger mt-2 '+(fullEnded ? "" : "d-none")} style={{color:'#fff'}}>
                 Tüm konutların bilgileri doldurulmadan alt alanlara devam edemiyorsunuz. Tüm konut bilgilerini doldurduğunuz anda otomatik açılacaktır.
             </div>
-            <div className={fullEnded ? "" : "d-none"}>
+            <div className={fullEnded ? "d-none" : ""}>
                 <span className="section-title">Adres Bilgileri</span>
                 <div className="card">
                     <div className="row px-5 py-4">
@@ -311,6 +324,7 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                                 options={{
                                     gestureHandling: "greedy"
                                 }}
+                                mapTypeControlOptions={mapTypeControlOptions}
                             >
                               { /* Child components, such as markers, info windows, etc. */ }
                               {selectedLocation && <Marker position={selectedLocation} />}
