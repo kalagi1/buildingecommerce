@@ -6,8 +6,9 @@ import { dotNumberFormat } from '../../define/variables';
 import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
+import { toast } from 'react-toastify';
 
-function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
+function Rooms({formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [validationErrors,setValidationErrors] = useState([]);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
@@ -15,18 +16,22 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
 
 
     const setRoomCountFunc = (event) => {
-        setBlocks([
-            {
-                name : "none",
-                roomCount : roomCount,
-                rooms : [
-                    {}
-                ]
-            }
-        ]);
-
-        setSelectedBlock(0);
-        setSelectedRoom(0)
+        if(roomCount > 0){
+            setBlocks([
+                {
+                    name : "none",
+                    roomCount : roomCount,
+                    rooms : [
+                        {}
+                    ]
+                }
+            ]);
+    
+            setSelectedBlock(0);
+            setSelectedRoom(0)
+        }else{
+            toast.error("Lütfen geçerli bir konut sayısı giriniz");
+        }
     }
 
     const blockDataSet = (blockIndex,keyx,value) => {
@@ -180,7 +185,7 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                 <div className="block-list mt-3">
                     <label htmlFor="">Projedeki İlan Sayısı</label>
                     <div className='d-flex'>
-                        <input type="text" style={{width:'150px'}} name="" className='form-control' value={roomCount} onChange={(e) => {setRoomCount(e.target.value)}} id="" />
+                        <input type="number" min={0} style={{width:'150px'}} name="" className='form-control' value={roomCount == 0 ? "" : roomCount} onChange={(e) => {setRoomCount(e.target.value)}} id="" />
                         <span id="generate_tabs" style={{width:'230px',justifyContent:'center'}} onClick={setRoomCountFunc} className="mx-2 d-flex btn btn-primary has_blocks-close">İlan Formunu Oluştur</span>
                     </div>
                 </div>
@@ -287,7 +292,7 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                     : ""
                 }
             </div>
-            <RoomNavigator haveBlock={false} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
+            <RoomNavigator formDataHousing={formDataHousing} haveBlock={false} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
             
             <PayDecModal open={payDecOpen} blocks={blocks} setBlocks={setBlocks} selectedBlock={selectedBlock} selectedRoom={selectedRoom} setOpen={setPayDecOpen}/>
         </div>

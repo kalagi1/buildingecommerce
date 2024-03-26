@@ -81,10 +81,10 @@
                 </td>
                 <td
                     class="contact align-middle white-space-nowrap ps-4 border-end fw-semi-bold text-1000">
-                    @if ($user->status == 1)
-                        <span class="badge bg-success">Aktif</span>
+                    @if ($user->is_blocked == 1)
+                        <span class="badge bg-danger">ENGELLENDİ</span>
                     @else
-                        <span class="badge bg-danger">Pasif</span>
+                        <span class="badge bg-success">DOĞRULANDI</span>
                     @endif
                 </td>
                 <td

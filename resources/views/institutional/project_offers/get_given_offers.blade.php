@@ -89,7 +89,7 @@
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Kapat</button>
-                                                    <button type="submit" class="btn btn-info">Yanıtla</button>
+                                                    {{-- <button type="submit" class="btn btn-info">Yanıtla</button> --}}
                                                 </div>
                                            
                                         </div>

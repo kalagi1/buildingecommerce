@@ -684,12 +684,7 @@ class ProjectController extends Controller
 
             if (empty($housingTypeSlug) && !empty($housingTypeSlugName)) {
                 $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
-
-
-                // HousingTypeParent içindeki bağlantıları al
                 $parentConnections = $connections->parents->pluck('connections')->flatten();
-
-                // Benzersiz housing_type_id değerlerini bul
                 $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
 
                 if ($housingTypeSlugName == "Müstakil Tatil") {

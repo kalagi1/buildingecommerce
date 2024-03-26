@@ -28,44 +28,44 @@
     }
 
     if (!function_exists('convertMonthToTurkishCharacter')) {
-            function convertMonthToTurkishCharacter($date)
-            {
-                $aylar = [
-                    'January' => 'Ocak',
-                    'February' => 'Şubat',
-                    'March' => 'Mart',
-                    'April' => 'Nisan',
-                    'May' => 'Mayıs',
-                    'June' => 'Haziran',
-                    'July' => 'Temmuz',
-                    'August' => 'Ağustos',
-                    'September' => 'Eylül',
-                    'October' => 'Ekim',
-                    'November' => 'Kasım',
-                    'December' => 'Aralık',
-                    'Monday' => 'Pazartesi',
-                    'Tuesday' => 'Salı',
-                    'Wednesday' => 'Çarşamba',
-                    'Thursday' => 'Perşembe',
-                    'Friday' => 'Cuma',
-                    'Saturday' => 'Cumartesi',
-                    'Sunday' => 'Pazar',
-                    'Jan' => 'Oca',
-                    'Feb' => 'Şub',
-                    'Mar' => 'Mar',
-                    'Apr' => 'Nis',
-                    'May' => 'May',
-                    'Jun' => 'Haz',
-                    'Jul' => 'Tem',
-                    'Aug' => 'Ağu',
-                    'Sep' => 'Eyl',
-                    'Oct' => 'Eki',
-                    'Nov' => 'Kas',
-                    'Dec' => 'Ara',
-                ];
-                return strtr($date, $aylar);
-            }
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
         }
+    }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -117,12 +117,15 @@
                             <div class="project-single mb-0 bb-0 aos-init aos-animate" data-aos="fade-up">
                                 <div class="button-effect-div">
 
-                                    <span
-                                        class="btn @if (($sold && $sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] != '[]') disabledShareButton @else addCollection mobileAddCollection @endif"
-                                        data-type='project' data-project='{{ $project->id }}'
-                                        data-id='{{ $keyIndex }}'>
-                                        <i class="fa fa-bookmark-o"></i>
-                                    </span>
+
+
+                                    @if (($sold && !$sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                                        <span class="btn addCollection mobileAddCollection" data-type='project'
+                                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                                            <i class="fa fa-bookmark-o"></i>
+                                        </span>
+                                    @endif
+
                                     <span class="btn toggle-project-favorite bg-white"
                                         data-project-housing-id="{{ $keyIndex }}"
                                         data-project-id={{ $project->id }}>
@@ -155,13 +158,13 @@
 
                             <div class="homes-list-div"
                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="flex-direction: column !important;" @endif>
-                                <ul class="homes-list clearfix pb-3 d-flex justify-content-between"
+                                <ul class="homes-list clearfix pb-3 d-flex projectCardList"
                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0) style="height: 90px !important" @endif>
-                                    <li class="d-flex align-items-center itemCircleFont">
+                                    {{-- <li class="d-flex align-items-center itemCircleFont">
                                         <i class="fa fa-circle circleIcon mr-1" style="color: black;"
                                             aria-hidden="true"></i>
                                         <span>{{ $project->housingType->title }}</span>
-                                    </li>
+                                    </li> --}}
                                     @foreach (['column1', 'column2', 'column3'] as $column)
                                         @php
                                             $column_name = $project->listItemValues->{$column . '_name'} ?? '';
@@ -355,7 +358,7 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $keyIndex }}">
                                             Ödeme Detayı
@@ -377,7 +380,7 @@
                                     @else
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}" data-block="{{ $blockName }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex + $lastHousingCount]['off_sale']) && $projectHousingsList[$keyIndex + $lastHousingCount]['off_sale'] != '[]') ? '1' : '0' }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-payment-order="{{ $keyIndex }}">
 
                                             Ödeme Detayı

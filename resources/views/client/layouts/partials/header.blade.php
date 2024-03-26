@@ -739,13 +739,13 @@
                                 </li>
                             @endforeach
 
-                            @foreach ($headerLinks as $link)
+                            {{-- @foreach ($headerLinks as $link)
                                 <li>
                                     <a href="{{ url('sayfa/' . $link->slug) }}">
                                         {{ $link->meta_title }}
                                     </a>
                                 </li>
-                            @endforeach
+                            @endforeach --}}
                             <li class="club-items">
                                 <a href="{{ url('/emlak-kulup') }}">
                                     <b style="font-weight:800 !important;display:flex">

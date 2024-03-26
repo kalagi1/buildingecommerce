@@ -92,8 +92,8 @@
             </div>
         </div>
 
-        <x-store-card :store="$housing->user" :housing="$housing"  />
-            
+        <x-store-card :store="$housing->user" :housing="$housing" />
+
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
@@ -231,7 +231,8 @@
 
                                     {{-- Kapak Görseli --}}
                                     <div class="item carousel-item active" data-slide-number="0">
-                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}" data-lightbox="project-images">
+                                        <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
+                                            data-lightbox="project-images">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid" alt="slider-listing">
                                         </a>
@@ -240,7 +241,8 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                            <a href="{{ asset('housing_images/' . $image) }}" data-lightbox="project-images">
+                                            <a href="{{ asset('housing_images/' . $image) }}"
+                                                data-lightbox="project-images">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                     alt="slider-listing">
                                             </a>
@@ -258,8 +260,7 @@
                                 <div class="listingDetailsSliderNav mt-3">
                                     {{-- Kapak Görseli --}}
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-0" data-slide-to="0"
-                                            data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -803,37 +804,34 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $label != 'Taksitli Satış' && isset($val[0]) && $val[0] != 0 && $val[0] != null)
+                                                @if (
+                                                    $label != 'Kapak Resmi' &&
+                                                        $label != 'Taksitli Satış' &&
+                                                        $label != 'Fiyat' &&
+                                                        $label != 'Peşinat' &&
+                                                        $label != 'İlan Başlığı' &&
+                                                        $label != 'Günlük Fiyat' &&
+                                                        $label != 'Peşin Fiyat' &&
+                                                        $label != 'Taksitli Toplam Fiyat' &&
+                                                        isset($val[0]) &&
+                                                        $val[0] != 0 &&
+                                                        $val[0] != null)
                                                     <tr>
                                                         <td>
-                                                            @if ($label == 'Fiyat')
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                <span class="det"
-                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-
-                                                                    ₺</span>
-                                                            @elseif ($label == 'Peşin Fiyat')
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                <span class="det"
-                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-
-                                                                    ₺</span>
+                                                            <span class="mr-1">{{ $label }}:</span>
+                                                            @if ($label == 'm² (Net)<br>')
+                                                                <span class="det">{{ $val[0] }}
+                                                                    m2</span>
+                                                            @elseif ($label == 'Özellikler')
+                                                                <ul>
+                                                                    @foreach ($val as $ozellik)
+                                                                        <li>{{ $ozellik }}</li>
+                                                                    @endforeach
+                                                                </ul>
                                                             @else
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                @if ($label == 'm² (Net)<br>')
-                                                                    <span class="det">{{ $val[0] }}
-                                                                        m2</span>
-                                                                @elseif ($label == 'Özellikler')
-                                                                    <ul>
-                                                                        @foreach ($val as $ozellik)
-                                                                            <li>{{ $ozellik }}</li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @else
-                                                                    <span class="det">
-                                                                        {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
-                                                                    </span>
-                                                                @endif
+                                                                <span class="det">
+                                                                    {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
+                                                                </span>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -848,7 +846,7 @@
                                             @if (count($val) > 1)
                                                 @if ($label != 'Galeri')
                                                     <h5 class="mt-5">{{ $label }}</h5>
-                                                    <ul class="homes-list clearfix">
+                                                    <ul class="homes-list clearfix checkSquareIcon">
                                                         @foreach ($val as $item)
                                                             <li><i class="fa fa-check-square"
                                                                     aria-hidden="true"></i><span>{{ $item }}</span>
@@ -1290,7 +1288,7 @@
                     lng: {{ $housing->longitude }}
                 },
                 zoom: 16,
-				gestureHandling: 'greedy'
+                gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1342,32 +1340,32 @@
 
         $(document).ready(function() {
             $('.listingDetailsSliderNav').slick({
-            slidesToShow: 5,
-            slidesToScroll: 5,
-            dots: false,
-            loop: false,
-            autoplay: false,
-            arrows: false,
-            margin: 0,
-            adaptiveHeight: true,
-            responsive: [{
-                breakpoint: 993,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 2,
-                    dots: false,
-                    arrows: false
-                }
-            }, {
-                breakpoint: 769,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    dots: false,
-                    arrows: false
-                }
-            }]
-        });
+                slidesToShow: 5,
+                slidesToScroll: 5,
+                dots: false,
+                loop: false,
+                autoplay: false,
+                arrows: false,
+                margin: 0,
+                adaptiveHeight: true,
+                responsive: [{
+                    breakpoint: 993,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 2,
+                        dots: false,
+                        arrows: false
+                    }
+                }, {
+                    breakpoint: 769,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        dots: false,
+                        arrows: false
+                    }
+                }]
+            });
         });
         // Sayfa yüklendiğinde
         $(document).ready(function() {
@@ -1404,7 +1402,7 @@
             var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
             var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
             $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
-            totalSlides); // Ortadaki li etiketinin metnini güncelle
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
 
@@ -1481,7 +1479,7 @@
                     lng: {{ $housing->latitude }}
                 },
                 zoom: 12,
-				gestureHandling: 'greedy'
+                gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({
@@ -2086,6 +2084,5 @@
 @endsection
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/housing.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/housing.css') }}">
 @endsection

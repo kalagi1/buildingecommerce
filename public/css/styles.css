@@ -18445,6 +18445,21 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 #slider-range-value2 {
     float: right
 }
+.projectCardList li{
+    width:20%
+}
+.modal-open .modal{
+    z-index: 9999999; 
+}
+
+.collection-body{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.checkSquareIcon li {
+    width: 25%;
+}
 
 .inner-pages .blog .homes-content .homes-list li {
     float: left;

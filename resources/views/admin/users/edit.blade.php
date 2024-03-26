@@ -2,6 +2,49 @@
 
 @section('content')
     <div class="content">
+        @if($userDetail->type == 2)
+            <div class="grid-container mb-4 mt-2">
+                <div class="card l-bg-cherry">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Proje Sayısı</h5>
+                            <h5 class="float-right">{{$projectCount}}</h5>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="card l-bg-blue-dark">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fa-solid fa-house"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Emlak Sayısı</h5>
+                            <h5 class="float-right">{{$housingCount}}</h5>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="card l-bg-green-dark">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Alt Kullanıcı Sayısı</h5>
+                            <h5 class="float-right">{{$userChildCount}}</h5>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="card l-bg-orange-dark">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fa-solid fa-star"></i></div>
+                        <div class="mb-4">
+                            <h5 class="card-title mb-0">Değerlendirme Sayısı</h5>
+                            <h5 class="float-right">{{$userCommentCount}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         @if ($userDetail->role->id == '2')
             <div class="row">
                 <div class="col-md-8">
@@ -62,16 +105,10 @@
                                 </div>
                                 <div class="col-auto">
                                     <div class="row g-2">
-                                        <div class="col-auto order-xxl-2"><button class="btn btn-phoenix-danger"><svg
-                                                    class="svg-inline--fa fa-trash-can me-2" aria-hidden="true"
-                                                    focusable="false" data-prefix="fas" data-icon="trash-can" role="img"
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                                    data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                        d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM31.1 128H416V448C416 483.3 387.3 512 352 512H95.1C60.65 512 31.1 483.3 31.1 448V128zM111.1 208V432C111.1 440.8 119.2 448 127.1 448C136.8 448 143.1 440.8 143.1 432V208C143.1 199.2 136.8 192 127.1 192C119.2 192 111.1 199.2 111.1 208zM207.1 208V432C207.1 440.8 215.2 448 223.1 448C232.8 448 240 440.8 240 432V208C240 199.2 232.8 192 223.1 192C215.2 192 207.1 199.2 207.1 208zM304 208V432C304 440.8 311.2 448 320 448C328.8 448 336 440.8 336 432V208C336 199.2 328.8 192 320 192C311.2 192 304 199.2 304 208z">
-                                                    </path>
-                                                </svg><!-- <span class="fa-solid fa-trash-can me-2"></span> Font Awesome fontawesome.com -->Kullanıcıyı
-                                                Engelle</button></div>
+                                        <div class="col-auto order-xxl-2"><button class="btn btn-phoenix-danger">
+                                        <a href="{{route('institutional.dashboard', ['slug' => Str::slug($userDetail->name), 'userID' => $userDetail->id])}}">Mağazaya Git</a>    
+                                        </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +169,7 @@
                                             </button>
                                         </form>
                                     @else
-                                        <form action="{{ route('admin.users.block', $userDetail) }}" method="POST">
+                                        {{-- <form action="{{ route('admin.users.block', $userDetail) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                                             <button class="btn btn-phoenix-danger" style="float: right">
@@ -149,10 +186,51 @@
                                                 </svg>
                                                 <span style="margin-left: 5px">Kullanıcıyı Engelle</span>
                                             </button>
-                                        </form>
+                                        </form> --}}
+
+                                        <button class="btn btn-phoenix-danger" style="float: right" data-bs-toggle="modal" data-bs-target="#blockUserModal">
+                                            <svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="currentColor" stroke-width="2" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <line x1="8" y1="15" x2="16" y2="15">
+                                                </line>
+                                                <line x1="9" y1="9" x2="9.01" y2="9">
+                                                </line>
+                                                <line x1="15" y1="9" x2="15.01" y2="9">
+                                                </line>
+                                            </svg>
+                                            <span style="margin-left: 5px">Kullanıcıyı Engelle</span>
+                                        </button>
+
                                     @endif
                                 </div>
 
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="blockUserModal" tabindex="-1" aria-labelledby="blockUserModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="blockUserModalLabel">Kullanıcı Engelle</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('admin.users.block', $userDetail) }}" method="POST">
+                                            @csrf @method('PUT')
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Kullanıcı Engelleme Nedeni" id="blockReason" name="blockReason"></textarea>
+                                                <label for="floatingTextarea">Kullanıcı Engelleme Nedeni</label>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                <button type="submit" class="btn btn-primary">Engelle</button>
+                                            </div>
+                                        </form>    
+                                    </div>                                 
+                                </div>
                             </div>
                         </div>
 
@@ -179,7 +257,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT') <!-- HTTP PUT kullanarak güncelleme işlemi yapılacak -->
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-8">
                                         <div>
                                             <input class="d-none" id="upload-settings-porfile-picture"
                                                 name="profile_image" type="file" accept=".jpeg, .jpg, .png"><label
@@ -189,6 +267,13 @@
                                                     src="{{ asset('storage/profile_images/' . $userDetail->profile_image) }}"
                                                     width="200" alt=""></label>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @if($userDetail->parent_id)
+                                            <p>
+                                                {{$parent}} kurumsal hesabının alt kullanıcısı {{$userDetail->name}}
+                                            </p>
+                                        @endif
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label" for="name">İsim Soyisim</label>
@@ -220,6 +305,55 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="validationCustom04">Hesap Türü</label>
+                                        <input name="account_type" class="form-control" id="account_type" type="text" value="{{ $userDetail->account_type }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="validationCustom04">Faaliyet Alanı</label>
+                                        <select name="corporate_type" id="corporate_type" class="form-control">
+                                            @foreach(['Emlakçı', 'İnşaat', 'Turizm', 'Banka'] as $type)
+                                                <option value="{{ $type }}" {{ $userDetail->corporate_type === $type ? 'selected' : '' }}>{{ $type }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    
+
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="validationCustom04">IBAN</label>
+                                        <input name="iban" class="form-control" id="iban" type="text" value="{{ $userDetail->iban }}">
+                                    </div>
+
+                                    
+                                       {{-- daire --}}
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="taxOffice">Vergi Dairesi</label>
+                                        <select name="taxOffice" class="form-select" id="taxOffice">
+                                            @foreach ($taxOffices as $item)
+                                                <option value="{{ $item->id }}" @if($item->id == $userDetail->taxOffice) selected @endif>{{ $item->daire }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>                                    
+
+                                    {{-- il --}}
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="taxOfficeCity">Vergi Dairesi Şehri</label>
+                                        <input name="taxOfficeCity" class="form-control" id="taxOfficeCity" type="text">
+                                    </div>
+
+                                    {{-- no --}}
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="validationCustom04">Vergi No</label>
+                                        <input name="taxNumber" class="form-control" id="taxNumber" type="number" value="{{ $userDetail->taxNumber }}">
+                                    </div>
+
+                                    @if($userDetail->account_type == 'Şahıs Şirketi')
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="validationCustom04">TC</label>
+                                            <input name="idNumber" class="form-control" id="idNumber" type="number" value="{{ $userDetail->idNumber }}">
+                                        </div>
+                                    @endif
+
                                     <div class="col-md-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" name="is_active"
@@ -243,6 +377,8 @@
                 </div>
             </div>
         </div>
+
+        @if(!($userDetail->type == 18))
         <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white pt-7 border-y border-300">
             <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":4}'>
                 <div class="row align-items-end justify-content-between pb-5 g-3">
@@ -363,7 +499,7 @@
                 </div>
             </div>
         </div>
-
+        @endif
     </div>
 @endsection
 
@@ -377,4 +513,132 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+$(document).ready(function() {
+
+    var taxOfficeId = $('#taxOffice').val();
+    $.ajax({
+        url: '{{ route("getTaxOfficeCity") }}',
+        method: 'GET',
+        data: { taxOfficeId: taxOfficeId },
+        success: function(response) {
+            console.log(response);
+            $('#taxOfficeCity').val(response.city);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.error('Hata:', errorThrown);
+        }
+    });
+
+
+    $('#taxOffice').change(function() {
+        var taxOfficeId = $(this).val();
+        $.ajax({
+            url: '{{ route("getTaxOfficeCity") }}',
+            method: 'GET',
+            data: { taxOfficeId: taxOfficeId },
+            success: function(response) {
+                console.log(response);
+                $('#taxOfficeCity').val(response.city);
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.error('Hata:', errorThrown);
+            }
+        });
+    });
+});
+
+    </script>
+@endsection
+
+@section('css')
+<style>
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .grid-container .card {
+        border-radius: 10px;
+        border: none;
+        position: relative;
+        box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .grid-container .card:hover {
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        transform: translateY(-15px);
+    }
+
+    .l-bg-cherry {
+        background: linear-gradient(to right, #493240, #f09) !important;
+        color: #fff;
+    }
+
+    .l-bg-blue-dark {
+        background: linear-gradient(to right, #373b44, #4286f4) !important;
+        color: #fff;
+    }
+
+    .l-bg-green-dark {
+        background: linear-gradient(to right, #0a504a, #38ef7d) !important;
+        color: #fff;
+    }
+
+    .l-bg-orange-dark {
+        background: linear-gradient(to right, #a86008, #ffba56) !important;
+        color: #fff;
+    }
+
+    .statistic .card .card-statistic-3 .card-icon {
+        text-align: center;
+        line-height: 50px;
+        margin-left: 15px;
+        color: #000;
+        position: absolute;
+        right: -5px;
+        top: 20px;
+        opacity: 0.1;
+    }
+
+    .l-bg-cyan {
+        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+        color: #fff;
+    }
+
+    .l-bg-green {
+        background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
+        color: #fff;
+    }
+
+    .l-bg-orange {
+        background: linear-gradient(to right, #f9900e, #ffba56) !important;
+        color: #fff;
+    }
+
+    .l-bg-cyan {
+        background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+        color: #fff;
+    }
+
+    .card-statistic-3 .mb-4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-statistic-3 .mb-4 h5{
+        color: #fff;
+    }
+
+    .card-statistic-3 .mb-4 .float-right{
+        color: #333;
+    }
+
+
+</style>
 @endsection

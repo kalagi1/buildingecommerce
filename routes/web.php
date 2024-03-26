@@ -1174,4 +1174,5 @@ Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name
 
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
+Route::get('/getTaxOfficeCity', [UserController::class, 'getTaxOfficeCity'])->name('getTaxOfficeCity');
 
