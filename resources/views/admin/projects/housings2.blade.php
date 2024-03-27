@@ -469,6 +469,7 @@
                                                         $numberShare = $number_of_share;
                                                     @endphp
                                                     <a href="{{ route('admin.invoice.show', ['order' => $order->id]) }}"
+                                                        target="_blank"
                                                         class="badge badge-phoenix badge-phoenix-info value-text mb-2">
                                                         {{ $order->id }} numaralı siparişin detayı - Hisse Payı
                                                         {{ $qt }} / {{ $numberShare }}
