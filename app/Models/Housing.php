@@ -11,7 +11,7 @@ class Housing extends Model {
     use HasFactory;
     use SoftDeletes;
     
-    protected $guarded = [ 'id' ];
+    protected $guarded = [];
 
     public function housing_type() {
         return $this->belongsTo( HousingType::class );

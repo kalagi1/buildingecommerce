@@ -90,7 +90,7 @@
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider">
                     @foreach ($sliders as $slider)
-                        <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
+                        <a href="{{$slider->url}}" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                                 style="background-image: url({{ url('storage/sliders/' . $slider->image) }});"></div>
                             <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo"

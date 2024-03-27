@@ -783,7 +783,19 @@ class ProjectController extends Controller
 
             // Dosyayı belirlenen hedefe taşı
             $fileNameDocument = $projectSlug . '_housing_document_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($destinationPath, $fileNameCoverImage);
+            $file->move($destinationPath, $fileNameDocument);
+        }
+
+        if ($request->file('projectData')['document']) {
+
+            $file = $request->file('projectData')['authority_certificate'];
+
+            // Dosyanın hedef dizini
+            $destinationPath = public_path('authority_certificates'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+
+            // Dosyayı belirlenen hedefe taşı
+            $fileNameAuthorityCertificateName = $projectSlug . '_authority_certificate_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $fileNameAuthorityCertificateName);
         }
 
         $galleryImages = [];
@@ -866,6 +878,7 @@ class ProjectController extends Controller
                 'neighborhood_id' => $projectData['neighbourhood_id'],
                 'status_id' => 1,
                 'document' => $fileNameDocument,
+                'authority_certificate' => $fileNameAuthorityCertificateName,
                 'status' => 2,
                 'housing_type_data' => json_encode($postData, JSON_UNESCAPED_UNICODE),
                 'user_id' => auth()->user()->parent_id ?? auth()->user()->parent_id ?? auth()->user()->id,

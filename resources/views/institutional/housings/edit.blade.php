@@ -945,12 +945,20 @@
                                     checkboxName = checkboxName.split('[]');
                                     checkboxName = checkboxName[0];
                                     $($('input[name="'+checkboxName+[i]+'[][]"]')).map((key,item) => {
-                                        
                                     if(oldData[inputNamex[0]+(i)]){
                                         oldData[inputNamex[0]+(i)].map((checkbox) => {
-                                            if(checkbox.trim() == $(item).attr("value").trim()){
-                                                $(item).attr('checked','checked')
-                                            }
+                                    		if(checkbox && checkbox != null){
+												if(Array.isArray(checkbox)){
+													if(checkbox[0].trim() == $(item).attr("value").trim()){
+														$(item).attr('checked','checked')
+													}
+												}else{
+													if(checkbox.trim() == $(item).attr("value").trim()){
+														$(item).attr('checked','checked')
+													}
+												}
+												
+											}
                                         })
                                     }
                                     
@@ -978,7 +986,9 @@
 
                         @if(isset($housing) && isset($housing->step1_slug) && isset($housing->step2_slug) && $housing->step1_slug && $housing->step2_slug)
                             @if($housing->step2_slug == "satilik")
+                                console.log("asd");
                                 $('.project-disabled').closest('.form-group').remove();
+                                $('.disabled-housing').closest('.form-group').remove();
                             @endif
                         @endif
 
@@ -2208,6 +2218,7 @@
                                                     if(isSale){
                                                         $('.sale-disabled').closest('.form-group').remove();
                                                         $('.project-disabled').closest('.form-group').remove();
+                                                        $('.housing-disabled').closest('.form-group').remove();
                                                     }
 
                                                     $('.copy-item').change(function() {
@@ -2620,7 +2631,7 @@
                                         if(isSale){
                                             $('.sale-disabled').closest('.form-group').remove();
                                             $('.project-disabled').closest('.form-group').remove();
-
+                                            $('.housing-disabled').closest('.form-group').remove();
                                         }
 
                                         $('.copy-item').change(function() {
@@ -2979,6 +2990,7 @@
                             if(isSale){
                                 $('.sale-disabled').closest('.form-group').remove();
                                 $('.project-disabled').closest('.form-group').remove();
+                                $('.housing-disabled').closest('.form-group').remove();
                             }
 
                             $('.copy-item').change(function() {

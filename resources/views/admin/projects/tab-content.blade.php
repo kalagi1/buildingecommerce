@@ -11,7 +11,7 @@
                     <th>İlanları Düzenle</th>
 
                     <th>Yayın Durumu</th>
-                    <th>Siparişleri Gör</th>
+                    {{-- <th>Siparişleri Gör</th> --}}
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -43,12 +43,12 @@
                                 <span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>
                             @endif
                         </td>
-                        <td>
+                        {{-- <td>
                             <a href='{{ URL::to('/') }}/qR9zLp2xS6y/secured/projects/{{ $project['project']->id }}/orders'
                                 class='badge badge-phoenix badge-phoenix-warning'>
                                 Siparişleri Gör ({{ $project['orderCount'] }})
                             </a>
-                        </td>
+                        </td> --}}
                         <td>
                             <a href="{{ route('admin.projects.detail', $project['project']->id) }}"
                                 class="badge badge-phoenix badge-phoenix-primary"><i class="fa fa-eye"></i></a>

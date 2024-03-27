@@ -42006,6 +42006,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         background-color: #EA2B2E !important;
     }
 
+ 
     .buyUserRequest,
     .buyUserRequest__icon,
     .buyUserRequest__text {
@@ -43158,7 +43159,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .progress-line.step3 ol:before{
-    width: 75%;
+    width: 100%;
 }
 
 .remove-area{
@@ -43226,7 +43227,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .css-1ygcj2i-MuiTableCell-root{
     font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
     font-weight: bold !important;
-    font-size: 13px !important;
+    font-size: 11px !important;
 }
 
 .css-1ex1afd-MuiTableCell-root{
