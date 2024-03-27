@@ -180,7 +180,7 @@
                                                 <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                 <span>
                                                     {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
-                                                    @if ($column_additional)
+                                                    @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
                                                         {{ $column_additional }}
                                                     @endif
                                                 </span>
