@@ -1119,3 +1119,6 @@ Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
 Route::get('/getTaxOfficeCity', [UserController::class, 'getTaxOfficeCity'])->name('getTaxOfficeCity');
+
+//Komşumu sil
+Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name('komsumu.sil');
