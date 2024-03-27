@@ -542,7 +542,6 @@ class HomeController extends Controller
             ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
-            ->orderByDesc('housings.created_at')
             ->with(['city', 'county']);
 
         if ($request->input("slug") == "al-sat-acil") {
@@ -795,6 +794,9 @@ class HomeController extends Controller
                     $obj = $obj->orderByRaw('CAST(JSON_UNQUOTE(JSON_EXTRACT(housings.housing_type_data, "$.price[0]")) AS FLOAT) DESC');
                     break;
             }
+        }else{
+            $obj = $obj->orderBy('created_at', 'desc');
+
         }
 
         $itemPerPage = 15;
@@ -887,6 +889,7 @@ class HomeController extends Controller
                         });
                         $query->orWhere('id', '=', (int)$term - 2000000);
                     })
+                    ->orderByDesc('housings.created_at')
                     ->get()
                     ->map(function ($item) {
                         return [

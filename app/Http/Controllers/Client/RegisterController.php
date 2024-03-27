@@ -113,6 +113,7 @@ class RegisterController extends Controller
         $user->city_id = $request->input("city_id");
         $user->phone = $request->input("phone");
         $user->mobile_phone = $request->input("mobile_phone");
+        $user->phone = $request->input("phone");
         $user->neighborhood_id = $request->input("neighborhood_id");
         $user->username = $request->input("username");
         $user->account_type = $accountType;
