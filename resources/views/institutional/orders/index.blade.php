@@ -35,7 +35,164 @@
                         </div>
                     </div>
                 </div>
-                <div
+
+                <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                    <div class="table-responsive scrollbar mx-n1 px-1">
+                        <table class="table table-sm fs--1 mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="no">
+                                        NO
+                                    </th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">
+                                        İlan Numarası
+                                    </th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
+                                        İlan Adı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_amount">
+                                        Kapora Tutarı</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">
+                                        Sipariş Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_status">
+                                        Durum</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_detail">
+                                        Sipariş Detayı</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" id="order-table-body">
+                                @php
+                                    $counter = 1;
+                                @endphp
+                                @foreach ($cartOrders as $order)
+                                    @php
+                                        $o = json_decode($order->cart);
+                                        $project =
+                                            $o->type == 'project'
+                                                ? App\Models\Project::with('roomInfo')
+                                                    ->where('id', $o->item->id)
+                                                    ->first()
+                                                : null;
+                                        $tarih = date('d F Y', strtotime($order->created_at));
+                                        $tarih = str_replace(
+                                            [
+                                                'January',
+                                                'February',
+                                                'March',
+                                                'April',
+                                                'May',
+                                                'June',
+                                                'July',
+                                                'August',
+                                                'September',
+                                                'October',
+                                                'November',
+                                                'December',
+                                            ],
+                                            [
+                                                'Ocak',
+                                                'Şubat',
+                                                'Mart',
+                                                'Nisan',
+                                                'Mayıs',
+                                                'Haziran',
+                                                'Temmuz',
+                                                'Ağustos',
+                                                'Eylül',
+                                                'Ekim',
+                                                'Kasım',
+                                                'Aralık',
+                                            ],
+                                            $tarih,
+                                        );
+                                    @endphp
+                                    <tr>
+                                        <td class="no"><span>{{ $counter }}</span></td>
+                                        @php
+                                            $counter++;
+                                        @endphp
+                                        <td class="order_no"><a class="fw-semibold"
+                                            href="#!">{{$order->key}}</a><br>
+                                        </td>
+                                        <td class="order_project">
+                                            <span>
+                                                @if ($o->type == 'housing')
+                                                {{ App\Models\Housing::find($o->item->id ?? 0)->title ?? null }}
+                                            @else
+                                                {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                {{ ' ' }}Projesinde
+                                                {{ ' ' }}
+                                                {{ $project->step1_slug }}
+                                            @endif
+                                            @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
+                                                <br>
+                                                <span style="color:#EA2B2E"
+                                                    class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
+                                                    satın alındı
+                                                    !</span>
+                                            @endif
+                                            </span>
+                                            <br>
+        
+                                        </td>
+                                        <td class="order_amount">{{ number_format(floatval(str_replace('.', '', $order->amount)), 0, ',', '.') }}
+                                            ₺</td>
+                                        <td class="order_date">{{ $tarih }}</td>
+        
+                                        <td class="order_status"><span class="text-success"> 
+                                            
+                                            {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
+                                            {!! [
+                                                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
+                                                                                                                                                                                        class="badge-label">Rezerve Edildi</span><svg
+                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                    </svg>',
+                                                '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
+                                                                                                                                                                                        class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                    </svg>',
+                                                '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
+                                                                                                                                                                                        class="badge-label">Ödeme Reddedildi</span><svg
+                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                    </svg>',
+                                            ][$order->status] !!}
+                                            </span>
+                                                    @if ($order->invoice && $order->status == 1)
+                                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                            Faturayı Görüntüle
+                                                        </a>
+        
+                                                    </span>
+                                                     @endif
+                                         
+                                        </td>
+                                        <td class="order_detail">
+                                            <span>
+                                                <a href="{{ route('institutional.order.detail', ['order_id' => $order->id]) }}"
+                                                    class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş
+                                                    Detayı</a>
+                                            </span>
+                                        </td>
+        
+                                    </tr>
+        
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+              {{-- <div
                     class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                     <div class="table-responsive scrollbar mx-n1 px-1">
                         <table class="table table-sm fs--1 mb-0">
@@ -126,8 +283,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
+                </div> 
+            </div> --}}
         </div>
     </div>
 @endsection
