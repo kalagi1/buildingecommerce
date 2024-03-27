@@ -369,7 +369,7 @@ class ProjectController extends Controller {
         $projectID = $request->projectID;
         $city_id = Project::where('id',$projectID)->value('city_id');
         $county_id = Project::where('id',$projectID)->value('county_id');
-        
+        $hisse_payi=(int)$request->hisse_payi;
         $user = User::where('email',$request->email)->first();
 
         if(!$user){
@@ -415,6 +415,7 @@ class ProjectController extends Controller {
 
         $cartJson['item']['id'] = (int)$projectID;
         $cartJson['item']['housing'] = (int)$housingID;
+        $cartJson['item']['qt'] = (int)$hisse_payi;
 
         $neighborProjects  = [];
         $neighborProjects = NeighborView::with('user', 'owner', 'project')->where('project_id', $projectID)->where('user_id', $user->id)->get();
@@ -549,5 +550,15 @@ class ProjectController extends Controller {
         // return $data;
 
         return view('admin.invoice.index', compact("data"));
+    }//End
+
+    public function komsumuSil($id){
+
+        $cartOrder = CartOrder::find($id);
+        if ($cartOrder && $cartOrder->delete()) {
+            return redirect()->back()->with('success', 'Başarıyla Silindi');
+        }
+ 
+        return redirect()->back()->with('error', 'Silme işlemi yapılırken hata!');
     }//End
 }

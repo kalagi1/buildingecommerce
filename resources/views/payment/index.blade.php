@@ -404,7 +404,43 @@
                             </div>
                         </div>
                     </div>
+                    @php
+                    $itemPrice = $cart['item']['amount'];
 
+                    if ($cart['hasCounter']) {
+                        if ($cart['type'] == 'housing') {
+                            $housing = App\Models\Housing::find($cart['item']['id']);
+                            $housingData = json_decode($housing->housing_type_data);
+                            $discountRate = $housingData->discount_rate[0] ?? 0;
+
+                            $housingAmount = $itemPrice - $housingDiscountAmount;
+                            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+                        } else {
+                            $project = App\Models\Project::find($cart['item']['id']);
+                            $roomOrder = $cart['item']['housing'];
+                            $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                ->where('room_order', $roomOrder)
+                                ->get()
+                                ->keyBy('name');
+
+                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                            $projectAmount = $itemPrice - $projectDiscountAmount;
+                            $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                        }
+                    } else {
+                        $discountedPrice = $itemPrice;
+                        $discountRate = 0;
+                    }
+                    $selectedPaymentOption = request('paymentOption');
+                    $itemPrice =
+                        $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
+                            ? $cart['item']['installmentPrice']
+                            : $discountedPrice;
+
+                    $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                    $share_sale = $cart['item']['isShare'] ?? null;
+                    $number_of_share = $cart['item']['numbershare'] ?? null;
+                @endphp
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
@@ -481,21 +517,20 @@
 
                                   
                                             @if (isset($cart) && isset($cart['type']))
-                                                @if ($cart['type'] == 'project' && empty($share_sale))
-                                                <div class="col-sm-12 pt-5">
-                                                    <div class="d-flex align-items-center mb-3">
-                                                        <input id="is_show_user" type="checkbox" value="off"
-                                                            name="is_show_user">
-                                                        <i class="fa fa-info-circle ml-2"
-                                                            title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                            style="font-size: 18px; color: black;"></i>
-                                                        <label for="is_show_user" class="m-0 ml-1 text-black">
-                                                            Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
-                                                            kabul
-                                                            ediyorum.
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                @if ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]' || $cart['type'] == 'project' && empty($share_sale))
+                                                        <div class="col-sm-12 pt-5">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
+                                                                <i class="fa fa-info-circle ml-2"
+                                                                    title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                                    style="font-size: 18px; color: black;"></i>
+                                                                <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                                    Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
+                                                                    kabul
+                                                                    ediyorum.
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                 @endif
                                             @endif
 
@@ -520,43 +555,7 @@
                             </div>
                         </div>
                     </div>
-                    @php
-                        $itemPrice = $cart['item']['amount'];
-
-                        if ($cart['hasCounter']) {
-                            if ($cart['type'] == 'housing') {
-                                $housing = App\Models\Housing::find($cart['item']['id']);
-                                $housingData = json_decode($housing->housing_type_data);
-                                $discountRate = $housingData->discount_rate[0] ?? 0;
-
-                                $housingAmount = $itemPrice - $housingDiscountAmount;
-                                $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
-                            } else {
-                                $project = App\Models\Project::find($cart['item']['id']);
-                                $roomOrder = $cart['item']['housing'];
-                                $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
-                                    ->where('room_order', $roomOrder)
-                                    ->get()
-                                    ->keyBy('name');
-
-                                $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                $projectAmount = $itemPrice - $projectDiscountAmount;
-                                $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
-                            }
-                        } else {
-                            $discountedPrice = $itemPrice;
-                            $discountRate = 0;
-                        }
-                        $selectedPaymentOption = request('paymentOption');
-                        $itemPrice =
-                            $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
-                                ? $cart['item']['installmentPrice']
-                                : $discountedPrice;
-
-                        $displayedPrice = number_format($itemPrice, 0, ',', '.');
-                        $share_sale = $cart['item']['isShare'] ?? null;
-                        $number_of_share = $cart['item']['numbershare'] ?? null;
-                    @endphp
+          
 
                     <div class="col-md-12 col-lg-12 col-xl-5 mb-5">
                         <div class="row">

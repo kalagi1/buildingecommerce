@@ -73,7 +73,7 @@ class Project extends Model {
     }
 
     public function blocks() {
-        return $this->hasMany( Block::class );
+        return $this->hasMany( Block::class,  'project_id', 'id' );
     }
 
     public function favorites() {
