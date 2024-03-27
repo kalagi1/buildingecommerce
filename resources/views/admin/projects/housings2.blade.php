@@ -359,7 +359,193 @@
                                                     @endphp
 
 
+                                                        @if($share_sale && count($soldHisse) > 0)
+                                                            <button type="button" class="badge badge-phoenix badge-phoenix-success value-text" data-bs-toggle="modal" data-bs-target="#hisseliSatisModal{{ $j + 1 }}">
+                                                                Sipariş Detayları
+                                                            </button><br>   
 
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="hisseliSatisModal{{ $j + 1 }}" tabindex="-1" aria-labelledby="hisseliSatisModalLabel{{ $j + 1 }}" aria-hidden="true" data-bs-backdrop="static">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="hisseliSatisModalLabel{{ $j + 1}}">{{ $j + 1 }} Numaralı Hisse Sipariş Detay  </h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    @foreach($soldHisse as $order)
+                                                                                        @php
+                                                                                            $cart = json_decode($order->cart);
+                                                                                            $item = $cart->item;
+                                                                                            $qt = $item->qt;    
+                                                                                            $numberShare = $number_of_share;
+                                                                                        @endphp
+                                                                                            <a href="{{ route('admin.invoice.show', ['order' => $order->id]) }}"
+                                                                                                class="badge badge-phoenix badge-phoenix-info value-text mb-2"> {{$order->id }}  numaralı siparişin detayı - Hisse Payı {{$qt}} / {{ $numberShare }} 
+                                                                                            </a>
+                                                                                        @if($order->is_disabled == 1)
+                                                                                        {{-- <button class="badge badge-phoenix badge-phoenix-warning value-text komsumuDuzenle" 
+                                                                                        data-order="{{$order->id}}" data-index="{{$j+1}}" data-bs-toggle="modal" data-bs-target="#hisseliKomsuDuzenle{{$order->id}}">
+                                                                                            Komşumu Düzenle
+                                                                                        </button> --}}
+                                                                                         
+                                                                                        <button type="button" class="badge badge-phoenix badge-phoenix-warning value-text komsumuDuzenle"   data-order="{{$order->id}}" onclick="openNestedModal({{$order->id}})">Komşumu Düzenle</button>
+                                                                                        <a href="{{ route('komsumu.sil', ['id' => $order->id]) }}" class="badge badge-phoenix badge-phoenix-danger value-text">
+                                                                                            Komşumu Sil
+                                                                                        </a>
+                                                                                          
+                                                                                                {{-- hisseli komşumu düzenleme --}}
+                                                            <div class="modal fade" id="hisseliKomsuDuzenle{{$order->id}}" tabindex="-1" role="dialog"  aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            {{-- <h5 class="modal-title text-center mx-auto" id="exampleModal_{{$order->id}}Label">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5> --}}
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form action="{{ route('admin.projects.housings.komsumu.gor.edit', ['id' => $i + 1]) }}"  method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="no" value="{{ $i + 1 }}">
+                                                                                <input type="hidden" name="projectID" value="{{ $project->id }}">
+                                                                                <input type="hidden" name="cartOrderID" value="{{ $order->id }}">
+                                                                                <input type="hidden" name="cartOrderUserID" value="{{ $order->user_id }}">
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="surname" class="q-label">Email: </label>
+                                                                                    <input type="text" class="modal-input" id="email" name="email" value="{{ $order->email }}">
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="surname" class="q-label">Ad Soyad: </label>
+                                                                                    <input type="text" class="modal-input" id="name" name="name" value="{{ $order->full_name }}">
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="surname" class="q-label">Telefon: </label>
+                                                                                    <input type="number" class="modal-input" id="phone" name="phone" value="{{ $order->phone }}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label for="surname" class="q-label">TC : </label>
+                                                                                    <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" value="{{ $order->tc }}">
+                                                                                </div>
+                                            
+                                                                                <div class="form-group">
+                                                                                    <label for="comment" class="q-label">Adres:</label>
+                                                                                    <textarea class="modal-input" id="address" rows="45" style="height: 100px !important;" name="address"
+                                                                                        required>{{ $order->address }}</textarea>
+                                                                                </div>
+                                            
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit" class="modal-btn-gonder">Gönder</button>
+                                                                                    <button type="button" class="modal-btn-kapat" data-bs-dismiss="modal">Kapat</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>    
+                                                                                        @endif
+                                                                                        
+                                                                                    @endforeach
+                                                                                    
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>  
+                                                            
+                                                        @endif  
+                                                     
+                                                        
+                                                        {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                                                        class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
+                                                        <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                                                            class="badge badge-phoenix badge-phoenix-danger">İlanı Sil</a>
+                                                    </td>
+                                        
+                                                @endif
+                                                <div class="modal fade" id="exampleModal{{ $i + 1 }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title text-center mx-auto"
+                                                                    id="exampleModalLabel">
+                                                                    {{ $project->project_title }} Projesinde  {{ $block['block_name'] }} {{ $j + 1}} Numaralı İlan
+                                                                </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form
+                                                                    action="{{ route('admin.projects.housings.komsumu.gor') }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <input type="hidden" name="no"
+                                                                        value="{{ $i + 1 }}">
+                                                                    <input type="hidden" name="price"
+                                                                        value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
+                                                                    <input type="hidden" name="projectID"
+                                                                        value="{{ $project->id }}">
+                                                                    @if($share_sale)
+                                                                        <div class="form-group">
+                                                                            <label for="qt" class="q-label">Hisse Payı : </label>
+                                                                            <input type="number" class="modal-input" id="hisse_payi" name="hisse_payi" min="0" max="{{$number_of_share}}">
+                                                                        </div>    
+                                                                    @endif    
+                                                                    <div class="form-group">
+                                                                        <label for="surname" class="q-label">Email: </label>
+                                                                        <input type="text" class="modal-input" id="email" name="email" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="surname" class="q-label">Ad Soyad:</label>
+                                                                        <input type="text" class="modal-input" id="name" name="name" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="surname" class="q-label">Telefon:</label>
+                                                                        <input type="number" class="modal-input" id="phone" name="phone" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="surname" class="q-label">TC : </label>
+                                                                        <input type="number" class="modal-input" id="tc" name="tc" maxlength="11" required>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="comment" class="q-label">Adres:</label>
+                                                                        <textarea class="modal-input" id="address" rows="45" style="height: 130px !important;" name="address"
+                                                                            required></textarea>
+                                                                    </div>
+
+                                                                    @if(!$share_sale)
+                                                                    <div class="col-md-12 fl-wrap filter-tags clearfix mt-3 mb-3">
+                                                                        <div class="checkboxes">                        
+                                                                            <div class="filter-tags-wrap ">
+                                                                                <input id="check-b" type="checkbox" name="onay_checkbox">
+                                                                                <label for="check-b" style="font-size: 14px;">                                                     
+                                                                                       Müşteri kişisel bilgilerinin paylaşılması için izin verdi.
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endif
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit"  class="modal-btn-gonder">Gönder</button>
+                                                                        <button type="button" class="modal-btn-kapat" data-bs-dismiss="modal">Kapat</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        @endfor
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -671,79 +857,43 @@
                             </div>
                         </div>
                     </div>
-                    </tr>
-                @endfor
-                </tbody>
-                </table>
-            </div>
-        </div>
-        @php
-            $lastCountx += isset($previousBlockHousingCount) ? $previousBlockHousingCount : $block['housing_count'];
-        @endphp
-        @endforeach
-    @else
-        <div class="table-responsive scrollbar mx-n1 px-1">
-            <table class="table fs--1 mb-0">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Görsel</th>
-                        <th class="sort" data-sort="room_count">İlan Adı</th>
-                        <th class="sort" data-sort="price">Fiyat</th>
-                        <th class="sort" data-sort="price">Taksitli Fiyat</th>
-                        <th class="sort" data-sort="price">Taksit Sayısı</th>
-                        <th class="sort" data-sort="price">Peşinat</th>
-                        <th class="sort" data-sort="sold">Satış Durumu</th>
-                        <th class="sort" data-sort="sold">İşlemler</th>
+                @else
+                    <td class="price">
+                        @if (!$sold || $sold && $sold[0]->status == "2" )
+                            @if(!$share_sale)
+                                <a type="button" class="badge badge-phoenix badge-phoenix-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $i + 1 }}">Komşumu Gör</a><br>
+                            @endif    
+                        @endif
+                     
 
-                    </tr>
-                </thead>
-                <tbody class="list" id="products-table-body">
-                    @for ($i = 0; $i < $project->room_count; $i++)
-                        @php
-                            $sold = DB::select(
-                                'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "project"  AND JSON_EXTRACT(cart, "$.item.housing") = ? AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
-                                [getData($project, 'price[]', $i + 1)->room_order, $project->id],
-                            );
-                            $share_sale = $projectHousingsList[$i + 1]['share_sale[]'] ?? null;
-                            $number_of_share = $projectHousingsList[$i + 1]['number_of_shares[]'] ?? null;
-                        @endphp
+                        {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                                                            class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
+                        <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
+                            class="badge badge-phoenix badge-phoenix-danger">İlanı Sil</a>
+                    </td>
+                @endif
+                <!--KOMŞUMU GOR2 Modal -->
+                <div class="modal fade" id="exampleModal{{ $i + 1 }}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel"> 
+                                    {{ $project->project_title }} Projesinde {{$i + 1}} Numaralı İlan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('admin.projects.housings.komsumu.gor') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="no" value="{{ $i + 1 }}">
+                                    <input type="hidden" name="price"
+                                        value="{{ number_format(getData($project, 'price[]', $i + 1)->value, 0, ',', '.') }}">
+                                    <input type="hidden" name="projectID" value="{{ $project->id }}">
 
-                        <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td class="image">
-                                <div class="image-with-hover">
-                                    <input type="file" class="d-none change-image">
-                                    <div class="image-opa">
-                                        Resmi Güncelle
-                                    </div>
-                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getData($project, 'image[]', $i + 1)->value }}"
-                                        alt="home-1" class="img-responsive"
-                                        style="max-height: 100px !important;max-width:100px;object-fit:cover">
-                                </div>
-                            </td>
-                            <td class="image">
-                                <div class="d-flex" style="align-items: center">
-                                    <div class="input d-none d-flex" style="align-items: flex-start;">
-                                        <textarea class="form-control" style="height: 60px;width:350px;font-size:11px !important;" type="text"
-                                            name="advertise_title[]">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</textarea>
-                                        <span
-                                            class="badge badge-phoenix badge-phoenix-success success-button-table mx-1 cursor-pointer d-flex"
-                                            input-type="textarea" room-order="{{ $i + 1 }}"><i
-                                                class="fa fa-check"></i></span>
-                                        <span
-                                            class="badge badge-phoenix badge-phoenix-danger cancel-button-table mx-1 cursor-pointer d-flex"><i
-                                                class="fa fa-times"></i></span>
-                                    </div>
-                                    <div class="text d-flex" style="align-items: flex-start;">
-                                        <span
-                                            class="value-text">{{ getData($project, 'advertise_title[]', $i + 1)->value }}</span>
-                                        @if ($sold && $sold[0]->status == 1)
-                                        @else
-                                            {{-- <span
-                                                            class="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i
-                                                                class="fa fa-edit"></i></span> --}}
-                                        @endif <br>
+                                    <div class="form-group">
+                                        <label for="surname" class="q-label">Email: </label>
+                                        <input type="text" class="modal-input email_search" id="email_komsumu_gor" name="email">
                                     </div>
 
                                 </div>
