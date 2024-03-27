@@ -246,7 +246,6 @@
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
                                 
-                                {{dd($order->share)}}
                                 @if (isset($order->share))
                                     <select onchange="submitFormPriceAndShare(this)">
                                         <option value="{{ route('admin.approve-share', ['share' => $order->share->id]) }}" @if($order->share->status == 1) selected @endif>Hakedişleri Onayla</option>
