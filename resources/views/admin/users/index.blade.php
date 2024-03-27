@@ -60,12 +60,12 @@
                         }
                     </style>
 
-                    <div class="pb-6">
+                    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top bg-white border-bottom border-translucent position-relative top-1">
                         <div id="lealsTable"
                             data-list='{"valueNames":["name","email","phone","contact","company","date"],"page":20,"pagination":true}'>
 
 
-                            <div class="table-responsive scrollbar mx-n1 px-1 border-top">
+                            <div class="table-responsive scrollbar mx-n1 px-1">
                                 <table class="table fs--1 mb-0 leads-table">
                                     <thead>
                                         <tr>
@@ -123,7 +123,7 @@
                                                     </div><span>İl & İlçe</span>
                                                 </div>
                                             </th> --}}
-                                            <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
+                                            <th class="sort align-middle ps-4 pe-5 text-uppercase " scope="col"
                                                 data-sort="contact" style="width:15%;">İşlemler</th>
 
                                         </tr>
