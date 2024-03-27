@@ -34,6 +34,41 @@ class ProfileController extends Controller
         
     }
 
+    public function orderDetail($id)
+    {
+        $order = CartOrder::where('id', $id)->first();
+
+        return view('institutional.orders.detail', compact('order'));
+    }
+
+    public function upload(Request $request)
+    {
+
+        // dd($request->all());
+        // PDF dosyasını al
+        $pdfFile = $request->file('pdf_file');
+        // Gelen requestten order_id'yi alın
+        $order_id = $request->order_id;
+
+        // İlgili CartOrder'ı bulun
+        $cartOrder = CartOrder::find($order_id);
+
+        // Dosya yüklendiyse devam et
+        if ($pdfFile && $cartOrder) {
+            // Dosyayı belirtilen dizine kaydet (örneğin: storage/app/pdf)
+            $pdfPath = $pdfFile->store('contract-pdf', 'local');
+
+            // Veritabanında bir kayıt oluşturmak isterseniz
+            $cartOrder->filename = $pdfFile->getClientOriginalName(); // Dosya adını alabilirsiniz
+            $cartOrder->path = $pdfPath; // Dosya yolunu kaydedin
+            $cartOrder->save();
+
+            return redirect()->back()->with('success', 'PDF dosyası başarıyla yüklendi.');
+        } else {
+            return redirect()->back()->with('error', 'PDF dosyası yüklenirken bir hata oluştu.');
+        }
+    }
+
     public function cartOrderDetail(CartOrder $order)
     {
         $cartOrders = CartOrder::where('user_id', auth()->user()->id)->where("id",$order->id)->with("invoice")->orderBy("id", "desc")->get();
