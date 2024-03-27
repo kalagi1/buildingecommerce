@@ -39,7 +39,8 @@
                         class="btn btn-success set_status">Aktife Al</a>
                 @endif
                 <a class="btn btn-primary mb-2 mb-sm-0 download_document"
-                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Emlak Belgesini İndir</a>
+                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter Sözleşmesini İndir</a>
+                    <a class="btn btn-primary mb-2 mb-sm-0 download_document" href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}" download>Yetki Belgesi İndir</a>
             </div>
         </div>
         <div class="row g-5">
