@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string("website")->nullable();
+        Schema::table('housings', function (Blueprint $table) {
+            $table->unsignedBigInteger('views_count')->default(0);
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('housings', function (Blueprint $table) {
             //
         });
     }

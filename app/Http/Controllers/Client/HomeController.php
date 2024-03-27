@@ -96,6 +96,7 @@ class HomeController extends Controller
                 'project_list_items.column4_additional as column4_additional',
                 'housings.address',
                 \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
+                \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                 'cities.title AS city_title',
                 'districts.ilce_title AS county_title',
                 'neighborhoods.mahalle_title AS neighborhood_title',
@@ -109,6 +110,7 @@ class HomeController extends Controller
             ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
             ->where('housings.status', 1)
             ->where('project_list_items.item_type', 2)
+            ->orderByDesc('doping_time')
             ->orderByDesc('housings.created_at')
             ->limit(20)
             ->get();
@@ -536,6 +538,7 @@ class HomeController extends Controller
                 'project_list_items.column3_additional as column3_additional',
                 'project_list_items.column4_additional as column4_additional',
                 \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housing" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housings.housing_type_id = 0) as doping_time'),
             )
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
@@ -968,6 +971,7 @@ class HomeController extends Controller
                     'project_list_items.column4_additional as column4_additional',
                     'housings.address',
                     \Illuminate\Support\Facades\DB::raw('(SELECT cart FROM cart_orders WHERE JSON_EXTRACT(housing_type_data, "$.type") = "housing" AND JSON_EXTRACT(housing_type_data, "$.item.id") = housings.id) AS sold'),
+                    \Illuminate\Support\Facades\DB::raw('(SELECT created_at FROM stand_out_users WHERE item_type = 2 AND item_id = housings.id AND housing_type_id = 0) as doping_time'),
                     'cities.title AS city_title', // city tablosundan veri çekme
                     'districts.ilce_title AS county_title' // district tablosundan veri çekme
                 )
@@ -997,6 +1001,7 @@ class HomeController extends Controller
                         ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = housings.id')
                         ->where('status', "!=", 1);
                 })
+                ->orderByDesc('doping_time')
                 ->orderByDesc('housings.created_at')
                 ->paginate(12),
 
