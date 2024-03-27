@@ -446,7 +446,7 @@
                                                                         <div class="modal-dialog">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="hisseliSatisModalLabel{{ $j + 1}}">Hisse Sipariş Detay</h5>
+                                                                                    <h5 class="modal-title" id="hisseliSatisModalLabel{{ $j + 1}}">{{ $j + 1 }} Numaralı Hisse Sipariş Detay  </h5>
                                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                 </div>
                                                                                 <div class="modal-body">
@@ -551,7 +551,7 @@
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title text-center mx-auto"
                                                                     id="exampleModalLabel">
-                                                                    {{ getData($project, 'advertise_title[]', $i + 1)->value }}
+                                                                    {{ $project->project_title }} Projesinde  {{ $block['block_name'] }} {{ $j + 1}} Numaralı İlan
                                                                 </h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
@@ -997,8 +997,8 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">
-                                    {{ getData($project, 'advertise_title[]', $i + 1)->value }}</h5>
+                                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel"> 
+                                    {{ $project->project_title }} Projesinde {{$i + 1}} Numaralı İlan</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
