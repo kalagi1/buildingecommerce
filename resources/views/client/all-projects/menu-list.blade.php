@@ -821,6 +821,7 @@
                             </div>
                         </div>
                         <div id="sorting-options" class="d-flex align-items-center ml-0 ml-md-auto mr-md-0">
+                            @if ($secondhandHousings)
                             <div class="mobile-hidden">
                                 <a href="#" id="grid-view-btn" class="change-view-btn active-view-btn"
                                     onclick="changeView('grid')">
@@ -832,6 +833,7 @@
                                 </a>
 
                             </div>
+                            @endif
                             <div onclick="$('.filters-input-area').slideToggle();" class="d-lg-none"
                                 style="    background: #f0f0f0 !important;
                               padding: 6px;
