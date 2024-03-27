@@ -360,7 +360,11 @@
                                             project-id="{{ $project->id }}"
                                             data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                            data-payment-order="{{ $keyIndex }}">
+                                            data-payment-order="   @if (isset($blockStart) && $blockStart)
+                                            {{ $i - $blockStart + 1 }}
+                                        @else
+                                            {{ $i + 1 }}
+                                        @endif">
                                             Ödeme Detayı
                                         </button>
                                     @endif
@@ -381,7 +385,11 @@
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}" data-block="{{ $blockName }}"
                                             data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
-                                            order="{{ $keyIndex }}" data-payment-order="{{ $keyIndex }}">
+                                            order="{{ $keyIndex }}" data-payment-order="   @if (isset($blockStart) && $blockStart)
+                                            {{ $i - $blockStart + 1 }}
+                                        @else
+                                            {{ $i + 1 }}
+                                        @endif">
 
                                             Ödeme Detayı
                                         </button>
