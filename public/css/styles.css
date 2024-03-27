@@ -8839,7 +8839,7 @@ a.button {
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 400px;
+    width: 300px;
 }
 
 @media screen and (max-width: 991px) {
@@ -29945,6 +29945,20 @@ textarea::placeholder {
 a {
     text-decoration: none !important;
 }
+
+   .newButtonStyle{
+    background-color: white !important;
+    position: relative;
+    width: 150px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #EA2B2E;
+    justify-content: center;
+    border: 1px solid #EA2B2E;
+    }
+
 
 .buyUserRequest {
     position: relative;

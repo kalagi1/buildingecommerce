@@ -677,7 +677,11 @@
                                                 $text = 'Sat Kirala';
                                         }
                                     @endphp
-
+                                    <a href="{{ url('/emlak-kulup') }}">
+                                        <button type="button" class=" newButtonStyle ml-2">
+                                            <span class="buyUserRequest__text newButtonStyle__text"> Emlak Kulüp</span>
+                                        </button>
+                                    </a>
                                     <a href="{{ $link }}">
                                         <button type="button" class="buyUserRequest ml-3">
                                             <span class="buyUserRequest__text">{{ $text }}</span>
@@ -688,6 +692,11 @@
                                     </a>
                                 @else
                                     @auth
+                                        <a href="{{ url('/emlak-kulup') }}">
+                                            <button type="button" class=" newButtonStyle ml-4">
+                                                <span class="buyUserRequest__text newButtonStyle__text"> Emlak Kulüp</span>
+                                            </button>
+                                        </a>
                                         <a href="{{ route('real.estate.index') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> Sat Kirala</span>
@@ -697,6 +706,11 @@
                                             </button>
                                         </a>
                                     @else
+                                        <a href="{{ url('/emlak-kulup') }}">
+                                            <button type="button" class=" newButtonStyle ml-4">
+                                                <span class="buyUserRequest__text newButtonStyle__text"> Emlak Kulüp</span>
+                                            </button>
+                                        </a>
                                         <a href="{{ url('/sat-kirala-nedir') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> Sat Kirala</span>
@@ -707,7 +721,6 @@
                                         </a>
                                     @endauth
                                 @endif
-
 
 
 
@@ -746,7 +759,7 @@
                                     </a>
                                 </li>
                             @endforeach --}}
-                            <li class="club-items">
+                            {{-- <li class="club-items">
                                 <a href="{{ url('/emlak-kulup') }}">
                                     <b style="font-weight:800 !important;display:flex">
                                         <img style="" class="lazy entered loading clubStyles"
@@ -754,7 +767,7 @@
                                             data-ll-status="loading">
                                         EMLAK KULÜP</b>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
                 </div>
