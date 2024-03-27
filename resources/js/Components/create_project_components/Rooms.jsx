@@ -3,11 +3,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { dotNumberFormat } from '../../define/variables';
-import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
+import { Alert, Checkbox, FormControlLabel, Switch, Tooltip } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
+import { toast } from 'react-toastify';
 
-function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
+function Rooms({formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,selectedRoom,setSelectedRoom,blocks,setBlocks,roomCount,setRoomCount,selectedHousingType}) {
     const [validationErrors,setValidationErrors] = useState([]);
     var formData = JSON.parse(selectedHousingType?.housing_type?.form_json);
     const [rendered,setRendered] = useState(0);
@@ -15,18 +16,22 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
 
 
     const setRoomCountFunc = (event) => {
-        setBlocks([
-            {
-                name : "none",
-                roomCount : roomCount,
-                rooms : [
-                    {}
-                ]
-            }
-        ]);
-
-        setSelectedBlock(0);
-        setSelectedRoom(0)
+        if(roomCount > 0){
+            setBlocks([
+                {
+                    name : "none",
+                    roomCount : roomCount,
+                    rooms : [
+                        {}
+                    ]
+                }
+            ]);
+    
+            setSelectedBlock(0);
+            setSelectedRoom(0)
+        }else{
+            toast.error("Lütfen geçerli bir konut sayısı giriniz");
+        }
     }
 
     const blockDataSet = (blockIndex,keyx,value) => {
@@ -180,7 +185,7 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                 <div className="block-list mt-3">
                     <label htmlFor="">Projedeki İlan Sayısı</label>
                     <div className='d-flex'>
-                        <input type="text" style={{width:'150px'}} name="" className='form-control' value={roomCount} onChange={(e) => {setRoomCount(e.target.value)}} id="" />
+                        <input type="number" min={0} style={{width:'150px'}} name="" className='form-control' value={roomCount == 0 ? "" : roomCount} onChange={(e) => {setRoomCount(e.target.value)}} id="" />
                         <span id="generate_tabs" style={{width:'230px',justifyContent:'center'}} onClick={setRoomCountFunc} className="mx-2 d-flex btn btn-primary has_blocks-close">İlan Formunu Oluştur</span>
                     </div>
                 </div>
@@ -193,7 +198,19 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                                         if(data.type == "text"){
                                             return(
                                                 <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                    <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                    <label className='font-bold' htmlFor="">
+                                                        <div className="d-flex">
+                                                            {data.label} 
+                                                            {
+                                                                data.description != undefined ? 
+                                                                    <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                        <div><i className='fa fa-circle-info'></i></div>
+                                                                    </Tooltip>
+                                                                : ""
+                                                            }
+                                                            {data.required ? <span className='required-span'>*</span> : ""}
+                                                        </div>
+                                                    </label>
                                                     {
                                                         data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                             <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
@@ -205,7 +222,19 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                                         }else if(data.type == "select"){
                                             return(
                                                 <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                    <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                    <label className='font-bold' htmlFor="">
+                                                        <div className="d-flex">
+                                                            {data.label} 
+                                                            {
+                                                                data.description != undefined ? 
+                                                                    <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                        <div><i className='fa fa-circle-info'></i></div>
+                                                                    </Tooltip>
+                                                                : ""
+                                                            }
+                                                            {data.required ? <span className='required-span'>*</span> : ""}
+                                                        </div>
+                                                    </label>
                                                     <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                         {
                                                             data.values.map(valueSelect => {
@@ -222,7 +251,19 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                                                 return(
                                                     <div>
                                                         <div>
-                                                            <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                            <label className='mt-3 font-bold' htmlFor="">
+                                                                <div className="d-flex">
+                                                                    {data.label} 
+                                                                    {
+                                                                        data.description != undefined ? 
+                                                                            <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                <div><i className='fa fa-circle-info'></i></div>
+                                                                            </Tooltip>
+                                                                        : ""
+                                                                    }
+                                                                    {data.required ? <span className='required-span'>*</span> : ""}
+                                                                </div>
+                                                            </label>
                                                             <div className="checkbox-groups" id={data?.name.replace('[]','')}>
                                                                 <div className="row">
                                                                     {
@@ -287,7 +328,7 @@ function Rooms({allErrors,anotherBlockErrors,selectedBlock,setSelectedBlock,sele
                     : ""
                 }
             </div>
-            <RoomNavigator haveBlock={false} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
+            <RoomNavigator formDataHousing={formDataHousing} haveBlock={false} validationErrors={validationErrors} setValidationErrors={setValidationErrors} formData={formData} selectedBlock={selectedBlock} blocks={blocks} setBlocks={setBlocks} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom}/>
             
             <PayDecModal open={payDecOpen} blocks={blocks} setBlocks={setBlocks} selectedBlock={selectedBlock} selectedRoom={selectedRoom} setOpen={setPayDecOpen}/>
         </div>

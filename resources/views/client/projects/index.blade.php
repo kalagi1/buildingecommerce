@@ -106,15 +106,19 @@
                             <div class="carousel-inner">
                                 {{-- Kapak Görseli --}}
                                 <div class="item carousel-item active" data-slide-number="0" style="position: absolute">
-                                    <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" data-lightbox="project-images">
-                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}" class="img-fluid" alt="slider-listing">
+                                    <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                        data-lightbox="project-images">
+                                        <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
+                                            class="img-fluid" alt="slider-listing">
                                     </a>
                                 </div>
 
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
-                                        <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}" data-lightbox="project-images">
-                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}" class="img-fluid" alt="slider-listing">
+                                        <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
+                                            data-lightbox="project-images">
+                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
+                                                class="img-fluid" alt="slider-listing">
                                         </a>
                                     </div>
                                 @endforeach
@@ -562,7 +566,14 @@
                                                     }
                                                 @endphp
 
-                                                @if (!$isArrayCheck && isset($value) && $value !== '' && $housingSetting->label != 'Fiyat')
+                                                @if (
+                                                    !$isArrayCheck &&
+                                                        isset($value) &&
+                                                        $value !== '' &&
+                                                        $housingSetting->label != 'Fiyat' &&
+                                                        $housingSetting->label != 'Günlük Fiyat' &&
+                                                        $housingSetting->label != 'Peşin Fiyat' &&
+                                                        $housingSetting->label != 'Taksitli Toplam Fiyat ')
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $housingSetting->label }}:</span>

@@ -386,66 +386,6 @@ function CreateProject(props) {
         return roomCount;
     }
 
-    const saveTemp = () => {
-        const formData = new FormData();
-
-        Object.keys(projectData).forEach(key => {
-            if(!key.includes('_imagex') && !key.includes('_imagesx')){
-                if(Array.isArray(projectData[key])){
-                    projectData[key].forEach((data,index) => {
-                        formData.append(`projectData[${key}][${index}]`, data);
-                    })
-                }else{
-                    formData.append(`projectData[${key}]`, projectData[key]);
-                }
-            }
-            
-        })
-
-        blocks.forEach((block, blockIndex) => {
-            formData.append(`blocks[${blockIndex}][name]`, block.name);
-            formData.append(`blocks[${blockIndex}][roomCount]`, block.roomCount);
-        });
-
-        var housingTemp = 1;
-        blocks.forEach((block, blockIndex) => {
-            block.rooms.forEach((room, roomIndex) => {
-                Object.keys(room).forEach(key => {
-                    if(key == "payDecs"){
-                        room.payDecs.forEach((payDec,payDecIndex) => {
-                            formData.append(`blocks[${blockIndex}][rooms][${roomIndex}][payDecs][${payDecIndex}][price]`, payDec.price);
-                            formData.append(`blocks[${blockIndex}][rooms][${roomIndex}][payDecs][${payDecIndex}][date]`, payDec.date);
-                        })
-                    }else{
-                        if(!key.includes('imagex')){
-                            formData.append(`blocks[${blockIndex}][rooms][${roomIndex}][${key.replace('[]','')}]`, room[key]);
-                        }
-                    }
-                });
-
-                housingTemp++;
-            });
-        });
-
-        formData.append('haveBlocks',haveBlocks);
-        formData.append('totalRoomCount',totalRoomCount());
-        selectedTypes.forEach((data,index) => {
-            formData.append(`selectedTypes[${index}]`,data)
-        })
-
-        var housingTemp = 1;
-
-        axios.post(baseUrl+'save_template',formData,{
-            headers: {
-                'accept': 'application/json',
-                'Accept-Language': 'en-US,en;q=0.8',
-                'Content-Type': `multipart/form-data;`,
-            }
-        }).then((res) => {
-            console.log(res);
-        })
-    }
-
     return(
         <>
             <TopCreateProjectNavigator step={step} setStep={setStep}/>
@@ -466,7 +406,7 @@ function CreateProject(props) {
                 step == 1 ? 
                     <TypeList setSelectedHousingType={setSelectedHousingType} selectedHousingType={selectedHousingType} housingTypes={housingTypes} setHousingTypes={setHousingTypes} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes} nextStep={nextStep} />
                 :  step == 2 ?
-                    <ProjectForm anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
+                    <ProjectForm formDataHousing={JSON.parse(selectedHousingType?.housing_type?.form_json)} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} allErrors={allErrors} createProject={createProject} selectedHousingType={selectedHousingType} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount} haveBlocks={haveBlocks} setHaveBlocks={setHaveBlocks} setProjectData={setProjectData} projectData={projectData} setProjectDataFunc={setProjectDataFunc} />
                 : 
                     <EndSection/>
             }

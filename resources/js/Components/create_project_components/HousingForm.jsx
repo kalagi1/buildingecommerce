@@ -94,7 +94,8 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0"
+        googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
+        language : "tr"
     })
 
     const onLoad = useCallback(function callback(map) {
