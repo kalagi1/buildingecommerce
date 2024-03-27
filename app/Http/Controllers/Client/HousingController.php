@@ -96,7 +96,6 @@ class HousingController extends Controller {
     }
 
     public function show( $housingSlug, $housingID ) {
-
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
@@ -110,6 +109,7 @@ class HousingController extends Controller {
         $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
         ->where( 'id', $realHousingID )
         ->where( 'status', 1 )->first();
+        $housing->increment('views_count');
 
         if ( $housing ) {
 
