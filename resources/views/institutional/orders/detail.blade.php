@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('institutional.layouts.master')
 
 @section('content')
     @php
@@ -18,9 +18,12 @@
         ];
     @endphp
     <div class="content">
+
+
         <div class="breadcrumb">
             <ul>
-                <li><i class="fa fa-home"></i> Yönetim Paneli</li>
+                {{-- bireysel ise  hesabım kurumsal ise  mağazam  --}}
+                <li><i class="fa fa-home"></i> {{ $userType = Auth::user()->type == 1 ? 'Hesabım' : 'Mağazam' }}</li>
                 <li>Siparişler</li>
                 <li>Tüm Siparişler</li>
                 <li>#{{ $order->id + 3000000 }} Nolu Sipariş Detayı</li>
@@ -30,7 +33,9 @@
             <div class="col-12 col-xl-8 col-xxl-9">
                 <div class="card p-3">
                     <div>
-                        <a href="{{route('admin.orders')}}" class="button-back"><i class="fa fa-angle-left"></i> Geri Dön</a>
+                        <a href="{{ redirect()->back()->getTargetUrl() }}" class="button-back"><i class="fa fa-angle-left"></i>
+                            Geri
+                            Dön</a>
                     </div>
                     <div class="order-detail-content mt-3">
                         <h5>#{{ $order->id + 3000000 }} Nolu Sipariş Detayı</h5>
@@ -48,7 +53,6 @@
                                     @endif
                                 </span>
                             </div>
-                            
                         </div>
                         <div class="order-detail-inner mt-3 px-3 py-3">
                             <div class="row">
@@ -60,39 +64,35 @@
                                     <p>Sipariş Tarihi</p>
                                     <span><strong>{{ date('d', strtotime($order->created_at)) . ' ' . $months[date('n', strtotime($order->created_at)) - 1] . ' ' . date('Y , H:i', strtotime($order->created_at)) }}</strong></span>
                                 </div>
-
-
+                                
+                                
                                 @php
-                                    $orderCart = json_decode($order->cart, true);
+                                    $orderCart = json_decode($order->cart, true) 
                                 @endphp
-                                <div class="col-md-4 text-center">
-                                    <p>İlan No</p>
+                            <div class="col-md-4 text-center">
+                                <p>İlan No</p>
 
-                                    <a
-                                        href="{{ $orderCart['type'] == 'housing'
-                                            ? route('housing.show', [
-                                                'housingSlug' => $orderCart['item']['slug'],
-                                                'housingID' => $orderCart['item']['id'] + 2000000,
-                                            ])
-                                            : route('project.housings.detail', [
-                                                'projectSlug' =>
-                                                    optional(App\Models\Project::find($orderCart['item']['id']))->slug .
-                                                    '-' .
-                                                    optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
-                                                    '-' .
-                                                    optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
-                                                'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
-                                                'housingOrder' => $orderCart['item']['housing'],
-                                            ]) }}">
-                                        {{ $order->key }}
-                                    </a>
-                                </div>
+                                <a href="{{ $orderCart['type'] == 'housing'
+                                    ? route('housing.show', ['housingSlug' => $orderCart['item']['slug'], 'housingID' => $orderCart['item']['id'] + 2000000])
+                                    : route('project.housings.detail', [
+                                        'projectSlug' => optional(App\Models\Project::find($orderCart['item']['id']))->slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
+                                            '-' .
+                                            optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
+                                        'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
+                                        'housingOrder' => $orderCart['item']['housing'],
+                                    ]) }}">
+                                    {{$order->key}} 
+                                </a>
+                            </div>
                                 {{-- <div class="col-md-3">
                                     <p>Ödeme Yöntemi</p>
                                     <span><strong>Havale/Eft</strong></span>
                                 </div> --}}
                             </div>
                         </div>
+                      
 
                         <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
@@ -129,6 +129,7 @@
 
                             </div>
                         </div>
+
                         <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
                                 <i class="fa fa-shopping-bag"></i>
@@ -164,10 +165,11 @@
                                 <h4>Sipariş Notları </h4>
                             </div>
                             <div class="row py-3 px-3">
-                                <textarea name="" class="form-control" style="height: 150px" id="" cols="30" rows="10"
-                                    readonly>{{ $order->notes }}</textarea>
+                                <textarea name="" class="form-control" style="height: 150px" id="" cols="30" rows="10" readonly>{{ $order->notes }}</textarea>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
 
@@ -175,7 +177,7 @@
             <div class="col-12 col-xl-4 col-xxl-3">
 
 
-                <div class="row">
+                <div class="row mt-3">
 
                     <div class="col-12">
                         <div class="card mb-3">
@@ -205,6 +207,14 @@
                                         <p class="text-body fw-semibold">Kapora Yüzdesi:</p>
                                         <p class="text-body-emphasis fw-semibold">%2</p>
                                     </div>
+                                    {{-- <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Subtotal :</p>
+                                        <p class="text-body-emphasis fw-semibold">$665</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Shipping Cost :</p>
+                                        <p class="text-body-emphasis fw-semibold">$30</p>
+                                    </div> --}}
                                 </div>
                                 <div
                                     class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
@@ -223,114 +233,81 @@
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
 
-                                    <select class="form-select mb-4"  name="status" id="status" onchange="submitForm()">
-                                        <option value="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}" @if($order->status == 1) selected @endif>İlan Satışını Onayla</option>
-                                        <option value="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}" @if($order->status != 1) selected @endif>İlan Satışını Reddet</option>
-                                    </select>
-                                    
-                                    <form id="status-form" action="#" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                            
+                                    <span class="text-success">
+
+                                        {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
+                                        {!! [
+                                            '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
+                                                                                                                                                                                                                                                                    class="badge-label">Rezerve Edildi</span><svg
+                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                </svg>',
+                                            '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
+                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                </svg>',
+                                            '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
+                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><svg
+                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                </svg>',
+                                        ][$order->status] !!}
+                                    </span>
+
+
 
                                 </div>
-
+                                
+                                {{-- <h6 class="mb-2">Fulfillment status</h6><select class="form-select"
+                                    aria-label="delivery type">
+                                    <option value="cod">Unfulfilled</option>
+                                    <option value="card">Fulfilled</option>
+                                    <option value="paypal">Pending</option>
+                                </select> --}}
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="col-12 mb-3">
+
+                    @if(Auth::check() && Auth::user()->type == 2)
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title mb-4">Hakediş Durumu</h3>
+                                <h3 class="card-title mb-4">Sözleşme Ekleme</h3>
                                 <h6 class="mb-2"></h6>
-                                <div class="order_status">
-                                
-                                {{dd($order->share)}}
-                                @if (isset($order->share))
-                                    <select onchange="submitFormPriceAndShare(this)">
-                                        <option value="{{ route('admin.approve-share', ['share' => $order->share->id]) }}" @if($order->share->status == 1) selected @endif>Hakedişleri Onayla</option>
-                                        <option value="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}" @if($order->share->status != 1) selected @endif>Hakedişleri Reddet</option>
-                                     </select>
-                                
-                                    <form id="status-form" action="#" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                              @endif
-                                 
-                                 @if (isset($order->price))
-                                 <select onchange="submitFormPriceAndShare(this)">
-                                    <option value="{{ route('admin.approve-price', ['price' => $order->price->id]) }}" @if($order->price->status == 1) selected @endif>Hakedişleri Onayla</option>
-                                    <option value="{{ route('admin.unapprove-price', ['price' => $order->price->id]) }}" @if($order->price->status != 1) selected @endif>Hakedişleri Reddet</option>
-                                </select>
-                                
-                                <form id="status-form" action="#" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                             @endif
-                             
 
+                                <div class="order_status">
+    
+                                    <form action="{{ route('institutional.contract.upload.pdf') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}"> 
+                                        <input class="" type="file" placeholder="test" name="pdf_file">
+                                        <button class="btn btn-phoenix-success me-1 mb-1 mt-3" type="submit">Yükle</button>
+                                    </form>
                                     
                                 </div>
-
                             </div>
                         </div>
                     </div>
+                @endif
+                
+
+                   
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
-
-<script>
-    // function submitForm() {
-    //     var form = document.getElementById("status-form");
-    //     var select = document.getElementById("status");
-    //     var selectedOption = select.options[select.selectedIndex];
-
-    //     if (selectedOption.value) {
-    //         form.action = selectedOption.value;
-    //         form.submit();
-    //     }
-    // }
-
-    function submitFormPriceAndShare(select) {
-    var form = document.getElementById("status-form");
-    var selectedOption = select.options[select.selectedIndex];
-
-    if (selectedOption.value) {
-        var actionText = selectedOption.text.includes("Onayla") ? "Onaylamak" : "Reddetmek";
-        if (confirm("İşlemi " + actionText + " istediğinize emin misiniz?")) {
-            form.action = selectedOption.value;
-            form.submit();
-        }
-    }
-}
-
-
-    
-    function submitForm(){
-        var form = document.getElementById("status-form");
-        var select = document.getElementById("status");
-        var selectedOption = select.options[select.selectedIndex];
-
-        if (selectedOption.value) {
-            var actionText = "";
-            if (selectedOption.text.includes("Onayla")) {
-                actionText = "Onaylamak";
-            } else if (selectedOption.text.includes("Reddet")) {
-                actionText = "Reddetmek";
-            }
-
-            if (confirm("İşlemi " + actionText + " istediğinize emin misiniz?")) {
-                form.action = selectedOption.value;
-                form.submit();
-            }
-        }
-    }
-</script>
 
 @endsection
 

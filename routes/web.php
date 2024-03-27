@@ -335,15 +335,15 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
-        Route::get('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
-        Route::get('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
+        Route::post('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
+        Route::post('/order/unapprove/{cartOrder}', [AdminHomeController::class, 'unapproveOrder'])->name('unapprove-order');
 
-        Route::get('/share/approve/{share}', [AdminHomeController::class, 'approveShare'])->name('approve-share');
-        Route::get('/share/unapprove/{share}', [AdminHomeController::class, 'unapproveShare'])->name('unapprove-share');
+        Route::post('/share/approve/{share}', [AdminHomeController::class, 'approveShare'])->name('approve-share');
+        Route::post('/share/unapprove/{share}', [AdminHomeController::class, 'unapproveShare'])->name('unapprove-share');
 
 
-        Route::get('/price/approve/{price}', [AdminHomeController::class, 'approvePrice'])->name('approve-price');
-        Route::get('/price/unapprove/{price}', [AdminHomeController::class, 'unapprovePrice'])->name('unapprove-price');
+        Route::post('/price/approve/{price}', [AdminHomeController::class, 'approvePrice'])->name('approve-price');
+        Route::post('/price/unapprove/{price}', [AdminHomeController::class, 'unapprovePrice'])->name('unapprove-price');
 
 
         Route::get('/reservation/approve/{reservation}', [AdminHomeController::class, 'approveReservation'])->name('approve-reservation');
@@ -1043,7 +1043,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/my-orders', [ClientPanelProfileController::class, "cartOrders"])->name('profile.cart-orders');
         Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "show"])->name('invoice.show');
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
-
+        Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
+        Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
     });
 
 });
