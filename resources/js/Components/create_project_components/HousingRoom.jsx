@@ -139,7 +139,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
     return(
         <div className='card pt-0 p-3 mt-3'  style={{position:'relative'}}>
             <div  id='housing-forms'>
-                <h6 className='block-title'>İlan Detayları</h6>
                 {
                     anotherBlockErrors.length > 0 ?
                         <Alert icon={false} severity="error">
@@ -159,7 +158,7 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                 }
                 {
                     blocks.length > 0 ? 
-                        <div className="housing-form mt-7">
+                        <div className="housing-form mt-3">
                             {
                                 formData.map((data) => {
                                     if(slug == "satilik" && !data?.className?.split(' ').find(((classx) => classx == "project-disabled"))){
@@ -216,10 +215,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         }
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
-                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
-                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
                                                             </div>
                                                         </div>
                                                     )
@@ -313,10 +308,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
-                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
-                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
-                                                            </div>
                                                         </div>
                                                     )
                                                 }else{
@@ -408,10 +399,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         }
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
-                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
-                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
                                                             </div>
                                                         </div>
                                                     )
@@ -505,10 +492,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
-                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
-                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
-                                                            </div>
                                                         </div>
                                                     )
                                                 }else{
@@ -600,10 +583,6 @@ function HousingRoom({slug,allErrors,anotherBlockErrors,selectedBlock,setSelecte
                                                                         }
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className={"pay-decs mb-3 mt-3 "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) ? "d-none" : "")}>
-                                                                <label htmlFor="" className='font-bold'>Ödeme Planı</label>
-                                                                <button className="btn btn-primary d-block" onClick={() => {setPayDecOpen(true)}}>Ödeme Planını Yönet ({blocks[selectedBlock]?.rooms[selectedRoom] ? blocks[selectedBlock]?.rooms[selectedRoom]?.payDecs?.length : 0})</button>
                                                             </div>
                                                         </div>
                                                     )

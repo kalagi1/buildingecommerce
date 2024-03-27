@@ -1,6 +1,7 @@
 import { Box, Modal } from '@mui/material'
 import React, { useEffect } from 'react'
 import { dotNumberFormat } from '../../define/variables';
+import { toast } from 'react-toastify';
 function PayDecModal({open,setOpen,blocks,setBlocks,selectedBlock,selectedRoom}) {
     const style = {
         position: 'absolute',
@@ -153,12 +154,69 @@ function PayDecModal({open,setOpen,blocks,setBlocks,selectedBlock,selectedRoom})
         setBlocks(newDatas);
     }
 
+    const savePayDecs = () => {
+        var error = false;
+
+        blocks[selectedBlock].rooms[selectedRoom].payDecs.map(payDec => {
+            if(payDec.price == ""){
+                error = true;
+            }
+
+            if(payDec.date == ""){
+                error = true;
+            }
+        })
+
+        if(error){
+            toast.error("Arama ödemeler tamamen doldurulmalıdır");
+        }else{
+            setOpen(false);
+        }
+    }
+
+    const removeNonFull = () => {
+        var tempPayDecs = [];
+
+        blocks[selectedBlock].rooms[selectedRoom].payDecs.map(payDec => {
+            if(payDec.price != "" && payDec.date != ""){
+                tempPayDecs.push(payDec);
+            }
+        })
+
+        var newDatas = blocks.map((block,key) => {
+            if(selectedBlock == key){
+                var newData2 = block.rooms.map((room,keyRoom) => {
+                    if(keyRoom == selectedRoom){
+                        return {
+                            ...room,
+                            payDecs : tempPayDecs
+                        }
+                    }else{
+                        return room;
+                    }
+                })
+
+                return {
+                    ...block,
+                    rooms : [
+                        ...newData2
+                    ]
+                }
+            }else{
+                return block;
+            }
+        })
+
+        setBlocks(newDatas);
+        setOpen(false);
+    }
+
 
     return(
         <div>
             <Modal
                 open={open}
-                onClose={() => {setOpen(false)}}
+                onClose={() => {removeNonFull();}}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -178,11 +236,11 @@ function PayDecModal({open,setOpen,blocks,setBlocks,selectedBlock,selectedRoom})
                                                     <button onClick={() => {removePayDec(payDecIndexLo)}} className="btn btn-primary remove-pay-dec"><i className="fa fa-trash"></i></button>
                                                 </div>
                                                 <div className="flex-10">
-                                                    <label for="">Ara Ödeme </label>
+                                                    <label for=""><strong>{payDecIndexLo + 1}. Ara Ödeme</strong> </label>
                                                     <input onChange={(e) => {changePayDecData(payDecIndexLo,'price',dotNumberFormat(e.target.value))}} type="text" value={payDec.price} className="form-control"/>
                                                 </div>
                                                 <div className="flex-10">
-                                                    <label for="">Ara Ödeme Tarihi</label>
+                                                    <label for=""><strong>{payDecIndexLo + 1}. Ara Ödeme Tarihi</strong></label>
                                                     <input onChange={(e) => {changePayDecData(payDecIndexLo,'date',e.target.value)}} type="date" value={payDec.date} className="form-control"/>
                                                 </div>
                                             </div>
@@ -194,7 +252,7 @@ function PayDecModal({open,setOpen,blocks,setBlocks,selectedBlock,selectedRoom})
                         </div>
                     </div>
 
-                    <button className='btn btn-primary mt-2' onClick={() => {setOpen(false)}}>Kaydet</button>
+                    <button className='btn btn-primary mt-2' onClick={() => {savePayDecs()}}>Kaydet</button>
                 </Box>
             </Modal>
         </div>

@@ -203,9 +203,13 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                     :
                         projectData[fileName+'_imagex'] || projectData[fileName+'_imagesx'] || imageLoading ?
                             <div>
-                                <span className='d-block badge badge-phoenix badge-phoenix-success inline-block' style={{marginTop:'20px'}}>
-                                    Yüklenen Resim Sayısı : {(projectData[fileName+'_imagesx'] ? projectData[fileName+'_imagesx'].length : 0) + (imageLoading ? uploadingOrder[0].length : 0 )} / 40
-                                </span>
+                                {
+                                    multiple ? 
+                                        <span className='d-block badge badge-phoenix badge-phoenix-success inline-block' style={{marginTop:'20px'}}>
+                                            Yüklenen Resim Sayısı : {(projectData[fileName+'_imagesx'] ? projectData[fileName+'_imagesx'].length : 0) + (imageLoading ? uploadingOrder[0].length : 0 )} / 40
+                                        </span>
+                                    : ''
+                                }
                                 <div className="cover-photo">
                                     {
                                         multiple ? 

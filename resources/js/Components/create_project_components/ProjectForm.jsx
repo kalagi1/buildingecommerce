@@ -260,10 +260,10 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                         <Rooms formDataHousing={formDataHousing} anotherBlockErrors={anotherBlockErrors} selectedBlock={selectedBlock} setSelectedBlock={setSelectedBlock} selectedRoom={selectedRoom} setSelectedRoom={setSelectedRoom} selectedHousingType={selectedHousingType} allErrors={allErrors} blocks={blocks} setBlocks={setBlocks} roomCount={roomCount} setRoomCount={setRoomCount}/>
                 }
             </div>
-            <div className={'alert alert-danger mt-2 '+(fullEnded ? "" : "d-none")} style={{color:'#fff'}}>
+            <div className={'alert alert-danger mt-2 '+(fullEnded ? "d-none" : "")} style={{color:'#fff'}}>
                 Tüm konutların bilgileri doldurulmadan alt alanlara devam edemiyorsunuz. Tüm konut bilgilerini doldurduğunuz anda otomatik açılacaktır.
             </div>
-            <div className={fullEnded ? "d-none" : ""}>
+            <div className={fullEnded ? "" : "d-none"}>
                 <span className="section-title">Adres Bilgileri</span>
                 <div className="card">
                     <div className="row px-5 py-4">
