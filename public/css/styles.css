@@ -8839,7 +8839,7 @@ a.button {
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 300px;
+    width: 260px;
 }
 
 @media screen and (max-width: 991px) {
