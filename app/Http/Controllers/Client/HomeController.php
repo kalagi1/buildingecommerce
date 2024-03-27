@@ -803,7 +803,7 @@ class HomeController extends Controller
             $obj = $obj->orderBy('doping_time', 'desc');
         }
 
-        $itemPerPage = 9;
+        $itemPerPage = 15;
         $obj = $obj->paginate($itemPerPage);
 
 
