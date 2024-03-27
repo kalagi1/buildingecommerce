@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { dotNumberFormat } from '../../define/variables';
-import { Alert, Checkbox, FormControlLabel, Switch } from '@mui/material';
+import { Alert, Checkbox, FormControlLabel, Switch, Tooltip } from '@mui/material';
 import RoomNavigator from './RoomNavigator';
 import PayDecModal from './PayDecModal';
 import { toast } from 'react-toastify';
@@ -198,7 +198,19 @@ function Rooms({formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSe
                                         if(data.type == "text"){
                                             return(
                                                 <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                    <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                    <label className='font-bold' htmlFor="">
+                                                        <div className="d-flex">
+                                                            {data.label} 
+                                                            {
+                                                                data.description != undefined ? 
+                                                                    <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                        <div><i className='fa fa-circle-info'></i></div>
+                                                                    </Tooltip>
+                                                                : ""
+                                                            }
+                                                            {data.required ? <span className='required-span'>*</span> : ""}
+                                                        </div>
+                                                    </label>
                                                     {
                                                         data?.className?.includes('price-only') || data?.className?.includes('number-only') ?
                                                             <input id={data?.name.replace('[]','')} type='text' value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''} onChange={(e) => {blockDataSet(selectedBlock,data?.name,dotNumberFormat(e.target.value))}} className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} />
@@ -210,7 +222,19 @@ function Rooms({formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSe
                                         }else if(data.type == "select"){
                                             return(
                                                 <div className={"form-group "+(!(blocks[selectedBlock] && blocks[selectedBlock].rooms[selectedRoom] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'] && blocks[selectedBlock].rooms[selectedRoom]['payment-plan[]'].includes('taksitli')) && data.className.includes('second-payment-plan') ? "d-none" : "")}>
-                                                    <label className='font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                    <label className='font-bold' htmlFor="">
+                                                        <div className="d-flex">
+                                                            {data.label} 
+                                                            {
+                                                                data.description != undefined ? 
+                                                                    <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                        <div><i className='fa fa-circle-info'></i></div>
+                                                                    </Tooltip>
+                                                                : ""
+                                                            }
+                                                            {data.required ? <span className='required-span'>*</span> : ""}
+                                                        </div>
+                                                    </label>
                                                     <select id={data?.name.replace('[]','')} name="" className={'form-control '+(validationErrors.includes(data?.name) ? "error-border" : "")+' '+(allErrors.includes(data?.name.replace('[]','')) ? "error-border" : "")} onChange={(e) => {blockDataSet(selectedBlock,data?.name,e.target.value)}} value={blocks[selectedBlock]?.rooms[selectedRoom] && blocks[selectedBlock]?.rooms[selectedRoom][data.name] ? blocks[selectedBlock]?.rooms[selectedRoom][data.name] : ''}>
                                                         {
                                                             data.values.map(valueSelect => {
@@ -227,7 +251,19 @@ function Rooms({formDataHousing,allErrors,anotherBlockErrors,selectedBlock,setSe
                                                 return(
                                                     <div>
                                                         <div>
-                                                            <label className='mt-3 font-bold' htmlFor="">{data.label} {data.required ? <span className='required-span'>*</span> : ""}</label>
+                                                            <label className='mt-3 font-bold' htmlFor="">
+                                                                <div className="d-flex">
+                                                                    {data.label} 
+                                                                    {
+                                                                        data.description != undefined ? 
+                                                                            <Tooltip className='mx-2' title={data.description} placement="top-start">
+                                                                                <div><i className='fa fa-circle-info'></i></div>
+                                                                            </Tooltip>
+                                                                        : ""
+                                                                    }
+                                                                    {data.required ? <span className='required-span'>*</span> : ""}
+                                                                </div>
+                                                            </label>
                                                             <div className="checkbox-groups" id={data?.name.replace('[]','')}>
                                                                 <div className="row">
                                                                     {

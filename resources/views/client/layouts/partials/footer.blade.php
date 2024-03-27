@@ -1038,7 +1038,7 @@
         nav: true,
         rtl: false,
         autoplayHoverPause: false,
-        autoplay: false,
+        autoplay: true,
         singleItem: true,
         smartSpeed: 1200,
         navText: ["<i class='fas fa-angle-left'></i>", "<i class='fas fa-angle-right'></i>"],

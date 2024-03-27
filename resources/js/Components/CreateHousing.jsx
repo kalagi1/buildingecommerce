@@ -25,8 +25,6 @@ function CreateHousing(props) {
     const [haveBlocks,setHaveBlocks] = useState(false);
     const [slug,setSlug] = useState("");
 
-    console.log(slug);
-
     const [blocks,setBlocks] = useState([{
         name : "housing",
         roomCount : 1,
@@ -67,18 +65,6 @@ function CreateHousing(props) {
             return { top: Math.round(top), left: Math.round(left) };
         }
         
-    }
-
-    const createRoom = async(data) => {
-        await axios.post(baseUrl+'create_room',data,{
-            headers: {
-                'accept': 'application/json',
-                'Accept-Language': 'en-US,en;q=0.8',
-                'Content-Type': `multipart/form-data;`,
-            }
-        }).then((res) => {
-            setLoading(res.data.room_order > loading ? res.data.room_order : loading);
-        })
     }
 
     const createProject = () => {
