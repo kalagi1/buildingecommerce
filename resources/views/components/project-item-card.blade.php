@@ -228,7 +228,7 @@
                                                     (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                     <span class="text-center w-100">
-                                                        1 / {{ $number_of_share }} Pay Fiyatı
+                                                        1 / {{ $number_of_share }} Fiyatı
                                                     </span>
                                                 @endif
                                                 <h6

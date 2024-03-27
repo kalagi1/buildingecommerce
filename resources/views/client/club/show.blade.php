@@ -96,7 +96,7 @@
                                                         @endphp
                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                             <span class="text-center w-100">
-                                                                1 Pay Fiyatı
+                                                                1 Hisse Fiyatı
                                                             </span><br>
                                                         @endif
 
@@ -495,7 +495,7 @@
                                                         @endphp
                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                             <span class="text-center w-100">
-                                                                1 Pay Fiyatı
+                                                                1 Hisse Fiyatı
                                                             </span><br>
                                                         @endif
                                                         @if (isset($discountRate) && $discountRate != 0)

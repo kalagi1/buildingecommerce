@@ -81,7 +81,7 @@
                                         <td>
                                             @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
                                                 <span class="text-center w-100">
-                                                    1 Pay Fiyatı
+                                                    1 Hisse Fiyatı
                                                 </span><br>
                                             @endif
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
