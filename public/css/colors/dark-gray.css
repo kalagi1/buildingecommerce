@@ -213,10 +213,6 @@ a.button {
     background: black;
 }
 
-.inner-pages .blog .active-view-btn:hover {
-    background: black !important;
-}
-
 .inner-pages .change-view-btn:hover {
     color: black !important;
 }

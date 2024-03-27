@@ -161,11 +161,13 @@ h5 {
     margin-bottom: 20px;
 }
 
+
 .inner-pages .properties-right.list .homes-img img,
 .featured.portfolio .project-head img {
-    height: 184px !important;
+    height: 185px !important;
     object-fit: cover !important;
 }
+
 
 
 .social-square {
@@ -623,10 +625,11 @@ img {
     justify-content: space-between;
 }
 
-.listingDetailsSliderNav .item{
+.listingDetailsSliderNav .item {
     border: solid 1px #e6e6e6;
 }
-.listingDetailsSliderNav .item.active{
+
+.listingDetailsSliderNav .item.active {
     border: 1px solid #EA2B2E !important;
 }
 
@@ -6118,7 +6121,6 @@ element.style {
 }
 
 .homepage-2 .portfolio .project-single {
-    border-radius: 0 0 8px 8px;
     z-index: 99;
     overflow: visible;
 }
@@ -16716,6 +16718,7 @@ a.button {
     color: black !important;
 }
 
+
 .inner-pages .active-view-btn {
     background: #eee !important;
     color: #fff !important;
@@ -16723,10 +16726,6 @@ a.button {
     padding: 5px 9px;
 }
 
-.inner-pages .blog .active-view-btn:hover {
-    background: black !important;
-    color: #fff;
-}
 
 .inner-pages .blog .block-heading .fa {
     color: #fff;
@@ -18445,14 +18444,16 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 #slider-range-value2 {
     float: right
 }
-.projectCardList li{
-    width:20%
-}
-.modal-open .modal{
-    z-index: 9999999; 
+
+.projectCardList li {
+    width: 20%
 }
 
-.collection-body{
+.modal-open .modal {
+    z-index: 9999999;
+}
+
+.collection-body {
     height: 500px;
     overflow-y: scroll;
 }
