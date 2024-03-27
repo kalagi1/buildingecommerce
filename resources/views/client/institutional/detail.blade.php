@@ -47,13 +47,15 @@
                     </div>
                     <div class="seller-info-container__wrapper">
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title"> <button
+                                class="seller-info-container__wrapper__text-container__title"> @if (isset($institutional->latitude)) <button
                                     onclick="getDirections()" class="btn btn-primary w-100 text-center"
                                     style="    height: 30px !important;
                                     width: 50% !important;
                                     margin: 3px auto;">
                                     Yol Tarifi Al
-                                </button></span><span class="seller-info-container__wrapper__text-container__value">
+                                </button>
+                                
+                                @else Konum @endif</span><span class="seller-info-container__wrapper__text-container__value">
                                 {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->neighborhood->mahalle_title }} </span>
