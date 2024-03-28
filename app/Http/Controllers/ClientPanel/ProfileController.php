@@ -56,12 +56,19 @@ class ProfileController extends Controller
         // Dosya yüklendiyse devam et
         if ($pdfFile && $cartOrder) {
             // Dosyayı belirtilen dizine kaydet (örneğin: storage/app/pdf)
-            $pdfPath = $pdfFile->store('contract-pdf', 'local');
+            $newFileName = now()->format('H-i-s') . '.' . $pdfFile->getClientOriginalExtension();
+            $folderName = 'contract-pdf/' . $cartOrder->id;
+            $newFilePath = public_path($folderName);
+            $pdfFile->move($newFilePath, $newFileName);
+
+            // Dosyanın yeni yolunu alın
+            $pdfPath = $folderName . '/' . $newFileName; // Dosya yolu ve adını birleştirin
 
             // Veritabanında bir kayıt oluşturmak isterseniz
             $cartOrder->filename = $pdfFile->getClientOriginalName(); // Dosya adını alabilirsiniz
             $cartOrder->path = $pdfPath; // Dosya yolunu kaydedin
             $cartOrder->save();
+
 
             return redirect()->back()->with('success', 'PDF dosyası başarıyla yüklendi.');
         } else {
