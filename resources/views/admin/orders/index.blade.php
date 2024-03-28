@@ -102,7 +102,7 @@
 
                                             
                                             <td class="ad_no align-middle  fw-semibold text-body-highlight"> 
-                                                <a
+                                                <a  target="_blank"
                                                 href="{{ $orderCart['type'] == 'housing'
                                                     ? route('housing.show', [
                                                         'housingSlug' => $orderCart['item']['slug'],
@@ -124,14 +124,14 @@
                                             <td class="customer align-middle white-space-nowrap">
                                                 <a class="d-flex align-items-center text-body" >
                                                     <div class="avatar avatar-m">
-                                                        <img class="rounded-circle" src="{{ $profileImage }}" alt="">
+                                                        <img  class="rounded-circle" src="{{ $profileImage }}" alt="">
                                                     </div>
                                                     <p class="mb-0 ms-3 text-body text-wrap">{{$order->user->name}}</p>
                                                 </a>
                                             </td>
 
                                             <td class="customer align-middle white-space-nowrap">
-                                                <a class="d-flex align-items-center text-body">
+                                                <a target="_href" href="{{ route('institutional.dashboard', ["slug" => $order->store->name, "userID" =>$order->store->id ]) }}" class="d-flex align-items-center text-body">
                                                     <div class="avatar avatar-m">
                                                         <img class="rounded-circle" src="{{ $storeImage }}" alt="">
                                                     </div>

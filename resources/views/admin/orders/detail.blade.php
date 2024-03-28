@@ -44,7 +44,7 @@
                                     @elseif($order->status == 1)
                                         ÖDEMEYİ ONAYLADINIZ
                                     @else
-                                        ÖDEMEYİ ONAYI BEKLENİYOR
+                                        ÖDEME ONAYI BEKLENİYOR
                                     @endif
                                 </span>
                             </div>
@@ -70,7 +70,7 @@
                                 @endphp
                                 <div class="col-md-4 text-center">
                                     <p>İlan No</p>
-                                    <a
+                                    <a  target="_blank"
                                         href="{{ $orderCart['type'] == 'housing'
                                             ? route('housing.show', [
                                                 'housingSlug' => $orderCart['item']['slug'],
@@ -160,10 +160,10 @@
                           @endphp
 
                             <div class="row py-3 px-3">
-                                <div class="col-3 col-sm-auto"><label
+                                <div class="col-3 col-sm-auto"><a target="_blank" href="{{ route('institutional.dashboard', ["slug" => $order->store->name, "userID" =>$order->store->id ]) }}"
                                     class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
                                         class="rounded-circle" src="{{ $storeImage }}"
-                                        alt=""></label>
+                                        alt=""></a>
                                 </div>
                                 <div class="col-md-3">
                                     <p>İsim Soyisim</p>
