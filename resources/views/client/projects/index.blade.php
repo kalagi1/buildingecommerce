@@ -298,7 +298,7 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Toplam
-                                                                @if (isset($projectHousingsList[1]['share-sale[]']) && $projectHousingsList[1]['share-sale[]'] != '[]')
+                                                                @if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != '[]')
                                                                     Hisse
                                                                 @else
                                                                     {{ ucfirst($project->step1_slug) }}
