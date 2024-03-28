@@ -1266,7 +1266,7 @@
                                                         </a>
                                                         <p class="homes-address mb-3">
                                                             <a href="${res.housing_url}">
-                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} </span>
+                                                                <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood} </span>
                                                             </a>
                                                         </p>
                                                         <ul class="homes-list clearfix pb-3" style="display: flex; justify-content: space-evenly;align-items: center;width: 100%;">
@@ -1295,7 +1295,7 @@
                                                                         `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi</button>`
                                                                         :
                                                                         res.action === 'sold' ?
-                                                                            `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı</button>`
+                                                                            `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                             :
                                                                             `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
                                                                                                             <span class="IconContainer">
@@ -1354,7 +1354,7 @@
                                                                         <span>${res.title}</span>
                                                                     </a>
                                             <p class="homes-address mb-3">
-                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} </span>
+                                                                            <i class="fa fa-map-marker pr-2"></i><span>${res.city} ${" / "} ${res.county} ${" / "} ${res.neighborhood} </span>
                                                                     
                                             </p>
                                             <!-- homes List -->
@@ -1385,7 +1385,7 @@
                                                                                     `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi</button>`
                                                                                     :
                                                                                     res.action === 'sold' ?
-                                                                                        `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white;margin-top:30px">Satıldı</button>`
+                                                                                        `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
                                                                                         :
                                                                                         `<button class="CartBtn ${res.in_cart ? 'bg-success text-white' : ''}" data-type='housing' data-id='${res.id}'>
                                                                                                                         <span class="IconContainer">

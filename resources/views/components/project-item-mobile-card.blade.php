@@ -206,7 +206,7 @@
 
                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                             <span class="text-center w-100 d-block">
-                                                1 / {{ $number_of_share }} Pay Fiyatı
+                                                1 / {{ $number_of_share }} Fiyatı
                                             </span>
                                         @endif
                                         <h6
@@ -228,7 +228,7 @@
                                     @elseif ($off_sale_check)
                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                             <span class="text-center w-100 d-block">
-                                                1 / {{ $number_of_share }} Pay Fiyatı
+                                                1 / {{ $number_of_share }} Fiyatı
                                             </span>
                                         @endif
                                         <h6

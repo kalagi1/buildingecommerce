@@ -74,6 +74,13 @@
     $sold_check = $sold && in_array($sold->status, ['1', '0']);
     $discounted_price = $projectHousingsList[$keyIndex]['price[]'] - $projectDiscountAmount;
     $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
+    $projectOrder = 1;
+    if (isset($blockStart) && $blockStart) {
+        $projectOrder = $i - $blockStart + 1 ;
+    }else{
+        $projectOrder = $i + 1;
+    }
+
 
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
@@ -180,7 +187,7 @@
                                                 <i class="fa fa-circle circleIcon mr-1" aria-hidden="true"></i>
                                                 <span>
                                                     {{ $projectHousingsList[$keyIndex][$column_name . '[]'] }}
-                                                    @if ($column_additional)
+                                                    @if ($column_additional && is_numeric($projectHousingsList[$keyIndex][$column_name . '[]']))
                                                         {{ $column_additional }}
                                                     @endif
                                                 </span>
@@ -228,7 +235,7 @@
                                                     (isset($share_sale) && $share_sale != '[]' && !isset($sumCartOrderQt[$keyIndex])))
                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                     <span class="text-center w-100">
-                                                        1 / {{ $number_of_share }} Pay Fiyatı
+                                                        1 / {{ $number_of_share }} Fiyatı
                                                     </span>
                                                 @endif
                                                 <h6
@@ -356,13 +363,15 @@
 
                                         </span>
                                     @else
-                                        <button class="first-btn payment-plan-button"
-                                            project-id="{{ $project->id }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
-                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                            data-payment-order="{{ $keyIndex }}">
-                                            Ödeme Detayı
-                                        </button>
+                                    <button class="first-btn payment-plan-button"
+                                    project-id="{{ $project->id }}"
+                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                                    order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                    data-payment-order="{{ $projectOrder }}"
+                                    >
+                                Ödeme Detayı
+                            </button>
+                            
                                     @endif
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
@@ -378,13 +387,15 @@
                                             </a>
                                         @endif
                                     @else
-                                        <button class="first-btn payment-plan-button"
-                                            project-id="{{ $project->id }}" data-block="{{ $blockName }}"
-                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
-                                            order="{{ $keyIndex }}" data-payment-order="{{ $keyIndex }}">
-
-                                            Ödeme Detayı
-                                        </button>
+                                    <button class="first-btn payment-plan-button"
+                                    project-id="{{ $project->id }}"
+                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                                    order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                    data-payment-order="{{ $projectOrder }}"
+                                    >
+                                Ödeme Detayı
+                            </button>
+                            
                                     @endif
 
 

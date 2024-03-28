@@ -5,12 +5,13 @@
         <section class="how-it-works-two bg-white rec-pro">
             <div class="container">
                 <div class="card-header p-4 border-bottom ">
-                    <strong class="me-auto">Emlak Sepette | Emlak Kulüp Başvurusu</strong>
+                    <strong class="me-auto" style="font-size: 13px">Emlak Sepette | Emlak Kulüp Başvurusu</strong>
                 </div>
-                <div class="toast-body  pb-5 "> Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
-                    eksiksiz doldurun ve
-                    üyelik
-                    sözleşmesini onaylayın.
+                <div class="toast-body "> 
+                    <strong style="font-weight: 700;color:black;font-size:13px">Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
+                        eksiksiz doldurun ve
+                        üyelik
+                        sözleşmesini onaylayın.</strong>
                     <form action="{{ route('institutional.club.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -91,7 +92,6 @@
                         <button type="submit" class="btn btn-primary mt-5">Üye Ol </button>
                     </form>
                 </div>
-                <hr>
             </div>
         </section>
        
@@ -104,13 +104,6 @@
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                             style="background-image: url(images/emlakkulupslider.png)"></div>
-                        <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
-                            style="background-image: url(images/emlakkulupmobilslider.png);"></div>
-
-                    </a>
-                    <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
-                        <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
-                            style="background-image: url(images/banner2.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
                             style="background-image: url(images/emlakkulupmobilslider.png);"></div>
 

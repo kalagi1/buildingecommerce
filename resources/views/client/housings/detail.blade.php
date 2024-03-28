@@ -482,10 +482,6 @@
                                                     href="{{ route('institutional.dashboard', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
-
-                                                <p class="author__meta">
-                                                    {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
-                                                </p>
                                             </div>
                                         </div>
                                         <table class="table">
@@ -514,6 +510,15 @@
                                                         <span> İlan Tarihi :</span>
                                                         <span class="det" style="color:#274abb;">
                                                             {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <span> Kimden :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
                                                         </span>
                                                     </td>
                                                 </tr>

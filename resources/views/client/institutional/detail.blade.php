@@ -47,11 +47,20 @@
                     </div>
                     <div class="seller-info-container__wrapper">
                         <div class="seller-info-container__wrapper__text-container w-100 text-center"><span
-                                class="seller-info-container__wrapper__text-container__title"> Konum</span><span
-                                class="seller-info-container__wrapper__text-container__value">
+                                class="seller-info-container__wrapper__text-container__title"> @if (isset($institutional->latitude)) <button
+                                    onclick="getDirections()" class="btn btn-primary w-100 text-center"
+                                    style="    height: 30px !important;
+                                    width: 50% !important;
+                                    margin: 3px auto;">
+                                    Yol Tarifi Al
+                                </button>
+                                
+                                @else Konum @endif</span><span class="seller-info-container__wrapper__text-container__value">
                                 {{ $institutional->town->sehir_title }} <i class="fa fa-angle-right"></i>
                                 {{ $institutional->district->ilce_title }} <i class="fa fa-angle-right"></i>
-                                {{ $institutional->neighborhood->mahalle_title }} </span></div>
+                                {{ $institutional->neighborhood->mahalle_title }} </span>
+                        </div>
+
 
                     </div>
                     <div class="seller-info-container__wrapper">
@@ -167,6 +176,13 @@
                 marker.setMap(null);
                 marker = null;
             }
+        }
+
+        function getDirections() {
+            var userLatitude = parseFloat("{{ $institutional->latitude }}");
+            var userLongitude = parseFloat("{{ $institutional->longitude }}");
+            var url = "https://www.google.com/maps/dir/?api=1&destination=" + userLatitude + "," + userLongitude;
+            window.open(url, '_blank');
         }
     </script>
 @endsection
