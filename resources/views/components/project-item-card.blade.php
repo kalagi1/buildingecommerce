@@ -445,7 +445,7 @@
                                             <span class="IconContainer">
                                                 <img src="{{ asset('sc.png') }}" alt="">
                                             </span>
-                                            <span class="text">Sepete Ekle</span>
+                                            <span class="text">Sepete Ekle asd</span>
                                         </button>
                                     @endif
                                 @endif
