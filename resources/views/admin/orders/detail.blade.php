@@ -288,13 +288,11 @@
                                 <h3 class="card-title mb-4">Sipariş Durumu</h3>
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
+                                    <select class="form-select mb-4"  name="status" id="status" onchange="submitForm()">
+                                        <option value="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}" @if($order->status == 1) selected @endif>İlan Satışını Onayla</option>
+                                        <option value="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}" @if($order->status != 1) selected @endif>İlan Satışını Reddet</option>
+                                        <option value="" @if($order->status == 0) selected @endif>Onay Bekleniyor</option>
 
-                                    <select class="form-select mb-4" name="status" id="status"
-                                        onchange="submitForm()">
-                                        <option value="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                            @if ($order->status == 1) selected @endif>İlan Satışını Onayla</option>
-                                        <option value="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                            @if ($order->status != 1) selected @endif>İlan Satışını Reddet</option>
                                     </select>
 
                                     <form id="status-form" action="#" method="POST" style="display: none;">
@@ -364,6 +362,23 @@
                                 <h3 class="card-title mb-4">İlan Durumu</h3>
                                 <h6 class="mb-2"></h6>
                                 <div class="order_status">
+                                <td class="order_status align-middle text-center fw-semibold text-body-highlight">{!! [
+                                                '0' => '<span class="text-warning">Onay Bekleniyor</span>',
+                                                '1' => '<span class="text-success">Satış Onaylandı</span>',
+                                                '2' => '<span class="text-danger">Satış Reddedildi</span>',
+                                            ][$order->status] !!} <br>
+                                                @if (isset($order->share))
+                                                    <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
+                                                        satılmıştır.
+                                                        @if ($order->share->status == 1)
+                                                            <br>
+                                                            Hakedişler Onaylandı.
+                                                        @endif
+                                                    </span>
+                                                @endif
+                                                @if (isset($order->price) && $order->price->status == 1)
+                                                    <span class="text-success">Hakedişler Onaylandı.</span>
+                                                @endif
 
                                     <td class="order_status align-middle text-center fw-semibold text-body-highlight">
                                         {!! [
