@@ -192,7 +192,7 @@ class ProjectController extends Controller
 
             $lastHousingCount = 0;
 
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', 10)->get();
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', $project->room_count)->get();
             $projectHousingsList = [];
             $salesCloseProjectHousingCount = 0;
 
@@ -308,7 +308,7 @@ class ProjectController extends Controller
         if ($endIndex > $blockHousingCount) {
             $endIndex = $blockHousingCount;
         }
-        $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', 10)->get();
+        $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', $project->room_count)->get();
         $projectHousingsList = [];
         $salesCloseProjectHousingCount = 0;
 
