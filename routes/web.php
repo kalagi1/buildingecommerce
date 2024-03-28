@@ -1132,6 +1132,6 @@ Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name(
 //Toplu Main Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-mail/create', [EmailTemplateController::class, 'MultipleMail'])->name('admin.multiple_mail.create');
 Route::post('multiple_mail/store' , [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
-Route::get('qR9zLp2xS6y/secured/multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
-Route::get('qR9zLp2xS6y/secured/multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
-Route::get('qR9zLp2xS6y/secured/multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
+Route::get('multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
+Route::get('multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
+Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
