@@ -241,6 +241,8 @@
 
                                         <td>
                                             <span style="width:100%;text-align:center">
+
+                                                {{$share_sale}}
                                                 @if (isset($share_sale) && $share_sale != '[]')
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
