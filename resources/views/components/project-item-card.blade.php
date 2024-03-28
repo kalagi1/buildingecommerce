@@ -413,6 +413,7 @@
                                         <span class="text">Satışa Kapatıldı</span>
                                     </button>
                                 @else
+                                {{print_r($share_sale)}}
                                     @if (
                                         ($sold && $sold->status != '2' && $share_sale == '[]') ||
                                             ($sold && $sold->status != '2' && empty($share_sale)) ||
