@@ -82,7 +82,6 @@ class EmailTemplateController extends Controller
     }//End
 
     public function MultipleMailStore(Request $request){
-        print_r($request->all());die;
         $title = $request->title;
         $content = $request->content;
         $userIds = $request->selectedUsers;

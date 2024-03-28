@@ -112,7 +112,15 @@
             }
         ]
     },
-    
+    {
+        "id": "home",
+        "label": "Yönetim",
+        "icon": "envelope",
+        "text": "Çoklu Mail Gönderimi",
+        "key": "MultipleMail",
+        "url": "admin.multiple_mail.create",
+        "activePath": "qR9zLp2xS6y/secured/multiple-mail/create"
+    },
     {
         "id": "order",
         "label": "Yönetim",
