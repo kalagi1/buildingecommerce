@@ -911,22 +911,22 @@
     </script>
 
     <script>
-        var project = "{{ $project->id }}";
+        // var project = "{{ $project->id }}";
 
-        if (project == "383") {
-            document.addEventListener("DOMContentLoaded", function() {
-                setTimeout(function() {
-                    $('#applySampleModal').modal('show');
-                }, 1000);
-            });
-        }
+        // if (project == "383") {
+        //     document.addEventListener("DOMContentLoaded", function() {
+        //         setTimeout(function() {
+        //             $('#applySampleModal').modal('show');
+        //         }, 1000);
+        //     });
+        // }
         $(document).ready(function() {
-            $('#applySampleModal img').click(function() {
-                $('#applySampleModal').modal('hide');
-                $('#exampleModal10').modal('show');
-                $('#applyModal10').modal('show');
+            // $('#applySampleModal img').click(function() {
+            //     $('#applySampleModal').modal('hide');
+            //     $('#exampleModal10').modal('show');
+            //     $('#applyModal10').modal('show');
 
-            });
+            // });
 
             $(document).on("change", ".citySelect2", function() {
                 var selectedCity = $(this).val();
