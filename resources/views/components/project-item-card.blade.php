@@ -398,8 +398,6 @@
 
                                 @endif
 
-                                {{print_r($share_sale)}}
-
                                 @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]' && !$sold)
                                     <button class="btn second-btn"
                                         style="background: #EA2B2E !important; width: 100%; color: White; height: auto !important">
