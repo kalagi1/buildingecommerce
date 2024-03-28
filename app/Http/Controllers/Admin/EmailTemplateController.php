@@ -3,9 +3,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\EmailTemplate;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Jobs\SendCustomMail;
+use App\Mail\CustomMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class EmailTemplateController extends Controller
 {
@@ -71,4 +76,42 @@ class EmailTemplateController extends Controller
         $template->delete();
         return redirect()->route('admin.email-templates.index');
     }
+
+    public function MultipleMail(){
+        return view('admin.multiple_mail.create');
+    }//End
+
+    public function MultipleMailStore(Request $request){
+        print_r($request->all());die;
+        $title = $request->title;
+        $content = $request->content;
+        $userIds = $request->selectedUsers;
+    
+        foreach ($userIds as $userId) {
+            $user = User::find($userId);
+            if ($user) {
+                SendCustomMail::dispatch($user->email, $content, $title);
+            }
+        }
+    
+        return redirect()->back();
+    }
+
+    public function MultipleMailGetUsers(){
+        // Kullanıcıları veritabanından alın ve JSON formatında döndürün
+        $users = User::all(['id', 'name','email']); // Varsayılan olarak tüm kullanıcıları alır
+        return response()->json($users);
+    }//End
+
+    public function MultipleMailGetUsersBireysel(){
+        // Kullanıcıları veritabanından alın ve JSON formatında döndürün
+        $users = User::where('type',1)->get(); // Varsayılan olarak tüm kullanıcıları alır
+        return response()->json($users);
+    }//End
+
+    public function MultipleMailGetUsersKurumsal(){
+        // Kullanıcıları veritabanından alın ve JSON formatında döndürün
+        $users = User::whereNotIn('type', [1, 3])->get();
+        return response()->json($users);
+    }//End
 }
