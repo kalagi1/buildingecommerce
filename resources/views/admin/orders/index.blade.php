@@ -41,163 +41,195 @@
                         <table class="table table-sm fs--1 mb-0">
                             <thead>
                                 <tr>
-                                    
+
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_no"> No</th>
-                                        <th class="sort white-space-nowrap align-middle pe-3 text-center" scope="col"
-                                    data-sort="order_date">Sipariş Tarihi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="ad_no">İlan Numarası</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3 text-center" scope="col"
+                                        data-sort="order_date">Sipariş Tarihi</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="ad_no">
+                                        İlan Numarası</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="customer">Müşteri Bilgileri</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="sales_person">Satıcı Bilgileri</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
-                                            İlan Adı</th>
+                                    {{-- <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_project">
+                                        İlan Adı</th> --}}
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_amount">Kapora Tutarı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="pay_type">Ödeme Türü</th>
-                                 
+
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_status">
+                                        Durum</th>
                                     {{-- <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_status">Durum</th> --}}
-                                   <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_details">Sipariş Detayı</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
-                                
+
                                 @if ($cartOrders->count() > 0)
                                     @foreach ($cartOrders as $order)
-                                    @php
-                                        $orderCart = json_decode($order->cart, true);
-                                    @endphp
-                                       @php
-                                        if ($order->user->profile_image) {
-                                            $profileImage = url('storage/profile_images/' . $order->user->profile_image);
-                                        } else {
-                                            $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
-                                            $profileImage = $initial;
-                                        }
-                                   @endphp
-                                   
-                                   @php
-                                   if ($order->store->profile_image) {
-                                       $storeImage = url('storage/profile_images/' . $order->store->profile_image);
-                                   } else {
-                                       $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
-                                       $storeImage = $initial;
-                                   }
-                                    @endphp
-                               
+                                        @php
+                                            $orderCart = json_decode($order->cart, true);
+                                        @endphp
+                                        @php
+                                            if ($order->user->profile_image) {
+                                                $profileImage = url(
+                                                    'storage/profile_images/' . $order->user->profile_image,
+                                                );
+                                            } else {
+                                                $initial = $order->user->name
+                                                    ? strtoupper(substr($order->user->name, 0, 1))
+                                                    : '';
+                                                $profileImage = $initial;
+                                            }
+                                        @endphp
+
+                                        @php
+                                            if ($order->store->profile_image) {
+                                                $storeImage = url(
+                                                    'storage/profile_images/' . $order->store->profile_image,
+                                                );
+                                            } else {
+                                                $initial = $order->store->name
+                                                    ? strtoupper(substr($order->store->name, 0, 1))
+                                                    : '';
+                                                $storeImage = $initial;
+                                            }
+                                        @endphp
+
 
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                         <tr>
-                                           
+
                                             <td class="order_no align-middle  fw-semibold text-body-highlight">
-                                              {{$order->id}}
+                                                {{ $order->id }}
                                             </td>
 
-                                            <td class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4   text-wrap">{{ $order->created_at }}</td>
+                                            <td
+                                                class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4   text-wrap">
+                                                {{ $order->created_at }}</td>
 
-                                            
-                                            <td class="ad_no align-middle  fw-semibold text-body-highlight"> 
-                                                <a  target="_blank"
-                                                href="{{ $orderCart['type'] == 'housing'
-                                                    ? route('housing.show', [
-                                                        'housingSlug' => $orderCart['item']['slug'],
-                                                        'housingID' => $orderCart['item']['id'] + 2000000,
-                                                    ])
-                                                    : route('project.housings.detail', [
-                                                        'projectSlug' =>
-                                                            optional(App\Models\Project::find($orderCart['item']['id']))->slug .
-                                                            '-' .
-                                                            optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
-                                                            '-' .
-                                                            optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
-                                                        'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
-                                                        'housingOrder' => $orderCart['item']['housing'],
-                                                    ]) }}">
-                                                {{ $order->key }}
-                                            </a>
-                                            
+
+                                            <td class="ad_no align-middle  fw-semibold text-body-highlight">
+                                                <a target="_blank"
+                                                    href="{{ $orderCart['type'] == 'housing'
+                                                        ? route('housing.show', [
+                                                            'housingSlug' => $orderCart['item']['slug'],
+                                                            'housingID' => $orderCart['item']['id'] + 2000000,
+                                                        ])
+                                                        : route('project.housings.detail', [
+                                                            'projectSlug' =>
+                                                                optional(App\Models\Project::find($orderCart['item']['id']))->slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
+                                                            'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
+                                                            'housingOrder' => $orderCart['item']['housing'],
+                                                        ]) }}">
+                                                    {{ $order->key }}
+                                                </a>
+
                                             <td class="customer align-middle white-space-nowrap">
-                                                <a class="d-flex align-items-center text-body" >
+                                                <a class="d-flex align-items-center text-body">
                                                     <div class="avatar avatar-m">
-                                                        <img  class="rounded-circle" src="{{ $profileImage }}" alt="">
+                                                        <img class="rounded-circle" src="{{ $profileImage }}"
+                                                            alt="">
                                                     </div>
-                                                    <p class="mb-0 ms-3 text-body text-wrap">{{$order->user->name}}</p>
+                                                    <p class="mb-0 ms-3 text-body text-wrap">{{ $order->user->name }}</p>
                                                 </a>
                                             </td>
 
                                             <td class="customer align-middle white-space-nowrap">
-                                                <a target="_href" href="{{ route('institutional.dashboard', ["slug" => $order->store->name, "userID" =>$order->store->id ]) }}" class="d-flex align-items-center text-body">
+                                                <a target="_href"
+                                                    href="{{ route('institutional.dashboard', ['slug' => $order->store->name, 'userID' => $order->store->id]) }}"
+                                                    class="d-flex align-items-center text-body">
                                                     <div class="avatar avatar-m">
-                                                        <img class="rounded-circle" src="{{ $storeImage }}" alt="">
+                                                        <img class="rounded-circle" src="{{ $storeImage }}"
+                                                            alt="">
                                                     </div>
-                                                    <p class="mb-0 ms-3 text-body text-wrap">{{$order->store->name}}</p>
+                                                    <p class="mb-0 ms-3 text-body text-wrap">{{ $order->store->name }}</p>
                                                 </a>
                                             </td>
-                                            
 
+{{-- 
                                             <td class="order_project">
                                                 <span>
                                                     @if ($o->type == 'housing')
-                                                    {{ App\Models\Housing::find($o->item->id ?? 0)->title ?? null }}
-                                                @else
-                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
-                                                    {{ ' ' }}Projesinde
-                                                    {{ ' ' }}{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}.
-                                                    {{ $project->step1_slug }}
-                                                @endif
-                                                @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
-                                                    <br>
-                                                    <span style="color:#EA2B2E"
-                                                        class="mt-3">{{ json_decode($order->cart)->item->qt }} adet hisse
-                                                        satın alındı
-                                                        !</span>
-                                                @endif
+                                                        {{ App\Models\Housing::find($o->item->id ?? 0)->title ?? null }}
+                                                    @else
+                                                        {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                        {{ ' ' }}Projesinde
+                                                        {{ ' ' }}{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}.
+                                                        {{ $project->step1_slug }}
+                                                    @endif
+                                                    @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
+                                                        <br>
+                                                        <span style="color:#EA2B2E"
+                                                            class="mt-3">{{ json_decode($order->cart)->item->qt }} adet
+                                                            hisse
+                                                            satın alındı
+                                                            !</span>
+                                                    @endif
                                                 </span>
                                                 <br>
-            
-                                            </td>
-                                            <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->amount }} <br>
+
+                                            </td> --}}
+                                            <td class="order_amount align-middle fw-semibold text-body-highlight">
+                                                {{ $order->amount }} <br>
 
                                             </td>
-                                            <td class="order_amount align-middle  fw-semibold text-body-highlight">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br>
+                                            <td class="order_amount align-middle  fw-semibold text-body-highlight">
+                                                {{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br>
 
                                             </td>
-                                   
-                                            
-                                            {{-- <td class="order_status align-middle text-center fw-semibold text-body-highlight">{!! [
-                                                '0' => '<span class="text-warning">Rezerve Edildi</span>',
-                                                '1' => '<span class="text-success">Satış Onaylandı</span>',
-                                                '2' => '<span class="text-danger">Satış Reddedildi</span>',
-                                            ][$order->status] !!} <br>
-                                                @if (isset($order->share))
-                                                    <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
-                                                        satılmıştır.
-                                                        @if ($order->share->status == 1)
-                                                            <br>
-                                                            Hakedişler Onaylandı.
-                                                        @endif
+
+
+                                            <td class="order_status"><span class="text-success">
+
+                                                    {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
+                                                    {!! [
+                                                        '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
+                                                                                                                                                                                                                                                class="badge-label">Rezerve Edildi</span><svg
+                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                            </svg>',
+                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
+                                                                                                                                                                                                                                                class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                            </svg>',
+                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
+                                                                                                                                                                                                                                                class="badge-label">Ödeme Reddedildi</span><svg
+                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                            </svg>',
+                                                    ][$order->status] !!}
+                                                </span>
+                                                @if ($order->invoice && $order->status == 1)
+                                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                            Faturayı Görüntüle
+                                                        </a>
+
                                                     </span>
                                                 @endif
-                                                @if (isset($order->price) && $order->price->status == 1)
-                                                    <span class="text-success">Hakedişler Onaylandı.</span>
-                                                @endif
 
-                                                @if (isset($order->price) && $order->price->status == 0)
-                                                    <span class="text-warning">Hakediş onayı bekleniyor.</span>
-                                                @endif
-
-                                                @if (isset($order->price) && $order->price->status == 2)
-                                                    <span class="text-danger">Hakediş reddedildi.</span>
-                                                @endif
-                                            </td> --}}
-
+                                            </td>
                                             <td class="order_user align-middle fw-semibold text-body-highlight">
                                                 <a href="{{ route('admin.order.detail', ['order_id' => $order->id]) }}"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş

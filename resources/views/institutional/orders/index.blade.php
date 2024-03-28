@@ -56,9 +56,13 @@
                                         İlan Adı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_amount">
                                         Kapora Tutarı</th>
-                                    
+
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="pay_type">Ödeme Türü</th>
+
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_status">
                                         Durum</th>
+                                    
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_detail">
                                         Sipariş Detayı</th>
                                 </tr>
@@ -173,7 +177,10 @@
                                         <td class="order_amount">{{ number_format(floatval(str_replace('.', '', $order->amount)), 0, ',', '.') }}
                                             ₺</td>
                                        
-        
+                                            <td class="order_amount align-middle  fw-semibold text-body-highlight">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br>
+
+                                            </td>
+                                            
                                         <td class="order_status"><span class="text-success"> 
                                             
                                             {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
