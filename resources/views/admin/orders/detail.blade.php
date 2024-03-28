@@ -23,7 +23,7 @@
                 <li><i class="fa fa-home"></i> Yönetim Paneli</li>
                 <li>Siparişler</li>
                 <li>Tüm Siparişler</li>
-                <li>#{{ $order->id + 3000000 }} Nolu Sipariş Detayı</li>
+                <li>#{{ $order->id  }} Nolu Sipariş Detayı</li>
             </ul>
         </div>
         <div class="row g-5 gy-7">
@@ -33,7 +33,7 @@
                         <a href="{{route('admin.orders')}}" class="button-back"><i class="fa fa-angle-left"></i> Geri Dön</a>
                     </div>
                     <div class="order-detail-content mt-3">
-                        <h5>#{{ $order->id + 3000000 }} Nolu Sipariş Detayı</h5>
+                        <h5>#{{ $order->id }} Nolu Sipariş Detayı</h5>
                         <div class="order-status-container mt-3"
                             style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
                             <div class="left">
@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-4 text-center">
                                     <p>Sipariş No</p>
-                                    <span><strong>#{{ $order->id + 3000000 }}</strong></span>
+                                    <span><strong>#{{ $order->id }}</strong></span>
                                 </div>
                                 
                                 <div class="col-md-4 text-center">

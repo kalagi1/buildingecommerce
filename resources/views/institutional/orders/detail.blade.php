@@ -26,7 +26,7 @@
                 <li><i class="fa fa-home"></i> {{ $userType = Auth::user()->type == 1 ? 'Hesabım' : 'Mağazam' }}</li>
                 <li>Siparişler</li>
                 <li>Tüm Siparişler</li>
-                <li>#{{ $order->id + 3000000 }} Nolu Sipariş Detayı</li>
+                <li>#{{ $order->id }} Nolu Sipariş Detayı</li>
             </ul>
         </div>
         <div class="row g-5 gy-7">
@@ -38,7 +38,7 @@
                             Dön</a>
                     </div>
                     <div class="order-detail-content mt-3">
-                        <h5>#{{ $order->id + 3000000 }} Nolu Sipariş Detayı</h5>
+                        <h5>#{{ $order->id }} Nolu Sipariş Detayı</h5>
                         <div class="order-status-container mt-3"
                             style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
                             <div class="left">
@@ -58,7 +58,7 @@
                             <div class="row">
                                 <div class="col-md-4 text-center">
                                     <p>Sipariş No</p>
-                                    <span><strong>#{{ $order->id + 3000000 }}</strong></span>
+                                    <span><strong>#{{ $order->id  }}</strong></span>
                                 </div>
                                 <div class="col-md-4 text-center">
                                     <p>Sipariş Tarihi</p>
@@ -340,13 +340,13 @@
                                 @if (isset($order->path))
                                 {{-- {{dd($order->path)}} --}}
                                 <a href="{{ asset($order->path) }}" target="_blank">
-                                        <i class="fa fa-file"></i> {{ basename($order->filename) }}
+                                        <i class="fa fa-file"></i> Dosyayı Görüntüle
                                     </a>
                                 @else
                                     <p>PDF dosyası bulunamadı.</p>
                                 @endif
                 
-                                <div class="order_status">
+                                <div class="order_status mt-3">
                                     <form action="{{ route('institutional.contract.upload.pdf') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{ $order->id }}"> 

@@ -228,7 +228,7 @@
                                             </td>
 
                                            
-                                            <td> {{ number_format((float)$item->cart->amount , 0, ',', '.') ?? null }} ₺</td>
+                                            <td> {{ $item->cart->amount ?? null }} ₺</td>
                                         </tr>
                                     @endif
                                 @endforeach
