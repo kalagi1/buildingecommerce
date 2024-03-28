@@ -17,8 +17,8 @@
 		<meta property="og:type"content="website"/>
 		<meta property="og:title"content="{{ $pageInfo->meta_title }}"/>
 		<meta property="og:description"content="{{ $pageInfo->meta_description }}"/>
-		{{-- <meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png"/>
-		<meta property="og:image:width" content="300"> --}}
+		<meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png"/>
+		<meta property="og:image:width" content="300">
     @endif
 
 

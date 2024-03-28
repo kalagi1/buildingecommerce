@@ -62,9 +62,6 @@
         $projectHousings = [];
         $projectDiscountAmount = null;
     @endphp
-		<meta property="og:image" content="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"/>
-		<meta property="og:image:width" content="300">
-
 
 
     <div class="loading-full d-none">
