@@ -100,7 +100,6 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
                         var users = response;
 
                         users.forEach(function(user) {

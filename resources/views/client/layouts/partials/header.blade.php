@@ -11,6 +11,14 @@
         <meta name="description" content="{{ $pageInfo->meta_description }}">
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
+
+        <meta property="og:site_name" content="Emlak Sepette">
+		<meta property="og:url"content="https://emlaksepette.com/"/>
+		<meta property="og:type"content="website"/>
+		<meta property="og:title"content="{{ $pageInfo->meta_title }}"/>
+		<meta property="og:description"content="{{ $pageInfo->meta_description }}"/>
+		<meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png"/>
+		<meta property="og:image:width" content="300">
     @endif
 
 
