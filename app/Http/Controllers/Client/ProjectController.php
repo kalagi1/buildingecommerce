@@ -263,9 +263,7 @@ class ProjectController extends Controller
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title,
-                "meta_author" => "Emlak Sepette",
-                "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) ,
-
+                "meta_author" => "Emlak Sepette"
             ];
 
             $pageInfo = json_encode($pageInfo);
