@@ -99,10 +99,14 @@
                                 <i class="fa fa-user"></i>
                                 <h4>Alıcı Bilgileri</h4>
                             </div>
-                            @php
-                                $profileImage = $order->user->profile_image ? url('storage/profile_images/' . $order->user->profile_image) : asset('path/to/default/profile-image.jpg');
-                            @endphp
-
+                                @php
+                                if ($order->user->profile_image) {
+                                    $profileImage = url('storage/profile_images/' . $order->user->profile_image);
+                                } else {
+                                    $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
+                                    $profileImage = $initial;
+                                }
+                        @endphp
                             <div class="row py-3 px-3">
                                 <div class="col-3 col-sm-auto"><label
                                     class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
@@ -132,6 +136,57 @@
 
                         <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
                             <div class="title">
+                                <i class="fa fa-user"></i>
+                                <h4>Satıcı Bilgileri</h4>
+                            </div>
+                            
+                       
+                       @php
+                       if ($order->store->profile_image) {
+                           $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                       } else {
+                           $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
+                           $storeImage = $initial;
+                       }
+                    //    dd($storeImage)
+                        @endphp
+
+                            <div class="row py-3 px-3">
+                                <div class="col-3 col-sm-auto"><label
+                                    class="cursor-pointer avatar avatar-3xl" for="avatarFile"><img
+                                        class="rounded-circle" src="{{ $storeImage }}"
+                                        alt=""></label>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>İsim Soyisim</p>
+                                    <span><strong class="d-flex" style="align-items: center;">
+                                            {{ $order->store->name }}</span></strong>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <p>Telefon</p>
+                                    <span><strong class="d-flex" style="align-items: center;">
+                                        @if(isset($order->store->phone))
+                                            {{ $order->store->phone }}
+                                        @elseif(isset($order->store->mobile_phone))
+                                            {{ $order->store->mobile_phone }}
+                                        @else
+                                            Telefon bilgisi bulunamadı
+                                        @endif
+                                    </span></strong>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <p>E-Posta</p>
+                                    <span class="word-wrap"><strong class="d-flex " style="align-items: center;">
+                                            {{ $order->store->email }}</span></strong>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="order-detail-inner mt-3 px-3 pt-3 pb-0">
+                            <div class="title">
                                 <i class="fa fa-shopping-bag"></i>
                                 <h4>Sipariş Edilen Ürün Listesi</h4>
                             </div>
@@ -143,7 +198,7 @@
                                                 @php($o = json_decode($order->cart))
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                        alt="">
+                                                        style="object-fit: cover;width:100px;height:75px"  alt="">
                                                 @else
                                                     <img src="{{ URL::to('/') . '/project_housing_images/' }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
@@ -151,8 +206,8 @@
 
                                             </div>
                                             <div class="product-text-info ">
-                                                <p><strong>{{ json_decode($order->cart)->item->title }}</strong></p>
-                                                <p>İlan kodu : <strong>{{ $order->key }}</strong></p>
+                                                <p><strong>{{ json_decode($order->cart)->item->title }} <strong>{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }} No'lu Konut </strong></strong></p>
+                                                <p>İlan No : <strong>{{ $order->key }}</strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -276,27 +331,36 @@
                         </div>
                     </div>
 
-                    @if(Auth::check() && Auth::user()->type == 2)
+                    @if(Auth::check() && Auth::user()->id == $order->store->id)
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Sözleşme Ekleme</h3>
                                 <h6 class="mb-2"></h6>
-
+                                @if (isset($order->path))
+                                {{-- {{dd($order->path)}} --}}
+                                <a href="{{ asset($order->path) }}" target="_blank">
+                                        <i class="fa fa-file"></i> {{ basename($order->filename) }}
+                                    </a>
+                                @else
+                                    <p>PDF dosyası bulunamadı.</p>
+                                @endif
+                
                                 <div class="order_status">
-    
                                     <form action="{{ route('institutional.contract.upload.pdf') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{ $order->id }}"> 
-                                        <input class="" type="file" placeholder="test" name="pdf_file">
+                                        <div class="mb-3">
+                                            <input type="file" name="pdf_file" class="form-control">
+                                        </div>
                                         <button class="btn btn-phoenix-success me-1 mb-1 mt-3" type="submit">Yükle</button>
                                     </form>
-                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endif
+                
                 
 
                    

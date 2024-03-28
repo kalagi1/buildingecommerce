@@ -50,4 +50,9 @@ class CartOrder extends Model
     public function coupon(){
         return $this->hasOne(UseCoupon::class,"order_id","id");
     }
+
+    public function store()
+    {
+        return $this->belongsTo(User::class, 'store_id');
+    }
 }

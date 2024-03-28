@@ -160,7 +160,7 @@ class CartController extends Controller {
                 } else {
                     $discountRate = floatval( $cartJson[ 'item' ][ 'discount_rate' ] ?? 0 );
                     $amount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
-                    dd( $amount );
+                    // dd( $amount );
                     $amount = number_format( $amount, 2, ',', '.' );
                 }
             } else {
