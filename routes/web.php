@@ -80,6 +80,7 @@ use App\Http\Controllers\NotificationController as ControllersNotificationContro
 use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
+use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\Client\SmsController;
 
 /*
@@ -116,6 +117,7 @@ Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('g
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
 Route::post('get-rendered-projects', [HomeController::class, "getRenderedProjects"])->name("get-rendered-projects");
 Route::get('/send-sms', [SmsController::class, 'sendSms'])->name('send-sms');
+Route::post('/send-contract-reminder/{cartOrder}', [ContractController::class, 'sendContractReminder'])->name('send.contract.reminder');
 
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
