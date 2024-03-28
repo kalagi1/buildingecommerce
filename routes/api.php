@@ -32,12 +32,8 @@ Route::get('/featured-projects', [ProjectController::class, 'getFeaturedProjects
 Route::get('/my_projects',[InstitutionalProjectController::class,"index"]);
 Route::get('/featured-stores', [StoreController::class, 'getFeaturedStores']);
 Route::get('/featured-sliders', [ClientSliderController::class, 'getFeaturedSliders']);
-
-
 Route::get('dashboard-statuses',[HousingController::class,'getDashboardStatuses']);
-
 Route::get('/real-estates',[RealEstateController::class,'getRealEstates']);
-
 Route::get('/menu-list',[MenuController::class,'getMenuList']);
 
 

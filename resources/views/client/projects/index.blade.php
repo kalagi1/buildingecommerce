@@ -193,6 +193,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <span class="autoWidthTr">Kimden:</span>
+                                                        <span class="det" style="color: #274abb !important;">
+                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <span class="autoWidthTr">Proje Durumu:</span>
                                                         <span class="det"
                                                             style="color: black;">{{ $status->name }}</span>
@@ -568,6 +576,7 @@
 
                                                 @if (
                                                     !$isArrayCheck &&
+
                                                         isset($value) &&
                                                         $value !== '' &&
                                                         $housingSetting->label != 'Fiyat' &&
