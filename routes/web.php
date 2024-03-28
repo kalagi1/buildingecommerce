@@ -80,6 +80,7 @@ use App\Http\Controllers\NotificationController as ControllersNotificationContro
 use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
+use App\Http\Controllers\Client\SmsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +115,7 @@ Route::get('/search/results', [HomeController::class, "searchResults"])->name('s
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
 Route::post('get-rendered-projects', [HomeController::class, "getRenderedProjects"])->name("get-rendered-projects");
+Route::get('/send-sms', [SmsController::class, 'sendSms'])->name('send-sms');
 
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
