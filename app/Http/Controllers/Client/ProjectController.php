@@ -214,7 +214,7 @@ class ProjectController extends Controller
 
             $project->cartOrders = 0;
             $projectCounts= 0;
-            if ($projectHousingsList[1]['share_sale[]'] && $projectHousingsList[1]['share_sale[]'] != "[]") {
+            if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] && $projectHousingsList[1]['share_sale[]'] != "[]") {
                 $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
             
                 for ($i = 1; $i <= $room_counts; $i++) {
