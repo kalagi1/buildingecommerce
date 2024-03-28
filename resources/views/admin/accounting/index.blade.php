@@ -96,7 +96,8 @@
                                                     <span><strong>IBAN: </strong>
                                                         {{ optional($item->user)->iban ?? null }}</span>
                                                     <br>
-                                                    <span class="text-success">Kazanç: {{ $item->balance ?? null }} ₺</span>
+                                                   
+                                                    <span class="text-success">Kazanç:  {{ number_format((float)$item->balance , 0, ',', '.') ?? null }} ₺</span>
                                                 @else
                                                     -
                                                 @endif
@@ -123,7 +124,8 @@
                                                 {{ $reservation->owner->phone ?? null }}
                                                 <br>
                                                 @if (isset($item->earn2))
-                                                    <span class="text-success">Kazanç: {{ $item->earn2 ?? null }} ₺</span>
+                                              
+                                                    <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
 
                                             </td>
@@ -184,8 +186,8 @@
                                                     <br>
                                                     <span><strong>IBAN: </strong>
                                                         {{ optional($item->user)->iban ?? null }}</span>
-                                                    <br>
-                                                    <span class="text-success">Kazanç: {{ $item->balance ?? null }} ₺</span>
+                                                    <br>                                    
+                                                    <span class="text-success">Kazanç: {{ number_format((float)$item->balance  , 0, ',', '.') ?? null }} ₺</span>
                                                 @else
                                                     -
                                                 @endif
@@ -219,11 +221,14 @@
                                                 @endif
                                                 <br>
                                                 @if (isset($item->earn2))
-                                                    <span class="text-success">Kazanç: {{ $item->earn2 ?? null }} ₺</span>
+                                               
+                                                    <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
 
                                             </td>
-                                            <td>{{ $item->cart->amount ?? null }} ₺</td>
+
+                                           
+                                            <td> {{ number_format((float)$item->cart->amount , 0, ',', '.') ?? null }} ₺</td>
                                         </tr>
                                     @endif
                                 @endforeach

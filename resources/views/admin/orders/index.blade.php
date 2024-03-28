@@ -41,36 +41,106 @@
                         <table class="table table-sm fs--1 mb-0">
                             <thead>
                                 <tr>
+                                    
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_no">Kod</th>
+                                        data-sort="order_no">Sipariş No</th>
+                                        <th class="sort white-space-nowrap align-middle pe-3 text-center" scope="col"
+                                    data-sort="order_date">Tarih</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_image">Görsel</th>
+                                        data-sort="ad_no">İlan Numarası</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_project">Proje</th>
+                                        data-sort="customer">Müşteri Bilgileri</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_amount">Tutar</th>
+                                        data-sort="sales_person">Satıcı Bilgileri</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_amount">Ödeme Türü</th>
+                                        data-sort="order_amount">Kapora Tutarı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_date">Sipariş Tarihi</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_status">Durum</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_user">Sipariş Detayı</th>
-                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_details">Onay</th>
+                                        data-sort="pay_type">Ödeme Türü</th>
+                                 
+                                    {{-- <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_status">Durum</th> --}}
+                                   <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="order_details">Sipariş Detayı</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="order-table-body">
-
+                                
                                 @if ($cartOrders->count() > 0)
                                     @foreach ($cartOrders as $order)
+                                    @php
+                                        $orderCart = json_decode($order->cart, true);
+                                    @endphp
+                                       @php
+                                        if ($order->user->profile_image) {
+                                            $profileImage = url('storage/profile_images/' . $order->user->profile_image);
+                                        } else {
+                                            $initial = $order->user->name ? strtoupper(substr($order->user->name, 0, 1)) : '';
+                                            $profileImage = $initial;
+                                        }
+                                   @endphp
+                                   
+                                   @php
+                                   if ($order->store->profile_image) {
+                                       $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                                   } else {
+                                       $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
+                                       $storeImage = $initial;
+                                   }
+                                    @endphp
+                               
+
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                         <tr>
-                                            <td class="order_no">{{ $order->id }}</td>
-                                            <td class="order_image">
+                                           
+                                            <td class="order_no align-middle  fw-semibold text-body-highlight">
+                                              {{$order->id}}
+                                            </td>
+
+                                            <td class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4   text-wrap">{{ $order->created_at }}</td>
+
+                                            
+                                            <td class="ad_no align-middle  fw-semibold text-body-highlight"> 
+                                                <a
+                                                href="{{ $orderCart['type'] == 'housing'
+                                                    ? route('housing.show', [
+                                                        'housingSlug' => $orderCart['item']['slug'],
+                                                        'housingID' => $orderCart['item']['id'] + 2000000,
+                                                    ])
+                                                    : route('project.housings.detail', [
+                                                        'projectSlug' =>
+                                                            optional(App\Models\Project::find($orderCart['item']['id']))->slug .
+                                                            '-' .
+                                                            optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
+                                                            '-' .
+                                                            optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
+                                                        'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
+                                                        'housingOrder' => $orderCart['item']['housing'],
+                                                    ]) }}">
+                                                {{ $order->key }}
+                                            </a>
+                                            
+                                            <td class="customer align-middle white-space-nowrap">
+                                                <a class="d-flex align-items-center text-body" >
+                                                    <div class="avatar avatar-m">
+                                                        <img class="rounded-circle" src="{{ $profileImage }}" alt="">
+                                                    </div>
+                                                    <p class="mb-0 ms-3 text-body text-wrap">{{$order->user->name}}</p>
+                                                </a>
+                                            </td>
+
+                                            <td class="customer align-middle white-space-nowrap">
+                                                <a class="d-flex align-items-center text-body">
+                                                    <div class="avatar avatar-m">
+                                                        <img class="rounded-circle" src="{{ $storeImage }}" alt="">
+                                                    </div>
+                                                    <p class="mb-0 ms-3 text-body text-wrap">{{$order->store->name}}</p>
+                                                </a>
+                                            </td>
+                                            
+
+                                            {{-- <td class="order_image">
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         width="100px" height="120px" style="object-fit: contain;" />
@@ -78,8 +148,8 @@
                                                     <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
-                                            </td>
-                                            <td class="order_project" style="width:350px">
+                                            </td> --}}
+                                            {{-- <td class="order_project" style="width:350px">
                                                 @if ($o->type == 'project')
                                                     <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
                                                         {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
@@ -102,15 +172,16 @@
                                                         satın alındı
                                                         !</span>
                                                 @endif
-                                            </td>
-                                            <td class="order_amount">{{ $order->amount }} <br>
+                                            </td> --}}
+                                            <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->amount }} <br>
 
                                             </td>
-                                            <td class="order_amount">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br>
+                                            <td class="order_amount align-middle  fw-semibold text-body-highlight">{{ $order->is_swap == 0 ? 'Peşin' : 'Taksitli' }} <br>
 
                                             </td>
-                                            <td class="order_date">{{ $order->created_at }}</td>
-                                            <td class="order_status">{!! [
+                                   
+                                            
+                                            {{-- <td class="order_status align-middle text-center fw-semibold text-body-highlight">{!! [
                                                 '0' => '<span class="text-warning">Rezerve Edildi</span>',
                                                 '1' => '<span class="text-success">Satış Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Satış Reddedildi</span>',
@@ -135,13 +206,14 @@
                                                 @if (isset($order->price) && $order->price->status == 2)
                                                     <span class="text-danger">Hakediş reddedildi.</span>
                                                 @endif
-                                            </td>
-                                            <td class="order_user">
+                                            </td> --}}
+
+                                            <td class="order_user align-middle fw-semibold text-body-highlight">
                                                 <a href="{{ route('admin.order.detail', ['order_id' => $order->id]) }}"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş
                                                     Detayı</a>
                                             </td>
-                                            <td class="order_details">
+                                            {{-- <td class="order_details">
                                                 @if ($order->status == 0)
                                                     <a onclick="return confirm('İlan satışını onaylamak istediğinize emin misiniz?')"
                                                         href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
@@ -204,7 +276,7 @@
                                                             Reddet</a>
                                                     @endif
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 @else

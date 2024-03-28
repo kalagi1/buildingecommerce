@@ -29,15 +29,18 @@
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="no">
                                 NO
                             </th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">
+                                Sipariş Tarihi</th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_no">
                                 İlan Numarası
                             </th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="sales_person">Satıcı Bilgileri</th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
                                 İlan Adı</th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_amount">
                                 Kapora Tutarı</th>
-                            <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_date">
-                                Sipariş Tarihi</th>
+                           
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_status">
                                 Durum</th>
                             <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_detail">
@@ -45,9 +48,9 @@
                         </tr>
                     </thead>
                     <tbody class="list" id="order-table-body">
-                        @php
+                        {{-- @php
                             $counter = 1;
-                        @endphp
+                        @endphp --}}
                         @foreach ($cartOrders as $order)
                             @php
                                 $o = json_decode($order->cart);
@@ -91,21 +94,62 @@
                                 );
                             @endphp
                             <tr>
-                                <td class="no"><span>{{ $counter }}</span></td>
-                                @php
+                                <td class="no"><span>{{$order->id}}</span></td>
+                                {{-- @php
                                     $counter++;
+                                @endphp --}}
+                                @php
+                                    $orderCart = json_decode($order->cart, true);
                                 @endphp
-                                <td class="order_no"><a class="fw-semibold"
-                                    href="#!">{{  $order->key }}</a><br>
+                                <td class="order_date">{{ $tarih }}</td>
+
+
+
+                                <td class="order_no">
+                                    <a
+                                        href="{{ $orderCart['type'] == 'housing'
+                                            ? route('housing.show', [
+                                                'housingSlug' => $orderCart['item']['slug'],
+                                                'housingID' => $orderCart['item']['id'] + 2000000,
+                                            ])
+                                            : route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    optional(App\Models\Project::find($orderCart['item']['id']))->slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
+                                                'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
+                                                'housingOrder' => $orderCart['item']['housing'],
+                                            ]) }}">
+                                        {{ $order->key }}
+                                    </a>
                                 </td>
+
+                                @php
+                                   if ($order->store->profile_image) {
+                                       $storeImage = url('storage/profile_images/' . $order->store->profile_image);
+                                   } else {
+                                       $initial = $order->store->name ? strtoupper(substr($order->store->name, 0, 1)) : '';
+                                       $storeImage = $initial;
+                                   }
+                                    @endphp
+                               
+                                
+                                <td class="sales_person align-middle white-space-nowrap"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                                    <div class="avatar avatar-m"><img class="rounded-circle" src="{{ $storeImage }}" alt=""></div>
+                                    <p class="mb-0 ms-3 text-body text-wrap" >{{$order->store->name}}</p>
+                                  </a></td>
+
                                 <td class="order_project">
                                     <span>
+                                       
                                         @if ($o->type == 'housing')
                                         {{ App\Models\Housing::find($o->item->id ?? 0)->title ?? null }}
                                     @else
                                         {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
                                         {{ ' ' }}Projesinde
-                                        {{ ' ' }}
+                                        {{ ' ' }}{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}.
                                         {{ $project->step1_slug }}
                                     @endif
                                     @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
@@ -121,7 +165,7 @@
                                 </td>
                                 <td class="order_amount">{{ number_format(floatval(str_replace('.', '', $order->amount)), 0, ',', '.') }}
                                     ₺</td>
-                                <td class="order_date">{{ $tarih }}</td>
+                               
 
                                 <td class="order_status"><span class="text-success"> 
                                     

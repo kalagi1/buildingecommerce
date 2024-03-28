@@ -74,20 +74,24 @@ class DashboardController extends Controller
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
                     $userProjectIds
-                )->where('cart_orders.status', '1');
+                );
+                
             })
+            ->orderBy('created_at', 'DESC')
             ->get();
 
     
             $userHousingIds = $user->housings->pluck('id')->toArray();
-        $housingOrders = CartOrder::select('cart_orders.*')
+              $housingOrders = CartOrder::select('cart_orders.*')
             ->with("user", "invoice","reference")
             ->where(function ($query) use ($userHousingIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
                     $userHousingIds
                 );
+                
             })
+            ->orderBy('created_at', 'DESC')
             ->get();
     
         $cartOrders = $projectOrders->merge($housingOrders);

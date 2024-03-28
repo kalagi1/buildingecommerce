@@ -32,8 +32,12 @@ class SharerController extends Controller
 
         $pageInfo = json_encode($pageInfo);
         $pageInfo = json_decode($pageInfo);
+        $user = null;
+        if (Auth::check()) {
+            $user = User::where("id", Auth::user()->id)->first();
+        }
 
-        return view("client.sharer-panel.view", compact('pageInfo'));
+        return view("client.sharer-panel.view", compact('pageInfo',"user"));
     }
     public function index()
     {
