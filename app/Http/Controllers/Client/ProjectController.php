@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 use function PHPSTORM_META\type;
 
@@ -263,6 +264,8 @@ class ProjectController extends Controller
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title,
                 "meta_author" => "Emlak Sepette",
+                "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) ,
+
             ];
 
             $pageInfo = json_encode($pageInfo);
