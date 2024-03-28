@@ -74,7 +74,7 @@
                                                     ->where('id', $o->item->id)
                                                     ->first()
                                                 : null;
-                                        $tarih = date('d F Y', strtotime($order->created_at));
+                                        $tarih = date('d F Y H:i:s', strtotime($order->created_at));
                                         $tarih = str_replace(
                                             [
                                                 'January',
@@ -114,7 +114,7 @@
                                         @php
                                             $orderCart = json_decode($order->cart, true);
                                         @endphp
-                                        <td class="order_no"><a
+                                        <td class="order_no"><a  target="_blank"
                                         href="{{ $orderCart['type'] == 'housing'
                                             ? route('housing.show', [
                                                 'housingSlug' => $orderCart['item']['slug'],

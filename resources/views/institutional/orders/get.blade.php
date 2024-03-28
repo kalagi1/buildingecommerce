@@ -106,7 +106,7 @@
 
 
                                 <td class="order_no">
-                                    <a
+                                    <a  target="_blank"
                                         href="{{ $orderCart['type'] == 'housing'
                                             ? route('housing.show', [
                                                 'housingSlug' => $orderCart['item']['slug'],
@@ -136,7 +136,8 @@
                                     @endphp
                                
                                 
-                                <td class="sales_person align-middle white-space-nowrap"><a class="d-flex align-items-center text-body" href="../../../apps/e-commerce/landing/profile.html">
+                                <td class="sales_person align-middle white-space-nowrap">
+                                    <a target="_blank" href="{{ route('institutional.dashboard', ["slug" => $order->store->name, "userID" =>$order->store->id ]) }}" class="d-flex align-items-center text-body" >
                                     <div class="avatar avatar-m"><img class="rounded-circle" src="{{ $storeImage }}" alt=""></div>
                                     <p class="mb-0 ms-3 text-body text-wrap" >{{$order->store->name}}</p>
                                   </a></td>
