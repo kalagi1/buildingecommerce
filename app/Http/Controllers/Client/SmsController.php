@@ -15,15 +15,15 @@ class SmsController extends Controller {
 
     public function sendSms(Request $request)
 {
-    $header = 'BASLIGIM'; // SMS başlığı
-    $message = 'asd'; // Gönderilecek mesaj
-    $phones = '905075634137'; // Alıcı numarası
-
-    // SmsService sınıfından sendSms metodu çağrılıyor
-    $response = $this->smsService->sendSms($header, $message, $phones);
-
-    // Sms gönderme işlemi sonucunu JSON olarak döndürülüyor
-    return response()->json($response);
+    $source_addr = "BASLIGIM";
+    $message = "Test mesajıdır"; // Bu metin UTF8 olmalı, değilse 400 hatası alırsınız. Veritabanından alınan string'ler, veritabanı bağlantısının encoding'iyle gelir, UTF8 değilse çevirmeniz gerekir.
+    $dest = "905075634137,";
+    
+    $campaign_id = $this->smsService->sendSms($source_addr, $message, $dest);
+    if($campaign_id === false)
+      echo "Mesaj gonderme basarisiz.\n";
+    else
+      echo "Mesaj basariyla gonderildi. Kampanya ID'si: $campaign_id\n";
 }
 
 }
