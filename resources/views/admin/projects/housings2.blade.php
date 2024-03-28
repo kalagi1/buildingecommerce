@@ -611,7 +611,7 @@
                                                                     </div>
                                                                     @endif
                                                                     <div class="modal-footer">
-                                                                        <button type="submit"  class="modal-btn-gonder">Gönder</button>
+                                                                        <button type="submit"   onclick="this.disabled=true; this.innerHTML='Gönderiliyor...';" class="modal-btn-gonder">Gönder</button>
                                                                         <button type="button" class="modal-btn-kapat" data-bs-dismiss="modal">Kapat</button>
                                                                     </div>
                                                                 </form>

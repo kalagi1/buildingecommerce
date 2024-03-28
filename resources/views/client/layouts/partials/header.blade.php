@@ -759,7 +759,7 @@
                                     </a>
                                 </li>
                             @endforeach --}}
-                            {{-- <li class="club-items">
+                            <li class="club-items mobile-show">
                                 <a href="{{ url('/emlak-kulup') }}">
                                     <b style="font-weight:800 !important;display:flex">
                                         <img style="" class="lazy entered loading clubStyles"
@@ -767,7 +767,7 @@
                                             data-ll-status="loading">
                                         EMLAK KULÜP</b>
                                 </a>
-                            </li> --}}
+                            </li>
                         </ul>
                     </nav>
                 </div>

@@ -2699,8 +2699,11 @@ class ProjectController extends Controller
     public function komsumuGorInfo(Request $request)
     {
 
+
         $housingID = $request->no;
         $projectID = $request->projectID;
+
+      
         $city_id = Project::where('id', $projectID)->value('city_id');
         $county_id = Project::where('id', $projectID)->value('county_id');
 
