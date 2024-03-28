@@ -1124,3 +1124,10 @@ Route::get('/getTaxOfficeCity', [UserController::class, 'getTaxOfficeCity'])->na
 
 //Komşumu sil
 Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name('komsumu.sil');
+
+//Toplu Main Gönderimi
+Route::get('/multiple-mail/create', [EmailTemplateController::class, 'MultipleMail'])->name('admin.multiple_mail.create');
+Route::post('multiple_mail/store' , [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
+Route::get('/multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
+Route::get('/multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
+Route::get('/multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
