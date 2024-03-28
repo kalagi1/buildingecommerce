@@ -43,9 +43,9 @@
                                 <tr>
                                     
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                                        data-sort="order_no">Sipariş No</th>
+                                        data-sort="order_no"> No</th>
                                         <th class="sort white-space-nowrap align-middle pe-3 text-center" scope="col"
-                                    data-sort="order_date">Tarih</th>
+                                    data-sort="order_date">Sipariş Tarihi</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="ad_no">İlan Numarası</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
