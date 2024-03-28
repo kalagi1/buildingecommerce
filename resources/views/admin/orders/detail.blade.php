@@ -290,6 +290,7 @@
                                     <select class="form-select mb-4"  name="status" id="status" onchange="submitForm()">
                                         <option value="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}" @if($order->status == 1) selected @endif>İlan Satışını Onayla</option>
                                         <option value="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}" @if($order->status != 1) selected @endif>İlan Satışını Reddet</option>
+                                        <option value="" @if($order->status == 0) selected @endif>Onay Bekleniyor</option>
                                     </select>
                                     
                                     <form id="status-form" action="#" method="POST" style="display: none;">
@@ -349,7 +350,7 @@
                                 <div class="order_status">
                                 
                                 <td class="order_status align-middle text-center fw-semibold text-body-highlight">{!! [
-                                                '0' => '<span class="text-warning">Rezerve Edildi</span>',
+                                                '0' => '<span class="text-warning">Onay Bekleniyor</span>',
                                                 '1' => '<span class="text-success">Satış Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Satış Reddedildi</span>',
                                             ][$order->status] !!} <br>

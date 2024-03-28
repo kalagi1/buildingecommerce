@@ -185,14 +185,7 @@
                                             
                                             {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
                                             {!! [
-                                                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span
-                                                                                                                                                                                        class="badge-label">Rezerve Edildi</span><svg
-                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                    </svg>',
+                                                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
                                                 '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
                                                                                                                                                                                         class="badge-label">Ödeme Onaylandı</span><svg
                                                                                                                                                                                         xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -202,11 +195,7 @@
                                                                                                                                                                                         <polyline points="20 6 9 17 4 12"></polyline>
                                                                                                                                                                                     </svg>',
                                                 '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                        class="badge-label">Ödeme Reddedildi</span><svg
-                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                    </svg>',
+                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                             ][$order->status] !!}
                                             </span>
                                                     @if ($order->invoice && $order->status == 1)
