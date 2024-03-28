@@ -52,6 +52,8 @@
                                         data-sort="customer">Müşteri Bilgileri</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="sales_person">Satıcı Bilgileri</th>
+                                    <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order_project">
+                                            İlan Adı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_amount">Kapora Tutarı</th>
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -140,30 +142,15 @@
                                             </td>
                                             
 
-                                            {{-- <td class="order_image">
-                                                @if ($o->type == 'housing')
-                                                    <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
-                                                        width="100px" height="120px" style="object-fit: contain;" />
+                                            <td class="order_project">
+                                                <span>
+                                                    @if ($o->type == 'housing')
+                                                    {{ App\Models\Housing::find($o->item->id ?? 0)->title ?? null }}
                                                 @else
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . getHouse($project, 'image[]', json_decode($order->cart)->item->housing)->value }}"
-                                                        style="object-fit: cover;width:100px;height:75px" alt="Görsel">
-                                                @endif
-                                            </td> --}}
-                                            {{-- <td class="order_project" style="width:350px">
-                                                @if ($o->type == 'project')
-                                                    <span>{{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-                                                        {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
-                                                        {{ $project->step1_slug }}
-                                                    </span>
-                                                @else
-                                                    {{ App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->title ?? null }}
-                                                @endif
-                                                @if (isset($order->isReference))
-                                                    <br>
-                                                    <strong class="text-success">Bu ilan komşumu gör referansı ile
-                                                        satılmıştır. <br>
-                                                        Referans: {{ $order->isReference->name }} -
-                                                        {{ $order->isReference->phone }}</strong>
+                                                    {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}
+                                                    {{ ' ' }}Projesinde
+                                                    {{ ' ' }}{{ json_decode($order->cart)->type == 'project' ? json_decode($order->cart)->item->housing : null }}.
+                                                    {{ $project->step1_slug }}
                                                 @endif
                                                 @if (isset(json_decode($order->cart)->item->isShare) && !empty(json_decode($order->cart)->item->isShare))
                                                     <br>
@@ -172,7 +159,10 @@
                                                         satın alındı
                                                         !</span>
                                                 @endif
-                                            </td> --}}
+                                                </span>
+                                                <br>
+            
+                                            </td>
                                             <td class="order_amount align-middle fw-semibold text-body-highlight">{{ $order->amount }} <br>
 
                                             </td>
