@@ -15,7 +15,7 @@ class SmsController extends Controller {
 
     public function sendSms(Request $request)
 {
-    $source_addr = "BASLIGIM";
+    $source_addr = "MaliyetinEv";
     $message = "Test mesajıdır"; // Bu metin UTF8 olmalı, değilse 400 hatası alırsınız. Veritabanından alınan string'ler, veritabanı bağlantısının encoding'iyle gelir, UTF8 değilse çevirmeniz gerekir.
     $dest = "905075634137,";
     
