@@ -385,6 +385,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title mb-4">Sözleşme Detayı</h3>
+                                <h6 class="mb-2"></h6>
+                                <div class="order_status">
+                            
+                                @if (isset($order->path))
+                                {{-- {{dd($order->path)}} --}}
+                                <a href="{{ asset($order->path) }}" target="_blank">
+                                        <i class="fa fa-file"></i> {{ basename($order->filename) }}
+                                    </a>
+                                @else
+                                    <p>PDF dosyası bulunamadı.</p>
+                                @endif
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
