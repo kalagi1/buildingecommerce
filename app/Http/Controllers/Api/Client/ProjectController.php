@@ -117,10 +117,13 @@ class ProjectController extends Controller
     }
 
     public function getRooms($projectId,Request $request){
-        $housings = ProjectHousing::where('project_id',$projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
-
+        $projectHousings = ProjectHousing::where('project_id', $projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+        $projectHousingsList = [];
+        $projectHousings->map(function ($item) use (&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
         return json_encode([
-            "housings" => $housings
+            "housings" => $projectHousingsList
         ]);
     }
 }
