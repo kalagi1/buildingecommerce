@@ -64,7 +64,7 @@
     {
         "id": "home",
         "label": "MAİL & SMS",
-        "icon": "message-circle",
+        "icon": "send",
         "text": "Çoklu SMS Gönderimi",
         "key": "MultipleSms",
         "url": "admin.multiple_sms.create",
