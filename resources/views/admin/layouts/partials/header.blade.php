@@ -410,7 +410,7 @@
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <img class="rounded-circle "
-                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                    src="{{ URL::to('/') }}/favicon.png"
                                     alt="" />
                             </div>
                         </a>
@@ -625,7 +625,7 @@
                                                     <div class="d-flex">
                                                         <div class="avatar avatar-m status-online me-3"><img
                                                                 class="rounded-circle"
-                                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                                src="{{ URL::to('/') }}/favicon.png"
                                                                 alt="" /></div>
                                                         <div class="flex-1 me-sm-3">
                                                             <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -1930,7 +1930,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -2156,7 +2156,7 @@
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
                             <img class="rounded-circle "
-                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                src="{{ URL::to('/') }}/favicon.png"
                                 alt="" />
                         </div>
                     </a>
@@ -3230,7 +3230,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -4531,7 +4531,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -4757,7 +4757,7 @@
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
                             <img class="rounded-circle "
-                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                src="{{ URL::to('/') }}/favicon.png"
                                 alt="" />
                         </div>
                     </a>
@@ -5833,7 +5833,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -6451,7 +6451,7 @@
                                                         <div class="d-flex">
                                                             <div class="avatar avatar-m status-online me-3"><img
                                                                     class="rounded-circle"
-                                                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                                    src="{{ URL::to('/') }}/favicon.png"
                                                                     alt="" /></div>
                                                             <div class="flex-1 me-sm-3">
                                                                 <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -6706,7 +6706,7 @@
                                 data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <div class="avatar avatar-l ">
                                     <img class="rounded-circle "
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                        src="{{ URL::to('/') }}/favicon.png"
                                         alt="" />
                                 </div>
                             </a>
