@@ -25,7 +25,13 @@ class ProjectController extends Controller
 
     public function show($id){
         $project = Project::where('id', $id)->with("brand", "roomInfo", "neighbourhood", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->firstOrFail();
-        $project->roomInfo = $project->roomInfo;
+        if($project->room_count > 10){
+            $roomInfo = ProjectHousing::where('project_id',$id)->where('room_order','>',0)->where('room_order','<=',10)->get();
+            $project->roomInfo = $roomInfo;
+        }else{
+            $roomInfo = ProjectHousing::where('project_id',$id)->get();
+            $project->roomInfo = $roomInfo;
+        }
         $project->brand = $project->brand;
         $project->housingType = $project->housingType;
         $project->county = $project->county;
@@ -56,6 +62,14 @@ class ProjectController extends Controller
             "projectHousingsList" => $projectHousingsList,
             "offer" => $offer,
             "status" => $status
+        ]);
+    }
+
+    public function getRooms($projectId,Request $request){
+        $housings = ProjectHousing::where('project_id',$projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+
+        return json_encode([
+            "housings" => $housings
         ]);
     }
 }

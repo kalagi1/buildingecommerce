@@ -35,5 +35,6 @@ Route::get('/featured-sliders', [ClientSliderController::class, 'getFeaturedSlid
 Route::get('dashboard-statuses',[HousingController::class,'getDashboardStatuses']);
 Route::get('/real-estates',[RealEstateController::class,'getRealEstates']);
 Route::get('/menu-list',[MenuController::class,'getMenuList']);
+Route::get('/project_housings/{projectId}',[ProjectController::class,'getRooms']);
 
 Route::apiResource('project', ProjectController::class);
