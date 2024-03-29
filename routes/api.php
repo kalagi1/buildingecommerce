@@ -36,4 +36,4 @@ Route::get('dashboard-statuses',[HousingController::class,'getDashboardStatuses'
 Route::get('/real-estates',[RealEstateController::class,'getRealEstates']);
 Route::get('/menu-list',[MenuController::class,'getMenuList']);
 
-
+Route::apiResource('project', ProjectController::class);
