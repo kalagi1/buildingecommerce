@@ -212,7 +212,7 @@
             } else { // Kampanya başladıysa
                 var diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
                 if (diff > 0) {
-                    return "Bitimine - " + diff + " gün kaldı";
+                    return "Bitimine " + diff + " gün kaldı";
                 } else {
                     return "Sonlandı";
                 }
