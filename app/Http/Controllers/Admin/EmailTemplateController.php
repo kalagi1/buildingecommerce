@@ -79,7 +79,7 @@ class EmailTemplateController extends Controller
 
     public function MultipleMail(){
         return view('admin.multiple_mail.create');
-    }//End
+    }
 
     public function MultipleMailStore(Request $request){
         $title = $request->title;
@@ -93,12 +93,12 @@ class EmailTemplateController extends Controller
             }
         }    
         return redirect()->back()->with('success','Sms Başarıyla Gönderildi.');
-    }//End
+    }
 
     public function MultipleMailGetUsers(){
         $users = User::all(['id', 'name','email']);
         return response()->json($users);
-    }//End
+    }
 
     public function MultipleMailGetUsersBireysel(){
         $users = User::where('type',1)->get(); 
