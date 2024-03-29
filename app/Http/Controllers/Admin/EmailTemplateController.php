@@ -92,7 +92,7 @@ class EmailTemplateController extends Controller
                 SendCustomMail::dispatch($user->email, $content, $title);
             }
         }    
-        return redirect()->back()-with('success','Sms Başarıyla Gönderildi.');
+        return redirect()->back()->with('success','Sms Başarıyla Gönderildi.');
     }//End
 
     public function MultipleMailGetUsers(){
