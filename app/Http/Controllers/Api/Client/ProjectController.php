@@ -28,7 +28,7 @@ class ProjectController extends Controller
     }
 
     public function show($projectID){
-        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city",'listItemValues', 'user.brands', 'user.housings', 'images')->first();
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "blocks", "neighbourhood", "housingType", "county", "city",'listItemValues', 'user.brands', 'user.housings', 'images')->first();
         if (!$project) {
             return Response::json([
                 'error' => "Proje yayından kaldırılmıştır"
