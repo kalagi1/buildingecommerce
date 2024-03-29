@@ -323,8 +323,7 @@
                                         <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                                                 style="width:100px">Ara</button></a>
 
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                                            style="width:100px">Kapat</button>
+                                        <button type="button" class="btn btn-danger btnClose" data-dismiss="modal" style="width:100px">Kapat</button>
                                     </div>
                                 </div>
                             </div>
@@ -491,9 +490,6 @@
                         </div>
                     </div>
 
-
-
-
                     <div class="form-group">
                         <label for="comment" class="q-label">Açıklama:</label>
                         <textarea class="modal-input" id="offer_description" rows="45" style="height: 130px !important;"
@@ -502,8 +498,8 @@
 
                     <div class="modal-footer" style="justify-content: end !important">
                         <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"
-                            style="width:150px">Kapat</button>
+                        <button type="button" class="btn btn-danger btnClose" data-dismiss="modal" style="width:150px">Kapat</button>
+
                     </div>
                 </form>
 
@@ -588,6 +584,11 @@
 
 
     <script>
+        $(document).ready(function() {
+            $('.btnCLose').click(function() {
+                $('.modal').modal('hide');
+            });
+        });
         $('.bank-account').on('click', function() {
             // Tüm banka görsellerini seçim olmadı olarak ayarla
             $('.bank-account').removeClass('selected');

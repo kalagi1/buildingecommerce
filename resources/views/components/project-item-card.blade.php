@@ -437,8 +437,7 @@
 
                     <div class="modal-footer" style="justify-content: end !important">
                         <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"
-                            style="width:150px">Kapat</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:150px">Kapat</button>
                     </div>
                 </form>
 
@@ -553,7 +552,7 @@
                     <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                             style="width:100px">Ara</button></a>
 
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
                         style="width:100px">Kapat</button>
                 </div>
             </div>
