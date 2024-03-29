@@ -7,7 +7,7 @@
                 <div class="card-header border-bottom border-300 bg-soft">
                     <div class="row g-3 justify-content-between align-items-center">
                         <div class="col-12 col-md">
-                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Mail Oluştur</h4>
+                            <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Sms Oluştur</h4>
                         </div>
                     </div>
                 </div>
@@ -43,10 +43,6 @@
                                 <div id="userCheckboxes">
                                     <input type="checkbox" id="selectAll"> <label for="selectAll">Tümünü Seç</label>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="title">Sms Başlığı</label>
-                                <input class="form-control" id="title" name="title" type="text" placeholder="Sayfa Başlığı">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="content">Sms İçeriği</label>
