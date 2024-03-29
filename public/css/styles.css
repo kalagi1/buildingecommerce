@@ -161,11 +161,13 @@ h5 {
     margin-bottom: 20px;
 }
 
+
 .inner-pages .properties-right.list .homes-img img,
 .featured.portfolio .project-head img {
-    height: 184px !important;
+    height: 185px !important;
     object-fit: cover !important;
 }
+
 
 
 .social-square {
@@ -578,17 +580,29 @@ img {
 }
 
 
+.badgeYearIcon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5px;
+}
+
+.badgeYearIcon img {
+    width: 25px;
+    height: 25px;
+}
+
 .brand-head .brands-square {
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .brand-head .brand-logo {
     width: 50px !important;
     height: 50px !important;
     border-radius: 30px;
-    padding: 5px;
 }
 
 .brand-head .brand-name {
@@ -611,9 +625,37 @@ img {
     justify-content: space-between;
 }
 
+.listingDetailsSliderNav .item {
+    border: solid 1px #e6e6e6;
+}
+
+.listingDetailsSliderNav .item.active {
+    border: 1px solid #EA2B2E !important;
+}
+
 .brand-head .navbar-items {
     display: flex;
     justify-content: left;
+}
+
+.modal-dialog {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%
+}
+
+
+@media (max-width: 768px) {
+    .brand-head .navbar-items {
+        overflow-x: scroll;
+    }
+
+    .brand-head .navbar-items::-webkit-scrollbar {
+        display: none;
+    }
+
 }
 
 .brand-head .navbar-item {
@@ -6079,7 +6121,6 @@ element.style {
 }
 
 .homepage-2 .portfolio .project-single {
-    border-radius: 0 0 8px 8px;
     z-index: 99;
     overflow: visible;
 }
@@ -8495,7 +8536,6 @@ html input[disabled] {
 
     .itemCircleFont {
         font-size: 11px;
-        margin-right: 11px;
     }
 
     .button-tabs .tab-title {
@@ -8799,7 +8839,7 @@ a.button {
     background-color: #fff;
     flex-wrap: nowrap;
     justify-content: space-between;
-    width: 400px;
+    width: 260px;
 }
 
 @media screen and (max-width: 991px) {
@@ -16468,9 +16508,6 @@ a.button {
     padding: 0 10px;
 }
 
-.homes-content .second-btn {
-    margin-top: 30px !important;
-}
 
 .homes-button .second-btn {
 
@@ -16667,7 +16704,7 @@ a.button {
 
 .inner-pages .blog .change-view-btn {
     color: #121B22 !important;
-    border: 1px solid #121B22;
+    border: 1px solid #eee;
     margin-left: 5px;
     border-radius: 2px;
     background: transparent;
@@ -16678,17 +16715,14 @@ a.button {
     color: black !important;
 }
 
+
 .inner-pages .active-view-btn {
-    background: #121B22 !important;
+    background: #eee !important;
     color: #fff !important;
     margin-left: 5px;
     padding: 5px 9px;
 }
 
-.inner-pages .blog .active-view-btn:hover {
-    background: black !important;
-    color: #fff;
-}
 
 .inner-pages .blog .block-heading .fa {
     color: #fff;
@@ -18408,8 +18442,24 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     float: right
 }
 
-.inner-pages .blog .homes-content .homes-list li {
+.projectCardList li {
+    width: 20%
+}
+
+.modal-open .modal {
+    z-index: 9999999;
+}
+
+.collection-body {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.checkSquareIcon li {
     width: 25%;
+}
+
+.inner-pages .blog .homes-content .homes-list li {
     float: left;
     font-size: 11px;
     line-height: 18px;
@@ -24483,21 +24533,41 @@ form label.error {
 }
 
 .see-my-neighbor {
-    background: #274abb !important;
+    background: green !important;
     color: #ffffff !important;
     width: 120px;
     display: block;
     cursor: pointer;
     text-align: center;
     padding: 5px 10px;
+    border: 1px solid green !important;
 }
+
 .see-my-neighbor.payment {
     background: orange !important;
+    border: 1px solid orange !important
 }
+
 .see-my-neighbor.success {
     background: green !important;
 }
 
+.storeShareBtn {
+    width: 150px;
+    height: 30px;
+    margin-right: 20px;
+    border: none;
+    background-color: white;
+    border: 1px solid white;
+    display: flex;
+    border-radius: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: .5s;
+    overflow: hidden;
+    position: relative;
+}
 
 .see-my-neighbor .animation {
     border-radius: 100%;
@@ -25540,7 +25610,7 @@ ul {
 
 .seller-profile .seller-info-container {
     display: grid;
-    grid-template-columns: repeat(3, 3fr);
+    grid-template-columns: repeat(4, 4fr);
     grid-row-gap: 20px;
     grid-column-gap: 18px;
     margin-bottom: 20px
@@ -29873,6 +29943,20 @@ a {
     text-decoration: none !important;
 }
 
+   .newButtonStyle{
+    background-color: white !important;
+    position: relative;
+    width: 150px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #EA2B2E;
+    justify-content: center;
+    border: 1px solid #EA2B2E;
+    }
+
+
 .buyUserRequest {
     position: relative;
     width: 150px;
@@ -29917,6 +30001,7 @@ a {
     font-weight: 600;
     font-size: 12px;
 }
+
 .user-notloggedin-container {
     padding: 16px !important;
     display: flex;
@@ -29927,7 +30012,8 @@ a {
     box-sizing: border-box;
 
 }
-.new-login-dropdown{
+
+.new-login-dropdown {
     display: none;
     font-weight: 400;
     background-color: #fff;
@@ -29941,11 +30027,13 @@ a {
     height: auto;
     top: 50px;
 }
+
 .userIconWrapper {
     position: relative;
     cursor: pointer;
     padding: 15px 0;
 }
+
 .userIconWrapper:hover .new-login-dropdown {
     display: block;
 }
@@ -30085,7 +30173,7 @@ a {
         background-color: red
     }
 
-    .paymentTableTitle{
+    .paymentTableTitle {
         white-space: normal !important;
     }
 }
@@ -30431,7 +30519,7 @@ a {
 
 
 .button-effect {
-    width: 35px !important; 
+    width: 35px !important;
     height: 35px !important;
     border-radius: 50%;
     display: flex;
@@ -30494,13 +30582,14 @@ a {
         font-size: 11px;
     }
 
-    .mobileAddCollection:hover {
+    .mobileAddCollection:hover,
+    .disabledShareButton:hover {
         background-color: white !important;
         color: black !important
     }
 }
 
-.share-area{
+.share-area {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30511,7 +30600,7 @@ a {
     font-size: 22px;
 }
 
-.price-share{
+.price-share {
     font-size: 20px;
     font-weight: 700;
     color: #274abb;
@@ -30521,7 +30610,7 @@ a {
     text-transform: capitalize !important;
 }
 
-.payment-button-share{
+.payment-button-share {
     color: white;
     font-size: 11px;
     background-color: black;
@@ -30534,11 +30623,11 @@ a {
     height: 40px;
 }
 
-.project-card{
+.project-card {
     position: relative;
 }
 
-.sharer-button button{
+.sharer-button button {
     background: #EA2B2E !important;
     border: #EA2B2E !important;
     width: 150px;
@@ -30551,7 +30640,7 @@ a {
     margin-bottom: 1rem;
 }
 
-.sharers{
+.sharers {
     border: 1px solid #333;
     margin-left: 20px;
 }

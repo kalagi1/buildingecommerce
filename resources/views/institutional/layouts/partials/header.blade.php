@@ -146,6 +146,7 @@
                                     } elseif ($menuItem['key'] == 'Housings') {
                                         $pendingHousingTypes = \App\Models\Housing::with('city', 'county', 'neighborhood')
                                             ->where('status', 2)
+                                            ->where("user_id",Auth::user()->id)
                                             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                                             ->select(
                                                 'housings.id',
@@ -164,7 +165,7 @@
                                             ->orderByDesc('housings.updated_at')
                                             ->count() ?: null;
                                     } elseif ($menuItem['key'] == "Projects") {
-                                        $pendingProjects = \App\Models\Project::where('status', 2)->orderByDesc('updated_at')->get();
+                                        $pendingProjects = \App\Models\Project::where('status', 2)->where("user_id",Auth::user()->id)->orderByDesc('updated_at')->get();
                                     } elseif ($menuItem['key'] == "GetOrders") {
                                         $orderCount = \App\Models\CartOrder::with( 'user' ,'share',"price")->orderByDesc( 'created_at' )->where("status","0")->get();
                                     }elseif ($menuItem['key'] == "GetReservations") {
@@ -327,11 +328,11 @@
                                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                                 </svg></label></div>
                     </li>
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         @php
                             $notifications = App\Models\DocumentNotification::with('user')
                                 ->orderBy('created_at', 'desc')
-                                ->where('owner_id', '4')
+                                ->where('owner_id', Auth::user()->id)
                                 ->where('readed', '0')
                                 ->limit(10)
                                 ->get();
@@ -436,7 +437,9 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
+                    --}}
+                    <li class="nav-item dropdown"><a class="nav-link1 lh-1 pe-0" id="navbarDropdownUser"
+
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
@@ -495,7 +498,7 @@
                                 <div class="card-footer p-0 ">
                                     <div class="px-3 mb-3 mt-3"><a
                                             class="btn btn-phoenix-secondary d-flex flex-center w-100"
-                                            href="{{ route('admin.logout') }}">
+                                            href="{{ route('client.logout') }}">
                                             <span class="me-2" data-feather="log-out"></span>Çıkış Yap
                                         </a>
                                     </div>
@@ -6163,7 +6166,6 @@
                                     <p class="logo-text ms-2 d-none d-sm-block">phoenix</p>
                                 </div>
                             </div>
-                        </a>
                     </div>
                     {{-- <div class="search-box navbar-top-search-box d-none d-lg-block"
                         data-list='{"valueNames":["title"]}' style="width:25rem;">

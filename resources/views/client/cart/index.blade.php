@@ -122,11 +122,17 @@
                                         } else {
                                             $projectOffer = App\Models\Offer::where('type', 'project')
                                                 ->where('project_id', $cart['item']['id'])
-                                                ->where(
-                                                    'project_housings',
-                                                    'LIKE',
-                                                    '%' . $cart['item']['housing'] . '%',
-                                                )
+                                                ->where(function ($query) use ($cart) {
+                                                    $query
+                                                        ->orWhereJsonContains(
+                                                            'project_housings',
+                                                            $cart['item']['housing'],
+                                                        )
+                                                        ->orWhereJsonContains(
+                                                            'project_housings',
+                                                            (string) $cart['item']['housing'],
+                                                        ); // Handle as string as JSON might store values as strings
+                                                })
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
@@ -231,12 +237,15 @@
                                             $displayedPrice = number_format($discountedPrice, 0, ',', '.');
                                             $share_sale = $cart['item']['isShare'] ?? null;
                                             $number_of_share = $cart['item']['numbershare'] ?? null;
-
                                         @endphp
 
                                         <td>
                                             <span style="width:100%;text-align:center">
-                                                @if (isset($share_sale) && !empty($share_sale))
+
+                                                
+                                               
+
+                                                @if (isset($share_sale) &&  count($share_sale) > 0)
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
@@ -250,7 +259,8 @@
 
                                                 @if ($discountRate != 0)
                                                     <span>
-                                                        <del style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}₺</del>
+                                                        <del
+                                                            style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}₺</del>
                                                     </span>
                                                 @endif
 
@@ -283,7 +293,8 @@
                                     </ul>
                                 @else
                                     <ul>
-                                        <li>İlan Fiyatı<strong class="pull-right"> {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
+                                        <li>İlan Fiyatı<strong class="pull-right">
+                                                {{ number_format($cart['item']['amount'], 0, ',', '.') }} TL</strong></li>
                                         @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
                                             <li style="color:#EA2B2E">Mağaza İndirimi :
                                                 <strong class="pull-right">
@@ -294,7 +305,8 @@
                                                         <polyline points="17 18 23 18 23 12"></polyline>
                                                     </svg>
                                                     <span style="margin-left: 2px">
-                                                        {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }} ₺ 
+                                                        {{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
+                                                        ₺
                                                     </span>
                                                 </strong>
                                             </li>
@@ -346,35 +358,21 @@
                                 </button>
                             @else
                                 @if ($saleType == 'kiralik')
-                                    {{-- <button type="button" id="paymentButton"
+                                    <a href="{{ route('payment.index') }}"
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        data-target="#paymentModal"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
-                                    </button> --}}
-                                    <a href="{{ route('payment.index', ['userId' => Auth::user()->id]) }}"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                         <span class="button-price-inner">{{ number_format($discountedPrice, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
-                                     </a>
-                                @else
-
-                                    <a href="{{ route('payment.index', ['userId' => Auth::user()->id]) }}"
-                                        class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        style="height: 50px !important;font-size: 11px;margin: 0 auto;">
-                                        <span class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span> TL <br> KAPORA ÖDE
                                     </a>
-
-                                    {{-- <button type="button" id="paymentButton"
+                                @else
+                                    <a href="{{ route('payment.index') }}"
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
-                                        data-target="#paymentModal"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
                                             class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
-                                    </button> --}}
+                                    </a>
                                 @endif
                             @endif
 
@@ -469,21 +467,21 @@
                                             <div class="form-group">
                                                 <label for="fullName">Ad Soyad:</label>
                                                 <input type="text" class="form-control" id="fullName"
-                                                    name="fullName" requi#EA2B2E>
+                                                    name="fullName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="email">E-posta:</label>
                                                 <input type="email" class="form-control" id="email" name="email"
-                                                    requi#EA2B2E>
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tc">TC * </label>
                                                 <input type="number" class="form-control" id="tc" name="tc"
-                                                    requi#EA2B2E oninput="validateTCLength(this)">
+                                                    required oninput="validateTCLength(this)">
                                             </div>
                                         </div>
 
@@ -500,13 +498,13 @@
                                             <div class="form-group">
                                                 <label for="phone">Telefon:</label>
                                                 <input type="tel" class="form-control" id="phone" name="phone"
-                                                    requi#EA2B2E>
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="address">Adres:</label>
-                                                <textarea class="form-control" id="address" name="address" rows="5" requi#EA2B2E></textarea>
+                                                <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
                                             </div>
                                         </div>
 
@@ -522,7 +520,7 @@
                                                 <textarea class="form-control" id="reference_code" name="reference_code" rows="5"></textarea>
                                             </div>
                                         </div>
-                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
+                                        @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && $share_sale == '[]')
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="neighborProjects">Komşunuzun referansıyla mı satın
@@ -541,7 +539,7 @@
 
                                     </div>
 
-                                    @if ($cart['type'] == 'project' && empty($share_sale))
+                                    @if ($cart['type'] == 'project' && $share_sale == '[]')
                                         <div class="d-flex align-items-center">
                                             <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
 
@@ -700,9 +698,6 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
-
-          
-          
         $(document).ready(function() {
 
             var displayedPriceSpan = $('#itemPrice');
@@ -761,6 +756,7 @@
             function updateCart(selectedOption) {
                 var qt =
                     "{{ isset($cart['item']['qt']) ? $cart['item']['qt'] : 1 }}"; // Varsa quantity değeri, yoksa 1
+
 
                 var updatedPrice = (selectedOption === 'taksitli') ? (installmentPrice * qt) : (originalPrice * qt);
 

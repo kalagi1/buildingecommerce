@@ -60,12 +60,12 @@
                         }
                     </style>
 
-                    <div class="pb-6">
+                    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top bg-white border-bottom border-translucent position-relative top-1">
                         <div id="lealsTable"
                             data-list='{"valueNames":["name","email","phone","contact","company","date"],"page":20,"pagination":true}'>
 
 
-                            <div class="table-responsive scrollbar mx-n1 px-1 border-top">
+                            <div class="table-responsive scrollbar mx-n1 px-1">
                                 <table class="table fs--1 mb-0 leads-table">
                                     <thead>
                                         <tr>
@@ -113,7 +113,7 @@
                                                     </div><span>Tarih</span>
                                                 </div>
                                             </th>
-                                            <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
+                                            {{-- <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
                                                 data-sort="company" style="width:15%;">
                                                 <div class="d-inline-flex flex-center">
                                                     <div
@@ -122,8 +122,8 @@
                                                             data-feather="grid"></span>
                                                     </div><span>İl & İlçe</span>
                                                 </div>
-                                            </th>
-                                            <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
+                                            </th> --}}
+                                            <th class="sort align-middle ps-4 pe-5 text-uppercase " scope="col"
                                                 data-sort="contact" style="width:15%;">İşlemler</th>
 
                                         </tr>
@@ -131,7 +131,6 @@
                                     <tbody class="list" id="leal-tables-body">
                                         @foreach ($users as $key => $user)
                                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-
                                                 <td class="name align-middle white-space-nowrap ps-0">
                                                     <div class="d-flex align-items-center"><a href="#!">
                                                             <div class="avatar avatar-xl me-3"><img class="rounded-circle"
@@ -226,27 +225,27 @@
                                                     {{ $user->created_at->locale('tr')->isoFormat('D MMM, HH:mm') }}
 
                                                 </td>
-                                                <td
+                                                {{-- <td
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
                                                     {{ isset($user->city) && isset($user->district) && $user->city->title ? $user->city->title.' & '.$user->district->ilce_title : "İl Belirtilmemiş" }}
-                                                </td>
+                                                </td> --}}
                                                 <td>
-                                                    @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
-                                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                            class="btn btn-sm btn-primary">Düzenle</a>
-                                                    @elseif (in_array('GetUserById', $userPermissions))
-                                                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                                                            class="btn btn-sm btn-primary">Önizle</a>
-                                                    @endif
-
-                                                    @if (in_array('DeleteUser', $userPermissions))
-                                                        <!-- Silme işlemi için modal -->
-                                                        <button type="button" class="btn btn-sm btn-danger"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $user->id }}">
-                                                            Sil
-                                                        </button>
-                                                    @endif
+                                                    <div class="d-flex">
+                                                        @if (in_array('GetUserById', $userPermissions) && in_array('UpdateUser', $userPermissions))
+                                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-primary mr-2">Düzenle</a>
+                                                        @elseif (in_array('GetUserById', $userPermissions))
+                                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-primary mr-2">Önizle</a>
+                                                        @endif
+                                                    
+                                                        @if (in_array('DeleteUser', $userPermissions))
+                                                            <!-- Silme işlemi için modal -->
+                                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                                data-bs-target="#deleteModal{{ $user->id }}">
+                                                                Sil
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                    
 
                                                     <!-- Silme işlemi için modal -->
                                                     <div class="modal fade" id="deleteModal{{ $user->id }}"

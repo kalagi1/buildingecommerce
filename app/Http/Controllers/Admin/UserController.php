@@ -9,6 +9,10 @@ use App\Models\EmailTemplate;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Chat;
+use App\Models\City;
+use App\Models\Housing;
+use App\Models\Project;
+use App\Models\TaxOffice;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -39,8 +43,10 @@ class UserController extends Controller
         return view("admin.chat.index", compact("chats"));
     }
 
-    public function blockUser(User $user)
+    public function blockUser(Request $request, User $user)
     {
+        $blockReason = $request->input('blockReason');
+
         if ($user->is_blocked) {
             $user->update(['is_blocked' => false]);
             return redirect()->back()->with('success', 'Kullanıcı engellemesi kaldırıldı.');
@@ -52,6 +58,12 @@ class UserController extends Controller
                     "status" => 0,
                 ]);
             }
+
+              // Send email to the offerer
+        $message = 'Hesabınız erişime kapatıldı';
+        $response ='Sayın '. $user->name . ', '. '<br>'.$blockReason;
+
+        Mail::to($user->email)->send(new CustomMail($message, $response));
             return redirect()->back()->with('success', 'Kullanıcı engellendi.');
         }
     }
@@ -59,9 +71,7 @@ class UserController extends Controller
     public function orders(Request $request)
     {
         $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status","1")->orderBy("order","asc")->get();
-return view('admin.users.orders', compact('brands'));
-
-
+      return view('admin.users.orders', compact('brands'));
     }
 
     public function updateOrder(Request $request)
@@ -330,19 +340,33 @@ return view('admin.users.orders', compact('brands'));
 
     public function edit($id)
     {
-        $roles = Role::all();
+        $roles = Role::where("parent_id", "4")->get();
         $userDetail = User::with("comments", "owners", "parent", "town", "child", "role", "projects", "city", "district", "neighborhood", "housings", "plan")->findOrFail($id);
-        return view('admin.users.edit', compact('userDetail', 'roles'));
+
+        $taxOffices = TaxOffice::all();
+        
+        $parent = User::where('id',$userDetail->parent_id)->value('name');
+
+        $projectCount     = Project::where('user_id',$userDetail->id)->count();
+        $housingCount     = Housing::where('user_id',$userDetail->id)->count();
+        $userChildCount   = User::where('parent_id',$userDetail->id)->count();
+        $userCommentCount = count($userDetail->comments);
+        
+        return view('admin.users.edit', compact('userDetail', 'roles','parent','projectCount','housingCount','userChildCount','userCommentCount','taxOffices'));
     }
 
     public function update(Request $request, $id)
     {
+        $taxOfficeCity = City::where('title',$request->taxOfficeCity)->value('id');
         // Form doğrulama kurallarını tanımlayın
         $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'type' => 'required|in:1,2',
-            'is_active' => 'nullable',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|unique:users,email,' . $id,
+            'type'           => 'required|in:1,2',
+            'is_active'      => 'nullable',
+            'iban'           => 'required|string|max:255|nullable',
+            'corporate_type' => 'required|string|max:255|nullable',
+            'account_type'   => 'required|string|max:255|nullable',
         ];
 
         // Form doğrulama işlemini gerçekleştirin
@@ -350,11 +374,20 @@ return view('admin.users.orders', compact('brands'));
 
         // Kullanıcıyı güncelleyin
         $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->type = $validatedData['type'];
-        $user->status = $request->has('is_active') ? 1 : 0;
+        $user->name           = $validatedData['name'];
+        $user->email          = $validatedData['email'];
+        $user->type           = $validatedData['type'];
+        $user->status         = $request->has('is_active') ? 1 : 0;
+        $user->iban           = $validatedData['iban'];
+        $user->corporate_type = $validatedData['corporate_type'];
+        $user->account_type   = $validatedData['account_type'];
+        $user->taxOfficeCity  = $taxOfficeCity;
+        $user->taxOffice      = $request->taxOffice;
+        $user->taxNumber      = $request->taxNumber;
 
+        if($user->account_type == 'Şahıs Şirketi'){
+            $user->idNumber = $request->idNumber;
+        }
 
         
         if ($request->hasFile('profile_image')) {
@@ -369,14 +402,11 @@ return view('admin.users.orders', compact('brands'));
             $user->password = bcrypt($request->input('password'));
         }
 
-        // Kullanıcıyı veritabanına kaydedin
         $user->save();
 
-        // Başarılı bir işlem sonrası mesajı ayarlayın
         session()->flash('success', 'Kullanıcı başarıyla güncellendi.');
 
-        // Kullanıcıları listeleme sayfasına yönlendirme yapabilirsiniz
-        return redirect()->route('admin.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
+        return redirect()->route('admin.users.index'); 
     }
 
     public function destroy($id)
@@ -390,4 +420,15 @@ return view('admin.users.orders', compact('brands'));
         // Kullanıcıları listeleme sayfasına yönlendirme yapabilirsiniz
         return redirect()->route('admin.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
+
+    public function getTaxOfficeCity(Request $request){
+        $taxOfficeId = $request->input('taxOfficeId');
+
+        $taxOffice = TaxOffice::find($taxOfficeId);
+        $city = $taxOffice->il; 
+        $plaka = $taxOffice->plaka; 
+    
+        return response()->json(['city' => $city, 'plaka' => $plaka]);
+    }//End
+    
 }

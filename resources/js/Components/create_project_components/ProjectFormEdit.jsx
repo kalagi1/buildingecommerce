@@ -254,6 +254,9 @@ function ProjectFormEdit({center,setCenter,anotherBlockErrors,selectedBlock,setS
                                 center={center}
                                 onLoad={onLoad}
                                 onUnmount={onUnmount}
+                                options={{
+                                    gestureHandling: "greedy"
+                                }}
                             >
                               <Marker position={selectedLocation} />
                             </GoogleMap>

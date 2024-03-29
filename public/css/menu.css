@@ -58,7 +58,7 @@ img {
 
 .header-widget a svg {
     color: black;
-    width: 18px;
+    width: 15px;
     margin-right: 5px;
 }
 
@@ -663,7 +663,7 @@ a.button {
 #navigation.style-1 ul a {
     font-weight: 600;
     color: #333;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 34px;
     padding: 0;
     display: flex;

@@ -97,7 +97,6 @@
         function toggleBrandStatus(brandId, element) {
         const isShow = element.checked ? 'yes' : 'no';
 
-        // Send an AJAX request using jQuery
         $.ajax({
             type: 'POST',
             url: '{{ route('update.brand.status') }}',

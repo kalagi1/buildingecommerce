@@ -77,9 +77,12 @@ function TypeList({setSelectedHousingType,selectedHousingType,setSelectedTypes,s
                     <ul>
                         {
                             housingStatuses.map((housingStatus) => {
-                                return(
-                                    <li onClick={() => {setHousingStatus(housingStatus.id)}} className={selectedTypes[0] == housingStatus.id ? "selected" : ""}>{housingStatus.name}</li>
-                                )
+                                if(!housingStatus.is_default){
+                                    return(
+                                        <li onClick={() => {setHousingStatus(housingStatus.id)}} className={selectedTypes[0] == housingStatus.id ? "selected" : ""}>{housingStatus.name}</li>
+                                    )
+                                }
+                                
                             })
                         }
                     </ul>

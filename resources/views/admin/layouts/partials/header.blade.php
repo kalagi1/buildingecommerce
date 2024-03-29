@@ -182,7 +182,7 @@
                                         @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-icon">
-                                                <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+                                                <i class="fa fa-{{ $menuItem['icon'] }}"></i>
                                             </span>
                                             <span class="nav-link-text">
                                                 {{ $menuItem['text'] }}
@@ -294,14 +294,15 @@
                                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                                 </svg></label></div>
                     </li>
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         @php
                             $notifications = App\Models\DocumentNotification::with('user')
                                 ->orderBy('created_at', 'desc')
-                                ->where('owner_id', '4')
+                                ->where('owner_id', '4')    
                                 ->where('readed', '0')
                                 ->limit(10)
                                 ->get();
+                                dd($notifications);
                         @endphp
 
                         <a class="nav-link" href="#" style="min-width: 2.5rem" role="button"
@@ -364,7 +365,8 @@
                                                                 </div>
                                                                 <div class="flex-1 me-sm-3">
                                                                     <h4 class="fs--1 text-black">
-                                                                        {{ $notification->user->name }}</h4>
+                                                                        {{dd( $notification->user)}}
+                                                                        {{ $notification->user ?? $notification->user->name }}</h4>
                                                                     <p class="fs--1 text-1000 mb-2 mb-sm-3 fw-normal">
                                                                         {!! $notification->text !!}</p>
                                                                     @php
@@ -402,13 +404,13 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                     <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser"
                             href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <img class="rounded-circle "
-                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                    src="{{ URL::to('/') }}/favicon.png"
                                     alt="" />
                             </div>
                         </a>
@@ -419,7 +421,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                src="{{ URL::to('/') }}/favicon.png"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
@@ -623,7 +625,7 @@
                                                     <div class="d-flex">
                                                         <div class="avatar avatar-m status-online me-3"><img
                                                                 class="rounded-circle"
-                                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                                src="{{ URL::to('/') }}/favicon.png"
                                                                 alt="" /></div>
                                                         <div class="flex-1 me-sm-3">
                                                             <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -865,7 +867,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                src="{{ URL::to('/') }}/favicon.png"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -1928,7 +1930,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -2154,7 +2156,7 @@
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
                             <img class="rounded-circle "
-                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                src="{{ URL::to('/') }}/favicon.png"
                                 alt="" />
                         </div>
                     </a>
@@ -2165,7 +2167,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -3228,7 +3230,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -3460,7 +3462,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -4529,7 +4531,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -4755,7 +4757,7 @@
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-l ">
                             <img class="rounded-circle "
-                                src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                src="{{ URL::to('/') }}/favicon.png"
                                 alt="" />
                         </div>
                     </a>
@@ -4766,7 +4768,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -5831,7 +5833,7 @@
                                                 <div class="d-flex">
                                                     <div class="avatar avatar-m status-online me-3"><img
                                                             class="rounded-circle"
-                                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                            src="{{ URL::to('/') }}/favicon.png"
                                                             alt="" /></div>
                                                     <div class="flex-1 me-sm-3">
                                                         <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -6063,7 +6065,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ URL::to('/') }}/favicon.png"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -6449,7 +6451,7 @@
                                                         <div class="d-flex">
                                                             <div class="avatar avatar-m status-online me-3"><img
                                                                     class="rounded-circle"
-                                                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                                                    src="{{ URL::to('/') }}/favicon.png"
                                                                     alt="" /></div>
                                                             <div class="flex-1 me-sm-3">
                                                                 <h4 class="fs--1 text-black">Kiera Anderson</h4>
@@ -6704,7 +6706,7 @@
                                 data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <div class="avatar avatar-l ">
                                     <img class="rounded-circle "
-                                        src="{{ URL::to('/') }}/adminassets/assets/img/team/40x40/57.webp"
+                                        src="{{ URL::to('/') }}/favicon.png"
                                         alt="" />
                                 </div>
                             </a>
@@ -6715,7 +6717,7 @@
                                         <div class="text-center pt-4 pb-3">
                                             <div class="avatar avatar-xl ">
                                                 <img class="rounded-circle "
-                                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                    src="{{ URL::to('/') }}/favicon.png"
                                                     alt="" />
                                             </div>
                                             <h6 class="mt-2 text-black">Jerry Seinfield</h6>

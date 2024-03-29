@@ -90,18 +90,19 @@
 @section('scripts')
     <script>
         jQuery(function($) {
+            var jsonData = @json($housingType->form_json);
+            console.log(JSON.parse(jsonData));
             var options = {
                 onSave: function(evt, formData) {
                     document.getElementById("form_json").value = (formData);
-                    console.log(JSON.stringify(formData))
+                    console.log(formData)
                 },
             };
-            console.log('@json($housingType->form_json)')
             var formBuilder = $(document.getElementById('fb-editor')).formBuilder(options)
 
             setTimeout(function() {
-                formBuilder.actions.setData(@json($housingType->form_json));
-            }, 500);
+                formBuilder.actions.setData(jsonData);
+            }, 14500);
         });
     </script>
 @endsection

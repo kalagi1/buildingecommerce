@@ -1,0 +1,680 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.pagination .page-item i {
+    font-size: 12px;
+    /* Ok ikonunun boyutunu ayarla */
+    color: #333;
+    /* Ok rengini ayarla */
+}
+
+.pagination {
+    height: 35px;
+    border-radius: 0 !important;
+}
+.pagination .page-item-middle a{
+    border: 0 !important;
+}
+
+.pagination .page-item-left a ,
+.pagination .page-item-right a {
+    display: block;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    border-top-right-radius: 100% !important;
+    border-bottom-right-radius: 100% !important;
+    border-radius: 50% !important;
+    align-items: center;
+}
+/* Sağ ve sol okların stilini tanımla */
+.pagination .page-item-left,
+.pagination .page-item-right {
+    background-color: #e8e8e8;
+    border-radius: 50% !important;
+    width: 30px;
+    border: none;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination .page-item:hover,
+.pagination .page-item .page-link:hover{
+    background-color: white !important;
+    background: white !important;
+}
+
+.pagination .page-item:hover i,
+.pagination .page-item .page-link:hover i,
+.pagination .page-item:hover a,
+.pagination .page-item .page-link:hover a{
+    color:#EA2B2E !important
+}
+
+/* Sağ ve sol okların üzerine gelindiğinde arka plan rengini değiştir */
+.pagination .page-item-left:hover,
+.pagination .page-item-right:hover {
+    background-color: #dcdcdc;
+}
+
+/* Font Awesome simgelerinin rengini belirle */
+.pagination .page-item-left i,
+.pagination .page-item-right i {
+    color: #333;
+    /* Başlangıçta simge rengi */
+    transition: color 0.3s;
+    /* Geçiş efekti ekle */
+}
+
+/* Sağ ve sol okların üzerine gelindiğinde simge rengini beyaza dönüştür */
+.pagination .page-item-left:hover i,
+.pagination .page-item-right:hover i {
+    color: white;
+}
+
+.mobile-tab-content {
+    display: none;
+}
+
+.mobile-tab-content.active {
+    display: block !important;
+}
+
+.storeInfo {
+    margin-top: 30px;
+}
+
+.trStyle,
+.trStyle tr {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+.trStyle tr {
+    width: 33%;
+}
+
+.trStyle tr td {
+    width: 100%;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #dee2e6;
+}
+
+.mobileTagProject {
+    display: none
+}
+
+.mobile-action-move {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly
+}
+
+@media (max-width:768px) {
+    .mobile-action {
+        margin-left: 10px
+    }
+
+    .mobile-action-move h4 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #274abb;
+        display: flex;
+        width: 100%;
+        margin-bottom: 0;
+        align-items: center;
+        justify-content: center;
+        text-transform: capitalize !important;
+    }
+
+    .buttons {
+        margin-right: 10px
+    }
+
+
+    .detail-wrapper-body,
+    .mobile-action {
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .listing-title-bar {
+        color: black;
+        font-size: 12px !important;
+        width: 100%;
+        display: block;
+        text-align: left;
+    }
+
+    .brand-head {
+        margin-bottom: 0 !important;
+    }
+
+    .addCollectionMobile {
+        margin-bottom: 20px !important
+    }
+
+    .mobileTagProject {
+        width: 150px !important;
+        z-index: 9;
+        position: absolute !important;
+        display: block !important;
+        bottom: 0;
+        left: 30% !important;
+        margin: 0 auto;
+    }
+
+    .listingDetailsSliderNav {
+        display: none !important;
+    }
+
+    #listingDetailsSlider {
+        padding: 0 !important;
+        margin-bottom: 30px !important;
+
+    }
+
+    .title-fs {
+        display: none !important;
+    }
+
+
+    .inner-pages .pro-wrapper .detail-wrapper-body p {
+        margin-bottom: 0 !important;
+    }
+
+    .nav-tabs {
+        margin-top: 0 !important;
+    }
+
+    .storeInfo {
+        margin: 20px !important;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .trStyle tr {
+        width: 100%;
+    }
+}
+
+.tab-content-block {
+    display: none
+}
+
+.tab-content-block.active {
+    display: block !important
+}
+
+.button-effect {
+    border: solid 1px #e6e6e6;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.housing-detail-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+.mobile-hidden {
+    display: flex;
+}
+
+.desktop-hidden {
+    display: none;
+}
+
+.homes-content .footer {
+    display: none
+}
+
+.price-mobile {
+    display: flex;
+    align-items: self-end;
+}
+
+@media (max-width: 768px) {
+
+    .payment-plan-table td strong {
+        font-weight: 700 !important
+    }
+
+    .payment-plan-table thead {
+        display: none !important;
+    }
+
+    .payment-plan-table th,
+    .payment-plan-table td {
+        display: block !important;
+        width: 100%;
+    }
+
+    .payment-plan-table th {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .housingsListTab {
+        padding: 0 !important;
+    }
+
+    .widget-boxed {
+        margin-bottom: 30px;
+    }
+
+    .car {
+        margin-top: 10px
+    }
+
+    .mobile-hidden {
+        display: none
+    }
+
+    .desktop-hidden {
+        display: block;
+    }
+
+    .mobile-position {
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    }
+
+    .inner-pages .portfolio .homes-content .homes-list-div ul {
+        flex-wrap: wrap
+    }
+
+    .homes-content .footer {
+        display: block;
+        background: none;
+        border-top: 1px solid #e8e8e8;
+        padding-top: 1rem;
+        font-size: 13px;
+        color: #666;
+    }
+
+
+
+}
+
+
+.loading-spinner {
+    text-align: center
+}
+
+
+.modal-label {
+    margin: 0.3em 0em;
+    font-size: 13px;
+    font: bold;
+    color: #000000 !important;
+}
+
+.modal-input {
+    padding: 1em !important;
+    border: 1px solid #eee !important;
+    margin: 0.5em 0em;
+    width: 100%;
+    transition: border-color 0.3s;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-btn-gonder,
+.modal-btn-kapat {
+    padding: 0.8em 2em;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    width: 45%;
+    border: none;
+    height: 45px;
+}
+
+.modal-btn-gonder {
+    background-color: #ea2b2e;
+    color: #fff;
+}
+
+.modal-btn-kapat {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+form {
+    margin: 1em;
+}
+
+
+.modal-title {
+    font-size: 2.5rem;
+    text-align: center;
+    font-size: 15px !important;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+.trStyle tr {
+    width: 33%;
+}
+
+.trStyle,
+.trStyle tr {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.trStyle tr td {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    border: 1px solid #dee2e6;
+}
+
+.table td {
+    display: flex;
+    justify-content: space-between
+}
+
+.table td,
+.table th {
+    padding: .55rem;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block !important;
+}
+
+.mobile-hidden {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none
+    }
+
+    .trStyle tr {
+        width: 100%;
+    }
+
+    .housingsListTab {
+        padding: 0 !important;
+    }
+}
+
+.button-effect {
+    border: solid 1px #e6e6e6;
+    width: 48px;
+    height: 35px !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.housing-detail-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+
+.mobile-hidden {
+    display: flex;
+}
+
+.desktop-hidden {
+    display: none;
+}
+
+.homes-content .footer {
+    display: none
+}
+
+.price-mobile {
+    display: flex;
+    align-items: self-end;
+}
+
+@media (max-width: 768px) {
+    .mobile-hidden {
+        display: none
+    }
+
+    .desktop-hidden {
+        display: block;
+    }
+
+    .mobile-position {
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    }
+
+    .inner-pages .portfolio .homes-content .homes-list-div ul {
+        flex-wrap: wrap
+    }
+
+    .homes-content .footer {
+        display: block;
+        background: none;
+        border-top: 1px solid #e8e8e8;
+        padding-top: 1rem;
+        font-size: 13px;
+        color: #666;
+    }
+
+}
+
+@media (max-width:768px) {
+    .storeInfo {
+        display: none !important;
+    }
+
+    .listingDetailsSliderNav {
+        display: none !important;
+    }
+
+    #listingDetailsSlider {
+        padding: 0 !important;
+        margin-bottom: 30px !important;
+    }
+
+    .storeInfo {
+        margin-bottom: 30px !important;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+}
+
+.title {
+    font-family: sans-serif;
+    color: red;
+    text-align: center;
+}
+
+.mobile-tab-content {
+    display: none;
+}
+
+.mobile-tab-content.active {
+    display: block !important;
+}
+
+.trStyle,
+.trStyle tr {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.title-fs {
+    display: none
+}
+
+@media (max-width:768px) {
+
+    .title-fs {
+        display: block;
+        border-bottom: none !important;
+    }
+
+    .inner-pages .headings-2 .listing-title-bar h3 span {
+        font-size: 16px !important;
+    }
+
+    .trStyle tr {
+        width: 100%;
+    }
+}
+
+.tab-content-block {
+    display: none
+}
+
+.tab-content-block.active {
+    display: block !important
+}
+
+.button-effect {
+    border: solid 1px #e6e6e6;
+    width: 48px;
+    height: 35px !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.housing-detail-box {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+.mobile-hidden {
+    display: flex;
+}
+
+.desktop-hidden {
+    display: none;
+}
+
+.homes-content .footer {
+    display: none
+}
+
+.price-mobile {
+    display: flex;
+    align-items: self-end;
+}
+
+.mobileTagProject {
+    display: none
+}
+
+@media (max-width: 768px) {
+    .mobileTagProject {
+        width: 150px !important;
+        position: absolute !important;
+        display: block !important;
+        bottom: 0;
+        left: 30% !important;
+        margin: 0 auto;
+    }
+
+    .payment-plan-table th,
+    .payment-plan-table td {
+        display: block !important;
+        width: 100%;
+    }
+
+    .payment-plan-table th {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .housingsListTab {
+        padding: 0 !important;
+    }
+
+    .widget-boxed {
+        margin-bottom: 30px;
+    }
+
+    .car {
+        margin-top: 10px
+    }
+
+    .mobile-hidden {
+        display: none
+    }
+
+    .desktop-hidden {
+        display: block;
+    }
+
+    .mobile-position {
+        width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 0 10px 1px rgba(71, 85, 95, 0.08);
+    }
+
+    .inner-pages .portfolio .homes-content .homes-list-div ul {
+        flex-wrap: wrap
+    }
+
+    .homes-content .footer {
+        display: block;
+        background: none;
+        border-top: 1px solid #e8e8e8;
+        padding-top: 1rem;
+        font-size: 13px;
+        color: #666;
+    }
+
+}
+
+.classifiedInfo {
+    font-size: 11px;
+    color: #039;
+    padding: 3px 10px 10px 0;
+}
+
+.loading-spinner {
+    text-align: center
+}

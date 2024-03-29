@@ -20,28 +20,29 @@ use Illuminate\Support\Facades\Mail;
 
 class DashboardController extends Controller
 {
-    public function getReservations() {
+    public function getReservations()
+    {
         $user = Auth::user();
         $housingReservations = Reservation::with("user", "housing")
             ->where("owner_id", $user->id)
             ->get();
 
-            return view('institutional.reservations.index', compact('housingReservations'));
-
+        return view('institutional.reservations.index', compact('housingReservations'));
     }
 
-    public function getMyReservations() {
+    public function getMyReservations()
+    {
         $user = Auth::user();
-        $housingReservations = Reservation::with("user", "housing","owner")
+        $housingReservations = Reservation::with("user", "housing", "owner")
             ->where("user_id", $user->id)
-            ->where('status','!=',3)
+            ->where('status', '!=', 3)
             ->get();
 
         return view('institutional.reservations.get', compact('housingReservations'));
-
     }
 
-    public function cancelReservationRequest(Request $request,$id){
+    public function cancelReservationRequest(Request $request, $id)
+    {
         CancelRequest::create([
             "reservation_id" => $id,
             "description" => $request->input('reservation_cancel_text'),
@@ -50,51 +51,56 @@ class DashboardController extends Controller
             "item_type" => 1,
         ]);
 
-        return redirect()->route('institutional.myreservations',["status" => "cancel_reservation_request"]);
+        return redirect()->route('institutional.myreservations', ["status" => "cancel_reservation_request"]);
     }
 
-    public function cancelReservationCancel($id){
-        CancelRequest::where('id',$id)->delete();
+    public function cancelReservationCancel($id)
+    {
+        CancelRequest::where('id', $id)->delete();
 
         return [
             "status" => true
         ];
     }
-    
+
 
     public function getOrders()
     {
-        $user = User::where("id", Auth::user()->id)->with("projects","housings")->first();
+        $user = User::where("id", Auth::user()->id)->with("projects", "housings")->first();
         $userProjectIds = $user->projects->pluck('id')->toArray();
-    
+
         // Projects için sorgu
         $projectOrders = CartOrder::select('cart_orders.*')
-            ->with("user", "invoice","reference")
+            ->with("user", "invoice", "reference")
             ->where(function ($query) use ($userProjectIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
                     $userProjectIds
-                )->where('cart_orders.status', '1');
+                );
             })
+            ->orderBy('created_at', 'DESC')
             ->get();
 
-    
-            $userHousingIds = $user->housings->pluck('id')->toArray();
+
+        $userHousingIds = $user->housings->pluck('id')->toArray();
+        
         $housingOrders = CartOrder::select('cart_orders.*')
-            ->with("user", "invoice","reference")
+            ->with("user", "invoice", "reference")
             ->where(function ($query) use ($userHousingIds) {
                 $query->whereIn(
                     DB::raw("JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id'))"),
                     $userHousingIds
                 );
             })
+            ->orderBy('created_at', 'DESC')
             ->get();
-    
+
+
         $cartOrders = $projectOrders->merge($housingOrders);
-    
+
         return view('institutional.orders.index', compact('cartOrders'));
     }
-    
+
     public function corporateAccountVerification()
     {
         return view('institutional.home.verification');
@@ -220,11 +226,11 @@ class DashboardController extends Controller
                 "email" => $user->email,
                 "token" => $user->email_verification_token,
             ];
-    
+
             foreach ($adminVariables as $key => $value) {
                 $contentAdmin = str_replace("{{" . $key . "}}", $value, $contentAdmin);
             }
-    
+
             Mail::to($admin->email)->send(new CustomMail($emailAdminTemplate->subject, $contentAdmin));
         }
 
@@ -246,7 +252,6 @@ class DashboardController extends Controller
             } else {
                 $stats1_data[] = DB::table('housings')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
             }
-
         }
         DB::commit();
 
@@ -260,38 +265,37 @@ class DashboardController extends Controller
             } else {
                 $stats2_data[] = DB::table('projects')->where('user_id', auth()->user()->parent_id ?? auth()->user()->id)->where('created_at', '>=', date("Y-{$i}-01 00:00:00"))->where('created_at', '<', date("Y-{$n}-01 00:00:00"))->count();
             }
-
         }
         DB::commit();
 
         $user_id = Auth::user()->id;
-    
+
         $balanceStatus0Lists = SharerPrice::where("user_id", $user_id)
-        ->where("status", "0")->get();
+            ->where("status", "0")->get();
 
         $balanceStatus0 = SharerPrice::where("user_id", $user_id)
             ->where("status", "0")
             ->sum('balance');
-    
+
         $balanceStatus1Lists = SharerPrice::where("user_id", $user_id)
-        ->where("status", "1")->get();
+            ->where("status", "1")->get();
 
         $balanceStatus1 = SharerPrice::where("user_id", $user_id)
             ->where("status", "1")
             ->sum('balance');
 
-    
+
         $balanceStatus2Lists = SharerPrice::where("user_id", $user_id)
-        ->where("status", "2")->get();
+            ->where("status", "2")->get();
 
         $balanceStatus2 = SharerPrice::where("user_id", $user_id)
             ->where("status", "2")
             ->sum('balance');
 
-            $collections = Collection::with("links")->where("user_id",Auth::user()->id)->get();
-            $totalStatus1Count = $balanceStatus1Lists->count();
-            $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
-    
-        return view('institutional.home.index', compact("userLog", "balanceStatus0","successPercentage", "collections","balanceStatus1", "balanceStatus2", "balanceStatus0Lists","balanceStatus1Lists","balanceStatus2Lists","remainingPackage", "stats1_data", "stats2_data","hasPlan"));
+        $collections = Collection::with("links")->where("user_id", Auth::user()->id)->get();
+        $totalStatus1Count = $balanceStatus1Lists->count();
+        $successPercentage = $totalStatus1Count > 0 ? ($totalStatus1Count / ($totalStatus1Count + $balanceStatus0Lists->count() + $balanceStatus2Lists->count())) * 100 : 0;
+
+        return view('institutional.home.index', compact("userLog", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
     }
 }

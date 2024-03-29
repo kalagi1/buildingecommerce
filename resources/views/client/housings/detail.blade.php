@@ -91,102 +91,9 @@
                 <i class="fa fa-spinner"></i>
             </div>
         </div>
-        <div class="brand-head mb-30">
-            <div class="container">
-                <div class="card">
-                    <div class="card-img-top" style="background-color: {{ $housing->user->banner_hex_code }}">
-                        <div class="brands-square">
-                            <img src="{{ url('storage/profile_images/' . $housing->user->profile_image) }}" alt=""
-                                class="brand-logo">
-                            <p class="brand-name"><a
-                                    href="{{ route('institutional.profile', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}"
-                                    style="color:White;">
-                                    {{ $housing->user->name }}
-                                    <style type="text/css">
-                                        .st0 {
-                                            fill: #e54242;
-                                        }
 
-                                        .st1 {
-                                            opacity: 0.15;
-                                        }
+        <x-store-card :store="$housing->user" :housing="$housing" />
 
-                                        .st2 {
-                                            fill: #FFFFFF;
-                                        }
-                                    </style>
-                                    @if ($housing->user->corporate_account_status)
-                                        <svg id="Layer_1" style="enable-background:new 0 0 120 120;" version="1.1"
-                                            width="24px" height="24px" viewBox="0 0 120 120" xml:space="preserve"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g>
-                                                <path class="st0"
-                                                    d="M99.5,52.8l-1.9,4.7c-0.6,1.6-0.6,3.3,0,4.9l1.9,4.7c1.1,2.8,0.2,6-2.3,7.8L93,77.8c-1.4,1-2.3,2.5-2.7,4.1   l-0.9,5c-0.6,3-3.1,5.2-6.1,5.3l-5.1,0.2c-1.7,0.1-3.3,0.8-4.5,2l-3.5,3.7c-2.1,2.2-5.4,2.7-8,1.2l-4.4-2.6   c-1.5-0.9-3.2-1.1-4.9-0.7l-5,1.2c-2.9,0.7-6-0.7-7.4-3.4l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8   l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8   l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6c1.4-2.7,4.4-4.1,7.4-3.4l5,1.2c1.6,0.4,3.4,0.2,4.9-0.7l4.4-2.6c2.6-1.5,5.9-1.1,8,1.2   l3.5,3.7c1.2,1.2,2.8,2,4.5,2l5.1,0.2c3,0.1,5.6,2.3,6.1,5.3l0.9,5c0.3,1.7,1.3,3.2,2.7,4.1l4.2,2.9C99.7,46.8,100.7,50,99.5,52.8z   " />
-                                                <g class="st1">
-                                                    <path
-                                                        d="M43.4,93.5l-2.3-4.6c-0.8-1.5-2.1-2.7-3.7-3.2l-4.8-1.6c-2.9-1-4.7-3.8-4.4-6.8l0.5-5.1c0.2-1.7-0.3-3.4-1.4-4.7l-3.2-4    c-1.9-2.4-1.9-5.7,0-8.1l3.2-4c1.1-1.3,1.6-3,1.4-4.7l-0.5-5.1c-0.3-3,1.5-5.8,4.4-6.8l4.8-1.6c1.6-0.5,2.9-1.7,3.7-3.2l2.3-4.6    c0.8-1.6,2.2-2.7,3.7-3.2c-2.7-0.4-5.4,1-6.6,3.5l-2.3,4.6c-0.8,1.5-2.1,2.7-3.7,3.2l-4.8,1.6c-2.9,1-4.7,3.8-4.4,6.8l0.5,5.1    c0.2,1.7-0.3,3.4-1.4,4.7l-3.2,4c-1.9,2.4-1.9,5.7,0,8.1l3.2,4c1.1,1.3,1.6,3,1.4,4.7l-0.5,5.1c-0.3,3,1.5,5.8,4.4,6.8l4.8,1.6    c1.6,0.5,2.9,1.7,3.7,3.2l2.3,4.6c1.4,2.7,4.4,4.1,7.4,3.4l0.6-0.1C46.3,96.7,44.4,95.5,43.4,93.5z" />
-                                                    <path
-                                                        d="M60.6,22.5l4.4-2.6c0.4-0.2,0.8-0.4,1.2-0.5c-1.4-0.2-2.9,0.1-4.1,0.8l-4.4,2.6c-0.4,0.2-0.8,0.4-1.2,0.5    C57.9,23.5,59.3,23.3,60.6,22.5z" />
-                                                    <path
-                                                        d="M81,92c-0.5,0-1,0.1-1.4,0.2l3.6-0.2c0.5,0,0.9-0.1,1.4-0.2L81,92z" />
-                                                    <path
-                                                        d="M65,98.9l-4.4-2.6c-1.5-0.9-3.2-1.1-4.9-0.7l-0.6,0.1c0.9,0.1,1.7,0.4,2.5,0.8l4.4,2.6c1.7,1,3.6,1.1,5.4,0.5    C66.6,99.6,65.8,99.4,65,98.9z" />
-                                                </g>
-                                                <polyline class="st0" points="44,53.6 56.5,67.9 82.1,47.3  " />
-                                                <path class="st2"
-                                                    d="M53.5,75.3c-1.4,0-2.8-0.6-3.8-1.7L37.2,59.3c-1.8-2.1-1.6-5.2,0.4-7.1c2.1-1.8,5.2-1.6,7.1,0.4l9.4,10.7   l21.9-17.6c2.1-1.7,5.3-1.4,7,0.8c1.7,2.2,1.4,5.3-0.8,7L56.6,74.2C55.7,74.9,54.6,75.3,53.5,75.3z" />
-                                            </g>
-                                        </svg>
-                                    @endif
-                                </a></p>
-                            <div class="mobile-hidden" style="display: flex">
-                                <p class="brand-name"><i class="fa fa-angle-right"></i> </p>
-                                <p class="brand-name">{{ $housing->title }}</p>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="card-body">
-                        <nav class="navbar" style="padding: 0 !important">
-                            <div class="navbar-items">
-                                <a class="navbar-item"
-                                    href="{{ route('institutional.dashboard', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Anasayfa</a>
-                                <a class="navbar-item"
-                                    href="{{ route('institutional.profile', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Mağaza
-                                    Profili</a>
-                                <a class="navbar-item"
-                                    href="{{ route('institutional.projects.detail', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Proje
-                                    İlanları</a>
-                                <a class="navbar-item"
-                                    href="{{ route('institutional.housings', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Emlak
-                                    İlanları</a>
-                                <a class="navbar-item"
-                                    href="{{ route('institutional.teams', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">Ekibimiz</a>
-                            </div>
-                            <form class="search-form" action="{{ route('institutional.search') }}" method="GET">
-                                @csrf
-                                <input class="search-input" type="search" placeholder="Mağazada Ara" id="search-project"
-                                    aria-label="Search" name="q">
-                                <div class="header-search__suggestions">
-                                    <div class="header-search__suggestions__section">
-                                        <h5>Projeler</h5>
-                                        <div class="header-search__suggestions__section__items">
-                                            @foreach ($housing->user->projects as $item)
-                                                <a href="{{ route('project.detail', ['slug' => $item->slug, 'id' => $item->id + 1000000]) }}"
-                                                    class="project-item"
-                                                    data-title="{{ $item->project_title }}"><span>{{ $item->project_title }}</span></a>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="search-button" type="submit"><i class="fas fa-search"></i></button>
-                            </form>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
@@ -228,14 +135,22 @@
                                             <div class="listing-title-bar mobileMovePrice">
                                                 <h4>
                                                     @if ($discountAmount)
-                                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                        <svg viewBox="0 0 24 24" width="24" height="24"
+                                                            stroke="currentColor" stroke-width="2" fill="none"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
                                                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                             <polyline points="17 18 23 18 23 12"></polyline>
                                                         </svg>
                                                     @endif
                                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                         @php
-                                                            $price = $housing->step2_slug == 'gunluk-kiralik' ? json_decode($housing->housing_type_data)->daily_rent[0] : json_decode($housing->housing_type_data)->price[0];
+                                                            $price =
+                                                                $housing->step2_slug == 'gunluk-kiralik'
+                                                                    ? json_decode($housing->housing_type_data)
+                                                                        ->daily_rent[0]
+                                                                    : json_decode($housing->housing_type_data)
+                                                                        ->price[0];
                                                             $discountedPrice = $price - $discountAmount;
                                                         @endphp
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
@@ -244,7 +159,10 @@
                                                         @endif
                                                         @if ($discountAmount)
                                                             <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
                                                                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
@@ -266,7 +184,12 @@
                                                 <div style="text-align: center">
                                                     @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
                                                         @php
-                                                            $price = $housing->step2_slug == 'gunluk-kiralik' ? json_decode($housing->housing_type_data)->daily_rent[0] : json_decode($housing->housing_type_data)->price[0];
+                                                            $price =
+                                                                $housing->step2_slug == 'gunluk-kiralik'
+                                                                    ? json_decode($housing->housing_type_data)
+                                                                        ->daily_rent[0]
+                                                                    : json_decode($housing->housing_type_data)
+                                                                        ->price[0];
                                                             $discountedPrice = $price - $discountAmount;
                                                         @endphp
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
@@ -275,7 +198,10 @@
                                                         @endif
                                                         @if ($discountAmount)
                                                             <br>
-                                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                                            <svg viewBox="0 0 24 24" width="18" height="18"
+                                                                stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="css-i6dzq1">
                                                                 <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                                                                 <polyline points="17 18 23 18 23 12"></polyline>
                                                             </svg>
@@ -293,7 +219,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="row">
                 <div class="col-md-8 blog-pots">
@@ -304,9 +230,9 @@
                                 <div class="carousel-inner">
 
                                     {{-- Kapak Görseli --}}
-                                    <div class="item carousel-item active" data-slide-number="1">
+                                    <div class="item carousel-item active" data-slide-number="0">
                                         <a href="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
-                                            data-lightbox="image-gallery">
+                                            data-lightbox="project-images">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid" alt="slider-listing">
                                         </a>
@@ -314,9 +240,9 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $key => $image)
-                                        <div class="item carousel-item" data-slide-number="{{ $key }}">
+                                        <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                             <a href="{{ asset('housing_images/' . $image) }}"
-                                                data-lightbox="image-gallery">
+                                                data-lightbox="project-images">
                                                 <img src="{{ asset('housing_images/' . $image) }}" class="img-fluid"
                                                     alt="slider-listing">
                                             </a>
@@ -324,18 +250,17 @@
                                     @endforeach
 
                                     {{-- Carousel Kontrolleri --}}
-                                    <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
+                                    {{-- <a class="carousel-control left" href="#listingDetailsSlider" data-slide="prev"><i
                                             class="fa fa-angle-left"></i></a>
                                     <a class="carousel-control right" href="#listingDetailsSlider" data-slide="next"><i
-                                            class="fa fa-angle-right"></i></a>
+                                            class="fa fa-angle-right"></i></a> --}}
                                 </div>
 
                                 {{-- Küçük Resim Navigasyonu --}}
                                 <div class="listingDetailsSliderNav mt-3">
                                     {{-- Kapak Görseli --}}
                                     <div class="item active" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-1" data-slide-to="1"
-                                            data-target="#listingDetailsSlider">
+                                        <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
                                             <img src="{{ asset('housing_images/' . json_decode($housing->housing_type_data)->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
                                         </a>
@@ -343,14 +268,25 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach (json_decode(getImages($housing, 'images')) as $imageKey => $image)
                                         <div class="item" style="margin: 10px; cursor: pointer">
-                                            <a id="carousel-selector-{{ $imageKey }}"
-                                                data-slide-to="{{ $imageKey }}" data-target="#listingDetailsSlider">
+                                            <a id="carousel-selector-{{ $imageKey + 1 }}"
+                                                data-slide-to="{{ $imageKey + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ asset('housing_images/' . $image) }}"
                                                     class="img-fluid carousel-indicator-image" alt="listing-small">
                                             </a>
                                         </div>
                                     @endforeach
+
                                 </div>
+                                <nav aria-label="Page navigation example" style="margin-top: 7px">
+                                    <ul class="pagination">
+                                        <li class="page-item page-item-left"><a class="page-link" href="#"><i
+                                                    class="fas fa-angle-left"></i></a></li>
+                                        <li class="page-item page-item-middle"><a class="page-link" href="#"></a>
+                                        </li>
+                                        <li class="page-item page-item-right"><a class="page-link" href="#"><i
+                                                    class="fas fa-angle-right"></i></a></li>
+                                    </ul>
+                                </nav>
                             </div>
 
 
@@ -546,10 +482,6 @@
                                                     href="{{ route('institutional.dashboard', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
-
-                                                <p class="author__meta">
-                                                    {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
-                                                </p>
                                             </div>
                                         </div>
                                         <table class="table">
@@ -578,6 +510,15 @@
                                                         <span> İlan Tarihi :</span>
                                                         <span class="det" style="color:#274abb;">
                                                             {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <span> Kimden :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -868,37 +809,34 @@
                                             </tr>
 
                                             @foreach ($labels as $label => $val)
-                                                @if ($label != 'Kapak Resmi' && $label != 'Taksitli Satış' && isset($val[0]) && $val[0] != 0 && $val[0] != null)
+                                                @if (
+                                                    $label != 'Kapak Resmi' &&
+                                                        $label != 'Taksitli Satış' &&
+                                                        $label != 'Fiyat' &&
+                                                        $label != 'Peşinat' &&
+                                                        $label != 'İlan Başlığı' &&
+                                                        $label != 'Günlük Fiyat' &&
+                                                        $label != 'Peşin Fiyat' &&
+                                                        $label != 'Taksitli Toplam Fiyat' &&
+                                                        isset($val[0]) &&
+                                                        $val[0] != 0 &&
+                                                        $val[0] != null)
                                                     <tr>
                                                         <td>
-                                                            @if ($label == 'Fiyat')
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                <span class="det"
-                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-
-                                                                    ₺</span>
-                                                            @elseif ($label == 'Peşin Fiyat')
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                <span class="det"
-                                                                    style="color: black;">{{ number_format($val[0], 0, ',', '.') }}
-
-                                                                    ₺</span>
+                                                            <span class="mr-1">{{ $label }}:</span>
+                                                            @if ($label == 'm² (Net)<br>')
+                                                                <span class="det">{{ $val[0] }}
+                                                                    m2</span>
+                                                            @elseif ($label == 'Özellikler')
+                                                                <ul>
+                                                                    @foreach ($val as $ozellik)
+                                                                        <li>{{ $ozellik }}</li>
+                                                                    @endforeach
+                                                                </ul>
                                                             @else
-                                                                <span class="mr-1">{{ $label }}:</span>
-                                                                @if ($label == 'm² (Net)<br>')
-                                                                    <span class="det">{{ $val[0] }}
-                                                                        m2</span>
-                                                                @elseif ($label == 'Özellikler')
-                                                                    <ul>
-                                                                        @foreach ($val as $ozellik)
-                                                                            <li>{{ $ozellik }}</li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                @else
-                                                                    <span class="det">
-                                                                        {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
-                                                                    </span>
-                                                                @endif
+                                                                <span class="det">
+                                                                    {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
+                                                                </span>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -913,7 +851,7 @@
                                             @if (count($val) > 1)
                                                 @if ($label != 'Galeri')
                                                     <h5 class="mt-5">{{ $label }}</h5>
-                                                    <ul class="homes-list clearfix">
+                                                    <ul class="homes-list clearfix checkSquareIcon">
                                                         @foreach ($val as $item)
                                                             <li><i class="fa fa-check-square"
                                                                     aria-hidden="true"></i><span>{{ $item }}</span>
@@ -1300,9 +1238,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
@@ -1357,7 +1292,8 @@
                     lat: {{ $housing->latitude }},
                     lng: {{ $housing->longitude }}
                 },
-                zoom: 16
+                zoom: 16,
+                gestureHandling: 'greedy'
             });
 
             // Harita üzerinde bir konum gösterme
@@ -1410,12 +1346,12 @@
         $(document).ready(function() {
             $('.listingDetailsSliderNav').slick({
                 slidesToShow: 5,
-                slidesToScroll: 1,
+                slidesToScroll: 5,
                 dots: false,
                 loop: false,
                 autoplay: false,
                 arrows: false,
-                margin: 20,
+                margin: 0,
                 adaptiveHeight: true,
                 responsive: [{
                     breakpoint: 993,
@@ -1436,6 +1372,83 @@
                 }]
             });
         });
+        // Sayfa yüklendiğinde
+        $(document).ready(function() {
+            updateIndex(); // Index değerini güncelle
+
+            // Slayt geçiş işlemi tamamlandığında
+            $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+                updateIndex(); // Index değerini güncelle
+            });
+
+        });
+        // Mobil cihazlarda kaydırma işlevselliği
+        $('#listingDetailsSlider').on('touchstart', function(event) {
+            var xClick = event.originalEvent.touches[0].pageX;
+            $(this).one('touchmove', function(event) {
+                var xMove = event.originalEvent.touches[0].pageX;
+                var sensitivityInPx = 5;
+
+                if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                    $(this).carousel('next');
+                } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                    $(this).carousel('prev');
+                }
+            });
+        });
+
+        // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+        $('#listingDetailsSlider').on('touchend', function() {
+            $(this).off('touchmove');
+        });
+
+        // Index değerini güncelleyen fonksiyon
+        function updateIndex() {
+            var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
+                totalSlides); // Ortadaki li etiketinin metnini güncelle
+        }
+
+
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
+
+        });
+
+        // Sağ ok tuşuna tıklandığında
+        $('.pagination .page-item-right').on('click', function(event) {
+            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+        });
+
+
+
+        $('.listingDetailsSliderNav').on('click', 'a', function() {
+            var index2 = $(this).attr('data-slide-to');
+            $('#listingDetailsSlider').carousel(parseInt(index2));
+        });
+
+
+        $(document).ready(function() {
+            // Büyük görsel kaydığında küçük görselleri de eşleştirme
+            $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+                var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+                $('.listingDetailsSliderNav').slick('slickGoTo', index);
+                var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+
+                console.log("Büyük Görsel Data Slide Number: ", index);
+                console.log("Küçük Görsel Index: ", smallIndex);
+            });
+        });
+
+
+
+
+
+
         jQuery('.rating-area .rating').on('mouseover', function() {
             jQuery('.rating-area .rating polygon').attr('fill', 'none');
             for (var i = 0; i <= $(this).index(); ++i)
@@ -1470,7 +1483,8 @@
                     lat: {{ $housing->longitude }},
                     lng: {{ $housing->latitude }}
                 },
-                zoom: 12
+                zoom: 12,
+                gestureHandling: 'greedy'
             });
 
             var marker = new google.maps.Marker({
@@ -2075,141 +2089,5 @@
 @endsection
 
 @section('styles')
-    <style>
-        .totalPriceCode {
-            color: #007bff;
-        }
-
-        .trStyle,
-        .trStyle tr {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .trStyle tr {
-            width: 33%;
-        }
-
-        .trStyle tr td {
-            display: flex;
-            justify-content: space-between width: 100%;
-            font-size: 11px;
-            border: 1px solid #dee2e6;
-            width: 100%;
-        }
-
-        .mobile-action-move {
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly
-        }
-
-        @media (max-width:768px) {
-            .list-group-item.bg-light {
-                width: 100%
-            }
-
-            .mobile-action {
-                margin-left: 10px
-            }
-
-            .flex-mobile {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .mobile-action-move h4 {
-                font-size: 18px;
-                font-weight: 700;
-                color: #274abb;
-                display: flex;
-                width: 100%;
-                margin-bottom: 0;
-                align-items: center;
-                justify-content: center;
-                text-transform: capitalize !important;
-            }
-
-            .buttons {
-                margin-right: 10px
-            }
-
-
-            .detail-wrapper-body,
-            .mobile-action {
-                display: flex;
-                align-items: center;
-                justify-content: center
-            }
-
-            .listing-title-bar {
-                color: black;
-                font-size: 12px !important;
-                width: 100%;
-                display: block;
-                text-align: left;
-            }
-
-            .brand-head {
-                margin-bottom: 0 !important;
-            }
-
-            .listingDetailsSliderNav {
-                display: none !important;
-            }
-
-            #listingDetailsSlider {
-                padding: 0 !important;
-                margin-bottom: 30px !important;
-            }
-
-            .schedule.widget-boxed,
-            .add-to-collections-wrapper {
-                margin-bottom: 30px !important;
-            }
-
-            .trStyle tr {
-                width: 100%;
-            }
-
-            .removeClass {
-                margin-bottom: 20px
-            }
-        }
-
-        .flatpickr-day.flatpickr-disabled,
-        .flatpickr-day.flatpickr-disabled:hover {
-            background: #f8e7e7;
-        }
-
-        .flatpickr-calendar.inline,
-        .flatpickr-rContainer,
-        .flatpickr-days,
-        .dayContainer {
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-
-        .dayContainer {
-            padding: 12px !important;
-        }
-
-        .rating-area .rating.selected polygon {
-            fill: gold;
-            stroke: gold
-        }
-
-        #totalPrice {
-            color: #274abb;
-            font-weight: 600;
-        }
-
-        .altSlider {
-            width: 100%;
-            height: 85px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/housing.css') }}">
 @endsection

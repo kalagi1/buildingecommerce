@@ -425,17 +425,18 @@
     <script>
         $('.owl-carousel').owlCarousel({
             loop: true,
-            nav: true,
+            nav: false,
+            dots : true,
             margin: 10,
             responsive: {
                 0: {
                     items: 1
                 },
                 600: {
-                    items: 2
+                    items: 3
                 },
                 1000: {
-                    items: 3
+                    items: 5
                 }
             }
         })
@@ -457,7 +458,6 @@
                     confirmButtonText: 'Evet',
                     denyButtonText: `İptal`,
                 }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         window.location.href = "{{ route('admin.project.set.status.get', $project->id) }}"
                     }
@@ -465,7 +465,6 @@
             @endif
         })
         var defaultMessagesItems = @json($defaultMessages);
-        console.log(defaultMessagesItems[0].title);
 
         function defaultMessages() {
             var messages =
