@@ -28,7 +28,7 @@
                         </div>
                     @endif
                     <div class="p-4 code-to-copy">
-                        <form action="{{ route('admin.multiple_mail.store') }}" method="POST">
+                        <form action="{{ route('admin.multiple_sms.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label class="form-label" for="userType">Kullanıcı Türü</label>
@@ -45,14 +45,14 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="title">Mail Başlığı</label>
+                                <label class="form-label" for="title">Sms Başlığı</label>
                                 <input class="form-control" id="title" name="title" type="text" placeholder="Sayfa Başlığı">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="content">Mail İçeriği</label>
-                                <textarea id="editor" name="content"></textarea>
+                                <label class="form-label" for="content">Sms İçeriği</label>
+                                <textarea class="form-control" id="editor" name="content" rows="5" ></textarea>
                             </div>                          
-                            <button type="submit" class="btn btn-primary">Toplu Mail Oluştur</button>
+                            <button type="submit" class="btn btn-primary">Toplu Sms Oluştur</button>
                         </form>
                     </div>
                 </div>
@@ -62,10 +62,8 @@
 @endsection
 
 @section('scripts')
-    <script src="//cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>   
 
     <script>
-        CKEDITOR.replace('editor');
     </script>
     <script>
         $(document).ready(function(){

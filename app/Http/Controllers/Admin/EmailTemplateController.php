@@ -83,7 +83,7 @@ class EmailTemplateController extends Controller
 
     public function MultipleMailStore(Request $request){
         $title = $request->title;
-        $content = $request->content;
+        $content = htmlspecialchars($request->content, ENT_QUOTES, 'UTF-8');
         $userIds = $request->selectedUsers;
     
         foreach ($userIds as $userId) {
@@ -91,25 +91,21 @@ class EmailTemplateController extends Controller
             if ($user) {
                 SendCustomMail::dispatch($user->email, $content, $title);
             }
-        }
-    
-        return redirect()->back();
-    }
+        }    
+        return redirect()->back()-with('success','Sms Başarıyla Gönderildi.');
+    }//End
 
     public function MultipleMailGetUsers(){
-        // Kullanıcıları veritabanından alın ve JSON formatında döndürün
-        $users = User::all(['id', 'name','email']); // Varsayılan olarak tüm kullanıcıları alır
+        $users = User::all(['id', 'name','email']);
         return response()->json($users);
     }//End
 
     public function MultipleMailGetUsersBireysel(){
-        // Kullanıcıları veritabanından alın ve JSON formatında döndürün
-        $users = User::where('type',1)->get(); // Varsayılan olarak tüm kullanıcıları alır
+        $users = User::where('type',1)->get(); 
         return response()->json($users);
     }//End
 
     public function MultipleMailGetUsersKurumsal(){
-        // Kullanıcıları veritabanından alın ve JSON formatında döndürün
         $users = User::whereNotIn('type', [1, 3])->get();
         return response()->json($users);
     }//End

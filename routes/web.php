@@ -82,6 +82,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
 use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\Client\SmsController;
+use App\Http\Controllers\Admin\SmsController as AdminSmsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1135,3 +1136,7 @@ Route::post('multiple_mail/store' , [EmailTemplateController::class, 'MultipleMa
 Route::get('multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
 Route::get('multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
 Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
+
+//Toplu Sms Gönderimi
+Route::get('qR9zLp2xS6y/secured/multiple-sms/create', [AdminSmsController::class, 'MultipleSms'])->name('admin.multiple_sms.create');
+Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
