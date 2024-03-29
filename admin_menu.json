@@ -54,6 +54,24 @@
     },
     {
         "id": "home",
+        "label": "MAİL & SMS",
+        "icon": "envelope",
+        "text": "Çoklu Mail Gönderimi",
+        "key": "MultipleMail",
+        "url": "admin.multiple_mail.create",
+        "activePath": "qR9zLp2xS6y/secured/multiple-mail/create"
+    },
+    {
+        "id": "home",
+        "label": "MAİL & SMS",
+        "icon": "message-square",
+        "text": "Çoklu SMS Gönderimi",
+        "key": "MultipleSms",
+        "url": "admin.multiple_sms.create",
+        "activePath": "qR9zLp2xS6y/secured/multiple-sms/create"
+    },
+    {
+        "id": "home",
         "label": "Muhasebe",
         "icon": "dollar-sign",
         "text": "Muhasabe",
@@ -124,15 +142,7 @@
             }
         ]
     },
-    {
-        "id": "home",
-        "label": "Yönetim",
-        "icon": "envelope",
-        "text": "Çoklu Mail Gönderimi",
-        "key": "MultipleMail",
-        "url": "admin.multiple_mail.create",
-        "activePath": "qR9zLp2xS6y/secured/multiple-mail/create"
-    },
+  
    
 
     {
