@@ -31,7 +31,7 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('put')
-                                        <input type="hidden" name="id" value="<?= $offer->id ?>" />
+                                        <input type="hidden" name="id" id="offerID" value="<?= $offer->id ?>" />
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom01">İndirim Tutarı (TL)</label>
                                             <input name="discount_amount" class="form-control" id="validationCustom01"
@@ -150,6 +150,7 @@
 
         $('#project_id').change(function() {
             var selectedProject = $(this).val(); // Seçilen şehir değerini al
+            var offerID = $('#offerID').val();
             let t = false;
             var countiesSelect = $('#project_housings_options'); // counties id'li select'i seç
 
@@ -157,8 +158,9 @@
                 url: '{{ route('institutional.offers.get-project-housings') }}', // Endpoint URL'si (get.counties olarak varsayalım)
                 method: 'GET',
                 data: {
-                    id: selectedProject
-                }, // Şehir verisini isteğe ekle
+                    id: selectedProject,
+                    offerID:offerID
+                },
                 dataType: 'json', // Yanıtın JSON formatında olduğunu belirt
                 beforeSend: function() {
                     selectedProject = (parseInt(selectedProject) + 1000000).toString();
@@ -171,20 +173,19 @@
                     for (var i = 0; i < response.data.room_count; i++) {
                         var optionText = (i + 1) + " No'lu Daire";
                         var optionValue = i + 1;
-                        var disabled = response.data.selected_housings.includes(optionValue
-                            .toString());
+                        var isChecked = response.data.selected_housings.includes(optionValue.toString());
+                        var isDisabled = response.data.differentHousings.includes(optionValue.toString());
 
                         var checkbox = $('<input>', {
                             type: 'checkbox',
+                            name:'checkCampaigns[]',
                             value: optionValue,
                             id: 'housing_' + optionValue,
                             class: 'form-check-input',
-                            disabled: disabled
+                            checked: isChecked,
+                            disabled: isDisabled
                         });
 
-                        if (disabled) {
-                            checkbox.prop('checked', false);
-                        }
 
                         var label = $('<label>', {
                             for: 'housing_' + optionValue,
