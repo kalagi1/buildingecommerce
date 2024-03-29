@@ -12,9 +12,13 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    @if(session('success'))
-                        <div class="alert alert-success">
+                    @if (session('success'))
+                        <div class="alert alert-success" style="margin: 30px 30px 0 30px;color:white !important">
                             {{ session('success') }}
+                        </div>
+                    @else
+                        <div class="alert alert-error" style="margin: 30px 30px 0 30px;color:white !important">
+                            {{ session('error') }}
                         </div>
                     @endif
 
@@ -46,8 +50,8 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="content">Sms İçeriği</label>
-                                <textarea class="form-control" id="editor" name="content" rows="5" ></textarea>
-                            </div>                          
+                                <textarea class="form-control" id="editor" name="content" rows="5"></textarea>
+                            </div>
                             <button type="submit" class="btn btn-primary">Toplu Sms Oluştur</button>
                         </form>
                     </div>
@@ -58,23 +62,22 @@
 @endsection
 
 @section('scripts')
-
+    <script></script>
     <script>
-    </script>
-    <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
 
-            $('#userType').change(function(){
+            $('#userType').change(function() {
                 var userType = $(this).val();
 
                 // Önceki kullanıcı listesini temizle
                 $('#userCheckboxes').empty();
-                      
-                var selectAllCheckbox = '<div class="form-check form-switch" style="margin-left:14px;"><input class="form-check-input" type="checkbox" role="switch"  id="selectAll" style="font-size: 22px;color: #333;margin-bottom: 12px;"> <label for="selectAll" style="margin-top:6px;font-size: 15px;color: #333;margin-bottom: 12px;font-weight: bold;">Tümünü Seç</label></div>';
-                $('#userCheckboxes').html(selectAllCheckbox);
-                
 
-                $('#selectAll').click(function(){
+                var selectAllCheckbox =
+                    '<div class="form-check form-switch" style="margin-left:14px;"><input class="form-check-input" type="checkbox" role="switch"  id="selectAll" style="font-size: 22px;color: #333;margin-bottom: 12px;"> <label for="selectAll" style="margin-top:6px;font-size: 15px;color: #333;margin-bottom: 12px;font-weight: bold;">Tümünü Seç</label></div>';
+                $('#userCheckboxes').html(selectAllCheckbox);
+
+
+                $('#selectAll').click(function() {
                     $('input[class="userCheck"]').prop('checked', $(this).prop('checked'));
                 });
 
@@ -86,12 +89,12 @@
                 $('#userList').show();
 
                 var url;
-                
-                if        (userType === 'individual') {
+
+                if (userType === 'individual') {
                     url = '/multiple-mail/get/users/bireysel';
                 } else if (userType === 'corporate') {
                     url = '/multiple-mail/get/users/kurumsal';
-                } else if (userType === 'all'){
+                } else if (userType === 'all') {
                     url = '/multiple-mail/get/users';
                 }
 
@@ -103,26 +106,29 @@
                         var users = response;
 
                         users.forEach(function(user) {
-                            $('#users').append('<option value="' + user.id + '">' + user.name + '</option>');
+                            $('#users').append('<option value="' + user.id + '">' + user
+                                .name + '</option>');
                         });
 
                         var userCount = users.length;
                         var rowCount = Math.ceil(userCount / 3);
 
-                        for(var i = 0; i < rowCount; i++) {
+                        for (var i = 0; i < rowCount; i++) {
                             var $row = $('<div class="row mb-3">');
-                            for(var j = i * 3; j < Math.min((i + 1) * 3, userCount); j++) {
-                                $row.append('<div class="col-md-4"><input class="userCheck" type="checkbox" name="selectedUsers[]" style="margin-right:6px;" value="' + users[j].id + '"><label>' + users[j].name + '</label></div>');
+                            for (var j = i * 3; j < Math.min((i + 1) * 3, userCount); j++) {
+                                $row.append(
+                                    '<div class="col-md-4"><input class="userCheck" type="checkbox" name="selectedUsers[]" style="margin-right:6px;" value="' +
+                                    users[j].id + '"><label>' + users[j].name +
+                                    '</label></div>');
                             }
                             $('#userCheckboxes').append($row);
                         }
                     }
-                });          
+                });
             });
         });
-
     </script>
-    
+
     @stack('scripts')
 @endsection
 
