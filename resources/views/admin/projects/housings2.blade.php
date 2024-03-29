@@ -26,6 +26,11 @@
 
 @section('content')
     <div class="content">
+        <div id="spinner-overlay">
+            <div id="spinner"></div>
+        </div>
+        
+
         <div id="products">
             <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                 <div class="table-collective-transactions">
@@ -1345,6 +1350,16 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
+             $(document).ready(function() {
+        $('form').submit(function() {
+            $('#spinner-overlay').show(); // Form submit edildiğinde spinner overlay'ı görünür hale getir
+
+            // Formun submit işlemini bekleyelim
+            $(this).submit(function() {
+                $('#spinner-overlay').hide(); // Form yanıtını aldıktan sonra spinner overlay'ı gizle
+            });
+        });
+    });
         $(document).ready(function() {
             console.log('start2')
 
@@ -2012,6 +2027,42 @@
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
 
     <style>
+
+#spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Arka planın opaklığı */
+    display: none; /* Başlangıçta gizli */
+    z-index: 9999;
+}
+
+#spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 5px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10000;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
         .modal-label {
             margin: 0.2em 0em;
             font-size: 13px;
