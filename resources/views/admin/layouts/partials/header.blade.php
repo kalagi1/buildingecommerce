@@ -182,7 +182,7 @@
                                         @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0) data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-home" @endif>
                                         <div class="d-flex align-items-center">
                                             <span class="nav-link-icon">
-                                                <i class="fas fa-{{ $menuItem['icon'] }}"></i>
+                                                <i class="fa fa-{{ $menuItem['icon'] }}"></i>
                                             </span>
                                             <span class="nav-link-text">
                                                 {{ $menuItem['text'] }}
