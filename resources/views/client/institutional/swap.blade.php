@@ -209,15 +209,15 @@
     </section>
 @endsection
 
-@section('scripts')u
+@section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
+        // Price inputlarının istenilen biçimde gösterilmesini sağlayan jQuery kodu
         $(document).ready(function() {
             // Price inputlarının seçimi
             $('input[type="number"][name*="_rakami"]').on('input', function() {
                 // Girilen değer
-                var value = $(this).val().replace(/[^\d]/g, '');
+                var value = $(this).val().replace(/[^\d,]/g, ''); // Sadece rakamlar ve virgülü kabul et
                 // Değerin binlik ayraçları ile formatlanması
                 var formattedValue = addCommas(value);
                 // Input alanına formatlanmış değerin eklenmesi
@@ -226,9 +226,12 @@
 
             // Girilen değeri binlik ayraçları ile formatlayan fonksiyon
             function addCommas(num) {
-                var parts = num.toString().split('.');
-                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                return parts.join('.');
+                // Virgül ve nokta içeren bir regex paterni
+                var pattern = /(\d)(?=(\d{3})+(?!\d))/g;
+                // Değerdeki noktayı virgüle dönüştürme
+                num = num.replace('.', ',');
+                // Değeri binlik ayraçlarını ekleyerek formatlama
+                return num.toString().replace(pattern, '$1.');
             }
         });
     </script>
