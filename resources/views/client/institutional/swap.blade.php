@@ -22,42 +22,42 @@
 
     <section class="portfolio bg-white homepage-5 ">
         <div class="container pb-5">
-            <form action="" method="POST">
+            <form action="{{ route('form.kaydet') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-4 col-12">
                         <label class="form-label" for="ad">Adınız:</label>
-                        <input class="form-control" type="text" id="ad" name="ad" required>
+                        <input class="form-control" type="text" id="ad" name="ad" >
                     </div>
 
                     <div class="col-md-4 col-12">
                         <label class="form-label" for="soyad">Soyadınız:</label>
-                        <input class="form-control" type="text" id="soyad" name="soyad" required>
+                        <input class="form-control" type="text" id="soyad" name="soyad" >
                     </div>
 
                     <div class="col-md-4 col-12">
                         <label class="form-label" for="telefon">Telefon Numaranız:</label>
-                        <input class="form-control" type="tel" id="telefon" name="telefon" required>
+                        <input class="form-control" type="tel" id="telefon" name="telefon" >
                     </div>
 
                     <div class="col-md-4 col-12">
                         <label class="form-label" for="email">Email:</label>
-                        <input class="form-control" type="email" id="email" name="email" required>
+                        <input class="form-control" type="email" id="email" name="email" >
                     </div>
 
                     <div class="col-md-4 col-12">
                         <label class="form-label" for="sehir">Şehir:</label>
-                        <input class="form-control" type="text" id="sehir" name="sehir" required>
+                        <input class="form-control" type="text" id="sehir" name="sehir" >
                     </div>
                     <div class="col-md-4 col-12">
                         <label class="form-label" for="ilce">İlçe:</label>
-                        <input class="form-control" type="text" id="ilce" name="ilce" required>
+                        <input class="form-control" type="text" id="ilce" name="ilce" >
                     </div>
 
                     <div class="col-md-12 col-12">
                         <label class="form-label" for="takas_tercihi">Takas Tercihiniz:</label>
-                        <select class="form-control" id="takas_tercihi" name="takas_tercihi" required>
+                        <select class="form-control" id="takas_tercihi" name="takas_tercihi" >
                             <option value="">Seçiniz</option>
                             <option value="emlak">Emlak</option>
                             <option value="araç">Araç</option>
@@ -99,14 +99,17 @@
 
                         <label class="form-label" for="oda_sayisi">Oda Sayısı:</label>
                         <input class="form-control" type="number" id="oda_sayisi" name="oda_sayisi" min="1"
-                            required>
+                            >
 
                         <label class="form-label" for="konut_yasi">Konut Yaşı:</label>
                         <input class="form-control" type="number" id="konut_yasi" name="konut_yasi" min="0"
-                            required>
+                            >
+
+                        <input class="form-control" type="hidden" id="store_id" name="store_id"
+                            value="{{ $institutional->id }}">
 
                         <label class="form-label" for="kullanim_durumu">Kullanım Durumu:</label>
-                        <select class="form-control" id="kullanim_durumu" name="kullanim_durumu" required>
+                        <select class="form-control" id="kullanim_durumu" name="kullanim_durumu" >
                             <option value="kiracılı">Kiracılı</option>
                             <option value="boş">Boş</option>
                             <option value="mülk_sahibi">Mülk Sahibi</option>
@@ -114,28 +117,28 @@
 
                         <label class="form-label" for="satis_rakami">Düşündüğünüz Satış Rakamı:</label>
                         <input class="form-control" type="number" id="satis_rakami" name="satis_rakami" min="0"
-                            required>
+                            >
 
                         <label class="form-label" for="tapu_belgesi">Tapu Belgesi Yükleyiniz:</label>
                         <input class="form-control" type="file" id="tapu_belgesi" name="tapu_belgesi"
-                            accept=".pdf,.doc,.docx" required>
+                            accept=".pdf,.doc,.docx" >
                     </div>
 
                     <div id="arsayse" style="display: none;" class="col-md-12 col-12">
                         <label class="form-label" for="arsa_il">Arsa İli:</label>
-                        <input class="form-control" type="text" id="arsa_il" name="arsa_il" required>
+                        <input class="form-control" type="text" id="arsa_il" name="arsa_il" >
 
                         <label class="form-label" for="arsa_ilce">Arsa İlçe:</label>
-                        <input class="form-control" type="text" id="arsa_ilce" name="arsa_ilce" required>
+                        <input class="form-control" type="text" id="arsa_ilce" name="arsa_ilce" >
 
                         <label class="form-label" for="arsa_mahalle">Arsa Mahalle:</label>
-                        <input class="form-control" type="text" id="arsa_mahalle" name="arsa_mahalle" required>
+                        <input class="form-control" type="text" id="arsa_mahalle" name="arsa_mahalle" >
 
                         <label class="form-label" for="ada_parsel">Ada Parsel Bilgisi:</label>
-                        <input class="form-control" type="text" id="ada_parsel" name="ada_parsel" required>
+                        <input class="form-control" type="text" id="ada_parsel" name="ada_parsel" >
 
                         <label class="form-label" for="imar_durumu">Arsa İmar Durumu:</label>
-                        <select class="form-control" id="imar_durumu" name="imar_durumu" required>
+                        <select class="form-control" id="imar_durumu" name="imar_durumu" >
                             <option value="villa">Villa</option>
                             <option value="konut">Konut</option>
                             <option value="turizm">Turizm</option>
@@ -147,19 +150,19 @@
 
                         <label class="form-label" for="satis_rakami">Düşündüğünüz Satış Rakamı:</label>
                         <input class="form-control" type="number" id="satis_rakami" name="satis_rakami" min="0"
-                            required>
+                            >
                     </div>
 
                     <div id="aracyse" style="display: none;" class="col-md-12 col-12">
                         <label class="form-label" for="arac_model_yili">Araç Model Yılı:</label>
                         <input class="form-control" type="number" id="arac_model_yili" name="arac_model_yili"
-                            min="1900" max="{{ date('Y') }}" required>
+                            min="1900" max="{{ date('Y') }}" >
 
                         <label class="form-label" for="arac_markasi">Araç Markası:</label>
-                        <input class="form-control" type="text" id="arac_markasi" name="arac_markasi" required>
+                        <input class="form-control" type="text" id="arac_markasi" name="arac_markasi" >
 
                         <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
-                        <select class="form-control" id="yakit_tipi" name="yakit_tipi" required>
+                        <select class="form-control" id="yakit_tipi" name="yakit_tipi" >
                             <option value="benzin">Benzin</option>
                             <option value="dizel">Dizel</option>
                             <option value="lpg">LPG</option>
@@ -167,18 +170,18 @@
                         </select>
 
                         <label class="form-label" for="vites_tipi">Vites Tipi:</label>
-                        <select class="form-control" id="vites_tipi" name="vites_tipi" required>
+                        <select class="form-control" id="vites_tipi" name="vites_tipi" >
                             <option value="manuel">Manuel</option>
                             <option value="otomatik">Otomatik</option>
                         </select>
 
                         <label class="form-label" for="arac_satis_rakami">Satış Rakamı:</label>
                         <input class="form-control" type="number" id="arac_satis_rakami" name="arac_satis_rakami"
-                            min="0" required>
+                            min="0" >
 
                         <label class="form-label" for="ruhsat_belgesi">Ruhsat Belgesi Yükleyiniz:</label>
                         <input class="form-control" type="file" id="ruhsat_belgesi" name="ruhsat_belgesi"
-                            accept=".pdf,.doc,.docx" required>
+                            accept=".pdf,.doc,.docx" >
                     </div>
 
                     <div id="isyeriyse" style="display: none;" class="mb-3 col-md-12 col-12">
@@ -188,12 +191,13 @@
 
                         <label for="isyeri_satis_rakami" class="form-label">Düşündüğünüz Satış Rakamı:</label>
                         <input type="number" class="form-control" id="isyeri_satis_rakami" name="isyeri_satis_rakami"
-                            min="0" required>
+                            min="0" >
                     </div>
 
                 </div>
 
-                <button type="submit" style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
+                <button type="submit"
+                    style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
             </form>
 
 
