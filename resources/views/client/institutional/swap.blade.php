@@ -99,10 +99,10 @@
                         </select>
 
                         <label class="form-label" for="oda_sayisi">Oda Sayısı:</label>
-                        <input class="form-control" type="number" id="oda_sayisi" name="oda_sayisi" min="1">
+                        <input class="form-control" type="text" id="oda_sayisi" name="oda_sayisi" min="1">
 
                         <label class="form-label" for="konut_yasi">Konut Yaşı:</label>
-                        <input class="form-control" type="number" id="konut_yasi" name="konut_yasi" min="0">
+                        <input class="form-control" type="text" id="konut_yasi" name="konut_yasi" min="0">
 
                         <input class="form-control" type="hidden" id="store_id" name="store_id"
                             value="{{ $institutional->id }}">
@@ -116,7 +116,7 @@
                         </select>
 
                         <label class="form-label" for="satis_rakami">Düşündüğünüz Satış Rakamı:</label>
-                        <input class="form-control" type="number" id="satis_rakami" name="satis_rakami"
+                        <input class="form-control" type="text" id="satis_rakami" name="satis_rakami"
                             min="0">
 
                         <label class="form-label" for="tapu_belgesi">Tapu Belgesi Yükleyiniz:</label>
@@ -150,13 +150,13 @@
                         </select>
 
                         <label class="form-label" for="satis_rakami">Düşündüğünüz Satış Rakamı:</label>
-                        <input class="form-control" type="number" id="satis_rakami" name="satis_rakami"
+                        <input class="form-control" type="text" id="satis_rakami" name="satis_rakami"
                             min="0">
                     </div>
 
                     <div id="aracyse" style="display: none;" class="col-md-12 col-12">
                         <label class="form-label" for="arac_model_yili">Araç Model Yılı:</label>
-                        <input class="form-control" type="number" id="arac_model_yili" name="arac_model_yili"
+                        <input class="form-control" type="text" id="arac_model_yili" name="arac_model_yili"
                             min="1900" max="{{ date('Y') }}">
 
                         <label class="form-label" for="arac_markasi">Araç Markası:</label>
@@ -179,7 +179,7 @@
                         </select>
 
                         <label class="form-label" for="arac_satis_rakami">Satış Rakamı:</label>
-                        <input class="form-control" type="number" id="arac_satis_rakami" name="arac_satis_rakami"
+                        <input class="form-control" type="text" id="arac_satis_rakami" name="arac_satis_rakami"
                             min="0">
 
                         <label class="form-label" for="ruhsat_belgesi">Ruhsat Belgesi Yükleyiniz:</label>
@@ -193,7 +193,7 @@
                         <textarea class="form-control" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
 
                         <label for="isyeri_satis_rakami" class="form-label">Düşündüğünüz Satış Rakamı:</label>
-                        <input type="number" class="form-control" id="isyeri_satis_rakami" name="isyeri_satis_rakami"
+                        <input type="text" class="form-control" id="isyeri_satis_rakami" name="isyeri_satis_rakami"
                             min="0">
                     </div>
 
@@ -215,7 +215,7 @@
         // Price inputlarının istenilen biçimde gösterilmesini sağlayan jQuery kodu
         $(document).ready(function() {
             // Price inputlarının seçimi
-            $('input[type="number"][name*="_rakami"]').on('input', function() {
+            $('input[type="text"][name*="_rakami"]').on('input', function() {
                 // Girilen değer
                 var value = $(this).val().replace(/[^\d,]/g, ''); // Sadece rakamlar ve virgülü kabul et
                 // Değerin binlik ayraçları ile formatlanması
