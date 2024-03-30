@@ -133,6 +133,8 @@ Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboar
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
+Route::get('/magaza/{slug}/{userID}/takas', [InstitutionalController::class, "swap"])->name('institutional.swap');
+
 Route::get('/magaza/{slug}/{userID}/degerlendirmeler', [InstitutionalController::class, "comments"])->name('institutional.comments');
 Route::get('/magaza/{slug}/{userID}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('institutional.projects.detail');
 Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('institutional.housings');
