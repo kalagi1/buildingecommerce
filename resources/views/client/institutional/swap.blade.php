@@ -90,6 +90,7 @@
                     <div id="konutyse" style="display: none;" class="col-md-12 col-12">
                         <label class="form-label" for="konut_tipi">Konut Tipi:</label>
                         <select class="form-control" id="konut_tipi" name="konut_tipi">
+                            <option value="">Seçiniz</option>
                             <option value="daire">Daire</option>
                             <option value="villa">Villa</option>
                             <option value="residance">Residance</option>
@@ -110,6 +111,7 @@
 
                         <label class="form-label" for="kullanim_durumu">Kullanım Durumu:</label>
                         <select class="form-control" id="kullanim_durumu" name="kullanim_durumu" >
+                            <option value="">Seçiniz</option>
                             <option value="kiracılı">Kiracılı</option>
                             <option value="boş">Boş</option>
                             <option value="mülk_sahibi">Mülk Sahibi</option>
@@ -139,6 +141,7 @@
 
                         <label class="form-label" for="imar_durumu">Arsa İmar Durumu:</label>
                         <select class="form-control" id="imar_durumu" name="imar_durumu" >
+                            <option value="">Seçiniz</option>
                             <option value="villa">Villa</option>
                             <option value="konut">Konut</option>
                             <option value="turizm">Turizm</option>
@@ -163,6 +166,7 @@
 
                         <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
                         <select class="form-control" id="yakit_tipi" name="yakit_tipi" >
+                            <option value="">Seçiniz</option>
                             <option value="benzin">Benzin</option>
                             <option value="dizel">Dizel</option>
                             <option value="lpg">LPG</option>
@@ -171,6 +175,7 @@
 
                         <label class="form-label" for="vites_tipi">Vites Tipi:</label>
                         <select class="form-control" id="vites_tipi" name="vites_tipi" >
+                            <option value="">Seçiniz</option>
                             <option value="manuel">Manuel</option>
                             <option value="otomatik">Otomatik</option>
                         </select>
