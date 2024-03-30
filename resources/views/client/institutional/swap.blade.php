@@ -99,10 +99,10 @@
                         </select>
 
                         <label class="form-label" for="oda_sayisi">Oda Sayısı:</label>
-                        <input class="form-control" type="text" id="oda_sayisi" name="oda_sayisi" min="1">
+                        <input class="form-control" type="number" id="oda_sayisi" name="oda_sayisi" min="1">
 
                         <label class="form-label" for="konut_yasi">Konut Yaşı:</label>
-                        <input class="form-control" type="text" id="konut_yasi" name="konut_yasi" min="0">
+                        <input class="form-control" type="number" id="konut_yasi" name="konut_yasi" min="0">
 
                         <input class="form-control" type="hidden" id="store_id" name="store_id"
                             value="{{ $institutional->id }}">
@@ -156,7 +156,7 @@
 
                     <div id="aracyse" style="display: none;" class="col-md-12 col-12">
                         <label class="form-label" for="arac_model_yili">Araç Model Yılı:</label>
-                        <input class="form-control" type="text" id="arac_model_yili" name="arac_model_yili"
+                        <input class="form-control" type="number" id="arac_model_yili" name="arac_model_yili"
                             min="1900" max="{{ date('Y') }}">
 
                         <label class="form-label" for="arac_markasi">Araç Markası:</label>
