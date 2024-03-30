@@ -139,11 +139,11 @@
                                                 break;
                                             case 'tapu_belgesi':
                                                 $label = 'Tapu Belgesi';
-                                                $link = asset('storage/' . $value);
+                                                $link = asset('storage/tapuFiles/' . $value);
                                                 break;
                                             case 'ruhsat_belgesi':
                                                 $label = 'Ruhsat Belgesi';
-                                                $link = asset('storage/' . $value);
+                                                $link = asset('storage/ruhsatFiles/' . $value);
                                                 break;
                                             default:
                                                 $label = ucwords(str_replace('_', ' ', $key));
