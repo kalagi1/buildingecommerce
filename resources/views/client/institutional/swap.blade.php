@@ -212,6 +212,18 @@
 @endsection
 
 @section('scripts')
+<script>
+    // Price inputlarının binlik ayraçları ile ayrılmış şekilde gösterilmesini sağlayan JavaScript kodu
+    document.addEventListener('DOMContentLoaded', function () {
+        const priceInputs = document.querySelectorAll('input[type="number"][name*="_rakami"]');
+        priceInputs.forEach(function (input) {
+            input.addEventListener('input', function (event) {
+                const value = event.target.value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                event.target.value = value;
+            });
+        });
+    });
+</script>
     <script>
         document.getElementById('takas_tercihi').addEventListener('change', function() {
             var digerDiv = document.getElementById('digeryse');
