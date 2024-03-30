@@ -209,28 +209,28 @@
     </section>
 @endsection
 
-@section('scripts')
-    <script>
-        < script src = "https://code.jquery.com/jquery-3.6.0.min.js" >
-    </script>
-    $(document).ready(function () {
-    // Price inputlarının seçimi
-    $('input[type="number"][name*="_rakami"]').on('input', function () {
-    // Girilen değer
-    var value = $(this).val().replace(/[^\d]/g, '');
-    // Değerin binlik ayraçları ile formatlanması
-    var formattedValue = addCommas(value);
-    // Input alanına formatlanmış değerin eklenmesi
-    $(this).val(formattedValue);
-    });
+@section('scripts')u
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    // Girilen değeri binlik ayraçları ile formatlayan fonksiyon
-    function addCommas(num) {
-    var parts = num.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return parts.join('.');
-    }
-    });
+    <script>
+        $(document).ready(function() {
+            // Price inputlarının seçimi
+            $('input[type="number"][name*="_rakami"]').on('input', function() {
+                // Girilen değer
+                var value = $(this).val().replace(/[^\d]/g, '');
+                // Değerin binlik ayraçları ile formatlanması
+                var formattedValue = addCommas(value);
+                // Input alanına formatlanmış değerin eklenmesi
+                $(this).val(formattedValue);
+            });
+
+            // Girilen değeri binlik ayraçları ile formatlayan fonksiyon
+            function addCommas(num) {
+                var parts = num.toString().split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                return parts.join('.');
+            }
+        });
     </script>
     <script>
         document.getElementById('takas_tercihi').addEventListener('change', function() {
