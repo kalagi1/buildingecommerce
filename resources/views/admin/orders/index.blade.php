@@ -191,22 +191,37 @@
 
                                             </td>
 
+                                        {{-- {{dd($order->cartOrderRefund)}} --}}
 
-                                            <td class="order_status"><span class="text-success">
+                                            @if($order->refund != null)
 
-                                                    {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
+                                                <td class="order_status"><span class="text-success">
+
+                                                        
+                                                    {!! [
+                                                        '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
+                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-info"><span class="badge-label">İade Talebi Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',                                                                                                                                                                                                                  
+                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">İade Talebi Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',                                                                                             
+                                                        '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                                                    ][$order->refund->status] !!}
+                                                </span>
+                                                {{-- @if ($order->invoice && $order->status == 1)
+                                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                            Faturayı Görüntüle
+                                                        </a>
+
+                                                    </span>
+                                                @endif --}}
+
+                                            @else
+                                                <td class="order_status"><span class="text-success">
+
+                                                    
                                                     {!! [
                                                         '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                            </svg>',
-                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                                                                class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Ödeme Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                                     ][$order->status] !!}
                                                 </span>
                                                 @if ($order->invoice && $order->status == 1)
@@ -218,76 +233,21 @@
                                                     </span>
                                                 @endif
 
-                                            </td>
+                                                </td>
+                                            @endif
+
+                                            
+
+                                           
                                             <td class="order_user align-middle fw-semibold text-body-highlight">
                                                 <a href="{{ route('admin.order.detail', ['order_id' => $order->id]) }}"
                                                     class="badge badge-phoenix fs--2 badge-phoenix-success">Sipariş
                                                     Detayı</a>
                                             </td>
-                                            {{-- <td class="order_details">
-                                                @if ($order->status == 0)
-                                                    <a onclick="return confirm('İlan satışını onaylamak istediğinize emin misiniz?')"
-                                                        href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                                        class="badge badge-phoenix fs--2 badge-phoenix-success">İlan
-                                                        Satışını Onayla</a>
-                                                    <br>
-                                                    <a onclick="return confirm('İlan satışını reddetmek istediğinize emin misiniz?')"
-                                                        href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                                        class="badge badge-phoenix fs--2 badge-phoenix-danger">İlan Satışını
-                                                        Reddet</a>
-                                                @elseif($order->status == 2)
-                                                    <a onclick="return confirm('İlan satışını onaylamak istediğinize emin misiniz?')"
-                                                        href="{{ route('admin.approve-order', ['cartOrder' => $order->id]) }}"
-                                                        class="badge badge-phoenix fs--2 badge-phoenix-success">İlan
-                                                        Satışını Onayla</a>
-                                                @else
-                                                    <a onclick="return confirm('İlan satışını reddetmek istediğinize emin misiniz?')"
-                                                        href="{{ route('admin.unapprove-order', ['cartOrder' => $order->id]) }}"
-                                                        class="badge badge-phoenix fs--2 badge-phoenix-danger">İlan Satışını
-                                                        Reddet</a>
-                                                @endif
+                                           
+                                            
 
-                                                @if (isset($order->share))
-                                                    <br>
-                                                    @if ($order->share->status == 0)
-                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')"
-                                                            href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri
-                                                            Onayla</a>
-                                                        <br>
-                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')"
-                                                            href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri
-                                                            Reddet</a>
-                                                    @elseif($order->share->status == 2)
-                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')"
-                                                            href="{{ route('admin.approve-share', ['share' => $order->share->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri
-                                                            Onayla</a>
-                                                    @else
-                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')"
-                                                            href="{{ route('admin.unapprove-share', ['share' => $order->share->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri
-                                                            Reddet</a>
-                                                    @endif
-                                                    <br>
-                                                @endif
 
-                                                @if (isset($order->price))
-                                                    <br>
-                                                    @if ($order->price->status == 0 || $order->price->status == 2)
-                                                        <a onclick="return confirm('Hakedişleri onaylamak istediğinize emin misiniz?')"
-                                                            href="{{ route('admin.approve-price', ['price' => $order->price->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-info">Hakedişleri
-                                                            Onayla</a>
-                                                    @else
-                                                        <a onclick="return confirm('Hakedişleri reddetmek istediğinize emin misiniz?')"
-                                                            href="{{ route('admin.unapprove-price', ['price' => $order->price->id]) }}"
-                                                            class="badge badge-phoenix fs--2 badge-phoenix-danger">Hakedişleri
-                                                            Reddet</a>
-                                                    @endif
-                                                @endif
-                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 @else

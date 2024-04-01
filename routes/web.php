@@ -307,6 +307,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
         Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
+
+        Route::post('/update/status/{refundId}', [AdminHomeController::class, 'updateStatus'])->name('refund.update.status');
+
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
@@ -998,6 +1001,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
+        Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
+        
+
     });
 });
 
