@@ -11,6 +11,14 @@
         <meta name="description" content="{{ $pageInfo->meta_description }}">
         <meta name="author" content="{{ $pageInfo->meta_author }}">
         <title>{{ $pageInfo->meta_title }}</title>
+
+        <meta property="og:site_name" content="Emlak Sepette">
+		<meta property="og:url"content="https://emlaksepette.com/"/>
+		<meta property="og:type"content="website"/>
+		<meta property="og:title"content="{{ $pageInfo->meta_title }}"/>
+		<meta property="og:description"content="{{ $pageInfo->meta_description }}"/>
+		<meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png"/>
+		<meta property="og:image:width" content="300">
     @endif
 
 
@@ -759,7 +767,7 @@
                                     </a>
                                 </li>
                             @endforeach --}}
-                            {{-- <li class="club-items">
+                            <li class="club-items mobile-show">
                                 <a href="{{ url('/emlak-kulup') }}">
                                     <b style="font-weight:800 !important;display:flex">
                                         <img style="" class="lazy entered loading clubStyles"
@@ -767,7 +775,7 @@
                                             data-ll-status="loading">
                                         EMLAK KULÜP</b>
                                 </a>
-                            </li> --}}
+                            </li>
                         </ul>
                     </nav>
                 </div>

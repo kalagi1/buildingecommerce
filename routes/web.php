@@ -80,6 +80,9 @@ use App\Http\Controllers\NotificationController as ControllersNotificationContro
 use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectController;
+use App\Http\Controllers\Client\ContractController;
+use App\Http\Controllers\Client\SmsController;
+use App\Http\Controllers\Admin\SmsController as AdminSmsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,6 +117,8 @@ Route::get('/search/results', [HomeController::class, "searchResults"])->name('s
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
 Route::post('get-rendered-projects', [HomeController::class, "getRenderedProjects"])->name("get-rendered-projects");
+Route::get('/send-sms', [SmsController::class, 'sendSms'])->name('send-sms');
+Route::post('/send-contract-reminder/{cartOrder}', [ContractController::class, 'sendContractReminder'])->name('send.contract.reminder');
 
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
@@ -302,6 +307,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
         Route::get('/order/approve/package/{userPlan}', [AdminHomeController::class, 'approvePackageOrder'])->name('approve-package-order');
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
+
+        Route::post('/update/status/{refundId}', [AdminHomeController::class, 'updateStatus'])->name('refund.update.status');
+
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
@@ -993,6 +1001,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/generate-pdf', [InvoiceController::class, "generatePDF"]);
         Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
+        Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
+        
+
     });
 });
 
@@ -1124,3 +1135,14 @@ Route::get('/getTaxOfficeCity', [UserController::class, 'getTaxOfficeCity'])->na
 
 //Komşumu sil
 Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name('komsumu.sil');
+
+//Toplu Main Gönderimi
+Route::get('qR9zLp2xS6y/secured/multiple-mail/create', [EmailTemplateController::class, 'MultipleMail'])->name('admin.multiple_mail.create');
+Route::post('multiple_mail/store' , [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
+Route::get('multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
+Route::get('multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
+Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
+
+//Toplu Sms Gönderimi
+Route::get('qR9zLp2xS6y/secured/multiple-sms/create', [AdminSmsController::class, 'MultipleSms'])->name('admin.multiple_sms.create');
+Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');

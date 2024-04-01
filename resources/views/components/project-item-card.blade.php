@@ -76,11 +76,10 @@
     $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
     $projectOrder = 1;
     if (isset($blockStart) && $blockStart) {
-        $projectOrder = $i - $blockStart + 1 ;
-    }else{
+        $projectOrder = $i - $blockStart + 1;
+    } else {
         $projectOrder = $i + 1;
     }
-
 
 @endphp
 @if (isset($projectHousingsList[$keyIndex]))
@@ -363,15 +362,13 @@
 
                                         </span>
                                     @else
-                                    <button class="first-btn payment-plan-button"
-                                    project-id="{{ $project->id }}"
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
-                                    order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                    data-payment-order="{{ $projectOrder }}"
-                                    >
-                                Ödeme Detayı
-                            </button>
-                            
+                                        <button class="first-btn payment-plan-button"
+                                            project-id="{{ $project->id }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                            data-payment-order="{{ $projectOrder }}">
+                                            Ödeme Detayı
+                                        </button>
                                     @endif
                                 @else
                                     @if ($projectHousingsList[$keyIndex]['off_sale[]'] != '[]')
@@ -387,15 +384,14 @@
                                             </a>
                                         @endif
                                     @else
-                                    <button class="first-btn payment-plan-button"
-                                    project-id="{{ $project->id }}"
-                                    data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
-                                    order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                    data-payment-order="{{ $projectOrder }}"
-                                    >
-                                Ödeme Detayı
-                            </button>
-                            
+                                        <button class="first-btn payment-plan-button"
+                                            project-id="{{ $project->id }}"
+                                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
+                                            data-payment-order="{{ $projectOrder }}">
+                                            Ödeme Detayı
+                                        </button>
+
                                     @endif
 
 
@@ -429,8 +425,7 @@
                                                         $sumCartOrderQt[$keyIndex]['qt_total'] != $number_of_share)) style="background: orange !important; color: White; height: auto !important"
                                     @elseif ($sold->status == '1')
                                         style="background: #EA2B2E !important; color: White; height: auto !important"
-                                    @else
-                                        style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
+                                    @else  style="background: #EA2B2E !important; color: White; height: auto !important" @endif>
                                             @if (($sold->status == '0' && $share_sale == '[]') || ($sold->status == '0' && empty($share_sale)))
                                                 <span class="text">Rezerve Edildi</span>
                                             @elseif (

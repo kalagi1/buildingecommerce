@@ -30,6 +30,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+
+use function PHPSTORM_META\type;
 
 class ProjectController extends Controller
 {
@@ -192,7 +195,7 @@ class ProjectController extends Controller
 
             $lastHousingCount = 0;
 
-            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', 10)->get();
+            $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', $project->room_count)->get();
             $projectHousingsList = [];
             $salesCloseProjectHousingCount = 0;
 
@@ -209,14 +212,36 @@ class ProjectController extends Controller
 
 
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
-            $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+
+            $project->cartOrders = 0;
+            $projectCounts= 0;
+            if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] && $projectHousingsList[1]['share_sale[]'] != "[]") {
+                $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
+            
+                for ($i = 1; $i <= $room_counts; $i++) {
+                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
+                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                        ->where(DB::raw($housingJsonPath), $i)
+                        ->first();
+            
+                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
+                        $project->cartOrders += 1;
+                    }
+                }
+            }else{
+                $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
                 ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                 ->groupBy('project_id')
                 ->where("status", "1")
                 ->get();
+                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
 
+            }
+            
+
+        
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
-            $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
             $selectedPage = $request->input('selected_page') ?? 0;
             $blockIndex = $request->input('block_id') ?? 0;
             $startIndex = 0;
@@ -238,7 +263,7 @@ class ProjectController extends Controller
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title,
-                "meta_author" => "Emlak Sepette",
+                "meta_author" => "Emlak Sepette"
             ];
 
             $pageInfo = json_encode($pageInfo);
@@ -308,7 +333,7 @@ class ProjectController extends Controller
         if ($endIndex > $blockHousingCount) {
             $endIndex = $blockHousingCount;
         }
-        $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', 10)->get();
+        $projectHousings = ProjectHousing::where('project_id', $project->id)->where('room_order', '<=', $project->room_count)->get();
         $projectHousingsList = [];
         $salesCloseProjectHousingCount = 0;
 

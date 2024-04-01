@@ -55,4 +55,9 @@ class CartOrder extends Model
     {
         return $this->belongsTo(User::class, 'store_id');
     }
+
+    public function refund()
+    {
+        return $this->hasOne(CartOrderRefund::class);
+    }
 }

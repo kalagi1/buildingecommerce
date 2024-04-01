@@ -61,42 +61,30 @@
                             </thead>
                             <tbody class="list" id="order-table-body">
                                 @foreach ($mergedArray as $key => $item)
-                                    @if($item['is_reservation'] == 1)
-                                        @php($reservation = App\Models\Reservation::with('user')->find($item['reservation_id']))
+                                @if(isset($item['is_reservation']) && $item['is_reservation'] == 1)
+                                    @php($reservation = App\Models\Reservation::with('user')->find($item['reservation_id']))
+                                    @if($reservation)
                                         @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
                                         <tr>
-                                            <td>{{ $reservation->key }}</td>
-                                            <td>{{ optional(\Carbon\Carbon::parse($reservation->created_at))->format('d.m.Y H:i:s') ?? null }}
-                                            </td>
+                                            <td>{{ $reservation->key ?? null }}</td>
+                                            <td>{{ optional(\Carbon\Carbon::parse($reservation->created_at))->format('d.m.Y H:i:s') ?? null }}</td>
                                             <td>
-                                                <span>İsim: {{ optional($reservation->user)->name ?? null }}</span>
-                                                <br>
+                                                <span>İsim: {{ optional($reservation->user)->name ?? null }}</span><br>
                                                 <span>{{ optional($reservation->user)->email ?? null }}</span>
                                             </td>
-
                                             <td>
                                                 <strong>İlan No:</strong>
-                                                    <strong>{{ $reservation->id + 2000000 }}</strong>
-                                                <br>
-                                                
+                                                <strong>{{ $reservation->id + 2000000 ?? null }}</strong><br>
                                                 {{ $housing->title ?? null }}
                                             </td>
                                             <td>-</td>
                                             <td>-</td>
                                             <td>
                                                 @if (isset($item->balance))
-                                                    <strong>{{ optional($item->user)->name ?? null }}</strong>
-                                                    <br>
-                                                    <span> <strong>E-Mail: </strong>
-                                                        {{ optional($item->user)->email ?? null }}</span>
-                                                    <br>
-                                                    <span><strong>Telefon: </strong>
-                                                        {{ optional($item->user)->phone ?? null }}</span>
-                                                    <br>
-                                                    <span><strong>IBAN: </strong>
-                                                        {{ optional($item->user)->iban ?? null }}</span>
-                                                    <br>
-                                                   
+                                                    <strong>{{ optional($item->user)->name ?? null }}</strong><br>
+                                                    <span><strong>E-Mail: </strong>{{ optional($item->user)->email ?? null }}</span><br>
+                                                    <span><strong>Telefon: </strong>{{ optional($item->user)->phone ?? null }}</span><br>
+                                                    <span><strong>IBAN: </strong>{{ optional($item->user)->iban ?? null }}</span><br>
                                                     <span class="text-success">Kazanç:  {{ number_format((float)$item->balance , 0, ',', '.') ?? null }} ₺</span>
                                                 @else
                                                     -
@@ -115,8 +103,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <strong>{{ $reservation->owner->name ?? null }}</strong>
-                                                <br>
+                                                <strong>{{ $reservation->owner->name ?? null }}</strong><br>
                                                 {{ $reservation->owner->email ?? null }}
                                                 @if ($reservation->owner->phone)
                                                     <br>
@@ -124,13 +111,10 @@
                                                 {{ $reservation->owner->phone ?? null }}
                                                 <br>
                                                 @if (isset($item->earn2))
-                                              
                                                     <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
-
                                             </td>
-                                            <td>{{ number_format(($reservation->total_price / 2) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') }}  ₺
-                                            <br>
+                                            <td>{{ number_format(($reservation->total_price / 2) + ($reservation->money_trusted ? 1000 : 0), 0, ',', '.') }}  ₺<br>
                                                 @if($reservation->money_trusted)
                                                     <div class="d-flex" style="align-items: center;">
                                                         1.000 ₺'si param güvende ödemesidir
@@ -139,26 +123,26 @@
                                             </td>
                                         </tr>
                                     @else
-
-                                        @php($o = json_decode($item->cart->cart ?? null))
-                                    
+                                        <tr>
+                                            <td colspan="9">Veri bulunamadı</td>
+                                        </tr>
+                                    @endif
+                                @else
+                                    @if(isset($item->cart) && isset($item->cart->cart))
+                                        @php($o = json_decode($item->cart->cart))
                                         @php($project = isset($o->type) && $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = isset($o->type) && $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
                                         <tr>
-                                            <td>{{ $item->cart->key }}</td>
-                                            <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? null }}
-                                            </td>
+                                            <td>{{ $item->cart->key ?? null }}</td>
+                                            <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? null }}</td>
                                             <td>
-                                                <span>İsim: {{ optional($item->cart->user)->name ?? null }}</span>
-                                                <br>
+                                                <span>İsim: {{ optional($item->cart->user)->name ?? null }}</span><br>
                                                 <span>{{ optional($item->cart->user)->email ?? null }}</span>
                                             </td>
-
                                             <td>
                                                 <strong>İlan No:</strong>
                                                 @if ($o->type == 'project')
-                                                    <strong>{{ $o->item->id + 1000000 + json_decode($item->cart->cart)->item->housing }}
-                                                    </strong>
+                                                    <strong>{{ $o->item->id + 1000000 + json_decode($item->cart->cart)->item->housing }}</strong>
                                                 @else
                                                     <strong>{{ json_decode($item->cart->cart)->item->id + 2000000 }}</strong>
                                                 @endif <br>
@@ -176,17 +160,10 @@
                                             <td>@if(isset($item->cart->coupon)) {{$item->cart->coupon->coupon->coupon_code}} <br> (@if($item->cart->coupon->coupon->discount_type == 1) %{{$item->cart->coupon->coupon->amount}} @else {{$item->cart->coupon->coupon->amount}}₺) @endif @else - @endif</td>
                                             <td>
                                                 @if (isset($item->balance))
-                                                    <strong>{{ optional($item->user)->name ?? null }}</strong>
-                                                    <br>
-                                                    <span> <strong>E-Mail: </strong>
-                                                        {{ optional($item->user)->email ?? null }}</span>
-                                                    <br>
-                                                    <span><strong>Telefon: </strong>
-                                                        {{ optional($item->user)->phone ?? null }}</span>
-                                                    <br>
-                                                    <span><strong>IBAN: </strong>
-                                                        {{ optional($item->user)->iban ?? null }}</span>
-                                                    <br>                                    
+                                                    <strong>{{ optional($item->user)->name ?? null }}</strong><br>
+                                                    <span><strong>E-Mail: </strong>{{ optional($item->user)->email ?? null }}</span><br>
+                                                    <span><strong>Telefon: </strong>{{ optional($item->user)->phone ?? null }}</span><br>
+                                                    <span><strong>IBAN: </strong>{{ optional($item->user)->iban ?? null }}</span><br>
                                                     <span class="text-success">Kazanç: {{ number_format((float)$item->balance  , 0, ',', '.') ?? null }} ₺</span>
                                                 @else
                                                     -
@@ -200,8 +177,6 @@
                                                 @endif
                                             </td>
                                             <td>
-
-
                                                 @if ($o->type == 'project')
                                                     <strong>{{ optional(App\Models\Project::with('user')->find(json_decode($item->cart->cart)->item->id ?? 0)->user)->name ?? null }}</strong>
                                                     <br>
@@ -221,17 +196,15 @@
                                                 @endif
                                                 <br>
                                                 @if (isset($item->earn2))
-                                               
                                                     <span class="text-success">Kazanç: {{ number_format((float)$item->earn2  , 0, ',', '.') ?? null }} ₺</span>
                                                 @endif
-
                                             </td>
-
-                                           
-                                            <td> {{ number_format((float)$item->cart->amount , 0, ',', '.') ?? null }} ₺</td>
+                                            <td> {{ $item->cart->amount ?? null }} ₺</td>
                                         </tr>
                                     @endif
-                                @endforeach
+                                @endif
+                            @endforeach
+                            
                             </tbody>
 
                         </table>

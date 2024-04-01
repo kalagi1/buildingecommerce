@@ -65,7 +65,7 @@ class OfferController extends Controller {
             [
                 'discount_amount' => $request->input( 'discount_amount' ),
                 'project_id' => $request->input( 'project_id' ),
-                'project_housings' => json_encode( $request->input( 'project_housings' ) ),
+                'project_housings' => json_encode( $request->input( 'checkCampaigns' ) ),
                 'start_date' => $request->input( 'start_date' ),
                 'end_date' => $request->input( 'end_date' ),
             ]
@@ -79,26 +79,38 @@ class OfferController extends Controller {
     }
 
     public function getProjectHousingList( Request $request ) {
+       
         $project = Project::where( 'id', $request->input( 'id' ) )
         ->where( 'status', 1 )
         ->with( 'brand', 'blocks', 'listItemValues', 'neighbourhood', 'roomInfo', 'housingType', 'county', 'city', 'user.brands', 'user.housings', 'images' )
         ->first();
 
-        $offers = Offer::where( 'project_id', $request->input( 'id' ) )
-        ->where( 'start_date', '<=', now() )
-        ->where( 'end_date', '>=', now() )
-        ->get();
+        $offers = Offer::where( 'project_id', $request->input( 'id' ) )->get();
 
         $selectedHousings = [];
-        foreach ( $offers as $offer ) {
-            $projectHousings = json_decode( $offer->project_housings );
-            $selectedHousings = array_merge( $selectedHousings, $projectHousings );
+        $allSelectedHousings = [];
+
+        $selectedHousings    = Offer::where('id',$request->offerID)->where('project_id',$request->input('id'))->value('project_housings');
+
+        foreach ( $offers as $offer ) {          
+                $projectHousings = json_decode( $offer->project_housings );
+                $allSelectedHousings = array_merge( $allSelectedHousings, $projectHousings );
+        }
+        $selectedHousings = json_decode($selectedHousings);
+        $differentHousings = [];
+
+        foreach ($allSelectedHousings as $housing) {
+            if (!in_array($housing, $selectedHousings)) {
+                $differentHousings[] = $housing;
+            }
         }
 
         return response()->json( [
             'data' => [
                 'room_count' => isset( $project->room_count ) && $project->room_count ? $project->room_count : 0,
-                'selected_housings' => $selectedHousings
+                'selected_housings'   => $selectedHousings,
+                'allSelectedHousings' => $allSelectedHousings,
+                'differentHousings'   => $differentHousings
             ]
         ] );
     }

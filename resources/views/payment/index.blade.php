@@ -460,17 +460,17 @@
                                         <div class="col-sm-6">
                                             <label for="fullName">Ad Soyad:</label>
                                             <input type="text" class="form-control" id="fullName" name="fullName"
-                                                requi#EA2B2E>
+                                                required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="email">E-posta:</label>
                                             <input type="email" class="form-control" id="email" name="email"
-                                                requi#EA2B2E>
+                                                required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="tc">TC: </label>
                                             <input type="number" class="form-control" id="tc" name="tc"
-                                                requi#EA2B2E oninput="validateTCLength(this)">
+                                                required oninput="validateTCLength(this)">
                                         </div>
                                         <script>
                                             function validateTCLength(input) {
@@ -484,11 +484,11 @@
                                         <div class="col-sm-6">
                                             <label for="phone">Telefon:</label>
                                             <input type="number" class="form-control" id="phone" name="phone"
-                                                requi#EA2B2E>
+                                                required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="address">Adres:</label>
-                                            <textarea class="form-control" id="address" name="address" rows="5" requi#EA2B2E></textarea>
+                                            <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="notes">Notlar:</label>

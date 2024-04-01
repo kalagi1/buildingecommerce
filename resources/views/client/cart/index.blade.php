@@ -241,7 +241,11 @@
 
                                         <td>
                                             <span style="width:100%;text-align:center">
-                                                @if (isset($share_sale) && $share_sale != '[]')
+
+                                                
+                                               
+
+                                                @if (isset($share_sale) &&  count($share_sale) > 0)
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
@@ -463,21 +467,21 @@
                                             <div class="form-group">
                                                 <label for="fullName">Ad Soyad:</label>
                                                 <input type="text" class="form-control" id="fullName"
-                                                    name="fullName" requi#EA2B2E>
+                                                    name="fullName" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="email">E-posta:</label>
                                                 <input type="email" class="form-control" id="email" name="email"
-                                                    requi#EA2B2E>
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tc">TC * </label>
                                                 <input type="number" class="form-control" id="tc" name="tc"
-                                                    requi#EA2B2E oninput="validateTCLength(this)">
+                                                    required oninput="validateTCLength(this)">
                                             </div>
                                         </div>
 
@@ -494,13 +498,13 @@
                                             <div class="form-group">
                                                 <label for="phone">Telefon:</label>
                                                 <input type="tel" class="form-control" id="phone" name="phone"
-                                                    requi#EA2B2E>
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="address">Adres:</label>
-                                                <textarea class="form-control" id="address" name="address" rows="5" requi#EA2B2E></textarea>
+                                                <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
                                             </div>
                                         </div>
 

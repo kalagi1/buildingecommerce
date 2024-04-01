@@ -41,6 +41,10 @@ return [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_REDIRECT_URI'),
+    ], 
+    'verimor' => [
+        'api_key' => env('VERIMOR_API_KEY'),
+        'api_secret' => env('VERIMOR_API_SECRET'),
     ],
 
 
