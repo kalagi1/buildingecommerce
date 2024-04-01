@@ -22,30 +22,32 @@
                             <h4 class="c-fff">{{$errors->first()}}</h4>
                         </div>
                         @endif
-                        <form action="{{route('institutional.projects.edit.housing.post',["project_id" => $project->id, "room_order" => $roomOrder])}}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="tab-content" id="pricingTabContent" role="tabpanel">
-                                        <div id="renderForm"></div>
+                        <div class="card p-3">
+                            <form action="{{route('institutional.projects.edit.housing.post',["project_id" => $project->id, "room_order" => $roomOrder])}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="tab-content" id="pricingTabContent" role="tabpanel">
+                                            <div id="renderForm"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="second-area-finish">
-                                <div class="finish-tick ">
-                                    <input type="checkbox" id="rules_confirmx" value="1" class="rules_confirm" >
-                                    <label for="rules_confirmx">
-                                        <span class="rulesOpen">İlan verme kurallarını</span>
-                                        <span>okudum, kabul ediyorum</span>
-                                    </label>
+                                <div class="second-area-finish">
+                                    <div class="finish-tick ">
+                                        <input type="checkbox" id="rules_confirmx" value="1" class="rules_confirm" >
+                                        <label for="rules_confirmx">
+                                            <span class="rulesOpen">İlan verme kurallarını</span>
+                                            <span>okudum, kabul ediyorum</span>
+                                        </label>
+                                    </div>
+                                    <div class="finish-button" style="float:right;margin:0;">
+                                        <button class="btn btn-info" type="submit">
+                                            Devam
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="finish-button" style="float:right;margin:0;">
-                                    <button class="btn btn-info" type="submit">
-                                        Devam
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -328,6 +330,7 @@
                                     checkboxName = checkboxName[0];
                                     $($('input[name="' + inputNamex[0] + [i] + '[][]"]')).map((key, item) => {
                                         if (getOldData(i, inputName)) {
+                                            console.log(getOldData(i, inputName));
                                             JSON.parse(getOldData(i, inputName)).map((checkbox) => {
                                                 if($(item).attr("value")){
                                                     if ($(item).attr("value").trim() == "taksitli") {

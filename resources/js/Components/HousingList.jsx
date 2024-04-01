@@ -844,6 +844,7 @@ function HousingList({projectId}) {
                                                     <TableCell>Taksit Sayısı</TableCell>
                                                     <TableCell>Peşinat</TableCell>
                                                     <TableCell>Satış Durumu</TableCell>
+                                                    <TableCell>İşlemler</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -1023,6 +1024,9 @@ function HousingList({projectId}) {
                                                                 
                                                             </div>
                                                         </div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <a href={frontEndUrl+'institutional/projects/'+projectId+'/housings/edit/'+(getLastCount() + key + 1)} className='badge badge-phoenix badge-phoenix-primary'>İlanı Düzenle</a>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
