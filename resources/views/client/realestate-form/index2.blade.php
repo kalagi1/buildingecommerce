@@ -301,17 +301,18 @@
 
                         <div id="kategori4Content" class="accordion-content" style="display: none;">
                             {{-- başvuru ve onay Süreci soruları --}}
-                            <div class="accordion" id="accordionExample">                       
-            
+                            <div class="accordion" id="accordionExample">
+
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingOne">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Başvuru ve Onay Süreci
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                         <div class="card-body">
                                             Hangi durumlarda başvurum geçersiz olur.
                                             <ul class="fa-ul">
@@ -323,7 +324,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                     
+
+                            </div>  
+                            
+                            
                         </div>
                             
                 </div>
