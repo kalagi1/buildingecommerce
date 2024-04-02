@@ -17,6 +17,23 @@
             'Aralık',
         ];
     @endphp
+
+        @php
+         // İade talebinin oluşturulma tarihini al
+                $refundCreatedAt = $order->created_at;
+
+            // Şu anki zamanı al
+            $now = now();
+
+            // İade talebinin oluşturulma tarihinden 14 gün sonrasını al
+            $expirationDate = $refundCreatedAt->addDays(14);
+
+            // İade talebinin oluşturulma tarihinden 14 gün sonrasına kadar kaç gün kaldığını hesapla
+            $daysLeft = $now->diffInDays($expirationDate);
+
+            // İade talebi 14 günü geçmişse
+            $isExpired = $now->greaterThan($expirationDate);
+        @endphp
     <div class="content">
         <div class="breadcrumb">
             <ul>
@@ -34,23 +51,45 @@
                     </div>
                     <div class="order-detail-content mt-3">
                         <h5>#{{ $order->id }} Nolu Sipariş Detayı</h5>
-                        <div class="order-status-container mt-3"
-                            style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
-                            <div class="left">
-                                <i class="fa fa-check"></i>
-                                <span>
-                                    @if ($order->status == 2)
-                                        ÖDEMEYİ REDDETTİNİZ
-                                    @elseif($order->status == 1)
-                                        ÖDEMEYİ ONAYLADINIZ
-                                    @else
-                                        ÖDEME ONAYI BEKLENİYOR
-                                    @endif
-                                </span>
+
+                        @if($order->refund != null)
+                            <div class="order-status-container mt-3"
+                                style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
+                                <div class="left">
+                                    <i class="fa fa-check"></i>
+                                    <span>
+                                        @if ($order->refund->status == 2)
+                                            İADE TALEBİNİ REDDETTİNİZ
+                                        @elseif($order->refund->status == 1)
+                                            İADE TALEBİNİ ONAYLADINIZ
+                                        @elseif($order->refund->status == 3)
+                                            İADE TALEBİ İÇİN GERİ ÖDEME YAPILDI
+                                        @else
+                                            İADE TALEBİ ONAY BEKLENİYOR
+                                        @endif
+                                    </span>
+                                </div>
+
                             </div>
+                        @else
 
-                        </div>
+                            <div class="order-status-container mt-3"
+                                style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
+                                <div class="left">
+                                    <i class="fa fa-check"></i>
+                                    <span>
+                                        @if ($order->status == 2)
+                                            ÖDEMEYİ REDDETTİNİZ
+                                        @elseif($order->status == 1)
+                                            ÖDEMEYİ ONAYLADINIZ
+                                        @else
+                                            ÖDEME ONAYI BEKLENİYOR
+                                        @endif
+                                    </span>
+                                </div>
 
+                            </div>
+                        @endif
 
                         <div class="order-detail-inner mt-3 px-3 py-3">
                             <div class="row">
@@ -407,14 +446,7 @@
                                             <span class="text-danger">Hakediş reddedildi.</span>
                                         @endif
                                     </td>
-
-
-
                                 </div>
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -480,6 +512,97 @@
                             </div>
                         </div>
                     </div>
+
+                    
+
+
+                    @if($order->refund != null)
+                        <div class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title mb-4">İade Talebi</h3>
+                                    <h6 class="mb-2"></h6>
+                                    <div class="order_status">
+
+
+                                        
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Detaylar</button>
+                                        <div class="modal fade" id="staticBackdrop" tabindex="-1" data-bs-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display: none;">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-primary">
+                                                <h5 class="modal-title text-white dark__text-gray-1100" id="staticBackdropLabel">İade Talebi Oluşturan Alıcı Bilgileri</h5><button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><svg class="svg-inline--fa fa-xmark fs-9 text-white dark__text-gray-1100" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs-9 text-white dark__text-gray-1100"></span> Font Awesome fontawesome.com --></button>
+                                                </div>
+                                                @if ($isExpired)
+                                                <!-- İade talebi 14 günü geçmiş -->
+                                                <div style="background-color: red;">Satın alım işleminde 14 gün geçmiştir!</div>
+                                            @endif
+                                                <div class="modal-body">
+                                                    <div class="card w-100 mb-3">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                            
+                                                                <div class="col-md-3">
+                                                                    <h5 class="card-title">İsim Soyisim:</h5>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <p>{{$order->refund->name}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <h5 class="card-title">Email:</h5>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <p>{{$order->refund->email}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <h5 class="card-title">Telefon:</h5>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <p>{{$order->refund->phone}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <h5 class="card-title">Açıklama:</h5>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <p>{{$order->refund->content}}</p>
+                                                                </div>
+                                                            </div>
+
+                                                          {{-- <a href="#" class="btn btn-primary">Button</a> --}}
+                                                        </div>
+                                                      </div>
+                                                      <form action="{{ route('admin.refund.update.status', $order->refund->id) }}" method="POST">
+                                                        @csrf
+                                                        <label for="status">İade Durumu:</label>
+                                                        <select class="form-select" name="status">
+                                                            <option value="1" {{ $order->refund->status == 1 ? 'selected' : '' }}>İade talebini onayla</option>
+                                                            <option value="2" {{ $order->refund->status == 2 ? 'selected' : '' }}>İade talebini reddet</option>
+                                                            <option value="3" {{ $order->refund->status == 3 ? 'selected' : '' }}>Ödeme tamamlandı</option>
+                                                        </select>
+                                                    
+                                                    
+                                                </div>
+                                                    <div class="modal-footer">
+                                                        <button  class="btn btn-primary" type="submit">Güncelle</button>
+                                                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">kapat</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                    </div>
+                    
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

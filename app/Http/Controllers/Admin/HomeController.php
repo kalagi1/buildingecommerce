@@ -20,6 +20,7 @@ use App\Models\Reservation;
 use App\Models\SharerPrice;
 use App\Models\User;
 use App\Models\UserPlan;
+use App\Models\CartOrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -335,5 +336,34 @@ class HomeController extends Controller
         $reservation->update(['status' => '3']);
         CancelRequest::where('reservation_id', $reservation->id)->delete();
         return redirect()->back();
+    }
+
+    public function updateStatus(Request $request, $refundId)
+    {
+       
+        $refund = CartOrderRefund::find($refundId);
+        
+      
+
+        if (!$refund) {
+            return redirect()->back()->with('error', 'İlgili iade talebi bulunamadı.');
+        }
+
+        $validatedData = $request->validate([
+            'status' => 'required|in:1,2,3', 
+        ]);
+
+        if ($validatedData['status'] == 1 || $validatedData['status'] == 3) {
+            // Durum 1 veya 3 ise ve bağlı olduğu siparişin durumu 2 değilse
+            if ($refund->cartOrder->status != 2) {
+                $refund->cartOrder->status = '2'; // Sipariş durumunu 2 olarak güncelle
+                $refund->cartOrder->save();
+            }
+        }
+
+        $refund->status = $validatedData['status'];
+        $refund->save();
+
+        return redirect()->back()->with('success', 'İade durumu başarıyla güncellendi.');
     }
 }

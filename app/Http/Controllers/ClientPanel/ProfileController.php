@@ -15,6 +15,7 @@ use App\Rules\SubscriptionPlanToUpgradeBireysel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\CartOrderRefund;
 
 class ProfileController extends Controller
 {
@@ -200,4 +201,53 @@ class ProfileController extends Controller
         $user->update($request->all());
         return redirect()->route('client.profile.edit')->with('success', 'Profiliniz başarıyla güncellendi.');
     }
+
+
+    public function refund(Request $request) 
+    {
+        $validatedData = $request->validate([
+            'terms' => 'required|boolean',
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|string|email|max:255',
+            'content' => 'required|string',
+            'cart_order_id' =>'required',
+        ]);
+
+        $userId = auth()->id();
+        
+        // Eğer cart_order_id ile ilişkili bir iade talebi varsa, bu talebi güncelle. Yoksa yeni bir kayıt oluştur.
+        $existingRefund = CartOrderRefund::where('cart_order_id', $validatedData['cart_order_id'])->first();
+
+        if ($existingRefund) {
+            // İade talebi zaten var, güncelle
+            $existingRefund->update([
+                'terms' => $validatedData['terms'],
+                'name' => $validatedData['name'],
+                'phone' => $validatedData['phone'],
+                'email' => $validatedData['email'],
+                'content' => $validatedData['content'],
+                'status' => '0',
+                'user_id' => $userId
+            ]);
+        } else {
+            // İade talebi yok, yeni kayıt oluştur
+            $refund = new CartOrderRefund([
+                'terms' => $validatedData['terms'],
+                'name' => $validatedData['name'],
+                'phone' => $validatedData['phone'],
+                'email' => $validatedData['email'],
+                'content' => $validatedData['content'],
+                'status' => '0',
+                'user_id' => $userId,
+                'cart_order_id' => $validatedData['cart_order_id']
+            ]);
+            $refund->save();
+        }
+
+        // İade talebi başarıyla kaydedildi mesajını döndür
+        return response()->json(['message' => 'İade talebi başarıyla kaydedildi'], 200);
+    }
+
+    
 }

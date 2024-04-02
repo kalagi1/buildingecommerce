@@ -181,33 +181,50 @@
 
                                             </td>
                                             
-                                        <td class="order_status"><span class="text-success"> 
-                                            
-                                            {{-- class="payment_status align-middle white-space-nowrap text-start fw-bold text-body-tertiary"> --}}
-                                            {!! [
-                                                '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
-                                                '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                        class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                        xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                        class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                    </svg>',
-                                                '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
-                                            ][$order->status] !!}
+                                            @if($order->refund != null)
+
+                                            <td class="order_status"><span class="text-success">
+
+                                                    
+                                                {!! [
+                                                    '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
+                                                    '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-info"><span class="badge-label">İade Talebi Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',                                                                                                                                                                                                                  
+                                                    '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">İade Talebi Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',                                                                                             
+                                                    '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                                                ][$order->refund->status] !!}
                                             </span>
-                                                    @if ($order->invoice && $order->status == 1)
-                                                    <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
-                                                            Faturayı Görüntüle
-                                                        </a>
-        
-                                                    </span>
-                                                     @endif
-                                         
-                                        </td>
+                                            {{-- @if ($order->invoice && $order->status == 1)
+                                                <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                    <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        Faturayı Görüntüle
+                                                    </a>
+
+                                                </span>
+                                            @endif --}}
+
+                                        @else
+                                            <td class="order_status"><span class="text-success">
+
+                                                
+                                                {!! [
+                                                    '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
+                                                    '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Ödeme Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                                                    '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                ][$order->status] !!}
+                                            </span>
+                                            @if ($order->invoice && $order->status == 1)
+                                                <span class="badge badge-phoenix fs-10 badge-phoenix-success">
+                                                    <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        Faturayı Görüntüle
+                                                    </a>
+
+                                                </span>
+                                            @endif
+
+                                            </td>
+                                        @endif
+
+
                                         <td class="order_detail">
                                             <span>
                                                 <a href="{{ route('institutional.order.detail', ['order_id' => $order->id]) }}"
