@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Housing;
 use App\Models\Project;
 use App\Models\User;
@@ -171,6 +172,26 @@ class InstitutionalController extends Controller
                 $pageInfo = json_encode($pageInfo);
                 $pageInfo = json_decode($pageInfo);
                 return view("client.institutional.detail", compact("institutional","pageInfo"));
+       
+    }
+
+    public function swap($slug, $userID)
+    {
+
+                $institutional = User::where("id", $userID)->with('projects.housings', 'town', 'district', "neighborhood", 'housings', 'city', 'brands', "owners.housing")->first();
+                
+                $pageInfo = [
+                    "meta_title" => "Takas Formu",
+                    "meta_keywords" => "Emlak Sepette,".$institutional->name,
+                    "meta_description" => "Emlak Kulüp ".$institutional->name,
+                    "meta_author" => "Emlak Sepette",
+                ];
+                
+                $cities = City::all();
+
+                $pageInfo = json_encode($pageInfo);
+                $pageInfo = json_decode($pageInfo);
+                return view("client.institutional.swap", compact("institutional","pageInfo","cities"));
        
     }
 

@@ -83,6 +83,8 @@ use App\Http\Controllers\Api\Institutional\ProjectController as ApiProjectContro
 use App\Http\Controllers\Client\ContractController;
 use App\Http\Controllers\Client\SmsController;
 use App\Http\Controllers\Admin\SmsController as AdminSmsController;
+use App\Http\Controllers\Client\FormController;
+use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,6 +121,7 @@ Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRende
 Route::post('get-rendered-projects', [HomeController::class, "getRenderedProjects"])->name("get-rendered-projects");
 Route::get('/send-sms', [SmsController::class, 'sendSms'])->name('send-sms');
 Route::post('/send-contract-reminder/{cartOrder}', [ContractController::class, 'sendContractReminder'])->name('send.contract.reminder');
+Route::post('/form-kaydet', [FormController::class, 'store'])->name('form.kaydet');
 
 Route::middleware('auth')->group(function () {
     Route::post('/housing/{id}/send-comment', [ClientHousingController::class, "sendComment"])->name('housing.send-comment');
@@ -133,6 +136,8 @@ Route::get('/magaza/{slug}/{userID}', [InstitutionalController::class, "dashboar
 Route::post('/magaza/{slug}', [InstitutionalController::class, "getFilterInstitutionalData"])->name('institutional.dashboard.filter');
 Route::get('/magaza/{slug}/{userID}/koleksiyonlar', [ClubController::class, "dashboard"])->name('club.dashboard');
 Route::get('/magaza/{slug}/{userID}/profil', [InstitutionalController::class, "profile"])->name('institutional.profile');
+Route::get('/magaza/{slug}/{userID}/takas', [InstitutionalController::class, "swap"])->name('institutional.swap');
+
 Route::get('/magaza/{slug}/{userID}/degerlendirmeler', [InstitutionalController::class, "comments"])->name('institutional.comments');
 Route::get('/magaza/{slug}/{userID}/proje-ilanlari', [InstitutionalController::class, "projectDetails"])->name('institutional.projects.detail');
 Route::get('/magaza/{slug}/{userID}/emlak-ilanlari', [InstitutionalController::class, "housingList"])->name('institutional.housings');
@@ -731,6 +736,7 @@ Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class,
 
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
+    Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
 
     Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('get_given_offers', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
