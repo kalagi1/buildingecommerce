@@ -195,8 +195,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/auth/google', [AuthLoginController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [AuthLoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
-Route::get('/auth/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
-Route::get('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback'])->name('auth.facebook.callback');
+// Route::post('/auth/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
+// Route::post('/auth/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback'])->name('auth.facebook.callback');
+Route::get('login/facebook', [AuthLoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [AuthLoginController::class, 'handleFacebookCallback']);
 Route::get('/verify-email/{token}', [VerifyController::class, "verifyEmail"])->name('verify.email');
 Route::get('sifre-sifirla', [ForgotPasswordController::class, "showLinkRequestForm"])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, "sendResetLinkEmail"])->name('password.email');
