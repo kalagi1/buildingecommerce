@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\BankAccount;
+use App\Models\CartItem;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Arr;
@@ -44,7 +45,9 @@ class PayController extends Controller
         }
         
         $user = User::find($userId);
-        $cart = session()->get('cart', []);
+        $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
+
+        $cart = json_decode($cartItem->cart, true);
 
         // dd($cart);
         $bankAccounts = BankAccount::all();
