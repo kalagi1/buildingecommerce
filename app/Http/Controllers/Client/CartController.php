@@ -837,7 +837,8 @@ class CartController extends Controller
             }
 
             if (isset($cartItem)) {
-                $cart->save();
+                $cartItem->cart = json_encode($cart);
+                $cartItem->save();
             }else{
                 $request->session()->put('cart', $cart);
 
