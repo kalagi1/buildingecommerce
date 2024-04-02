@@ -133,7 +133,7 @@
                             <div class="service-text-p mobile-text"
                                 style="background-color: black; color: white;height:100%">
                                 <p class="text-center">
-                                    <a href="{{url('/')}}" class="mr-2">Emlaksepette.com </a> üzerinden Emlak klübe üye ol.
+                                    <a href="{{url('/')}}" class="mr-2">Emlaksepette.com </a> üzerinden Emlak Kulübe üye ol.
                                 </p>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                             <div class="service-text-p mobile-text"
                                 style="background-color: black; color: white;height:100%">
                                 <p class="text-center">
-                                    Böylece paylaştığın ve satışla sonuçlanan her ilan için bizimle beraber sende kazanırsın
+                                    Böylece paylaştığın ve satışla sonuçlanan her ilan için bizimle beraber sende kazanırsın.
                                 </p>
                             </div>
                         </div>
