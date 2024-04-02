@@ -69,9 +69,13 @@
                                                 $label = 'E-posta';
                                                 break;
                                             case 'sehir':
+                                                $city = \App\Models\City::find($value);
+                                                $value = $city ? $city->title : '';
                                                 $label = 'Şehir';
                                                 break;
                                             case 'ilce':
+                                                $district = \App\Models\District::where('ilce_key', $value)->first();
+                                                $value = $district ? $district->ilce_title : '';
                                                 $label = 'İlçe';
                                                 break;
                                             case 'takas_tercihi':
@@ -99,6 +103,9 @@
                                                 $label = 'Kullanım Durumu';
                                                 break;
                                             case 'satis_rakami':
+                                                $label = 'Satış Rakamı';
+                                                break;
+                                            case 'konut_satis_rakami':
                                                 $label = 'Satış Rakamı';
                                                 break;
                                             case 'arsa_il':

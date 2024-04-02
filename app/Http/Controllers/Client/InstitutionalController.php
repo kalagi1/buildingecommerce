@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Housing;
 use App\Models\Project;
 use App\Models\User;
@@ -185,10 +186,12 @@ class InstitutionalController extends Controller
                     "meta_description" => "Emlak Kulüp ".$institutional->name,
                     "meta_author" => "Emlak Sepette",
                 ];
-        
+                
+                $cities = City::all();
+
                 $pageInfo = json_encode($pageInfo);
                 $pageInfo = json_decode($pageInfo);
-                return view("client.institutional.swap", compact("institutional","pageInfo"));
+                return view("client.institutional.swap", compact("institutional","pageInfo","cities"));
        
     }
 
