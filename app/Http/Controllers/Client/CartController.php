@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\BankAccount;
+use App\Models\CartItem;
 use App\Models\CartOrder;
 use App\Models\CartPrice;
 use App\Models\Click;
@@ -36,6 +37,7 @@ class CartController extends Controller {
 
     public function payCart( Request $request ) {
         if ( !$request->session()->get( 'cart' ) ) {
+         
             return response()->json( [ 'success' => 'fail' ] );
         }
 
@@ -689,6 +691,11 @@ class CartController extends Controller {
         }
 
         session()->forget( 'cart' );
+           //cart_items tablosundan kullanıcıya ait sepet verisini sil
+           $cartItem = DB::table('cart_items')->where('user_id', Auth::id())->first();
+           if ($cartItem) {
+               DB::table('cart_items')->where('id', $cartItem->id)->delete();
+           }
 
         return response()->json( [ 'cart_order' => $order->id ] );
     }
@@ -1023,6 +1030,13 @@ class CartController extends Controller {
                 ];
 
                 $request->session()->put( 'cart', $cart );
+
+                $cartJson = json_encode($cart);
+                CartItem::create([
+                    'cart'     => $cartJson,
+                    'user_id'  => Auth::id() 
+                ]);
+
                 // Save cart data to session
                 return response( [ 'message' => 'success' ] );
             }
@@ -1032,154 +1046,163 @@ class CartController extends Controller {
         }
     }
 
-            public function clear( Request $request ) {
-                $request->session()->forget( 'cart' );
-                // Clear the cart
+    public function clear( Request $request ) {
+        $request->session()->forget( 'cart' );
+        // Clear the cart
 
-                return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
+        return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
+    }
+
+    public function index( Request $request ) {
+        $bankAccounts = BankAccount::all();
+            // $cart = $request->session()->get( 'cart', [] );
+            // print_r($cart);die;
+        $cart= false;
+        $user_id = Auth::id();
+        $cartItem = CartItem::where('user_id', $user_id)->latest()->first();
+        if ($cartItem) {
+            $cart = json_decode($cartItem->cart, true);
+        }
+        // print_r($cart);die;
+
+        $saleType = null;
+        if ( isset( $cart ) && !empty( $cart ) ) {
+            if ( $cart[ 'type' ] == 'housing' ) {
+                $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                $saleType = $housing->step2_slug;
+            } else {
+                $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                $saleType = $project->step2_slug;
             }
+        }
 
-            public function index( Request $request ) {
-                $bankAccounts = BankAccount::all();
-                $cart = $request->session()->get( 'cart', [] );
-                $saleType = null;
-                if ( isset( $cart ) && !empty( $cart ) ) {
-                    if ( $cart[ 'type' ] == 'housing' ) {
-                        $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                        $saleType = $housing->step2_slug;
-                    } else {
-                        $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                        $saleType = $project->step2_slug;
-                    }
-                }
+        $pageInfo = [
+            'meta_title' => 'Sepetim',
+            'meta_keywords' => 'Sepetim',
+            'meta_description' => 'Emlak Sepette Sepetim',
+            'meta_author' => 'Emlak Sepette',
+        ];
 
-                $pageInfo = [
-                    'meta_title' => 'Sepetim',
-                    'meta_keywords' => 'Sepetim',
-                    'meta_description' => 'Emlak Sepette Sepetim',
-                    'meta_author' => 'Emlak Sepette',
-                ];
+        $pageInfo = json_encode( $pageInfo );
+        $pageInfo = json_decode( $pageInfo );
 
-                $pageInfo = json_encode( $pageInfo );
-                $pageInfo = json_decode( $pageInfo );
+        return view( 'client.cart.index', compact( 'pageInfo', 'cart', 'bankAccounts', 'saleType' ) );
+    }
 
-                return view( 'client.cart.index', compact( 'pageInfo', 'cart', 'bankAccounts', 'saleType' ) );
-            }
+    public function removeFromCart( Request $request ) {
+        $request->session()->forget( 'cart' );
+        // Clear the cart
+       //cart_items tablosundan kullanıcıya ait sepet verisini sil
+       $cartItem = CartItem::where('user_id', Auth::id())->first();
+       if ($cartItem) {
+          CartItem::where('id', $cartItem->id)->delete();
+       }
+    //    dd($cartItem);
 
-            public function removeFromCart( Request $request ) {
-                $request->session()->forget( 'cart' );
-                // Clear the cart
-                return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
-            }
+        return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
+    }
 
-            public function createOrder( Request $request ) {
-                $userId = Auth::user()->id;
-                if ( !$userId ) {
-                    return response( [ 'message' => 'Oturum bulunamadı' ], 404 );
-                }
-                $cart = session( 'cart' )[ 'item' ];
-                $type = session( 'cart' )[ 'type' ];
-                $orderData = [
-                    'user_id' => $userId,
-                    'status' => 1, //status tablosu eklenecek
-                ];
+    public function createOrder( Request $request ) {
+        $userId = Auth::user()->id;
+        if ( !$userId ) {
+            return response( [ 'message' => 'Oturum bulunamadı' ], 404 );
+        }
+        $cart = session( 'cart' )[ 'item' ];
+        $type = session( 'cart' )[ 'type' ];
+        $orderData = [
+            'user_id' => $userId,
+            'status' => 1, //status tablosu eklenecek
+        ];
 
-                switch ( $type ) {
-                    case 'housing':
-                    $orderData[ 'housing_id' ] = $cart[ 'id' ];
-                    break;
-                    case 'project':
-                    $orderData[ 'project_id' ] = $cart[ 'id' ];
-                    break;
-                }
-                $order = Order::create( $orderData );
-                return 'Sipariş Oluştu';
-            }
+        switch ( $type ) {
+            case 'housing':
+            $orderData[ 'housing_id' ] = $cart[ 'id' ];
+            break;
+            case 'project':
+            $orderData[ 'project_id' ] = $cart[ 'id' ];
+            break;
+        }
+        $order = Order::create( $orderData );
+        return 'Sipariş Oluştu';
+    }
 
-            public function checkCoupon( Request $request ) {
-                $coupon = Coupon::where(
+    public function checkCoupon( Request $request ) {
+        $coupon = Coupon::where(
+
+            function ( $query ) {
+                $query->where(
 
                     function ( $query ) {
-                        $query->where(
-
-                            function ( $query ) {
-                                $query->where( 'start_date', '<=', date( 'Y-m-d' ) )->where( 'end_date', '>=', date( 'Y-m-d' ) );
-                            }
-                        )->orWhere( 'time_type', 1 );
+                        $query->where( 'start_date', '<=', date( 'Y-m-d' ) )->where( 'end_date', '>=', date( 'Y-m-d' ) );
                     }
-                )->where( 'coupon_code', $request->input( 'coupon_code' ) )->where( 'use_count', '>=', 1 )->first();
-                $saleItemType = '';
-                if ( $coupon ) {
-                    $cart = $request->session()->get( 'cart', [] );
-                    if ( $cart[ 'type' ] == 'housing' ) {
-                        $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                        if ( $housing->step2_slug == 'kiralik' ) {
-                            $saleItemType = 'kiralik';
-                        } else {
-                            $saleItemType = 'satilik';
-                        }
-                        if ( $coupon->select_housings_type == 1 ) {
+                )->orWhere( 'time_type', 1 );
+            }
+        )->where( 'coupon_code', $request->input( 'coupon_code' ) )->where( 'use_count', '>=', 1 )->first();
+        $saleItemType = '';
+        if ( $coupon ) {
+            $cart = $request->session()->get( 'cart', [] );
+            if ( $cart[ 'type' ] == 'housing' ) {
+                $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                if ( $housing->step2_slug == 'kiralik' ) {
+                    $saleItemType = 'kiralik';
+                } else {
+                    $saleItemType = 'satilik';
+                }
+                if ( $coupon->select_housings_type == 1 ) {
+                    return json_encode( [
+                        'status' => true,
+                        'cart' => $cart,
+                        'discount_type' => $coupon->discount_type,
+                        'discount_amount' => $coupon->amount,
+                    ] );
+                } elseif ( $coupon->select_housings_type == 2 ) {
+                    $couponHousings = array_keys( $coupon->housings->keyBy( 'item_id' )->toArray() );
+                    if ( in_array( $cart[ 'item' ][ 'id' ], $couponHousings ) ) {
+                        return json_encode( [
+                            'status' => true,
+                            'cart' => $cart,
+                            'discount_type' => $coupon->discount_type,
+                            'discount_amount' => $coupon->amount,
+                            'sale_item_type' => $saleItemType,
+                        ] );
+                    } else {
+                        return json_encode( [
+                            'status' => false,
+                            'message' => 'İndirim kuponu bu ürün için geçerli değil.',
+                        ] );
+                    }
+                } else {
+                    return json_encode( [
+                        'status' => false,
+                        'message' => 'İndirim kuponu bu ürün için geçerli değil.',
+                    ] );
+                }
+            } else {
+                $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
+                if ( $project->step2_slug == 'kiralik' ) {
+                    $saleItemType = 'kiralik';
+                } else {
+                    $saleItemType = 'satilik';
+                }
+                if ( $coupon->select_projects_type == 1 || $coupon->select_projects_type == 2 ) {
+                    if ( $coupon->select_projects_type == 1 ) {
+                        return json_encode( [
+                            'status' => true,
+                            'cart' => $cart,
+                            'discount_type' => $coupon->discount_type,
+                            'discount_amount' => $coupon->amount,
+                            'sale_item_type' => $saleItemType,
+                        ] );
+                    } else {
+                        $couponProjects = array_keys( $coupon->projects->keyBy( 'item_id' )->toArray() );
+                        if ( in_array( $cart[ 'item' ][ 'id' ], $couponProjects ) ) {
                             return json_encode( [
                                 'status' => true,
                                 'cart' => $cart,
                                 'discount_type' => $coupon->discount_type,
                                 'discount_amount' => $coupon->amount,
+                                'sale_item_type' => $saleItemType,
                             ] );
-                        } elseif ( $coupon->select_housings_type == 2 ) {
-                            $couponHousings = array_keys( $coupon->housings->keyBy( 'item_id' )->toArray() );
-                            if ( in_array( $cart[ 'item' ][ 'id' ], $couponHousings ) ) {
-                                return json_encode( [
-                                    'status' => true,
-                                    'cart' => $cart,
-                                    'discount_type' => $coupon->discount_type,
-                                    'discount_amount' => $coupon->amount,
-                                    'sale_item_type' => $saleItemType,
-                                ] );
-                            } else {
-                                return json_encode( [
-                                    'status' => false,
-                                    'message' => 'İndirim kuponu bu ürün için geçerli değil.',
-                                ] );
-                            }
-                        } else {
-                            return json_encode( [
-                                'status' => false,
-                                'message' => 'İndirim kuponu bu ürün için geçerli değil.',
-                            ] );
-                        }
-                    } else {
-                        $project = Project::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
-                        if ( $project->step2_slug == 'kiralik' ) {
-                            $saleItemType = 'kiralik';
-                        } else {
-                            $saleItemType = 'satilik';
-                        }
-                        if ( $coupon->select_projects_type == 1 || $coupon->select_projects_type == 2 ) {
-                            if ( $coupon->select_projects_type == 1 ) {
-                                return json_encode( [
-                                    'status' => true,
-                                    'cart' => $cart,
-                                    'discount_type' => $coupon->discount_type,
-                                    'discount_amount' => $coupon->amount,
-                                    'sale_item_type' => $saleItemType,
-                                ] );
-                            } else {
-                                $couponProjects = array_keys( $coupon->projects->keyBy( 'item_id' )->toArray() );
-                                if ( in_array( $cart[ 'item' ][ 'id' ], $couponProjects ) ) {
-                                    return json_encode( [
-                                        'status' => true,
-                                        'cart' => $cart,
-                                        'discount_type' => $coupon->discount_type,
-                                        'discount_amount' => $coupon->amount,
-                                        'sale_item_type' => $saleItemType,
-                                    ] );
-                                } else {
-                                    return json_encode( [
-                                        'status' => false,
-                                        'message' => 'İndirim kuponu bu ürün için geçerli değil.',
-                                    ] );
-                                }
-                            }
                         } else {
                             return json_encode( [
                                 'status' => false,
@@ -1190,14 +1213,22 @@ class CartController extends Controller {
                 } else {
                     return json_encode( [
                         'status' => false,
-                        'message' => 'İndirim kuponu yanlış',
+                        'message' => 'İndirim kuponu bu ürün için geçerli değil.',
                     ] );
                 }
             }
+        } else {
+            return json_encode( [
+                'status' => false,
+                'message' => 'İndirim kuponu yanlış',
+            ] );
+        }
+    }
 
-            public function setCartSession( Request $request ) {
-                $cart = $request->input( 'cart' );
-                session( [ 'cart' => $cart ] );
-                return response()->json( [ 'success' => true ] );
-            }
+    public function setCartSession( Request $request ) {
+        $cart = $request->input( 'cart' );
+        session( [ 'cart' => $cart ] );
+        return response()->json( [ 'success' => true ] );
+    }
+
         }
