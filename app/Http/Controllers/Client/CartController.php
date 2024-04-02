@@ -834,14 +834,21 @@ class CartController extends Controller {
 
     public function update( Request $request ) {
         try {
-            $cart = $request->session()->get( 'cart', [] );
-            if ( $cart ) {
+            $cartSession = $request->session()->get( 'cart', [] );
+            $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
+         
+            if ( $cartItem ) {
+                $cart = json_decode($cartItem->cart, true);
                 $selectedPaymentOption = $request->input( 'paymentOption' );
                 $updatedPrice = $request->input( 'updatedPrice' );
 
-                if ( isset( $updatedPrice ) ) {
-                    $cart[ 'item' ][ 'amount' ] = $updatedPrice;
-                    $cart[ 'item' ][ 'payment-plan' ] = $selectedPaymentOption;
+                if (isset($updatedPrice)) {
+                    $cartSession['item']['amount'] = $updatedPrice;
+                    $cartSession['item']['payment-plan'] = $selectedPaymentOption;
+                    $cart['item']['amount'] = $updatedPrice;
+                    $cart['item']['payment-plan'] = $selectedPaymentOption;
+                    $cartItem->cart = json_encode($cart);
+                    $cartItem->save();
                 }
 
                 $request->session()->put( 'cart', $cart );
