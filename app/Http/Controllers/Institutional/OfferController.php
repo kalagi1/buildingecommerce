@@ -89,25 +89,33 @@ class OfferController extends Controller {
 
         $selectedHousings = [];
         $allSelectedHousings = [];
+        $differentHousings = [];
         if (isset($request->offerID)) {
             $selectedHousings    = Offer::where( 'id', $request->offerID )->where( 'project_id', $request->input( 'id' ) )->value( 'project_housings' );
-
+   
+            $selectedHousings = json_decode( $selectedHousings );
+            $differentHousings = [];
+    
+            foreach ( $allSelectedHousings as $housing ) {
+                if ( !in_array( $housing, $selectedHousings ) ) {
+                    $differentHousings[] = $housing;
+                }
+            }
         }
 
 
         foreach ( $offers as $offer ) {
 
             $projectHousings = json_decode( $offer->project_housings );
-            $allSelectedHousings = array_merge( $allSelectedHousings, $projectHousings );
-        }
-        $selectedHousings = json_decode( $selectedHousings );
-        $differentHousings = [];
+            if (isset($request->offerID)) {
+                $allSelectedHousings = array_merge( $allSelectedHousings, $projectHousings );
 
-        foreach ( $allSelectedHousings as $housing ) {
-            if ( !in_array( $housing, $selectedHousings ) ) {
-                $differentHousings[] = $housing;
+            }else{
+                $selectedHousings = array_merge( $selectedHousings, $projectHousings );
+
             }
         }
+     
 
         return response()->json( [
             'data' => [
