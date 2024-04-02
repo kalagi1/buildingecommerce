@@ -89,7 +89,7 @@ class LoginController extends Controller
     
             // Oturum aç
             Auth::login($newUser);
-            return redirect('/dashboard')->with('success', 'Yeni hesap oluşturuldu ve başarıyla giriş yapıldı.');
+            return redirect('/')->with('success', 'Yeni hesap oluşturuldu ve başarıyla giriş yapıldı.');
         }
     }
 
