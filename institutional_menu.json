@@ -9,17 +9,44 @@
         "activePath": "/institutional/estate_club_users"
     },
     {
-        "id": "GetReceivedOffers",
-        "label": "Mağazam Emlak Sepette",
+        "id": "projects",
+        "label": "İlanlarım",
+        "icon": "plus",
+        "text": "Proje İlanlarım",
+        "key": "Projects",
+        "url": "institutional.react.projects",
+        "activePath": "/institutional/projects"
+    },
+    {
+        "id": "projects",
+        "label": "İlanlarım",
+        "icon": "plus",
+        "text": "Emlak İlanlarım",
+        "key": "Housings",
+        "url": "institutional.housing.list",
+        "activePath": "/institutional/housings"
+    },
+    {
+        "id": "GetSwapApplications",
+        "label": "Başvurular",
         "icon": "users",
-        "text": "Gelen Başvurular",
+        "text": "Takas Başvuruları",
+        "key": "GetSwapApplications",
+        "url": "institutional.react.swap.applications",
+        "activePath": "/institutional/swap_applications"
+    },
+    {
+        "id": "GetReceivedOffers",
+        "label": "Başvurular",
+        "icon": "users",
+        "text": "Gelen Konut Başvuruları",
         "key": "GetReceivedOffers",
         "url": "institutional.get_received_offers",
         "activePath": "/institutional/get_received_offers"
     },
     {
         "id": "GetGivenOffers",
-        "label": "Mağazam Emlak Sepette",
+        "label": "Başvurular",
         "icon": "users",
         "text": "Başvurularım",
         "key": "GetGivenOffers",
@@ -34,7 +61,8 @@
         "key": "EmlakClubGift",
         "url": "institutional.estate.coupons",
         "activePath": "/institutional/coupons"
-    },    {
+    },
+    {
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "home",
@@ -43,26 +71,6 @@
         "url": "institutional.index",
         "activePath": "/institutional"
     },
-    {
-        "id": "projects",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "plus",
-        "text": "Proje İlanlarım",
-        "key": "Projects",
-        "url": "institutional.react.projects",
-        "activePath": "/institutional/projects"
-    },
-
-    {
-        "id": "projects",
-        "label": "Mağazam Emlak Sepette",
-        "icon": "plus",
-        "text": "Emlak İlanlarım",
-        "key": "Housings",
-        "url": "institutional.housing.list",
-        "activePath": "/institutional/housings"
-    },
-
     {
         "id": "shopping-bag",
         "label": "Emlak Kulüp",
@@ -90,7 +98,6 @@
         "url": "institutional.password.edit",
         "activePath": "/institutional/password/edit"
     },
-  
     {
         "id": "role",
         "label": "Hesabım & Yardım",
@@ -130,7 +137,10 @@
         "text": "Satış",
         "key": "Orders",
         "url": "#nv-shopping",
-        "activePath": ["/institutional/orders*","/institutional/my-orders"],
+        "activePath": [
+            "/institutional/orders*",
+            "/institutional/my-orders"
+        ],
         "subMenu": [
             {
                 "text": "Gayrimenkul Alış",
@@ -153,7 +163,10 @@
         "text": "Kiralık",
         "key": "Reservations",
         "url": "#nv-shopping",
-        "activePath": ["/institutional/my-reservations*","/institutional/reservations"],
+        "activePath": [
+            "/institutional/my-reservations*",
+            "/institutional/reservations"
+        ],
         "subMenu": [
             {
                 "text": "Kiraya Verdiklerim",
@@ -192,8 +205,6 @@
             }
         ]
     },
-   
- 
     {
         "id": "offers",
         "label": "Mağazam Emlak Sepette",

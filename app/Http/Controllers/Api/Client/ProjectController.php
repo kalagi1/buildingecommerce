@@ -28,7 +28,7 @@ class ProjectController extends Controller
     }
 
     public function show($projectID){
-        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city",'listItemValues', 'user.brands', 'user.housings', 'images')->first();
+        $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "blocks", "neighbourhood", "housingType", "county", "city",'listItemValues', 'user.brands', 'user.housings', 'images')->first();
         if (!$project) {
             return Response::json([
                 'error' => "Proje yayından kaldırılmıştır"
@@ -117,10 +117,13 @@ class ProjectController extends Controller
     }
 
     public function getRooms($projectId,Request $request){
-        $housings = ProjectHousing::where('project_id',$projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
-
+        $projectHousings = ProjectHousing::where('project_id', $projectId)->where('room_order','>',$request->input('start'))->where('room_order','<=',$request->input('end'))->get();
+        $projectHousingsList = [];
+        $projectHousings->map(function ($item) use (&$projectHousingsList) {
+            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+        });
         return json_encode([
-            "housings" => $housings
+            "housings" => $projectHousingsList
         ]);
     }
 }
