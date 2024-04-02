@@ -67,7 +67,6 @@ class LoginController extends Controller
     {
         try {
             $facebookUser = Socialite::driver('facebook')->user();
-            dd($facebookUser);
         } catch (\Exception $e) {
             return redirect('/')->with('error', 'Facebook ile giriş yapılırken bir hata oluştu.');
         }
