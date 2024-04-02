@@ -79,7 +79,7 @@ class DashboardController extends Controller
                 );
             })
             ->orderBy('created_at', 'DESC')
-            ->where("is_disabled", "!=", 1)
+            ->where("is_disabled", NULL)
             ->get();
 
 
