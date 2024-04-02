@@ -79,7 +79,7 @@ class OfferController extends Controller {
     }
 
     public function getProjectHousingList( Request $request ) {
-       
+
         $project = Project::where( 'id', $request->input( 'id' ) )
         ->where( 'status', 1 )
         ->with( 'brand', 'blocks', 'listItemValues', 'neighbourhood', 'roomInfo', 'housingType', 'county', 'city', 'user.brands', 'user.housings', 'images' )
@@ -89,18 +89,22 @@ class OfferController extends Controller {
 
         $selectedHousings = [];
         $allSelectedHousings = [];
+        if (isset($request->offerID)) {
+            $selectedHousings    = Offer::where( 'id', $request->offerID )->where( 'project_id', $request->input( 'id' ) )->value( 'project_housings' );
 
-        $selectedHousings    = Offer::where('id',$request->offerID)->where('project_id',$request->input('id'))->value('project_housings');
-
-        foreach ( $offers as $offer ) {          
-                $projectHousings = json_decode( $offer->project_housings );
-                $allSelectedHousings = array_merge( $allSelectedHousings, $projectHousings );
         }
-        $selectedHousings = json_decode($selectedHousings);
+
+
+        foreach ( $offers as $offer ) {
+
+            $projectHousings = json_decode( $offer->project_housings );
+            $allSelectedHousings = array_merge( $allSelectedHousings, $projectHousings );
+        }
+        $selectedHousings = json_decode( $selectedHousings );
         $differentHousings = [];
 
-        foreach ($allSelectedHousings as $housing) {
-            if (!in_array($housing, $selectedHousings)) {
+        foreach ( $allSelectedHousings as $housing ) {
+            if ( !in_array( $housing, $selectedHousings ) ) {
                 $differentHousings[] = $housing;
             }
         }
