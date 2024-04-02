@@ -455,7 +455,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">{{ Auth::user()->name }}</h6>
@@ -901,7 +901,7 @@
                                     <div class="text-center pt-4 pb-3">
                                         <div class="avatar avatar-xl ">
                                             <img class="rounded-circle "
-                                                src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                                 alt="" />
                                         </div>
                                         <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -2201,7 +2201,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -3496,7 +3496,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -4802,7 +4802,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -6099,7 +6099,7 @@
                                 <div class="text-center pt-4 pb-3">
                                     <div class="avatar avatar-xl ">
                                         <img class="rounded-circle "
-                                            src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                            src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                             alt="" />
                                     </div>
                                     <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -6750,7 +6750,7 @@
                                         <div class="text-center pt-4 pb-3">
                                             <div class="avatar avatar-xl ">
                                                 <img class="rounded-circle "
-                                                    src="{{ URL::to('/') }}/adminassets/assets/img/team/72x72/57.webp"
+                                                    src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
                                                     alt="" />
                                             </div>
                                             <h6 class="mt-2 text-black">Jerry Seinfield</h6>
