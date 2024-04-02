@@ -103,9 +103,9 @@
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
-                            style="background-image: url(images/emlakkulupslider.png)"></div>
+                            style="background-image: url(images/bannerNew.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
-                            style="background-image: url(images/emlakkulupmobilslider.png);"></div>
+                            style="background-image: url(images/bannerNew_mobil.png);"></div>
 
                     </a>
                 </div>
@@ -133,7 +133,7 @@
                             <div class="service-text-p mobile-text"
                                 style="background-color: black; color: white;height:100%">
                                 <p class="text-center">
-                                    Emlak Kulüp’e ÜYE OL Hemen Paylaştıkça Kazan (ilk 5000 üyelik ücretsiz)
+                                    <a href="{{url('/')}}" class="mr-2">Emlaksepette.com </a> üzerinden Emlak klübe üye ol.
                                 </p>
                             </div>
                         </div>
@@ -149,18 +149,16 @@
                         <div class="col-md-1 col-12" style="padding: 0;height:100%">
                             <div class="art-1 img-13 mobile-icon"
                                 style="background-color: #ea2a28;height:100%; color: white;">
-                                <img src="{{ asset('/contact2.png') }}" alt="" class="mobile-hidden"
+                                <img src="{{ asset('/share.png') }}" alt="" class="mobile-hidden"
                                     style="height:38px;width:38px;display:flex;align-items:center" />
-                                <img src="{{ asset('/handshake.png') }}" alt="" class="mobile-show"
+                                <img src="{{ asset('/share.png') }}" alt="" class="mobile-show"
                                     style="height:38px;width:38px;display:flex;align-items:center" />
                             </div>
                         </div>
                         <div class="col-md-11 col-12" style="padding:0;height:100%">
                             <div class="service-text-p mobile-text"
                                 style="background-color: black; color: white;height:100%">
-                                <p class="text-center">
-                                    Emlaksepette.com da bulunan bütün ilanları Koleksiyonuna ekleyerek
-                                    kendi mağazada sosyal medya hesabında sana özel link ile paylaş </p>
+                                <p class="text-center">İstediğin kadar ilanı  koleksiyonuna ekleyip sana özel oluşturulan link ile kendi sosyal medya hesaplarından paylaş. </p>
                             </div>
                         </div>
 
@@ -183,7 +181,7 @@
                             <div class="service-text-p mobile-text"
                                 style="background-color: black; color: white;height:100%">
                                 <p class="text-center">
-                                    Paylaştığın link üzerinden satışa dönen her ilandan sınırsız para kazan
+                                    Böylece paylaştığın ve satışla sonuçlanan her ilan için bizimle beraber sende kazanırsın
                                 </p>
                             </div>
                         </div>
