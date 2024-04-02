@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\AdBanner;
+use App\Models\CartItem;
 use App\Models\FooterLink;
 use App\Models\Menu;
 use App\Models\Page;
@@ -67,7 +68,8 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::check()) {
                 $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->get();
                 $view->with("sharerLinks", $sharerLinks);
-                $cartItemCount = request()->session()->get('cart');
+                // $cartItemCount = request()->session()->get('cart');
+                $cartItemCount = CartItem::where('user_id',Auth::user()->id)->first();
                 $view->with("cartItemCount", $cartItemCount);
 
             }
