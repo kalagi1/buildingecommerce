@@ -23,7 +23,7 @@
     <section class="portfolio bg-white homepage-5 ">
         <div class="container pb-5">
             @if(session('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success text-white">
                     {{ session('success') }}
                 </div>
             @endif
