@@ -106,7 +106,7 @@
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
-                                        <tr>
+                                        <tr  @if($order->refund && $order->refund->status == 1) style="border-left: 3px solid red;" @endif>
 
                                             <td class="order_no align-middle  fw-semibold text-body-highlight">
                                                 {{ $order->id }}
@@ -159,7 +159,7 @@
                                                 </a>
                                             </td>
 
-{{-- 
+                                                {{-- 
                                             <td class="order_project">
                                                 <span>
                                                     @if ($o->type == 'housing')
@@ -191,20 +191,19 @@
 
                                             </td>
 
-                                        {{-- {{dd($order->cartOrderRefund)}} --}}
-
+                                        
+                                        {{-- {{dd($order->refund->status)}} --}}
                                             @if($order->refund != null)
-
+                                            
                                                 <td class="order_status"><span class="text-success">
-
-                                                        
-                                                    {!! [
-                                                        '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
-                                                        '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-info"><span class="badge-label">İade Talebi Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',                                                                                                                                                                                                                  
-                                                        '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">İade Talebi Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',                                                                                             
-                                                        '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
-                                                    ][$order->refund->status] !!}
-                                                </span>
+                                                        {!! [
+                                                            '0' => '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">İade Talebi Oluşturuldu</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
+                                                            '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-info"><span class="badge-label">İade Talebi Onaylandı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',                                                                                                                                                                                                                  
+                                                            '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span class="badge-label">İade Talebi Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',                                                                                             
+                                                            '3' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span class="badge-label">Geri Ödeme Yapıldı</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span>',
+                                                        ][$order->refund->status] !!}
+                                                    </span>
+                                                </td>
                                                 {{-- @if ($order->invoice && $order->status == 1)
                                                     <span class="badge badge-phoenix fs-10 badge-phoenix-success">
                                                         <a href="{{ route('institutional.invoice.show', $order->id) }}">
@@ -304,6 +303,18 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        // Hücreyi seçin
+        var statusCell = document.querySelector('.status-cell');
+
+        console.log(statusCell);
+        // Koşulu kontrol edin ve arka plan rengini belirleyin
+        if (statusCell.innerText.trim() === '1') {
+            statusCell.style.backgroundColor = 'red';
+        }
+
     </script>
 @endsection
 
