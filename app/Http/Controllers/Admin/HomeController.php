@@ -23,7 +23,7 @@ use App\Models\UserPlan;
 use App\Models\CartOrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-
+use Carbon\Carbon;
 class HomeController extends Controller
 {
     public function index()
@@ -340,30 +340,60 @@ class HomeController extends Controller
 
     public function updateStatus(Request $request, $refundId)
     {
-       
-        $refund = CartOrderRefund::find($refundId);
+        $refund = CartOrderRefund::find($refundId); 
+        $userId = $refund->user_id;
+        $now = Carbon::now();
         
-      
-
         if (!$refund) {
             return redirect()->back()->with('error', 'İlgili iade talebi bulunamadı.');
         }
-
+    
         $validatedData = $request->validate([
             'status' => 'required|in:1,2,3', 
         ]);
-
-        if ($validatedData['status'] == 1 || $validatedData['status'] == 3) {
-            // Durum 1 veya 3 ise ve bağlı olduğu siparişin durumu 2 değilse
+    
+        $refund->status = $validatedData['status'];
+        $refund->save();
+    
+        if ($refund->status == 1) {
             if ($refund->cartOrder->status != 2) {
                 $refund->cartOrder->status = '2'; // Sipariş durumunu 2 olarak güncelle
                 $refund->cartOrder->save();
             }
         }
-
-        $refund->status = $validatedData['status'];
-        $refund->save();
-
+    
+        if ($refund->status == 3) {
+            $createdAt = Carbon::parse($refund->cartorder->created_at);
+            $differenceInDays = $createdAt->diffInDays($now);
+            $amount = $refund->cartorder->amount;
+            
+            if ($differenceInDays <= 14) {
+                $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $amount));
+                $refundAmount = $amountFloat * 0.10;
+            } else {
+                $refundAmount = $amount;
+            }
+    
+            // SharerPrice tablosundaki ilgili kayıtları güncelle
+            SharerPrice::where([
+                ['user_id', $refund->user_id],
+                ['cart_id', $refund->cartOrder->id],
+            ])->update(['status' => 0 , 'balance' => 0]);
+        
+            // CartPrice tablosundaki ilgili kayıtları al ve güncelle
+            $cartPrices = CartPrice::where([
+                ['user_id', $refund->user_id],
+                ['cart_id', $refund->cartOrder->id],
+                ['status', 1],
+            ])->get();
+            foreach ($cartPrices as $cartPrice) {
+                $cartPrice->earn = $refundAmount;
+                $cartPrice->earn2 = '0';
+                $cartPrice->save();
+            }
+        }
+    
         return redirect()->back()->with('success', 'İade durumu başarıyla güncellendi.');
     }
+    
 }

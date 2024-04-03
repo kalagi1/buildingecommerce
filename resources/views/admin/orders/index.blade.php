@@ -106,7 +106,7 @@
                                         @php($o = json_decode($order->cart))
                                         @php($project = $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
-                                        <tr  @if($order->refund && $order->refund->status == 1) style="border-left: 3px solid red;" @endif>
+                                        <tr  @if($order->refund && $order->refund->status == 1) class="table-danger" @endif>
 
                                             <td class="order_no align-middle  fw-semibold text-body-highlight">
                                                 {{ $order->id }}
