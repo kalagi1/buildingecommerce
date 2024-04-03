@@ -906,6 +906,8 @@ class CartController extends Controller {
 
             $cartItem = [];
             $cart = [];
+            $hasCounter = false;
+
             $cartList = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
             if ( $cartList ) {
                 $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
