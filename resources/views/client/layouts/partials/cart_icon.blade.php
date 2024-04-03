@@ -10,7 +10,7 @@
     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
 </svg>
 
-    @if(isset($cartItemCount['item']))
+    @if(isset($cartItemCount))
         <div class="number2">1</div> 
     @endif
 

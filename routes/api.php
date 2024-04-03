@@ -38,3 +38,5 @@ Route::get('/menu-list',[MenuController::class,'getMenuList']);
 Route::get('/project_housings/{projectId}',[ProjectController::class,'getRooms']);
 
 Route::apiResource('project', ProjectController::class);
+
+Route::get('get_full_projects',[ProjectController::class,"getFullProjects"]);

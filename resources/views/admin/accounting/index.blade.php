@@ -5,7 +5,7 @@
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0">Emlak Sepette Muhasabe Yönetimi</h2>
+                    <h2 class="mb-0">Gelir Tablosu</h2>
                 </div>
             </div>
             <div id="orderTable"

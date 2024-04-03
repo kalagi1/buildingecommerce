@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -86,7 +88,8 @@ class LoginController extends Controller
     
             // Oturum aç
             Auth::login($newUser);
-            return redirect('/dashboard')->with('success', 'Yeni hesap oluşturuldu ve başarıyla giriş yapıldı.');
+            return redirect('/')->with('success', 'Yeni hesap oluşturuldu ve başarıyla giriş yapıldı.');
+
         }
     }
 
