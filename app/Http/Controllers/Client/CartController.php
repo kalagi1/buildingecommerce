@@ -910,8 +910,7 @@ class CartController extends Controller {
 
             $cartList = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
             if ( $cartList ) {
-                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
-                $cart = json_decode( $cartItem->cart, true );
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first()->delete();
             }
 
             http_response_code( 500 );
