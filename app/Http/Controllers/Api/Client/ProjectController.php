@@ -126,4 +126,30 @@ class ProjectController extends Controller
             "housings" => $projectHousingsList
         ]);
     }
+
+    public function getFullProjects(Request $request){
+        $request->validate([
+            "start" => "required",
+            "end" => "required"
+        ]);
+
+        $projectCount = Project::count();
+
+        $projects = Project::query();
+
+        if($request->input('start')){
+            $projects = $projects->skip($request->input('start'));
+        }
+
+        if($request->input('end')){
+            $projects = $projects->take($request->input('end') - $request->input('start'));
+        }
+
+        $projects = $projects->get();
+
+        return json_encode([
+            "data" => $projects,
+            "count" => $projectCount
+        ]);
+    }
 }
