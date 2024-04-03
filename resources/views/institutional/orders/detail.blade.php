@@ -655,7 +655,7 @@
                                                                                 alt="" width="220"></div>
                                                                     </div>
                                                                     <div class="col-12 col-sm-auto">
-                                                                        <div class="text-center text-sm-start">
+                                                                        <div class="text-center ">
                                                                             <h5 class="mb-3">İptal Talebiniz Alınmıştır
                                                                             </h5>
                                                                             <p class="text-body-emphasis fs-9">Talep Sonucu
