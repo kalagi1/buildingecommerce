@@ -97,7 +97,7 @@
        
     @endif
 
-    <section class="recently portfolio bg-white homepage-5 emlak-kulup-slider">
+    <section class="recently portfolio bg-white homepage-5 emlak-kulup-slider recently2">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
@@ -133,7 +133,7 @@
                             <div class="service-text-p mobile-text"
                                 style="background-color: black; color: white;height:100%">
                                 <p class="text-center">
-                                    <a href="{{url('/')}}" class="mr-2">Emlaksepette.com </a> üzerinden Emlak Kulübe üye ol.
+                                    <a href="{{url('/')}}" class="linkColor mr-2" style="color: #ea2a28;" >Emlaksepette.com </a> üzerinden Emlak Kulübe üye ol.
                                 </p>
                             </div>
                         </div>
@@ -546,6 +546,15 @@
 
 @section('styles')
     <style>
+        .how-it-works{
+            padding: 2.6rem 0 2.6rem 2.6rem !important;
+        }
+        .linkColor{
+            color: #ea2a28 !important;
+        }
+        .recently2{
+            padding: 0 !important;
+        }
         .how-it-works-two {
             padding: 2.6rem 0;
         }
