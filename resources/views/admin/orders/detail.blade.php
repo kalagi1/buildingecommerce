@@ -54,7 +54,7 @@
 
                         @if($order->refund != null)
                             <div class="order-status-container mt-3"
-                                style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
+                                style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 0) background-color :red;  @elseif($order->refund->status == 1)  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
                                 <div class="left">
                                     <i class="fa fa-check"></i>
                                     <span>
@@ -65,7 +65,7 @@
                                         @elseif($order->refund->status == 3)
                                             İADE TALEBİ İÇİN GERİ ÖDEME YAPILDI
                                         @else
-                                            İADE TALEBİ ONAY BEKLENİYOR
+                                            İADE TALEBİ İÇİN ONAY BEKLENİYOR
                                         @endif
                                     </span>
                                 </div>
@@ -91,6 +91,21 @@
                             </div>
                         @endif
 
+                        @if($order->reference)
+                            <div class="order-status-container mt-3"
+                                    style="background-color : #1581f5 ">
+                                    <div class="left">
+                                        <i class="fa fa-check"></i>
+                                        <span>
+                                            Bu İlan <strong>{{$order->reference->name}}</strong> referansı ile satılmıştır
+                                        </span>
+                                    </div>
+
+                            </div>
+                        
+                        @endif
+                        
+                      
                         <div class="order-detail-inner mt-3 px-3 py-3">
                             <div class="row">
                                 <div class="col-md-4 text-center">
@@ -241,12 +256,17 @@
                                     <div class="d-flex jc-space-between pb-4">
                                         <div class="product-info flex-1">
                                             <div class="product-info-img">
-                                                @php($o = json_decode($order->cart))
+                                                @php
+                                                    $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
+                                                    $itemImage = isset($orderCartData['item']['image']) ? $orderCartData['item']['image'] : null; // item özelliğine eriş
+                                                @endphp
+                                                @php($o = json_decode($order->cart)) 
+                                               
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="">
                                                 @else
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' }}"
+                                                    <img src="{{ URL::to('/') . '/project_housing_images/' .  $itemImage}}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
 
@@ -406,7 +426,7 @@
                                                 '1' => '<span class="text-success">Satış Onaylandı</span>',
                                                 '2' => '<span class="text-danger">Satış Reddedildi</span>',
                                             ][$order->status] !!} <br>
-                                                @if (isset($order->share))
+                                                {{-- @if (isset($order->share))
                                                     <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
                                                         satılmıştır.
                                                         @if ($order->share->status == 1)
@@ -417,14 +437,14 @@
                                                 @endif
                                                 @if (isset($order->price) && $order->price->status == 1)
                                                     <span class="text-success">Hakedişler Onaylandı.</span>
-                                                @endif
+                                                @endif --}}
 
-                                    <td class="order_status align-middle text-center fw-semibold text-body-highlight">
+                                    {{-- <td class="order_status align-middle text-center fw-semibold text-body-highlight">
                                         {!! [
                                             '0' => '<span class="text-warning">Rezerve Edildi</span>',
                                             '1' => '<span class="text-success">Satış Onaylandı</span>',
                                             '2' => '<span class="text-danger">Satış Reddedildi</span>',
-                                        ][$order->status] !!} <br>
+                                        ][$order->status] !!} <br> --}}
                                         @if (isset($order->share))
                                             <span class="text-warning">Bu ilan emlak kulüp aracılığı ile
                                                 satılmıştır.
@@ -583,7 +603,7 @@
                                                         <select class="form-select" name="status">
                                                             <option value="1" {{ $order->refund->status == 1 ? 'selected' : '' }}>İade talebini onayla</option>
                                                             <option value="2" {{ $order->refund->status == 2 ? 'selected' : '' }}>İade talebini reddet</option>
-                                                            <option value="3" {{ $order->refund->status == 3 ? 'selected' : '' }}>Ödeme tamamlandı</option>
+                                                            <option value="3" {{ $order->refund->status == 3 ? 'selected' : '' }}>Geri Ödeme tamamlandı</option>
                                                         </select>
                                                     
                                                     

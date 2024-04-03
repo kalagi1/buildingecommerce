@@ -85,11 +85,18 @@
                                                         alt=""
                                                         style="width:100px;height:100px;object-fit:cover"></td>
                                                 <td class="tm_width_5  tm_border_left" style="width: 100px">
+                                                    
                                                     <?php
-                                                    if (isset($data['project']['project_title'])) {
-                                                        echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] .' -'.' Hisse Sayısı ' .$cart['item']['qt']  . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';
-                                                    } else {
+                                                    if (isset($data['project']) && $data['project'] instanceof \App\Models\Housing) {
                                                         echo $data['project']['title'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['title']  . '</span>';
+                                                    
+                                                    } else {
+                                                        if($cart['item']['isShare'] > 0 ){
+                                                            echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] .' -'.'   Hisse Sayısı ' .$cart['item']['qt']  . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';      
+                                                        }else{
+                                                            echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';
+                                                        }
+                                                        
                                                     }
                                                     ?>
                                                 </td>

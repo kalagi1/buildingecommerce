@@ -17,6 +17,7 @@
             'Aralık',
         ];
     @endphp
+    
     <div class="content">
 
 
@@ -43,7 +44,7 @@
                         @if($order->refund != null)
 
                             <div class="order-status-container mt-3"
-                            style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
+                            style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)   @elseif($order->refund->status == 0) background-color :red;  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
                                 <div class="left">
                                     <i class="fa fa-check"></i>
                                     <span>
@@ -76,7 +77,24 @@
                                     </span>
                                 </div>
                             </div>
-                    @endif
+
+
+                        @endif
+
+                        @if($order->reference)
+                            <div class="order-status-container mt-3"
+                                    style="background-color : #1581f5 ">
+                                    <div class="left">
+                                        <i class="fa fa-check"></i>
+                                        <span>
+                                            Bu İlan <strong>{{$order->reference->name}}</strong> referansı ile satılmıştır
+                                        </span>
+                                    </div>
+
+                            </div>
+                    
+                         @endif
+
                         <div class="order-detail-inner mt-3 px-3 py-3">
                             <div class="row">
                                 <div class="col-md-4 text-center">
@@ -223,12 +241,16 @@
                                     <div class="d-flex jc-space-between pb-4">
                                         <div class="product-info flex-1">
                                             <div class="product-info-img">
+                                                @php
+                                                $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
+                                                $itemImage = isset($orderCartData['item']['image']) ? $orderCartData['item']['image'] : null; // item özelliğine eriş
+                                            @endphp
                                                 @php($o = json_decode($order->cart))
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="">
                                                 @else
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' }}"
+                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . $itemImage}}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
 
@@ -388,9 +410,15 @@
                                 <div class="card-body">
                                     <h3 class="card-title mb-4">İade Talebi</h3>
                                     <h6 class="mb-2"></h6>
+                                    @if(!$order->refund)
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">İade Talebinde Bulun</button>
+                                    @else
+                                            <p>İade Başvurunuz İnceleniyor</p>
+                                            <br>
+                                            <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
+                                   @endif 
 
-                                    <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">İade Talebinde Bulun</button>
                                     <div class="modal fade modal-xl" id="exampleModal" tabindex="-1"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
@@ -633,9 +661,9 @@
                                                                             <p class="text-body-emphasis fs-9">Talep Sonucu
                                                                                 Kısa Süre İçerisinde Tarafınıza
                                                                                 İletilecektir</p>
-                                                                            
-                                                                                <a href="{{ route('institutional.order.detail', ['order_id' => $order->id]) }}" class="btn btn-primary px-6" onclick="submitForms()">İade Talebi Oluştur</a>
-
+                                                                                
+                                                                                    <a href="{{ route('institutional.order.detail', ['order_id' => $order->id]) }}" class="btn btn-primary px-6" onclick="submitForms()">İade Talebi Oluştur</a>
+     
                                                                         </div>
                                                                     </div>
                                                                 </div>

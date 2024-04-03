@@ -61,11 +61,15 @@
                             </thead>
                             <tbody class="list" id="order-table-body">
                                 @foreach ($mergedArray as $key => $item)
+                                {{-- {{dd($item->cart->refund)}} --}}
                                 @if(isset($item['is_reservation']) && $item['is_reservation'] == 1)
                                     @php($reservation = App\Models\Reservation::with('user')->find($item['reservation_id']))
                                     @if($reservation)
                                         @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
-                                        <tr>
+
+                                        <tr @if(isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) style="background-color: red;" @endif>
+
+
                                             <td>{{ $reservation->key ?? null }}</td>
                                             <td>{{ optional(\Carbon\Carbon::parse($reservation->created_at))->format('d.m.Y H:i:s') ?? null }}</td>
                                             <td>
@@ -132,7 +136,7 @@
                                         @php($o = json_decode($item->cart->cart))
                                         @php($project = isset($o->type) && $o->type == 'project' ? App\Models\Project::with('user')->find($o->item->id) : null)
                                         @php($housing = isset($o->type) && $o->type == 'housing' ? App\Models\Housing::with('user')->find($o->item->id) : null)
-                                        <tr>
+                                        <tr @if(isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) class="table-danger" @endif>
                                             <td>{{ $item->cart->key ?? null }}</td>
                                             <td>{{ optional(\Carbon\Carbon::parse($item->cart->created_at))->format('d.m.Y H:i:s') ?? null }}</td>
                                             <td>
