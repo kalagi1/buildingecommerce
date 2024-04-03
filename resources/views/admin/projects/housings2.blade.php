@@ -344,6 +344,10 @@
                                                             <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                                                 class="badge badge-phoenix badge-phoenix-success value-text">Sipariş
                                                                 Detayı</a><br>
+                                                                <a href="{{ route('komsumu.sil', ['id' => $sold[0]->id]) }}"
+                                                                    class="badge badge-phoenix badge-phoenix-danger value-text">
+                                                                    Komşumu Sil
+                                                                </a>
                                                         @endif
                                                         @if (!$share_sale)
                                                             <a href="#"
@@ -948,6 +952,10 @@
                                         <a href="{{ route('admin.invoice.show', ['order' => $sold[0]->id]) }}"
                                             class="badge badge-phoenix badge-phoenix-success value-text">Sipariş
                                             Detayı</a><br>
+                                            <a href="{{ route('komsumu.sil', ['id' => $sold[0]->id]) }}"
+                                                class="badge badge-phoenix badge-phoenix-danger value-text">
+                                                Komşumu Sil
+                                            </a>
                                     @endif
                                     @if (!$share_sale)
                                         <a href="#" class="badge badge-phoenix badge-phoenix-info value-text"
