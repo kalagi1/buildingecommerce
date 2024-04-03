@@ -250,7 +250,7 @@
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="">
                                                 @else
-                                                    <img src="{{ URL::to('/') . '/project_housing_images/' . $itemImage}}"
+                                                    <img src="{{  $itemImage}}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
 
