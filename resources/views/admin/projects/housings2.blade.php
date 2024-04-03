@@ -587,12 +587,7 @@
                                     </div>
                                 @endif
 
-                                @if (count($soldHisse) == 0)
-                                <a href="{{ route('komsumu.sil', ['id' => $order->id]) }}"
-                                    class="badge badge-phoenix badge-phoenix-danger value-text">
-                                    Komşumu Sil
-                                </a> 
-                                @endif
+
                                 {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                         class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
                                 <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
@@ -1170,14 +1165,7 @@
                 </div>
             @endif
 
-            @if (count($soldHisse) == 0)
-            <a href="{{ route('komsumu.sil', ['id' => $order->id]) }}"
-                class="badge badge-phoenix badge-phoenix-danger value-text">
-                Komşumu Sil
-            </a> 
-            @endif
 
-          
             {{-- <a href="{{ route('institutional.projects.edit.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
                                                 class="badge badge-phoenix badge-phoenix-primary">İlan Düzenle</a><br> --}}
             <a href="{{ route('institutional.projects.delete.housing', ['project_id' => $project->id, 'room_order' => $i + 1]) }}"
