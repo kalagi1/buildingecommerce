@@ -93,7 +93,7 @@
                                     $tarih,
                                 );
                             @endphp
-                            <tr>
+                            <tr @if($order->refund && $order->refund->status == 1) class="table-danger" @endif>
                                 <td class="no"><span>{{$order->id}}</span></td>
                                 {{-- @php
                                     $counter++;

@@ -81,6 +81,16 @@
     },
 
     {
+        "id": "home",
+        "label": "Muhasebe",
+        "icon": "dollar-sign",
+        "text": "İade Tablosu",
+        "key": "ViewRefund",
+        "url": "admin.accountingForRefund",
+        "activePath": "qR9zLp2xS6y/secured/accounting"
+    },
+
+    {
         "id": "housing",
         "label": "Sat Kirala",
         "icon": "eye",

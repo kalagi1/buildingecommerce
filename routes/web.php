@@ -243,6 +243,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::get('/notification-history', [InfoController::class, 'notificationHistory'])->name('notification-history');
     Route::get('/accounting', [InfoController::class, 'accounting'])->name('accounting');
+    Route::get('/accounting/refund', [InfoController::class, 'accountingForRefund'])->name('accountingForRefund');
 
     Route::get('info/contact', [InfoController::class, 'contact'])->name('info.contact.index');
     Route::post('info/setContact', [InfoController::class, 'contactSetOrEdit'])->name('info.contact.set');
