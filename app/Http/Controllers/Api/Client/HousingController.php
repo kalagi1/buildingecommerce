@@ -20,7 +20,7 @@ class HousingController extends Controller {
 
     }
 
-    public function show( $housing ) {
+    public function show( Housing $housing ) {
         $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
         ->where( 'id', $housing->id )
         ->where( 'status', 1 )->first();
