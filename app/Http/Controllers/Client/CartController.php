@@ -1119,14 +1119,7 @@ class CartController extends Controller {
 
             public function removeFromCart( Request $request ) {
                 $request->session()->forget( 'cart' );
-                // Clear the cart
-                //cart_items tablosundan kullanıcıya ait sepet verisini sil
-                $cartItem = CartItem::where( 'user_id', Auth::id() )->first();
-                if ( $cartItem ) {
-                    CartItem::where( 'id', $cartItem->id )->delete();
-                }
-                //    dd( $cartItem );
-
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->first()->delete();
                 return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
             }
 
