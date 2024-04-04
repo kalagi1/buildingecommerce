@@ -473,9 +473,9 @@
                                                                             <option value="2"
                                                                                 {{ $order->refund->status == 2 ? 'selected' : '' }}>
                                                                                 İade talebini reddet</option>
-                                                                            {{-- <option value="3"
+                                                                            <option value="3"
                                                                                 {{ $order->refund->status == 3 ? 'selected' : '' }}>
-                                                                                Geri Ödeme tamamlandı</option> --}}
+                                                                                Geri Ödeme tamamlandı</option>
                                                                         </select>
                                                                     
                                                                 </div>
