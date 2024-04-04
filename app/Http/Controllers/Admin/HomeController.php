@@ -24,6 +24,8 @@ use App\Models\CartOrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App\Services\SmsService;
+
 class HomeController extends Controller
 {
     public function index()
@@ -336,6 +338,97 @@ class HomeController extends Controller
         $reservation->update(['status' => '3']);
         CancelRequest::where('reservation_id', $reservation->id)->delete();
         return redirect()->back();
+    }
+
+
+    public function upload(Request $request)
+    {
+        // PDF dosyasını al
+        $pdfFile = $request->file('pdf_file');
+        // Gelen requestten refund_id'yi alın
+        $refund_id = $request->refund_id;
+
+        // İlgili CartOrderRefund'ı bulun
+        $refund = CartOrderRefund::find($refund_id);
+
+        // Dosya yüklendiyse ve refund bulunduysa devam et
+        if ($pdfFile && $refund) {
+            // Dosyayı belirtilen dizine kaydet (örneğin: storage/app/pdf)
+            $newFileName = now()->format('H-i-s') . '.' . $pdfFile->getClientOriginalExtension();
+            $folderName = 'refund-receipt-pdf/'. $refund->id;
+            $newFilePath = public_path($folderName);
+            $pdfFile->move($newFilePath, $newFileName);
+
+            // Dosyanın yeni yolunu alın
+            $pdfPath = $folderName . '/' . $newFileName; // Dosya yolu ve adını birleştirin
+
+            // Veritabanında bir kayıt oluşturmak isterseniz
+            $refund->filename = $pdfFile->getClientOriginalName(); // Dosya adını alabilirsiniz
+            $refund->path = $pdfPath;
+            $refund->status = '3'; // Dosya yolunu kaydedin
+            $refund->save();
+
+            $this->sendEmail($refund);
+
+            $this->sendSMS($refund);
+
+            return redirect()->back()->with('success', 'PDF dosyası başarıyla yüklendi.');
+        } else {
+            return redirect()->back()->with('error', 'PDF dosyası yüklenirken bir hata oluştu.');
+        }
+    }
+
+    private function sendEmail($refund)
+    {     
+        $pdfDownloadLink = asset($refund->path);
+        $name = $refund->user->name;  
+        $content = '
+
+        <p>Sayın '. $name .' </p>
+        <p>Aşağıdaki Butona Basarak Dekontu İndirebilirsiniz</p>
+        
+        <!-- PDF indirme bağlantısı -->
+        <a href="' . $pdfDownloadLink . '" onclick="downloadPDF()" style="background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;">Dekont İndir</a>
+        
+        <!-- JavaScript fonksiyonu -->
+        <script>
+        function downloadPDF() {
+            window.location.href = "' . $pdfDownloadLink . '";
+        }
+        </script>
+        ';
+        
+        // E-posta gönderme işlemi
+        $subject = 'İade Talebi';
+        
+        
+        // E-posta gönder
+        Mail::to('example@example.com')->send(new CustomMail($subject, $content));
+    }
+
+    private function sendSMS($refund)
+    {
+        // Kullanıcının telefon numarasını al
+        $userPhoneNumber = $refund->user->phone_number;
+    
+        // Kullanıcının adını ve soyadını al
+        $name = $refund->user->name;
+    
+        // SMS metni oluştur
+        $message = "Merhaba $name , iade işleminiz başarıyla tamamlandı. Dekontunuz mail üzerinden iletilecektir.";
+    
+        // SMS gönderme işlemi
+        $smsService = new SmsService();
+        $smsService->sendSms('Gönderici Başlığı', $message, $userPhoneNumber);
     }
 
     public function updateStatus(Request $request, $refundId)
