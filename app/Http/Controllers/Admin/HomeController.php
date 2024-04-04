@@ -389,12 +389,14 @@ class HomeController extends Controller
     {
         $pdfDownloadLink = asset($refund->path);
         $name = $refund->user->name;
+        $cartID = $refund->cart_order_id;
+
         $content = '
 
-        <p>Sayın ' . $name . ' </p>
-        <p>Aşağıdaki Butona Basarak Dekontu İndirebilirsiniz</p>
+        <p>Merhaba '. $name .' , '. $cartID .' nolu siparişinize ait geri ödeme tarafınıza iletilmiştir.</p>
+        <p>Aşağıdaki butona basarak dekontu indirebilirsiniz</p>
         
-        <!-- PDF indirme bağlantısı -->
+        
         <a href="' . $pdfDownloadLink . '" onclick="downloadPDF()" style="background-color: #4CAF50; /* Green */
           border: none;
           color: white;
