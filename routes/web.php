@@ -296,7 +296,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/reservations', [AdminHomeController::class, 'getReservations'])->name('reservations');
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
         Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
-
+        Route::post('/receipt/pdf', [AdminHomeController::class, 'upload'])->name('receipt.refund.upload.pdf');
+        
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
         Route::post('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
