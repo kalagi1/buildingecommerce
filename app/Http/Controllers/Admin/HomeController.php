@@ -34,7 +34,7 @@ class HomeController extends Controller
     {
         $this->smsService = $smsService;
     }
-    
+
     public function index()
     {
         $countUser = User::where('status', '1')->get()->count();
@@ -429,9 +429,11 @@ class HomeController extends Controller
 
         // Kullanıcının adını ve soyadını al
         $name = $refund->user->name;
+        $cartID = $refund->cart_order_id;
+
 
         // SMS metni oluştur
-        $message = "Merhaba $name , iade işleminiz başarıyla tamamlandı. Dekontunuz mail üzerinden iletilecektir.";
+        $message = "Merhaba $name , $cartID no'lu siparişinize ait geri ödeme tarafınıza iletilmiştir. Dekontunuzu mail adresinize gönderdik, kontrol edebilirsiniz.";
 
         // SMS gönderme işlemi
         $smsService = new SmsService();
