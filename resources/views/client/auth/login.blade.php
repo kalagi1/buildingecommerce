@@ -107,12 +107,11 @@
                                                 </div>
                                                 <div class="flex flex-column">
                                                     <div>
-                                                        <a href="{{ route('auth.facebook') }}"
+                                                        <a href="{{ route('login.facebook') }}"
                                                             style="color: black;text-decoration:none">
                                                             <div style="text-transform: capitalize;">facebook</div>
                                                             <small>ile giriş yap</small>
-                                                        </a>
-                                                    </div>
+                                                        </a>                                                    </div>
                                                 </div>
 
                                             </div>

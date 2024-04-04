@@ -47,5 +47,5 @@ return [
         'api_secret' => env('VERIMOR_API_SECRET'),
     ],
 
-
+    
 ];

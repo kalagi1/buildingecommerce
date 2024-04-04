@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
 use App\Models\BankAccount;
+use App\Models\CartItem;
 use App\Models\CartOrder;
 use App\Models\CartPrice;
 use App\Models\Click;
@@ -36,6 +37,7 @@ class CartController extends Controller {
 
     public function payCart( Request $request ) {
         if ( !$request->session()->get( 'cart' ) ) {
+
             return response()->json( [ 'success' => 'fail' ] );
         }
 
@@ -83,7 +85,9 @@ class CartController extends Controller {
                 }
             )->where( 'coupon_code', $request->input( 'discount' ) )->where( 'use_count', '>=', 1 )->first();
 
-            $cart = $request->session()->get( 'cart', [] );
+            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+            $cart = json_decode( $cartItem->cart, true );
             if ( $cart[ 'type' ] == 'housing' ) {
                 $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                 $saleType = $housing->step2_slug;
@@ -235,7 +239,9 @@ class CartController extends Controller {
                 }
             }
         } else {
-            $cart = $request->session()->get( 'cart', [] );
+            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+            $cart = json_decode( $cartItem->cart, true );
             if ( $cart[ 'type' ] == 'housing' ) {
                 $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                 $saleType = $housing->step2_slug;
@@ -246,20 +252,20 @@ class CartController extends Controller {
 
             if ( $saleType == 'kiralik' ) {
                 $discountRate = floatval( $cartJson[ 'item' ][ 'discount_rate' ] ?? 0 );
-                $amount = $amountWithoutDiscount - ( $amountWithoutDiscount * isset( $lastClick ) ?  ( $discountRate / 100 ): 0 );
+                $amount = $amountWithoutDiscount - ( $amountWithoutDiscount * isset( $lastClick ) ?  ( $discountRate / 100 ) : 0 );
                 $amount = number_format( $amount, 2, ',', '.' );
             } else {
                 $discountRate = floatval( $cartJson[ 'item' ][ 'discount_rate' ] ?? 0 );
-                if(isset( $lastClick )){
+                if ( isset( $lastClick ) ) {
                     $discountX = $amountWithoutDiscount * ( $discountRate / 100 );
-                }else{
+                } else {
                     $discountX = 0;
                 }
                 $amount = $amountWithoutDiscount - $discountX;
 
                 $amount = number_format( $amount * 0.02, 2, ',', '.' );
             }
-        } 
+        }
         $order->amount = $amount;
         $order->cart = json_encode( $cartJson );
         $order->status = '0';
@@ -273,9 +279,9 @@ class CartController extends Controller {
         $order->notes = $request->input( 'notes' );
         $order->reference_id = $hasReference ? $hasReference->id : null;
         $order->is_reference = $isReference ? $isReference->id : null;
-        if(isset($cartJson[ 'item' ][ 'payment-plan' ])){
-            $order->is_swap =$cartJson[ 'item' ][ 'payment-plan' ] == 'pesin' ? 0 : 1;
-        }else{
+        if ( isset( $cartJson[ 'item' ][ 'payment-plan' ] ) ) {
+            $order->is_swap = $cartJson[ 'item' ][ 'payment-plan' ] == 'pesin' ? 0 : 1;
+        } else {
             $order->is_swap = 0;
         }
         $order->save();
@@ -352,7 +358,9 @@ class CartController extends Controller {
                         $share_percent_earn = 0;
                     }
 
-                    $cart = $request->session()->get( 'cart', [] );
+                    $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+                    $cart = json_decode( $cartItem->cart, true );
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
@@ -391,7 +399,9 @@ class CartController extends Controller {
                         $share_percent_earn = 0;
                     }
 
-                    $cart = $request->session()->get( 'cart', [] );
+                    $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+                    $cart = json_decode( $cartItem->cart, true );
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
@@ -425,7 +435,9 @@ class CartController extends Controller {
                         $share_percent_earn = 0;
                     }
 
-                    $cart = $request->session()->get( 'cart', [] );
+                    $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+                    $cart = json_decode( $cartItem->cart, true );
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
@@ -462,7 +474,6 @@ class CartController extends Controller {
             $store = $project->user->name;
             $storeID = $project->user->id;
 
-
             $room = $productDetails->housing;
             $shareOpen = isset( getHouse( $project, 'share-open[]', $productDetails->housing )->value ) ? getHouse( $project, 'share-open[]', $productDetails->housing )->value : null;
 
@@ -474,7 +485,9 @@ class CartController extends Controller {
                 }
                 $share_percent = 0.5;
 
-                $cart = $request->session()->get( 'cart', [] );
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+                $cart = json_decode( $cartItem->cart, true );
                 if ( $cart[ 'type' ] == 'housing' ) {
                     $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                     $saleType = $housing->step2_slug;
@@ -513,7 +526,9 @@ class CartController extends Controller {
                     $collection = Collection::where( 'id', $lastClick->collection_id )->first();
                     $newAmount = $amountWithoutDiscount - ( $amountWithoutDiscount * ( $discountRate / 100 ) );
                     $share_percent = 0.5;
-                    $cart = $request->session()->get( 'cart', [] );
+                    $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+                    $cart = json_decode( $cartItem->cart, true );
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         $saleType = $housing->step2_slug;
@@ -539,7 +554,7 @@ class CartController extends Controller {
                             'earn2' => 0,
 
                         ] );
-                    }else{
+                    } else {
                         CartPrice::create( [
                             'user_id' => $order->user_id,
                             'cart_id' => $order->id,
@@ -689,6 +704,11 @@ class CartController extends Controller {
         }
 
         session()->forget( 'cart' );
+        //cart_items tablosundan kullanıcıya ait sepet verisini sil
+        $cartItem = DB::table( 'cart_items' )->where( 'user_id', Auth::id() )->first();
+        if ( $cartItem ) {
+            DB::table( 'cart_items' )->where( 'id', $cartItem->id )->delete();
+        }
 
         return response()->json( [ 'cart_order' => $order->id ] );
     }
@@ -741,7 +761,13 @@ class CartController extends Controller {
 
     public function updateQt( Request $request ) {
         try {
-            $cart = $request->session()->get( 'cart', [] );
+            $cart = [];
+            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+            if ( isset( $cartItem ) ) {
+                $cart = json_decode( $cartItem->cart, true );
+            } else {
+                $cart = $request->session()->get( 'cart', [] );
+            }
 
             if ( !$cart ) {
                 return response( [ 'message' => 'fail' ] );
@@ -757,12 +783,11 @@ class CartController extends Controller {
             $qt = $cart[ 'item' ][ 'qt' ] ?? 0;
             $numbershare = $cart[ 'item' ][ 'numbershare' ] ?? 0;
 
-            if ($cart['item']['payment-plan'] == 'taksitli') {
+            if ( $cart[ 'item' ][ 'payment-plan' ] == 'taksitli' ) {
                 $defaultPrice = $cart[ 'item' ][ 'installmentPrice' ] ?? 0;
-            }else{
+            } else {
                 $defaultPrice = $cart[ 'item' ][ 'defaultPrice' ] ?? 0;
             }
-           
 
             // Retrieve sumCartOrderQt for the given 'housing' and 'id'
             $sumCartOrderQt = DB::table( 'cart_orders' )
@@ -789,8 +814,8 @@ class CartController extends Controller {
             )
             ->all();
 
-            $pesinat =  $cart[ 'item' ][ 'qt' ] > 1 ? ($cart['item']['pesinat']/ $cart[ 'item' ][ 'qt' ] ) : $cart['item']['pesinat'];
-            $aylik = $cart[ 'item' ][ 'qt' ] > 1 ?  ($cart['item']['aylik']/$cart[ 'item' ][ 'qt' ] ) : $cart['item']['aylik'];
+            $pesinat =  $cart[ 'item' ][ 'qt' ] > 1 ? ( $cart[ 'item' ][ 'pesinat' ] / $cart[ 'item' ][ 'qt' ] ) : $cart[ 'item' ][ 'pesinat' ];
+            $aylik = $cart[ 'item' ][ 'qt' ] > 1 ?  ( $cart[ 'item' ][ 'aylik' ] / $cart[ 'item' ][ 'qt' ] ) : $cart[ 'item' ][ 'aylik' ];
 
             if ( $change == 'artir' ) {
                 $remainingQt = $numbershare - ( $sumCartOrderQt[ $housingId ][ 'qt_total' ] ?? 0 );
@@ -798,8 +823,8 @@ class CartController extends Controller {
                 if ( $qt !== $remainingQt ) {
                     $cart[ 'item' ][ 'qt' ] += 1;
                     $cart[ 'item' ][ 'amount' ] += $defaultPrice;
-                    $cart['item']['pesinat'] += $pesinat;
-                    $cart['item']['aylik'] += $aylik;
+                    $cart[ 'item' ][ 'pesinat' ] += $pesinat;
+                    $cart[ 'item' ][ 'aylik' ] += $aylik;
                 } else {
                     return response( [ 'message' => 'success', 'quantity' => $qt, 'response' => 'Maximum ' . $qt . ' adeti kadar sipariş oluşturabilirsiniz.' ] );
                 }
@@ -807,16 +832,19 @@ class CartController extends Controller {
                 if ( $qt != 1 ) {
                     $cart[ 'item' ][ 'qt' ] -= 1;
                     $cart[ 'item' ][ 'amount' ] -= $defaultPrice;
-                    $cart['item']['pesinat'] -= $pesinat;
-                    $cart['item']['aylik'] -= $aylik;
-
-
+                    $cart[ 'item' ][ 'pesinat' ] -= $pesinat;
+                    $cart[ 'item' ][ 'aylik' ] -= $aylik;
                 } else {
                     return response( [ 'message' => 'success', 'quantity' => $qt, 'response' => $qt . ' adetten daha az sipariş oluşturamazsınız.' ] );
                 }
             }
 
-            $request->session()->put( 'cart', $cart );
+            if ( isset( $cartItem ) ) {
+                $cartItem->cart = json_encode( $cart );
+                $cartItem->save();
+            } else {
+                $request->session()->put( 'cart', $cart );
+            }
 
             return response( [ 'message' => 'success', 'quantity' => $cart[ 'item' ][ 'qt' ] ] );
         } catch ( \Exception $e ) {
@@ -827,14 +855,21 @@ class CartController extends Controller {
 
     public function update( Request $request ) {
         try {
-            $cart = $request->session()->get( 'cart', [] );
-            if ( $cart ) {
+            $cartSession = $request->session()->get( 'cart', [] );
+            $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+            if ( $cartItem ) {
+                $cart = json_decode( $cartItem->cart, true );
                 $selectedPaymentOption = $request->input( 'paymentOption' );
                 $updatedPrice = $request->input( 'updatedPrice' );
 
                 if ( isset( $updatedPrice ) ) {
+                    $cartSession[ 'item' ][ 'amount' ] = $updatedPrice;
+                    $cartSession[ 'item' ][ 'payment-plan' ] = $selectedPaymentOption;
                     $cart[ 'item' ][ 'amount' ] = $updatedPrice;
                     $cart[ 'item' ][ 'payment-plan' ] = $selectedPaymentOption;
+                    $cartItem->cart = json_encode( $cart );
+                    $cartItem->save();
                 }
 
                 $request->session()->put( 'cart', $cart );
@@ -870,17 +905,19 @@ class CartController extends Controller {
             // dd( $orderCount );
 
             $cartItem = [];
+            $cart = [];
             $hasCounter = false;
-            $cart = $request->session()->get( 'cart', [] );
-            //   dd( $type == 'project' && $cart[ 'item' ][ 'id' ] == $project && $cart[ 'item' ][ 'housing' ] == $id );
-            //DB de var mı ?
-            // if () {
-            //     return response( [ 'message' => 'fail', 'failMessage' => 'Ürün zaten sepette' ], 200 );
-            // }
+
+            $cartList = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+            if ( $cartList ) {
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first()->delete();
+            }
 
             http_response_code( 500 );
-            if ( $cart && ( ( $type == 'housing' && isset( $cart[ 'item' ][ 'id' ] ) &&  $cart[ 'item' ][ 'id' ] == $id ) || ( $type == 'project' && isset( $cart[ 'item' ][ 'housing' ] ) && $cart[ 'item' ][ 'housing' ] == $id ) ) ) {
+            if ( $cartItem && ( ( $type == 'housing' && isset( $cart[ 'item' ][ 'id' ] ) &&  $cart[ 'item' ][ 'id' ] == $id ) || ( $type == 'project' && isset( $cart[ 'item' ][ 'housing' ] ) && $cart[ 'item' ][ 'housing' ] == $id ) ) ) {
+                CartItem::where( 'user_id', Auth::user()->id )->latest()->delete();
                 $request->session()->forget( 'cart' );
+
             } else {
                 if ( $type == 'project' ) {
 
@@ -898,7 +935,7 @@ class CartController extends Controller {
 
                         if ( isset( $collection ) ) {
                             foreach ( $collection->links as $link ) {
-                                if ( (  $link->user_id != Auth::user()->id ) ) {
+                                if ( ( $link->user_id != Auth::user()->id ) ) {
                                     $hasCounter = true;
                                 }
                             }
@@ -926,12 +963,11 @@ class CartController extends Controller {
                         }
 
                         $number_of_share = 0;
-                        if (isset($projectHousing['Kaç Hisse Var ?'])) {
-                            $number_of_share = $projectHousing['Kaç Hisse Var ?']->value;
+                        if ( isset( $projectHousing[ 'Kaç Hisse Var ?' ] ) ) {
+                            $number_of_share = $projectHousing[ 'Kaç Hisse Var ?' ]->value;
                         }
-                        
-                        $aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) :  ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
-                        
+
+                        $aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) : ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
                     }
 
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
@@ -999,7 +1035,7 @@ class CartController extends Controller {
                         'slug' => $housing->slug,
                         'amount' => $housingData->price[ 0 ],
                         'price' => $housingData->price[ 0 ],
-                        "defaultPrice" => $housingData->price[ 0 ],
+                        'defaultPrice' => $housingData->price[ 0 ],
                         'image' => asset( 'housing_images/' . $housingData->images[ 0 ] ),
                         'discount_amount' => $hasCounter ? $discount_amount : 0,
                         'share_open' => $housingData-> {
@@ -1011,37 +1047,51 @@ class CartController extends Controller {
                                 'discount_rate'}
                                 [ 0 ] ?? 0,
                             ];
-                }
+                        }
 
-                if ( !$cartItem ) {
-                    return response( [ 'message' => 'fail' ] );
-                }
-                $cart = [
-                    'item' => $cartItem,
-                    'type' => $type,
-                    'hasCounter' => $hasCounter
-                ];
+                        if ( !$cartItem ) {
+                            return response( [ 'message' => 'fail' ] );
+                        }
+                        $cart = [
+                            'item' => $cartItem,
+                            'type' => $type,
+                            'hasCounter' => $hasCounter
+                        ];
 
-                $request->session()->put( 'cart', $cart );
-                // Save cart data to session
-                return response( [ 'message' => 'success' ] );
+                        $request->session()->put( 'cart', $cart );
+
+                        $cartJson = json_encode( $cart );
+                        CartItem::create( [
+                            'cart'     => $cartJson,
+                            'user_id'  => Auth::id()
+                        ] );
+
+                        // Save cart data to session
+                        return response( [ 'message' => 'success' ] );
+                    }
+                } catch ( \Exception $e ) {
+                    // Handle exceptions if any
+                    return response( [ 'message' => 'error', 'error' => $e->getMessage() ], 500 );
+                }
             }
-        } catch ( \Exception $e ) {
-            // Handle exceptions if any
-            return response( [ 'message' => 'error', 'error' => $e->getMessage() ], 500 );
-        }
-    }
 
             public function clear( Request $request ) {
+                CartItem::where( 'user_id', Auth::user()->id )->latest()->delete();
                 $request->session()->forget( 'cart' );
-                // Clear the cart
+
 
                 return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
             }
 
             public function index( Request $request ) {
                 $bankAccounts = BankAccount::all();
-                $cart = $request->session()->get( 'cart', [] );
+                $cart = false;
+                $user_id = Auth::id();
+                $cartItem = CartItem::where( 'user_id', $user_id )->latest()->first();
+                if ( $cartItem ) {
+                    $cart = json_decode( $cartItem->cart, true );
+                }
+
                 $saleType = null;
                 if ( isset( $cart ) && !empty( $cart ) ) {
                     if ( $cart[ 'type' ] == 'housing' ) {
@@ -1068,7 +1118,7 @@ class CartController extends Controller {
 
             public function removeFromCart( Request $request ) {
                 $request->session()->forget( 'cart' );
-                // Clear the cart
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->first()->delete();
                 return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
             }
 
@@ -1110,7 +1160,9 @@ class CartController extends Controller {
                 )->where( 'coupon_code', $request->input( 'coupon_code' ) )->where( 'use_count', '>=', 1 )->first();
                 $saleItemType = '';
                 if ( $coupon ) {
-                    $cart = $request->session()->get( 'cart', [] );
+                    $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+                    $cart = json_decode( $cartItem->cart, true );
                     if ( $cart[ 'type' ] == 'housing' ) {
                         $housing = Housing::where( 'id', $cart[ 'item' ][ 'id' ] )->first();
                         if ( $housing->step2_slug == 'kiralik' ) {
