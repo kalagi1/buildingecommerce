@@ -385,7 +385,7 @@
                                         @endif
                                     @else
                                     @php
-                                    $dataSoldValue = ($sold && $sold->status == 2 && ($share_sale == "[]" || empty($share_sale)) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]')) ? '1' : '0';
+                                    $dataSoldValue = (($sold && $sold->status == 2 && ($share_sale == "[]" || empty($share_sale))) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]')) ? '1' : '0';
                                 @endphp
                                 
                                 <button class="first-btn payment-plan-button"
@@ -395,7 +395,7 @@
                                         data-block="{{ $blockName }}"
                                         data-payment-order="{{ $projectOrder }}">
                                     Ödeme Detayı 
-                                    {{(isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share)  ? 1 : 0}}
+                                    {{($sold && $sold->status == 2 && ($share_sale == "[]" || empty($share_sale)))  ? 1 : 0}}
                                 </button>
                                 
 
