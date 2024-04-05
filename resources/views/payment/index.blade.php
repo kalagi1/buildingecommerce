@@ -508,6 +508,7 @@
                                                 <select class="form-control" id="is_reference" name="is_reference">
                                                     <option value="" selected>Komşu Seçiniz</option>
                                                     @foreach ($cart['item']['neighborProjects'] as $neighborProject)
+                                                    {{dd($neighborProject)}}
                                                         <option value="{{ $neighborProject->owner["id"] }}">
                                                             {{ $neighborProject->owner["name"] }}</option>
                                                     @endforeach
