@@ -125,7 +125,7 @@
 
 
 
-                                    @if (($sold && !$sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                                    @if (($sold && !$sold->status == '1') || !$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
                                         <span class="btn addCollection mobileAddCollection" data-type='project'
                                             data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                                             <i class="fa fa-bookmark-o"></i>
