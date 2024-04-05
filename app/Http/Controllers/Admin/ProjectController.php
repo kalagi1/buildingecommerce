@@ -545,10 +545,6 @@ class ProjectController extends Controller {
             'invoice' => $invoice,
             'project' => $project,
         ];
-
-        // // return $order->id;
-        // return $data;
-
         return view('admin.invoice.index', compact("data"));
     }//End
 
