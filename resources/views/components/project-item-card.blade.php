@@ -384,15 +384,20 @@
                                             </a>
                                         @endif
                                     @else
-                                        <button class="first-btn payment-plan-button"
-                                            project-id="{{ $project->id }}"
-                                            data-sold="{{ ($sold && $sold->status == 2 && $share_sale == "[]") || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || ( !$sold_check && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
-                                            order="{{ $keyIndex }}" data-block="{{ $blockName }}"
-                                            data-payment-order="{{ $projectOrder }}">
-                                            Ödeme Detayı 
-                                            {{$share_sale}}
-
-                                        </button>
+                                    @php
+                                    $dataSoldValue = ($sold && $sold->status == 2 && ($share_sale == "[]" || empty($share_sale)) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]')) ? '1' : '0';
+                                @endphp
+                                
+                                <button class="first-btn payment-plan-button"
+                                        project-id="{{ $project->id }}"
+                                        data-sold="{{ $dataSoldValue }}"
+                                        order="{{ $keyIndex }}" 
+                                        data-block="{{ $blockName }}"
+                                        data-payment-order="{{ $projectOrder }}">
+                                    Ödeme Detayı 
+                                    {{$dataSoldValue}}
+                                </button>
+                                
 
                                     @endif
 
