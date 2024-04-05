@@ -150,7 +150,7 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
-                    @if (($sold && !$sold->status == '1') || $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
+                    @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
                     <span class="btn addCollection mobileAddCollection " data-type='project'
                         data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
                         <i class="fa fa-bookmark-o"></i>
@@ -348,10 +348,24 @@
                             </span>
                         </button>
                     @else
+                    @php
+                    $dataSoldValue =
+                        $share_sale &&
+                        ($share_sale == '[]' || empty($share_sale)) &&
+                        ((!$share_sale && (!$sold || ($sold && $sold->status != 2))) ||
+                            (isset($sumCartOrderQt[$keyIndex]) &&
+                                $sumCartOrderQt[$keyIndex]['qt_total'] ==
+                                    $number_of_share) ||
+                            (isset($projectHousingsList[$keyIndex]['off_sale']) &&
+                                $projectHousingsList[$keyIndex]['off_sale'] != '[]'))
+                            ? 1
+                            : 0;
+                @endphp
+               
                         <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
                             project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                            data-sold="{{$dataSoldValue}}"
                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                             data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                             Ödeme Detayı
@@ -379,10 +393,23 @@
                             </a>
                         @endif
                     @else
+                    @php
+                    $dataSoldValue =
+                        $share_sale &&
+                        ($share_sale == '[]' || empty($share_sale)) &&
+                        ((!$share_sale && (!$sold || ($sold && $sold->status != 2))) ||
+                            (isset($sumCartOrderQt[$keyIndex]) &&
+                                $sumCartOrderQt[$keyIndex]['qt_total'] ==
+                                    $number_of_share) ||
+                            (isset($projectHousingsList[$keyIndex]['off_sale']) &&
+                                $projectHousingsList[$keyIndex]['off_sale'] != '[]'))
+                            ? 1
+                            : 0;
+                @endphp
                         <button class="first-btn payment-plan-button payment-plan-mobile-btn mobileCBtn"
                             style="width:50% !important;background-color:black !important;border:1px solid black;color:white"
                             project-id="{{ $project->id }}"
-                            data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
+                            data-sold="{{ $dataSoldValue}}"
                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                             data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                             Ödeme Detayı
