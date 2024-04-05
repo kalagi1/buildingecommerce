@@ -367,7 +367,8 @@
                                             data-sold="{{ ($sold && ($sold->status != 2) && $share_sale_empty) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
-                                            Ödeme Detayı
+                                            Ödeme Detayı                                         {{($sold && ($sold->status != 2) && $share_sale_empty) ? 1 : 0}}
+
                                         </button>
                                     @endif
                                 @else
@@ -390,8 +391,9 @@
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
                                             Ödeme Detayı
+                                            {{($sold && ($sold->status != 2) && $share_sale_empty) ? 1 : 0}}
+
                                         </button>
-                                        {{($sold && ($sold->status != 2) && $share_sale_empty) ? 1 : 0}}
 
 
                                     @endif
