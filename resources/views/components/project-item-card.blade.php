@@ -391,6 +391,8 @@
                                             data-payment-order="{{ $projectOrder }}">
                                             Ödeme Detayı 
                                             {{print_r($sold_check)}}
+                                            {{print_r($sold)}}
+
                                         </button>
 
                                     @endif
