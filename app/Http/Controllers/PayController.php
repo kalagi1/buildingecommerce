@@ -48,7 +48,6 @@ class PayController extends Controller
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
         $cart = json_decode($cartItem->cart, true);
-        dd($cart);
 
         // dd($cart);
         $bankAccounts = BankAccount::all();
