@@ -307,7 +307,6 @@
                                                 ->first();
                                         }
                                     @endphp
-                                    {{print_r($neighborView)}}
 
                                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
                                         <span class="first-btn see-my-neighbor"
