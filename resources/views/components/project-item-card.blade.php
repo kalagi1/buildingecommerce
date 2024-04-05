@@ -395,7 +395,7 @@
                                         data-block="{{ $blockName }}"
                                         data-payment-order="{{ $projectOrder }}">
                                     Ödeme Detayı 
-                                    {{$dataSoldValue}}
+                                    {{(!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]')}}
                                 </button>
                                 
 
