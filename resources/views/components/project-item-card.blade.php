@@ -354,6 +354,18 @@
                                             </span>
 
                                         </span>
+                                    @elseif($neighborView && $neighborView->status == '2')
+                                        <span class="first-btn see-my-neighbor"
+                                            @if (Auth::check()) data-bs-toggle="modal"
+                                                                                                data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
+                                            <span><svg viewBox="0 0 24 24" width="18" height="18"
+                                                    stroke="currentColor" stroke-width="2" fill="none"
+                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                    class="css-i6dzq1">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg> Komşumu Gör</span>
+                                        </span>
                                     @elseif($isUserSame == true && isset($share_sale) && $share_sale == '[]')
                                         <span class="first-btn see-my-neighbor success">
                                             <span>
