@@ -395,6 +395,7 @@
                                         data-block="{{ $blockName }}"
                                         data-payment-order="{{ $projectOrder }}">
                                     Ödeme Detayı 
+                                    {{(($sold && $sold->status != 2 && ($share_sale == "[]" || empty($share_sale))) || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]')) ? 1 : 0}}
                                 </button>
                                 
 
