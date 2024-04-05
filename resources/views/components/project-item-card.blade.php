@@ -389,7 +389,8 @@
                                             data-sold="{{ ($sold_check &&  $share_sale == "[]") || (isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || ( !$sold_check && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? '1' : '0' }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
-                                            Ödeme Detayı asd
+                                            Ödeme Detayı 
+                                            {{print_r($sold_check)}}
                                         </button>
 
                                     @endif
