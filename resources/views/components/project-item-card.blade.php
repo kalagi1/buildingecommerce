@@ -384,40 +384,26 @@
                                             </a>
                                         @endif
                                     @else
-                                        @php
-                                            $dataSoldValue =
-                                                ($sold &&
-                                                    $sold->status != 2 &&
-                                                    ($share_sale == '[]' || empty($share_sale))) ||
-                                                (isset($sumCartOrderQt[$keyIndex]) &&
-                                                    $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) ||
-                                                (!$sold &&
-                                                    isset($projectHousingsList[$keyIndex]['off_sale']) &&
-                                                    $projectHousingsList[$keyIndex]['off_sale'] != '[]')
-                                                    ? '1'
-                                                    : '0';
-                                        @endphp
+                                    @php
+                                    $dataSoldValue =
+                                        $share_sale &&
+                                        ($share_sale == '[]' || empty($share_sale)) &&
+                                        ((!$share_sale && (!$sold || ($sold && $sold->status != 2))) ||
+                                            (isset($sumCartOrderQt[$keyIndex]) &&
+                                                $sumCartOrderQt[$keyIndex]['qt_total'] ==
+                                                    $number_of_share) ||
+                                            (isset($projectHousingsList[$keyIndex]['off_sale']) &&
+                                                $projectHousingsList[$keyIndex]['off_sale'] != '[]'))
+                                            ? 1
+                                            : 0;
+                                @endphp
 
                                         <button class="first-btn payment-plan-button"
                                             project-id="{{ $project->id }}" data-sold="{{ $dataSoldValue }}"
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
                                             Ödeme Detayı
-                                            @php
-                                                $dataSoldValue =
-                                                    $share_sale &&
-                                                    ($share_sale == '[]' || empty($share_sale)) &&
-                                                    ((!$share_sale && (!$sold || ($sold && $sold->status != 2))) ||
-                                                        (isset($sumCartOrderQt[$keyIndex]) &&
-                                                            $sumCartOrderQt[$keyIndex]['qt_total'] ==
-                                                                $number_of_share) ||
-                                                        (isset($projectHousingsList[$keyIndex]['off_sale']) &&
-                                                            $projectHousingsList[$keyIndex]['off_sale'] != '[]'))
-                                                        ? 1
-                                                        : 0;
-                                            @endphp
-
-                                            {{ $dataSoldValue }}
+                                          
                                         </button>
 
 
