@@ -386,6 +386,7 @@
                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                             data-payment-order="{{ isset($blockStart) && $blockStart ? $i - $blockStart + 1 : $i + 1 }}">
                             Ödeme Detayı
+                            {{($sold && ($sold->status != 2) && $share_sale_empty) ? 1 : 0}}
                         </button>
                     @endif
                 @endif
