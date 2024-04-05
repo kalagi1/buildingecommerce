@@ -390,7 +390,7 @@
                                             order="{{ $keyIndex }}" data-block="{{ $blockName }}"
                                             data-payment-order="{{ $projectOrder }}">
                                             Ödeme Detayı 
-                                            {{print_r($share_sale)}}
+                                            {{$share_sale}}
 
                                         </button>
 
