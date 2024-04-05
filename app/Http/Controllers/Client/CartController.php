@@ -929,7 +929,7 @@ class CartController extends Controller {
                     ->where( 'room_order', $id )
                     ->get()
                     ->keyBy( 'key' );
-                    $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->get();
+                    $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where("status", 1)->get();
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
