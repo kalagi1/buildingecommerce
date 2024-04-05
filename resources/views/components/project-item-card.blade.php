@@ -395,7 +395,7 @@
                                         data-block="{{ $blockName }}"
                                         data-payment-order="{{ $projectOrder }}">
                                     Ödeme Detayı 
-                                    {{($sold && $sold->status == 2 && ($share_sale == "[]" || empty($share_sale)))  ? 1 : 0}}
+                                    {{($sold && $sold->status != 2 && ($share_sale == "[]" || empty($share_sale)))  ? 1 : 0}}
                                 </button>
                                 
 
