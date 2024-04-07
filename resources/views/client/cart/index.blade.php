@@ -487,11 +487,32 @@
 
                                         <script>
                                             function validateTCLength(input) {
-                                                var maxLength = 11;
-                                                if (input.value.length > maxLength) {
-                                                    input.value = input.value.slice(0, maxLength);
-                                                    toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                const tckNo = input.replace(/\D/g, '');
+
+                                                // TC Kimlik No'nun uzunluğu 11 haneli olmalıdır
+                                                if (tckNo.length !== 11) {
+                                                    return 'Geçersiz TC Kimlik No! Lütfen 11 haneli bir sayı girin.';
                                                 }
+
+                                                // İlk hane 0 olamaz
+                                                if (tckNo[0] === '0') {
+                                                    return 'Geçersiz TC Kimlik No! İlk rakam 0 olamaz.';
+                                                }
+
+                                                // TC Kimlik No'nun ilk 9 hanesinin toplamı 10. ve 11. haneleri verir
+                                                let sum = 0;
+                                                for (let i = 0; i < 10; i++) {
+                                                    sum += Number(tckNo[i]);
+                                                }
+                                                const lastDigit = sum % 10;
+                                                if (lastDigit !== Number(tckNo[10])) {
+                                                    return 'Geçersiz TC Kimlik No! Kontrol haneleri uyuşmuyor.';
+                                                }
+
+                                                // TC Kimlik No formatını düzenle (5-6-5)
+                                                const formattedTC = tckNo.substring(0, 5) + ' ' + tckNo.substring(5, 10) + ' ' + tckNo.substring(10);
+
+                                                return formattedTC;
                                             }
                                         </script>
                                         <div class="col-md-6">

@@ -477,11 +477,38 @@
                                         </div>
                                         <script>
                                             function validateTCLength(input) {
-                                                var maxLength = 11;
-                                                if (input.value.length > maxLength) {
-                                                    input.value = input.value.slice(0, maxLength);
+                                                const tckNo = input.value.replace(/\D/g, '');
+                                                // TC Kimlik No'nun uzunluğu 11 haneli olmalıdır
+                                                if (tckNo.length > 11) {
                                                     toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                    return '';
                                                 }
+
+                                                // İlk hane 0 olamaz
+                                                if (tckNo[0] == "0") {
+                                                    toastr.warning("Geçersiz TC Kimlik No! İlk rakam 0 olamaz.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No'nun ilk 9 hanesinin toplamı 10. ve 11. haneleri verir
+                                                let sum = 0;
+                                                for (let i = 0; i < 10; i++) {
+                                                    sum += Number(tckNo[i]);
+                                                }
+                                                
+                                                const lastDigit = sum % 10;
+                                                if (tckNo.length == 11 && lastDigit !== Number(tckNo[10])) {
+                                                    toastr.warning("Geçersiz TC Kimlik No! Kontrol haneleri uyuşmuyor.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No formatını düzenle (5-6-5)
+                                                const formattedTC = input.target.value;
+                                                console.log(formattedTC);
+                                                $('#tc').val(formattedTC)
+                                                return formattedTC;
                                             }
                                         </script>
                                         <div class="col-sm-6">
