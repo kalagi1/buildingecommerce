@@ -229,7 +229,7 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                                 <div className="icon-area">
                                     <i className="fa fa-square"></i>
                                 </div>
-                                <input type="text" value={projectData.island} onChange={(e) => {setProjectDataFunc('island',dotNumberFormat(e.target.value))}} className='total_project_area create_company'/>
+                                <input type="text" value={projectData.island} onChange={(e) => {setProjectDataFunc('island',e.target.value)}} className='total_project_area create_company'/>
                             </div>
                         </div>
                         <div className="col-md-6 mt-1">
@@ -238,7 +238,7 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                                 <div className="icon-area">
                                     <i className='fa fa-square'></i>
                                 </div>
-                                <input type="text" value={projectData.parcel} onChange={(e) => {setProjectDataFunc('parcel',dotNumberFormat(e.target.value))}} className='total_project_area price-only'/>
+                                <input type="text" value={projectData.parcel} onChange={(e) => {setProjectDataFunc('parcel',e.target.value)}} className='total_project_area price-only'/>
                             </div>
                         </div>
                         
