@@ -399,7 +399,7 @@ class ProjectController extends Controller {
         $order->tc           = $request->tc;
         $order->is_swap      = 0;
         $order->is_reference = 0;
-        $order->is_show_user = $request->onay_checkbox ? "on" : null; 
+        $order->is_show_user = "on"; 
         $order->amount       = 0;
         $order->is_disabled  = 1; // sonradan eklenen konutlar için
         $order->store_id     = Project::where('id',$projectID)->value('user_id');
@@ -464,6 +464,7 @@ class ProjectController extends Controller {
                 'phone'     => $request->phone,
                 'tc'        => $request->tc,
                 'address'   => $request->address,
+                "is_show_user" => "on",
                 "user_id"   => $userFirst->id
             ];
 
@@ -499,6 +500,7 @@ class ProjectController extends Controller {
                 'phone'     => $request->phone,
                 'tc'        => $request->tc,
                 'address'   => $request->address,
+                "is_show_user" => "on",
                 "user_id"   => $user->id
             ];
 
