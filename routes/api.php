@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Api\Client\BrandController;
 use App\Http\Controllers\Api\Client\HousingController;
 use App\Http\Controllers\Api\Client\MenuController;
 use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalProjectController;
@@ -38,4 +38,5 @@ Route::get('/menu-list',[MenuController::class,'getMenuList']);
 Route::get('/project_housings/{projectId}',[ProjectController::class,'getRooms']);
 Route::apiResource('project', ProjectController::class);
 Route::apiResource('housing', HousingController::class);
+Route::apiResource('brand', BrandController::class);
 Route::get('get_full_projects',[ProjectController::class,"getFullProjects"]);
