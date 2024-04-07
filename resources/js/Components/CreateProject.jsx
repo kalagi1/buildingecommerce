@@ -67,6 +67,11 @@ function CreateProject(props) {
         })
     }
 
+    const createRoomAsync = async (formData) => {
+        // createRoom işlevini çağır ve bekleyerek sonucu döndür
+        return await createRoom(formData);
+    };
+
     const createProject = () => {
         var formDataHousing = JSON.parse(selectedHousingType?.housing_type?.form_json);
         var tempErrors = [];
@@ -329,11 +334,20 @@ function CreateProject(props) {
                                     }
                                 }
                             });
-                            requestPromises.push(
-                                createRoom(formDataRoom)
-                            )
-    
-                            housingTemp++;
+
+                            const callCreateRoom = () => {
+                                return new Promise(resolve => {
+                                    setTimeout(async () => {
+                                        const result = await createRoomAsync(formDataRoom);
+                                        resolve(result);
+                                    }, roomIndex * 1000); // Odalar arasında 1 saniyelik gecikme sağlamak için roomIndex * 1000 milisaniye beklet
+                                });
+                            };
+                    
+                            // İşlemi requestPromises dizisine ekleyerek sırayla çağırma
+                            requestPromises.push(callCreateRoom());
+                    
+                            housingTemp++; // Oda sırasını arttırma
                         });
                     });
     
