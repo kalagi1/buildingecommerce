@@ -399,18 +399,21 @@ class ProjectController extends Controller
         $housingTemp = $request->input('room_order');
         $room = $request->input('room');
         $paymentPlanOrder = 0;
+
+        $projectHousings = [];
+
         for ($j = 0; $j < count($housingTypeInputs); $j++) {
             if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
                 if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
                     if (isset($room['payment-plan']) &&  $room['payment-plan']) {
                         if (str_contains($room['payment-plan'], 'taksitli')) {
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                             if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
                                 $paymentPlanOrder++;
                             }
@@ -419,36 +422,34 @@ class ProjectController extends Controller
                 } else {
                     if (str_contains($housingTypeInputs[$j]->className, 'price-only')) {
                         if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                         }
                     } else {
                         if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
-
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => $room[substr($housingTypeInputs[$j]->name, 0, -2)],
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                         }
                     }
                 }
             } else if ($housingTypeInputs[$j]->type != "file") {
-
-                ProjectHousing::create([
+                $projectHousings[] = [
                     "key" => $housingTypeInputs[$j]->label,
                     "name" => $housingTypeInputs[$j]->name,
                     "value" => isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) ? json_encode(explode(',', $room[substr($housingTypeInputs[$j]->name, 0, -2)])) : json_encode([]),
                     "project_id" => $project->id,
                     "room_order" => $housingTemp,
-                ]);
+                ];
             } else if ($housingTypeInputs[$j]->type == "file") {
                 if (!$housingTypeInputs[$j]->multiple) {
                     $imageRoom = $request->file('room')['image'];
@@ -472,20 +473,20 @@ class ProjectController extends Controller
                             $imageMg->resize($newWidth, $newHeight);
                             $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
                             $encoded->save(public_path('project_housing_images/' . $newFileName));
-
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => $newFileName,
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                         }
                     }
                 }
             }
         }
 
+        ProjectHousing::insert($projectHousings);
         ProjectHousing::create([
             "key" => "pay-dec-count" . ($housingTemp),
             "name" => "pay-dec-count" . ($housingTemp),

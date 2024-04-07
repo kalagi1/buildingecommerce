@@ -8,21 +8,33 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
     const [uploadingOrder,setUploadingOrder] = useState([[]]);
     const [imageLoading,setImageLoading] = useState(false);
     const [loadingImageCount,setLoadingImageCount] = useState(0);
+
     const fileUpload = async (event) => {
-        if(!document){
-            if(multiple){
+        if (!document) {
+            const maxSize = 3 * 1024 * 1024; // 3 MB maksimum dosya boyutu
+    
+            if (multiple) {
                 const files = event.target.files;
                 const tempImages = [];
-                const tempImages2 = []; 
+                const tempImages2 = [];
                 setLoadingImageCount(files.length);
                 setImageLoading(true);
-                var lastImageCount = projectData[fileName+'_imagesx'] ? projectData[fileName+'_imagesx'].length : 0;
-                if((lastImageCount + files.length) <= 40){
+    
+                var lastImageCount = projectData[fileName + '_imagesx'] ? projectData[fileName + '_imagesx'].length : 0;
+    
+                if ((lastImageCount + files.length) <= 40) {
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];
+    
+                        if (file.size > maxSize) {
+                            toast.error(`Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük dosyalar yükleyin.`);
+                            continue; // Büyük dosyayı yükleme, sonraki dosyaya geç
+                        }
+    
                         tempImages2.push(file);
+    
                         const reader = new FileReader();
-                        
+    
                         // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
                         if (file) {
                             const imageDataUrl = await new Promise((resolve) => {
@@ -35,51 +47,54 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                             setUploadingOrder([tempImages]);
                         }
                     }
-                    if(projectData[fileName+'_imagesx']){
+    
+                    if (projectData[fileName + '_imagesx']) {
                         setProjectData({
                             ...projectData,
-                            [fileName+'_imagesx'] : [...projectData[fileName+'_imagesx'], ...tempImages],
-                            [fileName] : [...projectData[fileName], ...tempImages2]
+                            [fileName + '_imagesx']: [...projectData[fileName + '_imagesx'], ...tempImages],
+                            [fileName]: [...projectData[fileName], ...tempImages2]
                         });
-                    }else{
+                    } else {
                         setProjectData({
                             ...projectData,
-                            [fileName+'_imagesx'] : [...tempImages],
-                            [fileName] : [...tempImages2]
+                            [fileName + '_imagesx']: [...tempImages],
+                            [fileName]: [...tempImages2]
                         });
                     }
-                }else{
-                    toast.error("Toplam resim sayısı 40'ı geçiyor. Lütfen resim sayısı sınırına dikkat edin")
+                } else {
+                    toast.error("Toplam resim sayısı 40'ı geçiyor. Lütfen resim sayısı sınırına dikkat edin");
                 }
-
+    
                 setImageLoading(false);
-            }else{
+            } else {
                 const file = event.target.files[0];
                 const reader = new FileReader();
-        
+    
                 reader.onload = () => {
                     setProjectData({
                         ...projectData,
-                        [fileName+'_imagex'] : reader.result,
-                        [fileName] : file
+                        [fileName + '_imagex']: reader.result,
+                        [fileName]: file
                     });
                 };
-
-                
-        
+    
                 if (file) {
+                    if (file.size > maxSize) {
+                        toast.error(`Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük bir dosya seçin.`);
+                        return; // Büyük dosya seçildiği için işlemi sonlandır
+                    }
                     reader.readAsDataURL(file);
                 }
             }
-        }else{
+        } else {
             const file = event.target.files[0];
-            
-            setProjectDataFunc(fileName,file)
+            setProjectDataFunc(fileName, file);
         }
-    }
+    };
 
     const fileUpload2 = async (filesx) => {
         if(!document){
+            const maxSize = 3 * 1024 * 1024; // 3 MB maksimum dosya boyutu
             if(multiple){
                 const files = filesx;
                 const tempImages = [];
@@ -90,7 +105,10 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                     const file = files[i];
                     tempImages2.push(file);
                     const reader = new FileReader();
-    
+                    if (file.size > maxSize) {
+                        toast.error(`Dosya "${file.name}" çok büyük. Lütfen 3 MB'den küçük dosyalar yükleyin.`);
+                        continue; // Büyük dosyayı yükleme, sonraki dosyaya geç
+                    }
                     // FileReader.onload olayını bir Promise ile sarmalayarak işlemi bekleyebiliriz
                     if (file) {
                         const imageDataUrl = await new Promise((resolve) => {
@@ -196,7 +214,7 @@ function FileUpload({fileName,projectData,setProjectDataFunc,multiple,accept,doc
                             <div class="cover-document">
                                 <div class="has_file">
                                     <span class="d-block">Dosya Eklediniz</span>
-                                    <a class="btn btn-info" href="https://emlaksepette.com/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
+                                    <a class="btn btn-info" href="http://127.0.0.1:8000/housing_documents/document_temp106.pdf" download="">Mevcut Dosyayı İndir</a>
                                 </div>
                             </div>
                         : ''
