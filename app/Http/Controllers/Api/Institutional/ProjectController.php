@@ -163,6 +163,10 @@ class ProjectController extends Controller
             }
         }
 
+        $manager = new ImageManager(
+            new Driver()
+        );
+
         // $request->validate([
         //     "selectedTypes.0" => "required",
         //     "selectedTypes.1" => "required",
@@ -212,7 +216,25 @@ class ProjectController extends Controller
             $fileNameCoverImage = $projectSlug . '_cover_image_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
 
-            
+            $image = $manager->read(public_path('storage/project_images/' . $fileNameCoverImage));
+            $imageWidth = $image->width();
+            $imageHeight = $image->height();
+
+            if ($imageWidth > 1200) {
+                $newWidth = 1200;
+                $newHeight = $imageHeight * 1200 / $imageWidth;
+            } else {
+                $newWidth = $imageWidth;
+                $newHeight = $imageHeight;
+            }
+            $image2 = $manager->read(public_path('images/filigran2.png'));
+            $imageWidth2 = $image2->width();
+            $imageHeight2 = $image2->height();
+            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
+            $image2->rotate(30, '#00000000');
+            $image->resize($newWidth, $newHeight);
+            $encoded = $image->place($image2, 'center', 10, 10, 20);
+            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
         }
 
 
@@ -266,7 +288,21 @@ class ProjectController extends Controller
 
             if ($image->move($destinationPath, $newFileName)) {
 
-                
+                $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+
+                if ($imageWidth > 1200) {
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                } else {
+
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $imageMg->resize($newWidth, $newHeight);
+                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                $encoded->save(public_path('storage/project_images/' . $newFileName));
 
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
                 $projectImage->image = 'public/project_images/' . $newFileName;
@@ -280,7 +316,21 @@ class ProjectController extends Controller
             $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
 
             if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                
+                $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
+                $imageWidth = $imageMg->width();
+                $imageHeight = $imageMg->height();
+
+                if ($imageWidth > 1200) {
+                    $newWidth = 1200;
+                    $newHeight = $imageHeight * 1200 / $imageWidth;
+                } else {
+
+                    $newWidth = $imageWidth;
+                    $newHeight = $imageHeight;
+                }
+                $imageMg->resize($newWidth, $newHeight);
+                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                $encoded->save(public_path('situation_images/' . $newFileName));
 
                 $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
                 $projectImage->situation = 'public/situation_images/' . $newFileName;
@@ -340,6 +390,9 @@ class ProjectController extends Controller
 
     public function createRoom(Request $request)
     {
+        $manager = new ImageManager(
+            new Driver()
+        );
 
         $project = Project::where('id', $request->input('project_id'))->first();
         $housingType = HousingType::where('id', $project->housing_type_id)->first();
@@ -406,6 +459,21 @@ class ProjectController extends Controller
                         $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
                         if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
 
+                            $imageMg = $manager->read(public_path('project_housing_images/' . $newFileName));
+                            $imageWidth = $imageMg->width();
+                            $imageHeight = $imageMg->height();
+
+                            if ($imageWidth > 1200) {
+                                $newWidth = 1200;
+                                $newHeight = $imageHeight * 1200 / $imageWidth;
+                            } else {
+
+                                $newWidth = $imageWidth;
+                                $newHeight = $imageHeight;
+                            }
+                            $imageMg->resize($newWidth, $newHeight);
+                            $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
+                            $encoded->save(public_path('project_housing_images/' . $newFileName));
 
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
