@@ -1156,3 +1156,7 @@ Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'M
 //Toplu Sms Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-sms/create', [AdminSmsController::class, 'MultipleSms'])->name('admin.multiple_sms.create');
 Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
+
+//Ödeme yapıldıktan sonra dekont yükleme
+Route::post('dekot/file/upload',[CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
+Route::get('/dekont/indir/{order_id}',[CartController::class,'dekontIndir'])->name('dekont.indir');

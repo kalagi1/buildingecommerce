@@ -67,9 +67,6 @@
                                         @endif
                                     @endif
                                 </div>
-                                {{-- <div class="text-address">
-                                    <p></p>
-                                </div> --}}
                                 <div class="icon-inner flex">
                                     <div class="years-icon flex align-center">
                                         <i class="fa fa-map-marker"></i>
@@ -795,35 +792,9 @@
                                                                 }
                                                                 ?>
                                                             </select>
-                                                            {{-- <input type="number" class="form-control" id="year"
-                                                            name="year" placeholder="2022"> --}}
                                                         </div>
-                                                        {{-- <div class="col-sm-4 col-md-4">
-                                                        <label>CCV Kodu</label>
-                                                        <input type="text" class="form-control" placeholder="258">
-                                                    </div> --}}
                                                     </div>
-                                                    {{-- <div class="row mrg-bot-20">
-                                                    <div class="col-sm-7">
-                                                        <span class="custom-checkbox d-block font-12 mb-2">
-                                                            <input type="checkbox" id="promo" name="promo">
-                                                            <label for="promo"></label>
-                                                            Bir promosyon kodunuz var mı?
-                                                        </span>
-                                                        <input type="text" class="form-control">
-                                                    </div> --}}
-                                                    {{-- <div class="col-sm-5 padd-top-10 text-right">
-                                                        <label>Toplam Sipariş</label>
-                                                        <h2 class="mrg-0"><span class="theme-cl">₺</span>987</h2>
-                                                    </div> --}}
-                                                    {{-- <div class="col-sm-12 bt-1 padd-top-15 pt-3">
-                                                        <span class="custom-checkbox d-block font-12 mb-3">
-                                                            <input type="checkbox" id="privacy1">
-                                                            <label for="privacy1"></label>
-                                                            Sipariş vererek <a href="#" class="theme-cl">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
-                                                        </span>
-                                                    </div> --}}
-                                            </div>
+                                            </div>                                          
 
                                             <button type="submit" class="btn btn-success 3dPaySuccess">Ödemeyi
                                                 Tamamla
@@ -832,7 +803,10 @@
                                                         d="M512 80c8.8 0 16 7.2 16 16v32H48V96c0-8.8 7.2-16 16-16H512zm16 144V416c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224H528zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm56 304c-13.3 0-24 10.7-24 24s10.7 24 24 24h48c13.3 0 24-10.7 24-24s-10.7-24-24-24H120zm128 0c-13.3 0-24 10.7-24 24s10.7 24 24 24H360c13.3 0 24-10.7 24-24s-10.7-24-24-24H248z">
                                                     </path>
                                                 </svg></button>
+                                               
                                             </form>
+                                            <!-- Button trigger modal -->
+                                          
                                         </div>
                                         {{-- </div> --}}
                                     </div>
@@ -901,30 +875,61 @@
                                                         </path>
                                                     </svg>
                                                 </button>
+                                                {{-- <button type="button" id="dekontButton" class="btn btn-info ml-5 mt-5" data-bs-toggle="modal" data-bs-target="#dekontModal">
+                                                    Dekont Yükle
+                                                </button> --}}
+                                                <div class="row ml-4 mt-5">
+                                                <label class="custom-file-upload" >
+                                                    <i class="fas fa-link" style="font-size:14px;"></i>
+                                                    <span style="font-size:14px; color: cornflowerblue;">Dekont Ekle</span>
+                                                    <input type="file" name="file" id="fileInput"/>
+                                                </label>
+                                                <span id="fileStatus" style="font-size: 12px;"></span>
+                                            </div>
                                             </div>
                                             {{-- </div> --}}
                                         </div>
                                         {{-- </div> --}}
                                     </div>
 
-
+                                    
+                                        <!--Dekont Modal -->
+                            <div class="modal fade" id="dekontModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myModalLabel">Lütfen Dekont Yükleyiniz</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="uploadForm" enctype="multipart/form-data">
+                                                @csrf
+                                                {{-- <input type="hidden" name="car_order_id" value="{{$cart_order->id}}"> --}}
+                                                <div class="form-group">
+                                                    <label class="custom-file-upload" >
+                                                        <i class="fas fa-link" style="font-size:14px;"></i>
+                                                        <span style="font-size:14px; color: cornflowerblue;">Dekont Ekle</span>
+                                                        <input type="file" name="file" id="fileInput"/>
+                                                    </label>
+                                                    <span id="fileStatus" style="font-size: 12px;"></span>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                    <button type="submit" class="btn btn-primary">Yükle</button>
+                                                </div>
+                                            </form>
+                                        </div>      
+                                    </div>
+                                </div>
+                            </div>
                                     <!-- Debit card option -->
-
-
-
 
                                 </div>
                                 {{-- </div> --}}
                             </div>
-
-
                         </div>
                     </div>
-
                 </div>
-
-
-
             @endif
         </div>
     </section>
@@ -948,6 +953,31 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+        $(document).ready(function (){  
+            
+            $('#fileInput').change(function() {
+                var fileName = $(this).val().split('\\').pop(); // Seçilen dosya adını al
+                $('#fileStatus').text('Dosya Eklendi: ' + fileName); // Dosya adını görüntüle
+            });
+
+                    
+            $('#fileInput').change(function() {
+                var file = $(this)[0].files[0];
+                var fileName = file.name;
+                var fileExt = fileName.split('.').pop().toLowerCase(); // Dosya uzantısını al
+
+                // Sadece PDF dosyalarını kabul et
+                if (fileExt !== 'pdf') {
+                    toastr.error("Lütfen PDF formatında bir dosya seçiniz.");
+                    $(this).val(''); // Dosya seçimini temizle
+                    $('#fileStatus').text(''); // Dosya adı gösterimini temizle
+                } else {
+                    $('#fileStatus').text('Dosya Eklendi: ' + fileName); // Dosya adını görüntüle
+                }
+            });
+        });
+
+
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
             var textArea = document.createElement("textarea");
@@ -1029,6 +1059,7 @@
             $("#orderKey").val(uniqueCode); // uniqueCode değerini gizli input içine yerleştir
         });
         $(document).ready(function() {
+
             $('.paySuccess').on('click', function() {
                 // $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
@@ -1076,15 +1107,43 @@
                         notes: $('#notes').val(),
                         reference_code: $('#reference_code').val(),
                         is_reference: $("#is_reference").val(),
-                        is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
+                        is_show_user: $('#is_show_user').prop('checked') ? 'on' : null,
                     },
                     success: function(response) {
+                        console.log(response)
+                
+            
                         if (response.success == "fail") {
                             toastr.error('Bu ürün zaten satın alınmış.');
 
                         } else {
                             toastr.success('Siparişiniz başarıyla oluşturuldu.');
                             var cartOrderId = response.cart_order;
+
+                                        // Dosya yükleme AJAX isteği
+                            var formData = new FormData();
+                            formData.append('file', $('#fileInput')[0].files[0]);
+
+                            // Cart order ID'yi ikinci AJAX isteğine ekleyelim
+                            formData.append('cart_order',response.cart_order);
+                            formData.append('_token', '{{ csrf_token() }}');
+
+                            $.ajax({
+                                url: "{{ route('dekont.file.upload') }}",
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function(response) {
+                                    console.log(response)
+                                    toastr.success("Dosya başarıyla yüklendi.");
+                                },
+                                error: function(error) {
+                                    toastr.error("Dosya yüklenirken bir hata oluştu.");
+                                    console.error("Hata oluştu: " + error.responseText);
+                                }
+                            });
+                            
                             var redirectUrl =
                                 "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
                             window.location.href = redirectUrl.replace(':cartOrderId',
@@ -1176,7 +1235,6 @@
         });
 
 
-
         $(document).ready(function() {
             $('#3dPayForm').on('submit', function(event) {
                 // Kullanıcı bilgilerini al
@@ -1215,6 +1273,26 @@
 
 @section('styles')
     <style>
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 7px 20px 6px 16px;
+            cursor: pointer;
+            background-color: #cfcfcf69; 
+            height: 41px;
+            width: 100%;
+            text-align: center;
+            style="color: #0056b3 !important;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #eee;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
         .wrap-house {
             // border-radius: 10px;
             padding: 32px;
