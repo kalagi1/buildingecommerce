@@ -163,10 +163,6 @@ class ProjectController extends Controller
             }
         }
 
-        $manager = new ImageManager(
-            new Driver()
-        );
-
         // $request->validate([
         //     "selectedTypes.0" => "required",
         //     "selectedTypes.1" => "required",
@@ -216,25 +212,7 @@ class ProjectController extends Controller
             $fileNameCoverImage = $projectSlug . '_cover_image_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move($destinationPath, $fileNameCoverImage);
 
-            $image = $manager->read(public_path('storage/project_images/' . $fileNameCoverImage));
-            $imageWidth = $image->width();
-            $imageHeight = $image->height();
-
-            if ($imageWidth > 1200) {
-                $newWidth = 1200;
-                $newHeight = $imageHeight * 1200 / $imageWidth;
-            } else {
-                $newWidth = $imageWidth;
-                $newHeight = $imageHeight;
-            }
-            $image2 = $manager->read(public_path('images/filigran2.png'));
-            $imageWidth2 = $image2->width();
-            $imageHeight2 = $image2->height();
-            $image2->resize($newWidth / 10 * 7, (($newWidth * $imageHeight2 / $imageWidth2) / 10) * 7);
-            $image2->rotate(30, '#00000000');
-            $image->resize($newWidth, $newHeight);
-            $encoded = $image->place($image2, 'center', 10, 10, 20);
-            $encoded->save(public_path('storage/project_images/' . $fileNameCoverImage));
+            
         }
 
 
@@ -262,6 +240,8 @@ class ProjectController extends Controller
             "total_project_area" => $request->input('projectData')['total_project_area']  ?? null,
             "start_date" => $request->input('projectData')['start_date']  ?? null,
             "project_end_date" => $request->input('projectData')['end_date']  ?? null,
+            "island" => $request->input('projectData')['island']  ?? null,
+            "parcel" => $request->input('projectData')['parcel']  ?? null,
             "slug" => Str::slug($request->input('projectData')['project_title']),
             "address" => "asd",
             "location" => str_replace('-', ',', $request->input('projectData')['coordinates']),
@@ -286,21 +266,7 @@ class ProjectController extends Controller
 
             if ($image->move($destinationPath, $newFileName)) {
 
-                $imageMg = $manager->read(public_path('storage/project_images/' . $newFileName));
-                $imageWidth = $imageMg->width();
-                $imageHeight = $imageMg->height();
-
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
-                }
-                $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                $encoded->save(public_path('storage/project_images/' . $newFileName));
+                
 
                 $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
                 $projectImage->image = 'public/project_images/' . $newFileName;
@@ -314,21 +280,7 @@ class ProjectController extends Controller
             $yeniDosyaAdi = public_path('situation_images'); // Yeni dosya adı ve yolu
 
             if ($situation->move($yeniDosyaAdi, $newFileName)) {
-                $imageMg = $manager->read(public_path('situation_images/' . $newFileName));
-                $imageWidth = $imageMg->width();
-                $imageHeight = $imageMg->height();
-
-                if ($imageWidth > 1200) {
-                    $newWidth = 1200;
-                    $newHeight = $imageHeight * 1200 / $imageWidth;
-                } else {
-
-                    $newWidth = $imageWidth;
-                    $newHeight = $imageHeight;
-                }
-                $imageMg->resize($newWidth, $newHeight);
-                $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                $encoded->save(public_path('situation_images/' . $newFileName));
+                
 
                 $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
                 $projectImage->situation = 'public/situation_images/' . $newFileName;
@@ -388,9 +340,6 @@ class ProjectController extends Controller
 
     public function createRoom(Request $request)
     {
-        $manager = new ImageManager(
-            new Driver()
-        );
 
         $project = Project::where('id', $request->input('project_id'))->first();
         $housingType = HousingType::where('id', $project->housing_type_id)->first();
@@ -457,21 +406,6 @@ class ProjectController extends Controller
                         $yeniDosyaAdi = public_path('project_housing_images'); // Yeni dosya adı ve yolu
                         if ($imageRoom->move($yeniDosyaAdi, $newFileName)) {
 
-                            $imageMg = $manager->read(public_path('project_housing_images/' . $newFileName));
-                            $imageWidth = $imageMg->width();
-                            $imageHeight = $imageMg->height();
-
-                            if ($imageWidth > 1200) {
-                                $newWidth = 1200;
-                                $newHeight = $imageHeight * 1200 / $imageWidth;
-                            } else {
-
-                                $newWidth = $imageWidth;
-                                $newHeight = $imageHeight;
-                            }
-                            $imageMg->resize($newWidth, $newHeight);
-                            $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
-                            $encoded->save(public_path('project_housing_images/' . $newFileName));
 
                             ProjectHousing::create([
                                 "key" => $housingTypeInputs[$j]->label,
@@ -587,6 +521,8 @@ class ProjectController extends Controller
             "total_project_area" => $projectData['total_project_area'],
             "start_date" => $projectData['start_date'],
             "project_end_date" => $projectData['end_date'],
+            "island" => $request->input('projectData')['island']  ?? null,
+            "parcel" => $request->input('projectData')['parcel']  ?? null,
             "city_id" => $projectData['city_id'],
             "county_id" => $projectData['county_id'],
             "neighbourhood_id" => $projectData['neighbourhood_id'],
@@ -874,6 +810,8 @@ class ProjectController extends Controller
                 'city_id' => $projectData['city_id'],
                 "step1_slug" => $housingTypeParent1->slug,
                 "step2_slug" => $housingTypeParent2->slug,
+                "island" => $request->input('projectData')['island']  ?? null,
+                "parcel" => $request->input('projectData')['parcel']  ?? null,
                 'county_id' => $projectData['county_id'],
                 'neighborhood_id' => $projectData['neighbourhood_id'],
                 'status_id' => 1,
