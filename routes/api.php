@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\BrandController;
 use App\Http\Controllers\Api\Client\HousingController;
 use App\Http\Controllers\Api\Client\MenuController;
@@ -40,3 +41,5 @@ Route::apiResource('project', ProjectController::class);
 Route::apiResource('housing', HousingController::class);
 Route::apiResource('brand', BrandController::class);
 Route::get('get_full_projects',[ProjectController::class,"getFullProjects"]);
+Route::post('login',[AuthController::class,"login"]);
+Route::post('register',[AuthController::class,"register"]);

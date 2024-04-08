@@ -460,6 +460,17 @@
                                     <input type="hidden" name="is_swap" class="is_swap"
                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                     <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="d-flex" style="align-items: center;">
+                                                <input style="margin-left: 0px !important;" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                                <label class="ml-2 mb-0" for="flexSwitchCheckChecked">TC vatandaşı değilim</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="tc">TC: </label>
+                                            <input type="number" class="form-control" id="tc" name="tc"
+                                                required oninput="validateTCLength(this)">
+                                        </div>
                                         <div class="col-sm-6">
                                             <label for="fullName">Ad Soyad:</label>
                                             <input type="text" class="form-control" id="fullName" name="fullName"
@@ -469,11 +480,6 @@
                                             <label for="email">E-posta:</label>
                                             <input type="email" class="form-control" id="email" name="email"
                                                 required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="tc">TC: </label>
-                                            <input type="number" class="form-control" id="tc" name="tc"
-                                                required oninput="validateTCLength(this)">
                                         </div>
                                         <script>
                                             function validateTCLength(input) {
@@ -766,7 +772,7 @@
                                                     <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
                                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                                     <div class="row mrg-bot-20">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
                                                             <input type="text" class="form-control" id="creditcard"
                                                                 name="creditcard" oninput="formatCreditCard(this)">
@@ -789,7 +795,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row mrg-bot-20">
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
                                                             {{-- <input type="number" class="form-control" id="month"
                                                             name="month" placeholder="09"> --}}
@@ -808,7 +814,7 @@
                                                                 <option value="12">Aralık</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 pr-0">
                                                             <label>Son Kullanma Yılı</label>
                                                             <select class="form-control" id="year" name="year">
                                                                 <?php
@@ -975,6 +981,8 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
             var textArea = document.createElement("textarea");
