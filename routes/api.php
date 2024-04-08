@@ -43,3 +43,4 @@ Route::apiResource('brand', BrandController::class);
 Route::get('get_full_projects',[ProjectController::class,"getFullProjects"]);
 Route::post('login',[AuthController::class,"login"]);
 Route::post('register',[AuthController::class,"register"]);
+Route::get('get_my_projects',[ProjectController::class,"getMyProjects"]);
