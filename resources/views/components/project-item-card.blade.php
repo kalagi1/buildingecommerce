@@ -310,8 +310,8 @@
 
                                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
                                         <span class="first-btn see-my-neighbor"
-                                            @if (Auth::check()) data-bs-toggle="modal"
-                                                                                                data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
+                                            @if (Auth::check()) data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
+                                                                                                
                                             <span><svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -599,27 +599,15 @@
                                         <ul>
                                             <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
                                                     aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen
-                                                tutarı
-                                                aşağıdaki banka hesaplarından birine havale veya EFT yapın.</li>
+                                                tutarı ödediğiniz taktirde,
+                                                </li>
                                             <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
                                                     aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                                 düğmesi
                                                 aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
                                         </ul>
                                     </div>
-                                    <div class="container row mb-3 mt-3">
-                                        @foreach ($bankAccounts as $bankAccount)
-                                            <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                                data-sold-id="{{ $sold->id }}"
-                                                data-iban="{{ $bankAccount->iban }}"
-                                                data-title="{{ $bankAccount->receipent_full_name }}">
-                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
-                                                    alt=""
-                                                    style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="ibanInfo" style="font-size: 12px !important"></div>
+                              
 
                                 </div>
                             </div>
@@ -627,14 +615,16 @@
                         </div>
 
                         <div class="d-flex">
-                            <button type="button"
-                                class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
-                                id="completePaymentButton{{ $sold->id }}" data-order="{{ $sold->id }}"
-                                style="width:150px;float:right">
-                                250 TL Öde
-                            </button>
+                            <form action="{{ route('neighborView.index') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="order_id" value="{{ $sold->id }}">
+                                <button type="submit" class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
+                                        id="completePaymentButton{{ $sold->id }}" style="width:150px;float:right">
+                                    250 TL Öde
+                                </button>
+                            </form>
                             <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                                style="width:150px;margin-left:10px;  margin-top: 22px !important;" data-dismiss="modal">İptal</button>
                         </div>
 
 
@@ -689,62 +679,7 @@
 
 
         <script>
-            $('.bank-account').on('click', function() {
-                // Tüm banka görsellerini seçim olmadı olarak ayarla
-                $('.bank-account').removeClass('selected');
-                // Seçilen banka görselini işaretle
-                $(this).addClass('selected');
-
-                // İlgili IBAN bilgisini al
-                var selectedBankIban = $(this).data('iban');
-                var selectedBankIbanID = $(this).data('id');
-                var selectedBankTitle = $(this).data('title');
-
-                var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
-                    selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
-                $('.ibanInfo').html(ibanInfo);
-            });
-
-
-
-            $('#completePaymentButton{{ $sold->id }}').on('click', function() {
-                // Ödeme sırasındaki satış ID'sini al
-                var order = $(this).data('order');
-
-                // Seçilen banka hesabını kontrol et
-                if ($('.bank-account.selected').length === 0) {
-                    toastr.error('Lütfen banka seçimi yapınız.');
-                } else {
-                    // Ödeme işlemine başla
-                    $("#loadingOverlay").css("visibility", "visible"); // Loading overlay göster
-
-                    // Ödeme bilgilerini ve diğer verileri hazırla
-                    var requestData = {
-                        _token: "{{ csrf_token() }}",
-                        user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
-                        order_id: order,
-                        status: 0,
-                        key: generateRandomCode(), // Rastgele bir kod oluştur
-                        amount: "100" // Ödeme miktarı
-                    };
-
-                    // AJAX isteği gönder
-                    $.ajax({
-                        url: "{{ route('neighbor.store') }}", // Verileri göndereceğiniz URL
-                        type: "POST",
-                        data: requestData,
-                        success: function(response) {
-                            // İşlem başarılıysa
-                            $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
-
-                            toastr.success(
-                                'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
-                            location.reload();
-                        }
-                    });
-                }
-            });
-
+           
             $(document).ready(function() {
                 $('#applySampleModal img').click(function() {
                     $('#applySampleModal').modal('hide');

@@ -138,6 +138,8 @@ class PayController extends Controller
         return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
 
+
+    
     
     public function initiate3DPayment(Request $request)
     {
@@ -154,7 +156,71 @@ class PayController extends Controller
         return view('payment.pay', $data);
     }
 
-    public function createTransaction()
+    public function resultPaymentSuccess(Request $request)
+    {
+        $data = $request->all();
+
+           
+        $existingOrder = CartOrder::where('transaction', $data['ReturnOid'])->first();
+
+        if($existingOrder){
+
+            $user = $existingOrder->user;
+            if($user)
+            {
+                Auth::login($user);
+                $existingOrderId = $existingOrder->id;
+
+                $this->approveOrder($existingOrder);
+
+                session()->forget( 'cart' );
+                //cart_items tablosundan kullanıcıya ait sepet verisini sil
+                $cartItem = DB::table( 'cart_items' )->where( 'user_id', Auth::id() )->first();
+                if ( $cartItem ) {
+                    DB::table( 'cart_items' )->where( 'id', $cartItem->id )->delete();
+                }        
+                return redirect()->route('pay.success', ['cart_order' =>$existingOrderId] );
+            }
+           
+        }
+
+        return redirect()->route('client.login');
+       
+    }
+
+
+    public function resultPaymentFail(Request $request)
+    {
+        $data = $request->all();
+
+        $existingOrder = CartOrder::where('transaction', $data['oid'])->first();
+
+        
+        if ($existingOrder) {
+            // Siparişi bulduysanız, bu siparişe ait kullanıcıyı alın
+            $user = $existingOrder->user;
+
+            if ($user) {
+                // Kullanıcıyı oturum açın
+                Auth::login($user);
+
+                // Kullanıcıyı oturum açtıktan sonra hata mesajı ile birlikte ödeme sayfasına yönlendirin
+                return redirect()->route('payment.index', ['userId' => $user->id])->with('error', 'Ödeme işlemi başarısız oldu.');
+
+            }
+        }
+
+        // Kullanıcı veya sipariş bulunamazsa, giriş sayfasına yönlendirin veya başka bir işlem yapın
+        return redirect()->route('client.login');
+       
+    }
+
+
+     /**
+     * Private start
+     */
+
+    private function createTransaction()
     {
         // Benzersiz bir UUID oluştur
         $transaction = Str::uuid();
@@ -261,64 +327,6 @@ class PayController extends Controller
     }
   
 
-    public function resultPaymentSuccess(Request $request)
-    {
-        $data = $request->all();
-
-           
-        $existingOrder = CartOrder::where('transaction', $data['ReturnOid'])->first();
-
-        if($existingOrder){
-
-            $user = $existingOrder->user;
-            if($user)
-            {
-                Auth::login($user);
-                $existingOrderId = $existingOrder->id;
-
-                $this->approveOrder($existingOrder);
-
-                session()->forget( 'cart' );
-                //cart_items tablosundan kullanıcıya ait sepet verisini sil
-                $cartItem = DB::table( 'cart_items' )->where( 'user_id', Auth::id() )->first();
-                if ( $cartItem ) {
-                    DB::table( 'cart_items' )->where( 'id', $cartItem->id )->delete();
-                }        
-                return redirect()->route('pay.success', ['cart_order' =>$existingOrderId] );
-            }
-           
-        }
-
-        return redirect()->route('client.login');
-       
-    }
-
-
-    public function resultPaymentFail(Request $request)
-    {
-        $data = $request->all();
-
-        $existingOrder = CartOrder::where('transaction', $data['oid'])->first();
-
-        
-        if ($existingOrder) {
-            // Siparişi bulduysanız, bu siparişe ait kullanıcıyı alın
-            $user = $existingOrder->user;
-
-            if ($user) {
-                // Kullanıcıyı oturum açın
-                Auth::login($user);
-
-                // Kullanıcıyı oturum açtıktan sonra hata mesajı ile birlikte ödeme sayfasına yönlendirin
-                return redirect()->route('payment.index', ['userId' => $user->id])->with('error', 'Ödeme işlemi başarısız oldu.');
-
-            }
-        }
-
-        // Kullanıcı veya sipariş bulunamazsa, giriş sayfasına yönlendirin veya başka bir işlem yapın
-        return redirect()->route('client.login');
-       
-    }
 
     public function approveOrder($cartOrder)
     {
