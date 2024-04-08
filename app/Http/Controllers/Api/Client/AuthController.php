@@ -126,6 +126,11 @@ class AuthController extends Controller
                         "works" => $user->works,
                         'token_type' => 'Bearer'
                     ]);
+                }else{
+                    return json_encode([
+                        "status" => false,
+                        "message" => "Kullanıcı bilgileri hatalı"
+                    ]);
                 }
 
             }
