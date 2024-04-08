@@ -98,6 +98,7 @@ class HousingController extends Controller {
     public function show( $housingSlug, $housingID ) {
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
+        $cities = City::all();
 
         $realHousingID  = $housingID;
 
@@ -151,7 +152,7 @@ class HousingController extends Controller {
             $pageInfo = json_decode( $pageInfo );
             $parent = HousingTypeParent::where( 'slug', $housing->step1_slug )->first();
 
-            return view( 'client.housings.detail', compact( 'pageInfo', 'housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'housingID', 'housingComments', 'labels' ) );
+            return view( 'client.housings.detail', compact( 'pageInfo', 'housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'housingID', 'housingComments', 'labels','cities' ) );
         } else {
             return redirect( '/' )
             ->with( 'error', 'İlan yayından kaldırıldı veya bulunamadı.' );
