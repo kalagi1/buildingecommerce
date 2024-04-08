@@ -93,7 +93,7 @@
         </div>
 
         <x-store-card :store="$housing->user" :housing="$housing" />
-
+{{-- {{dd($housing)}} --}}
         <div class="container">
             <div class="row mb-3" style="align-items: center">
                 <div class="col-md-8">
@@ -468,13 +468,13 @@
 
                         <div class="moveStore">
                             <div class="widget-boxed removeClass mt-5">
-                                <div class="widget-boxed-header">
+                                {{-- <div class="widget-boxed-header">
                                     <h4>Mağaza Bilgileri</h4>
-                                </div>
+                                </div> --}}
                                 <div class="widget-boxed-body">
                                     <div class="sidebar-widget author-widget2">
 
-                                        <div class="author-box clearfix d-flex align-items-center">
+                                        {{-- <div class="author-box clearfix d-flex align-items-center">
                                             <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
                                                 alt="author-image" class="author__img">
                                             <div>
@@ -483,7 +483,7 @@
                                                     <h4 class="author__title">{!! $housing->user->name !!}</h4>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <table class="table">
                                             <tbody>
                                                 <tr style="border-top: none !important">
@@ -576,6 +576,60 @@
 
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                       İl-İlçe-Mahalle :
+                                                       <span class="det">
+                                                        {!! optional($housing->city)->title .
+                                                            ' / ' .
+                                                            optional($housing->county)->title .
+                                                            ' / ' .
+                                                            optional($housing->neighborhood)->mahalle_title ??
+                                                            '' !!}</span>
+                                                    </td>
+                                                </tr>  
+                                                @foreach ($labels as $label => $val)
+                                                @if (
+                                                    $label != 'Kapak Resmi' &&
+                                                        $label != 'Taksitli Satış' &&
+                                                        $label != 'Fiyat' &&
+                                                        $label != 'Peşinat' &&
+                                                        $label != 'İlan Başlığı' &&
+                                                        $label != 'Günlük Fiyat' &&
+                                                        $label != 'Peşin Fiyat' &&
+                                                        $label != 'Taksitli Toplam Fiyat' &&
+                                                        isset($val[0]) &&
+                                                        $val[0] != 0 &&
+                                                        $val[0] != null)
+                                                    <tr>
+                                                        <td>
+                                                            <span class="mr-1">{{ $label }}:</span>
+                                                            @if ($label == 'm² (Net)<br>')
+                                                                <span class="det">{{ $val[0] }}
+                                                                    m2</span>
+                                                            @elseif ($label == 'Özellikler')
+                                                                <ul>
+                                                                    @foreach ($val as $ozellik)
+                                                                        <li>{{ $ozellik }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @else
+                                                                <span class="det">
+                                                                    {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
+                                                                </span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                                
+
+
+
+
+
+
+
                                             </tbody>
                                         </table>
                                     </div>
