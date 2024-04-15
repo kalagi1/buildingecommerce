@@ -634,7 +634,7 @@
                                 250 TL Öde
                             </button>
                             <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                                style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                         </div>
 
 
