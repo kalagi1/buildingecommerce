@@ -262,6 +262,8 @@ class ProjectController extends Controller
             "total_project_area" => $request->input('projectData')['total_project_area']  ?? null,
             "start_date" => $request->input('projectData')['start_date']  ?? null,
             "project_end_date" => $request->input('projectData')['end_date']  ?? null,
+            "island" => $request->input('projectData')['island']  ?? null,
+            "parcel" => $request->input('projectData')['parcel']  ?? null,
             "slug" => Str::slug($request->input('projectData')['project_title']),
             "address" => "asd",
             "location" => str_replace('-', ',', $request->input('projectData')['coordinates']),
@@ -399,18 +401,21 @@ class ProjectController extends Controller
         $housingTemp = $request->input('room_order');
         $room = $request->input('room');
         $paymentPlanOrder = 0;
+
+        $projectHousings = [];
+
         for ($j = 0; $j < count($housingTypeInputs); $j++) {
             if ($housingTypeInputs[$j]->type != "checkbox-group" && $housingTypeInputs[$j]->type != "file") {
                 if ($housingTypeInputs[$j]->name == "installments[]" || $housingTypeInputs[$j]->name == "advance[]" || $housingTypeInputs[$j]->name == "installments-price[]") {
                     if (isset($room['payment-plan']) &&  $room['payment-plan']) {
                         if (str_contains($room['payment-plan'], 'taksitli')) {
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                             if (substr($housingTypeInputs[$j]->name, 0, -2) == "installments-price") {
                                 $paymentPlanOrder++;
                             }
@@ -419,36 +424,34 @@ class ProjectController extends Controller
                 } else {
                     if (str_contains($housingTypeInputs[$j]->className, 'price-only')) {
                         if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => str_replace('.', '', $room[substr($housingTypeInputs[$j]->name, 0, -2)]),
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                         }
                     } else {
                         if (isset($housingTypeInputs[$j]->name) && isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) && $room[substr($housingTypeInputs[$j]->name, 0, -2)] != null) {
-
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => $room[substr($housingTypeInputs[$j]->name, 0, -2)],
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                         }
                     }
                 }
             } else if ($housingTypeInputs[$j]->type != "file") {
-
-                ProjectHousing::create([
+                $projectHousings[] = [
                     "key" => $housingTypeInputs[$j]->label,
                     "name" => $housingTypeInputs[$j]->name,
                     "value" => isset($room[substr($housingTypeInputs[$j]->name, 0, -2)]) ? json_encode(explode(',', $room[substr($housingTypeInputs[$j]->name, 0, -2)])) : json_encode([]),
                     "project_id" => $project->id,
                     "room_order" => $housingTemp,
-                ]);
+                ];
             } else if ($housingTypeInputs[$j]->type == "file") {
                 if (!$housingTypeInputs[$j]->multiple) {
                     $imageRoom = $request->file('room')['image'];
@@ -472,20 +475,20 @@ class ProjectController extends Controller
                             $imageMg->resize($newWidth, $newHeight);
                             $encoded = $imageMg->place(public_path('images/filigran2.png'), 'center', 10, 10, 50, 45);
                             $encoded->save(public_path('project_housing_images/' . $newFileName));
-
-                            ProjectHousing::create([
+                            $projectHousings[] = [
                                 "key" => $housingTypeInputs[$j]->label,
                                 "name" => $housingTypeInputs[$j]->name,
                                 "value" => $newFileName,
                                 "project_id" => $project->id,
                                 "room_order" => $housingTemp,
-                            ]);
+                            ];
                         }
                     }
                 }
             }
         }
 
+        ProjectHousing::insert($projectHousings);
         ProjectHousing::create([
             "key" => "pay-dec-count" . ($housingTemp),
             "name" => "pay-dec-count" . ($housingTemp),
@@ -587,6 +590,8 @@ class ProjectController extends Controller
             "total_project_area" => $projectData['total_project_area'],
             "start_date" => $projectData['start_date'],
             "project_end_date" => $projectData['end_date'],
+            "island" => $request->input('projectData')['island']  ?? null,
+            "parcel" => $request->input('projectData')['parcel']  ?? null,
             "city_id" => $projectData['city_id'],
             "county_id" => $projectData['county_id'],
             "neighbourhood_id" => $projectData['neighbourhood_id'],
@@ -874,6 +879,8 @@ class ProjectController extends Controller
                 'city_id' => $projectData['city_id'],
                 "step1_slug" => $housingTypeParent1->slug,
                 "step2_slug" => $housingTypeParent2->slug,
+                "island" => $request->input('projectData')['island']  ?? null,
+                "parcel" => $request->input('projectData')['parcel']  ?? null,
                 'county_id' => $projectData['county_id'],
                 'neighborhood_id' => $projectData['neighbourhood_id'],
                 'status_id' => 1,

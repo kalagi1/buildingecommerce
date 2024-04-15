@@ -262,6 +262,20 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <span class="autoWidthTr">Ada:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Parsel:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <span class="autoWidthTr">Başlangıç Tarihi:</span>
                                                         <span class="det" style="color: black;">
                                                             {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}

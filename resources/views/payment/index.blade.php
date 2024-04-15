@@ -4,11 +4,11 @@
 
 @section('content')
 
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     {{-- @php
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
@@ -52,7 +52,8 @@
                         </div>
                         <div class="box-1">
                             <div class="">
-                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}</div>
+                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                            </div>
                             <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
@@ -164,11 +165,11 @@
                                 TL</div>
                             <div class="text-sq fs-12 lh-16">
                                 @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                 
-                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın alıyorsunuz!</span>
+                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
+                                        alıyorsunuz!</span>
                                 @endif
                             </div>
-                            
+
                             <div class="show-mobile">
                                 <a
                                     href="{{ $cart['type'] == 'housing'
@@ -209,7 +210,9 @@
                             </a>
                         </div>
                         <div class="box-1">
-                            <div> {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}</div>
+                            <div>
+                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                            </div>
                             <div class="title-heading fs-30 fw-7 lh-45">{{ $housing->housing_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
@@ -405,42 +408,42 @@
                         </div>
                     </div>
                     @php
-                    $itemPrice = $cart['item']['amount'];
+                        $itemPrice = $cart['item']['amount'];
 
-                    if ($cart['hasCounter']) {
-                        if ($cart['type'] == 'housing') {
-                            $housing = App\Models\Housing::find($cart['item']['id']);
-                            $housingData = json_decode($housing->housing_type_data);
-                            $discountRate = $housingData->discount_rate[0] ?? 0;
+                        if ($cart['hasCounter']) {
+                            if ($cart['type'] == 'housing') {
+                                $housing = App\Models\Housing::find($cart['item']['id']);
+                                $housingData = json_decode($housing->housing_type_data);
+                                $discountRate = $housingData->discount_rate[0] ?? 0;
 
-                            $housingAmount = $itemPrice - $housingDiscountAmount;
-                            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+                                $housingAmount = $itemPrice - $housingDiscountAmount;
+                                $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
+                            } else {
+                                $project = App\Models\Project::find($cart['item']['id']);
+                                $roomOrder = $cart['item']['housing'];
+                                $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                    ->where('room_order', $roomOrder)
+                                    ->get()
+                                    ->keyBy('name');
+
+                                $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                                $projectAmount = $itemPrice - $projectDiscountAmount;
+                                $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                            }
                         } else {
-                            $project = App\Models\Project::find($cart['item']['id']);
-                            $roomOrder = $cart['item']['housing'];
-                            $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
-                                ->where('room_order', $roomOrder)
-                                ->get()
-                                ->keyBy('name');
-
-                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                            $projectAmount = $itemPrice - $projectDiscountAmount;
-                            $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                            $discountedPrice = $itemPrice;
+                            $discountRate = 0;
                         }
-                    } else {
-                        $discountedPrice = $itemPrice;
-                        $discountRate = 0;
-                    }
-                    $selectedPaymentOption = request('paymentOption');
-                    $itemPrice =
-                        $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
-                            ? $cart['item']['installmentPrice']
-                            : $discountedPrice;
+                        $selectedPaymentOption = request('paymentOption');
+                        $itemPrice =
+                            $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
+                                ? $cart['item']['installmentPrice']
+                                : $discountedPrice;
 
-                    $displayedPrice = number_format($itemPrice, 0, ',', '.');
-                    $share_sale = $cart['item']['isShare'] ?? null;
-                    $number_of_share = $cart['item']['numbershare'] ?? null;
-                @endphp
+                        $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                        $share_sale = $cart['item']['isShare'] ?? null;
+                        $number_of_share = $cart['item']['numbershare'] ?? null;
+                    @endphp
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
@@ -457,6 +460,17 @@
                                     <input type="hidden" name="is_swap" class="is_swap"
                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                     <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="d-flex" style="align-items: center;">
+                                                <input style="margin-left: 0px !important;" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                                <label class="ml-2 mb-0" for="flexSwitchCheckChecked">TC vatandaşı değilim</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="tc">TC: </label>
+                                            <input type="number" class="form-control" id="tc" name="tc"
+                                                required oninput="validateTCLength(this)">
+                                        </div>
                                         <div class="col-sm-6">
                                             <label for="fullName">Ad Soyad:</label>
                                             <input type="text" class="form-control" id="fullName" name="fullName"
@@ -467,18 +481,40 @@
                                             <input type="email" class="form-control" id="email" name="email"
                                                 required>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label for="tc">TC: </label>
-                                            <input type="number" class="form-control" id="tc" name="tc"
-                                                required oninput="validateTCLength(this)">
-                                        </div>
                                         <script>
                                             function validateTCLength(input) {
-                                                var maxLength = 11;
-                                                if (input.value.length > maxLength) {
-                                                    input.value = input.value.slice(0, maxLength);
+                                                const tckNo = input.value.replace(/\D/g, '');
+                                                // TC Kimlik No'nun uzunluğu 11 haneli olmalıdır
+                                                if (tckNo.length > 11) {
                                                     toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                    return '';
                                                 }
+
+                                                // İlk hane 0 olamaz
+                                                if (tckNo[0] == "0") {
+                                                    toastr.warning("Geçersiz TC Kimlik No! İlk rakam 0 olamaz.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No'nun ilk 9 hanesinin toplamı 10. ve 11. haneleri verir
+                                                let sum = 0;
+                                                for (let i = 0; i < 10; i++) {
+                                                    sum += Number(tckNo[i]);
+                                                }
+                                                
+                                                const lastDigit = sum % 10;
+                                                if (tckNo.length == 11 && lastDigit !== Number(tckNo[10])) {
+                                                    toastr.warning("Geçersiz TC Kimlik No! Kontrol haneleri uyuşmuyor.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No formatını düzenle (5-6-5)
+                                                const formattedTC = input.target.value;
+                                                console.log(formattedTC);
+                                                $('#tc').val(formattedTC)
+                                                return formattedTC;
                                             }
                                         </script>
                                         <div class="col-sm-6">
@@ -515,28 +551,31 @@
                                             @endif
                                         </div>
 
-                                  
-                                            @if (isset($cart) && isset($cart['type']))
-                                                @if ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]' || $cart['type'] == 'project' && empty($share_sale))
-                                                        <div class="col-sm-12 pt-5">
-                                                            <div class="d-flex align-items-center mb-3">
-                                                                <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
-                                                                <i class="fa fa-info-circle ml-2"
-                                                                    title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                                    style="font-size: 18px; color: black;"></i>
-                                                                <label for="is_show_user" class="m-0 ml-1 text-black">
-                                                                    Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
-                                                                    kabul
-                                                                    ediyorum.
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                @endif
+
+                                        @if (isset($cart) && isset($cart['type']))
+                                            @if (
+                                                ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]') ||
+                                                    ($cart['type'] == 'project' && empty($share_sale)))
+                                                <div class="col-sm-12 pt-5">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <input id="is_show_user" type="checkbox" value="off"
+                                                            name="is_show_user">
+                                                        <i class="fa fa-info-circle ml-2"
+                                                            title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                            style="font-size: 18px; color: black;"></i>
+                                                        <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                            Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
+                                                            kabul
+                                                            ediyorum.
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             @endif
+                                        @endif
 
 
 
-                                      
+
 
                                         <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
@@ -546,7 +585,7 @@
                                                     <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi" target="_blank">
                                                         Mesafeli kapora emanet sözleşmesini
                                                     </a>
-                                                     okudum ve kabul ediyorum
+                                                    okudum ve kabul ediyorum
                                                 </label>
                                             </div>
                                         </div>
@@ -555,7 +594,7 @@
                             </div>
                         </div>
                     </div>
-          
+
 
                     <div class="col-md-12 col-lg-12 col-xl-5 mb-5">
                         <div class="row">
@@ -733,7 +772,7 @@
                                                     <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
                                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                                     <div class="row mrg-bot-20">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
                                                             <input type="text" class="form-control" id="creditcard"
                                                                 name="creditcard" oninput="formatCreditCard(this)">
@@ -756,7 +795,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row mrg-bot-20">
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
                                                             {{-- <input type="number" class="form-control" id="month"
                                                             name="month" placeholder="09"> --}}
@@ -775,7 +814,7 @@
                                                                 <option value="12">Aralık</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 pr-0">
                                                             <label>Son Kullanma Yılı</label>
                                                             <select class="form-control" id="year" name="year">
                                                                 <?php
@@ -917,9 +956,10 @@
 
                 </div>
 
-        </div>
 
-        @endif
+
+            @endif
+        </div>
     </section>
 @endsection
 @section('scripts')
@@ -941,6 +981,8 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
             var textArea = document.createElement("textarea");
@@ -1214,7 +1256,7 @@
             box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.0784313725);
             justify-content: space-between;
             margin-bottom: 40px;
-            align-items:center;
+            align-items: center;
 
         }
 
