@@ -600,6 +600,8 @@
                         <div class="row">
 
                             <div class="col-md-12" style="background: white !important;">
+                                <div class="tr-single-box">
+
                                 <div class="tr-single-body">
                                     <div class="tr-single-header pb-2">
                                         <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
@@ -680,14 +682,14 @@
                                                 TL</strong></div>
 
                                     </div>
-                                @else
-                                    <div>
-                                        <div class="text-success">Ödenecek Tutar :<strong
-                                                class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
-                                                TL</strong></div>
+                                        @else
+                                            <div>
+                                                <div class="text-success">Ödenecek Tutar :<strong
+                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                        TL</strong></div>
 
-                                    </div>
-                                @endif --}}
+                                            </div>
+                                        @endif --}}
 
                                     @if ($saleType == 'kiralik')
                                         <div id="rental-amount">
@@ -771,7 +773,7 @@
                                                         class="discount">
                                                     <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
                                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
-                                                    <div class="row mrg-bot-20">
+                                                    <div class="row mrg-bot-20" style="width:100% !important">
                                                         <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
                                                             <input type="text" class="form-control" id="creditcard"
@@ -794,7 +796,7 @@
                                                             </script>
                                                         </div>
                                                     </div>
-                                                    <div class="row mrg-bot-20">
+                                                    <div class="row mrg-bot-20" style="width:100% !important">
                                                         <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
                                                             {{-- <input type="number" class="form-control" id="month"
@@ -947,7 +949,7 @@
 
 
                                 </div>
-                                {{-- </div> --}}
+                                </div>
                             </div>
 
 

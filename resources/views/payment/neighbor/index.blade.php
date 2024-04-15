@@ -508,6 +508,8 @@
                         <div class="row">
 
                             <div class="col-md-12" style="background: white !important;">
+                                <div class="tr-single-box">
+
                                 <div class="tr-single-body">
                                     <div class="tr-single-header pb-2">
                                         <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
@@ -606,7 +608,7 @@
                                                     <input type="hidden" name="status" value="0">
                                                     <input type="hidden" name="key" id="key">
                                                     <input type="hidden" name="amount" value="250">
-                                                    <div class="row mrg-bot-20">
+                                                    <div class="row mrg-bot-20" style="width:100% !important">
                                                         <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
                                                             <input type="text" class="form-control" id="creditcard"
@@ -629,7 +631,7 @@
                                                             </script>
                                                         </div>
                                                     </div>
-                                                    <div class="row mrg-bot-20">
+                                                    <div class="row mrg-bot-20" style="width:100% !important">
                                                         <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
 
@@ -753,6 +755,8 @@
                                     </div>
                                     <!-- Debit card option -->
                                 </div>
+                            </div>
+
                             </div>
                         </div>
                     </div>
