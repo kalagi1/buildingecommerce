@@ -97,7 +97,7 @@ class TempOrderController extends Controller
         $imageNames = [];
         $tempOrder = 0;
         foreach ($uploadedFiles as $fileKey => $file) {
-            $imageName = 'temp_order_situation'.time().auth()->guard()->user()->id.($newOrder + $tempOrder).time(). '.' . $file->getClientOriginalExtension();
+            $imageName = 'temp_order_situation'.time().auth()->guard("api")->user()->id.($newOrder + $tempOrder).time(). '.' . $file->getClientOriginalExtension();
 
             $file->move(public_path('situation_images'), $imageName);
 
