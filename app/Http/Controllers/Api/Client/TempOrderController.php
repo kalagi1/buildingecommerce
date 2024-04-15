@@ -152,7 +152,6 @@ class TempOrderController extends Controller
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         
         $tempData = json_decode($tempOrder->data);
-        return $tempData;
         if(!isset($tempData->situations)){
             $tempData->situations = [];
         }
