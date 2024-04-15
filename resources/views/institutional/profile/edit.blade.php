@@ -31,15 +31,13 @@
 
                                 <div class="col-lg-12">
                                     <div>
-                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
-                                            type="file" accept=".jpeg, .jpg, .png"><label
-                                            class="avatar avatar-4xl status-online cursor-pointer"
-                                            for="upload-settings-porfile-picture"><img
-                                                class="rounded-circle img-thumbnail shadow-sm border-0"
-                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
-                                                width="200" alt=""></label>
+                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image" type="file" accept=".jpeg, .jpg, .png" onchange="showImage(this)">
+                                        <label class="avatar avatar-4xl status-online cursor-pointer" for="upload-settings-porfile-picture">
+                                            <img id="profile-image-preview" class="rounded-circle img-thumbnail shadow-sm border-0" src="{{ asset('storage/profile_images/' . $user->profile_image) }}" width="200" alt="">
+                                        </label>
                                     </div>
                                 </div>
+                                
                                 <div class="col-lg-6">
                                 
                                     <div class="mt-3">
@@ -130,6 +128,21 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
+    
+
+        <script>
+            function showImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profile-image-preview').setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
+        
+
 
     <script>
         var map;
