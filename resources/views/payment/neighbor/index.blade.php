@@ -27,140 +27,145 @@
                 </div>
             @else
                 @if ($cart['type'] == 'project')
-                    <div class="wrap-house wg-dream flex bg-white">
-                        <div class="box-0">
-                            <a
-                                href="{{ $cart['type'] == 'housing'
-                                    ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                    : route('project.housings.detail', [
-                                        'projectSlug' =>
-                                            optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                            '-' .
-                                            optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                            '-' .
-                                            optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                        'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                        'housingOrder' => $cart['item']['housing'],
-                                    ]) }}">
-                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
-                            </a>
-                        </div>
-                        <div class="box-1">
-                            <div class="">
-                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="wrap-house wg-dream flex bg-white">
+                            <div class="box-0">
+                                <a
+                                    href="{{ $cart['type'] == 'housing'
+                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                        : route('project.housings.detail', [
+                                            'projectSlug' =>
+                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                '-' .
+                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                '-' .
+                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                            'housingOrder' => $cart['item']['housing'],
+                                        ]) }}">
+                                    <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
+                                </a>
                             </div>
-                            <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
-                            {{-- <div class="inner flex">
-                                <div class="sales fs-12 fw-7 font-2 text-color-1">
-                                    @if ($project->step2_slug)
-                                        @if ($project->step2_slug == 'kiralik')
-                                            Kiralık {{ $project->housingType->title }}
-                                        @elseif ($project->step2_slug == 'satilik')
-                                            Satılık {{ $project->housingType->title }}
-                                        @else
-                                            Günlük Kiralık {{ $project->housingType->title }}
-                                        @endif
-                                    @endif
+                            <div class="box-1">
+                                <div class="">
+                                    {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                 </div>
-                                
-                                <div class="icon-inner flex">
-                                    <div class="years-icon flex align-center">
-                                        <i class="fa fa-map-marker"></i>
-                                        <p class="text-color-2">
-                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                            @if ($project->neighbourhood)
-                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
+                                {{-- <div class="inner flex">
+                                    <div class="sales fs-12 fw-7 font-2 text-color-1">
+                                        @if ($project->step2_slug)
+                                            @if ($project->step2_slug == 'kiralik')
+                                                Kiralık {{ $project->housingType->title }}
+                                            @elseif ($project->step2_slug == 'satilik')
+                                                Satılık {{ $project->housingType->title }}
+                                            @else
+                                                Günlük Kiralık {{ $project->housingType->title }}
                                             @endif
-                                        </p>
+                                        @endif
                                     </div>
-                                    <div class="view-icon flex align-center">
-                                        
-                                        <p class="text-color-2">{{ $project->create_company }}</p>
-                                    </div>
-
-                                </div>
-                            </div> --}}
-
-                            <div class="icon-box flex">
-                                <div class="icons icon-1 flex">
-                                    {{-- <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i> --}}
-                                    <span class="fw-6">
-                                        {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu gör</strong>
-                                            satın alım sayfası</span>
-                                    </span>
-                                </div>
-
-                                {{-- @foreach (['column1', 'column2', 'column3'] as $column)
-                                    @php
-                                        $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                                        $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
-                                        $column_name_exists =
-                                            $column_name &&
-                                            isset($projectHousingsList[$cart['item']['housing']][$column_name . '[]']);
-                                    @endphp
-                                    @if ($column_name_exists)
-                                        <div class="icons icon-1 flex">
-                                            <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
-                                            <span class="fw-6">
-                                                {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
-                                                @if ($column_additional)
-                                                    {{ $column_additional }}
+                                    
+                                    <div class="icon-inner flex">
+                                        <div class="years-icon flex align-center">
+                                            <i class="fa fa-map-marker"></i>
+                                            <p class="text-color-2">
+                                                {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                @if ($project->neighbourhood)
+                                                    {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                                 @endif
-                                            </span>
+                                            </p>
                                         </div>
+                                        <div class="view-icon flex align-center">
+                                            
+                                            <p class="text-color-2">{{ $project->create_company }}</p>
+                                        </div>
+    
+                                    </div>
+                                </div> --}}
+    
+                                <div class="icon-box flex">
+                                    <div class="icons icon-1 flex">
+                                        {{-- <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i> --}}
+                                        <span class="fw-6">
+                                            {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu gör</strong>
+                                                satın alım sayfası</span>
+                                        </span>
+                                    </div>
+    
+                                    {{-- @foreach (['column1', 'column2', 'column3'] as $column)
+                                        @php
+                                            $column_name = $project->listItemValues->{$column . '_name'} ?? '';
+                                            $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
+                                            $column_name_exists =
+                                                $column_name &&
+                                                isset($projectHousingsList[$cart['item']['housing']][$column_name . '[]']);
+                                        @endphp
+                                        @if ($column_name_exists)
+                                            <div class="icons icon-1 flex">
+                                                <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
+                                                <span class="fw-6">
+                                                    {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
+                                                    @if ($column_additional)
+                                                        {{ $column_additional }}
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        @endif
+                                    @endforeach --}}
+                                </div>
+    
+                            </div>
+                            <div class="box-2 text-end ">
+    
+                                <div class="icon-boxs flex">
+                                    <a
+                                        href="{{ $cart['type'] == 'housing'
+                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                            : route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                'housingOrder' => $cart['item']['housing'],
+                                            ]) }}">
+                                        İLANI GÖR
+                                    </a>
+    
+                                </div>
+    
+                                <div class="text-sq fs-12 lh-16">
+                                    @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                        <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
+                                            alıyorsunuz!</span>
                                     @endif
-                                @endforeach --}}
-                            </div>
-
-                        </div>
-                        <div class="box-2 text-end ">
-
-                            <div class="icon-boxs flex">
-                                <a
-                                    href="{{ $cart['type'] == 'housing'
-                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                        : route('project.housings.detail', [
-                                            'projectSlug' =>
-                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                            'housingOrder' => $cart['item']['housing'],
-                                        ]) }}">
-                                    İLANI GÖR
-                                </a>
-
-                            </div>
-
-                            <div class="text-sq fs-12 lh-16">
-                                @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
-                                        alıyorsunuz!</span>
-                                @endif
-                            </div>
-
-                            <div class="show-mobile">
-                                <a
-                                    href="{{ $cart['type'] == 'housing'
-                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                        : route('project.housings.detail', [
-                                            'projectSlug' =>
-                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                            'housingOrder' => $cart['item']['housing'],
-                                        ]) }}">
-                                    <div class="mobile">İlanı Gör</div>
-                                </a>
-
+                                </div>
+    
+                                <div class="show-mobile">
+                                    <a
+                                        href="{{ $cart['type'] == 'housing'
+                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                            : route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                'housingOrder' => $cart['item']['housing'],
+                                            ]) }}">
+                                        <div class="mobile">İlanı Gör</div>
+                                    </a>
+    
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                  
                 @endif
                 {{-- @else
                     <div class="wrap-house wg-dream flex bg-white">
@@ -314,7 +319,7 @@
 
                 @endif --}}
 
-                <div class="row mr-4">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="">
                             <div class="row">
@@ -396,7 +401,7 @@
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
-                                <div class="tr-single-header">
+                                <div class="tr-single-header pb-3">
                                     <h4><i class="far fa-address-card pr-2"></i>Satın Alan Kişinin Bilgileri</h4>
                                 </div>
 
@@ -511,7 +516,7 @@
                                 <div class="tr-single-box">
 
                                 <div class="tr-single-body">
-                                    <div class="tr-single-header pb-2">
+                                    <div class="tr-single-header pb-3">
                                         <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                                     </div>
                                     <div class="booking-price-detail side-list no-border mb-3">

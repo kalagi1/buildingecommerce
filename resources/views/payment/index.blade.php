@@ -31,7 +31,9 @@
                     </div>
                 </div>
             @else
-                @if ($cart['type'] == 'project')
+            <div class="row">
+                <div class="col-md-12">
+                    @if ($cart['type'] == 'project')
                     <div class="wrap-house wg-dream flex bg-white">
                         <div class="box-0">
                             <a
@@ -365,7 +367,10 @@
                     </div>
 
                 @endif
-                <div class="row mr-4">
+                </div>
+            </div>
+            
+                <div class="row">
                     <div class="col-md-12">
                         <div class="">
                             <div class="row">
@@ -447,7 +452,7 @@
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
-                                <div class="tr-single-header">
+                                <div class="tr-single-header pb-3">
                                     <h4><i class="far fa-address-card pr-2"></i>Satın Alan Kişinin Bilgileri</h4>
                                 </div>
 
@@ -603,7 +608,7 @@
                                 <div class="tr-single-box">
 
                                 <div class="tr-single-body">
-                                    <div class="tr-single-header pb-2">
+                                    <div class="tr-single-header pb-3">
                                         <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                                     </div>
                                     <div class="booking-price-detail side-list no-border mb-3">
