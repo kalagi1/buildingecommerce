@@ -232,10 +232,10 @@ class PayController extends Controller
 
     private function preparePaymentData($requestData,$orderId, $amount,$transaction)
     {
-        // $clientId = '190100000';
-        // $storeKey = '123456';
-        $clientId = '190933121';
-        $storeKey = 'MasteR3457';
+        $clientId = '190100000';
+        $storeKey = '123456';
+        // $clientId = '190933121';
+        // $storeKey = 'MasteR3457';
         $expDateMonth = $requestData['month'];
         $expDateYear = $requestData['year'];
         $okUrl = url('/resultpaymentsuccess');
