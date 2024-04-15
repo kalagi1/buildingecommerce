@@ -31,7 +31,7 @@ class FormController extends Controller {
     Form::create($formData);
 
     // Başarılı bir şekilde kaydedildiğine dair mesaj gönder
-    return redirect()->back()->with('success', 'Form başarıyla kaydedildi!' );
+    return redirect()->back()->with('success', 'Takas Başvurunuz Başarıyla Gönderildi!' );
     }
 
 }
