@@ -24,8 +24,17 @@ use App\Models\CartOrderRefund;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use App\Services\SmsService;
+
 class HomeController extends Controller
 {
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
     public function index()
     {
         $countUser = User::where('status', '1')->get()->count();
@@ -59,10 +68,10 @@ class HomeController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-            
+
         return view('admin.orders.index', compact('cartOrders'));
     }
-    
+
     public function getReservations()
     {
         $housingReservations = Reservation::select('reservations.*')->with('user', 'housing', 'owner')->where('status', '=', 1)->leftJoin('cancel_requests', 'cancel_requests.reservation_id', '=', 'reservations.id')->whereNull('cancel_requests.id')
@@ -338,48 +347,145 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
+
+    public function upload(Request $request)
+    {
+        // PDF dosyasını al
+        $pdfFile = $request->file('pdf_file');
+        // Gelen requestten refund_id'yi alın
+        $refund_id = $request->refund_id;
+
+        // İlgili CartOrderRefund'ı bulun
+        $refund = CartOrderRefund::find($refund_id);
+
+        // Dosya yüklendiyse ve refund bulunduysa devam et
+        if ($pdfFile && $refund) {
+            // Dosyayı belirtilen dizine kaydet (örneğin: storage/app/pdf)
+            $newFileName = now()->format('H-i-s') . '.' . $pdfFile->getClientOriginalExtension();
+            $folderName = 'refund-receipt-pdf/' . $refund->id;
+            $newFilePath = public_path($folderName);
+            $pdfFile->move($newFilePath, $newFileName);
+
+            // Dosyanın yeni yolunu alın
+            $pdfPath = $folderName . '/' . $newFileName; // Dosya yolu ve adını birleştirin
+
+            // Veritabanında bir kayıt oluşturmak isterseniz
+            $refund->filename = $pdfFile->getClientOriginalName(); // Dosya adını alabilirsiniz
+            $refund->path = $pdfPath;
+            $refund->status = '3'; // Dosya yolunu kaydedin
+            $refund->save();
+
+            $this->sendEmail($refund);
+
+            $this->sendSMS($refund);
+
+            return redirect()->back()->with('success', 'PDF dosyası başarıyla yüklendi.');
+        } else {
+            return redirect()->back()->with('error', 'PDF dosyası yüklenirken bir hata oluştu.');
+        }
+    }
+
+    private function sendEmail($refund)
+    {
+        $pdfDownloadLink = asset($refund->path);
+        $name = $refund->user->name;
+        $cartID = $refund->cart_order_id;
+
+        $content = '
+
+        <p>Merhaba '. $name .' , '. $cartID .' nolu siparişinize ait geri ödeme tarafınıza iletilmiştir.</p>
+        <p>Aşağıdaki butona basarak dekontu indirebilirsiniz</p>
+        
+        
+        <a href="' . $pdfDownloadLink . '" onclick="downloadPDF()" style="background-color: #4CAF50; /* Green */
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;">Dekont İndir</a>
+        
+        <!-- JavaScript fonksiyonu -->
+        <script>
+        function downloadPDF() {
+            window.location.href = "' . $pdfDownloadLink . '";
+        }
+        </script>
+        ';
+
+        // E-posta gönderme işlemi
+        $subject = 'İade Talebi';
+
+
+        // E-posta gönder
+        Mail::to($refund->user->email)->send(new CustomMail($subject, $content));
+    }
+
+    private function sendSMS($refund)
+    {
+        // Kullanıcının telefon numarasını al
+        $userPhoneNumber = $refund->user->phone ? $refund->user->phone : $refund->user->mobile_phone;
+
+        // Kullanıcının adını ve soyadını al
+        $name = $refund->user->name;
+        $cartID = $refund->cart_order_id;
+
+
+        // SMS metni oluştur
+        $message = "Merhaba $name , $cartID no'lu siparişinize ait geri ödeme tarafınıza iletilmiştir. Dekontunuzu mail adresinize gönderdik, kontrol edebilirsiniz.";
+
+        // SMS gönderme işlemi
+        $smsService = new SmsService();
+        $source_addr = 'MaliyetinEv';
+
+        $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+    }
+
     public function updateStatus(Request $request, $refundId)
     {
-        $refund = CartOrderRefund::find($refundId); 
+        $refund = CartOrderRefund::find($refundId);
         $userId = $refund->user_id;
         $now = Carbon::now();
-        
+
         if (!$refund) {
             return redirect()->back()->with('error', 'İlgili iade talebi bulunamadı.');
         }
-    
+
         $validatedData = $request->validate([
-            'status' => 'required|in:1,2,3', 
+            'status' => 'required|in:1,2,3',
         ]);
-    
+
         $refund->status = $validatedData['status'];
         $refund->save();
-    
+
         if ($refund->status == 1) {
             if ($refund->cartOrder->status != 2) {
                 $refund->cartOrder->status = '2'; // Sipariş durumunu 2 olarak güncelle
                 $refund->cartOrder->save();
             }
         }
-    
+
         if ($refund->status == 3) {
             $createdAt = Carbon::parse($refund->cartorder->created_at);
             $differenceInDays = $createdAt->diffInDays($now);
             $amount = $refund->cartorder->amount;
-            
+
             if ($differenceInDays <= 14) {
                 $amountFloat = (float) str_replace(',', '.', str_replace('.', '', $amount));
                 $refundAmount = $amountFloat * 0.10;
             } else {
                 $refundAmount = $amount;
             }
-    
+
             // SharerPrice tablosundaki ilgili kayıtları güncelle
             SharerPrice::where([
                 ['user_id', $refund->user_id],
                 ['cart_id', $refund->cartOrder->id],
-            ])->update(['status' => 0 , 'balance' => 0]);
-        
+            ])->update(['status' => 0, 'balance' => 0]);
+
             // CartPrice tablosundaki ilgili kayıtları al ve güncelle
             $cartPrices = CartPrice::where([
                 ['user_id', $refund->user_id],
@@ -392,8 +498,7 @@ class HomeController extends Controller
                 $cartPrice->save();
             }
         }
-    
+
         return redirect()->back()->with('success', 'İade durumu başarıyla güncellendi.');
     }
-    
 }

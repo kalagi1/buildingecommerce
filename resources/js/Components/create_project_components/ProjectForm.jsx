@@ -223,6 +223,24 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                                 <input type="text" value={projectData.total_project_area} onChange={(e) => {setProjectDataFunc('total_project_area',dotNumberFormat(e.target.value))}} className='total_project_area price-only'/>
                             </div>
                         </div>
+                        <div className="col-md-6 mt-1">
+                            <label htmlfor="">Ada Bilgisi</label>
+                            <div className="icon-input">
+                                <div className="icon-area">
+                                    <i className="fa fa-square"></i>
+                                </div>
+                                <input type="text" value={projectData.island} onChange={(e) => {setProjectDataFunc('island',e.target.value)}} className='total_project_area create_company'/>
+                            </div>
+                        </div>
+                        <div className="col-md-6 mt-1">
+                            <label htmlfor="">Parsel Bilgisi</label>
+                            <div className="icon-input">
+                                <div className="icon-area">
+                                    <i className='fa fa-square'></i>
+                                </div>
+                                <input type="text" value={projectData.parcel} onChange={(e) => {setProjectDataFunc('parcel',e.target.value)}} className='total_project_area price-only'/>
+                            </div>
+                        </div>
                         
                         <div className="col-md-6 mt-2">
                             <label htmlfor="">Başlangıç Tarihi</label>

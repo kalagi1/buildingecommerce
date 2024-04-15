@@ -225,7 +225,7 @@
                                                 </span>
                                                 @if ($order->invoice && $order->status == 1)
                                                     <span class="badge badge-phoenix fs-10 badge-phoenix-success">
-                                                        <a href="{{ route('institutional.invoice.show', $order->id) }}">
+                                                        <a href="{{ route('admin.invoice.show', $order->id) }}">
                                                             Faturayı Görüntüle
                                                         </a>
 

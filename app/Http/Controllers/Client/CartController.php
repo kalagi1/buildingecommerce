@@ -910,8 +910,7 @@ class CartController extends Controller {
 
             $cartList = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
             if ( $cartList ) {
-                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
-                $cart = json_decode( $cartItem->cart, true );
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first()->delete();
             }
 
             http_response_code( 500 );
@@ -930,7 +929,7 @@ class CartController extends Controller {
                     ->where( 'room_order', $id )
                     ->get()
                     ->keyBy( 'key' );
-                    $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->get();
+                    $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where("status", 1)->get();
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
@@ -1119,14 +1118,7 @@ class CartController extends Controller {
 
             public function removeFromCart( Request $request ) {
                 $request->session()->forget( 'cart' );
-                // Clear the cart
-                //cart_items tablosundan kullanıcıya ait sepet verisini sil
-                $cartItem = CartItem::where( 'user_id', Auth::id() )->first();
-                if ( $cartItem ) {
-                    CartItem::where( 'id', $cartItem->id )->delete();
-                }
-                //    dd( $cartItem );
-
+                $cartItem = CartItem::where( 'user_id', Auth::user()->id )->first()->delete();
                 return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
             }
 

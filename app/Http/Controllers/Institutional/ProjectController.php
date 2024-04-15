@@ -2610,6 +2610,8 @@ class ProjectController extends Controller
             "project_title" => $tempData->project_title,
             "create_company" => $tempData->create_company,
             "total_project_area" => str_replace('.', '', $tempData->total_project_area),
+            "island" => str_replace('.', '', $tempData->island),
+            "parcel" => str_replace('.', '', $tempData->parcel),
             "start_date" => $tempData->start_date,
             "project_end_date" => $tempData->project_end_date,
             "slug" => Str::slug($tempData->project_title),
