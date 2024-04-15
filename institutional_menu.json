@@ -9,6 +9,15 @@
         "activePath": "/institutional/estate_club_users"
     },
     {
+        "id": "neighbors",
+        "label": "Komşumu Gör",
+        "icon": "eye",
+        "text": "Komşumu Gör",
+        "key": "neighborView",
+        "url": "neighbors.index",
+        "activePath": "/neighbors"
+    },
+    {
         "id": "projects",
         "label": "İlanlarım",
         "icon": "plus",
@@ -274,4 +283,5 @@
             }
         ]
     }
+  
 ]

@@ -3863,7 +3863,7 @@ section.popular-places {
 
 section.feature-cities-1 {
     padding: 6rem 0;
-    background: #f5f6ff;
+    background: #ffffff;
 }
 
 .feature-cities-1 .img-box {
@@ -17349,7 +17349,7 @@ section.google-map-right {
 }
 
 .half-map-view .rld-main-search {
-    background: #f5f6ff;
+    background: #ffffff;
     border: 0px;
     margin-bottom: 30px;
     padding-left: 15px;
@@ -17358,7 +17358,7 @@ section.google-map-right {
 }
 
 .half-map-view .tab-content>.active {
-    background: #f5f6ff;
+    background: #ffffff;
     margin-top: 0px;
 }
 
@@ -21019,7 +21019,7 @@ body.dashboard-bd {
     font-size: 11px !important;
     text-align: center !important;
     color: #222;
-    background-color: #f5f6ff;
+    background-color: #ffffff;
     border: none;
     font-weight: 500;
     padding: 10px 10px 10px 10px;
@@ -21622,14 +21622,14 @@ small {
 .inner-pages section.payment-method {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
-    background: #f5f6ff;
+    background: #ffffff;
 }
 
 .tr-single-box {
     background: #ffffff;
     display: block;
     border-radius: 2px;
-    border: 1px solid #f0f3f7;
+    border: 1px solid #E6E6E6;
     margin-bottom: 30px;
 }
 

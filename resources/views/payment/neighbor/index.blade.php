@@ -9,12 +9,7 @@
             {{ session('error') }}
         </div>
     @endif
-    {{-- @php
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = $_SERVER['REQUEST_URI'];
-        $shareUrl = $protocol . '://' . $host . $uri;
-    @endphp --}}
+
     <section class="payment-method notfound">
         <div class="container  pt-5">
 
@@ -31,168 +26,148 @@
                     </div>
                 </div>
             @else
-            <div class="row">
-                <div class="col-md-12">
-                    @if ($cart['type'] == 'project')
-                    <div class="wrap-house wg-dream flex bg-white">
-                        <div class="box-0">
-                            <a
-                                href="{{ $cart['type'] == 'housing'
-                                    ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                    : route('project.housings.detail', [
-                                        'projectSlug' =>
-                                            optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                            '-' .
-                                            optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                            '-' .
-                                            optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                        'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                        'housingOrder' => $cart['item']['housing'],
-                                    ]) }}">
-                                <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
-                            </a>
-                        </div>
-                        <div class="box-1">
-                            <div class="">
-                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                @if ($cart['type'] == 'project')
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="wrap-house wg-dream flex bg-white">
+                            <div class="box-0">
+                                <a
+                                    href="{{ $cart['type'] == 'housing'
+                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                        : route('project.housings.detail', [
+                                            'projectSlug' =>
+                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                '-' .
+                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                '-' .
+                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                            'housingOrder' => $cart['item']['housing'],
+                                        ]) }}">
+                                    <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
+                                </a>
                             </div>
-                            <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
-                            <div class="inner flex">
-                                <div class="sales fs-12 fw-7 font-2 text-color-1">
-                                    @if ($project->step2_slug)
-                                        @if ($project->step2_slug == 'kiralik')
-                                            Kiralık {{ $project->housingType->title }}
-                                        @elseif ($project->step2_slug == 'satilik')
-                                            Satılık {{ $project->housingType->title }}
-                                        @else
-                                            Günlük Kiralık {{ $project->housingType->title }}
-                                        @endif
-                                    @endif
+                            <div class="box-1">
+                                <div class="">
+                                    {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
                                 </div>
-                                {{-- <div class="text-address">
-                                    <p></p>
-                                </div> --}}
-                                <div class="icon-inner flex">
-                                    <div class="years-icon flex align-center">
-                                        <i class="fa fa-map-marker"></i>
-                                        <p class="text-color-2">
-                                            {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
-                                            @if ($project->neighbourhood)
-                                                {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
+                                <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
+                                {{-- <div class="inner flex">
+                                    <div class="sales fs-12 fw-7 font-2 text-color-1">
+                                        @if ($project->step2_slug)
+                                            @if ($project->step2_slug == 'kiralik')
+                                                Kiralık {{ $project->housingType->title }}
+                                            @elseif ($project->step2_slug == 'satilik')
+                                                Satılık {{ $project->housingType->title }}
+                                            @else
+                                                Günlük Kiralık {{ $project->housingType->title }}
                                             @endif
-                                        </p>
+                                        @endif
                                     </div>
-                                    <div class="view-icon flex align-center">
-                                        {{-- <i class="far fa-eye"></i> --}}
-                                        <p class="text-color-2">{{ $project->create_company }}</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="icon-box flex">
-                                <div class="icons icon-1 flex">
-                                    <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
-                                    <span class="fw-6">
-                                        {{ $cart['item']['housing'] }} No'lu
-                                    </span>
-                                </div>
-
-                                @foreach (['column1', 'column2', 'column3'] as $column)
-                                    @php
-                                        $column_name = $project->listItemValues->{$column . '_name'} ?? '';
-                                        $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
-                                        $column_name_exists =
-                                            $column_name &&
-                                            isset($projectHousingsList[$cart['item']['housing']][$column_name . '[]']);
-                                    @endphp
-                                    @if ($column_name_exists)
-                                        <div class="icons icon-1 flex">
-                                            <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
-                                            <span class="fw-6">
-                                                {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
-                                                @if ($column_additional)
-                                                    {{ $column_additional }}
+                                    
+                                    <div class="icon-inner flex">
+                                        <div class="years-icon flex align-center">
+                                            <i class="fa fa-map-marker"></i>
+                                            <p class="text-color-2">
+                                                {!! optional($project->city)->title . ' / ' . optional($project->county)->ilce_title !!}
+                                                @if ($project->neighbourhood)
+                                                    {!! ' / ' . optional($project->neighbourhood)->mahalle_title !!}
                                                 @endif
-                                            </span>
+                                            </p>
                                         </div>
+                                        <div class="view-icon flex align-center">
+                                            
+                                            <p class="text-color-2">{{ $project->create_company }}</p>
+                                        </div>
+    
+                                    </div>
+                                </div> --}}
+    
+                                <div class="icon-box flex">
+                                    <div class="icons icon-1 flex">
+                                        {{-- <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i> --}}
+                                        <span class="fw-6">
+                                            {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu gör</strong>
+                                                satın alım sayfası</span>
+                                        </span>
+                                    </div>
+    
+                                    {{-- @foreach (['column1', 'column2', 'column3'] as $column)
+                                        @php
+                                            $column_name = $project->listItemValues->{$column . '_name'} ?? '';
+                                            $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
+                                            $column_name_exists =
+                                                $column_name &&
+                                                isset($projectHousingsList[$cart['item']['housing']][$column_name . '[]']);
+                                        @endphp
+                                        @if ($column_name_exists)
+                                            <div class="icons icon-1 flex">
+                                                <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i>
+                                                <span class="fw-6">
+                                                    {{ $projectHousingsList[$cart['item']['housing']][$column_name . '[]'] }}
+                                                    @if ($column_additional)
+                                                        {{ $column_additional }}
+                                                    @endif
+                                                </span>
+                                            </div>
+                                        @endif
+                                    @endforeach --}}
+                                </div>
+    
+                            </div>
+                            <div class="box-2 text-end ">
+    
+                                <div class="icon-boxs flex">
+                                    <a
+                                        href="{{ $cart['type'] == 'housing'
+                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                            : route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                'housingOrder' => $cart['item']['housing'],
+                                            ]) }}">
+                                        İLANI GÖR
+                                    </a>
+    
+                                </div>
+    
+                                <div class="text-sq fs-12 lh-16">
+                                    @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                        <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
+                                            alıyorsunuz!</span>
                                     @endif
-                                @endforeach
-                            </div>
-
-                        </div>
-                        <div class="box-2 text-end ">
-
-                            <div class="icon-boxs flex">
-                                {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
-                                {{-- <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="18" cy="5" r="3" />
-                                        <circle cx="6" cy="12" r="3" />
-                                        <circle cx="18" cy="19" r="3" />
-                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                                    </svg>
-                                </a> --}}
-                                <a
-                                    href="{{ $cart['type'] == 'housing'
-                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                        : route('project.housings.detail', [
-                                            'projectSlug' =>
-                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                            'housingOrder' => $cart['item']['housing'],
-                                        ]) }}">
-                                    İLANI GÖR
-                                </a>
-
-                                {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.3222 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
-                            </div>
-                            <div class="moneys fs-30 fw-7 lh-45 text-color-3">
-                                {{ number_format($cart['item']['amount'], 0, ',', '.') }}
-                                TL</div>
-                            <div class="text-sq fs-12 lh-16">
-                                @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
-                                        alıyorsunuz!</span>
-                                @endif
-                            </div>
-
-                            <div class="show-mobile">
-                                <a
-                                    href="{{ $cart['type'] == 'housing'
-                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                        : route('project.housings.detail', [
-                                            'projectSlug' =>
-                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                            'housingOrder' => $cart['item']['housing'],
-                                        ]) }}">
-                                    <div class="mobile">İlanı Gör</div>
-                                </a>
-
+                                </div>
+    
+                                <div class="show-mobile">
+                                    <a
+                                        href="{{ $cart['type'] == 'housing'
+                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                            : route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                'housingOrder' => $cart['item']['housing'],
+                                            ]) }}">
+                                        <div class="mobile">İlanı Gör</div>
+                                    </a>
+    
+                                </div>
                             </div>
                         </div>
                     </div>
-                @else
+                </div>
+                  
+                @endif
+                {{-- @else
                     <div class="wrap-house wg-dream flex bg-white">
                         <div class="box-0">
                             <a
@@ -212,9 +187,7 @@
                             </a>
                         </div>
                         <div class="box-1">
-                            <div>
-                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
-                            </div>
+                            <div> {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}</div>
                             <div class="title-heading fs-30 fw-7 lh-45">{{ $housing->housing_title }}</div>
                             <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
@@ -226,9 +199,7 @@
                                         Satılık {{ $housing->housing_type_title }}
                                     @endif
                                 </div>
-                                {{-- <div class="text-address">
-                                    
-                                </div> --}}
+                               
                                 <div class="years-icon flex align-center">
                                     <i class="fa fa-map-marker"></i>
                                     <p class="text-color-2">
@@ -239,7 +210,7 @@
                                 </div>
                                 <div class="icon-inner flex">
                                     <div class="view-icon flex align-center">
-                                        {{-- <i class="far fa-eye"></i> --}}
+                                       
                                         <p class="text-color-2">{{ $housing->create_company }}</p>
                                     </div>
                                 </div>
@@ -302,22 +273,6 @@
                         </div>
                         <div class="box-2 text-end">
                             <div class="icon-boxs flex">
-                                {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
-                                {{-- <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="18" cy="5" r="3" />
-                                        <circle cx="6" cy="12" r="3" />
-                                        <circle cx="18" cy="19" r="3" />
-                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                                    </svg>
-                                </a> --}}
                                 <a
                                     href="{{ $cart['type'] == 'housing'
                                         ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
@@ -334,16 +289,12 @@
                                     İLANI GÖR
                                 </a>
 
-                                {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.3222 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
+                                
                             </div>
                             <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                 {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                 TL</div>
-                            {{-- <div class="text-sq fs-12 lh-16">1964 Sq Ft</div> --}}
+                           
 
                             <div class="show-mobile">
                                 <a
@@ -366,10 +317,8 @@
                         </div>
                     </div>
 
-                @endif
-                </div>
-            </div>
-            
+                @endif --}}
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="">
@@ -412,43 +361,43 @@
                             </div>
                         </div>
                     </div>
-                    @php
-                        $itemPrice = $cart['item']['amount'];
+                    {{-- @php
+                    $itemPrice = $cart['item']['amount'];
 
-                        if ($cart['hasCounter']) {
-                            if ($cart['type'] == 'housing') {
-                                $housing = App\Models\Housing::find($cart['item']['id']);
-                                $housingData = json_decode($housing->housing_type_data);
-                                $discountRate = $housingData->discount_rate[0] ?? 0;
+                    if ($cart['hasCounter']) {
+                        if ($cart['type'] == 'housing') {
+                            $housing = App\Models\Housing::find($cart['item']['id']);
+                            $housingData = json_decode($housing->housing_type_data);
+                            $discountRate = $housingData->discount_rate[0] ?? 0;
 
-                                $housingAmount = $itemPrice - $housingDiscountAmount;
-                                $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
-                            } else {
-                                $project = App\Models\Project::find($cart['item']['id']);
-                                $roomOrder = $cart['item']['housing'];
-                                $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
-                                    ->where('room_order', $roomOrder)
-                                    ->get()
-                                    ->keyBy('name');
-
-                                $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                $projectAmount = $itemPrice - $projectDiscountAmount;
-                                $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
-                            }
+                            $housingAmount = $itemPrice - $housingDiscountAmount;
+                            $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
                         } else {
-                            $discountedPrice = $itemPrice;
-                            $discountRate = 0;
-                        }
-                        $selectedPaymentOption = request('paymentOption');
-                        $itemPrice =
-                            $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
-                                ? $cart['item']['installmentPrice']
-                                : $discountedPrice;
+                            $project = App\Models\Project::find($cart['item']['id']);
+                            $roomOrder = $cart['item']['housing'];
+                            $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
+                                ->where('room_order', $roomOrder)
+                                ->get()
+                                ->keyBy('name');
 
-                        $displayedPrice = number_format($itemPrice, 0, ',', '.');
-                        $share_sale = $cart['item']['isShare'] ?? null;
-                        $number_of_share = $cart['item']['numbershare'] ?? null;
-                    @endphp
+                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                            $projectAmount = $itemPrice - $projectDiscountAmount;
+                            $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
+                        }
+                    } else {
+                        $discountedPrice = $itemPrice;
+                        $discountRate = 0;
+                    }
+                    $selectedPaymentOption = request('paymentOption');
+                    $itemPrice =
+                        $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
+                            ? $cart['item']['installmentPrice']
+                            : $discountedPrice;
+
+                    $displayedPrice = number_format($itemPrice, 0, ',', '.');
+                    $share_sale = $cart['item']['isShare'] ?? null;
+                    $number_of_share = $cart['item']['numbershare'] ?? null;
+                @endphp --}}
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
@@ -459,23 +408,12 @@
                                 <form method="POST" id="paymentForm">
                                     @csrf
                                     <input type="hidden" name="key" id="orderKey">
-                                    <input type="hidden" name="banka_id" id="bankaID">
+                                    {{-- <input type="hidden" name="banka_id" id="bankaID">
                                     <input type="hidden" name="have_discount" class="have_discount">
-                                    <input type="hidden" name="discount" class="discount">
-                                    <input type="hidden" name="is_swap" class="is_swap"
-                                        value="{{ $cart['item']['payment-plan'] ?? null }}">
+                                    <input type="hidden" name="discount" class="discount"> --}}
+                                    {{-- <input type="hidden" name="is_swap" class="is_swap"
+                                        value="{{ $cart['item']['payment-plan'] ?? null }}"> --}}
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="d-flex" style="align-items: center;">
-                                                <input style="margin-left: 0px !important;" type="checkbox" role="switch" id="flexSwitchCheckChecked">
-                                                <label class="ml-2 mb-0" for="flexSwitchCheckChecked">TC vatandaşı değilim</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="tc">TC: </label>
-                                            <input type="number" class="form-control" id="tc" name="tc"
-                                                required oninput="validateTCLength(this)">
-                                        </div>
                                         <div class="col-sm-6">
                                             <label for="fullName">Ad Soyad:</label>
                                             <input type="text" class="form-control" id="fullName" name="fullName"
@@ -486,40 +424,18 @@
                                             <input type="email" class="form-control" id="email" name="email"
                                                 required>
                                         </div>
+                                        <div class="col-sm-6">
+                                            <label for="tc">TC: </label>
+                                            <input type="number" class="form-control" id="tc" name="tc"
+                                                required oninput="validateTCLength(this)">
+                                        </div>
                                         <script>
                                             function validateTCLength(input) {
-                                                const tckNo = input.value.replace(/\D/g, '');
-                                                // TC Kimlik No'nun uzunluğu 11 haneli olmalıdır
-                                                if (tckNo.length > 11) {
+                                                var maxLength = 11;
+                                                if (input.value.length > maxLength) {
+                                                    input.value = input.value.slice(0, maxLength);
                                                     toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
-                                                    return '';
                                                 }
-
-                                                // İlk hane 0 olamaz
-                                                if (tckNo[0] == "0") {
-                                                    toastr.warning("Geçersiz TC Kimlik No! İlk rakam 0 olamaz.");
-                                                    $('#tc').val("")
-                                                    return '';
-                                                }
-
-                                                // TC Kimlik No'nun ilk 9 hanesinin toplamı 10. ve 11. haneleri verir
-                                                let sum = 0;
-                                                for (let i = 0; i < 10; i++) {
-                                                    sum += Number(tckNo[i]);
-                                                }
-                                                
-                                                const lastDigit = sum % 10;
-                                                if (tckNo.length == 11 && lastDigit !== Number(tckNo[10])) {
-                                                    toastr.warning("Geçersiz TC Kimlik No! Kontrol haneleri uyuşmuyor.");
-                                                    $('#tc').val("")
-                                                    return '';
-                                                }
-
-                                                // TC Kimlik No formatını düzenle (5-6-5)
-                                                const formattedTC = input.target.value;
-                                                console.log(formattedTC);
-                                                $('#tc').val(formattedTC)
-                                                return formattedTC;
                                             }
                                         </script>
                                         <div class="col-sm-6">
@@ -535,53 +451,45 @@
                                             <label for="notes">Notlar:</label>
                                             <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
                                         </div>
-
+                                        {{-- 
                                         <div class="col-sm-6">
                                             <label for="notes">Referans Kodu (Opsiyonel):</label>
                                             <input class="form-control" id="reference_code" name="reference_code"
                                                 rows="5">
-                                        </div>
+                                        </div> --}}
 
-                                        <div class="col-sm-6">
+                                        {{-- <div class="col-sm-6">
                                             @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
-                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın alıyorsunuz?</label>
+                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın
+                                                    alıyorsunuz?</label>
                                                 <select class="form-control" id="is_reference" name="is_reference">
                                                     <option value="" selected>Komşu Seçiniz</option>
                                                     @foreach ($cart['item']['neighborProjects'] as $neighborProject)
-                                                        <option value="{{ isset($neighborProject['owner']) ? $neighborProject['owner']['id'] : '' }}">
-                                                            {{ isset($neighborProject['owner']) ? $neighborProject['owner']['name'] : '' }}
-                                                        </option>
+                                                        <option value="{{ $neighborProject->owner->id }}">
+                                                            {{ $neighborProject->owner->name }}</option>
                                                     @endforeach
                                                 </select>
                                             @endif
-                                        </div>
+                                        </div> --}}
 
 
-                                        @if (isset($cart) && isset($cart['type']))
-                                            @if (
-                                                ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]') ||
-                                                    ($cart['type'] == 'project' && empty($share_sale)))
-                                                <div class="col-sm-12 pt-5">
-                                                    <div class="d-flex align-items-center mb-3">
-                                                        <input id="is_show_user" type="checkbox" value="off"
-                                                            name="is_show_user">
-                                                        <i class="fa fa-info-circle ml-2"
-                                                            title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                            style="font-size: 18px; color: black;"></i>
-                                                        <label for="is_show_user" class="m-0 ml-1 text-black">
-                                                            Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
-                                                            kabul
-                                                            ediyorum.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endif
-
-
-
-
-
+                                        {{-- @if (isset($cart) && isset($cart['type']))
+                                                @if (($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]') || ($cart['type'] == 'project' && empty($share_sale)))
+                                                        <div class="col-sm-12 pt-5">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
+                                                                <i class="fa fa-info-circle ml-2"
+                                                                    title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                                    style="font-size: 18px; color: black;"></i>
+                                                                <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                                    Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
+                                                                    kabul
+                                                                    ediyorum.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                @endif
+                                            @endif --}}
                                         <div class="col-sm-12 pt-2">
                                             <div class="d-flex align-items-center mb-3">
                                                 <input id="checkPay" type="checkbox" name="checkPay">
@@ -612,105 +520,38 @@
                                         <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                                     </div>
                                     <div class="booking-price-detail side-list no-border mb-3">
-                                        @if (!$cart || empty($cart['item']))
+                                        {{-- @if (!$cart || empty($cart['item']))
                                             <ul>
                                                 <li>Toplam Fiyat<strong class="pull-right">00.00
                                                         TL</strong></li>
                                             </ul>
-                                        @else
-                                            <ul>
-                                                <li>İlan Fiyatı<strong class="pull-right">
-                                                        {{ number_format($cart['item']['amount'], 0, ',', '.') }}
-                                                        TL</strong></li>
+                                        @else --}}
+                                        <ul>
+                                            <li>Komşumu Gör Fiyatı<strong class="pull-right">
+                                                    {{-- {{ number_format($cart['item']['amount'], 0, ',', '.') }} --}}
+                                                    250 TL</strong></li>
 
-                                                @if ($housingDiscountAmount != 0 || $projectDiscountAmount != 0)
-                                                    <li style="color:#EA2B2E">Mağaza İndirimi :<strong class="pull-right">
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                </polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <span
-                                                                style="margin-left: 2px">{{ number_format($housingDiscountAmount ? $housingDiscountAmount : $projectDiscountAmount, 0, ',', '.') }}
-                                                                ₺ </span></strong></li>
-                                                @endif
+                                            <li>Toplam Fiyat<strong class="pull-right">
 
-                                                @if (isset($discountRate) && $discountRate != '0')
-                                                    <li style="color:#EA2B2E">Emlak Kulüp İndirim Oranı :<strong
-                                                            class="pull-right">
-                                                            <svg viewBox="0 0 24 24" width="18" height="18"
-                                                                stroke="currentColor" stroke-width="2" fill="none"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="css-i6dzq1">
-                                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
-                                                                </polyline>
-                                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                                            </svg>
-                                                            <span style="margin-left: 2px">{{ $discountRate }}
-                                                                % </span></strong></li>
-                                                @endif
-                                                <li>Toplam Fiyat<strong class="pull-right">
-                                                        {{ number_format($discountedPrice, 0, ',', '.') }}
 
-                                                        TL</strong></li>
+                                                    250 TL</strong></li>
 
 
 
-                                                @if ($saleType == 'kiralik')
-                                                    <li>Bir Kira Kapora :<strong
-                                                            class="pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
-                                                            TL</strong></li>
-                                                @else
-                                                    <li>Toplam Fiyatın %2 Kaporası :<strong
-                                                            class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
-                                                            TL</strong></li>
-                                                @endif
 
-                                            </ul>
-                                        @endif
+                                        </ul>
+                                        {{-- @endif --}}
                                     </div>
 
-                                    @if (!$cart || empty($cart['item']))
-                                        <button type="button" class="btn btn-primary btn-lg btn-block"
-                                            style="font-size: 11px;margin: 0 auto;"
-                                            onclick="window.location.href='{{ route('index') }}'">
-                                            Alışverişe Devam Et
-                                        </button>
-                                    @endif
-                                    {{-- @if ($saleType == 'kiralik')
-                                    <div>
-                                        <div class="text-success">Ödenecek Tutar :<strong
-                                                class="button-price-inner pull-right text-success ">{{ number_format($discountedPrice, 0, ',', '.') }}
-                                                TL</strong></div>
+
+                                    <div id="rental-amount">
+                                        <div class="text-success">Ödenecek Tutar : <strong
+                                                class="button-price-inner pull-right text-success">250 TL</strong></div>
 
                                     </div>
-                                        @else
-                                            <div>
-                                                <div class="text-success">Ödenecek Tutar :<strong
-                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
-                                                        TL</strong></div>
 
-                                            </div>
-                                        @endif --}}
 
-                                    @if ($saleType == 'kiralik')
-                                        <div id="rental-amount">
-                                            <div class="text-success">Ödenecek Tutar : <strong
-                                                    class="button-price-inner pull-right text-success">{{ number_format($discountedPrice, 0, ',', '.') }}
-                                                    TL</strong></div>
-                                        </div>
-                                    @else
-                                        <div id="other-amount">
-                                            <div class="text-success">Ödenecek Tutar : <strong
-                                                    class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
-                                                    TL</strong></div>
-                                        </div>
-                                    @endif
 
-                                    {{-- <div class="col-md-12 col-lg-12 col-xl-6">  --}}
                                     <div class="col-md-12" style="background: white !important;">
                                         <div class="mt-5">
                                             <div class="tr-single-header">
@@ -719,7 +560,8 @@
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option1" value="option1" checked>
+                                                                name="payment_option" id="option1" value="option1"
+                                                                checked>
                                                             <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
@@ -729,15 +571,14 @@
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option2" value="option2"
-                                                                >
+                                                                name="payment_option" id="option2" value="option2">
                                                             <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
                                                                 for="option2">
                                                                 EFT / Havale ile Ödeme
                                                             </label>
                                                         </div>
                                                     </div>
-                                                 
+
                                                 </div>
                                             </div>
                                         </div>
@@ -745,7 +586,7 @@
 
                                     <div id="payment1" class="payment">
 
-                                        {{-- <div class="payment-card"> --}}
+
                                         <header class="payment-card-header cursor-pointer collapsed"
                                             data-toggle="collapse" data-target="#debit-credit" aria-expanded="true">
                                             <div class="payment-card-title flexbox">
@@ -758,26 +599,20 @@
                                         <div class="collapse show" id="debit-credit" role="tablist"
                                             aria-expanded="false" style="">
                                             <div class="payment-card-body">
-                                                <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
+                                                <form method="POST" id="3dPayForm"
+                                                    action="{{ route('neighbor.3d.pay') }}">
                                                     @csrf
-                                                    <input type="hidden" name="cart"
-                                                        value="{{ json_encode($cart) }}">
-                                                    <input type="hidden" name="payable_amount" id="payableAmountInput">
                                                     <input type="hidden" id="fullName2" name="fullName">
                                                     <input type="hidden" id="email2" name="email">
                                                     <input type="hidden" id="tc2" name="tc">
                                                     <input type="hidden" id="phone2" name="phone">
                                                     <input type="hidden" id="address2" name="address">
                                                     <input type="hidden" id="notes2" name="notes">
-                                                    <input type="hidden" id="reference_code2" name="reference_code">
-                                                    <input type="hidden" id="orderKey2" name="key">
-                                                    <input type="hidden" id="is_reference2" name="is_reference">
-                                                    <input type="hidden" id="have_discount2" name="have_discount "
-                                                        class="have_discount">
-                                                    <input type="hidden" id="discount2" name="discount"
-                                                        class="discount">
-                                                    <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
-                                                        value="{{ $cart['item']['payment-plan'] ?? null }}">
+                                                    <input type="hidden" id="order_id" name="order_id">
+                                                    <input type="hidden" name="user_id" id="user_id">
+                                                    <input type="hidden" name="status" value="0">
+                                                    <input type="hidden" name="key" id="key">
+                                                    <input type="hidden" name="amount" value="250">
                                                     <div class="row mrg-bot-20" style="width:100% !important">
                                                         <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
@@ -804,8 +639,7 @@
                                                     <div class="row mrg-bot-20" style="width:100% !important">
                                                         <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
-                                                            {{-- <input type="number" class="form-control" id="month"
-                                                            name="month" placeholder="09"> --}}
+
                                                             <select class="form-control" id="month" name="month">
                                                                 <option value="01">Ocak</option>
                                                                 <option value="02">Şubat</option>
@@ -835,37 +669,16 @@
                                                                 }
                                                                 ?>
                                                             </select>
-                                                            {{-- <input type="number" class="form-control" id="year"
-                                                            name="year" placeholder="2022"> --}}
+
+
                                                         </div>
-                                                        {{-- <div class="col-sm-4 col-md-4">
-                                                        <label>CCV Kodu</label>
-                                                        <input type="text" class="form-control" placeholder="258">
-                                                    </div> --}}
+
                                                     </div>
-                                                    {{-- <div class="row mrg-bot-20">
-                                                    <div class="col-sm-7">
-                                                        <span class="custom-checkbox d-block font-12 mb-2">
-                                                            <input type="checkbox" id="promo" name="promo">
-                                                            <label for="promo"></label>
-                                                            Bir promosyon kodunuz var mı?
-                                                        </span>
-                                                        <input type="text" class="form-control">
-                                                    </div> --}}
-                                                    {{-- <div class="col-sm-5 padd-top-10 text-right">
-                                                        <label>Toplam Sipariş</label>
-                                                        <h2 class="mrg-0"><span class="theme-cl">₺</span>987</h2>
-                                                    </div> --}}
-                                                    {{-- <div class="col-sm-12 bt-1 padd-top-15 pt-3">
-                                                        <span class="custom-checkbox d-block font-12 mb-3">
-                                                            <input type="checkbox" id="privacy1">
-                                                            <label for="privacy1"></label>
-                                                            Sipariş vererek <a href="#" class="theme-cl">Gizlilik Politikamızı</a> kabul etmiş olursunuz.
-                                                        </span>
-                                                    </div> --}}
+
                                             </div>
 
-                                            <button type="submit" class="btn btn-success 3dPaySuccess">Ödemeyi
+                                            <button type="submit" data-order="{{ $order->id }}"
+                                                class="btn btn-success 3dPaySuccess">Ödemeyi
                                                 Tamamla
                                                 <svg viewBox="0 0 576 512" class="svgIcon">
                                                     <path
@@ -874,12 +687,11 @@
                                                 </svg></button>
                                             </form>
                                         </div>
-                                        {{-- </div> --}}
+
                                     </div>
 
                                     <div id="payment2" class="payment" style="display: none;">
-                                        {{-- EFT Havale --}}
-                                        {{-- <div class="payment-card mb-0"> --}}
+
                                         <header class="payment-card-header cursor-pointer collapsed"
                                             data-toggle="collapse" data-target="#paypal" aria-expanded="true">
                                             <div class="payment-card-title flexbox">
@@ -888,7 +700,7 @@
                                         </header>
                                         <div class="collapse show" id="paypal" role="tablist" aria-expanded="false"
                                             style="">
-                                            {{-- <div class="payment-card-body"> --}}
+
                                             <div class="invoice-total mt-3">
                                                 <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
                                                 <div class="container row mb-3 mt-3">
@@ -896,7 +708,7 @@
                                                             id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                                         alanına yazdığınızdan emin olun.</span>
 
-                                                    {{-- <div class="row"> --}}
+
                                                     @if ($bankAccounts && count($bankAccounts) > 0)
                                                         @foreach ($bankAccounts as $bankAccount)
                                                             <a class=" copy-iban-button"
@@ -915,7 +727,7 @@
                                                         @endforeach
                                                     @endif
 
-                                                    {{-- </div> --}}
+
 
                                                 </div>
                                                 <div id="ibanInfo" style="font-size: 12px !important"></div>
@@ -931,8 +743,9 @@
                                                     bitirin.</span>
                                             </div>
                                             <div class="d-flex">
-                                                {{-- @if (Auth::check()) disabled @endif --}}
-                                                <button type="button" class="btn btn-m btn-success mt-5 paySuccess"
+
+                                                <button type="button" data-order="{{ $order->id }}"
+                                                    class="btn btn-m btn-success mt-5 paySuccess"
                                                     id="completePaymentButton" style="float:right">Ödemeyi
                                                     Tamamla
                                                     <svg viewBox="0 0 576 512" class="svgIcon">
@@ -942,31 +755,21 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                            {{-- </div> --}}
+
                                         </div>
-                                        {{-- </div> --}}
                                     </div>
-
-
                                     <!-- Debit card option -->
-
-
-
-
-                                </div>
                                 </div>
                             </div>
 
-
+                            </div>
                         </div>
                     </div>
-
                 </div>
-
-
-
-            @endif
         </div>
+
+        @endif
+
     </section>
 @endsection
 @section('scripts')
@@ -985,7 +788,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
     <script>
@@ -1006,16 +808,7 @@
             toastr.success("IBAN kopyalandı: " + iban);
         }
 
-        var payableAmount = 0;
-        @if ($cart && !empty($cart['item']))
-            @if ($saleType == 'kiralik')
-                payableAmount = {{ $discountedPrice }};
-            @else
-                payableAmount = {{ $discountedPrice * 0.02 }};
-            @endif
-        @endif
-        // Ödeme tutarını form alanına yerleştir
-        document.getElementById('payableAmountInput').value = payableAmount;
+
 
 
         $(document).ready(function() {
@@ -1060,6 +853,19 @@
             }
         });
 
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const codeLength = 8; // Kod uzunluğu
+
+            let randomCode = '';
+            for (let i = 0; i < codeLength; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomCode += characters.charAt(randomIndex);
+            }
+
+            return randomCode;
+        }
+
         //EFT/Havale
         $(document).ready(function() {
             var $cart = <?php echo json_encode($cart); ?>; // $cart değişkenini hazırla
@@ -1071,6 +877,7 @@
         });
         $(document).ready(function() {
             $('.paySuccess').on('click', function() {
+                var order = $(this).data('order');
                 // $("#loadingOverlay").css("visibility", "visible"); // Visible olarak ayarla
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
                     toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
@@ -1101,36 +908,33 @@
                     return;
                 }
                 $.ajax({
-                    url: "{{ route('pay.cart') }}",
+                    url: "{{ route('neighbor.store') }}",
                     method: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        key: $('#orderKey').val(),
-                        banka_id: $('#bankaID').val(),
-                        have_discount: $('.have_discount').val(),
-                        discount: $('.discount').val(),
+                        user_id: "{{ Auth::check() ? Auth::user()->id : null }}",
+                        order_id: order,
+                        status: 0,
+                        key: generateRandomCode(), // Rastgele bir kod oluştur
+                        amount: "250",
                         fullName: $('#fullName').val(),
                         email: $('#email').val(),
                         tc: $('#tc').val(),
                         phone: $('#phone').val(),
                         address: $('#address').val(),
                         notes: $('#notes').val(),
-                        reference_code: $('#reference_code').val(),
-                        is_reference: $("#is_reference").val(),
-                        is_show_user: $('#is_show_user').prop('checked') ? 'on' : null
+
                     },
                     success: function(response) {
-                        if (response.success == "fail") {
-                            toastr.error('Bu ürün zaten satın alınmış.');
+                        $("#loadingOverlay").css("visibility",
+                        "hidden"); // Loading overlay gizle
 
-                        } else {
-                            toastr.success('Siparişiniz başarıyla oluşturuldu.');
-                            var cartOrderId = response.cart_order;
-                            var redirectUrl =
-                                "{{ route('pay.success', ['cart_order' => ':cartOrderId']) }}";
-                            window.location.href = redirectUrl.replace(':cartOrderId',
-                                cartOrderId);
-                        }
+                        toastr.success(
+                            'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.'
+                            );
+                        location.reload();
+                        window.location.replace("{{ route('neighbors.index') }}");
+
                     },
                     error: function(error) {
                         console.log(error);
@@ -1189,7 +993,6 @@
         //kredi kartı alanı
 
         $('.3dPaySuccess').on('click', function() {
-            var $cart = JSON.parse($('#3dPayForm input[name="cart"]').val());
             // Kullanıcı bilgilerini al
             var fullName = $('#fullName').val();
             var tc = $('#tc').val();
@@ -1197,6 +1000,7 @@
             var card = $('#creditcard').val();
             var month = $('#month').val();
             var year = $('#year').val();
+
             // Kullanıcı bilgilerini kontrol et
             // Formun doldurulup doldurulmadığını kontrol et
             if (fullName === '' || tc === '' || email === '' || card === '' || month === '' || year === '') {
@@ -1227,12 +1031,7 @@
                 var phone = $('#phone').val();
                 var address = $('#address').val();
                 var notes = $('#notes').val();
-                var reference_code = $('#reference_code').val();
-                var orderKey = $('#orderKey').val();
-                var have_discount = $('.have_discount').val();
-                var discount = $('.discount').val();
-                var is_swap = $('#is_swap').val();
-                var is_reference = $("#is_reference").val()
+                var order = $('[data-order]').data('order');
                 // Alınan kullanıcı bilgilerini ikinci forma set et
                 $('#fullName2').val(fullName);
                 $('#email2').val(email);
@@ -1240,14 +1039,10 @@
                 $('#phone2').val(phone);
                 $('#address2').val(address);
                 $('#notes2').val(notes);
-                $('#reference_code2').val(reference_code);
-                $('#orderKey2').val(orderKey);
-                $('#have_discount2').val(have_discount);
-                $('#discount2').val(discount);
-                //$('#have_discount2').val(have_discount);
-                $('#is_swap2').val(is_swap);
-                $("#is_reference2").val(is_reference)
-
+                $('#order_id').val(order);
+                $('#user_id').val(
+                {{ Auth::check() ? Auth::user()->id : 'null' }}); // Auth kontrolü ile user_id'yi doldurun
+                $('#key').val(generateRandomCode());
             });
         });
     </script>
@@ -1331,7 +1126,6 @@
         .icons {
             /* display: inline; */
             float: right;
-            margin-left: 6px;
         }
 
         .fs-30 {

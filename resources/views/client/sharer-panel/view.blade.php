@@ -62,12 +62,12 @@
                                     <i class="fa fa-info-circle ml-2"  data-toggle="tooltip" style="font-size: 12px;"
                                         aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
                                         title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
-                                <input type="text" name="iban"
-                                    class="form-control @error('iban') is-invalid @enderror"
-                                    value="{{ old('iban', $user->iban) }}">
-                                @error('iban')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                        <input type="text" name="iban" id="ibanInput"
+                                        class="form-control @error('iban') is-invalid @enderror"
+                                        value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
+                                    @error('iban')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                             </div>
 
 
@@ -542,6 +542,38 @@
 
         });
     </script>
+
+<script>
+    function formatIBAN(input) {
+        // TR ile başlat
+        var formattedIBAN = "TR";
+
+        // Gelen değerden sadece rakamları al
+        var numbersOnly = input.value.replace(/\D/g, '');
+
+        // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+        if (numbersOnly.length > 24) {
+            numbersOnly = numbersOnly.substring(0, 24);
+        }
+
+        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+        for (var i = 0; i < numbersOnly.length; i += 4) {
+            formattedIBAN += numbersOnly.substr(i, 4) + " ";
+        }
+
+        // Formatlanmış İBAN'ı input değerine ata
+        input.value = formattedIBAN.trim();
+    }
+
+    // Giriş alanının değeri değiştiğinde formatIBAN fonksiyonunu çağır
+    document.getElementById("ibanInput").addEventListener("input", function() {
+        formatIBAN(this);
+    });
+</script>
+
+
+
+
 @endsection
 
 @section('styles')

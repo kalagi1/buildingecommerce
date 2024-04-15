@@ -23,7 +23,7 @@
                         @endif
 
                         <form action="{{ route('institutional.profile.update') }}" method="POST"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" onsubmit="return validateForm()">
                             @csrf
                             @method('PUT')
 
@@ -31,15 +31,13 @@
 
                                 <div class="col-lg-12">
                                     <div>
-                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
-                                            type="file" accept=".jpeg, .jpg, .png"><label
-                                            class="avatar avatar-4xl status-online cursor-pointer"
-                                            for="upload-settings-porfile-picture"><img
-                                                class="rounded-circle img-thumbnail shadow-sm border-0"
-                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
-                                                width="200" alt=""></label>
+                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image" type="file" accept=".jpeg, .jpg, .png" onchange="showImage(this)">
+                                        <label class="avatar avatar-4xl status-online cursor-pointer" for="upload-settings-porfile-picture">
+                                            <img id="profile-image-preview" class="rounded-circle img-thumbnail shadow-sm border-0" src="{{ asset('storage/profile_images/' . $user->profile_image) }}" width="200" alt="">
+                                        </label>
                                     </div>
                                 </div>
+                                
                                 <div class="col-lg-6">
                                 
                                     <div class="mt-3">
@@ -56,7 +54,7 @@
                                     <div class="mt-3">
                                         <label class="q-label">Iban Numarası</label>
                                         <input type="text" name="iban" class="form-control"
-                                            value="{{ old('iban', $user->iban) }}">
+                                            value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
                                     </div>
 
                                     <div class="mt-3">
@@ -130,6 +128,21 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
+    
+
+        <script>
+            function showImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profile-image-preview').setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
+        
+
 
     <script>
         var map;
@@ -358,6 +371,43 @@
             document.getElementById('selected-plan-id').value = planId;
         }
     </script>
+   <script>
+    function formatIBAN(input) {
+        // TR ile başlat
+        var formattedIBAN = "TR";
+
+        // Gelen değerden sadece rakamları al
+        var numbersOnly = input.value.replace(/\D/g, '');
+
+        // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+        if (numbersOnly.length > 24) {
+            numbersOnly = numbersOnly.substring(0, 24);
+        }
+
+        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+        for (var i = 0; i < numbersOnly.length; i += 4) {
+            formattedIBAN += numbersOnly.substr(i, 4) + " ";
+        }
+
+        // Formatlanmış İBAN'ı input değerine ata
+        input.value = formattedIBAN.trim();
+    }
+</script>
+
+<script>
+    function validateForm() {
+        var ibanInput = document.getElementsByName("iban")[0];
+        var ibanValue = ibanInput.value;
+        
+        if (ibanValue.length < 26) {
+            alert("IBAN numarası 26 haneden az olamaz!");
+            return false; // Formun gönderilmesini engelle
+        }
+        
+        return true; // Formu gönder
+    }
+</script>
+
 
     <style>
         .companyType {
