@@ -137,6 +137,7 @@
                                                     {{ count($collection->links) }} İlan</span>
                                             </p>
                                         </div>
+                                        @if (Auth::check() && Auth::user()->type != "1" && Auth::user()->type != "3" )
                                         <div class="d-flex align-items-center mb-2">
 
                                             <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">
@@ -152,7 +153,9 @@
                                             </p>
 
 
-                                        </div>
+                                        </div> 
+                                        @endif
+                      
 
                                     </div>
                                     <div class="col-md-5">

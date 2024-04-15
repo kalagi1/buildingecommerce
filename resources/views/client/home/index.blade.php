@@ -334,19 +334,12 @@
         </div>
     @endif --}}
 
-    @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
+    {{-- @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
                 style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
                 <div class="modal-content">
-                    {{-- <div class="modal-header">
-                        <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-close"></i>
-                        </button>
-
-                    </div> --}}
                     <div class="modal-body modal12">
                         <div class="container-fluid p-0">
                             <div class="row">
@@ -387,7 +380,7 @@
                 }, 5000);
             });
         </script>
-    @endif
+    @endif --}}
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
