@@ -1631,7 +1631,7 @@ class ProjectController extends Controller
         return view('institutional.projects.createv3');
     }
 
-    public function editV2( $id)
+    public function editV2($slug, $id)
     {
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();

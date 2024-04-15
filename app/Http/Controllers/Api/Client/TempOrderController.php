@@ -21,7 +21,7 @@ use Throwable;
 
 class TempOrderController extends Controller
 {
-    public function getTempOrderData($id,$slug){
+    public function getTempOrderData($id){
         $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
         $prices = SinglePrice::where('item_type', 1)->get();
         $cities = City::get();
