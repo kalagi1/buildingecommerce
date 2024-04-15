@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\DopingPricing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\HousingTypeParent;
+use App\Models\Project;
+use App\Models\SinglePrice;
 use App\Models\TempOrder;
+use App\Models\UserPlan;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
@@ -16,6 +21,67 @@ use Throwable;
 
 class TempOrderController extends Controller
 {
+    public function getTempOrderData($id,$slug){
+        $housingTypeParent = HousingTypeParent::whereNull('parent_id')->get();
+        $prices = SinglePrice::where('item_type', 1)->get();
+        $cities = City::get();
+        $tempUpdateHas = false;
+        $housing_status = HousingStatus::all();
+        $tempDataFull = Project::where('id', $id)->first();
+        $project = Project::where('id', $id)->first();
+        $tempDataFull2 = Project::where('id', $id)->first();
+        $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
+        $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->guard("api")->user()->id)->first();
+        if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug &&  json_decode($tempUpdate->data)->data_slug == $slug) {
+            $tempUpdateHas = true;
+            $tempDataFull = $tempUpdate;
+            $tempData = json_decode($tempDataFull->data);
+            $tempData->step3_slug = $housingType->slug;
+        } else {
+            TempOrder::where('item_type', 3)->where('user_id', auth()->guard("api")->user()->id)->delete();
+            if ($tempDataFull) {
+                $tempData = $tempDataFull;
+                $tempData->roomInfoKeys = $tempDataFull->roomInfo;
+                $tempData->step3_slug = $housingType->slug;
+            } else {
+                $tempData = json_decode("{}");
+            }
+            $tempDataFull->data_slug = $slug;
+            $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
+            $tempDataFull->statuses = array_keys((array) $selectedStatuses);
+            $tempDataFull->images = $tempDataFull->images;
+            $tempDataFull->situations = $tempDataFull->situations;
+            TempOrder::create([
+                "user_id" => auth()->guard("api")->user()->id,
+                "data" => json_encode($tempDataFull),
+                "item_type" => 3,
+                "step_order" => 1,
+            ]);
+        }
+
+        $selectedStatuses = $tempDataFull->statuses;
+        if ($tempDataFull) {
+            $tempDataFull = $tempDataFull;
+        } else {
+            $tempDataFull = json_decode('{"step_order" : 1}');
+        }
+
+        $userPlan = UserPlan::where('user_id', auth()->guard("api")->user()->id)->first();
+        
+        return json_encode([
+            "tempUpdateHas" => $tempUpdateHas,
+            "project" => $project,
+            "housingTypeParent" => $housingTypeParent,
+            "cities" => $cities,
+            "prices" => $prices,
+            "tempData" => $tempData,
+            "housing_status" => $housing_status,
+            "tempDataFull" => $tempDataFull,
+            "selectedStatuses" => $selectedStatuses,
+            "userPlan" => $userPlan,
+        ]);
+    }
+
     public function updateSituationOrders(Request $request){
         if($request->input('item_type') != 3){
             $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
