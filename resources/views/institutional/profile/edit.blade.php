@@ -23,7 +23,7 @@
                         @endif
 
                         <form action="{{ route('institutional.profile.update') }}" method="POST"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" onsubmit="return validateForm()">
                             @csrf
                             @method('PUT')
 
@@ -378,6 +378,20 @@
 
         // Formatlanmış İBAN'ı input değerine ata
         input.value = formattedIBAN.trim();
+    }
+</script>
+
+<script>
+    function validateForm() {
+        var ibanInput = document.getElementsByName("iban")[0];
+        var ibanValue = ibanInput.value;
+        
+        if (ibanValue.length < 26) {
+            alert("IBAN numarası 26 haneden az olamaz!");
+            return false; // Formun gönderilmesini engelle
+        }
+        
+        return true; // Formu gönder
     }
 </script>
 
