@@ -56,7 +56,7 @@
                                     <div class="mt-3">
                                         <label class="q-label">Iban Numarası</label>
                                         <input type="text" name="iban" class="form-control"
-                                            value="{{ old('iban', $user->iban) }}">
+                                            value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
                                     </div>
 
                                     <div class="mt-3">
@@ -358,6 +358,29 @@
             document.getElementById('selected-plan-id').value = planId;
         }
     </script>
+   <script>
+    function formatIBAN(input) {
+        // TR ile başlat
+        var formattedIBAN = "TR";
+
+        // Gelen değerden sadece rakamları al
+        var numbersOnly = input.value.replace(/\D/g, '');
+
+        // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+        if (numbersOnly.length > 24) {
+            numbersOnly = numbersOnly.substring(0, 24);
+        }
+
+        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+        for (var i = 0; i < numbersOnly.length; i += 4) {
+            formattedIBAN += numbersOnly.substr(i, 4) + " ";
+        }
+
+        // Formatlanmış İBAN'ı input değerine ata
+        input.value = formattedIBAN.trim();
+    }
+</script>
+
 
     <style>
         .companyType {
