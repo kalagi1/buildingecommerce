@@ -1126,7 +1126,6 @@
         .icons {
             /* display: inline; */
             float: right;
-            margin-left: 6px;
         }
 
         .fs-30 {
