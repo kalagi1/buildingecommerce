@@ -46,7 +46,7 @@ class TempOrderController extends Controller
             } else {
                 $tempData = json_decode("{}");
             }
-            $tempDataFull->data_slug = $slug;
+            $tempDataFull->data_slug = $tempDataFull->slug;
             $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
             $tempDataFull->statuses = array_keys((array) $selectedStatuses);
             $tempDataFull->images = $tempDataFull->images;
