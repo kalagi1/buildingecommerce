@@ -49,7 +49,7 @@ Route::get('get_my_housings',[HousingController::class,"getMyHousings"]);
 Route::get('get_my_project/{id}',[ProjectController::class,"getMyProject"]);
 Route::delete('delete_project_gallery_image/{id}',[ProjectController::class,"deleteProjectGalleryImage"]);
 
-Route::get('/get_temp_order_project/{id}', [InstitutionalProjectController::class, 'getTempOrderData']);
+Route::get('/get_temp_order_project/{id}', [TempOrderController::class, 'getTempOrderData']);
 
 Route::post('/end_project_copy_item_image', [TempOrderController::class, "copyItemImage"])->name('copy.item.image');
 Route::post('/update_image_order_temp_update', [TempOrderController::class, 'updateImageOrders'])->name('update.image.order.temp.update');

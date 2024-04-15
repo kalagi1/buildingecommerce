@@ -67,7 +67,7 @@ class TempOrderController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id', auth()->guard("api")->user()->id)->first();
-        
+
         return json_encode([
             "tempUpdateHas" => $tempUpdateHas,
             "project" => $project,
