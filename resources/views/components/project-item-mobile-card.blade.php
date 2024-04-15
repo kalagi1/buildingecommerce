@@ -278,7 +278,7 @@
                         @if (Auth::check())
                             <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
                                 style="width:50% !important;color:white !important;background-color:green !important;"
-                                data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}"
+                                data-bs-toggle="modal" data-bs-target="#neighborViewModalMobile{{ $sold->id }}"
                                 data-order="{{ $sold->id }}">
                                 <span
                                     style="text-align: center; display: flex; align-items: center; justify-content: center;">
@@ -341,7 +341,7 @@
                         @elseif($neighborView && $neighborView->status == '2')
                         <span class="first-btn see-my-neighbor"
                             @if (Auth::check()) data-bs-toggle="modal"
-                                                                                data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
+                                                                                data-bs-target="#neighborViewModalMobile{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
                             <span><svg viewBox="0 0 24 24" width="18" height="18"
                                     stroke="currentColor" stroke-width="2" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round"
@@ -597,8 +597,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="neighborViewModal{{ $sold->id }}" tabindex="-1"
-        aria-labelledby="neighborViewModalLabel" aria-hidden="true">
+    <div class="modal fade" id="neighborViewModalMobile{{ $sold->id }}" tabindex="-1"
+        aria-labelledby="neighborViewModalMobileLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -628,16 +628,6 @@
                                             aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
                                     </ul>
                                 </div>
-                                <div class="container row mb-3 mt-3">
-                                    @foreach ($bankAccounts as $bankAccount)
-                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                            data-sold-id="{{ $sold->id }}" data-iban="{{ $bankAccount->iban }}"
-                                            data-title="{{ $bankAccount->receipent_full_name }}">
-                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
-                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                        </div>
-                                    @endforeach
-                                </div>
                                 <div class="ibanInfo" style="font-size: 12px !important"></div>
 
                             </div>
@@ -646,16 +636,17 @@
                     </div>
 
                     <div class="d-flex">
-                        <button type="button"
-                            class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
-                            id="completePaymentButton{{ $sold->id }}" data-order="{{ $sold->id }}"
-                            style="width:150px;float:right">
-                            250 TL Öde
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                            style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                        <form action="{{ route('neighborView.index') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $sold->id }}">
+                            <button type="submit" class="btn btn-success btn-lg btn-block completePaymentButtonOrder"
+                                    id="completePaymentButton{{ $sold->id }}" style="width:150px;float:right">
+                                250 TL Öde
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3 mb-3"
+                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                     </div>
-
 
                 </div>
             </div>

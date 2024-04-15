@@ -618,12 +618,12 @@
                             <form action="{{ route('neighborView.index') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                                <button type="submit" class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
+                                <button type="submit" class="btn btn-success btn-lg btn-block completePaymentButtonOrder"
                                         id="completePaymentButton{{ $sold->id }}" style="width:150px;float:right">
                                     250 TL Öde
                                 </button>
                             </form>
-                            <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
+                            <button type="button" class="btn btn-secondary btn-lg btn-block mt-3 mb-3"
                                 style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                         </div>
 
