@@ -103,6 +103,11 @@ Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.inde
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
+Route::get('/neighbors' , [NeighborViewController::class, 'index'])->name('neighbors.index');
+Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
+Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment');
+Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment');
+Route::post('/neighbor/payment', [NeighborViewController::class, 'initiate3DPayment'])->name('neighbor.3d.pay');
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 Route::get('/sat-kirala-nedir', [RealEstateController::class, "index2"])->name('real.estate.index2');
 Route::get('/sat-kirala', [RealEstateController::class, "index"])->name('real.estate.index');
