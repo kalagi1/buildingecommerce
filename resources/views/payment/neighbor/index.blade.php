@@ -4,11 +4,11 @@
 
 @section('content')
 
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <section class="payment-method notfound">
         <div class="container  pt-5">
@@ -47,7 +47,8 @@
                         </div>
                         <div class="box-1">
                             <div class="">
-                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}</div>
+                                {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                            </div>
                             <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
                             {{-- <div class="inner flex">
                                 <div class="sales fs-12 fw-7 font-2 text-color-1">
@@ -84,7 +85,8 @@
                                 <div class="icons icon-1 flex">
                                     {{-- <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i> --}}
                                     <span class="fw-6">
-                                        {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu gör</strong> satın alım sayfası</span>
+                                        {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu gör</strong>
+                                            satın alım sayfası</span>
                                     </span>
                                 </div>
 
@@ -131,14 +133,14 @@
                                 </a>
 
                             </div>
-                            
+
                             <div class="text-sq fs-12 lh-16">
                                 @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                 
-                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın alıyorsunuz!</span>
+                                    <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
+                                        alıyorsunuz!</span>
                                 @endif
                             </div>
-                            
+
                             <div class="show-mobile">
                                 <a
                                     href="{{ $cart['type'] == 'housing'
@@ -444,7 +446,7 @@
                                             <label for="notes">Notlar:</label>
                                             <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
                                         </div>
-{{-- 
+                                        {{-- 
                                         <div class="col-sm-6">
                                             <label for="notes">Referans Kodu (Opsiyonel):</label>
                                             <input class="form-control" id="reference_code" name="reference_code"
@@ -465,9 +467,9 @@
                                             @endif
                                         </div> --}}
 
-                                  
-                                            {{-- @if (isset($cart) && isset($cart['type']))
-                                                @if ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]' || $cart['type'] == 'project' && empty($share_sale))
+
+                                        {{-- @if (isset($cart) && isset($cart['type']))
+                                                @if (($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]') || ($cart['type'] == 'project' && empty($share_sale)))
                                                         <div class="col-sm-12 pt-5">
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <input id="is_show_user" type="checkbox" value="off" name="is_show_user">
@@ -491,7 +493,7 @@
                                                     <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi" target="_blank">
                                                         Mesafeli kapora emanet sözleşmesini
                                                     </a>
-                                                     okudum ve kabul ediyorum
+                                                    okudum ve kabul ediyorum
                                                 </label>
                                             </div>
                                         </div>
@@ -500,7 +502,7 @@
                             </div>
                         </div>
                     </div>
-          
+
 
                     <div class="col-md-12 col-lg-12 col-xl-5 mb-5">
                         <div class="row">
@@ -517,59 +519,59 @@
                                                         TL</strong></li>
                                             </ul>
                                         @else --}}
-                                            <ul>
-                                                <li>Komşumu Gör Fiyatı<strong class="pull-right">
-                                                        {{-- {{ number_format($cart['item']['amount'], 0, ',', '.') }} --}}
-                                                        250 TL</strong></li>
+                                        <ul>
+                                            <li>Komşumu Gör Fiyatı<strong class="pull-right">
+                                                    {{-- {{ number_format($cart['item']['amount'], 0, ',', '.') }} --}}
+                                                    250 TL</strong></li>
 
-                                                <li>Toplam Fiyat<strong class="pull-right">
-                                                        
-
-                                                       250 TL</strong></li>
+                                            <li>Toplam Fiyat<strong class="pull-right">
 
 
+                                                    250 TL</strong></li>
 
 
-                                            </ul>
+
+
+                                        </ul>
                                         {{-- @endif --}}
                                     </div>
 
 
-                                        <div id="rental-amount">
-                                            <div class="text-success">Ödenecek Tutar : <strong
-                                                    class="button-price-inner pull-right text-success">250 TL</strong></div>
-                                                    
-                                        </div>
-                                    
-                                    
+                                    <div id="rental-amount">
+                                        <div class="text-success">Ödenecek Tutar : <strong
+                                                class="button-price-inner pull-right text-success">250 TL</strong></div>
+
+                                    </div>
+
+
 
                                     <div class="col-md-12" style="background: white !important;">
                                         <div class="mt-5">
                                             <div class="tr-single-header">
 
                                                 <div class="row">
-
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option2" value="option2"
+                                                                name="payment_option" id="option1" value="option1"
                                                                 checked>
-                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
-                                                                for="option2">
-                                                                EFT / Havale ile Ödeme
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option1" value="option1">
                                                             <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="col">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="payment_option" id="option2" value="option2">
+                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
+                                                                for="option2">
+                                                                EFT / Havale ile Ödeme
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -577,7 +579,7 @@
 
                                     <div id="payment1" class="payment">
 
-                                       
+
                                         <header class="payment-card-header cursor-pointer collapsed"
                                             data-toggle="collapse" data-target="#debit-credit" aria-expanded="true">
                                             <div class="payment-card-title flexbox">
@@ -590,7 +592,8 @@
                                         <div class="collapse show" id="debit-credit" role="tablist"
                                             aria-expanded="false" style="">
                                             <div class="payment-card-body">
-                                                <form method="POST" id="3dPayForm" action="{{ route('neighbor.3d.pay') }}">
+                                                <form method="POST" id="3dPayForm"
+                                                    action="{{ route('neighbor.3d.pay') }}">
                                                     @csrf
                                                     <input type="hidden" id="fullName2" name="fullName">
                                                     <input type="hidden" id="email2" name="email">
@@ -604,7 +607,7 @@
                                                     <input type="hidden" name="key" id="key">
                                                     <input type="hidden" name="amount" value="250">
                                                     <div class="row mrg-bot-20">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
                                                             <input type="text" class="form-control" id="creditcard"
                                                                 name="creditcard" oninput="formatCreditCard(this)">
@@ -627,9 +630,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="row mrg-bot-20">
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
-                                                            
+
                                                             <select class="form-control" id="month" name="month">
                                                                 <option value="01">Ocak</option>
                                                                 <option value="02">Şubat</option>
@@ -645,7 +648,7 @@
                                                                 <option value="12">Aralık</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 pr-0">
                                                             <label>Son Kullanma Yılı</label>
                                                             <select class="form-control" id="year" name="year">
                                                                 <?php
@@ -659,15 +662,16 @@
                                                                 }
                                                                 ?>
                                                             </select>
-                                                          
-                                                            
+
+
                                                         </div>
-                                                    
+
                                                     </div>
-                                                    
+
                                             </div>
 
-                                            <button type="submit" data-order="{{ $order->id }}" class="btn btn-success 3dPaySuccess">Ödemeyi
+                                            <button type="submit" data-order="{{ $order->id }}"
+                                                class="btn btn-success 3dPaySuccess">Ödemeyi
                                                 Tamamla
                                                 <svg viewBox="0 0 576 512" class="svgIcon">
                                                     <path
@@ -676,11 +680,11 @@
                                                 </svg></button>
                                             </form>
                                         </div>
-                                      
+
                                     </div>
 
                                     <div id="payment2" class="payment" style="display: none;">
-                                        
+
                                         <header class="payment-card-header cursor-pointer collapsed"
                                             data-toggle="collapse" data-target="#paypal" aria-expanded="true">
                                             <div class="payment-card-title flexbox">
@@ -689,7 +693,7 @@
                                         </header>
                                         <div class="collapse show" id="paypal" role="tablist" aria-expanded="false"
                                             style="">
-                                           
+
                                             <div class="invoice-total mt-3">
                                                 <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
                                                 <div class="container row mb-3 mt-3">
@@ -697,7 +701,7 @@
                                                             id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
                                                         alanına yazdığınızdan emin olun.</span>
 
-                                                   
+
                                                     @if ($bankAccounts && count($bankAccounts) > 0)
                                                         @foreach ($bankAccounts as $bankAccount)
                                                             <a class=" copy-iban-button"
@@ -716,7 +720,7 @@
                                                         @endforeach
                                                     @endif
 
-                                                   
+
 
                                                 </div>
                                                 <div id="ibanInfo" style="font-size: 12px !important"></div>
@@ -732,8 +736,9 @@
                                                     bitirin.</span>
                                             </div>
                                             <div class="d-flex">
-                                               
-                                                <button type="button"  data-order="{{ $order->id }}" class="btn btn-m btn-success mt-5 paySuccess"
+
+                                                <button type="button" data-order="{{ $order->id }}"
+                                                    class="btn btn-m btn-success mt-5 paySuccess"
                                                     id="completePaymentButton" style="float:right">Ödemeyi
                                                     Tamamla
                                                     <svg viewBox="0 0 576 512" class="svgIcon">
@@ -743,8 +748,8 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                           
-                                        </div>                                        
+
+                                        </div>
                                     </div>
                                     <!-- Debit card option -->
                                 </div>
@@ -755,7 +760,7 @@
         </div>
 
         @endif
-        
+
     </section>
 @endsection
 @section('scripts')
@@ -794,7 +799,7 @@
             toastr.success("IBAN kopyalandı: " + iban);
         }
 
-        
+
 
 
         $(document).ready(function() {
@@ -840,17 +845,17 @@
         });
 
         function generateRandomCode() {
-                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                const codeLength = 8; // Kod uzunluğu
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const codeLength = 8; // Kod uzunluğu
 
-                let randomCode = '';
-                for (let i = 0; i < codeLength; i++) {
-                    const randomIndex = Math.floor(Math.random() * characters.length);
-                    randomCode += characters.charAt(randomIndex);
-                }
-
-                return randomCode;
+            let randomCode = '';
+            for (let i = 0; i < codeLength; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                randomCode += characters.charAt(randomIndex);
             }
+
+            return randomCode;
+        }
 
         //EFT/Havale
         $(document).ready(function() {
@@ -909,13 +914,15 @@
                         phone: $('#phone').val(),
                         address: $('#address').val(),
                         notes: $('#notes').val(),
-                       
+
                     },
                     success: function(response) {
-                        $("#loadingOverlay").css("visibility", "hidden"); // Loading overlay gizle
+                        $("#loadingOverlay").css("visibility",
+                        "hidden"); // Loading overlay gizle
 
                         toastr.success(
-                            'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.');
+                            'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.'
+                            );
                         location.reload();
                         window.location.replace("{{ route('neighbors.index') }}");
 
@@ -1015,7 +1022,7 @@
                 var phone = $('#phone').val();
                 var address = $('#address').val();
                 var notes = $('#notes').val();
-                var order = $('[data-order]').data('order'); 
+                var order = $('[data-order]').data('order');
                 // Alınan kullanıcı bilgilerini ikinci forma set et
                 $('#fullName2').val(fullName);
                 $('#email2').val(email);
@@ -1024,7 +1031,8 @@
                 $('#address2').val(address);
                 $('#notes2').val(notes);
                 $('#order_id').val(order);
-                $('#user_id').val({{ Auth::check() ? Auth::user()->id : 'null' }}); // Auth kontrolü ile user_id'yi doldurun
+                $('#user_id').val(
+                {{ Auth::check() ? Auth::user()->id : 'null' }}); // Auth kontrolü ile user_id'yi doldurun
                 $('#key').val(generateRandomCode());
             });
         });
@@ -1040,7 +1048,7 @@
             box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.0784313725);
             justify-content: space-between;
             margin-bottom: 40px;
-            align-items:center;
+            align-items: center;
 
         }
 

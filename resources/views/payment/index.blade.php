@@ -709,28 +709,28 @@
                                             <div class="tr-single-header">
 
                                                 <div class="row">
-
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option2" value="option2"
-                                                                checked>
-                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
-                                                                for="option2">
-                                                                EFT / Havale ile Ödeme
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option1" value="option1">
+                                                                name="payment_option" id="option1" value="option1" checked>
                                                             <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="col">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="payment_option" id="option2" value="option2"
+                                                                >
+                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
+                                                                for="option2">
+                                                                EFT / Havale ile Ödeme
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                 
                                                 </div>
                                             </div>
                                         </div>
