@@ -32,7 +32,7 @@ class TempOrderController extends Controller
         $tempDataFull2 = Project::where('id', $id)->first();
         $housingType = HousingType::where('id', $tempDataFull->housing_type_id)->first();
         $tempUpdate = TempOrder::where('item_type', 3)->where('user_id', auth()->guard("api")->user()->id)->first();
-        if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug &&  json_decode($tempUpdate->data)->data_slug == $slug) {
+        if ($tempUpdate && isset($tempUpdate->data) && $tempUpdate->data && isset(json_decode($tempUpdate->data)->data_slug) && json_decode($tempUpdate->data)->data_slug ) {
             $tempUpdateHas = true;
             $tempDataFull = $tempUpdate;
             $tempData = json_decode($tempDataFull->data);
