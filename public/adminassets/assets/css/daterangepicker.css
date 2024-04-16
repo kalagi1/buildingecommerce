@@ -7,7 +7,7 @@
   padding-left: 10px;
   font-size: 11px;
   font-family: Arial, sans-serif;
-  font-weight: bold;
+  
   cursor: pointer;
   color: #303030;
   position: relative;
@@ -456,5 +456,5 @@
 
 .date-picker-wrapper .week-number.week-number-selected {
   color: #49e;
-  font-weight: bold;
+  
 }

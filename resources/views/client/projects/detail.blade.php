@@ -182,7 +182,7 @@
                                                                 <div
                                                                     style="z-index: 2;right: 0;top: 0;background: #e54242; width: 96px; height: 96px; position: absolute; clip-path: polygon(0 0, 45% 0, 100% 55%, 100% 100%);">
                                                                     <div
-                                                                        style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; font-weight: bold;">
+                                                                        style="color: #FFF; transform: rotate(45deg); margin-left: 25px; margin-top: 30px; ">
                                                                         {{ '%' . round(($offer->discount_amount / $projectHousingsList[$i + 1]['price[]']) * 100) }}
                                                                         <svg viewBox="0 0 24 24" width="16"
                                                                             height="16" stroke="currentColor"
