@@ -1437,4 +1437,11 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+    <style>
+        .mobile-action-move {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+    </style>
 @endsection

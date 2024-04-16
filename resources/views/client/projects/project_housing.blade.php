@@ -1879,4 +1879,11 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ asset('css/project-housing.css') }}">
+    <style>
+        .mobile-action-move {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+    </style>
 @endsection
