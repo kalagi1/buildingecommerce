@@ -480,7 +480,7 @@
         .collection-head a {
             display: flex;
             align-items: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             flex: 1;
             width: calc(100% - 100px);
