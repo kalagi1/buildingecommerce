@@ -211,21 +211,29 @@
                                                             style="color: black;">{!! $project->user->name !!}</span>
                                                     </td>
                                                 </tr>
-
+                                                @if ($project->user->phone)
                                                 <tr>
                                                     <td>
-                                                        <span class="autoWidthTr">Kurumsal Telefon:</span>
-                                                        <span class="det"
-                                                            style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
+                                                        <span class="autoWidthTr">İş:</span>
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:#274abb;"
+                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                        </span>
                                                     </td>
                                                 </tr>
+                                            @endif
+                                            @if ($project->user->mobile_phone)
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Cep :</span>
-                                                        <span class="det"
-                                                            style="color: black;">{!! $project->user->mobile_phone ? $project->user->mobile_phone : 'Belirtilmedi' !!}</span>
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:#274abb;"
+                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                        </span>
                                                     </td>
                                                 </tr>
+                                            @endif
+
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>E-Posta:</span></strong>
