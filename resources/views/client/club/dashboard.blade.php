@@ -129,7 +129,7 @@
                                         class="collection-owner"
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
                                         class="label with-image"> {{ $store->name }} <i class="fa fa-angle-right"></i>
-                                        {{ \Illuminate\Support\Str::limit($collection->name, 50, '...') }}
+                                        {{ \Illuminate\Support\Str::limit($collection->name, 20, '...') }}
                                         Koleksiyonu</span></a></div>
                             <ul class="collection-actions">
                                 <li> <button>
