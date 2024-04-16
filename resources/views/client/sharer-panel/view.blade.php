@@ -31,7 +31,8 @@
                                 <label class="form-label">Telefon</label>
                                 <input type="number" name="phone"
                                     class="form-control @error('phone') is-invalid @enderror"
-                                    value="{{ old('phone', $user->phone) }}">
+                                    value="{{ old('phone', $user->phone) }}" id="phone">
+                                    <span id="error_message" class="error-message"></span>
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -533,6 +534,20 @@
 @endsection
 
 @section('scripts')
+<script>
+    $(document).ready(function(){
+      $("#phone").blur(function(){
+        var phoneNumber = $(this).val();
+        var pattern = /^5[1-9]\d{8}$/;
+    
+        if (!pattern.test(phoneNumber)) {
+          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+        } else {
+          $("#error_message").text("");
+        }
+      });
+    });
+    </script>
     <script>
         $(".accordion li").click(function() {
             $(".faq li").not(this).removeClass("active");
@@ -578,6 +593,10 @@
 
 @section('styles')
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .how-it-works{
             padding: 2.6rem 0 2.6rem 2.6rem !important;
         }

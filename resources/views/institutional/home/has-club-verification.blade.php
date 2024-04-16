@@ -33,9 +33,10 @@
                                 </div> --}}
                                 <div class="mt-3">
                                     <label class="form-label">Telefon</label>
-                                    <input type="number" name="phone"
+                                    <input type="number" name="phone" id="phone"
                                         class="form-control @error('phone') is-invalid @enderror"
                                         value="{{ old('phone', $user->phone) }}">
+                                        <span id="error_message" class="error-message"></span>
                                     @error('phone')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -103,6 +104,20 @@
 @endsection
 @section('scripts')
 <script>
+    $(document).ready(function(){
+      $("#phone").blur(function(){
+        var phoneNumber = $(this).val();
+        var pattern = /^5[1-9]\d{8}$/;
+    
+        if (!pattern.test(phoneNumber)) {
+          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+        } else {
+          $("#error_message").text("");
+        }
+      });
+    });
+    </script>
+<script>
     function formatIBAN(input) {
         // TR ile başlat
         var formattedIBAN = "TR";
@@ -133,6 +148,10 @@
 
 @section('css')
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .btn-blue {
             background-color: #0080c7 !important;
             color: white

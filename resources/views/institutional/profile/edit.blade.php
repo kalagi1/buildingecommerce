@@ -47,8 +47,9 @@
                                     </div>
                                     <div class="mt-3">
                                         <label class="q-label">Cep Telefon</label>
-                                        <input type="number" name="mobile_phone" class="form-control"
+                                        <input type="number" name="mobile_phone" class="form-control" id="phone"
                                             value="{{ old('mobile_phone', $user->mobile_phone) }}">
+                                            <span id="error_message" class="error-message"></span>
                                     </div>
 
                                     <div class="mt-3">
@@ -66,8 +67,9 @@
                                     @if (Auth::check() && Auth::user()->type == 2)
                                         <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>
-                                            <input type="number" name="phone" class="form-control"
+                                            <input type="number" name="phone" class="form-control" id="landPhone"
                                                 value="{{ old('phone', $user->phone) }}">
+                                                <span id="error_message_land_phone" class="error-message"></span>
                                         </div>
                                         <div class="mt-3">
                                             <label class="q-label">Kaç yıldır sektördesiniz ?</label>
@@ -128,8 +130,34 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
-    
-
+        <script>
+            $(document).ready(function(){
+              $("#landPhone").blur(function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^[1-9]\d{9}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                  $("#error_message_land_phone").text("Lütfen sabit telefon numarasını belirtilen formatta girin. Örneğin: (222) 111 22 33");
+                } else {
+                  $("#error_message_land_phone").text("");
+                }
+              });
+            });
+            </script>
+        <script>
+            $(document).ready(function(){
+              $("#phone").blur(function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                  $("#error_message").text("");
+                }
+              });
+            });
+            </script>
         <script>
             function showImage(input) {
                 if (input.files && input.files[0]) {
@@ -414,6 +442,10 @@
             display: flex;
             align-items: center;
             justify-content: start
+        }
+        .error-message {
+            color: red;
+            font-size: 11px;
         }
     </style>
 @endsection

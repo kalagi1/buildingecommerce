@@ -503,6 +503,7 @@
                                     <label for="surname" class="q-label">Telefon Numarası : </label>
                                     <input type="number" class="modal-input" placeholder="Telefon Numarası"
                                         id="phone" name="phone">
+                                        <span id="error_message" class="error-message"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -675,7 +676,7 @@
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+        
 
         <script>
            
@@ -703,3 +704,29 @@
     @endif
 
 @endif
+
+@section('scripts')
+        <script>
+        $(document).ready(function(){
+          $("#phone").blur(function(){
+            var phoneNumber = $(this).val();
+            var pattern = /^5[1-9]\d{8}$/;
+        
+            if (!pattern.test(phoneNumber)) {
+              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+            } else {
+              $("#error_message").text("");
+            }
+          });
+        });
+        </script>
+@endsection
+
+@section('styles')
+<style>
+            .error-message {
+            color: red;
+            font-size: 11px;
+        }
+</style>
+@endsection

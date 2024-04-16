@@ -524,9 +524,13 @@
                                         </script>
                                         <div class="col-sm-6">
                                             <label for="phone">Telefon:</label>
+                                          
                                             <input type="number" class="form-control" id="phone" name="phone"
                                                 required>
+                                                <span id="error_message" class="error-message"></span>
+                                         
                                         </div>
+                                        
                                         <div class="col-sm-6">
                                             <label for="address">Adres:</label>
                                             <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
@@ -949,22 +953,12 @@
 
 
                                     <!-- Debit card option -->
-
-
-
-
                                 </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
-
                 </div>
-
-
-
             @endif
         </div>
     </section>
@@ -988,6 +982,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script>
+            $(document).ready(function(){
+              $("#phone").blur(function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                    $("#success_message").text("");
+                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                  $("#error_message").text("");
+                }
+              });
+            });
+            </script>
     <script>
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
@@ -1256,6 +1265,14 @@
 
 @section('styles')
     <style>
+        .error-message {
+            color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
+            font-size: 11px;
+        }
         .wrap-house {
             // border-radius: 10px;
             padding: 32px;

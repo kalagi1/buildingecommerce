@@ -1745,6 +1745,7 @@
                                 <div class="form-group">
                                     <label for="phone">Telefon *</label>
                                     <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <span id="error_message" class="error-message"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -2057,6 +2058,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          $("#phone").blur(function(){
+            var phoneNumber = $(this).val();
+            var pattern = /^5[1-9]\d{8}$/;
+        
+            if (!pattern.test(phoneNumber)) {
+              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+            } else {
+              $("#error_message").text("");
+            }
+          });
+        });
+        </script>
       @if ($housing->step2_slug == 'gunluk-kiralik')
         <script>
             $(document).ready(function() {
@@ -2856,6 +2871,10 @@
             border-color: #80bdff;
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+        }
+        .error-message {
+            color: red;
+            font-size: 11px;
         }
     </style>
 @endsection

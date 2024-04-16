@@ -41,6 +41,7 @@
                                             <label class="form-label" for="phone">Telefon</label>
                                             <input name="phone" class="form-control" id="phone" type="text"
                                                 value="{{ $contactInfo->phone }}" required="">
+                                                <span id="error_message" class="error-message"></span>
                                             <div class="valid-feedback">Looks good!</div>
                                         </div>
                                         <div class="col-md-6">
@@ -101,4 +102,27 @@
             });
         })
     </script>
+     <script>
+        $(document).ready(function(){
+          $("#phone").blur(function(){
+            var phoneNumber = $(this).val();
+            var pattern = /^5[1-9]\d{8}$/;
+        
+            if (!pattern.test(phoneNumber)) {
+              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+            } else {
+              $("#error_message").text("");
+            }
+          });
+        });
+        </script>
+@endsection
+
+@section('styles')
+    <style>
+        .error-message {
+            color: red;
+            font-size: 11px;
+        }
+    </style>
 @endsection
