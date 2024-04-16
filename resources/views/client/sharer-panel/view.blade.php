@@ -106,7 +106,7 @@
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
                             style="background-image: url(images/emlak-kulup-banner.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
-                            style="background-image: url(images/bannerNew_mobil.png);"></div>
+                            style="background-image: url(images/emlak-kulup-banner.png);"></div>
 
                     </a>
                 </div>
