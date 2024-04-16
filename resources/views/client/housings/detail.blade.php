@@ -511,6 +511,9 @@
                                                             $label != 'Kapak Resmi' &&
                                                                 $label != 'Taksitli Satış' &&
                                                                 $label != 'Fiyat' &&
+                                                                $label != 'Seçenekler' &&
+                                                                $label != 'Acil Satılık' &&
+                                                                $label != 'İndirim Oranı %' &&
                                                                 $label != 'Peşinat' &&
                                                                 $label != 'İlan Başlığı' &&
                                                                 $label != 'Günlük Fiyat' &&
