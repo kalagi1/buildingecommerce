@@ -132,7 +132,7 @@
                                     href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><img
                                         class="collection-owner"
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
-                                        class="label with-image"> {{ $collection->name }}</span></a></div>
+                                        class="label with-image"> {{$store->name}} <i class="fa fa-angle-right"></i>  {{ $collection->name }} Koleksiyonu</span></a></div>
                             <ul class="collection-actions">
                                 <li> <button>
                                         <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
