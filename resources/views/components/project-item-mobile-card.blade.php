@@ -714,13 +714,7 @@
             }
         });
 
-        $(document).ready(function() {
-            $('#applySampleModal img').click(function() {
-                $('#applySampleModal').modal('hide');
-                $('#exampleModal10').modal('show');
-            });
-        });
-
+ 
 
         function generateRandomCode() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
