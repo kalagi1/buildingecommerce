@@ -98,7 +98,7 @@
        
     @endif
 
-    <section class="recently portfolio bg-white homepage-5 emlak-kulup-slider recently2">
+    <section class="recently portfolio bg-white homepage-5 mt-5 emlak-kulup-slider recently2">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
