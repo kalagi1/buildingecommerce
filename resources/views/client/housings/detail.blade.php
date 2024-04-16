@@ -1298,40 +1298,6 @@
                                                             '' !!}</span>
                                                     </td>
                                                 </tr>  
-                                                @foreach ($labels as $label => $val)
-                                                @if (
-                                                    $label != 'Kapak Resmi' &&
-                                                        $label != 'Taksitli Satış' &&
-                                                        $label != 'Fiyat' &&
-                                                        $label != 'Peşinat' &&
-                                                        $label != 'İlan Başlığı' &&
-                                                        $label != 'Günlük Fiyat' &&
-                                                        $label != 'Peşin Fiyat' &&
-                                                        $label != 'Taksitli Toplam Fiyat' &&
-                                                        isset($val[0]) &&
-                                                        $val[0] != 0 &&
-                                                        $val[0] != null)
-                                                    <tr>
-                                                        <td>
-                                                            <span class="mr-1">{{ $label }}:</span>
-                                                            @if ($label == 'm² (Net)<br>')
-                                                                <span class="det">{{ $val[0] }}
-                                                                    m2</span>
-                                                            @elseif ($label == 'Özellikler')
-                                                                <ul>
-                                                                    @foreach ($val as $ozellik)
-                                                                        <li>{{ $ozellik }}</li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @else
-                                                                <span class="det">
-                                                                    {{ isset($val[0]) && $val[0] ? ($val[0] == 'yes' ? 'Evet' : ($val[0] == 'no' ? 'Hayır' : $val[0])) : '' }}
-                                                                </span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
                                                 
 
 
