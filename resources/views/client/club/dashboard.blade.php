@@ -56,6 +56,11 @@
     <section>
         <div class="container">
             <div class="collections">
+                @foreach ($store->child as $child)
+                    @if (count($child->collections) > 0)
+                    {{$child->name}}
+                    @endif
+                @endforeach
                 @foreach ($collections as $collection)
                     <div class="collection">
                         <div class="collection-head">
