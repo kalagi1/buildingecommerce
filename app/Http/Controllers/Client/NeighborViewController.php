@@ -317,9 +317,8 @@ class NeighborViewController extends Controller
         $order = CartOrder::where('id', $request->order_id)->first();
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-        $cart = json_decode($cartItem->cart, true);
-        if ($cart) {
-
+        if ( $cartItem) {
+            $cart = json_decode($cartItem->cart, true);
 
             $saleType = null;
             $column_name = null;
