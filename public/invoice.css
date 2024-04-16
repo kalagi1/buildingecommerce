@@ -477,7 +477,7 @@ dl dt {
 
 b,
 strong {
-  font-weight: bold;
+  
 }
 
 pre {
@@ -1416,7 +1416,7 @@ hr {
   top: 0;
   line-height: 1em;
   font-size: 165px;
-  font-weight: bold;
+  
   padding: 20px 30px 20px 30px;
   letter-spacing: 18px;
   opacity: 0.08;

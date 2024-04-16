@@ -73,7 +73,7 @@
                 $('#userCheckboxes').empty();
 
                 var selectAllCheckbox =
-                    '<div class="form-check form-switch" style="margin-left:14px;"><input class="form-check-input" type="checkbox" role="switch"  id="selectAll" style="font-size: 22px;color: #333;margin-bottom: 12px;"> <label for="selectAll" style="margin-top:6px;font-size: 15px;color: #333;margin-bottom: 12px;font-weight: bold;">Tümünü Seç</label></div>';
+                    '<div class="form-check form-switch" style="margin-left:14px;"><input class="form-check-input" type="checkbox" role="switch"  id="selectAll" style="font-size: 22px;color: #333;margin-bottom: 12px;"> <label for="selectAll" style="margin-top:6px;font-size: 15px;color: #333;margin-bottom: 12px;">Tümünü Seç</label></div>';
                 $('#userCheckboxes').html(selectAllCheckbox);
 
 

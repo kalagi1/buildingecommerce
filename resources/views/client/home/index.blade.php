@@ -116,7 +116,7 @@
                                         <div class="homes">
                                             <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}"
                                                 alt="Al Sat Acil" class="img-responsive brand-image-pp"
-                                                style="border:5px solid #F4A226">
+                                                style="border:5px solid #F4A226;object-fit:contain;">
                                             <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                                                 @else
                                                     <img loading="lazy"
                                                         src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
                                                 @endif
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>

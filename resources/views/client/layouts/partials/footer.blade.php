@@ -267,9 +267,38 @@
 <script src="{{ URL::to('/') }}/js/forms-2.js"></script>
 <script src="{{ URL::to('/') }}/js/range.js"></script>
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    var errorMessage = "{{ session('error') }}";
 
+    if (errorMessage) {
+        Toastify({
+            text: errorMessage,
+            duration: 5000,
+            gravity: 'bottom',
+            position: 'center',
+            backgroundColor: '#ff4d4d',
+            stopOnFocus: true,
+        }).showToast();
+    }
+
+    var successMessage = "{{ session('success') }}";
+
+if (successMessage) {
+    Toastify({
+        text: successMessage,
+        duration: 5000,
+        gravity: 'bottom',
+        position: 'center',
+        backgroundColor: 'green',
+        stopOnFocus: true,
+    }).showToast();
+}
+</script>
 
 <script>
+    
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
@@ -1463,7 +1492,7 @@
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+    const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1610,7 +1639,7 @@
     })
     'use strict';
     $(function() {
-        const appUrl = "http://127.0.0.1:8000/"; // Uygulama URL'si
+        const appUrl = "https://emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {

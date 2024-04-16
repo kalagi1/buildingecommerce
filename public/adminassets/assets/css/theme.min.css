@@ -34139,7 +34139,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical.navbar-expand-xs .navbar-v
     text-align: center;
     color: var(--phoenix-avatar-name-color);
     background-color: var(--phoenix-primary-100);
-    font-weight: bold;
+    
     text-transform: uppercase;
     display: block
 }
@@ -40473,7 +40473,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .finish-text p {
     text-align: center;
     font-size: 11px;
-    font-weight: bold;
+    
     margin: 20px 0;
 }
 
@@ -40500,14 +40500,14 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .thumbnail-second span {
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }
 
 .form-area .section-title {
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }
@@ -40862,7 +40862,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #999;
     line-height: 36px;
     font-size: 16px;
-    font-weight: bold;
+    
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -41185,7 +41185,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .cardx .card_title {
     text-align: center;
     font-family: sans-serif;
-    font-weight: bold;
+    
     font-size: 30px;
     margin-top: -80px;
     height: 40px;
@@ -41698,7 +41698,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
     .msg-info-name {
         margin-right: 10px;
-        font-weight: bold;
+        
     }
 
     .msg-info-time {
@@ -41750,7 +41750,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         margin-left: 10px;
         background: rgb(0, 196, 65);
         color: #fff;
-        font-weight: bold;
+        
         cursor: pointer;
         transition: background 0.23s;
     }
@@ -42128,7 +42128,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
         line-height: 40px;
         font-size: 13px;
         font-weight: 600;
-        font-weight: bold;
+        
         color: black;
          background-color: #FFF;
     }
@@ -42547,7 +42547,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     display: flex;
     color: #fff;
     font-size: 16px;
-    font-weight: bold;
+    
 }
 
 .modal-reservation-cancel{
@@ -42757,7 +42757,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .product-order-card span{
     font-size: 13px;
-    font-weight: bold;
+    
 }
 
 .order-not-cancel span{
@@ -42990,7 +42990,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .table-breadcrumb li:last-child{
     text-decoration: none;
-    font-weight: bold;
+    
 }
 
 .none-underline{
@@ -43033,7 +43033,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .not-found .card span{
     font-size: 20px;
-    font-weight: bold;
+    
     margin-bottom: 15px;
 }
 
@@ -43084,7 +43084,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .section-title {
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }

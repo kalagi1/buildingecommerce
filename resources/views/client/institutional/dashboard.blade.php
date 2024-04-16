@@ -68,7 +68,7 @@
                                                 <a href="{{ asset('storage/store_banners/' . $banner->image) }}"
                                                     data-lightbox="gallery">
                                                     <img src="{{ asset('storage/store_banners/' . $banner->image) }}"
-                                                        alt="{{ $banner->title }}" class="img-responsive">
+                                                        alt="{{ $banner->title }}" class="img-responsive" style="object-fit:contain;">
                                                 </a>
                                             </div>
                                         </div>
