@@ -11,6 +11,8 @@ use App\Models\Project;
 use App\Models\ProjectHouseSetting;
 use App\Models\ProjectHousing;
 use App\Models\ProjectImage;
+use App\Models\ProjectSituation;
+use App\Models\TempOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -223,6 +225,52 @@ class ProjectController extends Controller
 
         return json_encode([
             "status" => true
+        ]);
+    }
+
+    public function updateProject(){
+        $tempOrder = TempOrder::where('item_type', 3)->where('user_id', auth()->guard()->user()->id)->first();
+        $tempData = json_decode($tempOrder->data);
+
+        Project::where('id', $tempData->id)->update([
+            "project_title" => $tempData->project_title,
+            "create_company" => $tempData->create_company,
+            "total_project_area" => str_replace('.', '', $tempData->total_project_area),
+            "island" => str_replace('.', '', $tempData->island),
+            "parcel" => str_replace('.', '', $tempData->parcel),
+            "start_date" => $tempData->start_date,
+            "project_end_date" => $tempData->project_end_date,
+            "slug" => Str::slug($tempData->project_title),
+            "description" => $tempData->description,
+            "location" => $tempData->location,
+            "image" => $tempData->image,
+            "city_id" => $tempData->city_id,
+            "county_id" => $tempData->county_id,
+            "neighbourhood_id" => $tempData->neighbourhood_id,
+            "status" => "2",
+        ]);
+
+
+        ProjectImage::where('project_id', $tempData->id)->delete();
+        foreach ($tempData->images as $key => $image) {
+            $projectImage = new ProjectImage(); // Eğer model kullanıyorsanız
+            $projectImage->image = 'public/project_images/' . str_replace('storage/project_images/', '', str_replace('public/project_images/', '', $image->image));
+            $projectImage->project_id = $tempData->id;
+            $projectImage->save();
+        }
+
+        ProjectSituation::where('project_id', $tempData->id)->delete();
+        foreach ($tempData->situations as $key => $image) {
+            $projectImage = new ProjectSituation(); // Eğer model kullanıyorsanız
+            $projectImage->situation = 'public/situation_images/' . str_replace('public/situation_images/', '', $image->situation);
+            $projectImage->project_id = $tempData->id;
+            $projectImage->save();
+        }
+
+        $tempOrder->delete();
+
+        return json_encode([
+            "status" => true,
         ]);
     }
 }

@@ -52,6 +52,7 @@ Route::delete('delete_project_gallery_image/{id}',[ProjectController::class,"del
 Route::get('cities',[AddressController::class,"cities"]);
 Route::get('counties/{cityId}',[AddressController::class,"getCountiesByCityId"]);
 Route::get('neighborhoods/{county_id}',[AddressController::class,"getNeighborhoodsByCountyId"]);
+Route::post('update_project',[ProjectController::class,"updateProject"]);
 
 Route::get('/get_temp_order_project/{id}', [TempOrderController::class, 'getTempOrderData']);
 
