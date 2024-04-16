@@ -317,10 +317,12 @@ class NeighborViewController extends Controller
         $order = CartOrder::where('id', $request->order_id)->first();
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
+        $cart  = [];
+
         if ($cartItem) {
 
             $cart = json_decode($cartItem->cart, true);
-
+        }
             $saleType = null;
             $column_name = null;
             $project = null;
@@ -381,8 +383,6 @@ class NeighborViewController extends Controller
             }
 
             return view('payment.neighbor.index', compact('order', 'bankAccounts', 'cart', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
-        }
-
-        return view('payment.neighbor.index');
+    
     }
 }
