@@ -71,9 +71,9 @@
 
                                             <div class="profile-initial">{{ $nameInitials }}</div>
                                         @else
-                                            <img src="{{ asset('storage/profile_images/' . $item->profile_image) }}"
+                                            <img  src="{{ asset('storage/profile_images/' . $item->profile_image) }}"
                                                 alt="{{ $item->name }}" style="object-fit: contain !important;"
-                                                class="img-responsive">
+                                                class="img-responsive collection-owner">
                                         @endif
                                         <span class="label with-image"> {{ $item->name }}</span>
                                     </a></div>
@@ -116,7 +116,7 @@
                                 <div class="collection-navigation">
                                     <div class="collection-stats">
                                         <span class="collection-show-count"><i class="fa fa-eye"></i>
-                                            </span>
+                                        </span>
                                     </div><a
                                         href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($item->name), 'userid' => $item->id, 'id' => $item->id]) }}"><span>Koleksiyonlara
                                             Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
