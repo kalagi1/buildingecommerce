@@ -50,6 +50,8 @@ Route::get('get_my_housings',[HousingController::class,"getMyHousings"]);
 Route::get('get_my_project/{id}',[ProjectController::class,"getMyProject"]);
 Route::delete('delete_project_gallery_image/{id}',[ProjectController::class,"deleteProjectGalleryImage"]);
 Route::get('cities',[AddressController::class,"cities"]);
+Route::get('counties/{cityId}',[AddressController::class,"getCountiesByCityId"]);
+Route::get('neighborhoods/{county_id}',[AddressController::class,"getNeighborhoodsByCountyId"]);
 
 Route::get('/get_temp_order_project/{id}', [TempOrderController::class, 'getTempOrderData']);
 
