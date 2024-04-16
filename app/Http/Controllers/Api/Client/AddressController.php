@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\District;
+use App\Models\Neighborhood;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,7 @@ class AddressController extends Controller
     }
 
     public function getNeighborhoodsByCountyId($countyId){
-        $counties = District::select(DB::raw('mahalle_title as label , mahalle_key as value'))->where('mahalle_ilcekey',$countyId)->get();
+        $counties = Neighborhood::select(DB::raw('mahalle_title as label , mahalle_id as value'))->where('mahalle_ilcekey',$countyId)->get();
         
         return json_encode([
             "data" => $counties
