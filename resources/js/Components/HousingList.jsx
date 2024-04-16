@@ -843,6 +843,7 @@ function HousingList({projectId}) {
                                                     <TableCell>Ara Ödemeler</TableCell>
                                                     <TableCell>Taksit Sayısı</TableCell>
                                                     <TableCell>Peşinat</TableCell>
+                                                    <TableCell>Hisse Sayısı</TableCell>
                                                     <TableCell>Satış Durumu</TableCell>
                                                     <TableCell>İşlemler</TableCell>
                                                 </TableRow>
@@ -937,6 +938,16 @@ function HousingList({projectId}) {
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
                                                                     <span onClick={() => {setChangeData(dotNumberFormat(row['advance[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            {dotNumberFormat(row['number_of_shares[]'])}
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setChangeData(row['number_of_shares[]']);setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("number_of_shares");setIsDotType(true);setSelectedType('Hisse Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
                                                                 : ""
                                                             }
                                                         </div>
