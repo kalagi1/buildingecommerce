@@ -31,7 +31,8 @@
                                 <label class="form-label">Telefon</label>
                                 <input type="number" name="phone"
                                     class="form-control @error('phone') is-invalid @enderror"
-                                    value="{{ old('phone', $user->phone) }}">
+                                    value="{{ old('phone', $user->phone) }}" id="phone">
+                                    <span id="error_message" class="error-message"></span>
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -97,13 +98,13 @@
        
     @endif
 
-    <section class="recently portfolio bg-white homepage-5 emlak-kulup-slider recently2">
+    <section class="recently portfolio bg-white homepage-5 mt-5 emlak-kulup-slider recently2">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
-                            style="background-image: url(images/bannerNew.png)"></div>
+                            style="background-image: url(images/emlakKulupGorsel.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
                             style="background-image: url(images/bannerNew_mobil.png);"></div>
 
@@ -533,6 +534,20 @@
 @endsection
 
 @section('scripts')
+<script>
+    $(document).ready(function(){
+      $("#phone").blur(function(){
+        var phoneNumber = $(this).val();
+        var pattern = /^5[1-9]\d{8}$/;
+    
+        if (!pattern.test(phoneNumber)) {
+          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+        } else {
+          $("#error_message").text("");
+        }
+      });
+    });
+    </script>
     <script>
         $(".accordion li").click(function() {
             $(".faq li").not(this).removeClass("active");
@@ -578,6 +593,10 @@
 
 @section('styles')
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .how-it-works{
             padding: 2.6rem 0 2.6rem 2.6rem !important;
         }

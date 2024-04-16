@@ -284,7 +284,7 @@ div.datedropper .picker ul.pick.pick-d {
   height: 100px;
   line-height: 80px;
   font-size: 64px;
-  font-weight: bold;
+  
 }
 div.datedropper .picker ul.pick.pick-l {
   position: absolute;
@@ -293,7 +293,7 @@ div.datedropper .picker ul.pick.pick-l {
   right: 0;
   z-index: 10;
   font-size: 18px;
-  font-weight: bold;
+  
   opacity: 0;
   visibility: hidden;
   -webkit-transform: translateY(32px);

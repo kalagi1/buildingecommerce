@@ -28,6 +28,15 @@ class ProjectController extends Controller
         return response()->json($featuredProjects);
     }
 
+    public function getMyProject($projectId){
+        $project = Project::where('id', $projectId)->with("neighbourhood", "housingType", "county", "city", 'images','situations')->first();
+       
+
+        return json_encode([
+            "project" => $project,
+        ]);
+    }
+
     public function show($projectID){
         $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "blocks", "neighbourhood", "housingType", "county", "city",'listItemValues', 'user.brands', 'user.housings', 'images')->first();
         if (!$project) {
@@ -207,5 +216,13 @@ class ProjectController extends Controller
 
             return $project;
         });
+    }
+
+    public function deleteProjectGalleryImage($id){
+        ProjectImage::where('id',$id)->delete();
+
+        return json_encode([
+            "status" => true
+        ]);
     }
 }

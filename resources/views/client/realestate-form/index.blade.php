@@ -32,7 +32,8 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Telefon Numarası</label>
-                            <input type="text" value="{{old('phone')}}" name="phone" class="form-control inputForm">
+                            <input type="text" value="{{old('phone')}}" name="phone" id="phone" class="form-control inputForm">
+                            <span id="error_message" class="error-message"></span>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">E-Posta Adresi</label>
@@ -527,6 +528,20 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        $(document).ready(function(){
+          $("#phone").blur(function(){
+            var phoneNumber = $(this).val();
+            var pattern = /^5[1-9]\d{8}$/;
+        
+            if (!pattern.test(phoneNumber)) {
+              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+            } else {
+              $("#error_message").text("");
+            }
+          });
+        });
+        </script>
+    <script>
 
 $(document).ready(function() {
         $('#check-b').change(function() {
@@ -648,6 +663,10 @@ $(document).ready(function() {
 @section('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .inputForm{
             width: 331px;
             height: 26px;

@@ -1658,7 +1658,7 @@ class ProjectController extends Controller
             } else {
                 $tempData = json_decode("{}");
             }
-            $tempDataFull->data_slug = $slug;
+            $tempDataFull->data_slug = $tempDataFull->slug;
             $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
             $tempDataFull->statuses = array_keys((array) $selectedStatuses);
             $tempDataFull->images = $tempDataFull->images;
@@ -1679,6 +1679,7 @@ class ProjectController extends Controller
         }
 
         $userPlan = UserPlan::where('user_id', auth()->user()->id)->first();
+        
         return view('institutional.projects.editv2', compact('tempUpdateHas', 'project', 'housingTypeParent', 'cities', 'prices', 'tempData', 'housing_status', 'tempDataFull', 'selectedStatuses', 'userPlan'));
     }
 

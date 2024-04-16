@@ -23,7 +23,7 @@
                         @endif
 
                         <form action="{{ route('institutional.profile.update') }}" method="POST"
-                            enctype="multipart/form-data">
+                            enctype="multipart/form-data" onsubmit="return validateForm()">
                             @csrf
                             @method('PUT')
 
@@ -31,15 +31,13 @@
 
                                 <div class="col-lg-12">
                                     <div>
-                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
-                                            type="file" accept=".jpeg, .jpg, .png"><label
-                                            class="avatar avatar-4xl status-online cursor-pointer"
-                                            for="upload-settings-porfile-picture"><img
-                                                class="rounded-circle img-thumbnail shadow-sm border-0"
-                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
-                                                width="200" alt=""></label>
+                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image" type="file" accept=".jpeg, .jpg, .png" onchange="showImage(this)">
+                                        <label class="avatar avatar-4xl status-online cursor-pointer" for="upload-settings-porfile-picture">
+                                            <img id="profile-image-preview" class="rounded-circle img-thumbnail shadow-sm border-0" src="{{ asset('storage/profile_images/' . $user->profile_image) }}" width="200" alt="">
+                                        </label>
                                     </div>
                                 </div>
+                                
                                 <div class="col-lg-6">
                                 
                                     <div class="mt-3">
@@ -49,8 +47,9 @@
                                     </div>
                                     <div class="mt-3">
                                         <label class="q-label">Cep Telefon</label>
-                                        <input type="number" name="mobile_phone" class="form-control"
+                                        <input type="number" name="mobile_phone" class="form-control" id="phone"
                                             value="{{ old('mobile_phone', $user->mobile_phone) }}">
+                                            <span id="error_message" class="error-message"></span>
                                     </div>
 
                                     <div class="mt-3">
@@ -68,8 +67,9 @@
                                     @if (Auth::check() && Auth::user()->type == 2)
                                         <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>
-                                            <input type="number" name="phone" class="form-control"
+                                            <input type="number" name="phone" class="form-control" id="landPhone"
                                                 value="{{ old('phone', $user->phone) }}">
+                                                <span id="error_message_land_phone" class="error-message"></span>
                                         </div>
                                         <div class="mt-3">
                                             <label class="q-label">Kaç yıldır sektördesiniz ?</label>
@@ -130,6 +130,47 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
+        <script>
+            $(document).ready(function(){
+              $("#landPhone").blur(function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^[1-9]\d{9}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                  $("#error_message_land_phone").text("Lütfen sabit telefon numarasını belirtilen formatta girin. Örneğin: (222) 111 22 33");
+                } else {
+                  $("#error_message_land_phone").text("");
+                }
+              });
+            });
+            </script>
+        <script>
+            $(document).ready(function(){
+              $("#phone").blur(function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                  $("#error_message").text("");
+                }
+              });
+            });
+            </script>
+        <script>
+            function showImage(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('profile-image-preview').setAttribute('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
+        
+
 
     <script>
         var map;
@@ -381,12 +422,30 @@
     }
 </script>
 
+<script>
+    function validateForm() {
+        var ibanInput = document.getElementsByName("iban")[0];
+        var ibanValue = ibanInput.value;
+        
+        if (ibanValue.length < 26) {
+            alert("IBAN numarası 26 haneden az olamaz!");
+            return false; // Formun gönderilmesini engelle
+        }
+        
+        return true; // Formu gönder
+    }
+</script>
+
 
     <style>
         .companyType {
             display: flex;
             align-items: center;
             justify-content: start
+        }
+        .error-message {
+            color: red;
+            font-size: 11px;
         }
     </style>
 @endsection

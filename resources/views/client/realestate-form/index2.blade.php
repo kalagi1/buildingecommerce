@@ -559,7 +559,7 @@
             color: #333333;
             font-size: 21px;
             margin-bottom: 10px;
-            font-weight: bold;
+            
         }
         .cardP4{
             color: #777777;
