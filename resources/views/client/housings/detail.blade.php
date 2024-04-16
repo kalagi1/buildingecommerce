@@ -865,47 +865,41 @@
                                             </svg><span class="add-to-collection-button-text">Koleksiyona
                                                 Ekle</span>
                                         </div>
-                                        <span class="fa fa-plus"></span>
+                                        <i class="fa fa-caret-right"></i>
                                     </div>
                                 </div>
-                                <div class="add-to-collections-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                 <div class="add-to-collection-button-wrapper">
                                     <div class="add-to-collection-button">
 
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="#fef4eb"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="32" fill="#fef4eb" />
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="32" height="32" fill="#F0F0F0"/>
                                             <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                <rect width="1440" height="1577"
-                                                    transform="translate(-1100 -1183)" fill="white" />
-                                                <g id="Group 6131">
-                                                    <g id="Frame 21409">
-                                                        <g id="Group 6385">
-                                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                height="48" rx="8" fill="#e54242 " />
-                                                            <g id="Group 2664">
-                                                                <rect id="Rectangle 316" width="32"
-                                                                    height="32" rx="4" fill="#e54242 " />
-                                                                <g id="Group 72">
-                                                                    <path id="Rectangle 12"
-                                                                        d="M16.7099 17.2557L16 16.5401L15.2901 17.2557L12 20.5721L12 12C12 10.8954 12.8954 10 14 10H18C19.1046 10 20 10.8954 20 12V20.5721L16.7099 17.2557Z"
-                                                                        fill="white" stroke="white"
-                                                                        stroke-width="2" />
-                                                                </g>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
+                                            <rect width="1440" height="1577" transform="translate(-1100 -1183)" fill="white"/>
+                                            <g id="Group 6131">
+                                            <g id="Frame 21409">
+                                            <g id="Group 6385">
+                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228" height="48" rx="8" fill="#FEF4EB"/>
+                                            <g id="Group 2664">
+                                            <rect id="Rectangle 316" width="32" height="32" rx="4" fill="#F27A1A"/>
+                                            <g id="Group 72">
+                                            <path d="M16 11V21M11 16H21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                            </g>
+                                            </g>
+                                            </g>
+                                            </g>
+                                            </g>
                                             </g>
                                             <defs>
-                                                <clipPath id="clip0_1750_971">
-                                                    <rect width="1440" height="1577" fill="white"
-                                                        transform="translate(-1100 -1183)" />
-                                                </clipPath>
+                                            <clipPath id="clip0_1750_971">
+                                            <rect width="1440" height="1577" fill="white" transform="translate(-1100 -1183)"/>
+                                            </clipPath>
                                             </defs>
-                                        </svg><span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                            </svg>
+                                            
+                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
                                     </div>
-                                    <span class="fa fa-compress"></span>
+                                    <i class="fa fa-caret-right"></i>
                                 </div>
                             </div>
                                 <div class="modal fade" id="takasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
