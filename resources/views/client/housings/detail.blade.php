@@ -1184,22 +1184,8 @@
 
                         <div class="moveStore">
                             <div class="widget-boxed removeClass mt-5 mb-5">
-                                <div class="widget-boxed-header">
-                                    <h4>Mağaza Bilgileri</h4>
-                                </div>
                                 <div class="widget-boxed-body">
                                     <div class="sidebar-widget author-widget2">
-
-                                        <div class="author-box clearfix d-flex align-items-center">
-                                            <img src="{{ URL::to('/') . '/storage/profile_images/' . $housing->user->profile_image }}"
-                                                alt="author-image" class="author__img">
-                                            <div>
-                                                <a
-                                                    href="{{ route('institutional.dashboard', ['slug' => Str::slug($housing->user->name), 'userID' => $housing->user->id]) }}">
-                                                    <h4 class="author__title">{!! $housing->user->name !!}</h4>
-                                                </a>
-                                            </div>
-                                        </div>
                                         <table class="table">
                                             <tbody>
                                                 <tr style="border-top: none !important">
@@ -1226,6 +1212,14 @@
                                                         <span> İlan Tarihi :</span>
                                                         <span class="det" style="color:#274abb;">
                                                             {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span> Mağaza :</span>
+                                                        <span class="det" style="color:#274abb;">
+                                                            {!! $housing->user->name !!}
                                                         </span>
                                                     </td>
                                                 </tr>
