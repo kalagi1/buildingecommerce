@@ -167,7 +167,8 @@
                             <div class="collection-navigation">
                                 <div class="collection-stats">
                                     <span class="collection-show-count"><i class="fa fa-eye"></i>
-                                        {{ count($collection->clicks) }}</span>
+                                        {{ $item->collections->flatMap(function ($collection) { return $collection->links->pluck('clicks'); })->sum() }} <!-- Toplam tıklanma sayısı -->
+                                    </span>
                                 </div><a
                                     href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><span>Koleksiyona
                                         Git</span> ({{ count($collection->links) }} İlan)</a>
