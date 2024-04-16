@@ -940,68 +940,58 @@
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
+                                           
+            <form action="{{ route('form.kaydet') }}" method="POST" enctype="multipart/form-data" id="takasFormu">
+                @csrf
 
-                                                <form action="{{ route('form.kaydet') }}" method="POST"
-                                                    enctype="multipart/form-data">
-                                                    @csrf
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <label class="form-label" for="ad">Ad:</label>
+                        <input class="formInput" type="text" id="ad" name="ad" required>
+                    </div>
 
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="ad">Ad:</label>
-                                                            <input class="formInput" type="text" id="ad"
-                                                                name="ad">
-                                                        </div>
+                    <div class="col-md-6 col-12">
+                        <label class="form-label" for="soyad">Soyadınız:</label>
+                        <input class="formInput" type="text" id="soyad" name="soyad" required>
+                    </div>
 
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="soyad">Soyadınız:</label>
-                                                            <input class="formInput" type="text" id="soyad"
-                                                                name="soyad">
-                                                        </div>
+                    <div class="col-md-6 col-12">
+                        <label class="form-label" for="telefon">Telefon Numaranız:</label>
+                        <input class="formInput" type="tel" id="telefon" name="telefon" required>
+                    </div>
 
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="telefon">Telefon
-                                                                Numaranız:</label>
-                                                            <input class="formInput" type="tel" id="telefon"
-                                                                name="telefon">
-                                                        </div>
+                    <div class="col-md-6 col-12">
+                        <label class="form-label" for="email">E-mail:</label>
+                        <input class="formInput" type="email" id="email" name="email" required>
+                    </div>
 
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="email">E-mail:</label>
-                                                            <input class="formInput" type="email" id="email"
-                                                                name="email">
-                                                        </div>
+                    <div class="col-md-6 col-12">
+                        <label class="form-label" for="sehir">Şehir:</label>
+                        <select class="formInput" id="sehir" name="sehir" required>
+                            <option value="">Şehir Seçiniz</option>
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="sehir">Şehir:</label>
-                                                            <select class="formInput" id="sehir" name="sehir">
-                                                                <option value="">Şehir Seçiniz</option>
-                                                                @foreach ($cities as $city)
-                                                                    <option value="{{ $city->id }}">
-                                                                        {{ $city->title }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                    <div class="col-md-6 col-12">
+                        <label class="form-label" for="ilce">İlçe:</label>
+                        <select class="formInput" id="ilce" name="ilce" disabled required>
+                            <option value="">İlçe Seçiniz</option>
+                        </select>
+                    </div>
 
-                                                        <div class="col-md-6 col-12">
-                                                            <label class="form-label" for="ilce">İlçe:</label>
-                                                            <select class="formInput" id="ilce" name="ilce"
-                                                                disabled>
-                                                                <option value="">İlçe Seçiniz</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-12 col-12">
-                                                            <label class="form-label" for="takas_tercihi">Takas
-                                                                Tercihiniz:</label>
-                                                            <select class="formInput" id="takas_tercihi"
-                                                                name="takas_tercihi">
-                                                                <option value="">Seçiniz</option>
-                                                                <option value="emlak">Emlak</option>
-                                                                <option value="araç">Araç</option>
-                                                                <option value="barter">Barter</option>
-                                                                <option value="diğer">Diğer</option>
-                                                            </select>
-                                                        </div>
+                    <div class="col-md-12 col-12">
+                        <label class="form-label" for="takas_tercihi">Takas Tercihiniz:</label>
+                        <select class="formInput" id="takas_tercihi" name="takas_tercihi" required>
+                            <option value="">Seçiniz</option>
+                            <option value="emlak">Emlak</option>
+                            <option value="araç">Araç</option>
+                            <option value="barter">Barter</option>
+                            <option value="diğer">Diğer</option>
+                        </select>
+                    </div>
 
 
                                                         <div id="digeryse" style="display: none;"
@@ -1700,7 +1690,73 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
 
-
+        <script>
+            $(document).ready(function() {
+                $('#takasFormu').submit(function(e) {
+                    var isEmpty = false;
+    
+                   // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+     // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+     if ($('#takas_tercihi').val() === 'emlak') {
+                var emlakTipi = $('#emlak_tipi').val();
+                if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
+                    var requiredFields = [];
+                    if (emlakTipi === 'konut') {
+                        requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi', 'oda_sayisi', 'konut_tipi'];
+                    } else if (emlakTipi === 'arsa') {
+                        requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel', 'imar_durumu', 'satis_rakami'];
+                    }
+                } else if (emlakTipi === 'işyeri') {
+                    requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
+                }
+    
+                for (var i = 0; i < requiredFields.length; i++) {
+                    var field = $('#' + requiredFields[i]);
+                    if (field.val().trim() === '') {
+                        isEmpty = true;
+                        field.addClass('error');
+                    } else {
+                        field.removeClass('error');
+                    }
+                }
+            }
+    
+                     // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                        if ($('#takas_tercihi').val() === 'araç') {
+                            var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi', 'arac_satis_rakami'];
+    
+                            for (var i = 0; i < requiredFields.length; i++) {
+                                var field = $('#' + requiredFields[i]);
+                                if (field.val().trim() === '') {
+                                    isEmpty = true;
+                                    field.addClass('error');
+                                } else {
+                                    field.removeClass('error');
+                                }
+                            }
+                        }
+    
+               
+                    // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
+                    if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
+                        $('.conditional-fields:visible').find('.formInput').each(function() {
+                            if ($(this).val().trim() === '') {
+                                isEmpty = true;
+                                $(this).addClass('error');
+                            } else {
+                                $(this).removeClass('error');
+                            }
+                        });
+                    }
+    
+                    if (isEmpty) {
+                        e.preventDefault();
+                        alert('Tüm zorunlu alanları doldurunuz!');
+                    }
+            
+                });   
+            });
+            </script>
     <script>
         $('#selectImageButton').on('click', function() {
             console.log("a");
