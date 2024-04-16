@@ -934,11 +934,11 @@ class ProjectController extends Controller
             $projectID -= 1000000;
         }
 
+
         $menu = Menu::getMenuItems();
         $bankAccounts = BankAccount::all();
 
         $project = Project::where('id', $projectID)->where("status", 1)->with("brand", "neighbourhood", "housingType", "county", "city", 'user.brands', 'user.housings', 'images')->first();
-        $cities = City::all()->toArray();
 
         if (!$project) {
             return redirect('/')
