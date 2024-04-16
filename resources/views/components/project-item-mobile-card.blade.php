@@ -26,44 +26,44 @@
         $keyIndex = $i + 1 + $allCounts;
     }
     if (!function_exists('convertMonthToTurkishCharacter')) {
-            function convertMonthToTurkishCharacter($date)
-            {
-                $aylar = [
-                    'January' => 'Ocak',
-                    'February' => 'Şubat',
-                    'March' => 'Mart',
-                    'April' => 'Nisan',
-                    'May' => 'Mayıs',
-                    'June' => 'Haziran',
-                    'July' => 'Temmuz',
-                    'August' => 'Ağustos',
-                    'September' => 'Eylül',
-                    'October' => 'Ekim',
-                    'November' => 'Kasım',
-                    'December' => 'Aralık',
-                    'Monday' => 'Pazartesi',
-                    'Tuesday' => 'Salı',
-                    'Wednesday' => 'Çarşamba',
-                    'Thursday' => 'Perşembe',
-                    'Friday' => 'Cuma',
-                    'Saturday' => 'Cumartesi',
-                    'Sunday' => 'Pazar',
-                    'Jan' => 'Oca',
-                    'Feb' => 'Şub',
-                    'Mar' => 'Mar',
-                    'Apr' => 'Nis',
-                    'May' => 'May',
-                    'Jun' => 'Haz',
-                    'Jul' => 'Tem',
-                    'Aug' => 'Ağu',
-                    'Sep' => 'Eyl',
-                    'Oct' => 'Eki',
-                    'Nov' => 'Kas',
-                    'Dec' => 'Ara',
-                ];
-                return strtr($date, $aylar);
-            }
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
         }
+    }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -150,12 +150,12 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
-                    @if (($sold && !$sold->status == '1') || !$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
-                    <span class="btn addCollection mobileAddCollection " data-type='project'
-                        data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
-                        <i class="fa fa-bookmark-o"></i>
-                    </span>
-                @endif
+                    @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
+                        <span class="btn addCollection mobileAddCollection " data-type='project'
+                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                            <i class="fa fa-bookmark-o"></i>
+                        </span>
+                    @endif
                     <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
                         style="color: white;" data-project-id="{{ $project->id }}">
                         <i class="fa fa-heart-o"></i>
@@ -338,13 +338,12 @@
                                 İletişime Geç
                             </span>
                         </button>
-                        @elseif($neighborView && $neighborView->status == '2')
+                    @elseif($neighborView && $neighborView->status == '2')
                         <span class="first-btn see-my-neighbor"
                             @if (Auth::check()) data-bs-toggle="modal"
                                                                                 data-bs-target="#neighborViewModalMobile{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
-                            <span><svg viewBox="0 0 24 24" width="18" height="18"
-                                    stroke="currentColor" stroke-width="2" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round"
+                            <span><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                    stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                     class="css-i6dzq1">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
@@ -483,7 +482,7 @@
                                 <label for="surname" class="q-label">Telefon Numarası : </label>
                                 <input type="number" class="modal-input" placeholder="Telefon Numarası"
                                     id="phone" name="phone">
-                                    <span id="error_message" class="error-message"></span>
+                                <span id="error_message" class="error-message"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -640,7 +639,8 @@
                         <form action="{{ route('neighborView.index') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                            <button type="submit" class="btn btn-success btn-lg btn-block" style="width:150px;float:right">
+                            <button type="submit" class="btn btn-success btn-lg btn-block"
+                                style="width:150px;float:right">
                                 250 TL Öde
                             </button>
                         </form>
@@ -714,7 +714,7 @@
             }
         });
 
- 
+
 
         function generateRandomCode() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -731,32 +731,3 @@
     </script>
 
 @endif
-
-@section('scripts')
-<script>
-    $(document).ready(function(){
-      $("#phone").blur(function(){
-        var phoneNumber = $(this).val();
-        var pattern = /^5[1-9]\d{8}$/;
-    
-        if (!pattern.test(phoneNumber)) {
-          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
-        } else {
-          $("#error_message").text("");
-        }
-      });
-    });
-    </script>
-    @endsection
-    @section('styles')
-    <style>
-                .error-message {
-            color: red;
-            font-size: 11px;
-        }
-        .success-message {
-            color: green;
-            font-size: 11px;
-        }
-    </style>
-@endsection

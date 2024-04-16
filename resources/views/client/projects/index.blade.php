@@ -722,7 +722,7 @@
                                     </div>
                                 </div>
                             @else
-                                {{-- <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                                <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
                                             @php
@@ -843,7 +843,7 @@
 
 
 
-                                </div> --}}
+                                </div>
                             @endif
 
                         </div>
@@ -1431,8 +1431,34 @@
             });
         });
     </script>
+
+    <script>
+              $(document).ready(function() {
+            $("#phone").blur(function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                    $("#error_message").text("");
+                }
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+    <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
+            font-size: 11px;
+        }
+    </style>
 @endsection
