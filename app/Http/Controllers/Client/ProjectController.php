@@ -933,6 +933,7 @@ class ProjectController extends Controller
         if ($projectID > 1000000) {
             $projectID -= 1000000;
         }
+        $cities = City::get();
 
 
         $menu = Menu::getMenuItems();
