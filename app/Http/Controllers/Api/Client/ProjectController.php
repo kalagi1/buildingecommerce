@@ -229,7 +229,7 @@ class ProjectController extends Controller
     }
 
     public function updateProject(){
-        $tempOrder = TempOrder::where('item_type', 3)->where('user_id', auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type', 3)->where('user_id', auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
 
         Project::where('id', $tempData->id)->update([
