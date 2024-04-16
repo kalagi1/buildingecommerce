@@ -652,7 +652,7 @@
             .emlak-kulup-slider .home5-right-slider,
             .emlak-kulup-slider .home5-right-slider .owl-stage-outer,
             .emlak-kulup-slider .recent-16 {
-                height: 250px !important;
+                height: 200px !important;
             }
 
             .emlak-kulup-slider {
