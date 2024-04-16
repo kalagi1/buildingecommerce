@@ -1307,6 +1307,9 @@
                                                     $label != 'Kapak Resmi' &&
                                                         $label != 'Taksitli Satış' &&
                                                         $label != 'Fiyat' &&
+                                                        $label != 'Seçenekler' &&
+                                                        $label != 'Acil Satılık' &&
+                                                        $label != 'İndirim Oranı %' &&
                                                         $label != 'Peşinat' &&
                                                         $label != 'İlan Başlığı' &&
                                                         $label != 'Günlük Fiyat' &&
@@ -1314,7 +1317,8 @@
                                                         $label != 'Taksitli Toplam Fiyat' &&
                                                         isset($val[0]) &&
                                                         $val[0] != 0 &&
-                                                        $val[0] != null && !isset($val[1]) )
+                                                        $val[0] != null
+                                                        && !isset($val[1]))
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $label }}:</span>
