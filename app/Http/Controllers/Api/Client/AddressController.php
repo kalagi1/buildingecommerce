@@ -28,7 +28,7 @@ class AddressController extends Controller
     }
 
     public function getNeighborhoodsByCountyId($countyId){
-        $counties = Neighborhood::select(DB::raw('mahalle_title as label , mahalle_key as value'))->where('mahalle_ilcekey',$countyId)->get();
+        $counties = Neighborhood::select(DB::raw('mahalle_title as label , mahalle_id as value'))->where('mahalle_ilcekey',$countyId)->get();
         
         return json_encode([
             "data" => $counties
