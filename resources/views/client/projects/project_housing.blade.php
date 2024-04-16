@@ -1873,10 +1873,37 @@
             var endIndex = 12;
 
         }
+        $(document).ready(function(){
+          $("#phone").blur(function(){
+            var phoneNumber = $(this).val();
+            var pattern = /^5[1-9]\d{8}$/;
+        
+            if (!pattern.test(phoneNumber)) {
+              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+            } else {
+              $("#error_message").text("");
+            }
+          });
+        });
     </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ asset('css/project-housing.css') }}">
+    <style>
+        .mobile-action-move {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .error-message {
+            color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
+            font-size: 11px;
+        }
+    </style>
 @endsection

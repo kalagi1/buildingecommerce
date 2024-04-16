@@ -31,7 +31,9 @@
                     </div>
                 </div>
             @else
-                @if ($cart['type'] == 'project')
+            <div class="row">
+                <div class="col-md-12">
+                    @if ($cart['type'] == 'project')
                     <div class="wrap-house wg-dream flex bg-white">
                         <div class="box-0">
                             <a
@@ -362,7 +364,10 @@
                     </div>
 
                 @endif
-                <div class="row mr-4">
+                </div>
+            </div>
+            
+                <div class="row">
                     <div class="col-md-12">
                         <div class="">
                             <div class="row">
@@ -444,7 +449,7 @@
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
-                                <div class="tr-single-header">
+                                <div class="tr-single-header pb-3">
                                     <h4><i class="far fa-address-card pr-2"></i>Satın Alan Kişinin Bilgileri</h4>
                                 </div>
 
@@ -457,6 +462,17 @@
                                     <input type="hidden" name="is_swap" class="is_swap"
                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
                                     <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="d-flex" style="align-items: center;">
+                                                <input style="margin-left: 0px !important;" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                                                <label class="ml-2 mb-0" for="flexSwitchCheckChecked">TC vatandaşı değilim</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="tc">TC: </label>
+                                            <input type="number" class="form-control" id="tc" name="tc"
+                                                required oninput="validateTCLength(this)">
+                                        </div>
                                         <div class="col-sm-6">
                                             <label for="fullName">Ad Soyad:</label>
                                             <input type="text" class="form-control" id="fullName" name="fullName"
@@ -467,25 +483,51 @@
                                             <input type="email" class="form-control" id="email" name="email"
                                                 required>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label for="tc">TC: </label>
-                                            <input type="number" class="form-control" id="tc" name="tc"
-                                                required oninput="validateTCLength(this)">
-                                        </div>
                                         <script>
                                             function validateTCLength(input) {
-                                                var maxLength = 11;
-                                                if (input.value.length > maxLength) {
-                                                    input.value = input.value.slice(0, maxLength);
+                                                const tckNo = input.value.replace(/\D/g, '');
+                                                // TC Kimlik No'nun uzunluğu 11 haneli olmalıdır
+                                                if (tckNo.length > 11) {
                                                     toastr.warning("TC kimlik numarası 11 karakterden fazla olamaz!");
+                                                    return '';
                                                 }
+
+                                                // İlk hane 0 olamaz
+                                                if (tckNo[0] == "0") {
+                                                    toastr.warning("Geçersiz TC Kimlik No! İlk rakam 0 olamaz.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No'nun ilk 9 hanesinin toplamı 10. ve 11. haneleri verir
+                                                let sum = 0;
+                                                for (let i = 0; i < 10; i++) {
+                                                    sum += Number(tckNo[i]);
+                                                }
+                                                
+                                                const lastDigit = sum % 10;
+                                                if (tckNo.length == 11 && lastDigit !== Number(tckNo[10])) {
+                                                    toastr.warning("Geçersiz TC Kimlik No! Kontrol haneleri uyuşmuyor.");
+                                                    $('#tc').val("")
+                                                    return '';
+                                                }
+
+                                                // TC Kimlik No formatını düzenle (5-6-5)
+                                                const formattedTC = input.target.value;
+                                                console.log(formattedTC);
+                                                $('#tc').val(formattedTC)
+                                                return formattedTC;
                                             }
                                         </script>
                                         <div class="col-sm-6">
                                             <label for="phone">Telefon:</label>
+                                          
                                             <input type="number" class="form-control" id="phone" name="phone"
                                                 required>
+                                                <span id="error_message" class="error-message"></span>
+                                         
                                         </div>
+                                        
                                         <div class="col-sm-6">
                                             <label for="address">Adres:</label>
                                             <textarea class="form-control" id="address" name="address" rows="5" required></textarea>
@@ -503,13 +545,13 @@
 
                                         <div class="col-sm-6">
                                             @if (isset($cart['item']['neighborProjects']) && count($cart['item']['neighborProjects']) > 0 && empty($share_sale))
-                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın
-                                                    alıyorsunuz?</label>
+                                                <label for="neighborProjects">Komşunuzun referansıyla mı satın alıyorsunuz?</label>
                                                 <select class="form-control" id="is_reference" name="is_reference">
                                                     <option value="" selected>Komşu Seçiniz</option>
                                                     @foreach ($cart['item']['neighborProjects'] as $neighborProject)
-                                                        <option value="{{ $neighborProject['owner']['id'] }}">
-                                                            {{ $neighborProject['owner']['name'] }}</option>
+                                                        <option value="{{ isset($neighborProject['owner']) ? $neighborProject['owner']['id'] : '' }}">
+                                                            {{ isset($neighborProject['owner']) ? $neighborProject['owner']['name'] : '' }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             @endif
@@ -564,8 +606,10 @@
                         <div class="row">
 
                             <div class="col-md-12" style="background: white !important;">
+                                <div class="tr-single-box">
+
                                 <div class="tr-single-body">
-                                    <div class="tr-single-header pb-2">
+                                    <div class="tr-single-header pb-3">
                                         <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
                                     </div>
                                     <div class="booking-price-detail side-list no-border mb-3">
@@ -644,14 +688,14 @@
                                                 TL</strong></div>
 
                                     </div>
-                                @else
-                                    <div>
-                                        <div class="text-success">Ödenecek Tutar :<strong
-                                                class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
-                                                TL</strong></div>
+                                        @else
+                                            <div>
+                                                <div class="text-success">Ödenecek Tutar :<strong
+                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                        TL</strong></div>
 
-                                    </div>
-                                @endif --}}
+                                            </div>
+                                        @endif --}}
 
                                     @if ($saleType == 'kiralik')
                                         <div id="rental-amount">
@@ -673,28 +717,28 @@
                                             <div class="tr-single-header">
 
                                                 <div class="row">
-
                                                     <div class="col">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option2" value="option2"
-                                                                checked>
-                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
-                                                                for="option2">
-                                                                EFT / Havale ile Ödeme
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="payment_option" id="option1" value="option1">
+                                                                name="payment_option" id="option1" value="option1" checked>
                                                             <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
                                                                 for="option1">
                                                                 Kredi Kartı ile Ödeme
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="col">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="payment_option" id="option2" value="option2"
+                                                                >
+                                                            <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
+                                                                for="option2">
+                                                                EFT / Havale ile Ödeme
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -735,8 +779,8 @@
                                                         class="discount">
                                                     <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
                                                         value="{{ $cart['item']['payment-plan'] ?? null }}">
-                                                    <div class="row mrg-bot-20">
-                                                        <div class="col-sm-6">
+                                                    <div class="row mrg-bot-20" style="width:100% !important">
+                                                        <div class="col-sm-12 p-0">
                                                             <label for="creditcard">Kart Numarası</label>
                                                             <input type="text" class="form-control" id="creditcard"
                                                                 name="creditcard" oninput="formatCreditCard(this)">
@@ -758,8 +802,8 @@
                                                             </script>
                                                         </div>
                                                     </div>
-                                                    <div class="row mrg-bot-20">
-                                                        <div class="col-sm-4 col-md-4">
+                                                    <div class="row mrg-bot-20" style="width:100% !important">
+                                                        <div class="col-sm-6 col-md-6 p-0">
                                                             <label>Son Kullanma Ayı</label>
                                                             {{-- <input type="number" class="form-control" id="month"
                                                             name="month" placeholder="09"> --}}
@@ -778,7 +822,7 @@
                                                                 <option value="12">Aralık</option>
                                                             </select>
                                                         </div>
-                                                        <div class="col-sm-4 col-md-4">
+                                                        <div class="col-sm-6 col-md-6 pr-0">
                                                             <label>Son Kullanma Yılı</label>
                                                             <select class="form-control" id="year" name="year">
                                                                 <?php
@@ -922,10 +966,8 @@
                                     </div>
                                 </div>
                             </div>
-                                    <!-- Debit card option -->
-
                                 </div>
-                                {{-- </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -950,8 +992,24 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script>
+            $(document).ready(function(){
+              $("#phone").blur(function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                    $("#success_message").text("");
+                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                  $("#error_message").text("");
+                }
+              });
+            });
+            </script>
     <script>
         $(document).ready(function (){  
             
@@ -1292,6 +1350,14 @@
 
         .custom-file-upload input[type="file"] {
             display: none;
+            }
+        .error-message {
+            color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
+            font-size: 11px;
         }
         .wrap-house {
             // border-radius: 10px;

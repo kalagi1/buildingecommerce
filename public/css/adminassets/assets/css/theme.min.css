@@ -34116,7 +34116,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical.navbar-expand-xs .navbar-v
     text-align: center;
     color: var(--phoenix-avatar-name-color);
     background-color: var(--phoenix-primary-100);
-    font-weight: bold;
+    
     text-transform: uppercase;
     display: block
 }
@@ -40450,7 +40450,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .finish-text p{
     text-align: center;
     font-size: 11px;
-    font-weight: bold;
+    
     margin: 20px 0;
 }
 
@@ -40477,14 +40477,14 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 
 .thumbnail-second span{
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }
 
 .form-area .section-title{
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }
@@ -40686,7 +40686,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #e54242;
     width: 50%;
     margin-left: 10px;
-    font-weight: bold;
+    
     cursor: pointer;
 }
 
@@ -40721,7 +40721,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #e54242;
     width: 50%;
     margin-left: 10px;
-    font-weight: bold;
+    
     cursor: pointer;
 }
 
@@ -40756,7 +40756,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #e54242;
     width: 50%;
     margin-left: 10px;
-    font-weight: bold;
+    
     cursor: pointer;
 }
 
@@ -40939,7 +40939,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     color: #999;
     line-height: 36px;
     font-size: 16px;
-    font-weight: bold;
+    
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

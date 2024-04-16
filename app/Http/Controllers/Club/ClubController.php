@@ -16,10 +16,9 @@ class ClubController extends Controller {
 
         $user = User::where( 'id', $userID )->first();
 
-        $store = User::where( 'id', $user->id )->with( 'projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands', 'banners' )->first();
+        $store = User::where( 'id', $user->id )->with( 'projects.housings', 'housings', 'city', 'town', 'district', 'neighborhood', 'brands',"child.collections", 'banners' )->first();
 
         $collections = Collection::with( 'links.project', 'links.housing' )->where( 'status', 1 )->where( 'user_id', $user->id )->get();
-
         return view( 'client.club.dashboard', compact( 'store', 'collections', 'slug' ) );
     }
 }

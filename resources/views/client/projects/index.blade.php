@@ -262,6 +262,20 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
+                                                        <span class="autoWidthTr">Ada:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Parsel:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
                                                         <span class="autoWidthTr">Başlangıç Tarihi:</span>
                                                         <span class="det" style="color: black;">
                                                             {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
@@ -574,7 +588,6 @@
 
                                                 @if (
                                                     !$isArrayCheck &&
-
                                                         isset($value) &&
                                                         $value !== '' &&
                                                         $housingSetting->label != 'Fiyat' &&
@@ -909,22 +922,7 @@
     </script>
 
     <script>
-        // var project = "{{ $project->id }}";
-
-        // if (project == "383") {
-        //     document.addEventListener("DOMContentLoaded", function() {
-        //         setTimeout(function() {
-        //             $('#applySampleModal').modal('show');
-        //         }, 1000);
-        //     });
-        // }
         $(document).ready(function() {
-            // $('#applySampleModal img').click(function() {
-            //     $('#applySampleModal').modal('hide');
-            //     $('#exampleModal10').modal('show');
-            //     $('#applyModal10').modal('show');
-
-            // });
 
             $(document).on("change", ".citySelect2", function() {
                 var selectedCity = $(this).val();
@@ -1433,8 +1431,34 @@
             });
         });
     </script>
+
+    <script>
+              $(document).ready(function() {
+            $("#phone").blur(function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                    $("#error_message").text("");
+                }
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+    <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
+            font-size: 11px;
+        }
+    </style>
 @endsection

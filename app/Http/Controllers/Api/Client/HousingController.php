@@ -74,4 +74,94 @@ class HousingController extends Controller {
             'labels' => $labels
         ] );
     }
+
+
+    public function getMyHousings(){
+        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', 1 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', 0 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', 3 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where( 'status', 2 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json'
+        )
+        ->where( 'user_id', auth()->guard('api')->user()->parent_id ?  auth()->guard('api')->user()->parent_id : auth()->guard('api')->user()->id )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        return json_encode([
+            "pendingHousingTypes" => $pendingHousingTypes,
+            "disabledHousingTypes" => $disabledHousingTypes,
+            "inactiveHousingTypes" => $inactiveHousingTypes,
+            "activeHousingTypes" => $activeHousingTypes,
+        ]);
+    }
 }

@@ -33,9 +33,10 @@
                                 </div> --}}
                                 <div class="mt-3">
                                     <label class="form-label">Telefon</label>
-                                    <input type="number" name="phone"
+                                    <input type="number" name="phone" id="phone"
                                         class="form-control @error('phone') is-invalid @enderror"
                                         value="{{ old('phone', $user->phone) }}">
+                                        <span id="error_message" class="error-message"></span>
                                     @error('phone')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -68,7 +69,7 @@
                                             title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
                                     <input type="text" name="iban"
                                         class="form-control @error('iban') is-invalid @enderror"
-                                        value="{{ old('iban', $user->iban) }}">
+                                        value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
                                     @error('iban')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -101,10 +102,56 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+<script>
+    $(document).ready(function(){
+      $("#phone").blur(function(){
+        var phoneNumber = $(this).val();
+        var pattern = /^5[1-9]\d{8}$/;
+    
+        if (!pattern.test(phoneNumber)) {
+          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+        } else {
+          $("#error_message").text("");
+        }
+      });
+    });
+    </script>
+<script>
+    function formatIBAN(input) {
+        // TR ile başlat
+        var formattedIBAN = "TR";
 
+        // Gelen değerden sadece rakamları al
+        var numbersOnly = input.value.replace(/\D/g, '');
+
+        // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+        if (numbersOnly.length > 24) {
+            numbersOnly = numbersOnly.substring(0, 24);
+        }
+
+        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+        for (var i = 0; i < numbersOnly.length; i += 4) {
+            formattedIBAN += numbersOnly.substr(i, 4) + " ";
+        }
+
+        // Formatlanmış İBAN'ı input değerine ata
+        input.value = formattedIBAN.trim();
+    }
+
+    // Giriş alanının değeri değiştiğinde formatIBAN fonksiyonunu çağır
+    document.getElementById("ibanInput").addEventListener("input", function() {
+        formatIBAN(this);
+    });
+</script>
+@endsection
 
 @section('css')
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .btn-blue {
             background-color: #0080c7 !important;
             color: white

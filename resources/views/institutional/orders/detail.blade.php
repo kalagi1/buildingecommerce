@@ -596,11 +596,12 @@
 
                                                                         <div class="mb-2"><label class="form-label"
                                                                                 for="bootstrap-wizard-validation-wizard-phone">Telefon
-                                                                                Numarası</label><input class="form-control"
+                                                                                Numarası</label><input class="form-control phoneControl"
                                                                                 type="text" name="phone"
                                                                                 placeholder="Telefon Numarası"
                                                                                 id="bootstrap-wizard-validation-wizard-phone"
                                                                                 required="required">
+                                                                                <span id="error_message" class="error-message"></span>
                                                                             <div class="invalid-feedback">Alan Zorunludur.
                                                                             </div>
                                                                         </div>
@@ -748,7 +749,20 @@
 @section('scripts')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<script>
+    $(document).ready(function(){
+      $(".phoneControl").blur(function(){
+        var phoneNumber = $(this).val();
+        var pattern = /^5[1-9]\d{8}$/;
+    
+        if (!pattern.test(phoneNumber)) {
+          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+        } else {
+          $("#error_message").text("");
+        }
+      });
+    });
+    </script>
     <script>
         // CSRF tokenını al
         var csrfToken = "{{ csrf_token() }}";
@@ -791,6 +805,10 @@
 
 @section('css')
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .order_status span {
             font-weight: 800
         }

@@ -37,7 +37,10 @@ class CartController extends Controller {
     }
 
     public function payCart( Request $request ) {
-        if ( !$request->session()->get( 'cart' ) ) {
+
+        $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
+
+        if (!$cartItem) {
 
             return response()->json( [ 'success' => 'fail' ] );
         }
@@ -65,7 +68,9 @@ class CartController extends Controller {
         ->latest( 'created_at' )
         ->first();
 
-        $cartJson = $request->session()->get( 'cart' );
+
+
+        $cartJson = json_decode( $cartItem->cart, true );
         $order = new CartOrder;
 
         $order->user_id = auth()->user()->id;

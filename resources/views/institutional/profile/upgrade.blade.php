@@ -35,7 +35,7 @@
                             </div>
                             <div class="py-2 px-3 border-bottom d-flex w-100">
                                 <b>Fiyat:</b>
-                                <span class="text-primary" style="margin-left: auto; font-weight: bold; font-size: 20px;">
+                                <span class="text-primary" style="margin-left: auto;  font-size: 20px;">
                                     {{ $plan->price }}TL
                                 </span>
                             </div>

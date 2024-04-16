@@ -26,44 +26,44 @@
         $keyIndex = $i + 1 + $allCounts;
     }
     if (!function_exists('convertMonthToTurkishCharacter')) {
-            function convertMonthToTurkishCharacter($date)
-            {
-                $aylar = [
-                    'January' => 'Ocak',
-                    'February' => 'Şubat',
-                    'March' => 'Mart',
-                    'April' => 'Nisan',
-                    'May' => 'Mayıs',
-                    'June' => 'Haziran',
-                    'July' => 'Temmuz',
-                    'August' => 'Ağustos',
-                    'September' => 'Eylül',
-                    'October' => 'Ekim',
-                    'November' => 'Kasım',
-                    'December' => 'Aralık',
-                    'Monday' => 'Pazartesi',
-                    'Tuesday' => 'Salı',
-                    'Wednesday' => 'Çarşamba',
-                    'Thursday' => 'Perşembe',
-                    'Friday' => 'Cuma',
-                    'Saturday' => 'Cumartesi',
-                    'Sunday' => 'Pazar',
-                    'Jan' => 'Oca',
-                    'Feb' => 'Şub',
-                    'Mar' => 'Mar',
-                    'Apr' => 'Nis',
-                    'May' => 'May',
-                    'Jun' => 'Haz',
-                    'Jul' => 'Tem',
-                    'Aug' => 'Ağu',
-                    'Sep' => 'Eyl',
-                    'Oct' => 'Eki',
-                    'Nov' => 'Kas',
-                    'Dec' => 'Ara',
-                ];
-                return strtr($date, $aylar);
-            }
+        function convertMonthToTurkishCharacter($date)
+        {
+            $aylar = [
+                'January' => 'Ocak',
+                'February' => 'Şubat',
+                'March' => 'Mart',
+                'April' => 'Nisan',
+                'May' => 'Mayıs',
+                'June' => 'Haziran',
+                'July' => 'Temmuz',
+                'August' => 'Ağustos',
+                'September' => 'Eylül',
+                'October' => 'Ekim',
+                'November' => 'Kasım',
+                'December' => 'Aralık',
+                'Monday' => 'Pazartesi',
+                'Tuesday' => 'Salı',
+                'Wednesday' => 'Çarşamba',
+                'Thursday' => 'Perşembe',
+                'Friday' => 'Cuma',
+                'Saturday' => 'Cumartesi',
+                'Sunday' => 'Pazar',
+                'Jan' => 'Oca',
+                'Feb' => 'Şub',
+                'Mar' => 'Mar',
+                'Apr' => 'Nis',
+                'May' => 'May',
+                'Jun' => 'Haz',
+                'Jul' => 'Tem',
+                'Aug' => 'Ağu',
+                'Sep' => 'Eyl',
+                'Oct' => 'Eki',
+                'Nov' => 'Kas',
+                'Dec' => 'Ara',
+            ];
+            return strtr($date, $aylar);
         }
+    }
 @endphp
 @php
     $off_sale_check = $projectHousingsList[$keyIndex]['off_sale[]'] == '[]';
@@ -150,12 +150,12 @@
                             {{ $project->step1_slug }}
                         @endif
                     </h3>
-                    @if (($sold && !$sold->status == '1') || !$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]')
-                    <span class="btn addCollection mobileAddCollection " data-type='project'
-                        data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
-                        <i class="fa fa-bookmark-o"></i>
-                    </span>
-                @endif
+                    @if (($sold && !$sold->status == '1') || (!$sold && $projectHousingsList[$keyIndex]['off_sale[]'] == '[]'))
+                        <span class="btn addCollection mobileAddCollection " data-type='project'
+                            data-project='{{ $project->id }}' data-id='{{ $keyIndex }}'>
+                            <i class="fa fa-bookmark-o"></i>
+                        </span>
+                    @endif
                     <span class="btn toggle-project-favorite bg-white" data-project-housing-id="{{ $keyIndex }}"
                         style="color: white;" data-project-id="{{ $project->id }}">
                         <i class="fa fa-heart-o"></i>
@@ -278,7 +278,7 @@
                         @if (Auth::check())
                             <button class="btn first-btn mobileCBtn payment-plan-mobile-btn see-my-neighbor"
                                 style="width:50% !important;color:white !important;background-color:green !important;"
-                                data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}"
+                                data-bs-toggle="modal" data-bs-target="#neighborViewModalMobile{{ $sold->id }}"
                                 data-order="{{ $sold->id }}">
                                 <span
                                     style="text-align: center; display: flex; align-items: center; justify-content: center;">
@@ -338,13 +338,12 @@
                                 İletişime Geç
                             </span>
                         </button>
-                        @elseif($neighborView && $neighborView->status == '2')
+                    @elseif($neighborView && $neighborView->status == '2')
                         <span class="first-btn see-my-neighbor"
                             @if (Auth::check()) data-bs-toggle="modal"
-                                                                                data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
-                            <span><svg viewBox="0 0 24 24" width="18" height="18"
-                                    stroke="currentColor" stroke-width="2" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                                data-bs-target="#neighborViewModalMobile{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
+                            <span><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor"
+                                    stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
                                     class="css-i6dzq1">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
@@ -483,6 +482,7 @@
                                 <label for="surname" class="q-label">Telefon Numarası : </label>
                                 <input type="number" class="modal-input" placeholder="Telefon Numarası"
                                     id="phone" name="phone">
+                                <span id="error_message" class="error-message"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -597,8 +597,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="neighborViewModal{{ $sold->id }}" tabindex="-1"
-        aria-labelledby="neighborViewModalLabel" aria-hidden="true">
+    <div class="modal fade" id="neighborViewModalMobile{{ $sold->id }}" tabindex="-1"
+        aria-labelledby="neighborViewModalMobileLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -628,16 +628,6 @@
                                             aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
                                     </ul>
                                 </div>
-                                <div class="container row mb-3 mt-3">
-                                    @foreach ($bankAccounts as $bankAccount)
-                                        <div class="col-md-4 bank-account" data-id="{{ $bankAccount->id }}"
-                                            data-sold-id="{{ $sold->id }}" data-iban="{{ $bankAccount->iban }}"
-                                            data-title="{{ $bankAccount->receipent_full_name }}">
-                                            <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}" alt=""
-                                                style="width: 100%;height:100px;object-fit:contain;cursor:pointer">
-                                        </div>
-                                    @endforeach
-                                </div>
                                 <div class="ibanInfo" style="font-size: 12px !important"></div>
 
                             </div>
@@ -646,16 +636,17 @@
                     </div>
 
                     <div class="d-flex">
-                        <button type="button"
-                            class="btn btn-secondary btn-lg btn-block mb-3 mt-3 completePaymentButtonOrder"
-                            id="completePaymentButton{{ $sold->id }}" data-order="{{ $sold->id }}"
-                            style="width:150px;float:right">
-                            250 TL Öde
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                            style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                        <form action="{{ route('neighborView.index') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $sold->id }}">
+                            <button type="submit" class="btn btn-success btn-lg btn-block"
+                                style="width:150px;float:right">
+                                250 TL Öde
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mt-3 mb-3"
+                            style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                     </div>
-
 
                 </div>
             </div>
@@ -723,12 +714,6 @@
             }
         });
 
-        $(document).ready(function() {
-            $('#applySampleModal img').click(function() {
-                $('#applySampleModal').modal('hide');
-                $('#exampleModal10').modal('show');
-            });
-        });
 
 
         function generateRandomCode() {

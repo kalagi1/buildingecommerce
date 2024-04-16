@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartOrder;
 use App\Models\HousingStatus;
 use App\Models\HousingTypeParent;
 use App\Models\Offer;
@@ -25,6 +26,15 @@ class ProjectController extends Controller
         ->where('projects.status', 1)
         ->get();
         return response()->json($featuredProjects);
+    }
+
+    public function getMyProject($projectId){
+        $project = Project::where('id', $projectId)->with("neighbourhood", "housingType", "county", "city", 'images','situations')->first();
+       
+
+        return json_encode([
+            "project" => $project,
+        ]);
     }
 
     public function show($projectID){
@@ -150,6 +160,69 @@ class ProjectController extends Controller
         return json_encode([
             "data" => $projects,
             "count" => $projectCount
+        ]);
+    }
+
+    public function getMyProjects(Request $request){
+        $userId = auth()->guard('api')->user()->id;
+
+        $fullProjectsCount = Project::where('user_id', $userId)->where('status', $request->input('status'))->count();
+
+        $projects = Project::select(DB::raw('*, (select count(*) from project_housings WHERE name = "off_sale[]" AND value != "[]" AND project_id = projects.id) as offSale'))->where('user_id', $userId)
+            ->with("housingType", "county", "city", "neighbourhood", "standOut", "standOut.dopingPricePaymentWait", 'standOut.dopingPricePaymentCancel')
+            ->orderByDesc('created_at')
+            ->where('status', $request->input('status'))
+            ->take($request->input('take'))
+            ->skip($request->input('start'))
+            ->get();
+
+        $userProjectIds = $projects->pluck('id');
+
+        $projectCounts = $this->getProjectCounts($userProjectIds, '1');
+        $paymentPendingCounts = $this->getProjectCounts($userProjectIds, '0');
+
+
+        $projects = $this->mapProjectCounts($projects, $projectCounts, 'cartOrders');
+        $projects = $this->mapProjectCounts($projects, $paymentPendingCounts, 'paymentPending');
+
+        
+        return json_encode([
+            "data" => $projects,
+            "total_projects_count" => $fullProjectsCount
+        ]);
+    }
+
+    protected function getProjectCounts($userProjectIds, $status)
+    {
+        return CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
+            ->whereIn(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $userProjectIds)
+            ->groupBy('project_id')
+            ->where('status', $status)
+            ->get();
+    }
+
+
+    protected function mapProjectCounts($projects, $counts, $propertyName)
+    {
+        return $projects->map(function ($project) use ($counts, $propertyName) {
+            $project->$propertyName = $counts->where('project_id', $project->id)->first()->count ?? 0;
+
+            if ($propertyName == 'cartOrders') {
+                $totalAmount = CartOrder::where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                    ->where("status", "1")->sum("amount");
+
+                $project->totalAmount = number_format($totalAmount, 3, '.', '');
+            }
+
+            return $project;
+        });
+    }
+
+    public function deleteProjectGalleryImage($id){
+        ProjectImage::where('id',$id)->delete();
+
+        return json_encode([
+            "status" => true
         ]);
     }
 }

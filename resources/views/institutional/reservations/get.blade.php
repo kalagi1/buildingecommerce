@@ -513,7 +513,7 @@
             align-items: center;
             font-size: 12px;
             color: #2a2a2a;
-            font-weight: bold;
+            
             margin-bottom: 20px;
         }
 
@@ -657,7 +657,7 @@
 
         #orders-container .order .order-header .order-header-info {
             color: #666;
-            font-weight: bold;
+            
             font-size: 13px;
             display: flex;
         }
@@ -800,7 +800,7 @@
         }
 
         #orders-container .order .order-item .order-item-status strong {
-            font-weight: bold;
+            
         }
 
         #orders-container .order .order-item .order-item-status .at_collection_point,
@@ -1449,7 +1449,7 @@
         #orders-container .countdown .title {
             color: #fff;
             font-size: 10px;
-            font-weight: bold;
+            
             align-self: center;
             margin-bottom: 4px;
         }
