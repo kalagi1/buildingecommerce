@@ -2464,5 +2464,31 @@
             color: green;
             font-size: 11px;
         }
+        .inner-pages .form-control {
+            padding: 0 0.3rem !important
+        }
+
+        .formInput {
+            display: block;
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 2.0;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #b9b9b9;
+            border-radius: .35rem;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.07);
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .formInput:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
     </style>
 @endsection
