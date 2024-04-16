@@ -1183,7 +1183,7 @@
 
 
                         <div class="moveStore">
-                            <div class="widget-boxed removeClass mt-5">
+                            <div class="widget-boxed removeClass mt-5 mb-5">
                                 <div class="widget-boxed-header">
                                     <h4>Mağaza Bilgileri</h4>
                                 </div>
