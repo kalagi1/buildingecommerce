@@ -780,6 +780,14 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    
+    Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
+    Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
+    ->name('phone.generateVerificationCode');
+
+    Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
+    ->name('phone.verifyPhoneNumber');
+
     Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
     Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
 
