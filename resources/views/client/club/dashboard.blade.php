@@ -79,7 +79,7 @@
                                     </a></div>
                                 <ul class="collection-actions">
                                     <li> <button>
-                                            <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($item->name), 'userid' => $item->id, 'id' => $item->id]) }}"
+                                            <a href="whatsapp://send?text={{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"
                                                 style="color: green">
                                                 <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
                                             </a>
@@ -116,9 +116,10 @@
                                 <div class="collection-navigation">
                                     <div class="collection-stats">
                                         <span class="collection-show-count"><i class="fa fa-eye"></i>
+                                            {{ $item->collections->sum('views_count') }} <!-- Toplam görüntülenme sayısı -->
                                         </span>
                                     </div><a
-                                        href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($item->name), 'userid' => $item->id, 'id' => $item->id]) }}"><span>Koleksiyonlara
+                                        href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
                                             Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
                             </div>
