@@ -104,7 +104,7 @@
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
-                            style="background-image: url(images/emlakKulupGorsel.png)"></div>
+                            style="background-image: url(images/emlak-kulup-banner.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
                             style="background-image: url(images/bannerNew_mobil.png);"></div>
 
