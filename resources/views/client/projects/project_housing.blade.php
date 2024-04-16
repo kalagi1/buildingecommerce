@@ -426,7 +426,7 @@
                                             </defs>
                                         </svg><span class="add-to-collection-button-text">Koleksiyona Ekle</span>
                                     </div>
-                                    <span class="fa fa-plus"></span>
+                                    <i class="fa fa-caret-right"></i>
                                 </div>
                             </div>
 
