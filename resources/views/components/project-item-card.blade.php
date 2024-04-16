@@ -619,7 +619,11 @@
                             <form action="{{ route('neighborView.index') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                                <button type="submit" class="btn btn-success btn-lg btn-block" style="width:150px;float:right">
+                                <button type="submit" class="CartBtn btn btn-success btn-lg btn-block" style="width:150px;float:right"
+                                data-type='project'
+                                            data-project='{{ $project->id }}' style="height: auto !important"
+                                            data-id='{{ $keyIndex }}' data-share="{{ $share_sale }}"
+                                            data-number-share="{{ $number_of_share }}">
                                     250 TL Öde
                                 </button>
                             </form>
