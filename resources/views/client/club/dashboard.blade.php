@@ -117,6 +117,7 @@
                                     <div class="collection-stats">
                                         <span class="collection-show-count"><i class="fa fa-eye"></i>
                                             {{
+                                                dd( $item->collections);
                                                 $item->collections->flatMap(function ($collection) {
                                                     return count($collection->clicks);
                                                 })->sum()
