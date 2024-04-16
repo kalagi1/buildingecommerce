@@ -20,13 +20,14 @@ use App\Models\HousingStatus;
 use App\Models\DocumentNotification;
 use Illuminate\Support\Facades\DB;
 
-class NeighborViewController extends Controller {
+class NeighborViewController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
 
-        if ( Auth::check() ) {
-            $userId = Auth::id();
-            // Kullanıcının user_id'sini al
+        if (Auth::check()) {
+            $userId = Auth::id(); // Kullanıcının user_id'sini al
             $neighborViews = NeighborView::with(['user', 'owner', 'order', 'project'])
                 ->where('user_id', $userId)
                 ->where('status', 1)
@@ -104,10 +105,7 @@ class NeighborViewController extends Controller {
             ];
 
             foreach ($applyPaymentOrderVariables as $key => $value) {
-                $applyPaymentOrderContent = str_replace(' {
-            {
-                ' . $key . '}
-            }', $value, $applyPaymentOrderContent);
+                $applyPaymentOrderContent = str_replace('{{' . $key . '}}', $value, $applyPaymentOrderContent);
             }
 
             Mail::to($user->email)->send(new CustomMail($applyPaymentOrder->subject, $applyPaymentOrderContent));
@@ -250,7 +248,7 @@ class NeighborViewController extends Controller {
                 $emailSubject = 'Emlak Sepette | Komşumu Gör Ödemeniz Onaylandı';
                 DocumentNotification::create([
                     'user_id' => 4,
-                    'text' => $neighbor->project->project_title . ' projesindeki ' . $neighbor->housing . ' numaralı ilan için 'Komşumu Gör' başvurunuz onaylandı!',
+                    'text' => $neighbor->project->project_title . ' projesindeki ' . $neighbor->housing . ' numaralı ilan için "Komşumu Gör" başvurunuz onaylandı!',
                     'item_id' => $neighbor->parent_id ?? $neighbor->id,
                     'link' => route('project.housings.detail', ['projectSlug' => $neighbor->project->slug . "-" . $status->slug . "-" . $neighbor->project->step2_slug . "-" . $neighbor->project->housingtype->slug, "projectID" => $neighbor->project->id + 1000000, "housingOrder" => $neighbor->housing]),
                     'owner_id' => $neighbor->parent_id ?? $neighbor->id,
@@ -319,8 +317,9 @@ class NeighborViewController extends Controller {
         $order = CartOrder::where('id', $request->order_id)->first();
 
         $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-        $cart =null;
-        if ( $cartItem) {
+        $cart = [];
+        if ($cartItem) {
+
             $cart = json_decode($cartItem->cart, true);
 
             $saleType = null;
@@ -352,18 +351,18 @@ class NeighborViewController extends Controller {
                             'project_list_items.column3_additional as column3_additional',
                             'project_list_items.column4_additional as column4_additional',
                             'housings.address',
-                            \Illuminate\Support\Facades\DB::raw('( SELECT status FROM cart_orders WHERE JSON_EXTRACT( cart, "$.type" ) = 'housing' AND JSON_EXTRACT( cart, "$.item.id" ) = housings.id ) AS sold'),
+                            \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
                             'cities.title AS city_title',
                             'districts.ilce_title AS county_title',
                             'neighborhoods.mahalle_title AS neighborhood_title',
-                            DB::raw('( SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = 'housing' AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ) as discount_amount'),
+                            DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount'),
                         )
-                        ->leftJoin('housing_types', 'housing_types.id', ' = ', 'housings.housing_type_id')
-                        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', ' = ', 'housings.housing_type_id')
-                        ->leftJoin('housing_status', 'housings.status_id', ' = ', 'housing_status.id')
-                        ->leftJoin('cities', 'cities.id', ' = ', 'housings.city_id')
-                        ->leftJoin('districts', 'districts.ilce_key', ' = ', 'housings.county_id')
-                        ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', ' = ', 'housings.neighborhood_id')
+                        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+                        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+                        ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
                         ->where('housings.status', 1)
                         ->where("housings.id", $cart['item']['id'])
                         ->where('project_list_items.item_type', 2)
@@ -385,6 +384,6 @@ class NeighborViewController extends Controller {
             return view('payment.neighbor.index', compact('order', 'bankAccounts', 'cart', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
         }
 
-        return view('payment.neighbor.index' );
-        }
+        return view('payment.neighbor.index');
     }
+}
