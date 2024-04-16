@@ -113,16 +113,7 @@
                                     @endforeach
 
                                 </div>
-                                <div class="collection-navigation">
-                                    <div class="collection-stats">
-                                        <span class="collection-show-count"><i class="fa fa-eye"></i>
-                                            {{
-                                                
-                                                $item->collections->flatMap(function ($collection) {
-                                                    return $collection->clicks;
-                                                })->sum()
-                                            }}                                     </span>
-                                    </div><a
+                                <div class="collection-navigation"><a
                                         href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
                                             Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
