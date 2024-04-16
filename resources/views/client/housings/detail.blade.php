@@ -514,6 +514,8 @@
                                                                 $label != 'Seçenekler' &&
                                                                 $label != 'Acil Satılık' &&
                                                                 $label != 'İndirim Oranı %' &&
+                                                                $label != 'Yıldız Sayısı' &&
+                                                                $label != 'Yapının Durumu' &&
                                                                 $label != 'Peşinat' &&
                                                                 $label != 'İlan Başlığı' &&
                                                                 $label != 'Günlük Fiyat' &&
@@ -1310,6 +1312,8 @@
                                                         $label != 'Seçenekler' &&
                                                         $label != 'Acil Satılık' &&
                                                         $label != 'İndirim Oranı %' &&
+                                                        $label != 'Yıldız Sayısı' &&
+                                                        $label != 'Yapının Durumu' &&
                                                         $label != 'Peşinat' &&
                                                         $label != 'İlan Başlığı' &&
                                                         $label != 'Günlük Fiyat' &&
