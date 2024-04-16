@@ -1237,9 +1237,9 @@
                                                 @if ($housing->user->phone)
                                                     <tr>
                                                         <td>
-                                                            Kurumsal Telefon :
+                                                           İş :
                                                             <span class="det">
-                                                                <a style="text-decoration: none;color:inherit"
+                                                                <a style="text-decoration: none;color:#274abb;"
                                                                     href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
                                                             </span>
                                                         </td>
@@ -1250,7 +1250,7 @@
                                                         <td>
                                                             Cep :
                                                             <span class="det">
-                                                                <a style="text-decoration: none;color:inherit"
+                                                                <a style="text-decoration: none;color:#274abb;"
                                                                     href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
                                                             </span>
                                                         </td>
