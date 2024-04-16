@@ -81,7 +81,7 @@
                                     <li> <button>
                                             <a href="whatsapp://send?text={{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"
                                                 style="color: green">
-                                                <i class="fa fa-whatsapp"></i><span>200px Paylaş</span>
+                                                <i class="fa fa-whatsapp"></i><span>Paylaş</span>
                                             </a>
                                         </button></li>
 
