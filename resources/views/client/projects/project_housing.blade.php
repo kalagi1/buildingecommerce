@@ -797,8 +797,8 @@
 
                                                 <button type="submit"
                                                     style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal"
-                                                    style="width:150px">Kapat</button>
+                                                    <button type="button" data-dismiss="modal"
+                                                    style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
                                             </form>
                                         </div>
 
