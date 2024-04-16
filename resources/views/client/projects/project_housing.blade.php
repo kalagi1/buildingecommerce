@@ -437,24 +437,9 @@
                     <div class="mobileMove">
                         <div class="single widget storeInfo">
                             <div class="widget-boxed">
-                                <div class="widget-boxed-header">
-                                    <h4>Mağaza Bilgileri</h4>
-                                </div>
                                 <div class="widget-boxed-body">
                                     <div class="sidebar-widget author-widget2">
-                                        <div class="author-box clearfix d-flex align-items-center">
-                                            <img src="{{ URL::to('/') . '/storage/profile_images/' . $project->user->profile_image }}"
-                                                alt="author-image" class="author__img">
-                                            <div>
-                                                <a
-                                                    href="{{ route('institutional.dashboard', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">
-                                                    <h4 class="author__title">{!! $project->user->name !!}</h4>
-                                                </a>
-                                                <p class="author__meta">
-                                                    {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
-                                                </p>
-                                            </div>
-                                        </div>
+                                       
                                         <table class="table">
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
@@ -504,6 +489,20 @@
                                                 </td>
                                             </tr>
                                         @endif
+                                        <tr>
+                                            <td>
+                                                E-Posta :
+                                                <span class="det"> <a style="text-decoration: none;color:inherit"
+                                                        href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            Mağaza :
+                                                <span class="det"> <a style="text-decoration: none;color:inherit"
+                                                        href="{{ route('institutional.dashboard', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">{!! $project->user->name !!}</a></span>
+                                            </td>
+                                        </tr>
                                                   
                                             @if ($project->step1_slug)
                                                 <tr>
@@ -524,13 +523,7 @@
                                                     </td>
                                                 </tr>
                                             @endif
-                                            <tr>
-                                                <td>
-                                                    E-Posta :
-                                                    <span class="det"> <a style="text-decoration: none;color:inherit"
-                                                            href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
-                                                </td>
-                                            </tr>
+                                          
                                         </table>
                                     </div>
                                 </div>
