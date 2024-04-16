@@ -54,7 +54,7 @@
                                 @endif
 
                                 <div class="mt-3">
-                                    <label class="form-label">Banka Alıcı Adı</label>
+                                    <label class="form-label">Hesap Sahibinin Adı Soyadı</label>
                                     <input type="text" name="bank_name"
                                         class="form-control @error('bank_name') is-invalid @enderror"
                                         value="{{ old('bank_name', $user->bank_name) }}">
