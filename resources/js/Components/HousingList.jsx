@@ -19,7 +19,7 @@ import ImageChange from './create_project_components/ImageChange';
 import PayDecTable from './create_project_components/PayDecTable';
 import ChangePaymentStatus from './create_project_components/ChangePaymentStatus';
 import InfoIcon from '@mui/icons-material/Info';
-
+import Switch from '@mui/material/Switch';
 function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -411,8 +411,6 @@ function HousingList({projectId}) {
         var tempSelected = [];
         tempSelected.push(selectedSingleItem)
 
-        console.log(tempSelected);
-        
         axios.post(baseUrl+'save_housing',{
             rooms : tempSelected,
             column_name : selectedColumn,
@@ -720,6 +718,29 @@ function HousingList({projectId}) {
         setSelectedAllCheck(false);
     },[selectedBlock])
 
+    const changeInstallement = (order) => {
+        var tempSelected = [];
+        tempSelected.push(order);
+        axios.post(baseUrl+'save_housing',{
+            rooms : tempSelected,
+            column_name : "payment-plan",
+            value : "[]",
+            is_dot : false,
+            project_id : projectId
+        }).then((res) => {
+            if(res.data.status){
+                setLoading(true);
+                setChangeData("");
+                setSelectedRooms([]);
+                toast.success("Başarıyla seçtiğiniz ilanları güncellediniz");
+                
+                axiosRequestGetData(page)
+            }else{
+                toast.error(res.data.error)
+            }
+        })
+    }
+
     return(
         <div>
             <ToastContainer/>
@@ -839,10 +860,12 @@ function HousingList({projectId}) {
                                                     <TableCell>İlan Resmi</TableCell>
                                                     <TableCell>İlan Adı</TableCell>
                                                     <TableCell>Fiyat</TableCell>
+                                                    <TableCell>Taksitli Satış</TableCell>
                                                     <TableCell>Taksitli Fiyat</TableCell>
                                                     <TableCell>Ara Ödemeler</TableCell>
                                                     <TableCell>Taksit Sayısı</TableCell>
                                                     <TableCell>Peşinat</TableCell>
+                                                    <TableCell>Hisse Sayısı</TableCell>
                                                     <TableCell>Satış Durumu</TableCell>
                                                     <TableCell>İşlemler</TableCell>
                                                 </TableRow>
@@ -901,6 +924,11 @@ function HousingList({projectId}) {
                                                     </TableCell>
                                                     <TableCell >
                                                         <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            <Switch onChange={() => {changeInstallement(getLastCount() + key + 1)}} defaultChecked={row['payment-plan[]'] != '[]'} />
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
                                                             {dotNumberFormat(row['installments-price[]'])} ₺
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
@@ -937,6 +965,16 @@ function HousingList({projectId}) {
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
                                                                     <span onClick={() => {setChangeData(dotNumberFormat(row['advance[]']));setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advance");setIsDotType(true);setSelectedType('Peşinat');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
+                                                                : ""
+                                                            }
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell >
+                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                            {dotNumberFormat(row['number_of_shares[]'])}
+                                                            {
+                                                                findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
+                                                                    <span onClick={() => {setChangeData(row['number_of_shares[]']);setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("number_of_shares");setIsDotType(true);setSelectedType('Hisse Sayısı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
                                                                 : ""
                                                             }
                                                         </div>

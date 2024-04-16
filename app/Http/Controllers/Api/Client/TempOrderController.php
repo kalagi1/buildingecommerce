@@ -46,7 +46,7 @@ class TempOrderController extends Controller
             } else {
                 $tempData = json_decode("{}");
             }
-            $tempDataFull->data_slug = $slug;
+            $tempDataFull->data_slug = $tempDataFull->slug;
             $selectedStatuses = HousingStatus::select("id")->whereIn("id", $tempDataFull2->housingStatusIds)->get()->keyBy('id')->toArray();
             $tempDataFull->statuses = array_keys((array) $selectedStatuses);
             $tempDataFull->images = $tempDataFull->images;
@@ -84,7 +84,7 @@ class TempOrderController extends Controller
 
     public function updateSituationOrders(Request $request){
         if($request->input('item_type') != 3){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
     
             $data = $tempData;
@@ -94,11 +94,11 @@ class TempOrderController extends Controller
                 array_push($data->situations,$situation);
             }
     
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
     
             $data = $tempData;
@@ -108,7 +108,7 @@ class TempOrderController extends Controller
                 array_push($data->situations,["situation" => $image]);
             }
     
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -116,7 +116,7 @@ class TempOrderController extends Controller
 
     public function deleteSituationOrders(Request $request){
         if($request->input('item_type') != "3"){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
             $data = $tempData;
             $newImages = [];
@@ -127,11 +127,11 @@ class TempOrderController extends Controller
             }
 
             $data->situations = $newImages;
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
             $data = $tempData;
             $newImages = [];
@@ -142,7 +142,7 @@ class TempOrderController extends Controller
             }
 
             $data->situations = $newImages;
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -152,7 +152,6 @@ class TempOrderController extends Controller
         $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         
         $tempData = json_decode($tempOrder->data);
-        
         if(!isset($tempData->situations)){
             $tempData->situations = [];
         }
@@ -183,7 +182,7 @@ class TempOrderController extends Controller
     }
 
     public function removePayDecItem(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
 
         $tempData = json_decode($tempOrder->data);
 
@@ -206,7 +205,7 @@ class TempOrderController extends Controller
 
         $tempData->{"pay-dec-count".$request->active_housing} = $tempData->{"pay-dec-count".$request->active_housing} - 1;
 
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
             "data" => json_encode($tempData),
         ]);
         
@@ -216,7 +215,7 @@ class TempOrderController extends Controller
     }
 
     public function locationControl(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
 
         $tempData = json_decode($tempOrder->data);
 
@@ -232,7 +231,7 @@ class TempOrderController extends Controller
     }
 
     public function dataChange(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         
         if($request->input('item_type') == 1){
             $housing_statusX = HousingStatus::where('is_project',1)->where('is_default',1)->first();
@@ -266,12 +265,12 @@ class TempOrderController extends Controller
 
         if(!$tempOrder){
             TempOrder::create([
-                "user_id" => auth()->guard()->user()->id,
+                "user_id" => auth()->guard("api")->user()->id,
                 "data" => json_encode($data),
                 "item_type" => $request->input('item_type')
             ]);
         }else{
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -286,7 +285,7 @@ class TempOrderController extends Controller
     }
 
     public function getDopingPrice(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
 
         if(!$tempOrder){
             $tempData = [
@@ -316,7 +315,7 @@ class TempOrderController extends Controller
 
     public function projectHousingDataChange(Request $request){
         if($request->input('item_type') != 3){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             if(!$tempOrder){
                 $tempData = [
                     "images" => []
@@ -375,17 +374,17 @@ class TempOrderController extends Controller
             
             if(!$tempOrder){
                 TempOrder::create([
-                    "user_id" => auth()->guard()->user()->id,
+                    "user_id" => auth()->guard("api")->user()->id,
                     "data" => json_encode($data),
                     "item_type" => $request->input('item_type')
                 ]);
             }else{
-                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
             }
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             
             $tempData = json_decode($tempOrder->data);
             $data = $tempData;
@@ -420,12 +419,12 @@ class TempOrderController extends Controller
             }
             if(!$tempOrder){
                 TempOrder::create([
-                    "user_id" => auth()->guard()->user()->id,
+                    "user_id" => auth()->guard("api")->user()->id,
                     "data" => json_encode($data),
                     "item_type" => $request->input('item_type')
                 ]);
             }else{
-                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
             }
@@ -439,7 +438,7 @@ class TempOrderController extends Controller
         );
 
         if($request->input('item_type') != 3){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             if(!$tempOrder){
                 $tempData = [
                     "cover_image" => ""
@@ -453,7 +452,7 @@ class TempOrderController extends Controller
     
             if($request->hasFile('image')){
                 $image = $request->file('image');
-                $imageName = 'cover_temp_image'.auth()->guard()->user()->id . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image'.auth()->guard("api")->user()->id . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('project_images'), $imageName);
             }else{
                 $imageName = "";
@@ -464,23 +463,23 @@ class TempOrderController extends Controller
     
             if(!$tempOrder){
                 TempOrder::create([
-                    "user_id" => auth()->guard()->user()->id,
+                    "user_id" => auth()->guard("api")->user()->id,
                     "data" => json_encode($data),
                     "item_type" => $request->input('item_type')
                 ]);
             }else{
-                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
             }
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             
             $tempData = json_decode($tempOrder->data);
 
             if($request->hasFile('image')){
                 $image = $request->file('image');
-                $imageName = 'cover_temp_image_edit'.time().auth()->guard()->user()->id.time() . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image_edit'.time().auth()->guard("api")->user()->id.time() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/project_images'), $imageName);
 
                 $image = $manager->read(public_path('storage/project_images/'.$imageName));
@@ -509,7 +508,7 @@ class TempOrderController extends Controller
             $data = $tempData;
             $data->image = 'storage/project_images/'.$imageName;
 
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -518,7 +517,7 @@ class TempOrderController extends Controller
 
     public function documentFile(Request $request){
         try{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             if(!$tempOrder){
                 $tempData = [
                     "document" => ""
@@ -532,7 +531,7 @@ class TempOrderController extends Controller
 
             if($request->hasFile('document')){
                 $image = $request->file('document');
-                $imageName = 'document_temp'.auth()->guard()->user()->id . '.' . $image->getClientOriginalExtension();
+                $imageName = 'document_temp'.auth()->guard("api")->user()->id . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('housing_documents'), $imageName);
             }else{
                 $imageName = "";
@@ -543,12 +542,12 @@ class TempOrderController extends Controller
 
             if(!$tempOrder){
                 TempOrder::create([
-                    "user_id" => auth()->guard()->user()->id,
+                    "user_id" => auth()->guard("api")->user()->id,
                     "data" => json_encode($data),
                     "item_type" => $request->input('item_type')
                 ]);
             }else{
-                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
             }
@@ -571,7 +570,7 @@ class TempOrderController extends Controller
         );
 
         if($request->input('item_type') != "3"){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             if(!$tempOrder){
                 $tempData = [
                     "images" => []
@@ -587,7 +586,7 @@ class TempOrderController extends Controller
             $uploadedFiles = $request->file();
             $imageNames = [];
             foreach ($uploadedFiles as $fileKey => $file) {
-                $imageName = 'temp_order_image'.auth()->guard()->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))) . '.' . $file->getClientOriginalExtension();
+                $imageName = 'temp_order_image'.auth()->guard("api")->user()->id.(intval($newOrder) + intval(str_replace('file','',$fileKey))) . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('project_images'), $imageName);
                 
                 $data = $tempData;
@@ -597,12 +596,12 @@ class TempOrderController extends Controller
 
             if(!$tempOrder){
                 TempOrder::create([
-                    "user_id" => auth()->guard()->user()->id,
+                    "user_id" => auth()->guard("api")->user()->id,
                     "data" => json_encode($data),
                     "item_type" => $request->input('item_type')
                 ]);
             }else{
-                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
             }
@@ -610,7 +609,7 @@ class TempOrderController extends Controller
 
             return $imageNames;
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             
             $tempData = json_decode($tempOrder->data);
             
@@ -620,7 +619,7 @@ class TempOrderController extends Controller
             $imageNames = [];
             $tempOrder = 0;
             foreach ($uploadedFiles as $fileKey => $file) {
-                $imageName = 'temp_order_image'.time().auth()->guard()->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
+                $imageName = 'temp_order_image'.time().auth()->guard("api")->user()->id.($newOrder + $tempOrder). '.' . $file->getClientOriginalExtension();
 
                 $file->move(public_path('storage/project_images'), $imageName);
 
@@ -651,7 +650,7 @@ class TempOrderController extends Controller
                 $tempOrder++;
             }
             
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
 
@@ -662,7 +661,7 @@ class TempOrderController extends Controller
 
     public function deleteImageOrders(Request $request){
         if($request->input('item_type') != "3"){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
             $data = $tempData;
             $newImages = [];
@@ -673,11 +672,11 @@ class TempOrderController extends Controller
             }
 
             $data->images = $newImages;
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
             $data = $tempData;
             $newImages = [];
@@ -688,7 +687,7 @@ class TempOrderController extends Controller
             }
 
             $data->images = $newImages;
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -696,7 +695,7 @@ class TempOrderController extends Controller
 
     public function updateImageOrders(Request $request){
         if($request->input('item_type') != 3){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
     
             $data = $tempData;
@@ -706,11 +705,11 @@ class TempOrderController extends Controller
                 array_push($data->images,$image);
             }
     
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
     
             $data = $tempData;
@@ -720,7 +719,7 @@ class TempOrderController extends Controller
                 array_push($data->images,["image" => $image]);
             }
     
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -728,7 +727,7 @@ class TempOrderController extends Controller
     }
 
     public function changeStepOrder(Request $request){
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
             "step_order" => $request->input('order'),
         ]);
 
@@ -738,7 +737,7 @@ class TempOrderController extends Controller
     }
 
     public function copyCheckbox(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $data = $tempData;
         $items = json_decode($request->input('value'));
@@ -747,12 +746,12 @@ class TempOrderController extends Controller
         }
         if(!$tempOrder){
             TempOrder::create([
-                "user_id" => auth()->guard()->user()->id,
+                "user_id" => auth()->guard("api")->user()->id,
                 "data" => json_encode($data),
                 "item_type" => $request->input('item_type')
             ]);
         }else{
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -767,7 +766,7 @@ class TempOrderController extends Controller
 
     public function addProjectImage(Request $request){
         if($request->input('item_type') != 3){
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
             if($request->hasFile('file')){
                 $imageCount = 0;
@@ -775,7 +774,7 @@ class TempOrderController extends Controller
                     $imageCount = count($tempData->roomInfoKeys->image);
                 }
                 $image = $request->file('file');
-                $imageName = 'cover_temp_image'.auth()->guard()->user()->id. (intval($request->input('order'))) . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image'.auth()->guard("api")->user()->id. (intval($request->input('order'))) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/project_images'), $imageName);
             }else{
                 $imageName = "";
@@ -795,17 +794,17 @@ class TempOrderController extends Controller
             }
             if(!$tempOrder){
                 TempOrder::create([
-                    "user_id" => auth()->guard()->user()->id,
+                    "user_id" => auth()->guard("api")->user()->id,
                     "data" => json_encode($data),
                     "item_type" => $request->input('item_type')
                 ]);
             }else{
-                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+                TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                     "data" => json_encode($data),
                 ]);
             }
         }else{
-            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+            $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
             $tempData = json_decode($tempOrder->data);
 
             if($request->hasFile('file')){
@@ -814,7 +813,7 @@ class TempOrderController extends Controller
                     $imageCount = count($tempData->roomInfoKeys->image);
                 }
                 $image = $request->file('file');
-                $imageName = 'cover_temp_image'.time().auth()->guard()->user()->id. $imageCount . '.' . $image->getClientOriginalExtension();
+                $imageName = 'cover_temp_image'.time().auth()->guard("api")->user()->id. $imageCount . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('project_housing_images'), $imageName);
             }else{
                 $imageName = "";
@@ -823,7 +822,7 @@ class TempOrderController extends Controller
             $data = $tempData;
             $data->roomInfoKeys[$this->returnOrder("image",$request->input('order'),$data->roomInfoKeys)]->value = $imageName;
 
-            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+            TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
                 "data" => json_encode($data),
             ]);
         }
@@ -849,7 +848,7 @@ class TempOrderController extends Controller
         $tempOrder = TempOrder::where('user_id',auth()->user()->id)->where('item_type',$request->input('item_type'))->first();
         $data = json_decode($tempOrder->data);
         array_push($data->roomInfoKeys->image,$data->roomInfoKeys->image[$request->input('lastorder')]);
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
             "data" => json_encode($data),
         ]);
     }
@@ -891,7 +890,7 @@ class TempOrderController extends Controller
     }
 
     public function getHouseData(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
         $housingTypeFormData = json_decode($housingTypeForm->form_json);
@@ -925,7 +924,7 @@ class TempOrderController extends Controller
     }
 
     public function getHouseDataFunc($lastOrder,$itemType){
-        $tempOrder = TempOrder::where('item_type',$itemType)->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$itemType)->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
         $housingTypeFormData = json_decode($housingTypeForm->form_json);
@@ -942,7 +941,7 @@ class TempOrderController extends Controller
     }
 
     public function copyData(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $dataCopyItem = $this->getHouseDataFunc($request->input('last_order'),$request->input('item_type'));
         foreach($dataCopyItem as $key => $data){
@@ -997,7 +996,7 @@ class TempOrderController extends Controller
 
         $dataCopyItem = $this->getHouseDataFunc($request->input('new_order'),$request->input('item_type'));
 
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $data2 = [];
         if(isset($tempData->{"pay-dec-count".($request->input('new_order') + 1)})){
@@ -1021,7 +1020,7 @@ class TempOrderController extends Controller
     }
 
     public function housingConfirmFull(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         
         $data = json_decode($tempOrder->data);
         $housingType = HousingType::where('id',$data->housing_type_id)->first();
@@ -1100,7 +1099,7 @@ class TempOrderController extends Controller
     }
 
     public function addBlockHousing(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $data = $tempData;
         if(isset($data->blocks)){
@@ -1109,13 +1108,13 @@ class TempOrderController extends Controller
             $data->blocks = [$request->input('block')];
         }
 
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
             "data" => json_encode($data),
         ]);
     }
 
     public function getBlockData(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $blockHousingCounts = 0;
         $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
@@ -1171,7 +1170,7 @@ class TempOrderController extends Controller
     }
 
     public function removeBlock(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         $housingTypeForm = HousingType::where('id',$tempData->housing_type_id)->first();
         $housingTypeFormData = json_decode($housingTypeForm->form_json);
@@ -1245,7 +1244,7 @@ class TempOrderController extends Controller
         
         unset($tempData->blocks[$request->input('block_index')]);
         $tempData->blocks = array_values($tempData->blocks);
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
             "data" => json_encode($tempData),
         ]);
         
@@ -1257,7 +1256,7 @@ class TempOrderController extends Controller
     }
     
     public function changeAreaListData(Request $request){
-        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->first();
+        $tempOrder = TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->first();
         $tempData = json_decode($tempOrder->data);
         if($request->input('key') == "step1_slug"){
             $tempData->step1_slug = $request->input('value');
@@ -1270,7 +1269,7 @@ class TempOrderController extends Controller
             $tempData->step3_slug = $request->input('value');
         }
 
-        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard()->user()->id)->update([
+        TempOrder::where('item_type',$request->input('item_type'))->where('user_id',auth()->guard("api")->user()->id)->update([
             "data" => json_encode($tempData),
         ]);
 
