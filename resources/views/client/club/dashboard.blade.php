@@ -65,19 +65,19 @@
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
                                         class="label with-image"> {{ $collection->name }}</span></a></div>
                             <ul class="collection-actions">
-                                <li> <button >
-                                    <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
-                                        style="color: green">
-                                        <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
-                                    </a>
-                                </button></li>
+                                <li> <button>
+                                        <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
+                                            style="color: green">
+                                            <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
+                                        </a>
+                                    </button></li>
 
                             </ul>
                         </div>
                         <div class="collection-content">
                             <div class="collection-images">
                                 @foreach ($collection->links->take(4) as $link)
-                                @php
+                                    @php
                                         $projectFirstImage = null;
                                         if ($link->item_type == 1) {
                                             $data = $link->projectHousingData($link->project->id, $link->room_order);
