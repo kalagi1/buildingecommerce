@@ -119,7 +119,7 @@
                                             {{
                                                 
                                                 $item->collections->flatMap(function ($collection) {
-                                                    return count($collection->clicks);
+                                                    return $collection->clicks;
                                                 })->sum()
                                             }}                                     </span>
                                     </div><a
