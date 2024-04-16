@@ -6034,6 +6034,14 @@ element.style {
     cursor: pointer;
 }
 
+.add-to-swap-wrapper{
+    background-color: #fef4eb;
+    padding: 8px;
+    margin-top: 30px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
 .add-to-collection-button-wrapper .add-to-collection-button .add-to-collection-button-text {
     line-height: 16px;
     color: #333;
@@ -6041,10 +6049,11 @@ element.style {
     font-weight: 600;
 }
 
-.add-to-collections-wrapper .add-to-collection-button-wrapper .fa-plus {
+.add-to-collections-wrapper .add-to-collection-button-wrapper i,
+.add-to-swap-wrapper .add-to-collection-button-wrapper i {
     display: block;
     padding: 4px;
-    font-size: 10.5px;
+    font-size: 15px !important;
     color: #333;
 }
 
