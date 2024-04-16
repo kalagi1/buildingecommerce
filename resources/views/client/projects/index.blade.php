@@ -722,7 +722,7 @@
                                     </div>
                                 </div>
                             @else
-                                <div class="properties-right list featured portfolio blog pb-5 bg-white">
+                                {{-- <div class="properties-right list featured portfolio blog pb-5 bg-white">
                                     <div class="mobile-hidden">
                                         <div class="container">
                                             @php
@@ -843,7 +843,7 @@
 
 
 
-                                </div>
+                                </div> --}}
                             @endif
 
                         </div>
