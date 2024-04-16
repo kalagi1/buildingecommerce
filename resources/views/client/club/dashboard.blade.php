@@ -116,8 +116,11 @@
                                 <div class="collection-navigation">
                                     <div class="collection-stats">
                                         <span class="collection-show-count"><i class="fa fa-eye"></i>
-                                            {{ $item->collections->flatMap(function ($collection) { return $collection->links->pluck('clicks'); })->sum() }} <!-- Toplam tıklanma sayısı -->
-                                        </span>
+                                            {{
+                                                $item->collections->flatMap(function ($collection) {
+                                                    return $collection->links->sum('clicks');
+                                                })->sum()
+                                            }} <!-- Toplam tıklanma sayısı -->                                        </span>
                                     </div><a
                                         href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
                                             Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
