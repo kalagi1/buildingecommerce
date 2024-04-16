@@ -646,7 +646,7 @@
                                                         </select>
 
                                                         <input class="formInput" type="hidden" id="store_id"
-                                                            name="store_id" value="{{ $housing->user->id }}">
+                                                            name="store_id" value="{{ $project->user->id }}">
 
                                                         <label class="form-label" for="kullanim_durumu">Kullanım
                                                             Durumu:</label>
