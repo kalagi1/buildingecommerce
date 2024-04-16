@@ -483,27 +483,28 @@
                                                 </td>
                                             </tr>
                                             @if ($project->user->phone)
-                                                <tr>
-                                                    <td>
-                                                        Kurumsal Numara :
-                                                        <span class="det">
-                                                            <a style="text-decoration: none;color:inherit"
-                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                            @if ($project->user->mobile_phone)
-                                                <tr>
-                                                    <td>
-                                                        Cep :
-                                                        <span class="det">
-                                                            <a style="text-decoration: none;color:inherit"
-                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">İş:</span>
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:#274abb;"
+                                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if ($project->user->mobile_phone)
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Cep :</span>
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:#274abb;"
+                                                            href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                                  
                                             @if ($project->step1_slug)
                                                 <tr>
                                                     <td>
