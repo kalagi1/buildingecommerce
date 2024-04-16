@@ -22,8 +22,7 @@
                         <div class="px-xxl-5">
                             <div class="text-center mb-6">
                                 <h4 class="text-body-highlight">Telefon Numarası Doğrulama</h4>
-                                <p class="text-body-tertiary mb-5">{{ $user->phone ? $user->phone : $user->mobile_phone }}
-                                    ait telefon numarasına 6 haneli doğrulama kodunu
+                                <p class="text-body-tertiary mb-5">{{$user->mobile_phone}} ait telefon numarasına 6 haneli doğrulama kodunu
                                     içeren bir sms gönderildi.</p>
 
                                 <p class="text-body-tertiary mb-4">Lütfen telefonunuza gelen doğrulama kodunu aşağıdaki

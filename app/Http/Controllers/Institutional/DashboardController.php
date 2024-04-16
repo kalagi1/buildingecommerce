@@ -153,7 +153,7 @@ class DashboardController extends Controller
     private function sendSMS($user)
     {
         // Kullanıcının telefon numarasını al
-        $userPhoneNumber = $user->phone ? $user->phone : $user->mobile_phone;
+        $userPhoneNumber = $user->mobile_phone;
 
         // Kullanıcının adını ve soyadını al
         $name = $user->name;

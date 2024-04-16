@@ -427,7 +427,7 @@ class HomeController extends Controller
     private function sendSMS($refund)
     {
         // Kullanıcının telefon numarasını al
-        $userPhoneNumber = $refund->user->phone ? $refund->user->phone : $refund->user->mobile_phone;
+        $userPhoneNumber = $refund->user->mobile_phone;
 
         // Kullanıcının adını ve soyadını al
         $name = $refund->user->name;
