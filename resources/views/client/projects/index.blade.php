@@ -197,20 +197,6 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">Proje Durumu:</span>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $status->name }}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <strong class="autoWidthTr">Mağaza:</strong>
-                                                        <span class="det"
-                                                            style="color: black;">{!! $project->user->name !!}</span>
-                                                    </td>
-                                                </tr>
                                                 @if ($project->user->phone)
                                                 <tr>
                                                     <td>
@@ -233,6 +219,21 @@
                                                     </td>
                                                 </tr>
                                             @endif
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Proje Durumu:</span>
+                                                        <span class="det"
+                                                            style="color: black;">{{ $status->name }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <strong class="autoWidthTr">Mağaza:</strong>
+                                                        <span class="det"
+                                                            style="color: black;">{!! $project->user->name !!}</span>
+                                                    </td>
+                                                </tr>
+                                             
 
                                                 <tr>
                                                     <td colspan="2">
