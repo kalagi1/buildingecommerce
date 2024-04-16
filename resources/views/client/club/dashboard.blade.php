@@ -71,7 +71,7 @@
 
                                             <div class="profile-initial">{{ $nameInitials }}</div>
                                         @else
-                                            <img  src="{{ asset('storage/profile_images/' . $item->profile_image) }}"
+                                            <img src="{{ asset('storage/profile_images/' . $item->profile_image) }}"
                                                 alt="{{ $item->name }}" style="object-fit: contain !important;"
                                                 class="img-responsive collection-owner">
                                         @endif
@@ -128,7 +128,9 @@
                                     href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><img
                                         class="collection-owner"
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
-                                        class="label with-image"> {{$store->name}} <i class="fa fa-angle-right"></i>  {{ $collection->name }} Koleksiyonu</span></a></div>
+                                        class="label with-image"> {{ $store->name }} <i class="fa fa-angle-right"></i>
+                                        {{ \Illuminate\Support\Str::limit($collection->name, 100, '...') }}
+                                        Koleksiyonu</span></a></div>
                             <ul class="collection-actions">
                                 <li> <button>
                                         <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
