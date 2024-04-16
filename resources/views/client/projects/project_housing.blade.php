@@ -1881,9 +1881,9 @@
     <link rel="stylesheet" href="{{ asset('css/project-housing.css') }}">
     <style>
         .mobile-action-move {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
     </style>
 @endsection

@@ -588,7 +588,6 @@
 
                                                 @if (
                                                     !$isArrayCheck &&
-
                                                         isset($value) &&
                                                         $value !== '' &&
                                                         $housingSetting->label != 'Fiyat' &&
@@ -923,7 +922,6 @@
     </script>
 
     <script>
-        
         $(document).ready(function() {
 
             $(document).on("change", ".citySelect2", function() {
@@ -1437,11 +1435,4 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
-    <style>
-        .mobile-action-move {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-    </style>
 @endsection
