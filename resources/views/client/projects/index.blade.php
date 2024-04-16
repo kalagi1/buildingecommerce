@@ -193,10 +193,32 @@
                                                     <td>
                                                         <span class="autoWidthTr">Kimden:</span>
                                                         <span class="det" style="color: #274abb !important;">
-                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
+                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
                                                         </span>
                                                     </td>
                                                 </tr>
+                                                @if ($project->user->phone)
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İş:</span>
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:#274abb;"
+                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($project->user->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Cep :</span>
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:#274abb;"
+                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                                 <tr>
                                                     <td>
                                                         <span class="autoWidthTr">Proje Durumu:</span>
@@ -211,21 +233,8 @@
                                                             style="color: black;">{!! $project->user->name !!}</span>
                                                     </td>
                                                 </tr>
+                                             
 
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">Kurumsal Telefon:</span>
-                                                        <span class="det"
-                                                            style="color: black;">{!! $project->user->phone ? $project->user->phone : 'Belirtilmedi' !!}</span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span class="autoWidthTr">Cep :</span>
-                                                        <span class="det"
-                                                            style="color: black;">{!! $project->user->mobile_phone ? $project->user->mobile_phone : 'Belirtilmedi' !!}</span>
-                                                    </td>
-                                                </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>E-Posta:</span></strong>
@@ -296,15 +305,6 @@
                                                         <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
                                                         <span class="det"
                                                             style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>{{ ucfirst($project->step1_slug) }}
-                                                                Tipi:</span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $project->housingtype->title }}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -588,7 +588,6 @@
 
                                                 @if (
                                                     !$isArrayCheck &&
-
                                                         isset($value) &&
                                                         $value !== '' &&
                                                         $housingSetting->label != 'Fiyat' &&
@@ -923,22 +922,7 @@
     </script>
 
     <script>
-        // var project = "{{ $project->id }}";
-
-        // if (project == "383") {
-        //     document.addEventListener("DOMContentLoaded", function() {
-        //         setTimeout(function() {
-        //             $('#applySampleModal').modal('show');
-        //         }, 1000);
-        //     });
-        // }
         $(document).ready(function() {
-            // $('#applySampleModal img').click(function() {
-            //     $('#applySampleModal').modal('hide');
-            //     $('#exampleModal10').modal('show');
-            //     $('#applyModal10').modal('show');
-
-            // });
 
             $(document).on("change", ".citySelect2", function() {
                 var selectedCity = $(this).val();
@@ -1447,8 +1431,34 @@
             });
         });
     </script>
+
+    <script>
+              $(document).ready(function() {
+            $("#phone").blur(function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                    $("#error_message").text("");
+                }
+            });
+        });
+    </script>
 @endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
+    <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
+            font-size: 11px;
+        }
+    </style>
 @endsection

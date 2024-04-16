@@ -31,15 +31,20 @@
 
                                 <div class="col-lg-12">
                                     <div>
-                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image" type="file" accept=".jpeg, .jpg, .png" onchange="showImage(this)">
-                                        <label class="avatar avatar-4xl status-online cursor-pointer" for="upload-settings-porfile-picture">
-                                            <img id="profile-image-preview" class="rounded-circle img-thumbnail shadow-sm border-0" src="{{ asset('storage/profile_images/' . $user->profile_image) }}" width="200" alt="">
+                                        <input class="d-none" id="upload-settings-porfile-picture" name="profile_image"
+                                            type="file" accept=".jpeg, .jpg, .png" onchange="showImage(this)">
+                                        <label class="avatar avatar-4xl status-online cursor-pointer"
+                                            for="upload-settings-porfile-picture">
+                                            <img id="profile-image-preview"
+                                                class="rounded-circle img-thumbnail shadow-sm border-0"
+                                                src="{{ asset('storage/profile_images/' . $user->profile_image) }}"
+                                                width="200" alt="">
                                         </label>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-lg-6">
-                                
+
                                     <div class="mt-3">
                                         <label class="q-label">İsim</label>
                                         <input type="text" name="name" class="form-control"
@@ -49,7 +54,7 @@
                                         <label class="q-label">Cep Telefon</label>
                                         <input type="number" name="mobile_phone" class="form-control" id="phone"
                                             value="{{ old('mobile_phone', $user->mobile_phone) }}">
-                                            <span id="error_message" class="error-message"></span>
+                                        <span id="error_message" class="error-message"></span>
                                     </div>
 
                                     <div class="mt-3">
@@ -58,18 +63,19 @@
                                             value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
                                     </div>
 
-                                    <div class="mt-3">
-                                        <label class="q-label">Website Linki</label>
-                                        <input type="url" name="website" class="form-control"
-                                            value="{{ old('website', $user->website) }}">
-                                    </div>
+
 
                                     @if (Auth::check() && Auth::user()->type == 2)
+                                        <div class="mt-3">
+                                            <label class="q-label">Website Linki</label>
+                                            <input type="url" name="website" class="form-control"
+                                                value="{{ old('website', $user->website) }}">
+                                        </div>
                                         <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>
                                             <input type="number" name="phone" class="form-control" id="landPhone"
                                                 value="{{ old('phone', $user->phone) }}">
-                                                <span id="error_message_land_phone" class="error-message"></span>
+                                            <span id="error_message_land_phone" class="error-message"></span>
                                         </div>
                                         <div class="mt-3">
                                             <label class="q-label">Kaç yıldır sektördesiniz ?</label>
@@ -130,46 +136,49 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
-        <script>
-            $(document).ready(function(){
-              $("#landPhone").blur(function(){
+    <script>
+        $(document).ready(function() {
+            $("#landPhone").blur(function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^[1-9]\d{9}$/;
-            
+
                 if (!pattern.test(phoneNumber)) {
-                  $("#error_message_land_phone").text("Lütfen sabit telefon numarasını belirtilen formatta girin. Örneğin: (222) 111 22 33");
+                    $("#error_message_land_phone").text(
+                        "Lütfen sabit telefon numarasını belirtilen formatta girin. Örneğin: (222) 111 22 33"
+                        );
                 } else {
-                  $("#error_message_land_phone").text("");
+                    $("#error_message_land_phone").text("");
                 }
-              });
             });
-            </script>
-        <script>
-            $(document).ready(function(){
-              $("#phone").blur(function(){
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#phone").blur(function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[1-9]\d{8}$/;
-            
+
                 if (!pattern.test(phoneNumber)) {
-                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
                 } else {
-                  $("#error_message").text("");
+                    $("#error_message").text("");
                 }
-              });
             });
-            </script>
-        <script>
-            function showImage(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('profile-image-preview').setAttribute('src', e.target.result);
-                    }
-                    reader.readAsDataURL(input.files[0]);
+        });
+    </script>
+    <script>
+        function showImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-image-preview').setAttribute('src', e.target.result);
                 }
+                reader.readAsDataURL(input.files[0]);
             }
-        </script>
-        
+        }
+    </script>
+
 
 
     <script>
@@ -399,42 +408,42 @@
             document.getElementById('selected-plan-id').value = planId;
         }
     </script>
-   <script>
-    function formatIBAN(input) {
-        // TR ile başlat
-        var formattedIBAN = "TR";
+    <script>
+        function formatIBAN(input) {
+            // TR ile başlat
+            var formattedIBAN = "TR";
 
-        // Gelen değerden sadece rakamları al
-        var numbersOnly = input.value.replace(/\D/g, '');
+            // Gelen değerden sadece rakamları al
+            var numbersOnly = input.value.replace(/\D/g, '');
 
-        // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
-        if (numbersOnly.length > 24) {
-            numbersOnly = numbersOnly.substring(0, 24);
+            // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+            if (numbersOnly.length > 24) {
+                numbersOnly = numbersOnly.substring(0, 24);
+            }
+
+            // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+            for (var i = 0; i < numbersOnly.length; i += 4) {
+                formattedIBAN += numbersOnly.substr(i, 4) + " ";
+            }
+
+            // Formatlanmış İBAN'ı input değerine ata
+            input.value = formattedIBAN.trim();
         }
+    </script>
 
-        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
-        for (var i = 0; i < numbersOnly.length; i += 4) {
-            formattedIBAN += numbersOnly.substr(i, 4) + " ";
+    <script>
+        function validateForm() {
+            var ibanInput = document.getElementsByName("iban")[0];
+            var ibanValue = ibanInput.value;
+
+            if (ibanValue.length < 26) {
+                alert("IBAN numarası 26 haneden az olamaz!");
+                return false; // Formun gönderilmesini engelle
+            }
+
+            return true; // Formu gönder
         }
-
-        // Formatlanmış İBAN'ı input değerine ata
-        input.value = formattedIBAN.trim();
-    }
-</script>
-
-<script>
-    function validateForm() {
-        var ibanInput = document.getElementsByName("iban")[0];
-        var ibanValue = ibanInput.value;
-        
-        if (ibanValue.length < 26) {
-            alert("IBAN numarası 26 haneden az olamaz!");
-            return false; // Formun gönderilmesini engelle
-        }
-        
-        return true; // Formu gönder
-    }
-</script>
+    </script>
 
 
     <style>
@@ -443,6 +452,7 @@
             align-items: center;
             justify-content: start
         }
+
         .error-message {
             color: red;
             font-size: 11px;

@@ -924,7 +924,7 @@
                 $('#bankaID').val(selectedBankIbanID);
 
 
-                var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
+                var ibanInfo = "<span style='color:black'><strong>Hesap Sahibinin Adı Soyadı:</strong> " +
                     selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
                 $('#ibanInfo').html(ibanInfo);
 

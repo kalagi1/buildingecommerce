@@ -50,12 +50,77 @@
     @endphp
 
     <x-store-card :store="$store" />
-
-
-
     <section>
         <div class="container">
             <div class="collections">
+                @foreach ($store->child as $item)
+                    @if (count($item->collections) > 0)
+                        <div class="collection">
+                            <div class="collection-head">
+                                <div><a
+                                        href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}">
+                                        @if ($item->profile_image == 'indir.png')
+                                            @php
+                                                $nameInitials = collect(preg_split('/\s+/', $item->name))
+                                                    ->map(function ($word) {
+                                                        return mb_strtoupper(mb_substr($word, 0, 1));
+                                                    })
+                                                    ->take(2)
+                                                    ->implode('');
+                                            @endphp
+
+                                            <div class="profile-initial">{{ $nameInitials }}</div>
+                                        @else
+                                            <img src="{{ asset('storage/profile_images/' . $item->profile_image) }}"
+                                                alt="{{ $item->name }}" style="object-fit: contain !important;"
+                                                class="img-responsive collection-owner">
+                                        @endif
+                                        <span class="label with-image"> {{ $item->name }}</span>
+                                    </a></div>
+                                <ul class="collection-actions">
+                                    <li> <button>
+                                            <a href="whatsapp://send?text={{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"
+                                                style="color: green">
+                                                <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
+                                            </a>
+                                        </button></li>
+
+                                </ul>
+                            </div>
+                            <div class="collection-content">
+                                <div class="collection-images">
+                                    @foreach ($item->collections->take(1) as $collection)
+                                        @foreach ($collection->links->take(4) as $link)
+                                            @php
+                                                $projectFirstImage = null;
+                                                if ($link->item_type == 1) {
+                                                    $data = $link->projectHousingData(
+                                                        $link->project->id,
+                                                        $link->room_order,
+                                                    );
+                                                    foreach ($data as $key => $value) {
+                                                        if (isset($value['name']) && $value['name'] == 'image[]') {
+                                                            $projectFirstImage = $value['value'];
+                                                        }
+                                                    }
+                                                }
+                                            @endphp
+
+
+                                            <img src="{{ $link->item_type == 1 ? URL::to('/') . '/project_housing_images/' . $projectFirstImage : URL::to('/') . '/housing_images/' . json_decode($link->housing->housing_type_data)->image }}"
+                                                alt="product-image">
+                                        @endforeach
+                                    @endforeach
+
+                                </div>
+                                <div class="collection-navigation"><a
+                                        href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
+                                            Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
                 @foreach ($collections as $collection)
                     <div class="collection">
                         <div class="collection-head">
@@ -63,21 +128,23 @@
                                     href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><img
                                         class="collection-owner"
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
-                                        class="label with-image"> {{ $collection->name }}</span></a></div>
+                                        class="label with-image"> {{ $store->name }} <i class="fa fa-angle-right"></i>
+                                        {{ \Illuminate\Support\Str::limit($collection->name, 100, '...') }}
+                                        Koleksiyonu</span></a></div>
                             <ul class="collection-actions">
-                                <li> <button >
-                                    <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
-                                        style="color: green">
-                                        <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
-                                    </a>
-                                </button></li>
+                                <li> <button>
+                                        <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
+                                            style="color: green">
+                                            <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
+                                        </a>
+                                    </button></li>
 
                             </ul>
                         </div>
                         <div class="collection-content">
                             <div class="collection-images">
                                 @foreach ($collection->links->take(4) as $link)
-                                @php
+                                    @php
                                         $projectFirstImage = null;
                                         if ($link->item_type == 1) {
                                             $data = $link->projectHousingData($link->project->id, $link->room_order);
@@ -411,7 +478,7 @@
         .collection-head a {
             display: flex;
             align-items: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             flex: 1;
             width: calc(100% - 100px);

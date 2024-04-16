@@ -60,6 +60,9 @@
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="pay_type">Ödeme Türü</th>
 
+                                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                                        data-sort="pay_type">Ödeme Yöntemi</th>    
+
                                     <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                                         data-sort="order_status">
                                         Durum</th>
@@ -191,8 +194,18 @@
 
                                             </td>
 
-                                        
-                                        {{-- {{dd($order->refund->status)}} --}}
+                                            <td class="order_amount align-middle fw-semibold text-body-highlight">
+                                                @if(isset($order->payment_result))
+                                                    <!-- Payment result varsa -->
+                                                    Kredi Kartı ile<br>
+                                                @else
+                                                    <span>EFT / Havale</span> <br>
+                                                    <!-- Payment result yoksa -->
+                                                    <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}">Dekontu indir</a><br>
+                                                @endif
+                                            </td>
+                                            
+
                                             @if($order->refund != null)
                                             
                                                 <td class="order_status"><span class="text-success">
