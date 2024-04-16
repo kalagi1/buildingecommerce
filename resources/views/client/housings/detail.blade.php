@@ -1247,7 +1247,7 @@
 
                                                     <button type="submit"
                                                         style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
-                                                        <button type="button" data-dismiss="modal"
+                                                        <button type="button" data-bs-dismiss="modal"
                                                         style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
                                                 </form>
                                             </div>
