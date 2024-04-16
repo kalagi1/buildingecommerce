@@ -193,7 +193,7 @@
                                                     <td>
                                                         <span class="autoWidthTr">Kimden:</span>
                                                         <span class="det" style="color: #274abb !important;">
-                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
+                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -305,15 +305,6 @@
                                                         <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
                                                         <span class="det"
                                                             style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <strong class="autoWidthTr"><span>{{ ucfirst($project->step1_slug) }}
-                                                                Tipi:</span></strong>
-                                                        <span class="det"
-                                                            style="color: black;">{{ $project->housingtype->title }}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
