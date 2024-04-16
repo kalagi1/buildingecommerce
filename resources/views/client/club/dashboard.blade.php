@@ -134,7 +134,7 @@
                                 <li> <button>
                                         <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
                                             style="color: green">
-                                            <i class="fa fa-whatsapp"></i><span>200px Paylaş</span>
+                                            <i class="fa fa-whatsapp"></i><span> Paylaş</span>
                                         </a>
                                     </button></li>
 
