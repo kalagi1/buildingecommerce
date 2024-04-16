@@ -58,7 +58,7 @@
                         <div class="collection">
                             <div class="collection-head">
                                 <div><a
-                                        href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($item->name), 'userid' => $item->id, 'id' => $item->id]) }}">
+                                        href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}">
                                         @if ($item->profile_image == 'indir.png')
                                             @php
                                                 $nameInitials = collect(preg_split('/\s+/', $item->name))
