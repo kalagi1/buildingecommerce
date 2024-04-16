@@ -89,7 +89,7 @@
                             </div>
                             <div class="collection-content">
                                 <div class="collection-images">
-                                    @foreach ($item->collections as $collection)
+                                    @foreach ($item->collections->take(1) as $collection)
                                         @foreach ($collection->links->take(4) as $link)
                                             @php
                                                 $projectFirstImage = null;
