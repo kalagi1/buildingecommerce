@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Response;
 
 class CartController extends Controller {
 
@@ -289,6 +290,7 @@ class CartController extends Controller {
         } else {
             $order->is_swap = 0;
         }
+
         $order->save();
 
         $cartOrder = CartOrder::where( 'id', $order->id )->with( 'bank' )->first();
@@ -645,7 +647,7 @@ class CartController extends Controller {
             $BuyCartContent = str_replace( '{{' . $key . '}}', $value, $BuyCartContent );
         }
 
-        Mail::to( $user->email )->send( new CustomMail( $BuyCart->subject, $BuyCartContent ) );
+        // Mail::to( $user->email )->send( new CustomMail( $BuyCart->subject, $BuyCartContent ) );
 
         DocumentNotification::create( [
             'user_id' => $user->id,
@@ -705,7 +707,7 @@ class CartController extends Controller {
                 $NewOrderContent = str_replace( '{{' . $key . '}}', $value, $NewOrderContent );
             }
 
-            Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
+            // Mail::to( $admin->email )->send( new CustomMail( $NewOrder->subject, $NewOrderContent ) );
         }
 
         session()->forget( 'cart' );
@@ -721,6 +723,45 @@ class CartController extends Controller {
     public function paySuccess( Request $request, CartOrder $cart_order ) {
 
         return view( 'client.cart.pay-success', compact( 'cart_order' ) );
+    }
+
+    public function dekontFileUpload(Request $request){
+        $file = $request->file('file');
+
+        $fileName = time() . '_' . $file->getClientOriginalName();
+
+        $file->move(public_path('dekont'), $fileName);
+        $cartOrder = CartOrder::where('id', $request->cart_order)->first();
+        // $cartOrder->update(['dekont' => 'uploads/' . $fileName]);
+        // $cartOrder->save();
+    
+
+        if($cartOrder){
+            // Dosya adının veritabanına kaydedilmesi
+            $cartOrder->update(['dekont' => $fileName]);
+            $cartOrder->save();
+            return response()->json(['success' => 'Dosya başarıyla yüklendi.']);
+        } else {
+            return response()->json(['error' => 'Cart Order bulunamadı.']);
+        }
+
+    }//End
+
+    public function dekontIndir($order_id)
+    {
+        $order = CartOrder::find($order_id);
+
+        if (!$order) {
+            return abort(404); // Sipariş bulunamazsa 404 hatası döndür
+        }
+
+        $dekontDosyaYolu = public_path('dekont/' . $order->dekont);
+
+        if (file_exists($dekontDosyaYolu)) {
+            return Response::download($dekontDosyaYolu);
+        } else {
+            return abort(404); // Dekont bulunamazsa 404 hatası döndür
+        }
     }
 
     public function addLink( Request $request ) {
