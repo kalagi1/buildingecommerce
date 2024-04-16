@@ -1184,7 +1184,7 @@
 
                         <div class="moveStore">
                             <div class="widget-boxed removeClass mt-5 mb-5">
-                                <div class="widget-boxed-body">
+                                <div class="widget-boxed-body pt-0">
                                     <div class="sidebar-widget author-widget2">
                                         <table class="table">
                                             <tbody>
