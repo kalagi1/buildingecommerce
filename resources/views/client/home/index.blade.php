@@ -334,7 +334,7 @@
         </div>
     @endif --}}
 
-    {{-- @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
+    @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
@@ -349,7 +349,7 @@
                                             aria-label="Close">
                                             <i class="fa fa-close"></i>
                                         </button>
-                                        <div class="offer-content"><img loading="lazy" src="{{ asset('popup2.jpeg') }}"
+                                        <div class="offer-content"><img loading="lazy" src="{{ asset('images/emlak-kulup-banner.png') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
                                             <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
                                                 kadar paylaş; paylaştıkça kazan!</h2>
@@ -380,7 +380,7 @@
                 }, 5000);
             });
         </script>
-    @endif --}}
+    @endif
 @endsection
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>

@@ -17,9 +17,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Services\SmsService;
 
 class DashboardController extends Controller
 {
+
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+
     public function getReservations()
     {
         $user = Auth::user();
@@ -116,6 +126,73 @@ class DashboardController extends Controller
         return view('institutional.home.has-club-status');
     }
 
+    public function phoneVerification(){
+        $user = Auth::user();
+        return view('institutional.home.phone-verification', compact('user'));
+    }
+
+    public function generateVerificationCode()
+    {
+        
+        $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
+        
+        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
+
+        if ($user) {
+            $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
+            $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
+            $user->save();// Kullanıcıyı kaydediyoruz
+            if($user->phone_verification_code) {
+                $this->sendSMS($user);
+            }
+           
+            return redirect()->route('institutional.phone.verification');
+        } 
+    }
+
+    private function sendSMS($user)
+    {
+        // Kullanıcının telefon numarasını al
+        $userPhoneNumber = $user->phone ? $user->phone : $user->mobile_phone;
+
+        // Kullanıcının adını ve soyadını al
+        $name = $user->name;
+
+        // SMS metni oluştur
+        $message = "Merhaba $name,
+
+        Hesabınızı güvenli bir şekilde doğrulamak için size özel bir kod gönderdik. Lütfen aşağıdaki doğrulama kodunu girerek hesabınızı onaylayın:
+        
+        Doğrulama Kodu: $user->phone_verification_code
+        
+        Bu kod sadece size özeldir ve hesabınızı korumak için önemlidir. Herhangi bir şüphe durumunda bizimle iletişime geçmekten çekinmeyin.
+        
+        İyi günler dileriz.  ";
+      
+        // SMS gönderme işlemi
+        $smsService = new SmsService();
+        $source_addr = 'MaliyetinEv';
+
+        $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+    }
+
+    public function verifyPhoneNumber(Request $request)
+    {
+        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
+
+        if ($user) {
+            $verificationCode = implode('', $request->input('code')); // Kodları birleştir
+
+            if ($verificationCode == $user->phone_verification_code) {
+                $user->phone_verification_status = 1; // Doğrulama durumunu 1 olarak ayarlıyoruz
+                $user->save(); // Kullanıcıyı kaydediyoruz
+                return redirect()->route('institutional.index');
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Doğrulama Kodu Eşleşmedi']);
+            }
+
+        }
+    }   
     public function verifyAccount(Request $request)
     {
         $request->validate(
@@ -299,4 +376,6 @@ class DashboardController extends Controller
 
         return view('institutional.home.index', compact("userLog", "balanceStatus0", "successPercentage", "collections", "balanceStatus1", "balanceStatus2", "balanceStatus0Lists", "balanceStatus1Lists", "balanceStatus2Lists", "remainingPackage", "stats1_data", "stats2_data", "hasPlan"));
     }
+
+    
 }

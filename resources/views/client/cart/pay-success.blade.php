@@ -25,6 +25,7 @@
         </div>
 
 
+
     </section>
 @endsection
 @section('scripts')
@@ -36,21 +37,26 @@
             // Toastr bilgilendirme mesajını göster
             toastr.success("Sipariş başarıyla verildi. Sipariş Numaranız: {{ $cart_order->id }}");
 
-            // Sayfayı belirli bir süre sonra yönlendir
-            setTimeout(function() {
-                window.location.href = "{{ url('/') }}";
-            }, 10000); // 10 saniye sonra yönlendir
+            toastr.success("Dosya başarıyla yüklendi.");
+                                // Sayfayı belirli bir süre sonra yönlendir
+                            setTimeout(function() {
+                                window.location.href = "{{ url('/') }}";
+                            }, 10000); // 10 saniye sonra yönlendir
+
+                            var progress = 100;
+                            var interval = setInterval(function() {
+                                progress -= 1; // Her bir saniyede ilerleme çubuğunu azalt
+                                $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress); // CSS ve aria özelliklerini güncelle
+                                if (progress <= 0) {
+                                    clearInterval(interval); // İlerleme çubuğunu durdur
+                                }
+                            }, 100); // Her 0.1 saniyede bir güncelle
+
+       
+         
         });
 
-         // İlerleme çubuğunu geriye doğru akacak şekilde güncelle
-         var progress = 100;
-        var interval = setInterval(function() {
-            progress -= 1; // Her bir saniyede ilerleme çubuğunu azalt
-            $('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress); // CSS ve aria özelliklerini güncelle
-            if (progress <= 0) {
-                clearInterval(interval); // İlerleme çubuğunu durdur
-            }
-        }, 100); // Her 0.1 saniyede bir güncelle
+      
     </script>
 
     <script>
@@ -110,4 +116,29 @@
             }
         });
     </script>
+@endsection
+
+
+@section('styles')
+    <style>
+           .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 9px 12px;
+            cursor: pointer;
+            background-color: #cfcfcf69; 
+            height: 47px;
+            width: 100%;
+            text-align: center;
+            style="color: #0056b3 !important;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #eee;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
+    </style>
 @endsection

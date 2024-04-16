@@ -16,6 +16,9 @@ class CheckCorporateAccount
     [
         'institutional.corporate-account-verification', 
         'institutional.verify-account',
+        'institutional.phone.verification',
+        'institutional.phone.generateVerificationCode',
+        'institutional.phone.verifyPhoneNumber',
         'institutional.get.tax-document',
         'institutional.get.record-document',
         'institutional.get.identity-document',
@@ -40,9 +43,17 @@ class CheckCorporateAccount
         {
             return redirect()->route('institutional.corporate-account-verification');
         }
-        elseif (auth()->user()->corporate_account_status == 1 && request()->route()->getName() == 'institutional.corporate-account-verification')
+        elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && !in_array(request()->route()->getName(), $this->whitelist))
         {
+         
+            return redirect()->route('institutional.phone.verification');
+
+        }
+        elseif (auth()->user()->corporate_account_status == 1 && auth()->user()->phone_verification_status == 1  && request()->route()->getName() == 'institutional.corporate-account-verification' && request()->route()->getName() == 'institutional.phone.verification')
+        {
+           
             return redirect()->route('institutional.index');
+           
         }
         return $next($request);
     }
