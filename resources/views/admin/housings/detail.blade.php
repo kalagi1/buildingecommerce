@@ -174,7 +174,7 @@
                                                 @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
                                                     @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
                                                         <div class="view-form-json mt-4">
-                                                            <label for="" style="font-weight: bold;">{{ $housingType->label }}</label>
+                                                            <label for="" style="">{{ $housingType->label }}</label>
                                                             @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
                                                                 <p class="mb-1">
                                                                     {{ is_array($checkboxItem) ? implode(',',$checkboxItem) : $checkboxItem }}
@@ -187,7 +187,7 @@
                                                 <div class="view-form-json">
                                                     @if (isset($housingData->{str_replace('[]', '', $housingType->name)}))
                                                         <label for=""
-                                                            style="font-weight: bold;">{!! $housingType->label !!}</label>
+                                                            style="">{!! $housingType->label !!}</label>
 
                                                         <p>{!! $housingData->{str_replace('[]', '', $housingType->name)}[0] !!}</p>
                                                     @endif

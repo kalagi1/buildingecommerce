@@ -37,7 +37,7 @@
 .ff_fileupload_wrap table.ff_fileupload_uploads tr.ff_fileupload_bounce { animation: ff_fileupload_bounce_animate 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translateY(0); }
 
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview { width: 1px; }
-.ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image { display: block; box-sizing: border-box; border: 0 none; padding: 0; background-color: #DDDDDD; background-size: cover; background-repeat: no-repeat; background-position: center center; width: 50px; height: 50px; border-radius: 5px; opacity: 0.75; text-align: center; font-size: 13px; font-weight: bold; color: #222222; overflow: hidden; outline: none; cursor: default; }
+.ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image { display: block; box-sizing: border-box; border: 0 none; padding: 0; background-color: #DDDDDD; background-size: cover; background-repeat: no-repeat; background-position: center center; width: 50px; height: 50px; border-radius: 5px; opacity: 0.75; text-align: center; font-size: 13px;  color: #222222; overflow: hidden; outline: none; cursor: default; }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image::-moz-focus-inner { border: 0; }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image_has_preview { cursor: pointer; }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image:hover, .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image:focus, .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_image:active { opacity: 1; }
@@ -96,10 +96,10 @@
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_preview .ff_fileupload_preview_text_9 { background-color: #F03C5A; }
 
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary { padding: 1em; font-size: 0.9em; white-space: normal; }
-.ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_filename { width: 100%; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_filename { width: 100%;  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_filename input { box-sizing: border-box; width: 100%; padding: 0.3em; margin-bottom: 0.1em; font-size: 1.0em; font-weight: normal; line-height: normal; border: 1px solid #BBBBBB; border-radius: 0; box-shadow: none; }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_filename input:focus, .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_filename input:hover { border: 1px solid #888888; }
-.ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_errors { color: #A94442; font-weight: bold; }
+.ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_errors { color: #A94442;  }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_progress_background { margin-top: 0.5em; background-color: #CCCCCC; height: 2px; }
 .ff_fileupload_wrap table.ff_fileupload_uploads td.ff_fileupload_summary .ff_fileupload_progress_bar { background-color: #157EFB; width: 0; height: 2px; }
 

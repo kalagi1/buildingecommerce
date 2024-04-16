@@ -73,7 +73,7 @@
 
                 <div class="admin-house-count">
                     <h4 class="mb-3">Emlak Sayısı</h4>
-                    <p style="font-weight: bold;">{{ $project->room_count }}</p>
+                    <p style="">{{ $project->room_count }}</p>
                 </div>
 
 
@@ -269,7 +269,7 @@
                                                         is_array(json_decode($projectHousingsList[$i + 1][$housingType->name])))
                                                     <div class="view-form-json col-md-12 mt-2">
                                                         <label for=""
-                                                            style="font-weight: bold;">{!! $housingType->label !!}</label>
+                                                            style="">{!! $housingType->label !!}</label>
                                                         @foreach (json_decode($projectHousingsList[$i + 1][$housingType->name]) as $checkboxItem)
                                                             <p class="mb-1">
                                                                 {{ $checkboxItem == 'pesin' ? 'Peşin' : $checkboxItem }}
@@ -281,7 +281,7 @@
                                                 @if (isset($projectHousingsList[$i + 1][$housingType->name]))
                                                     <div class="view-form-json col-md-3 mt-2">
                                                         <label for=""
-                                                            style="font-weight: bold;">{!! $housingType->label !!}</label>
+                                                            style="">{!! $housingType->label !!}</label>
                                                         <p>{{ $projectHousingsList[$i + 1][$housingType->name] ? $projectHousingsList[$i + 1][$housingType->name] : '' }}
                                                         </p>
                                                     </div>

@@ -2937,7 +2937,7 @@
 .finish-text p{
     text-align: center;
     font-size: 11px;
-    font-weight: bold;
+    
     margin: 20px 0;
 }
 
@@ -2964,14 +2964,14 @@
 
 .thumbnail-second span{
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }
 
 .form-area .section-title{
     font-size: 25px;
-    font-weight: bold;
+    
     margin: 5px 0;
     display: block;
 }
@@ -3431,7 +3431,7 @@
     border-radius: 36px;
     color: #999;
     line-height: 36px;
-    font-weight: bold;
+    
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

@@ -214,7 +214,7 @@ button {
 .top-headings-section h2::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 100px;
@@ -1293,7 +1293,7 @@ strong {
 
 .button--size-s {
     font-size: 11px;
-    font-weight: bold;
+    
 }
 
 .button--size-m {
@@ -2075,7 +2075,7 @@ section.recently.portfolio {
 
 .hp1 .request h3 {
     text-transform: uppercase;
-    font-weight: bold;
+    
     font-size: 1.5rem;
     color: #fff;
 }
@@ -2087,7 +2087,7 @@ section.recently.portfolio {
 .hp1 .request h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -2102,7 +2102,7 @@ section.recently.portfolio {
 .hp1 .call-info h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -3760,7 +3760,7 @@ section.popular-places {
     width: 100%;
     display: block;
     font-size: 11px;
-    font-weight: bold;
+    
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -3914,7 +3914,7 @@ section.feature-cities-1 {
     width: 100%;
     display: block;
     font-size: 11px;
-    font-weight: bold;
+    
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -4353,7 +4353,7 @@ section.top-location {
 
 .top-location .tp-caption p {
     color: #18ba60;
-    font-weight: bold;
+    
     opacity: 0;
     -webkit-transition: all ease-in-out 0.3s;
     transition: all ease-in-out 0.3s;
@@ -5150,7 +5150,7 @@ section.counterup {
 .first-footer .netabout h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: #fff;
     content: " ";
     width: 50px;
@@ -5309,7 +5309,7 @@ section.counterup {
 .first-footer .contactus h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -5376,7 +5376,7 @@ section.counterup {
 .first-footer .navigation h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -5449,7 +5449,7 @@ section.counterup {
 .first-footer .widget h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -5544,7 +5544,7 @@ section.counterup {
 .first-footer .newsletters h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -5591,7 +5591,7 @@ section.counterup {
     background: black;
     color: #fff;
     text-transform: uppercase;
-    font-weight: bold;
+    
     margin-top: 1.5rem;
     cursor: pointer;
     -webkit-box-flex: 1;
@@ -13033,7 +13033,7 @@ section.visited-cities {
     width: 100%;
     display: block;
     font-size: 11px;
-    font-weight: bold;
+    
     padding: 0px;
     overflow: hidden;
     height: 100px;
@@ -14247,7 +14247,7 @@ form label.error {
 
 .th-8 .contact-us h3 {
     text-transform: uppercase;
-    font-weight: bold;
+    
     font-size: 1.2rem;
 }
 
@@ -15976,7 +15976,7 @@ a.button {
 
 .homepage-24 .request h3 {
     text-transform: uppercase;
-    font-weight: bold;
+    
     font-size: 1.5rem;
     color: #fff;
 }
@@ -15988,7 +15988,7 @@ a.button {
 .homepage-24 .request h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -16032,7 +16032,7 @@ a.button {
 
 .homepage-24 .request h3 {
     text-transform: uppercase;
-    font-weight: bold;
+    
     font-size: 1.4rem;
     color: #fff;
     margin-bottom: 2rem;
@@ -16776,7 +16776,7 @@ a.button {
 .inner-pages .blog .main-search-field-2 h5,
 .inner-pages .blog .section-heading .media .media-body h5 {
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    
     text-transform: capitalize;
 }
 
@@ -17691,7 +17691,7 @@ section.headings-2 {
     color: black;
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     width: 50px;
 }
 
@@ -18702,20 +18702,20 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .blog .sorting-options span {
     color: #121B22;
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    
     text-transform: uppercase;
 }
 
 .inner-pages .blog .sorting-options h5 {
     color: black;
     font-family: 'Montserrat', sans-serif;
-    font-weight: bold;
+    
     margin-top: 0px;
 }
 
 .inner-pages .blog .sorting-options h6 {
     color: #18ba60;
-    font-weight: bold;
+    
     margin-right: 3.2rem;
 }
 
@@ -18747,7 +18747,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
     color: black;
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -19068,7 +19068,7 @@ div.datedropper.my-style.picker-lkd .pick-submit {
 .inner-pages .blog .homes-content.details .fa {
     color: black;
     font-size: 1.5rem;
-    font-weight: bold;
+    
 }
 
 .inner-pages .blog .homes-content.details span {
@@ -21902,7 +21902,7 @@ header.payment-card-header .pull-right img {
 .inner-pages .about-us h2::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: #121B22;
     content: " ";
     width: 97px;
@@ -23998,7 +23998,7 @@ a.btn_1 {
 .inner-pages .leve-comments h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -24164,7 +24164,7 @@ form label.error {
 
 .inner-pages .contact-us h3 {
     text-transform: uppercase;
-    font-weight: bold;
+    
     font-size: 1.2rem;
 }
 
@@ -24188,7 +24188,7 @@ form label.error {
 .inner-pages .request h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: black;
     content: " ";
     width: 50px;
@@ -24208,7 +24208,7 @@ form label.error {
 .inner-pages .call-info h3::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: #fff;
     content: " ";
     width: 50px;
@@ -26374,7 +26374,7 @@ select {
     padding-left: 20px;
     position: relative;
     font-size: 11px;
-    font-weight: bold;
+    
     color: #777;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
@@ -26501,7 +26501,7 @@ h4 {
     cursor: pointer;
     font-size: 11px;
     text-transform: uppercase;
-    font-weight: bold;
+    
     border-radius: 0 !important;
 }
 
@@ -26519,7 +26519,7 @@ h4 {
 .skills h4::after {
     display: block;
     height: 3px;
-    font-weight: bold;
+    
     background-color: #e72660;
     content: " ";
     width: 50px;
@@ -26778,7 +26778,7 @@ h4 {
 }
 
 .shop .blog .blog-pots h3 {
-    font-weight: bold;
+    
     font-size: 11px;
     margin: 0;
 }
@@ -26801,7 +26801,7 @@ h4 {
 
 .shop p.recent-price {
     color: #fe4f4f;
-    font-weight: bold;
+    
     margin-bottom: 30px;
 }
 
@@ -27328,7 +27328,7 @@ h4 {
     height: 48px;
     border-radius: 4px;
     text-transform: uppercase;
-    font-weight: bold;
+    
     transition: all 0.3s ease;
     font-size: 11px;
 }
@@ -27355,7 +27355,7 @@ h4 {
     border: 1px black solid;
     border-radius: 24px;
     padding: .5rem 4rem;
-    font-weight: bold;
+    
 }
 
 .loginItems #next:hover {
@@ -27393,7 +27393,7 @@ h4 {
 }
 
 .user-type-selection label {
-    font-weight: bold;
+    
 }
 
 .button-group {
@@ -28266,7 +28266,7 @@ font {
     align-items: center;
     font-size: 11px;
     color: #2a2a2a;
-    font-weight: bold;
+    
     margin-bottom: 20px;
 }
 
@@ -28415,7 +28415,7 @@ font {
 
 #orders-container .order .order-header .order-header-info {
     color: #666;
-    font-weight: bold;
+    
     font-size: 11px;
     display: flex;
 }
@@ -28557,7 +28557,7 @@ font {
 }
 
 #orders-container .order .order-item .order-item-status strong {
-    font-weight: bold;
+    
 }
 
 #orders-container .order .order-item .order-item-status .at_collection_point,
@@ -29205,7 +29205,7 @@ font {
 #orders-container .countdown .title {
     color: #fff;
     font-size: 10px;
-    font-weight: bold;
+    
     align-self: center;
     margin-bottom: 4px;
 }
@@ -29645,7 +29645,7 @@ font {
 
 .msg-info-name {
     margin-right: 10px;
-    font-weight: bold;
+    
 }
 
 .msg-info-time {
@@ -29698,7 +29698,7 @@ font {
     margin-left: 10px;
     background: rgb(0, 196, 65);
     color: #fff;
-    font-weight: bold;
+    
     cursor: pointer;
     transition: background 0.23s;
 }
