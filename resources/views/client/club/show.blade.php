@@ -131,6 +131,8 @@
                                                 $projectHousingsList = $item['projectHousingsList'];
                                                 $project = $item['project'];
                                                 $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
+                                    $blockName = NULL;
+
                                             @endphp
                                             @if (isset($item) &&
                                                     ((isset($item['housing']) && !empty($item['housing'])) ||
@@ -527,6 +529,7 @@
                                     $projectHousingsList = $item['projectHousingsList'];
                                     $project = $item['project'];
                                     $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
+                                    $blockName = NULL;
                                 @endphp
                                 @if (isset($item) &&
                                         ((isset($item['housing']) && !empty($item['housing'])) ||
@@ -787,6 +790,7 @@
                                                                         style="width:50% !important;height:25px !important;background-color:black !important;border:1px solid black;color:white"
                                                                         data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
                                                                         order="{{ $item['room_order'] }}"
+                                                                        data-block="{{ $blockName }}"
                                                                         data-payment-order="{{ $item['room_order'] }}">
                                                                         Ödeme Detayı
                                                                     </button>
