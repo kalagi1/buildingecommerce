@@ -467,7 +467,7 @@
                                             </defs>
                                         </svg>
 
-                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap {{ $isSwap }}</span>
+                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
                                     </div>
                                     <i class="fa fa-caret-right"></i>
                                 </div>
