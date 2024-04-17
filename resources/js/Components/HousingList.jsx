@@ -896,8 +896,8 @@ function HousingList({projectId}) {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div style={{whiteSpace:'nowrap',alignItems:'center'}} className="d-flex">
-                                                            {row['advertise_title[]']} 
+                                                        <div className='d-flex'>
+                                                            <span className='housing_title'>{row['advertise_title[]']} </span>
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
                                                                     <span onClick={() => {setChangeData(row['advertise_title[]']);setSelectedSingleItem(getLastCount() + key + 1);setSingleUpdateHousingModalOpen(true);setSelectedColumn("advertise_title");setIsDotType(false);setSelectedType('İlan Başlığı');}} className="badge badge-phoenix badge-phoenix-primary edit-button-table mx-2 cursor-pointer d-block"><i className="fa fa-edit"></i></span>
@@ -913,7 +913,7 @@ function HousingList({projectId}) {
                                                         </strong>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                        <div className="d-flex">
                                                             {dotNumberFormat(row['price[]'])} ₺
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
@@ -923,12 +923,12 @@ function HousingList({projectId}) {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                        <div className="d-flex">
                                                             <Switch onChange={() => {changeInstallement(getLastCount() + key + 1)}} defaultChecked={row['payment-plan[]'] != '[]'} />
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                        <div className="d-flex">
                                                             {dotNumberFormat(row['installments-price[]'])} ₺
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
@@ -943,14 +943,14 @@ function HousingList({projectId}) {
                                                                 <span onClick={() => {setSelectedSingleItem(getLastCount() + key + 1);setUpdatePayDecModalOpen(true);setPayDecs(getLastCount() + key + 1)}} className="badge badge-phoenix badge-phoenix-primary batch_update_button">
                                                                     Ara ödemeleri güncelle 
                                                                     <br/>
-                                                                    {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Adet ara ödeme bulunmakta
+                                                                    {row['pay-dec-count'+(getLastCount() + key + 1)] > 0 ? row['pay-dec-count'+(getLastCount() + key + 1)] : 0} Ara Ödeme
                                                                 </span>
                                                             : 
                                                                 <span className='badge badge-phoenix badge-phoenix-success'>Ara Ödemeleri Gör ({row['pay-dec-count'+(getLastCount() + key + 1)]})</span>
                                                         }
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                        <div className="d-flex">
                                                             {row['installments[]']}
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
@@ -960,7 +960,7 @@ function HousingList({projectId}) {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                        <div className="d-flex">
                                                             {dotNumberFormat(row['advance[]'])} ₺
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?
@@ -970,7 +970,7 @@ function HousingList({projectId}) {
                                                         </div>
                                                     </TableCell>
                                                     <TableCell >
-                                                        <div className="d-flex" style={{whiteSpace:'nowrap',alignItems:'center'}}>
+                                                        <div className="d-flex">
                                                             {dotNumberFormat(row['number_of_shares[]'])}
                                                             {
                                                                 findSold(getLastCount() + key + 1) == 2 || !findSold(getLastCount() + key + 1) ?

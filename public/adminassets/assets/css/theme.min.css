@@ -43262,3 +43262,10 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 .wait-sale td{
     color: #492222 !important;
 }
+
+.housing_title{
+    width: 50px; /* Metnin gösterileceği genişlik */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
