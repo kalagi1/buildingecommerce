@@ -784,7 +784,7 @@
                                                                    
                                                                     <button class="first-btn payment-plan-button"
                                                                         project-id="{{ $item['project']->id }}"
-                                                                        style="width:50% !important;height:25%;background-color:black !important;border:1px solid black;color:white"
+                                                                        style="width:50% !important;height:25px !important;background-color:black !important;border:1px solid black;color:white"
                                                                         data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
                                                                         order="{{ $item['room_order'] }}"
                                                                         data-payment-order="{{ $item['room_order'] }}">
