@@ -153,7 +153,6 @@
                                                     </td>
                                                     <td>
                                                         {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
-                                                        <br>
 
                                                         @if ($item['item_type'] == 1)
                                                             {!! $item['room_order'] . " No'lu Daire <br>" !!}
