@@ -207,7 +207,7 @@ class SharerController extends Controller
                 $action = null;
                 $offSale = null;
 
-                if ($item->item_type == 2) {
+                if ($item->item_type == 2 && isset($item->housing)) {
                     $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
                         ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
                         ->first();
@@ -223,12 +223,14 @@ class SharerController extends Controller
                     $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->item_id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
                     $housingTypeData = json_decode($item->housing->housing_type_data, true);
                     $offSale = isset($housingTypeData['off_sale1']);
+                 
                 }
-                $projectCartOrders= null;
-                $projectHousingsList= null;
+          
+                $projectCartOrders = [];
+                $projectHousingsList= [];
                 $project= null;
                 $sumCartOrderQt = 0;
-
+                $discount_amount = 0;
 
                 if ($item->item_type == 1) {
 

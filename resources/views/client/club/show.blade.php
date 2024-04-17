@@ -60,7 +60,7 @@
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                 @endif
                             @endforeach
-                            <div class="row project-filter-reverse blog-pots" style="width: 100%">
+                            {{-- <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
 
@@ -359,7 +359,7 @@
 
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="mobile-show">
@@ -411,7 +411,7 @@
                                     :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                             @endif
                         @endforeach
-                            @foreach ($mergedItems as $item)
+                            {{-- @foreach ($mergedItems as $item)
                             @if (isset($item) && $item['item_type'] == 2)
 
                                 <div class="d-flex" style="flex-wrap: nowrap">
@@ -713,7 +713,7 @@
 
                                 <hr>
                                 @endif
-                            @endforeach
+                            @endforeach --}}
                         </div>
 
                     </div>
