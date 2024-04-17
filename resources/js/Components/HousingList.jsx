@@ -20,6 +20,10 @@ import PayDecTable from './create_project_components/PayDecTable';
 import ChangePaymentStatus from './create_project_components/ChangePaymentStatus';
 import InfoIcon from '@mui/icons-material/Info';
 import Switch from '@mui/material/Switch';
+import Modal from '@mui/material/Modal';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
+
 function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
@@ -102,8 +106,9 @@ function HousingList({projectId}) {
     const [changePaymentStatusOpen,setChangePaymentStatusOpen] = useState(false);
     const [sumCartQts,setSumCartQts] = useState([]);
     const [solds,setSolds] = useState([]);
-
-
+    const [saleOpen,setSaleOpen] = useState(false);
+    const [saleData,setSaleData] = useState({});
+    const [saleLoading,setSaleLoading] = useState(false);
     useEffect(() => {
         axiosRequestGetData(0)
     },[selectedBlock])
@@ -718,6 +723,17 @@ function HousingList({projectId}) {
         setSelectedAllCheck(false);
     },[selectedBlock])
 
+    const showSale = (housingOrder) => {
+        setSaleLoading(true);
+        setSaleOpen(true)
+        var haveSold = solds.find((sold) => {var item = JSON.parse(sold.cart); return item.item.housing == housingOrder});
+
+        axios.get(baseUrl+'get_invoice_data/'+haveSold.id).then((res) => {
+            setSaleData(res.data.data)
+            setSaleLoading(false);
+        })
+    }
+
     const changeInstallement = (order) => {
         var tempSelected = [];
         tempSelected.push(order);
@@ -741,9 +757,160 @@ function HousingList({projectId}) {
         })
     }
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '70%',
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+        height : '80vh',
+        overflow : 'scroll'
+    };
+
     return(
         <div>
             <ToastContainer/>
+            <Modal
+                open={saleOpen}
+                onClose={() => {setSaleOpen(false)}}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                >
+                <Box sx={style}>
+                    <div className="tm_container">
+                        <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'80vh'}} className={"tm_invoice_wrap "+(!saleLoading ? "d-none" : "")}>
+                            <i className='fa fa-spinner loading-icon'></i>
+                        </div>
+                        <div className={"tm_invoice_wrap "+(saleLoading ? "d-none" : "")}>
+                            <div className="tm_invoice tm_style3" id="tm_download_section">
+                                <div className="tm_invoice_in">
+                                    <div className="tm_invoice_head tm_align_center tm_accent_bg">
+                                        <div className="tm_invoice_left">
+                                            <div className="tm_logo">
+                                                <img
+                                                    src={frontEndUrl+"images/emlaksepettelogo.png"}
+                                                    alt="Logo"
+                                                    style={{ width: 200 }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="tm_invoice_right">
+                                            <div className="tm_head_address tm_white_color">
+                                                
+                                                Cevizli, Çanakkale Cd. No:103A, 34865 <br /> Kartal/İstanbul
+                                                <br />
+                                                Müşteri Hizmetleri: 444 3 284 <br />
+                                                Email: info@emlaksepette.com
+                                            </div>
+                                        </div>
+                                        <div className="tm_primary_color tm_text_uppercase tm_watermark_title tm_white_color">
+                                            Fatura
+                                        </div>
+                                    </div>
+                                    <div className="tm_invoice_info">
+                                        <div className="tm_invoice_info_left tm_gray_bg">
+                                            <p className="tm_mb2">
+                                            <b className="tm_primary_color">Alıcı Bilgisi:</b>
+                                            </p>
+                                            <p className="tm_mb0">
+                                            {saleData?.invoice?.order?.user?.name}
+                                            <br />
+                                            {saleData?.invoice?.order?.user?.email}
+                                            <br />
+                                            {saleData?.invoice?.order?.user?.phone}
+                                            {saleData?.invoice?.order?.user?.mobile_phone}
+                                            </p>
+                                        </div>
+                                        <div className="tm_invoice_info_right tm_text_right">
+                                            <p className="tm_invoice_number tm_m0">
+                                                Fatura No: 
+                                                <b className="tm_primary_color">
+                                                    {saleData?.invoice?.invoice_number}
+                                                </b>
+                                            </p>
+                                            <p className="tm_invoice_date tm_m0">
+                                                Tarih:
+                                                <b className="tm_primary_color">
+                                                    {saleData?.invoice?.created_at}
+                                                </b>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="tm_invoice_details">
+                                        <div className="tm_table tm_style1 tm_mb30">
+                                            <div className="tm_invoice_footer">
+                                                <div className="tm_left_footer">
+                                                    <p className="tm_mb2">
+                                                        <b className="tm_primary_color">Ödeme Bilgileri:</b>
+                                                    </p>
+                                                    <p className="tm_m0">
+                                                        {saleData?.invoice?.order?.bank?.receipent_full_name} -  {saleData?.invoice?.order?.bank?.iban}
+                                                        <br />
+                                                        {
+                                                            saleData?.invoice?.order?.amount == "0" ? 
+                                                                <span className='badge badge-phoenix badge-phoenix-danger'>Bu ilan yönetici tarafından komşumu gör olarak girildi</span>
+                                                            : saleData?.invoice?.order?.amount+"₺"
+                                                        }
+                                                    </p>
+                                                </div>
+                                                <div className="tm_right_footer">
+                                                    <table className="tm_gray_bg">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td className="tm_width_3 tm_primary_color tm_bold">
+                                                                    Toplam Fiyat
+                                                                </td>
+                                                                <td className="tm_width_3 tm_primary_color tm_bold tm_text_right">
+                                                                    {saleData?.invoice?.total_amount} ₺
+                                                                </td>
+                                                            </tr>
+                                                            {
+                                                                saleData?.invoice?.order?.amount != "0" ?
+                                                                    <tr className="tm_border_top tm_border_bottom tm_accent_bg">
+                                                                        <td className="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color">
+                                                                            Kapora
+                                                                        </td>
+                                                                        <td className="tm_width_3 tm_border_top_0 tm_bold tm_f16 tm_white_color tm_text_right">
+                                                                            {saleData?.invoice?.order?.amount+"₺"}
+                                                                        </td> 
+                                                                    </tr>
+                                                                : "" 
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="tm_padd_15_20 tm_gray_bg">
+                                            <p className="tm_mb5">
+                                                <b className="tm_primary_color">Satıcı Bilgileri:</b>
+                                            </p>
+                                            <ul className="tm_m0 tm_note_list">
+                                                <li>
+                                                    {saleData?.project?.user?.name}
+                                                </li>
+                                                <li>
+                                                    {saleData?.project?.user?.email}
+                                                </li>
+                                                <li>
+                                                    Vergi No:  {saleData?.project?.user?.taxNumber}
+                                                </li>
+                                                <li>
+                                                    İletişim No: {saleData?.project?.user?.phone}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Box>
+            </Modal>
             <div className="card py-4">
                 <div className="estate-table">
                     <div className="table-breadcrumb">
@@ -1037,9 +1204,9 @@ function HousingList({projectId}) {
                                                                                         <button className="badge badge-phoenix badge-phoenix-warning">Ödeme Bekleniyor</button>
                                                                                     : 
                                                                                         findSold(getLastCount() + key + 1) == 1 ? 
-                                                                                            <button class="badge badge-phoenix badge-phoenix-danger">Satıldı </button>
+                                                                                            <button onClick={() => {showSale(getLastCount() + key + 1)}} className="badge badge-phoenix badge-phoenix-danger">Satıldı <i className='fa fa-eye'></i></button>
                                                                                         : 
-                                                                                            <button class="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
+                                                                                            <button className="badge badge-phoenix badge-phoenix-success">Tekrar Satışta</button>
                                                                                 : 
                                                                                     row['off_sale[]'] == '[]' ?
                                                                                         <div className='d-flex'>

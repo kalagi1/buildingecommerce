@@ -176,6 +176,7 @@
             </div>
 
         </div>
+    </div>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/jspdf.min.js"></script>
         <script src="assets/js/html2canvas.min.js"></script>

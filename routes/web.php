@@ -1133,6 +1133,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/save_payment_status', [ApiProjectController::class, "savePaymentStatus"]);
     Route::post('/save_template', [ApiProjectController::class, "saveTemplate"]);
     Route::get('/last_data', [ApiProjectController::class, "getLastData"]);
+    Route::get('/get_invoice_data/{cartId}', [ApiProjectController::class, "getInvoiceData"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');

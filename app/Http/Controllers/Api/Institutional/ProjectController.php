@@ -14,6 +14,7 @@ use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
+use App\Models\Invoice;
 use App\Models\Neighborhood;
 use App\Models\Project;
 use App\Models\ProjectHousing;
@@ -1145,6 +1146,28 @@ class ProjectController extends Controller
 
         return json_encode([
             "lastData" => json_decode($lastData->data)
+        ]);
+    }
+
+    public function getInvoiceData($cartId){
+        $order = CartOrder::where("id", $cartId)->first();
+        $cart = json_decode($order->cart);
+        $project = null;
+
+        if ($cart->type == "project") {
+            $project = Project::where("id", $cart->item->id)->with("brand", "roomInfo", "housingType", "county", "city", 'user.projects.housings', 'user.brands', 'user.housings', 'images')->first();
+        } else {
+            $project = Housing::where("id", $cart->item->id)->with("user")->first();
+        }
+
+        $invoice = Invoice::where("order_id", $order->id)->with("order.user", "order.bank")->first();
+        $data = [
+            'invoice' => $invoice,
+            'project' => $project,
+        ];
+
+        return json_encode([
+            "data" => $data
         ]);
     }
 }

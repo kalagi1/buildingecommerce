@@ -671,7 +671,7 @@
                                     @endphp
                                     <a href="{{ url('/emlak-kulup') }}">
                                         <button type="button" class=" newButtonStyle ml-2">
-                                            <span class="buyUserRequest__text newButtonStyle__text"> Emlak Kulüp</span>
+                                            <span class="buyUserRequest__text newButtonStyle__text"><img src="{{URL::to('/')}}/emlakkulüplogo.png" alt=""> Emlak Kulüp</span>
                                         </button>
                                     </a>
                                     <a href="{{ $link }}">
@@ -686,7 +686,7 @@
                                     @auth
                                         <a href="{{ url('/emlak-kulup') }}">
                                             <button type="button" class=" newButtonStyle ml-4">
-                                                <span class="buyUserRequest__text newButtonStyle__text"> Emlak Kulüp</span>
+                                                <span class="buyUserRequest__text newButtonStyle__text"><img src="{{URL::to('/')}}/emlakkulüplogo.png" alt="">  Emlak Kulüp</span>
                                             </button>
                                         </a>
                                         <a href="{{ route('real.estate.index') }}">
@@ -700,7 +700,7 @@
                                     @else
                                         <a href="{{ url('/emlak-kulup') }}">
                                             <button type="button" class=" newButtonStyle ml-4">
-                                                <span class="buyUserRequest__text newButtonStyle__text"> Emlak Kulüp</span>
+                                                <span class="buyUserRequest__text newButtonStyle__text"><img src="{{URL::to('/')}}/emlakkulüplogo.png" alt=""> Emlak Kulüp</span>
                                             </button>
                                         </a>
                                         <a href="{{ url('/sat-kirala-nedir') }}">
