@@ -8,7 +8,7 @@
                     data-list='{"valueNames":["footerLinkId","footerLinkTitle","footerLinkUrl","footerLinkWidget","footerLinkAction"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">Footer Linkler<span
+                            <h3 class="mb-0">Footer Linkler<span
                                     class="fw-normal text-700 ms-3">({{ count($footerLinks) }})</span>
                             </h2>
                         </div>
