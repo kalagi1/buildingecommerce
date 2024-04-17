@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 class FormController extends Controller
 {
     public function store( Request $request ) {
+        $formData = $request->all();
+
         if ( $request->hasFile( 'tapu_belgesi' ) ) {
             $tapuFile = $request->file( 'tapu_belgesi' );
             $tapuFileName =  'tapu_belgesi_' . time() . '.' . $tapuFile->getClientOriginalName();
