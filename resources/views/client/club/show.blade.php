@@ -12,7 +12,7 @@
 
                     <div class="card-body">
                         <div class="mobile-hidden">
-                            @foreach ($mergedItems as $key => $item)
+                            {{-- @foreach ($mergedItems as $key => $item)
                                 @if (isset($item) && $item['item_type'] == 1)
                                     @php
                                         if (isset($item['projectCartOrders'][$item['room_order']])) {
@@ -63,7 +63,7 @@
                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                     @if ((isset($item['project_values']['discount_rate[]']) && $item['project_values']['discount_rate[]'] != 0) || null)
-                                        <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
+                                        <div class="col-md-12 col-12" >
                                             <div class="d-flex justify-content-between align-items-center"
                                                 style="height: 100%;padding: 10px">
                                                 <span style="color: #e54242;font-size:9px !important">
@@ -79,14 +79,13 @@
                                         </div>
                                     @endif
                                 @endif
-                            @endforeach
-                            {{-- <div class="row project-filter-reverse blog-pots" style="width: 100%">
+                            @endforeach --}}
+                            <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
 
                                         @foreach ($mergedItems as $item)
-                                        @if (isset($item) && $item['item_type'] == 2)
-
+                                        @if (isset($item))
                                             <tr>
                                                 <td>
                                                     #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
@@ -363,17 +362,16 @@
                                                     </tr>
                                                 @endif
                                             @endif
-                                            @endif
-
+@endif
                                         @endforeach
 
                                     </tbody>
                                 </table>
-                            </div> --}}
+                            </div>
                         </div>
 
                         <div class="mobile-show">
-                            @foreach ($mergedItems as $key => $item)
+                            {{-- @foreach ($mergedItems as $key => $item)
                                 @if (isset($item) && $item['item_type'] == 1)
                                     @php
                                         if (isset($item['projectCartOrders'][$item['room_order']])) {
@@ -424,9 +422,9 @@
                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                 @endif
-                            @endforeach
-                            {{-- @foreach ($mergedItems as $item)
-                            @if (isset($item) && $item['item_type'] == 2)
+                            @endforeach --}}
+                            @foreach ($mergedItems as $item)
+                            @if (isset($item))
 
                                 <div class="d-flex" style="flex-wrap: nowrap">
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
@@ -721,7 +719,7 @@
 
                                 <hr>
                                 @endif
-                            @endforeach --}}
+                            @endforeach
                         </div>
 
                     </div>
