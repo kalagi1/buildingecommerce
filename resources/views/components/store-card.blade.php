@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <button class="storeShareBtn"
-                    onclick="shareStore('{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
+                    onclick="shareStore('{{ route('institutional.dashboard', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}')">
                     Mağazayı Paylaş <i class="fa fa-share-alt" style="margin-left:5px"></i>
                 </button>
             </div>
