@@ -107,6 +107,7 @@
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                             @php
                                 $advertiseTitle = $projectHousingsList[$housingOrder]['advertise_title[]'] ?? null;
+                                $isSwap = $projectHousingsList[$housingOrder]['swap[]'] ?? null;
                                 $status = optional($sold)->status;
                             @endphp
 
@@ -465,7 +466,7 @@
                                             </defs>
                                         </svg>
 
-                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
+                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap {{ $isSwap }}</span>
                                     </div>
                                     <i class="fa fa-caret-right"></i>
                                 </div>
