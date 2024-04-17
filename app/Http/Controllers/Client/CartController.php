@@ -1018,7 +1018,7 @@ $newPrice = floatval($newPrice);
 $pesinat = floatval($pesinat);
 $taksitSayisi = intval($taksitSayisi);  // Eğer taksit sayısı tam sayı ise
 $number_of_share = intval($number_of_share);  // Eğer paylaşım sayısı tam sayı ise
-
+return $number_of_share;
 // Hesaplama
 $aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) : ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
 
