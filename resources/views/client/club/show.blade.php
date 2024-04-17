@@ -575,8 +575,8 @@
                                                         @endif
                                                     </div>
                                                 </a>
-                                                <div class="d-flex" style="align-items:Center">
-                                                    <div class="d-flex" style="gap: 8px;">
+                                                <div class="d-flex" style="align-items:Center;width:100%;">
+                                                    <div class="d-flex" style="gap: 8px;width:100%;">
 
                                                         @if ($item['item_type'] != 1)
                                                             @if ($item['housing']->step2_slug != 'gunluk-kiralik')
