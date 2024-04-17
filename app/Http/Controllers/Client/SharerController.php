@@ -329,6 +329,7 @@ class SharerController extends Controller
                 return array_merge($item, $itemArray);
             }, $items->toArray(), $itemsArray->toArray());
 
+
             return view('client.club.show', compact("store", "towns", "bankAccounts", "cities", "mergedItems", "collections", "slug", 'projects', 'itemsArray', 'collections', 'collection', 'items'));
         } else {
             return view("errors.404");
