@@ -203,6 +203,14 @@ function CreateProject(props) {
                                                                 top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
                                                                 behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                             });
+                                                        }else{
+                                                            if(!projectData.rules_confirm){
+                                                                var element = document.getElementById("finish-tick-id");
+                                                                window.scrollTo({
+                                                                    top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                    behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                }); 
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -272,6 +280,10 @@ function CreateProject(props) {
 
         if(!projectData.document){
             tempErrors.push("document");
+        }
+
+        if(!projectData.rules_confirm){
+            tempErrors.push("rules_confirm");
         }
 
         setAllErrors(tempErrors);
