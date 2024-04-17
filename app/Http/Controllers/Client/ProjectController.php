@@ -214,33 +214,32 @@ class ProjectController extends Controller
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
 
             $project->cartOrders = 0;
-            $projectCounts= 0;
+            $projectCounts = 0;
             if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] && $projectHousingsList[1]['share_sale[]'] != "[]") {
                 $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
-            
+
                 for ($i = 1; $i <= $room_counts; $i++) {
                     $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
                     $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
                         ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                         ->where(DB::raw($housingJsonPath), $i)
                         ->first();
-            
+
                     if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
                         $project->cartOrders += 1;
                     }
                 }
-            }else{
+            } else {
                 $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                ->groupBy('project_id')
-                ->where("status", "1")
-                ->get();
+                    ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                    ->groupBy('project_id')
+                    ->where("status", "1")
+                    ->get();
                 $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
-
             }
-            
 
-        
+
+
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
             $blockIndex = $request->input('block_id') ?? 0;
@@ -259,10 +258,20 @@ class ProjectController extends Controller
 
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
+            // Önce orijinal resmi yükleyelim
+            $imagePath = public_path(str_replace('public/', 'storage/', $project->image));
+
+            // Resmi yükleyelim
+            $image = imagecreatefromstring(file_get_contents($imagePath));
+
+            // PNG formatına dönüştürelim ve yeni dosyaya kaydedelim
+            $pngImagePath = 'converted_images/' . uniqid() . '.png';
+            imagepng($image, public_path($pngImagePath));
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title,
+                "meta_image" => URL::to('/') . '/' . $pngImagePath,
                 "meta_author" => "Emlak Sepette"
             ];
 
