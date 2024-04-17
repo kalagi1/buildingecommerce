@@ -14,6 +14,7 @@ class CheckCorporateAccount
      */
     private $whitelist =
     [
+        'institutional.corporate-account-verification',
         'institutional.verify-account',
         'institutional.phone.verification',
         'institutional.phone.generateVerificationCode',
