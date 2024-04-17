@@ -957,7 +957,8 @@
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="telefon">Telefon Numaranız:</label>
-                        <input class="formInput" type="tel" id="telefon" name="telefon" required>
+                        <input class="formInput" type="number" id="telefon" name="telefon" required>
+                        <span id="error_message" class="error-message"></span>
                     </div>
 
                     <div class="col-md-6 col-12">
@@ -1691,7 +1692,21 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
 
+<script>
+           $(document).ready(function() {
+            $("#telefon").on("input blur", function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
 
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                    $("#error_message").text("");
+                }
+            });
+        });
+</script>
         <script>
             $(document).ready(function() {
                 $('#takasFormu').submit(function(e) {
@@ -2013,7 +2028,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("#phone").blur(function() {
+            $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
                 var pattern = /^5[1-9]\d{8}$/;
 

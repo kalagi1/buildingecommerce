@@ -432,7 +432,7 @@
                                     style="width:150px;float:right">Satın Al
                                 </button>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                    style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                                    style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                             </div>
 
 
@@ -725,7 +725,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
         <script>
             $(document).ready(function(){
-              $("#phone").blur(function(){
+                $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
                 var pattern = /^5[1-9]\d{8}$/;
             

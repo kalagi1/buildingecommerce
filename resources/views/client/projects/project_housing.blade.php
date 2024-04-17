@@ -107,6 +107,7 @@
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                             @php
                                 $advertiseTitle = $projectHousingsList[$housingOrder]['advertise_title[]'] ?? null;
+                                $isSwap = $projectHousingsList[$housingOrder]['swap[]'] ?? null;
                                 $status = optional($sold)->status;
                             @endphp
 
@@ -430,6 +431,7 @@
                                 </div>
                             </div>
 
+                            @if ($isSwap == '["Evet"]')
                             <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                 <div class="add-to-collection-button-wrapper">
                                     <div class="add-to-collection-button">
@@ -804,7 +806,10 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
+                            @endif
+
+                          
                         </div>
                     @endif
 
@@ -2244,7 +2249,7 @@
 
         }
         $(document).ready(function(){
-          $("#phone").blur(function(){
+            $("#phone").on("input blur", function(){
             var phoneNumber = $(this).val();
             var pattern = /^5[1-9]\d{8}$/;
         

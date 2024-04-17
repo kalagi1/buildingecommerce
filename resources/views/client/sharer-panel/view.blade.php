@@ -536,7 +536,7 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
-      $("#phone").blur(function(){
+        $("#phone").on("input blur", function(){
         var phoneNumber = $(this).val();
         var pattern = /^5[1-9]\d{8}$/;
     

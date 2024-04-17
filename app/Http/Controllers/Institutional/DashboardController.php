@@ -197,10 +197,10 @@ class DashboardController extends Controller
     {
         $request->validate(
             [
-                'vergi_levhasi' => 'nullable|image|mimes:jpg,jpeg,png',
-                'sicil_belgesi' => 'nullable|image|mimes:jpg,jpeg,png',
-                'kimlik_belgesi' => 'nullable|image|mimes:jpg,jpeg,png',
-                'insaat_belgesi' => 'nullable|image|mimes:jpg,jpeg,png',
+                'vergi_levhasi' => 'nullable',
+                'sicil_belgesi' => 'nullable',
+                'kimlik_belgesi' => 'nullable',
+                'insaat_belgesi' => 'nullable',
             ]
         );
 

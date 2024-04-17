@@ -44,7 +44,8 @@
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="telefon">Telefon Numaranız:</label>
-                        <input class="formInput always-required" type="tel" id="telefon" name="telefon" required>
+                        <input class="formInput always-required" type="number" id="telefon" name="telefon" required>
+                        <span id="error_message" class="error-message"></span>
                     </div>
 
                     <div class="col-md-6 col-12">
@@ -295,6 +296,21 @@
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+               $(document).ready(function() {
+            $("#telefon").blur(function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                    $("#error_message").text("");
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('form').submit(function(e) {

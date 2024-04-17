@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="collection-navigation"><a
                                         href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
-                                            Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
+                                            Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                                         {{ count($collection->clicks) }}</span>
                                 </div><a
                                     href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><span>Koleksiyona
-                                        Git</span> ({{ count($collection->links) }} İlan)</a>
+                                        Git</span><br>({{ count($collection->links) }} İlan)</a>
                             </div>
                         </div>
                     </div>
