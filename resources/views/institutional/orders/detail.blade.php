@@ -751,7 +751,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(document).ready(function(){
-      $(".phoneControl").blur(function(){
+        $(".phoneControl").on("input blur", function(){
         var phoneNumber = $(this).val();
         var pattern = /^5[1-9]\d{8}$/;
     
