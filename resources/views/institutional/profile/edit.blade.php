@@ -16,11 +16,11 @@
                                 </ul>
                             </div>
                         @endif
-                        @if (session('success'))
+                        {{-- @if (session('success'))
                             <div class="alert alert-success text-white text-white">
                                 {{ session('success') }}
                             </div>
-                        @endif
+                        @endif --}}
 
                         <form action="{{ route('institutional.profile.update') }}" method="POST"
                             enctype="multipart/form-data" onsubmit="return validateForm()">
@@ -50,12 +50,12 @@
                                         <input type="text" name="name" class="form-control"
                                             value="{{ old('name', $user->name) }}">
                                     </div>
-                                    <div class="mt-3">
+                                    {{-- <div class="mt-3">
                                         <label class="q-label">Cep Telefon</label>
                                         <input type="number" name="mobile_phone" class="form-control" id="phone"
                                             value="{{ old('mobile_phone', $user->mobile_phone) }}">
                                         <span id="error_message" class="error-message"></span>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mt-3">
                                         <label class="q-label">Iban Numarası</label>
@@ -119,6 +119,57 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12">
+                <div class="card shadow-sm border-300 border-bottom mb-4">
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger text-white">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success text-white text-white">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+            
+                        <form action="{{ route('institutional.edit.phone') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            @csrf
+                            @method('PUT')
+                            
+                            <div class="corporate-form row" id="corporateForm">
+                                <div class="col-lg-6">
+                                    <div class="mt-3">
+                                        <label class="q-label">Cep Telefon</label>
+                                        <span id="error_message" class="error-message"></span>
+                                        <input type="number" name="mobile_phone" class="form-control" id="phone" value="{{ old('mobile_phone', $user->mobile_phone) }}" readonly>            
+                                        <input type="checkbox" id="enablePhone" onchange="togglePhone()">
+                                        <label for="enablePhone" class="mt-5 mb-5">Telefonu Düzenle</label>
+                                    </div>
+                                </div>
+                            
+                                <div class="col-lg-12">
+                                    <div id="phoneFields" style="display: none;">
+                                        <label class="q-label">Resim Ekle</label>
+                                        <div class="mb-2 mt-2" style="position: relative;">
+                                            <!-- Resmin boyutunu küçültmek için max-width ve max-height stil özellikleri ekleyelim -->
+                                            <img src="" alt="Yüklenen Resim" id="uploadedImage" style="display: none; max-width: 200px; max-height: 200px; border: 1px solid #ccc;">
+                                        </div>
+                                        <input type="file" name="image" id="image" class="form-control" onchange="toggleUpdateButton()">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3" id="updateButton" disabled>Güncelle</button>
+                                </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 @endsection
@@ -136,6 +187,43 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
+
+        <script>
+            function togglePhone() {
+                var phoneInput = document.getElementById('phone');
+                var enablePhoneCheckbox = document.getElementById('enablePhone');
+                var phoneFields = document.getElementById('phoneFields');
+                var updateButton = document.getElementById('updateButton');
+        
+                if (enablePhoneCheckbox.checked) {
+                    phoneInput.readOnly = false;
+                    phoneFields.style.display = 'block';
+                    toggleUpdateButton(); // Telefonu düzenle seçildiğinde, güncelleme butonunu kontrol et
+                } else {
+                    phoneInput.readOnly = true;
+                    phoneFields.style.display = 'none';
+                    toggleUpdateButton(); // Telefonu düzenle seçilmediğinde, güncelleme butonunu kontrol et
+                }
+            }
+        
+            function toggleUpdateButton() {
+                var imageInput = document.getElementById('image');
+                var updateButton = document.getElementById('updateButton');
+                var uploadedImage = document.getElementById('uploadedImage');
+        
+                if (imageInput.files.length > 0) {
+                    updateButton.disabled = false; // Eğer bir resim yüklendi ise, güncelleme butonunu etkinleştir
+                    uploadedImage.src = URL.createObjectURL(imageInput.files[0]); // Yüklenen resmi göster
+                    uploadedImage.style.display = 'block';
+                } else {
+                    updateButton.disabled = true; // Eğer resim yüklenmedi ise, güncelleme butonunu devre dışı bırak
+                    uploadedImage.src = '';
+                    uploadedImage.style.display = 'none';
+                }
+            }
+        </script>
+
+
     <script>
         $(document).ready(function() {
             $("#landPhone").blur(function() {
