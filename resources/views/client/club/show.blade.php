@@ -24,11 +24,12 @@
                                         $allCounts = 0;
                                         $blockHousingCount = 0;
                                         $previousBlockHousingCount = 0;
-                                        $key = $item['room_order']-1;
+                                        $key = $item['room_order'] - 1;
                                         $isUserSame =
                                             isset($item['projectCartOrders'][$item['room_order']]) &&
                                             (Auth::check()
-                                                ? $item['projectCartOrders'][$item['room_order']]->user_id == Auth::user()->id
+                                                ? $item['projectCartOrders'][$item['room_order']]->user_id ==
+                                                    Auth::user()->id
                                                 : false);
 
                                         $projectOffer = App\Models\Offer::where('type', 'project')
@@ -36,7 +37,10 @@
                                             ->where(function ($query) use ($item) {
                                                 $query
                                                     ->orWhereJsonContains('project_housings', [$item['room_order']])
-                                                    ->orWhereJsonContains('project_housings', (string) ($item['room_order'])); // Handle as string as JSON might store values as strings
+                                                    ->orWhereJsonContains(
+                                                        'project_housings',
+                                                        (string) $item['room_order'],
+                                                    ); // Handle as string as JSON might store values as strings
                                             })
                                             ->where('start_date', '<=', now())
                                             ->where('end_date', '>=', now())
@@ -46,9 +50,9 @@
 
                                         $statusSlug = null;
                                         $lastHousingCount = 0;
-                                        $sumCartOrderQt = $item["sumCartOrderQt"];
+                                        $sumCartOrderQt = $item['sumCartOrderQt'];
 
-                                        $blockName =null;
+                                        $blockName = null;
                                         $projectHousingsList = $item['projectHousingsList'];
                                         $project = $item['project'];
                                     @endphp
@@ -90,11 +94,7 @@
                                                     @endif
 
                                                     <span style="font-size: 9px !important; font-weight:700">
-                                                        @if (isset($item['item_type']) &&
-                                                                $item['item_type'] == 1 &&
-                                                                isset($item['project']['city']['title']) &&
-                                                                isset($item['project']['county']['ilce_title']) &&
-                                                                isset($item['project']['neighbourhood']['mahalle_title']))
+                                                        @if (isset($item['item_type']) && $item['item_type'] == 1 && isset($item['project']['city']['title']) && isset($item['project']['county']['ilce_title']) && isset($item['project']['neighbourhood']['mahalle_title']))
                                                             {{ $item['project']['city']['title'] .
                                                                 ' / ' .
                                                                 $item['project']['county']['ilce_title'] .
@@ -271,9 +271,7 @@
                                                             </script>
                                                         @endif
                                                     @else
-                                                        @if (
-                                                            $item['project_values']['off_sale[]'] != '[]' &&
-                                                                $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                                        @if ($item['project_values']['off_sale[]'] != '[]' && $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
                                                             @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
                                                                 <button class="btn second-btn  mobileCBtn"
                                                                     style="background: #EA2B2E !important;width:100%;height:40px !important;color:White">
@@ -317,11 +315,7 @@
                                                 </td>
                                             </tr>
                                             @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                @if (
-                                                    ($item['item_type'] == 2 &&
-                                                        isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                                        json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
-                                                        null)
+                                                @if (($item['item_type'] == 2 && isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) && json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) || null)
                                                     <tr style="background-color: #8080802e">
                                                         <td colspan="5">
                                                             <span style="color: #e54242">
@@ -364,53 +358,57 @@
 
                         <div class="mobile-show">
                             @foreach ($mergedItems as $key => $item)
-                            @if (isset($item) && $item['item_type'] == 1)
-                                @php
-                                    if (isset($item['projectCartOrders'][$item['room_order']])) {
-                                        $sold = $item['projectCartOrders'][$item['room_order']];
-                                    } else {
-                                        $sold = null;
-                                    }
+                                @if (isset($item) && $item['item_type'] == 1)
+                                    @php
+                                        if (isset($item['projectCartOrders'][$item['room_order']])) {
+                                            $sold = $item['projectCartOrders'][$item['room_order']];
+                                        } else {
+                                            $sold = null;
+                                        }
 
-                                    $allCounts = 0;
-                                    $blockHousingCount = 0;
-                                    $previousBlockHousingCount = 0;
-                                    $key = $item['room_order']-1;
-                                    $isUserSame =
-                                        isset($item['projectCartOrders'][$item['room_order']]) &&
-                                        (Auth::check()
-                                            ? $item['projectCartOrders'][$item['room_order']]->user_id == Auth::user()->id
-                                            : false);
+                                        $allCounts = 0;
+                                        $blockHousingCount = 0;
+                                        $previousBlockHousingCount = 0;
+                                        $key = $item['room_order'] - 1;
+                                        $isUserSame =
+                                            isset($item['projectCartOrders'][$item['room_order']]) &&
+                                            (Auth::check()
+                                                ? $item['projectCartOrders'][$item['room_order']]->user_id ==
+                                                    Auth::user()->id
+                                                : false);
 
-                                    $projectOffer = App\Models\Offer::where('type', 'project')
-                                        ->where('project_id', $item['item_id'])
-                                        ->where(function ($query) use ($item) {
-                                            $query
-                                                ->orWhereJsonContains('project_housings', [$item['room_order']])
-                                                ->orWhereJsonContains('project_housings', (string) ($item['room_order'])); // Handle as string as JSON might store values as strings
-                                        })
-                                        ->where('start_date', '<=', now())
-                                        ->where('end_date', '>=', now())
-                                        ->first();
+                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                            ->where('project_id', $item['item_id'])
+                                            ->where(function ($query) use ($item) {
+                                                $query
+                                                    ->orWhereJsonContains('project_housings', [$item['room_order']])
+                                                    ->orWhereJsonContains(
+                                                        'project_housings',
+                                                        (string) $item['room_order'],
+                                                    ); // Handle as string as JSON might store values as strings
+                                            })
+                                            ->where('start_date', '<=', now())
+                                            ->where('end_date', '>=', now())
+                                            ->first();
 
-                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
 
-                                    $statusSlug = null;
-                                    $lastHousingCount = 0;
-                                    $sumCartOrderQt = $item["sumCartOrderQt"];
+                                        $statusSlug = null;
+                                        $lastHousingCount = 0;
+                                        $sumCartOrderQt = $item['sumCartOrderQt'];
 
-                                    $blockName =null;
-                                    $projectHousingsList = $item['projectHousingsList'];
-                                    $project = $item['project'];
-                                @endphp
+                                        $blockName = null;
+                                        $projectHousingsList = $item['projectHousingsList'];
+                                        $project = $item['project'];
+                                    @endphp
 
-                                <x-project-item-mobile-card :project="$project" :allCounts="$allCounts" :blockStart="0"
-                                    :towns="$towns" :cities="$cities" :key="$key" :statusSlug="$statusSlug"
-                                    :blockName="$blockName" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
-                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
-                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
-                            @endif
-                        @endforeach
+                                    <x-project-item-mobile-card :project="$project" :allCounts="$allCounts" :blockStart="0"
+                                        :towns="$towns" :cities="$cities" :key="$key" :statusSlug="$statusSlug"
+                                        :blockName="$blockName" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
+                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                @endif
+                            @endforeach
                             {{-- @foreach ($mergedItems as $item)
                             @if (isset($item) && $item['item_type'] == 2)
 
@@ -520,9 +518,7 @@
                                                             </script>
                                                         @endif
                                                     @else
-                                                        @if (
-                                                            $item['project_values']['off_sale[]'] != '[]' &&
-                                                                $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                                        @if ($item['project_values']['off_sale[]'] != '[]' && $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
                                                             @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
                                                                 <button class="btn second-btn  mobileCBtn"
                                                                     style="background: #EA2B2E !importantcolor:White">
@@ -667,11 +663,7 @@
                                 </div>
 
                                 @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                    @if (
-                                        ($item['item_type'] == 2 &&
-                                            isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) &&
-                                            json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) ||
-                                            null)
+                                    @if (($item['item_type'] == 2 && isset(json_decode($item['housing']['housing_type_data'])->discount_rate[0]) && json_decode($item['housing']['housing_type_data'])->discount_rate[0] != 0) || null)
                                         <div class="w-100"
                                             style="height:50px;background-color:#8080802e;margin-top:20px">
                                             <div class="d-flex justify-content-between align-items-center"
@@ -756,9 +748,11 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        .inner-pages .properties-right .fa-heart-o, .inner-pages .properties-right .fa-bookmark-o{
+        .fa-heart-o,
+        .fa-bookmark-o {
             color: #666 !important;
         }
+
         .CartBtn {
             margin-top: 0 !important;
         }
