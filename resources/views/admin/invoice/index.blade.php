@@ -51,9 +51,9 @@ function getHouse($project, $key, $roomOrder)
                                 @if (isset($data['invoice']['order']['user']['type']) &&
                                         $data['invoice']['order']['user']['type'] != '1' &&
                                         $data['invoice']['order']['user']['type'] != '3')
-                                    <?php echo isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : ''; ?> <br>
+                                   İş: <?php echo isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : ''; ?> <br>
                                 @else
-                                    <?php echo isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : ''; ?>
+                                    Cep: <?php echo isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : ''; ?>
                                 @endif
                             </p>
                         </div>
