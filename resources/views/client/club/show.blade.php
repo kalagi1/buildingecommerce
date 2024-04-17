@@ -62,6 +62,22 @@
                                         :blockName="$blockName" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                    @if ((isset($item['project_values']['discount_rate[]']) && $item['project_values']['discount_rate[]'] != 0) || null)
+                                        <div class="w-100" style="height:50px;background-color:#8080802e;margin-top:20px">
+                                            <div class="d-flex justify-content-between align-items-center"
+                                                style="height: 100%;padding: 10px">
+                                                <span style="color: #e54242;font-size:9px !important">
+                                                    #{{ $item['project']->id + $item['room_order'] + 1000000 }}
+                                                    Numaralı İlan İçin:
+                                                    Satın alma işlemi gerçekleştirdiğinizde, Emlak Kulüp üyesi
+                                                    tarafından paylaşılan link aracılığıyla
+                                                    %{{ $item['project_values']['discount_rate[]'] }}
+                                                    indirim uygulanacaktır.
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    @endif
                                 @endif
                             @endforeach
                             {{-- <div class="row project-filter-reverse blog-pots" style="width: 100%">
