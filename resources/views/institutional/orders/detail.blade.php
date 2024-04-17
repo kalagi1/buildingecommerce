@@ -80,18 +80,34 @@
 
 
                         @endif
-
+                        
+                        
                         @if($order->reference)
-                            <div class="order-status-container mt-3"
-                                    style="background-color : #1581f5 ">
-                                    <div class="left">
-                                        <i class="fa fa-check"></i>
-                                        <span>
-                                            Bu İlan <strong>{{$order->reference->name}}</strong> referansı ile satılmıştır
-                                        </span>
-                                    </div>
+                            @if($order->store_id == $order->user_id)
+                                <div class="order-status-container mt-3"
+                                style="background-color : #1581f5 ">
+                                <div class="left">
+                                    <i class="fa fa-check"></i>
+                                    <span>
+                                        Bu İlana <strong>{{$order->reference->name}}</strong> referansı ile satılmıştır
+                                    </span>
+                                </div>
 
-                            </div>
+                                </div>
+                            @else
+                            
+                                <div class="order-status-container mt-3"
+                                style="background-color : #1581f5 ">
+                                <div class="left">
+                                    <i class="fa fa-check"></i>
+                                    <span>
+                                        Bu İlan <strong>{{$order->reference->name}}</strong> adlı çalışanızın referansı ile satılmıştır
+                                    </span>
+                                </div>
+
+                                </div>
+                            
+                           @endif
                     
                          @endif
 
