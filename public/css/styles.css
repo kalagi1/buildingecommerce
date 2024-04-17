@@ -30661,3 +30661,7 @@ a {
     left: 22px;
     width: 67px;
 }
+
+.newButtonStyle__text{
+    font-weight: bold;
+}

@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html class="no-js" lang="en">
 
@@ -52,8 +49,13 @@
                             <p class="tm_mb0">
                                 <?php echo isset($data['invoice']['order']['user']['name']) ? $data['invoice']['order']['user']['name'] : ''; ?> <br>
                                 <?php echo isset($data['invoice']['order']['user']['email']) ? $data['invoice']['order']['user']['email'] : ''; ?> <br>
-                                <?php echo isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : ''; ?>
-                                <?php echo isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : ''; ?>
+                                @if (isset($data['invoice']['order']['user']['type']) &&
+                                        $data['invoice']['order']['user']['type'] != '1' &&
+                                        $data['invoice']['order']['user']['type'] != '3')
+                                    İş: <?php echo isset($data['invoice']['order']['user']['phone']) ? $data['invoice']['order']['user']['phone'] : ''; ?> <br>
+                                @else
+                                    Cep: <?php echo isset($data['invoice']['order']['user']['mobile_phone']) ? $data['invoice']['order']['user']['mobile_phone'] : ''; ?>
+                                @endif
                             </p>
                         </div>
                         <div class="tm_invoice_info_right tm_text_right">
@@ -85,18 +87,16 @@
                                                         alt=""
                                                         style="width:100px;height:100px;object-fit:cover"></td>
                                                 <td class="tm_width_5  tm_border_left" style="width: 100px">
-                                                    
+
                                                     <?php
                                                     if (isset($data['project']) && $data['project'] instanceof \App\Models\Housing) {
-                                                        echo $data['project']['title'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['title']  . '</span>';
-                                                    
+                                                        echo $data['project']['title'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['title'] . '</span>';
                                                     } else {
-                                                        if(count($cart['item']['isShare']) > 0 ){
-                                                            echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] .' -'.'   Hisse Sayısı ' .$cart['item']['qt']  . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';      
-                                                        }else{
-                                                            echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] .  '</span>';
+                                                        if (count($cart['item']['isShare']) > 0) {
+                                                            echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . ' -' . '   Hisse Sayısı ' . $cart['item']['qt'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] . '</span>';
+                                                        } else {
+                                                            echo mb_convert_case($data['project']['project_title'], MB_CASE_TITLE, 'UTF-8') . ' ' . 'Projesinde ' . $cart['item']['housing'] . " No'lu " . $data['project']['step1_slug'] . '<br><span style="font-size: 11px;font-weight:700;color:black">' . $data['project']['city']['title'] . '/' . $data['project']['county']['ilce_title'] . '</span>';
                                                         }
-                                                        
                                                     }
                                                     ?>
                                                 </td>
@@ -177,13 +177,13 @@
 
         </div>
     </div>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jspdf.min.js"></script>
-        <script src="assets/js/html2canvas.min.js"></script>
-        <script src="assets/js/main.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jspdf.min.js"></script>
+    <script src="assets/js/html2canvas.min.js"></script>
+    <script src="assets/js/main.js"></script>
 
 
-        </script>
+    </script>
 </body>
 
 </html>
