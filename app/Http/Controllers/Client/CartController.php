@@ -40,7 +40,7 @@ class CartController extends Controller {
 
         $cartItem = CartItem::where( 'user_id', Auth::user()->id )->latest()->first();
 
-        if (!$cartItem) {
+        if ( !$cartItem ) {
 
             return response()->json( [ 'success' => 'fail' ] );
         }
@@ -67,8 +67,6 @@ class CartController extends Controller {
         ->where( 'created_at', '>=', now()->subDays( 24 ) )
         ->latest( 'created_at' )
         ->first();
-
-
 
         $cartJson = json_decode( $cartItem->cart, true );
         $order = new CartOrder;
@@ -725,42 +723,43 @@ class CartController extends Controller {
         return view( 'client.cart.pay-success', compact( 'cart_order' ) );
     }
 
-    public function dekontFileUpload(Request $request){
-        $file = $request->file('file');
+    public function dekontFileUpload( Request $request ) {
+        $file = $request->file( 'file' );
 
         $fileName = time() . '_' . $file->getClientOriginalName();
 
-        $file->move(public_path('dekont'), $fileName);
-        $cartOrder = CartOrder::where('id', $request->cart_order)->first();
-        // $cartOrder->update(['dekont' => 'uploads/' . $fileName]);
+        $file->move( public_path( 'dekont' ), $fileName );
+        $cartOrder = CartOrder::where( 'id', $request->cart_order )->first();
+        // $cartOrder->update( [ 'dekont' => 'uploads/' . $fileName ] );
         // $cartOrder->save();
-    
 
-        if($cartOrder){
+        if ( $cartOrder ) {
             // Dosya adının veritabanına kaydedilmesi
-            $cartOrder->update(['dekont' => $fileName]);
+            $cartOrder->update( [ 'dekont' => $fileName ] );
             $cartOrder->save();
-            return response()->json(['success' => 'Dosya başarıyla yüklendi.']);
+            return response()->json( [ 'success' => 'Dosya başarıyla yüklendi.' ] );
         } else {
-            return response()->json(['error' => 'Cart Order bulunamadı.']);
+            return response()->json( [ 'error' => 'Cart Order bulunamadı.' ] );
         }
 
-    }//End
+    }
+    //End
 
-    public function dekontIndir($order_id)
-    {
-        $order = CartOrder::find($order_id);
+    public function dekontIndir( $order_id ) {
+        $order = CartOrder::find( $order_id );
 
-        if (!$order) {
-            return abort(404); // Sipariş bulunamazsa 404 hatası döndür
+        if ( !$order ) {
+            return abort( 404 );
+            // Sipariş bulunamazsa 404 hatası döndür
         }
 
-        $dekontDosyaYolu = public_path('dekont/' . $order->dekont);
+        $dekontDosyaYolu = public_path( 'dekont/' . $order->dekont );
 
-        if (file_exists($dekontDosyaYolu)) {
-            return Response::download($dekontDosyaYolu);
+        if ( file_exists( $dekontDosyaYolu ) ) {
+            return Response::download( $dekontDosyaYolu );
         } else {
-            return abort(404); // Dekont bulunamazsa 404 hatası döndür
+            return abort( 404 );
+            // Dekont bulunamazsa 404 hatası döndür
         }
     }
 
@@ -975,7 +974,7 @@ class CartController extends Controller {
                     ->where( 'room_order', $id )
                     ->get()
                     ->keyBy( 'key' );
-                    $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where("status", 1)->get();
+                    $neighborProjects = NeighborView::with( 'user', 'owner', 'project' )->where( 'project_id', $project->id )->where( 'user_id', Auth::user()->id )->where( 'status', 1 )->get();
                     if ( $lastClick ) {
                         $collection = Collection::with( 'links' )->where( 'id', $lastClick->collection_id )->first();
 
@@ -1013,7 +1012,24 @@ class CartController extends Controller {
                             $number_of_share = $projectHousing[ 'Kaç Hisse Var ?' ]->value;
                         }
 
-                        $aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) : ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
+                        // Değişkenleri uygun tipe dönüştür
+                        $newPrice = floatval( $newPrice );
+                        $pesinat = floatval( $pesinat );
+                        $taksitSayisi = intval( $taksitSayisi );
+                        $number_of_share = intval( $number_of_share );
+
+                        // Taksit sayısı ve paylaşım sayısının sıfır olmadığından emin olma
+                        if ( $taksitSayisi > 0 ) {
+                            if ( $number_of_share > 0 ) {
+                                $aylik = ( $newPrice - $pesinat ) / $taksitSayisi / $number_of_share;
+                            } else {
+                                $aylik = ( $newPrice - $pesinat ) / $taksitSayisi;
+                            }
+                        } else {
+                            $aylik = 0;
+                            // Taksit sayısı sıfır ise, aylık ödeme tutarı da sıfır olmalı
+                        }
+
                     }
 
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
@@ -1124,7 +1140,6 @@ class CartController extends Controller {
             public function clear( Request $request ) {
                 CartItem::where( 'user_id', Auth::user()->id )->latest()->delete();
                 $request->session()->forget( 'cart' );
-
 
                 return redirect()->route( 'cart' )->with( 'success', 'Cart cleared' );
             }

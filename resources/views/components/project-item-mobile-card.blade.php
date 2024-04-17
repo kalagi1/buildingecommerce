@@ -539,7 +539,7 @@
 
                     <div class="modal-footer" style="justify-content: end !important">
                         <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                             style="width:150px">Kapat</button>
                     </div>
                 </form>
@@ -639,7 +639,7 @@
                         <form action="{{ route('neighborView.index') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                            <button type="submit" class="btn btn-success btn-lg btn-block"
+                            <button type="submit" class="btn btn-success btn-lg btn-bloc mt-3k"
                                 style="width:150px;float:right">
                                 250 TL Öde
                             </button>
