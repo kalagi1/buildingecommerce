@@ -130,6 +130,8 @@
                                                 $blockName = null;
                                                 $projectHousingsList = $item['projectHousingsList'];
                                                 $project = $item['project'];
+                                                $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
+
                                             @endphp
                                             @if (isset($item) &&
                                                     ((isset($item['housing']) && !empty($item['housing'])) ||
@@ -488,6 +490,54 @@
                                 @endif
                             @endforeach --}}
                             @foreach ($mergedItems as $item)
+                            @php
+                            if (isset($item['projectCartOrders'][$item['room_order']])) {
+                                $sold = $item['projectCartOrders'][$item['room_order']];
+                            } else {
+                                $sold = null;
+                            }
+
+                            $allCounts = 0;
+                            $blockHousingCount = 0;
+                            $previousBlockHousingCount = 0;
+                            $key = $item['room_order'] - 1;
+                            $isUserSame =
+                                isset($item['projectCartOrders'][$item['room_order']]) &&
+                                (Auth::check()
+                                    ? $item['projectCartOrders'][$item['room_order']]->user_id ==
+                                        Auth::user()->id
+                                    : false);
+
+                            $projectOffer = App\Models\Offer::where('type', 'project')
+                                ->where('project_id', $item['item_id'])
+                                ->where(function ($query) use ($item) {
+                                    $query
+                                        ->orWhereJsonContains('project_housings', [
+                                            $item['room_order'],
+                                        ])
+                                        ->orWhereJsonContains(
+                                            'project_housings',
+                                            (string) $item['room_order'],
+                                        ); // Handle as string as JSON might store values as strings
+                                })
+                                ->where('start_date', '<=', now())
+                                ->where('end_date', '>=', now())
+                                ->first();
+
+                            $projectDiscountAmount = $projectOffer
+                                ? $projectOffer->discount_amount
+                                : 0;
+
+                            $statusSlug = null;
+                            $lastHousingCount = 0;
+                            $sumCartOrderQt = $item['sumCartOrderQt'];
+
+                            $blockName = null;
+                            $projectHousingsList = $item['projectHousingsList'];
+                            $project = $item['project'];
+                            $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
+
+                        @endphp
                                 @if (isset($item) &&
                                         ((isset($item['housing']) && !empty($item['housing'])) ||
                                             (isset($item['project']) && !empty($item['project']))))
