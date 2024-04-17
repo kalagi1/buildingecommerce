@@ -227,6 +227,7 @@ class SharerController extends Controller
                 $projectCartOrders= null;
                 $projectHousingsList= null;
                 $project= null;
+                $sumCartOrderQt = 0;
 
 
                 if ($item->item_type == 1) {
