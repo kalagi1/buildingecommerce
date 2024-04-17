@@ -639,7 +639,7 @@
                         <form action="{{ route('neighborView.index') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                            <button type="submit" class="btn btn-success btn-lg btn-block"
+                            <button type="submit" class="btn btn-success btn-lg btn-bloc mt-3k"
                                 style="width:150px;float:right">
                                 250 TL Öde
                             </button>
