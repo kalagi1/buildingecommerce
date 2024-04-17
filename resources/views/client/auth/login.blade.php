@@ -569,7 +569,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         $(document).ready(function(){
-          $("#mobile_phone").blur(function(){
+            $("#mobile_phone").on("input blur", function(){
             var phoneNumber = $(this).val();
             var pattern = /^5[1-9]\d{8}$/;
         
