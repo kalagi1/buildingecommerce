@@ -1013,14 +1013,22 @@ class CartController extends Controller {
                             $number_of_share = $projectHousing[ 'Kaç Hisse Var ?' ]->value;
                         }
 
-                        // Değişkenleri float tipine dönüştürme
+// Değişkenleri uygun tipe dönüştür
 $newPrice = floatval($newPrice);
 $pesinat = floatval($pesinat);
-$taksitSayisi = intval($taksitSayisi);  // Eğer taksit sayısı tam sayı ise
-$number_of_share = intval($number_of_share);  // Eğer paylaşım sayısı tam sayı ise
-return $number_of_share;
-// Hesaplama
-$aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) : ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
+$taksitSayisi = intval($taksitSayisi);
+$number_of_share = intval($number_of_share);
+
+// Taksit sayısı ve paylaşım sayısının sıfır olmadığından emin olma
+if ($taksitSayisi > 0) {
+    if ($number_of_share > 0) {
+        $aylik = ($newPrice - $pesinat) / $taksitSayisi / $number_of_share;
+    } else {
+        $aylik = ($newPrice - $pesinat) / $taksitSayisi;
+    }
+} else {
+    $aylik = 0;  // Taksit sayısı sıfır ise, aylık ödeme tutarı da sıfır olmalı
+}
 
                     }
 
