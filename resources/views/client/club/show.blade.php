@@ -85,7 +85,55 @@
                                     <tbody class="collection-title">
 
                                         @foreach ($mergedItems as $item)
-                                            @if (isset($item) && (isset($item['housing']) && !empty($item['housing']) || isset($item['project']) && !empty($item['project'])))
+                                            @php
+                                                if (isset($item['projectCartOrders'][$item['room_order']])) {
+                                                    $sold = $item['projectCartOrders'][$item['room_order']];
+                                                } else {
+                                                    $sold = null;
+                                                }
+
+                                                $allCounts = 0;
+                                                $blockHousingCount = 0;
+                                                $previousBlockHousingCount = 0;
+                                                $key = $item['room_order'] - 1;
+                                                $isUserSame =
+                                                    isset($item['projectCartOrders'][$item['room_order']]) &&
+                                                    (Auth::check()
+                                                        ? $item['projectCartOrders'][$item['room_order']]->user_id ==
+                                                            Auth::user()->id
+                                                        : false);
+
+                                                $projectOffer = App\Models\Offer::where('type', 'project')
+                                                    ->where('project_id', $item['item_id'])
+                                                    ->where(function ($query) use ($item) {
+                                                        $query
+                                                            ->orWhereJsonContains('project_housings', [
+                                                                $item['room_order'],
+                                                            ])
+                                                            ->orWhereJsonContains(
+                                                                'project_housings',
+                                                                (string) $item['room_order'],
+                                                            ); // Handle as string as JSON might store values as strings
+                                                    })
+                                                    ->where('start_date', '<=', now())
+                                                    ->where('end_date', '>=', now())
+                                                    ->first();
+
+                                                $projectDiscountAmount = $projectOffer
+                                                    ? $projectOffer->discount_amount
+                                                    : 0;
+
+                                                $statusSlug = null;
+                                                $lastHousingCount = 0;
+                                                $sumCartOrderQt = $item['sumCartOrderQt'];
+
+                                                $blockName = null;
+                                                $projectHousingsList = $item['projectHousingsList'];
+                                                $project = $item['project'];
+                                            @endphp
+                                            @if (isset($item) &&
+                                                    ((isset($item['housing']) && !empty($item['housing'])) ||
+                                                        (isset($item['project']) && !empty($item['project']))))
                                                 <tr>
                                                     <td>
                                                         #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
@@ -266,6 +314,7 @@
                                                                             <span class="text">Satın Al</span>
                                                                         </button>
                                                                     @else
+                                                                     
                                                                         <button class="CartBtn mobileCBtn"
                                                                             data-type='housing'
                                                                             data-id='{{ $item['housing']->id }}'>
@@ -439,8 +488,9 @@
                                 @endif
                             @endforeach --}}
                             @foreach ($mergedItems as $item)
-                            @if (isset($item) && (isset($item['housing']) && !empty($item['housing']) || isset($item['project']) && !empty($item['project'])))
-
+                                @if (isset($item) &&
+                                        ((isset($item['housing']) && !empty($item['housing'])) ||
+                                            (isset($item['project']) && !empty($item['project']))))
                                     <div class="d-flex" style="flex-wrap: nowrap">
                                         <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                             <div class="project-inner project-head">
@@ -573,6 +623,14 @@
                                                                     @endif
                                                                 </button>
                                                             @else
+                                                            <button class="first-btn payment-plan-button"
+                                                            project-id="{{ $item['project']->id }}"
+                                                            data-sold=""
+                                                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? 1 : 0 }}"
+                                                            order="{{ $item['room_order'] }}"
+                                                            data-payment-order="{{ $item['room_order'] }}">
+                                                            Ödeme Detayı
+                                                        </button>
                                                                 <button class="CartBtn second-btn mobileCBtn "
                                                                     data-type='project'
                                                                     data-project='{{ $item['project']->id }}'
