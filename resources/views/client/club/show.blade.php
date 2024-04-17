@@ -371,16 +371,15 @@
                                                                     @endif
                                                                 </button>
                                                             @else
-                                                            <button class="first-btn payment-plan-button"
-                                                            project-id="{{ $item['project']->id }}"
-
-                                                                style="width:100% !important;height:40px !important;margin-bottom:3px;background-color:black !important;border:1px solid black;color:white"
-                                                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
-                                                                order="{{ $item['room_order'] }}"
-                                                                data-block="{{ $blockName }}"
-                                                                data-payment-order="{{ $item['room_order'] }}">
-                                                                Ödeme Detayı
-                                                            </button>
+                                                                <button class="first-btn payment-plan-button"
+                                                                    project-id="{{ $item['project']->id }}"
+                                                                    style="width:100% !important;height:40px !important;margin-bottom:3px;background-color:black !important;border:1px solid black;color:white"
+                                                                    data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
+                                                                    order="{{ $item['room_order'] }}"
+                                                                    data-block="{{ $blockName }}"
+                                                                    data-payment-order="{{ $item['room_order'] }}">
+                                                                    Ödeme Detayı
+                                                                </button>
                                                                 <button class="CartBtn second-btn " data-type='project'
                                                                     style="width:100%;height:40px !important;"
                                                                     data-project='{{ $item['project']->id }}'
@@ -749,7 +748,7 @@
                                                                                         @else
                                                                                             {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                                         @endif
-                                                                                        @elseif($item['project_values']['daily_rent[]'])
+                                                                                    @elseif($item['project_values']['daily_rent[]'])
                                                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                                             {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                                         @else
@@ -759,7 +758,7 @@
                                                                                 @else
                                                                                     @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                        @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                    @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                     @endif
                                                                                 @endif ₺
@@ -774,7 +773,7 @@
                                                                                         @else
                                                                                             {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                                         @endif
-                                                                                        @elseif($item['project_values']['daily_rent[]'])
+                                                                                    @elseif($item['project_values']['daily_rent[]'])
                                                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                                             {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                                         @else
@@ -784,7 +783,7 @@
                                                                                 @else
                                                                                     @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                        @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                    @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                     @endif
                                                                                 @endif ₺
