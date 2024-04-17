@@ -131,8 +131,7 @@
                                                 $projectHousingsList = $item['projectHousingsList'];
                                                 $project = $item['project'];
                                                 $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
-                                    $blockName = NULL;
-
+                                                $blockName = null;
                                             @endphp
                                             @if (isset($item) &&
                                                     ((isset($item['housing']) && !empty($item['housing'])) ||
@@ -295,7 +294,7 @@
                                                                     @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
                                                                         <button class="btn mobileCBtn second-btn "
                                                                             @if ($item['action'] == 'payment_await') style="background: orange !important;width:100%;height:40px !important;color:White"
-                                                        @else style="background: #EA2B2E !important;width:100%;height:40px !important;color:White" @endif>
+                                                                @else style="background: #EA2B2E !important;width:100%;height:40px !important;color:White" @endif>
                                                                             <span class="IconContainer">
                                                                                 <img src="{{ asset('sc.png') }}"
                                                                                     alt="">
@@ -372,6 +371,15 @@
                                                                     @endif
                                                                 </button>
                                                             @else
+                                                            <button class="first-btn payment-plan-button"
+                                                                project-id="{{ $item['project']->id }}"
+                                                                style="width:50% !important;height:25px !important;background-color:black !important;border:1px solid black;color:white"
+                                                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
+                                                                order="{{ $item['room_order'] }}"
+                                                                data-block="{{ $blockName }}"
+                                                                data-payment-order="{{ $item['room_order'] }}">
+                                                                Ödeme Detayı
+                                                            </button>
                                                                 <button class="CartBtn second-btn " data-type='project'
                                                                     style="width:100%;height:40px !important;"
                                                                     data-project='{{ $item['project']->id }}'
@@ -529,7 +537,7 @@
                                     $projectHousingsList = $item['projectHousingsList'];
                                     $project = $item['project'];
                                     $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
-                                    $blockName = NULL;
+                                    $blockName = null;
                                 @endphp
                                 @if (isset($item) &&
                                         ((isset($item['housing']) && !empty($item['housing'])) ||
@@ -580,223 +588,240 @@
                                                 </a>
                                                 <div class="d-flex align-items-end projectItemFlex" style="width:100%;">
 
-                                                        @if ($item['item_type'] != 1)
-                                                            @if ($item['housing']->step2_slug != 'gunluk-kiralik')
-                                                                @if (isset(json_decode($item['housing']['housing_type_data'])->off_sale1[0]))
-                                                                    <button class="btn second-btn mobileCBtn"
-                                                                        style="background: #EA2B2E !important;color:White">
-                                                                        <span class="text">Satıldı</span>
+                                                    @if ($item['item_type'] != 1)
+                                                        @if ($item['housing']->step2_slug != 'gunluk-kiralik')
+                                                            @if (isset(json_decode($item['housing']['housing_type_data'])->off_sale1[0]))
+                                                                <button class="btn second-btn mobileCBtn"
+                                                                    style="background: #EA2B2E !important;color:White">
+                                                                    <span class="text">Satıldı</span>
+                                                                </button>
+                                                            @else
+                                                                @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
+                                                                    <button class="btn mobileCBtn second-btn "
+                                                                        @if ($item['action'] == 'payment_await') style="background: orange !important;color:White"
+                                                            @else style="background: #EA2B2E !important;color:White" @endif>
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                alt="">
+                                                                        </span>
+                                                                        @if ($item['action'] == 'payment_await')
+                                                                            <span class="text">Rezerve Edildi</span>
+                                                                        @else
+                                                                            <span class="text">Satıldı</span>
+                                                                        @endif
+                                                                    </button>
+                                                                @elseif ($item['action'] == 'payment_await')
+                                                                    <button class="btn mobileCBtn second-btn"
+                                                                        style="background: orange !important;width:100%;height:40px !important;color:White">
+                                                                        <span class="text">Ödeme Bekleniyor</span>
+                                                                    </button>
+                                                                @elseif ($item['action'] == 'tryBuy')
+                                                                    <button class="btn mobileCBtn second-btn"
+                                                                        style="background: orange !important;width:100%;height:40px !important;color:White">
+                                                                        <span class="text">Satın Al</span>
                                                                     </button>
                                                                 @else
-                                                                    @if ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
-                                                                        <button class="btn mobileCBtn second-btn "
-                                                                            @if ($item['action'] == 'payment_await') style="background: orange !important;color:White"
-                                                            @else style="background: #EA2B2E !important;color:White" @endif>
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                    alt="">
-                                                                            </span>
-                                                                            @if ($item['action'] == 'payment_await')
-                                                                                <span class="text">Rezerve Edildi</span>
-                                                                            @else
-                                                                                <span class="text">Satıldı</span>
-                                                                            @endif
-                                                                        </button>
-                                                                    @elseif ($item['action'] == 'payment_await')
-                                                                        <button class="btn mobileCBtn second-btn"
-                                                                            style="background: orange !important;width:100%;height:40px !important;color:White">
-                                                                            <span class="text">Ödeme Bekleniyor</span>
-                                                                        </button>
-                                                                    @elseif ($item['action'] == 'tryBuy')
-                                                                        <button class="btn mobileCBtn second-btn"
-                                                                            style="background: orange !important;width:100%;height:40px !important;color:White">
-                                                                            <span class="text">Satın Al</span>
-                                                                        </button>
-                                                                    @else
-                                                                        <button class="CartBtn mobileCBtn"
-                                                                            data-type='housing'
-                                                                            data-id='{{ $item['housing']->id }}'>
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                    alt="">
-                                                                            </span>
-                                                                            <span class="text">Sepete Ekle</span>
-                                                                        </button>
-                                                                    @endif
+                                                                    <button class="CartBtn mobileCBtn" data-type='housing'
+                                                                        data-id='{{ $item['housing']->id }}'>
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                alt="">
+                                                                        </span>
+                                                                        <span class="text">Sepete Ekle</span>
+                                                                    </button>
                                                                 @endif
-                                                            @else
-                                                                <button onclick="redirectToReservation()"
-                                                                    class="reservationBtn mobileCBtn">
+                                                            @endif
+                                                        @else
+                                                            <button onclick="redirectToReservation()"
+                                                                class="reservationBtn mobileCBtn">
+                                                                <span class="IconContainer">
+                                                                    <img src="{{ asset('sc.png') }}" alt="">
+                                                                </span>
+                                                                <span class="text">Rezervasyon Yap</span>
+                                                            </button>
+                                                            <script>
+                                                                function redirectToReservation() {
+                                                                    window.location.href =
+                                                                        "{{ route('housing.show', ['housingSlug' => $item['housing']->step1_slug . '-' . $item['housing']->step2_slug . '-' . $item['housing']->slug, 'housingID' => $item['housing']->id + 2000000]) }}";
+                                                                }
+                                                            </script>
+                                                        @endif
+                                                    @else
+                                                        @if (
+                                                            $item['project_values']['off_sale[]'] != '[]' &&
+                                                                $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
+                                                            @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
+                                                                <button class="btn second-btn  mobileCBtn"
+                                                                    style="background: #EA2B2E !importantcolor:White">
+
+                                                                    <span class="text">Satışa Kapatıldı</span>
+                                                                </button>
+                                                            @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
+                                                                <button class="btn second-btn"
+                                                                    style="background: #EA2B2E !important; color: White; height: auto !important">
+                                                                    <span class="text">Satıldı</span>
+                                                                </button>
+                                                            @endif
+                                                        @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
+                                                            <button class="btn second-btn  mobileCBtn"
+                                                                @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
+                                                                @if ($item['action'] == 'payment_await')
+                                                                    <span class="text">Rezerve Edildi</span>
+                                                                @else
+                                                                    <span class="text">Satıldı</span>
+                                                                @endif
+                                                            </button>
+                                                        @else
+                                                            <div style="width:50% !important;">
+                                                                <span class="ml-auto text-primary priceFont">
+                                                                    @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
+                                                                        @php
+                                                                            $discountedPrice = null;
+                                                                            $price = null;
+                                                                            $discountRate = null;
+                                                                            if (
+                                                                                $item['item_type'] == 2 &&
+                                                                                isset(
+                                                                                    json_decode(
+                                                                                        $item['housing'][
+                                                                                            'housing_type_data'
+                                                                                        ],
+                                                                                    )->discount_rate[0],
+                                                                                )
+                                                                            ) {
+                                                                                $discountRate = json_decode(
+                                                                                    $item['housing'][
+                                                                                        'housing_type_data'
+                                                                                    ],
+                                                                                )->discount_rate[0];
+                                                                                $price =
+                                                                                    json_decode(
+                                                                                        $item['housing'][
+                                                                                            'housing_type_data'
+                                                                                        ],
+                                                                                    )->price[0] -
+                                                                                    $item['discount_amount'];
+                                                                                $discountedPrice =
+                                                                                    $price -
+                                                                                    ($price * $discountRate) / 100;
+                                                                            } elseif ($item['item_type'] == 1) {
+                                                                                $discountRate =
+                                                                                    $item['project_values'][
+                                                                                        'discount_rate[]'
+                                                                                    ] ?? 0;
+                                                                                $share_sale =
+                                                                                    $item['project_values'][
+                                                                                        'share_sale[]'
+                                                                                    ] ?? null;
+                                                                                $number_of_share =
+                                                                                    $item['project_values'][
+                                                                                        'number_of_shares[]'
+                                                                                    ] ?? null;
+                                                                                $price =
+                                                                                    $item['project_values']['price[]'] -
+                                                                                    $item['discount_amount'];
+                                                                                $discountedPrice =
+                                                                                    $price -
+                                                                                    ($price * $discountRate) / 100;
+                                                                            }
+                                                                        @endphp
+                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                            <span class="text-center w-100">
+                                                                                1 Hisse Fiyatı
+                                                                            </span><br>
+                                                                        @endif
+                                                                        @if (isset($discountRate) && $discountRate != 0)
+                                                                            <span style="color: green;">
+                                                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                    {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
+                                                                                    ₺
+                                                                                @else
+                                                                                    {{ number_format($discountedPrice, 0, ',', '.') }}
+                                                                                    ₺
+                                                                                @endif
+                                                                            </span><br>
+                                                                            <del style="color: red;">
+                                                                                @if ($item['item_type'] == 1)
+                                                                                    @if (isset($item['project_values']['price[]']))
+                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                            {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                                        @else
+                                                                                            {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                                        @endif
+                                                                                        @elseif
+                                                                                        ($item['project_values']['daily_rent[]'])
+                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                            {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                                                                        @else
+                                                                                            {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                                        @endif
+                                                                                    @endif
+                                                                                @else
+                                                                                    @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
+                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                                        @elseif
+                                                                                        (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
+                                                                                    @endif
+                                                                                @endif ₺
+                                                                            </del>
+                                                                        @else
+                                                                            <span
+                                                                                style="color: green; font-size:12px !important">
+                                                                                @if ($item['item_type'] == 1)
+                                                                                    @if (isset($item['project_values']['price[]']))
+                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                            {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                                        @else
+                                                                                            {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                                        @endif
+                                                                                        @elseif
+                                                                                        ($item['project_values']['daily_rent[]'])
+                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                            {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                                                                        @else
+                                                                                            {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                                        @endif
+                                                                                    @endif
+                                                                                @else
+                                                                                    @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
+                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                                        @elseif
+                                                                                        (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
+                                                                                    @endif
+                                                                                @endif ₺
+                                                                            </span>
+                                                                        @endif
+                                                                    @endif
+
+
+                                                                </span>
+                                                                <button class="CartBtn second-btn mobileCBtn "
+                                                                    data-type='project'
+                                                                    data-project='{{ $item['project']->id }}'
+                                                                    data-id='{{ $item['room_order'] }}'
+                                                                    data-share="{{ $share_sale }}"
+                                                                    data-number-share="{{ $number_of_share }}">
                                                                     <span class="IconContainer">
                                                                         <img src="{{ asset('sc.png') }}" alt="">
                                                                     </span>
-                                                                    <span class="text">Rezervasyon Yap</span>
+                                                                    <span class="text">Sepete Ekle</span>
                                                                 </button>
-                                                                <script>
-                                                                    function redirectToReservation() {
-                                                                        window.location.href =
-                                                                            "{{ route('housing.show', ['housingSlug' => $item['housing']->step1_slug . '-' . $item['housing']->step2_slug . '-' . $item['housing']->slug, 'housingID' => $item['housing']->id + 2000000]) }}";
-                                                                    }
-                                                                </script>
-                                                            @endif
-                                                        @else
-                                                            @if (
-                                                                $item['project_values']['off_sale[]'] != '[]' &&
-                                                                    $item['project_values']['off_sale[]'] != '["Sat\u0131\u015fa A\u00e7\u0131k"]')
-                                                                @if ($item['project_values']['off_sale[]'] == '["Sat\u0131\u015fa Kapal\u0131"]')
-                                                                    <button class="btn second-btn  mobileCBtn"
-                                                                        style="background: #EA2B2E !importantcolor:White">
+                                                            </div>
 
-                                                                        <span class="text">Satışa Kapatıldı</span>
-                                                                    </button>
-                                                                @elseif ($item['project_values']['off_sale[]'] == '["Sat\u0131ld\u0131"]')
-                                                                    <button class="btn second-btn"
-                                                                        style="background: #EA2B2E !important; color: White; height: auto !important">
-                                                                        <span class="text">Satıldı</span>
-                                                                    </button>
-                                                                @endif
-                                                            @elseif ($item['action'] && $item['action'] != 'tryBuy' && $item['action'] != 'noCart')
-                                                                <button class="btn second-btn  mobileCBtn"
-                                                                    @if ($item['action'] == 'payment_await') style="background: orange !important;color:White" @else  style="background: #EA2B2E !important;color:White;height: 40px !important;width:100%" @endif>
-                                                                    @if ($item['action'] == 'payment_await')
-                                                                        <span class="text">Rezerve Edildi</span>
-                                                                    @else
-                                                                        <span class="text">Satıldı</span>
-                                                                    @endif
-                                                                </button>
-                                                            @else
-                                                                    <div style="width:50% !important;">
-                                                                          <span class="ml-auto text-primary priceFont">
-                                                                                @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                                                    @php
-                                                                                        $discountedPrice = null;
-                                                                                        $price = null;
-                                                                                        $discountRate = null;
-                                                                                        if (
-                                                                                            $item['item_type'] == 2 &&
-                                                                                            isset(
-                                                                                                json_decode(
-                                                                                                    $item['housing']['housing_type_data'],
-                                                                                                )->discount_rate[0],
-                                                                                            )
-                                                                                        ) {
-                                                                                            $discountRate = json_decode(
-                                                                                                $item['housing']['housing_type_data'],
-                                                                                            )->discount_rate[0];
-                                                                                            $price =
-                                                                                                json_decode(
-                                                                                                    $item['housing']['housing_type_data'],
-                                                                                                )->price[0] - $item['discount_amount'];
-                                                                                            $discountedPrice =
-                                                                                                $price - ($price * $discountRate) / 100;
-                                                                                        } elseif ($item['item_type'] == 1) {
-                                                                                            $discountRate =
-                                                                                                $item['project_values']['discount_rate[]'] ?? 0;
-                                                                                            $share_sale =
-                                                                                                $item['project_values']['share_sale[]'] ?? null;
-                                                                                            $number_of_share =
-                                                                                                $item['project_values']['number_of_shares[]'] ??
-                                                                                                null;
-                                                                                            $price =
-                                                                                                $item['project_values']['price[]'] -
-                                                                                                $item['discount_amount'];
-                                                                                            $discountedPrice =
-                                                                                                $price - ($price * $discountRate) / 100;
-                                                                                        }
-                                                                                    @endphp
-                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                        <span class="text-center w-100">
-                                                                                            1 Hisse Fiyatı
-                                                                                        </span><br>
-                                                                                    @endif
-                                                                                    @if (isset($discountRate) && $discountRate != 0)
-                                                                                        <span style="color: green;">
-                                                                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                                {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
-                                                                                                ₺
-                                                                                            @else
-                                                                                                {{ number_format($discountedPrice, 0, ',', '.') }}
-                                                                                                ₺
-                                                                                            @endif
-                                                                                        </span><br>
-                                                                                        <del style="color: red;">
-                                                                                            @if ($item['item_type'] == 1)
-                                                                                                @if (isset($item['project_values']['price[]']))
-                                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                                        {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                                    @else
-                                                                                                        {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
-                                                                                                    @endif
-                                                                                                @elseif ($item['project_values']['daily_rent[]'])
-                                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                                        {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                                    @else
-                                                                                                        {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
-                                                                                                    @endif
-                                                                                                @endif
-                                                                                            @else
-                                                                                                @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
-                                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                                @elseif (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
-                                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
-                                                                                                @endif
-                                                                                            @endif ₺
-                                                                                        </del>
-                                                                                    @else
-                                                                                        <span style="color: green; font-size:12px !important">
-                                                                                            @if ($item['item_type'] == 1)
-                                                                                                @if (isset($item['project_values']['price[]']))
-                                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                                        {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                                    @else
-                                                                                                        {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
-                                                                                                    @endif
-                                                                                                @elseif ($item['project_values']['daily_rent[]'])
-                                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                                        {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                                    @else
-                                                                                                        {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
-                                                                                                    @endif
-                                                                                                @endif
-                                                                                            @else
-                                                                                                @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
-                                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                                @elseif (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
-                                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
-                                                                                                @endif
-                                                                                            @endif ₺
-                                                                                        </span>
-                                                                                    @endif
-                                                                                @endif
-
-
-                                                                            </span>
-                                                                            <button class="CartBtn second-btn mobileCBtn "
-                                                                            data-type='project'
-                                                                            data-project='{{ $item['project']->id }}'
-                                                                            data-id='{{ $item['room_order'] }}'
-                                                                            data-share="{{ $share_sale }}"
-                                                                            data-number-share="{{ $number_of_share }}">
-                                                                            <span class="IconContainer">
-                                                                                <img src="{{ asset('sc.png') }}"
-                                                                                    alt="">
-                                                                            </span>
-                                                                            <span class="text">Sepete Ekle</span>
-                                                                        </button>
-                                                                    </div>
-                                                                   
-                                                                    <button class="first-btn payment-plan-button"
-                                                                        project-id="{{ $item['project']->id }}"
-                                                                        style="width:50% !important;height:25px !important;background-color:black !important;border:1px solid black;color:white"
-                                                                        data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
-                                                                        order="{{ $item['room_order'] }}"
-                                                                        data-block="{{ $blockName }}"
-                                                                        data-payment-order="{{ $item['room_order'] }}">
-                                                                        Ödeme Detayı
-                                                                    </button>
-                                                            @endif
+                                                            <button class="first-btn payment-plan-button"
+                                                                project-id="{{ $item['project']->id }}"
+                                                                style="width:50% !important;height:25px !important;background-color:black !important;border:1px solid black;color:white"
+                                                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$item['room_order']]) && $sumCartOrderQt[$item['room_order']]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$item['room_order']]['off_sale']) && $projectHousingsList[$item['room_order']]['off_sale'] != '[]') ? 1 : 0 }}"
+                                                                order="{{ $item['room_order'] }}"
+                                                                data-block="{{ $blockName }}"
+                                                                data-payment-order="{{ $item['room_order'] }}">
+                                                                Ödeme Detayı
+                                                            </button>
                                                         @endif
-                                                  
+                                                    @endif
+
                                                 </div>
                                             </div>
                                         </div>
