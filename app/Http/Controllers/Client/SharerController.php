@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankAccount;
 use App\Models\CartOrder;
+use App\Models\City;
 use App\Models\Click;
 use App\Models\Collection;
 use App\Models\ShareLink;
@@ -12,6 +14,8 @@ use App\Models\User;
 use App\Models\Housing;
 use App\Models\Offer;
 use App\Models\Project;
+use App\Models\ProjectHousing;
+use App\Models\Town;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +41,7 @@ class SharerController extends Controller
             $user = User::where("id", Auth::user()->id)->first();
         }
 
-        return view("client.sharer-panel.view", compact('pageInfo',"user"));
+        return view("client.sharer-panel.view", compact('pageInfo', "user"));
     }
     public function index()
     {
@@ -88,6 +92,93 @@ class SharerController extends Controller
     {
         $users = User::all();
         $collection = Collection::where("id", $id)->first();
+
+        $cities = City::all()->toArray();
+        $bankAccounts = BankAccount::all();
+
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+
+        usort($cities, function ($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['title']), $priorityCities);
+
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['title'], 0, 1), $turkishAlphabet);
+
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+
+                return $comparison;
+            }
+        });
+
+
+        $towns = Town::all()->toArray();
+
+        usort($towns, function ($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
+
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
+
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
+
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+
+                return $comparison;
+            }
+        });
 
         if (isset($collection)) {
             $clickData = [
@@ -146,6 +237,40 @@ class SharerController extends Controller
                         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
                         ->first();
 
+                    $projectCartOrders = DB::table('cart_orders')
+                        ->select(
+                            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt'),
+                            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt_total'), // Added for total qt
+                            'cart_orders.status',
+                            'cart_orders.user_id',
+                            'cart_orders.store_id',
+                            'cart_orders.is_show_user',
+                            'cart_orders.id',
+                            'users.name',
+                            'users.mobile_phone',
+                            'users.phone'
+                        )
+                        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
+                        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                        ->get()
+                        ->keyBy("housing_id");
+
+                        $projectHousings = ProjectHousing::where('project_id', $item->item_id)->where('room_order', '<=', $item->project->room_count)->get();
+                        $projectHousingsList = [];
+                        $salesCloseProjectHousingCount = 0;
+            
+                        $projectHousings->each(function ($item) use (&$projectHousingsList, &$salesCloseProjectHousingCount, &$projectCartOrders) {
+                            $projectHousingsList[$item->room_order][$item->name] = $item->value;
+                            if ($item->name == "off_sale[]") {
+                                if (isset($projectHousingsList[$item->room_order][$item->name]) &&  $projectHousingsList[$item->room_order][$item->name] !== "[]" && !isset($projectCartOrders[$item->room_order])) {
+                                    $salesCloseProjectHousingCount++;
+                                }
+                            }
+                        });
+            
 
                     $action = $status ? (
                         ($status->status == "0") ? 'payment_await' : (
@@ -154,14 +279,41 @@ class SharerController extends Controller
                             )
                         )
                     ) : 'noCart';
+
+                    $projectHousing = $item->project->roomInfo->keyBy('name');
+                    $sumCartOrderQt = DB::table('cart_orders')
+                        ->select(
+                            DB::raw('JSON_EXTRACT(cart, "$.item.housing") as housing_id'),
+                            DB::raw('JSON_EXTRACT(cart, "$.item.qt") as qt')
+                        )
+                        ->leftJoin('users', 'cart_orders.user_id', '=', 'users.id')
+                        ->where(DB::raw('JSON_EXTRACT(cart, "$.type")'), 'project')
+                        ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->project->id)
+                        ->orderByRaw('CAST(housing_id AS SIGNED) ASC')
+                        ->get();
+        
+        
+                    $sumCartOrderQt = $sumCartOrderQt->groupBy('housing_id')
+                        ->mapWithKeys(function ($group) {
+                            return [
+                                $group->first()->housing_id => [
+                                    'housing_id' => $group->first()->housing_id,
+                                    'qt_total' => $group->sum('qt'),
+                                ]
+                            ];
+                        })
+                        ->all();
                 }
 
                 return [
                     'project_values' => $item->projectHousingData($item->item_id)->pluck('value', 'name')->toArray(),
                     'housing' => $item->housing,
                     'project' => $item->project,
+                    "projectCartOrders" => $projectCartOrders,
+                    "projectHousingsList" => $projectHousingsList,
                     'action' => $action,
                     'offSale' => $offSale,
+                    "sumCartOrderQt" => $sumCartOrderQt,
                     'discount_amount' => $discount_amount
                 ];
             });
@@ -170,7 +322,7 @@ class SharerController extends Controller
                 return array_merge($item, $itemArray);
             }, $items->toArray(), $itemsArray->toArray());
 
-            return view('client.club.show', compact("store", "mergedItems", "collections", "slug", 'projects', 'itemsArray', 'collections', 'collection', 'items'));
+            return view('client.club.show', compact("store", "towns", "bankAccounts", "cities", "mergedItems", "collections", "slug", 'projects', 'itemsArray', 'collections', 'collection', 'items'));
         } else {
             return view("errors.404");
         }

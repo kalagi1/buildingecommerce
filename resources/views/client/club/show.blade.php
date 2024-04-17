@@ -3,7 +3,7 @@
 @section('content')
     <section>
 
-        <x-store-card :store="$store" :collection="$collection" :mergedItems="$mergedItems"  />
+        <x-store-card :store="$store" :collection="$collection" :mergedItems="$mergedItems" />
 
 
         <div class="container featured portfolio rec-pro disc bg-white">
@@ -12,7 +12,55 @@
 
                     <div class="card-body">
                         <div class="mobile-hidden">
-                            <div class="row project-filter-reverse blog-pots" style="width: 100%">
+                            @foreach ($mergedItems as $key => $item)
+                                @if (isset($item) && $item['item_type'] == 1)
+                                    @php
+                                        if (isset($item['projectCartOrders'][$item['room_order']])) {
+                                            $sold = $item['projectCartOrders'][$item['room_order']];
+                                        } else {
+                                            $sold = null;
+                                        }
+
+                                        $allCounts = 0;
+                                        $blockHousingCount = 0;
+                                        $previousBlockHousingCount = 0;
+                                        $key = $item['room_order']-1;
+                                        $isUserSame =
+                                            isset($item['projectCartOrders'][$item['room_order']]) &&
+                                            (Auth::check()
+                                                ? $item['projectCartOrders'][$item['room_order']]->user_id == Auth::user()->id
+                                                : false);
+
+                                        $projectOffer = App\Models\Offer::where('type', 'project')
+                                            ->where('project_id', $item['item_id'])
+                                            ->where(function ($query) use ($item) {
+                                                $query
+                                                    ->orWhereJsonContains('project_housings', [$item['room_order']])
+                                                    ->orWhereJsonContains('project_housings', (string) ($item['room_order'])); // Handle as string as JSON might store values as strings
+                                            })
+                                            ->where('start_date', '<=', now())
+                                            ->where('end_date', '>=', now())
+                                            ->first();
+
+                                        $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+
+                                        $statusSlug = null;
+                                        $lastHousingCount = 0;
+                                        $sumCartOrderQt = $item["sumCartOrderQt"];
+
+                                        $blockName =null;
+                                        $projectHousingsList = $item['projectHousingsList'];
+                                        $project = $item['project'];
+                                    @endphp
+
+                                    <x-project-item-card :project="$project" :allCounts="$allCounts" :blockStart="0"
+                                        :towns="$towns" :cities="$cities" :key="$key" :statusSlug="$statusSlug"
+                                        :blockName="$blockName" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                        :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
+                                        :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                                @endif
+                            @endforeach
+                            {{-- <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
 
@@ -103,8 +151,9 @@
                                                         @if (isset($discountRate) && $discountRate != 0)
                                                             <span style="color: green;">
                                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                    {{ number_format(($discountedPrice / $number_of_share), 0, ',', '.') }} ₺
-                                                                @else 
+                                                                    {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
+                                                                    ₺
+                                                                @else
                                                                     {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                                 @endif
                                                             </span><br>
@@ -114,7 +163,7 @@
                                                                     @if (isset($item['project_values']['price[]']))
                                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                             {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                                        @else 
+                                                                        @else
                                                                             {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                         @endif
                                                                     @elseif ($item['project_values']['daily_rent[]'])
@@ -306,12 +355,59 @@
 
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="mobile-show">
+                            @foreach ($mergedItems as $key => $item)
+                            @if (isset($item) && $item['item_type'] == 1)
+                                @php
+                                    if (isset($item['projectCartOrders'][$item['room_order']])) {
+                                        $sold = $item['projectCartOrders'][$item['room_order']];
+                                    } else {
+                                        $sold = null;
+                                    }
 
-                            @foreach ($mergedItems as $item)
+                                    $allCounts = 0;
+                                    $blockHousingCount = 0;
+                                    $previousBlockHousingCount = 0;
+                                    $key = $item['room_order']-1;
+                                    $isUserSame =
+                                        isset($item['projectCartOrders'][$item['room_order']]) &&
+                                        (Auth::check()
+                                            ? $item['projectCartOrders'][$item['room_order']]->user_id == Auth::user()->id
+                                            : false);
+
+                                    $projectOffer = App\Models\Offer::where('type', 'project')
+                                        ->where('project_id', $item['item_id'])
+                                        ->where(function ($query) use ($item) {
+                                            $query
+                                                ->orWhereJsonContains('project_housings', [$item['room_order']])
+                                                ->orWhereJsonContains('project_housings', (string) ($item['room_order'])); // Handle as string as JSON might store values as strings
+                                        })
+                                        ->where('start_date', '<=', now())
+                                        ->where('end_date', '>=', now())
+                                        ->first();
+
+                                    $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+
+                                    $statusSlug = null;
+                                    $lastHousingCount = 0;
+                                    $sumCartOrderQt = $item["sumCartOrderQt"];
+
+                                    $blockName =null;
+                                    $projectHousingsList = $item['projectHousingsList'];
+                                    $project = $item['project'];
+                                @endphp
+
+                                <x-project-item-mobile-card :project="$project" :allCounts="$allCounts" :blockStart="0"
+                                    :towns="$towns" :cities="$cities" :key="$key" :statusSlug="$statusSlug"
+                                    :blockName="$blockName" :blockHousingCount="$blockHousingCount" :previousBlockHousingCount="$previousBlockHousingCount" :sumCartOrderQt="$sumCartOrderQt"
+                                    :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
+                                    :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
+                            @endif
+                        @endforeach
+                            {{-- @foreach ($mergedItems as $item)
                                 <div class="d-flex" style="flex-wrap: nowrap">
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                         <div class="project-inner project-head">
@@ -501,8 +597,9 @@
                                                         @if (isset($discountRate) && $discountRate != 0)
                                                             <span style="color: green;">
                                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                    {{ number_format(($discountedPrice / $number_of_share), 0, ',', '.') }} ₺
-                                                                @else 
+                                                                    {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
+                                                                    ₺
+                                                                @else
                                                                     {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                                 @endif
                                                             </span><br>
@@ -609,7 +706,7 @@
 
 
                                 <hr>
-                            @endforeach
+                            @endforeach --}}
                         </div>
 
                     </div>
