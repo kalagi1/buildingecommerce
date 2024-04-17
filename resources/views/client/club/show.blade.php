@@ -748,8 +748,7 @@
                                                                                         @else
                                                                                             {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                                         @endif
-                                                                                        @elseif
-                                                                                        ($item['project_values']['daily_rent[]'])
+                                                                                        @elseif($item['project_values']['daily_rent[]'])
                                                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                                             {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                                         @else
@@ -759,8 +758,7 @@
                                                                                 @else
                                                                                     @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                        @elseif
-                                                                                        (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                        @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                     @endif
                                                                                 @endif ₺
@@ -775,8 +773,7 @@
                                                                                         @else
                                                                                             {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
                                                                                         @endif
-                                                                                        @elseif
-                                                                                        ($item['project_values']['daily_rent[]'])
+                                                                                        @elseif($item['project_values']['daily_rent[]'])
                                                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                                             {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
                                                                                         @else
@@ -786,8 +783,7 @@
                                                                                 @else
                                                                                     @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                        @elseif
-                                                                                        (isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                        @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                     @endif
                                                                                 @endif ₺
