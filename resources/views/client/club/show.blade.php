@@ -137,9 +137,13 @@
                                                     ((isset($item['housing']) && !empty($item['housing'])) ||
                                                         (isset($item['project']) && !empty($item['project']))))
                                                 <tr>
-                                                    <td>
-                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
+                                                    <td style="background: #EA2B2E;
+                                                    color: white;">
+                                                        <span style="rotate: 270deg;">
+                                                            #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
 
+                                                        </span>
+                  
                                                     </td>
 
                                                     <td>
@@ -254,8 +258,9 @@
                                                                     ₺
                                                                 </del>
                                                             @else
-                                                            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                                @if ($item['item_type'] == 1)
+                                                                <h6
+                                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                                                    @if ($item['item_type'] == 1)
                                                                         @if (isset($item['project_values']['price[]']))
                                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                                 {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
@@ -276,7 +281,7 @@
                                                                             {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                         @endif
                                                                     @endif ₺
-                                                            </h6>
+                                                                </h6>
                                                             @endif
                                                         @endif
                                                     </td>
@@ -768,7 +773,8 @@
                                                                                 @endif ₺
                                                                             </del>
                                                                         @else
-                                                                        <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                                                            <h6
+                                                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
 
                                                                                 @if ($item['item_type'] == 1)
                                                                                     @if (isset($item['project_values']['price[]']))
@@ -791,7 +797,7 @@
                                                                                         {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
                                                                                     @endif
                                                                                 @endif ₺
-                                                                        </h6>
+                                                                            </h6>
                                                                         @endif
                                                                     @endif
 
