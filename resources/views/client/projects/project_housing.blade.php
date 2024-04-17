@@ -431,6 +431,7 @@
                                 </div>
                             </div>
 
+                            @if ($isSwap == '["Evet"]')
                             <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                 <div class="add-to-collection-button-wrapper">
                                     <div class="add-to-collection-button">
@@ -805,7 +806,10 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
+                            @endif
+
+                          
                         </div>
                     @endif
 
