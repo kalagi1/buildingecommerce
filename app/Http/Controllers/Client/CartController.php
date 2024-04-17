@@ -1013,7 +1013,15 @@ class CartController extends Controller {
                             $number_of_share = $projectHousing[ 'Kaç Hisse Var ?' ]->value;
                         }
 
-                        $aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) : ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
+                        // Değişkenleri float tipine dönüştürme
+$newPrice = floatval($newPrice);
+$pesinat = floatval($pesinat);
+$taksitSayisi = intval($taksitSayisi);  // Eğer taksit sayısı tam sayı ise
+$number_of_share = intval($number_of_share);  // Eğer paylaşım sayısı tam sayı ise
+
+// Hesaplama
+$aylik = $number_of_share == 0 ? ( ( $newPrice - $pesinat ) / $taksitSayisi ) : ( ( ( $newPrice - $pesinat ) / $taksitSayisi ) / $number_of_share );
+
                     }
 
                     $image = $projectHousing[ 'Kapak Resmi' ]->value;
