@@ -756,6 +756,9 @@
 @section('styles')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
+        .inner-pages .properties-right .fa-heart-o, .inner-pages .properties-right .fa-bookmark-o{
+            color: #666 !important;
+        }
         .CartBtn {
             margin-top: 0 !important;
         }
