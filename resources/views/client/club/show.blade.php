@@ -673,7 +673,8 @@
                                                             </button>
                                                         @else
                                                             <div style="width:50% !important;">
-                                                                <span class="ml-auto text-primary priceFont">
+                                                                <span class="ml-auto text-primary priceFont"
+                                                                style="display: block;width:100%;text-align:center">
                                                                     @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                                         @php
                                                                             $discountedPrice = null;
@@ -731,7 +732,7 @@
                                                                             </span><br>
                                                                         @endif
                                                                         @if (isset($discountRate) && $discountRate != 0)
-                                                                            <span style="color: green;">
+                                                                            <h6 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
                                                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                                                     {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
                                                                                     ₺
@@ -739,7 +740,7 @@
                                                                                     {{ number_format($discountedPrice, 0, ',', '.') }}
                                                                                     ₺
                                                                                 @endif
-                                                                            </span><br>
+                                                                            </h6><br>
                                                                             <del style="color: red;">
                                                                                 @if ($item['item_type'] == 1)
                                                                                     @if (isset($item['project_values']['price[]']))
