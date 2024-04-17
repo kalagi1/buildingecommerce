@@ -12,7 +12,7 @@
 
                     <div class="card-body">
                         <div class="mobile-hidden">
-                            @foreach ($mergedItems as $key => $item)
+                            {{-- @foreach ($mergedItems as $key => $item)
                                 @if (isset($item) && $item['item_type'] == 1)
                                     @php
                                         if (isset($item['projectCartOrders'][$item['room_order']])) {
@@ -59,8 +59,8 @@
                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                 @endif
-                            @endforeach
-                            {{-- <div class="row project-filter-reverse blog-pots" style="width: 100%">
+                            @endforeach --}}
+                            <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
 
@@ -355,11 +355,11 @@
 
                                     </tbody>
                                 </table>
-                            </div> --}}
+                            </div>
                         </div>
 
                         <div class="mobile-show">
-                            @foreach ($mergedItems as $key => $item)
+                            {{-- @foreach ($mergedItems as $key => $item)
                             @if (isset($item) && $item['item_type'] == 1)
                                 @php
                                     if (isset($item['projectCartOrders'][$item['room_order']])) {
@@ -406,8 +406,8 @@
                                     :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                     :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                             @endif
-                        @endforeach
-                            {{-- @foreach ($mergedItems as $item)
+                        @endforeach --}}
+                            @foreach ($mergedItems as $item)
                                 <div class="d-flex" style="flex-wrap: nowrap">
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                         <div class="project-inner project-head">
@@ -706,7 +706,7 @@
 
 
                                 <hr>
-                            @endforeach --}}
+                            @endforeach
                         </div>
 
                     </div>
