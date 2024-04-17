@@ -137,13 +137,10 @@
                                                     ((isset($item['housing']) && !empty($item['housing'])) ||
                                                         (isset($item['project']) && !empty($item['project']))))
                                                 <tr>
-                                                    <td style="background: #EA2B2E;
-                                                    color: white;">
-                                                        <span style="rotate: 270deg;">
-                                                            #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
+                                                    <td>
+                                                        İlan No: <br>
+                                                        #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
 
-                                                        </span>
-                  
                                                     </td>
 
                                                     <td>
