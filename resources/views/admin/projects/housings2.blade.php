@@ -411,6 +411,7 @@
                                                     <label for="surname" class="q-label">Telefon: </label>
                                                     <input type="number" class="modal-input" id="phone"
                                                         name="phone" value="{{ $cartOrder->phone }}">
+                                                        <span id="error_message" class="error-message"></span>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="surname" class="q-label">TC :</label>
@@ -549,6 +550,8 @@
                                                                                         class="modal-input" id="phone"
                                                                                         name="phone"
                                                                                         value="{{ $order->phone }}">
+                                                                                        <span id="error_message" class="error-message"></span>
+                                                                                        <span id="success_message" class="success-message"></span>
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <label for="surname"
@@ -641,6 +644,8 @@
                                             <label for="surname" class="q-label">Telefon:</label>
                                             <input type="number" class="modal-input" id="phone" name="phone"
                                                 required>
+                                                <span id="error_message" class="error-message"></span>
+                                                <span id="success_message" class="success-message"></span>
                                         </div>
 
                                         <div class="form-group">
@@ -1014,6 +1019,7 @@
                                 <label for="surname" class="q-label">Telefon: </label>
                                 <input type="number" class="modal-input" id="phone" name="phone"
                                     value="{{ $cartOrder->phone }}">
+                                    <span id="error_message" class="error-message"></span>
                             </div>
                             <div class="form-group">
                                 <label for="surname" class="q-label">TC :</label>
@@ -1136,6 +1142,7 @@
                                                                 <label for="surname" class="q-label">Telefon: </label>
                                                                 <input type="number" class="modal-input" id="phone"
                                                                     name="phone" value="{{ $order->phone }}">
+                                                                    <span id="error_message" class="error-message"></span>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="surname" class="q-label">TC : </label>
@@ -1219,6 +1226,7 @@
                             <div class="form-group">
                                 <label for="surname" class="q-label">Telefon:</label>
                                 <input type="number" class="modal-input" id="phone" name="phone" required>
+                                <span id="error_message" class="error-message"></span>
                             </div>
 
                             <div class="form-group">
@@ -1541,6 +1549,20 @@
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+        <script>
+            $(document).ready(function(){
+                $("#phone").on("input blur", function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+            
+                if (!pattern.test(phoneNumber)) {
+                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                  $("#error_message").text("");
+                }
+              });
+            });
+            </script>
     <script>
         $(document).ready(function() {
             $('form').submit(function() {
@@ -2221,6 +2243,10 @@
     <link rel="stylesheet" href="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/skins/content/default/content.min.css">
 
     <style>
+            .error-message {
+                color: red;
+                font-size: 11px;
+            }
         #spinner-overlay {
             position: fixed;
             top: 0;

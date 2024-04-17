@@ -31,7 +31,8 @@
                                 <label class="form-label">Telefon</label>
                                 <input type="number" name="phone"
                                     class="form-control @error('phone') is-invalid @enderror"
-                                    value="{{ old('phone', $user->phone) }}">
+                                    value="{{ old('phone', $user->phone) }}" id="phone">
+                                    <span id="error_message" class="error-message"></span>
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -49,7 +50,7 @@
                             @endif
 
                             <div class="mt-3">
-                                <label class="form-label">Banka Alıcı Adı</label>
+                                <label class="form-label">Hesap Sahibinin Adı Soyadı</label>
                                 <input type="text" name="bank_name"
                                     class="form-control @error('bank_name') is-invalid @enderror"
                                     value="{{ old('bank_name', $user->bank_name) }}">
@@ -62,12 +63,12 @@
                                     <i class="fa fa-info-circle ml-2"  data-toggle="tooltip" style="font-size: 12px;"
                                         aria-label="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."
                                         title="Lütfen geçerli bir iban giriniz. Koleksiyonlarınızdan satış yapıldığında kazandığınız miktar emlaksepette.com tarafından sizlere gönderilir."></i></label>
-                                <input type="text" name="iban"
-                                    class="form-control @error('iban') is-invalid @enderror"
-                                    value="{{ old('iban', $user->iban) }}">
-                                @error('iban')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                        <input type="text" name="iban" id="ibanInput"
+                                        class="form-control @error('iban') is-invalid @enderror"
+                                        value="{{ old('iban', $user->iban) }}" oninput="formatIBAN(this)">
+                                    @error('iban')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                             </div>
 
 
@@ -97,13 +98,13 @@
        
     @endif
 
-    <section class="recently portfolio bg-white homepage-5 emlak-kulup-slider recently2">
+    <section class="recently portfolio bg-white homepage-5 mt-5 emlak-kulup-slider recently2">
         <div class="container recently-slider">
             <div class="portfolio right-slider">
                 <div class="owl-carousel home5-right-slider" style="height: 550px">
                     <a href="javascript:void()" class="recent-16" data-aos="fade-up" data-aos-delay="150">
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-hidden"
-                            style="background-image: url(images/bannerNew.png)"></div>
+                            style="background-image: url(images/emlakKulupGorsel.png)"></div>
                         <div class="recent-img16 sliderSize img-fluid img-center mobile-show heitwo heithree"
                             style="background-image: url(images/bannerNew_mobil.png);"></div>
 
@@ -533,6 +534,20 @@
 @endsection
 
 @section('scripts')
+<script>
+    $(document).ready(function(){
+        $("#phone").on("input blur", function(){
+        var phoneNumber = $(this).val();
+        var pattern = /^5[1-9]\d{8}$/;
+    
+        if (!pattern.test(phoneNumber)) {
+          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+        } else {
+          $("#error_message").text("");
+        }
+      });
+    });
+    </script>
     <script>
         $(".accordion li").click(function() {
             $(".faq li").not(this).removeClass("active");
@@ -542,10 +557,46 @@
 
         });
     </script>
+
+<script>
+    function formatIBAN(input) {
+        // TR ile başlat
+        var formattedIBAN = "TR";
+
+        // Gelen değerden sadece rakamları al
+        var numbersOnly = input.value.replace(/\D/g, '');
+
+        // İBAN uzunluğunu kontrol et ve fazla karakterleri kırp
+        if (numbersOnly.length > 24) {
+            numbersOnly = numbersOnly.substring(0, 24);
+        }
+
+        // Geri kalanı 4'er basamaklı gruplara ayır ve aralarına boşluk ekle
+        for (var i = 0; i < numbersOnly.length; i += 4) {
+            formattedIBAN += numbersOnly.substr(i, 4) + " ";
+        }
+
+        // Formatlanmış İBAN'ı input değerine ata
+        input.value = formattedIBAN.trim();
+    }
+
+    // Giriş alanının değeri değiştiğinde formatIBAN fonksiyonunu çağır
+    document.getElementById("ibanInput").addEventListener("input", function() {
+        formatIBAN(this);
+    });
+</script>
+
+
+
+
 @endsection
 
 @section('styles')
     <style>
+                .error-message {
+            color: red;
+            font-size: 11px;
+        }
         .how-it-works{
             padding: 2.6rem 0 2.6rem 2.6rem !important;
         }

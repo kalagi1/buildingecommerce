@@ -204,6 +204,14 @@ function CreateHousing(props) {
                                                                 top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
                                                                 behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                             });
+                                                        }else{
+                                                            if(!projectData.rules_confirm){
+                                                                var element = document.getElementById("finish-tick-id");
+                                                                window.scrollTo({
+                                                                    top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                    behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                }); 
+                                                            }
                                                         }
                                                         
                                                     }
@@ -279,6 +287,10 @@ function CreateHousing(props) {
 
         if(!projectData.authority_certificate){
             tempErrors.push("authority_certificate");
+        }
+
+        if(!projectData.rules_confirm){
+            tempErrors.push("rules_confirm");
         }
 
         console.log(tempErrors);

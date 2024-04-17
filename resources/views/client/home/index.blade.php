@@ -116,7 +116,7 @@
                                         <div class="homes">
                                             <img loading="lazy" src="{{ asset('images/al-sat-acil.png') }}"
                                                 alt="Al Sat Acil" class="img-responsive brand-image-pp"
-                                                style="border:5px solid #F4A226">
+                                                style="border:5px solid #F4A226;object-fit:contain;">
                                             <span style="font-size:9px !important;border:none !important">Al Sat Acil</span>
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@
                                                 @else
                                                     <img loading="lazy"
                                                         src="{{ asset('storage/profile_images/' . $brand->profile_image) }}"
-                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp">
+                                                        alt="{{ $brand->name }}" class="img-responsive brand-image-pp" style="object-fit:contain;">
                                                 @endif
                                                 <span
                                                     style="font-size:9px !important;border:none !important">{{ $brand->name }}</span>
@@ -340,13 +340,6 @@
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document"
                 style="height: 100%;margin:0 auto;display:flex;justify-content:center;align-items:center">
                 <div class="modal-content">
-                    {{-- <div class="modal-header">
-                        <h3 class="modal-title">Henüz Emlak Kulüp Üyesi Değil Misiniz?</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-close"></i>
-                        </button>
-
-                    </div> --}}
                     <div class="modal-body modal12">
                         <div class="container-fluid p-0">
                             <div class="row">
@@ -356,7 +349,7 @@
                                             aria-label="Close">
                                             <i class="fa fa-close"></i>
                                         </button>
-                                        <div class="offer-content"><img loading="lazy" src="{{ asset('popup2.jpeg') }}"
+                                        <div class="offer-content"><img loading="lazy" src="{{ asset('images/emlak-kulup-banner.png') }}"
                                                 class="img-fluid blur-up lazyloaded" alt="">
                                             <h2>Sen de kazananlar kulübündensin ! <br> Emlak Kulübüne üye ol, dilediğin
                                                 kadar paylaş; paylaştıkça kazan!</h2>
@@ -464,22 +457,6 @@
         });
     </script>
     
-
-    <script>
-        var errorMessage = "{{ session('error') }}";
-
-        if (errorMessage) {
-            Toastify({
-                text: errorMessage,
-                duration: 5000,
-                gravity: 'bottom',
-                position: 'center',
-                backgroundColor: '#ff4d4d',
-                stopOnFocus: true,
-            }).showToast();
-        }
-    </script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();

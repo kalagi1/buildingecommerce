@@ -105,8 +105,8 @@ Route::post('/update-collection-status', [HomeController::class, 'updateCollecti
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
 Route::get('/neighbors' , [NeighborViewController::class, 'index'])->name('neighbors.index');
 Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
-Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment');
-Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment');
+Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
+Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
 Route::post('/neighbor/payment', [NeighborViewController::class, 'initiate3DPayment'])->name('neighbor.3d.pay');
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 Route::get('/sat-kirala-nedir', [RealEstateController::class, "index2"])->name('real.estate.index2');
@@ -780,6 +780,14 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    
+    Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
+    Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
+    ->name('phone.generateVerificationCode');
+
+    Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
+    ->name('phone.verifyPhoneNumber');
+
     Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
     Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
 
@@ -1161,3 +1169,7 @@ Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'M
 //Toplu Sms Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-sms/create', [AdminSmsController::class, 'MultipleSms'])->name('admin.multiple_sms.create');
 Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
+
+//Ödeme yapıldıktan sonra dekont yükleme
+Route::post('dekot/file/upload',[CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
+Route::get('/dekont/indir/{order_id}',[CartController::class,'dekontIndir'])->name('dekont.indir');

@@ -432,7 +432,7 @@
                                     style="width:150px;float:right">Satın Al
                                 </button>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                    style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                                    style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                             </div>
 
 
@@ -520,6 +520,7 @@
                                                 <label for="phone">Telefon:</label>
                                                 <input type="tel" class="form-control" id="phone" name="phone"
                                                     required>
+                                                    <span id="error_message" class="error-message"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -618,6 +619,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <style>
+        .error-message {
+            color: red;
+            font-size: 11px;
+        }
         #loadingIndicator {
             color: #007bff;
         }
@@ -718,6 +723,20 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
+        <script>
+            $(document).ready(function(){
+                $("#phone").on("input blur", function(){
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+            
+                if (!pattern.test(phoneNumber)) { 
+                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                  $("#error_message").text("");
+                }
+              });
+            });
+            </script>
     <script>
         $(document).ready(function() {
 
@@ -905,7 +924,7 @@
                 $('#bankaID').val(selectedBankIbanID);
 
 
-                var ibanInfo = "<span style='color:black'><strong>Banka Alıcı Adı:</strong> " +
+                var ibanInfo = "<span style='color:black'><strong>Hesap Sahibinin Adı Soyadı:</strong> " +
                     selectedBankTitle + "<br><strong>IBAN:</strong> " + selectedBankIban + "</span>";
                 $('#ibanInfo').html(ibanInfo);
 

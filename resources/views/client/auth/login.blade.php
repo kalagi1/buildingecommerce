@@ -192,9 +192,10 @@
 
                                         <div class="mt-3">
                                             <label class="q-label">Cep Telefonu</label>
-                                            <input type="number" name="mobile_phone"
+                                            <input type="number" name="mobile_phone" id="mobile_phone"
                                                 class="form-control {{ $errors->has('mobile_phone') ? 'error-border' : '' }}"
-                                                value="{{ old('mobile_phone') }}">
+                                                value="{{ old('mobile_phone') }}" >
+                                                <span id="error_message" class="error-message"></span>
                                             @if ($errors->has('mobile_phone'))
                                                 <span class="error-message">{{ $errors->first('mobile_phone') }}</span>
                                             @endif
@@ -269,16 +270,6 @@
                                                     value="{{ old('phone') }}">
                                                 @if ($errors->has('phone'))
                                                     <span class="error-message">{{ $errors->first('phone') }}</span>
-                                                @endif
-                                            </div>
-                                            
-                                            <div class="mt-3">
-                                                <label class="q-label">Iban</label>
-                                                <input type="text" name="iban"
-                                                    class="form-control {{ $errors->has('iban') ? 'error-border' : '' }}"
-                                                    value="{{ old('iban') }}">
-                                                @if ($errors->has('iban'))
-                                                    <span class="error-message">{{ $errors->first('iban') }}</span>
                                                 @endif
                                             </div>
 
@@ -576,6 +567,20 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#mobile_phone").on("input blur", function(){
+            var phoneNumber = $(this).val();
+            var pattern = /^5[1-9]\d{8}$/;
+        
+            if (!pattern.test(phoneNumber)) {
+              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+            } else {
+              $("#error_message").text("");
+            }
+          });
+        });
+        </script>
     <script>
         const individualForm = document.getElementById('individualForm');
         const individualFormCheck = document.getElementById('individualFormCheck');
@@ -889,6 +894,10 @@
 
         .error-message {
             color: red;
+            font-size: 11px;
+        }
+        .success-message {
+            color: green;
             font-size: 11px;
         }
     </style>

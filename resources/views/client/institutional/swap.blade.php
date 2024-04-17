@@ -34,27 +34,28 @@
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="ad">Ad:</label>
-                        <input class="formInput" type="text" id="ad" name="ad">
+                        <input class="formInput always-required" type="text" id="ad" name="ad" required>
                     </div>
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="soyad">Soyadınız:</label>
-                        <input class="formInput" type="text" id="soyad" name="soyad">
+                        <input class="formInput always-required" type="text" id="soyad" name="soyad" required>
                     </div>
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="telefon">Telefon Numaranız:</label>
-                        <input class="formInput" type="tel" id="telefon" name="telefon">
+                        <input class="formInput always-required" type="number" id="telefon" name="telefon" required>
+                        <span id="error_message" class="error-message"></span>
                     </div>
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="email">E-mail:</label>
-                        <input class="formInput" type="email" id="email" name="email">
+                        <input class="formInput always-required" type="email" id="email" name="email" required>
                     </div>
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="sehir">Şehir:</label>
-                        <select class="formInput" id="sehir" name="sehir">
+                        <select class="formInput always-required" id="sehir" name="sehir" required>
                             <option value="">Şehir Seçiniz</option>
                             @foreach($cities as $city)
                                 <option value="{{ $city->id }}">{{ $city->title }}</option>
@@ -64,14 +65,14 @@
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="ilce">İlçe:</label>
-                        <select class="formInput" id="ilce" name="ilce" disabled>
+                        <select class="formInput always-required" id="ilce" name="ilce" disabled required>
                             <option value="">İlçe Seçiniz</option>
                         </select>
                     </div>
 
                     <div class="col-md-12 col-12">
                         <label class="form-label" for="takas_tercihi">Takas Tercihiniz:</label>
-                        <select class="formInput" id="takas_tercihi" name="takas_tercihi">
+                        <select class="formInput" id="takas_tercihi" name="takas_tercihi" required>
                             <option value="">Seçiniz</option>
                             <option value="emlak">Emlak</option>
                             <option value="araç">Araç</option>
@@ -81,18 +82,18 @@
                     </div>
 
                     
-                    <div id="digeryse" style="display: none;" class="col-md-12 col-12">
+                    <div id="digeryse" style="display: none;" class="col-md-12 col-12 conditional-fields">
                         <label class="form-label" for="diger_detay">Takas ile ilgili ürün/hizmet detayı:</label>
                         <textarea class="formInput" id="diger_detay" name="diger_detay"></textarea>
                     </div>
 
-                    <div id="barteryse" style="display: none;" class="col-md-12 col-12">
+                    <div id="barteryse" style="display: none;" class="col-md-12 col-12 conditional-fields">
                         <label class="form-label" for="barter_detay">Lütfen barter durumunuz ile ilgili detaylı bilgileri
                             giriniz:</label>
                         <textarea class="formInput" id="barter_detay" name="barter_detay"></textarea>
                     </div>
 
-                    <div id="emlakyse" style="display: none;" class="col-md-12 col-12">
+                    <div id="emlakyse" style="display: none;" class="col-md-12 col-12 conditional-fields">
                         <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
                         <select class="formInput" id="emlak_tipi" name="emlak_tipi">
                             <option value="">Seçiniz</option>
@@ -102,7 +103,7 @@
                         </select>
                     </div>
 
-                    <div id="konutyse" style="display: none;" class="col-md-12 col-12">
+                    <div id="konutyse" style="display: none;" class="col-md-12 col-12 conditional-fields">
                         <label class="form-label" for="konut_tipi">Konut Tipi:</label>
                         <select class="formInput" id="konut_tipi" name="konut_tipi">
                             <option value="">Seçiniz</option>
@@ -191,7 +192,7 @@
                         <input class="formInput" type="file" id="tapu_belgesi" name="tapu_belgesi" accept=".pdf,.doc,.docx">
                     </div>
 
-                    <div id="arsayse" style="display: none;" class="col-md-12 col-12">
+                    <div id="arsayse" style="display: none;" class="col-md-12 col-12 conditional-fields">
 
                         <div class="row">
                             <div class="col-md-4">
@@ -238,7 +239,7 @@
                         <input class="formInput" type="text" id="satis_rakami" name="satis_rakami" min="0">
                     </div>
 
-                    <div id="aracyse" style="display: none;" class="col-md-12 col-12">
+                    <div id="aracyse" style="display: none;" class="col-md-12 col-12 conditional-fields">
 
                             <label class="form-label" for="arac_model_yili">Araç Model Yılı:</label>
                             <select class="formInput" id="arac_model_yili" name="arac_model_yili">
@@ -275,7 +276,7 @@
                         <input class="formInput" type="file" id="ruhsat_belgesi" name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
                     </div>
 
-                    <div id="isyeriyse" style="display: none;" class="mb-3 col-md-12 col-12">
+                    <div id="isyeriyse" style="display: none;" class="mb-3 col-md-12 col-12 conditional-fields">
 
                         <label for="ticari_bilgiler" class="form-label">Ticari ile ilgili Bilgileri Giriniz:</label>
                         <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
@@ -295,6 +296,89 @@
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+               $(document).ready(function() {
+            $("#telefon").blur(function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text(
+                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                } else {
+                    $("#error_message").text("");
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function(e) {
+                var isEmpty = false;
+
+               // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+ // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+ if ($('#takas_tercihi').val() === 'emlak') {
+            var emlakTipi = $('#emlak_tipi').val();
+            if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
+                var requiredFields = [];
+                if (emlakTipi === 'konut') {
+                    requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi', 'oda_sayisi', 'konut_tipi'];
+                } else if (emlakTipi === 'arsa') {
+                    requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel', 'imar_durumu', 'satis_rakami'];
+                }
+            } else if (emlakTipi === 'işyeri') {
+                requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
+            }
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = $('#' + requiredFields[i]);
+                if (field.val().trim() === '') {
+                    isEmpty = true;
+                    field.addClass('error');
+                } else {
+                    field.removeClass('error');
+                }
+            }
+        }
+
+                 // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                    if ($('#takas_tercihi').val() === 'araç') {
+                        var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi', 'arac_satis_rakami'];
+
+                        for (var i = 0; i < requiredFields.length; i++) {
+                            var field = $('#' + requiredFields[i]);
+                            if (field.val().trim() === '') {
+                                isEmpty = true;
+                                field.addClass('error');
+                            } else {
+                                field.removeClass('error');
+                            }
+                        }
+                    }
+
+           
+                // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
+                if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
+                    $('.conditional-fields:visible').find('.formInput').each(function() {
+                        if ($(this).val().trim() === '') {
+                            isEmpty = true;
+                            $(this).addClass('error');
+                        } else {
+                            $(this).removeClass('error');
+                        }
+                    });
+                }
+
+                if (isEmpty) {
+                    e.preventDefault();
+                    alert('Tüm zorunlu alanları doldurunuz!');
+                }
+        
+            });   
+        });
+        </script>
+
     <script>
         $(document).ready(function() {
             $('#sehir').change(function() {

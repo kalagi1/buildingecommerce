@@ -119,7 +119,7 @@
     margin-left: -20px;
     font-size: .8em;
     opacity: 0;
-    font-weight: bold;
+    
 }
 .td-medirian .td-icon-am {
     top: 40px;
@@ -164,7 +164,7 @@
     cursor: pointer;
 }
 .td-clock .td-time {
-    font-weight: bold;
+    
     position: relative;
 }
 .td-clock .td-time span {

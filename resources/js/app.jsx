@@ -11,7 +11,8 @@ import HousingList from './Components/HousingList';
 var currentURL = window.location.href;
 var slashs = currentURL.split('/');
 
-console.log(slashs,slashs[slashs.length - 1] == "detay" && slashs[3] == "proje" ,slashs[3],slashs[slashs.length - 1]);
+console.log("asd");
+
 if(slashs[slashs.length - 1] == "create_project_v3"){
     if(document.getElementById('react_render_area')){
         ReactDOM.render(<CreateProject />, document.getElementById('react_render_area'));
