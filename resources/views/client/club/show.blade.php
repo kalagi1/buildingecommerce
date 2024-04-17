@@ -12,7 +12,7 @@
 
                     <div class="card-body">
                         <div class="mobile-hidden">
-                            {{-- @foreach ($mergedItems as $key => $item)
+                            @foreach ($mergedItems as $key => $item)
                                 @if (isset($item) && $item['item_type'] == 1)
                                     @php
                                         if (isset($item['projectCartOrders'][$item['room_order']])) {
@@ -59,12 +59,14 @@
                                         :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                         :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                                 @endif
-                            @endforeach --}}
+                            @endforeach
                             <div class="row project-filter-reverse blog-pots" style="width: 100%">
                                 <table class="table">
                                     <tbody class="collection-title">
 
                                         @foreach ($mergedItems as $item)
+                                        @if (isset($item) && $item['item_type'] == 2)
+
                                             <tr>
                                                 <td>
                                                     #{{ $item['item_type'] == 1 ? $item['project']->id + $item['room_order'] + 1000000 : $item['housing']->id + 2000000 }}
@@ -351,6 +353,8 @@
                                                     </tr>
                                                 @endif
                                             @endif
+                                            @endif
+
                                         @endforeach
 
                                     </tbody>
@@ -359,7 +363,7 @@
                         </div>
 
                         <div class="mobile-show">
-                            {{-- @foreach ($mergedItems as $key => $item)
+                            @foreach ($mergedItems as $key => $item)
                             @if (isset($item) && $item['item_type'] == 1)
                                 @php
                                     if (isset($item['projectCartOrders'][$item['room_order']])) {
@@ -406,8 +410,10 @@
                                     :isUserSame="$isUserSame" :bankAccounts="$bankAccounts" :i="$key" :projectHousingsList="$projectHousingsList"
                                     :projectDiscountAmount="$projectDiscountAmount" :sold="$sold" :lastHousingCount="$lastHousingCount" />
                             @endif
-                        @endforeach --}}
+                        @endforeach
                             @foreach ($mergedItems as $item)
+                            @if (isset($item) && $item['item_type'] == 2)
+
                                 <div class="d-flex" style="flex-wrap: nowrap">
                                     <div class="align-items-center d-flex " style="padding-right:0; width: 110px;">
                                         <div class="project-inner project-head">
@@ -706,6 +712,7 @@
 
 
                                 <hr>
+                                @endif
                             @endforeach
                         </div>
 

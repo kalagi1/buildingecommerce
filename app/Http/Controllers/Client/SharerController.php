@@ -224,6 +224,10 @@ class SharerController extends Controller
                     $housingTypeData = json_decode($item->housing->housing_type_data, true);
                     $offSale = isset($housingTypeData['off_sale1']);
                 }
+                $projectCartOrders= null;
+                $projectHousingsList= null;
+                $project= null;
+
 
                 if ($item->item_type == 1) {
 
