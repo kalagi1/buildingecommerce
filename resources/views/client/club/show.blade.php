@@ -575,8 +575,7 @@
                                                         @endif
                                                     </div>
                                                 </a>
-                                                <div class="d-flex" style="align-items:Center;width:100%;">
-                                                    <div class="d-flex" style="gap: 8px;width:100%;">
+                                                <div class="d-flex align-items-end projectItemFlex" style="width:100%;">
 
                                                         @if ($item['item_type'] != 1)
                                                             @if ($item['housing']->step2_slug != 'gunluk-kiralik')
@@ -663,7 +662,7 @@
                                                                     @endif
                                                                 </button>
                                                             @else
-                                                                    <div class="width:50%;">
+                                                                    <div style="width:50% !important;">
                                                                           <span class="ml-auto text-primary priceFont">
                                                                                 @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                                                     @php
@@ -793,7 +792,6 @@
                                                                     </button>
                                                             @endif
                                                         @endif
-                                                    </div>
                                                   
                                                 </div>
                                             </div>
