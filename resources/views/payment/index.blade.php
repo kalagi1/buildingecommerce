@@ -576,8 +576,7 @@
                                                     <div class="d-flex align-items-center mb-3">
                                                         <input id="checkSignature" type="checkbox" name="checkSignature">
                                                         <label for="checkPay" class="m-0 ml-1 text-black">
-                                                            7 İş günü içerisinde satış sözleşmesini imzalamak için
-                                                            ofise geleceğim.
+                                                           Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi kabul ve beyan ediyorum.
                                                         </label>
                                                     </div>
                                                 </div>
