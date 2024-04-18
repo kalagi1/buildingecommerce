@@ -8,7 +8,7 @@
                     data-list='{"valueNames":["id","key","description","title","is_active","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">İzinler<span class="fw-normal text-700 ms-3">({{ count($permissions) }})</span>
+                            <h3 class="mb-0">İzinler<span class="fw-normal text-700 ms-3">({{ count($permissions) }})</span>
                             </h2>
                         </div>
                         <div class="col-auto">

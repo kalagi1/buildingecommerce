@@ -5,7 +5,7 @@
     <div class="mb-9">
         <div class="row g-3 mb-4">
             <div class="col-auto">
-                <h2 class="mb-0">Komşumu Gör Başvuruları</h2>
+                <h3 class="mb-0">Cep Güncelleme Talepleri</h3>
             </div>
         </div>
         <div id="orderTable">

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="row justify-content-between mb-4  align-items-center">
                 <div class="col-auto">
-                    <h2 class="mb-0">Site Ayarları
+                    <h3 class="mb-0">Site Ayarları
                     </h2>
                 </div>
                 <div class="col-auto">
