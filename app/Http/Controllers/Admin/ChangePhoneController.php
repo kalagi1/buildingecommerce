@@ -35,7 +35,6 @@ class ChangePhoneController extends Controller
         $user->mobile_phone = $newPhoneNumber;
 
         $user->phone_verification_status= '0';
-        $user->phone_verification_status= null;
         $phoneNumber->phone_number_changed = 1;
         
         // Kayıtları kaydet
