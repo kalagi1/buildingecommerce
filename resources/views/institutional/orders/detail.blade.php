@@ -330,7 +330,7 @@
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Yüzdesi:</p>
-                                        <p class="text-body-emphasis fw-semibold">%2</p>
+                                        <p class="text-body-emphasis fw-semibold">%4</p>
                                     </div>
                                     {{-- <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Subtotal :</p>
