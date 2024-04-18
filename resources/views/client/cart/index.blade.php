@@ -145,7 +145,7 @@
                                             $deposit_rate =
                                                 optional(App\Models\Project::find($cart['item']['id']))->deposit_rate /
                                                 100;
-                                            $discount_percent = $project->deposit_rate;
+                                            $discount_percent =   optional(App\Models\Project::find($cart['item']['id']))->deposit_rate;
                                         }
                                     @endphp
                                     <tr>
