@@ -570,6 +570,23 @@
                                                 </select>
                                             @endif
                                         </div>
+                                        @if ($project->step2_slug)
+                                            @if ($project->step2_slug == 'satilik')
+                                                <div class="col-sm-12 pt-2">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <input id="checkPay" type="checkbox" name="checkPay">
+
+                                                        <label for="checkPay" class="m-0 ml-1 text-black">
+                                                            <a href="/sayfa/mesafeli-kapora-emanet-sozlesmesi"
+                                                                target="_blank">
+                                                                Mesafeli kapora emanet sözleşmesini
+                                                            </a>
+                                                            okudum ve kabul ediyorum
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
 
 
                                         @if (isset($cart) && isset($cart['type']))
@@ -580,14 +597,17 @@
                                                     <div class="d-flex align-items-center mb-3">
                                                         <input id="is_show_user" type="checkbox" value="off"
                                                             name="is_show_user">
-                                                        <i class="fa fa-info-circle ml-2"
-                                                            title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                            style="font-size: 18px; color: black;"></i>
-                                                        <label for="is_show_user" class="m-0 ml-1 text-black">
-                                                            Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
-                                                            kabul
-                                                            ediyorum.
-                                                        </label>
+                                                       <div>
+
+                                                        <i class="fa fa-info-circle ml-2 mobile-hidden"
+                                                        title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
+                                                        style="font-size: 18px; color: black;"></i> <br>
+                                                    <label for="is_show_user" class="m-0 ml-1 text-black">
+                                                        Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
+                                                        kabul
+                                                        ediyorum.
+                                                    </label>
+                                                       </div>
                                                     </div>
                                                 </div>
                                             @endif
@@ -986,7 +1006,7 @@
     <script>
         $(document).ready(function() {
 
-            $("#phone").on("input blur", function(){
+            $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[1-9]\d{8}$/;
 
@@ -997,15 +1017,15 @@
                 } else {
                     $("#error_message").text("");
                 }
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
         });
     </script>
@@ -1113,9 +1133,9 @@
 
             $('.paySuccess').on('click', function() {
                 var fileInput = document.getElementById('fileInput');
-            if (fileInput.files.length == 0) {
-                toastr.warning('Lütfen dekont yükleyiniz.')
-            }
+                if (fileInput.files.length == 0) {
+                    toastr.warning('Lütfen dekont yükleyiniz.')
+                }
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
                     toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
                     return;
