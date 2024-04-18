@@ -17,6 +17,25 @@
             'Aralık',
         ];
     @endphp
+        @php
+                                            $orderCart = json_decode($order->cart, true);
+
+        $deposit_rate = 0.04;
+        $discount_percent = 4;
+            if ($orderCart['type'] == 'housing') {
+                $housing = \App\Models\Housing::where('id', $orderCart['item']['id'])->first();
+                $saleType = $housing->step2_slug;
+                $deposit_rate = 0.04;
+                $discount_percent = 4;
+    
+            } else {
+                $project = \App\Models\Project::where('id', $orderCart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+                $deposit_rate = $project->deposit_rate / 100;
+                $discount_percent =  $project->deposit_rate;
+    
+            }
+    @endphp
     
     <div class="content">
 
@@ -124,9 +143,6 @@
                                 </div>
 
 
-                                @php
-                                    $orderCart = json_decode($order->cart, true);
-                                @endphp
                                 <div class="col-md-4 text-center">
                                     <p>İlan No</p>
 
@@ -326,11 +342,11 @@
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Adet:</p>
-                                        <p class="text-danger fw-semibold">1</p>
+                                        <p class="text-danger fw-semibold">{{json_decode($order->cart)->item->qt}}</p>
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Kapora Yüzdesi:</p>
-                                        <p class="text-body-emphasis fw-semibold">%4</p>
+                                        <p class="text-body fw-semibold">Kapora Oranı:</p>
+                                        <p class="text-body-emphasis fw-semibold">%{{$discount_percent}}</p>
                                     </div>
                                     {{-- <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Subtotal :</p>
