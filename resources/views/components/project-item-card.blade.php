@@ -563,7 +563,7 @@
 
                         <div class="modal-footer" style="justify-content: end !important">
                             <button type="submit" class="btn btn-success" style="width:150px">Gönder</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                                 style="width:150px">Kapat</button>
                         </div>
                     </form>
@@ -621,7 +621,7 @@
                             <form action="{{ route('neighborView.index') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                                <button type="submit" class="btn btn-success btn-lg btn-block" style="width:150px;float:right">
+                                <button type="submit" class="btn btn-success btn-lg btn-block mt-3" style="width:150px;float:right">
                                     250 TL Öde
                                 </button>
                             </form>
@@ -671,7 +671,7 @@
                         <a href="tel:{{ isset($sold->phone) ? $sold->phone : null }}"><button class="btn btn-success"
                                 style="width:100px">Ara</button></a>
 
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                             style="width:100px">Kapat</button>
                     </div>
                 </div>

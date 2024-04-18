@@ -8,7 +8,7 @@
                     data-list='{"valueNames":["id","name","description","is_active","action"],"page":12,"pagination":true}'>
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                         <div class="col-auto">
-                            <h2 class="mb-0">İzin Grupları<span
+                            <h3 class="mb-0">İzin Grupları<span
                                     class="fw-normal text-700 ms-3">({{ count($permissionGroups) }})</span></h2>
                         </div>
                         <div class="col-auto">

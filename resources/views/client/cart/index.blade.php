@@ -335,8 +335,8 @@
                                                     class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @else
-                                            <li>Toplam Fiyatın %2 Kaporası :<strong
-                                                    class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                            <li>Toplam Fiyatın %4 Kaporası :<strong
+                                                    class="pull-right">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @endif
 
@@ -370,7 +370,7 @@
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
-                                            class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
+                                            class="button-price-inner">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </a>
                                 @endif
@@ -432,7 +432,7 @@
                                     style="width:150px;float:right">Satın Al
                                 </button>
                                 <button type="button" class="btn btn-secondary btn-lg btn-block mt-3"
-                                    style="width:150px;margin-left:10px" data-dismiss="modal">İptal</button>
+                                    style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
                             </div>
 
 

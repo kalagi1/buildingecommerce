@@ -80,18 +80,35 @@
 
 
                         @endif
-
+                        
+                        
                         @if($order->reference)
-                            <div class="order-status-container mt-3"
-                                    style="background-color : #1581f5 ">
-                                    <div class="left">
-                                        <i class="fa fa-check"></i>
-                                        <span>
-                                            Bu İlan <strong>{{$order->reference->name}}</strong> referansı ile satılmıştır
-                                        </span>
-                                    </div>
+                            @if($order->store_id == Auth::user()->id)
+                                <div class="order-status-container mt-3"
+                                style="background-color : #1581f5 ">
+                                <div class="left">
+                                    <i class="fa fa-check"></i>
+                                    <span>
+                                        Bu satış <strong>{{$order->reference->name}}</strong> isimli çalışanızın referansı ile gerçekleşmiştir.
+                                    </span>
+                                </div>
 
-                            </div>
+                                </div>
+                            @elseif($order->user_id == Auth::user()->id)
+                            
+                                <div class="order-status-container mt-3"
+                                style="background-color : #1581f5 ">
+                                <div class="left">
+                                    <i class="fa fa-check"></i>
+                                    <span>
+                                        Satış danışmanınız: <strong>{{$order->reference->name}}</strong> 
+                                        
+                                    </span>
+                                </div>
+
+                                </div>
+                            
+                           @endif
                     
                          @endif
 
@@ -313,7 +330,7 @@
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Yüzdesi:</p>
-                                        <p class="text-body-emphasis fw-semibold">%2</p>
+                                        <p class="text-body-emphasis fw-semibold">%4</p>
                                     </div>
                                     {{-- <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Subtotal :</p>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-function FinishArea({createProject}) {
+function FinishArea({createProject,projectData,setProjectDataFunc,allErrors}) {
     const [open,setOpen] = useState(false);
     const style = {
         position: 'absolute',
@@ -16,8 +16,8 @@ function FinishArea({createProject}) {
     return(
         <div>
             <div className="second-area-finish">
-                <div className="finish-tick ">
-                    <input type="checkbox" id="rules_confirmx" value="1" className="rules_confirm" />
+                <div className={"finish-tick "+(allErrors.includes('rules_confirm') ? "error-border" : "")} id='finish-tick-id'>
+                    <input type="checkbox" checked={projectData.rules_confirm} onChange={() => {setProjectDataFunc('rules_confirm',!projectData.rules_confirm)}} id="rules_confirmx" value="1" className="rules_confirm" />
                     <label for="rules_confirmx">
                         <span className="rulesOpen ml-2" onClick={() => {setOpen(true)}}>İlan verme kurallarını</span>
                         <span>okudum, kabul ediyorum</span>

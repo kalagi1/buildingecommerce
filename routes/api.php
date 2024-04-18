@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Client\AddressController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\BrandController;
+use App\Http\Controllers\Api\Client\FormController;
 use App\Http\Controllers\Api\Client\HousingController;
 use App\Http\Controllers\Api\Client\MenuController;
 use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalProjectController;
@@ -53,6 +54,7 @@ Route::get('cities',[AddressController::class,"cities"]);
 Route::get('counties/{cityId}',[AddressController::class,"getCountiesByCityId"]);
 Route::get('neighborhoods/{county_id}',[AddressController::class,"getNeighborhoodsByCountyId"]);
 Route::post('update_project',[ProjectController::class,"updateProject"]);
+Route::apiResource('swap', FormController::class);
 
 Route::get('/get_temp_order_project/{id}', [TempOrderController::class, 'getTempOrderData']);
 

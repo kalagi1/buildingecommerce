@@ -316,73 +316,71 @@ class NeighborViewController extends Controller
         $bankAccounts = BankAccount::all();
         $order = CartOrder::where('id', $request->order_id)->first();
 
-        $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
-        $cart = json_decode($cartItem->cart, true);
-        if ($cart) {
+        $cart  = [];
 
+        if ($order) {
 
-            $saleType = null;
-            $column_name = null;
-            $project = null;
-            $projectHousingsList = [];
-            $projectHousings = null;
+            $cart = json_decode($order->cart, true);
+        }
+        $saleType = null;
+        $column_name = null;
+        $project = null;
+        $projectHousingsList = [];
+        $projectHousings = null;
 
-            $housing = null;
+        $housing = null;
 
-            if (isset($cart) && !empty($cart)) {
-                if ($cart['type'] == 'housing') {
-                    $housing = Housing::with('images')
-                        ->select(
-                            'housings.id',
-                            'housings.slug',
-                            'housings.title AS housing_title',
-                            'housings.created_at',
-                            'housings.step1_slug',
-                            'housings.step2_slug',
-                            'housing_types.title as housing_type_title',
-                            'housings.housing_type_data',
-                            'project_list_items.column1_name as column1_name',
-                            'project_list_items.column2_name as column2_name',
-                            'project_list_items.column3_name as column3_name',
-                            'project_list_items.column4_name as column4_name',
-                            'project_list_items.column1_additional as column1_additional',
-                            'project_list_items.column2_additional as column2_additional',
-                            'project_list_items.column3_additional as column3_additional',
-                            'project_list_items.column4_additional as column4_additional',
-                            'housings.address',
-                            \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
-                            'cities.title AS city_title',
-                            'districts.ilce_title AS county_title',
-                            'neighborhoods.mahalle_title AS neighborhood_title',
-                            DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount'),
-                        )
-                        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-                        ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-                        ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-                        ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-                        ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-                        ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-                        ->where('housings.status', 1)
-                        ->where("housings.id", $cart['item']['id'])
-                        ->where('project_list_items.item_type', 2)
-                        ->orderByDesc('housings.created_at')
-                        ->first();
+        if (isset($cart) && !empty($cart)) {
+            if ($cart['type'] == 'housing') {
+                $housing = Housing::with('images')
+                    ->select(
+                        'housings.id',
+                        'housings.slug',
+                        'housings.title AS housing_title',
+                        'housings.created_at',
+                        'housings.step1_slug',
+                        'housings.step2_slug',
+                        'housing_types.title as housing_type_title',
+                        'housings.housing_type_data',
+                        'project_list_items.column1_name as column1_name',
+                        'project_list_items.column2_name as column2_name',
+                        'project_list_items.column3_name as column3_name',
+                        'project_list_items.column4_name as column4_name',
+                        'project_list_items.column1_additional as column1_additional',
+                        'project_list_items.column2_additional as column2_additional',
+                        'project_list_items.column3_additional as column3_additional',
+                        'project_list_items.column4_additional as column4_additional',
+                        'housings.address',
+                        \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
+                        'cities.title AS city_title',
+                        'districts.ilce_title AS county_title',
+                        'neighborhoods.mahalle_title AS neighborhood_title',
+                        DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount'),
+                    )
+                    ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                    ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                    ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                    ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+                    ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+                    ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+                    ->where('housings.status', 1)
+                    ->where("housings.id", $cart['item']['id'])
+                    ->where('project_list_items.item_type', 2)
+                    ->orderByDesc('housings.created_at')
+                    ->first();
 
-                    $saleType = $housing->step2_slug;
-                } else {
-                    $project = Project::where('id', $cart['item']['id'])->first();
-                    $saleType = $project->step2_slug;
-                    $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
+                $saleType = $housing->step2_slug;
+            } else {
+                $project = Project::where('id', $cart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+                $projectHousings = ProjectHousing::where('project_id', $project->id)->get();
 
-                    $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
-                        $projectHousingsList[$item->room_order][$item->name] = $item->value;
-                    });
-                }
+                $combinedValues = $projectHousings->map(function ($item) use (&$projectHousingsList) {
+                    $projectHousingsList[$item->room_order][$item->name] = $item->value;
+                });
             }
-
-            return view('payment.neighbor.index', compact('order', 'bankAccounts', 'cart', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
         }
 
-        return view('payment.neighbor.index');
+        return view('payment.neighbor.index', compact('order', 'bankAccounts', 'cart', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
 }

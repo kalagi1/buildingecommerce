@@ -111,6 +111,15 @@
         "activePath": "qR9zLp2xS6y/secured/users/orders"
     },
     {
+        "id": "ChangePhone",
+        "label": "Üye Yönetimi",
+        "icon": "phone",
+        "text": "Cep Güncelleme Talepleri",
+        "key": "ChangePhone",
+        "url": "admin.change.phone.index",
+        "activePath": "qR9zLp2xS6y/secured/change-phone"
+    },
+    {
         "id": "home",
         "label": "Yönetim",
         "icon": "home",
@@ -201,6 +210,7 @@
         "url": "admin.messages",
         "activePath": "qR9zLp2xS6y/secured/messages"
     },
+    
     {
         "id": "ad-banners",
         "label": "Yönetim",

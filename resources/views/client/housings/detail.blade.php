@@ -932,7 +932,7 @@
                                 </div>
                                 <div class="modal fade" id="takasModal" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Takas Formu</h5>
@@ -1317,6 +1317,8 @@
 
                                                     <button type="submit"
                                                         style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
+                                                        <button type="button" data-bs-dismiss="modal"
+                                                        style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
                                                 </form>
                                             </div>
 

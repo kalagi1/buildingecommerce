@@ -81,7 +81,7 @@
                                     <li> <button>
                                             <a href="whatsapp://send?text={{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"
                                                 style="color: green">
-                                                <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
+                                                <i class="fa fa-whatsapp"></i><span>Paylaş</span>
                                             </a>
                                         </button></li>
 
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="collection-navigation"><a
                                         href="{{ route('club.dashboard', ['slug' => Str::slug($item->name), 'userID' => $item->id]) }}"><span>Koleksiyonlara
-                                            Git</span> ({{ count($item->collections) }} Koleksiyon)</a>
+                                            Git</span> <br> ({{ count($item->collections) }} Koleksiyon)</a>
                                 </div>
                             </div>
                         </div>
@@ -129,13 +129,12 @@
                                         class="collection-owner"
                                         src="{{ url('storage/profile_images/' . $collection->user->profile_image) }}"><span
                                         class="label with-image"> {{ $store->name }} <i class="fa fa-angle-right"></i>
-                                        {{ \Illuminate\Support\Str::limit($collection->name, 100, '...') }}
-                                        Koleksiyonu</span></a></div>
+                                        {{ $collection->name }} Koleksiyonu</span></a></div>
                             <ul class="collection-actions">
                                 <li> <button>
                                         <a href="whatsapp://send?text={{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"
                                             style="color: green">
-                                            <i class="fa fa-whatsapp"></i><span>Whatsapp'ta Paylaş</span>
+                                            <i class="fa fa-whatsapp"></i><span> Paylaş</span>
                                         </a>
                                     </button></li>
 
@@ -167,7 +166,7 @@
                                         {{ count($collection->clicks) }}</span>
                                 </div><a
                                     href="{{ route('sharer.links.showClientLinks', ['slug' => Str::slug($store->name), 'userid' => $store->id, 'id' => $collection->id]) }}"><span>Koleksiyona
-                                        Git</span> ({{ count($collection->links) }} İlan)</a>
+                                        Git</span><br>({{ count($collection->links) }} İlan)</a>
                             </div>
                         </div>
                     </div>

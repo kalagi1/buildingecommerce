@@ -153,7 +153,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Sat Kirala nedir?
                                             </button>
@@ -169,7 +169,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingTwo">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Hangi Gayrimenkuller Sat Kirala ile satılabilir?
                                             </button>
@@ -194,7 +194,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingFour">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                                 Süreç nasıl işliyor?
                                             </button>
@@ -218,7 +218,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingThree">
-                                    <h2 class="mb-0">
+                                    <h3 class="mb-0">
                                         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                             Satış süreci ne kadar sürüyor?
                                         </button>
@@ -241,7 +241,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Sat Kirala sistemi ile yayınladığım ilanımın fiyatı nasıl belirleniyor?
                                             </button>
@@ -257,7 +257,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingTwo">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 Satış gerçekleştiğinde mülk sahibinden komisyon alınıyor mu?
                                             </button>
@@ -279,7 +279,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Sat kirala üzerinden nasıl randevu alabilirim?
                                             </button>
@@ -305,7 +305,7 @@
 
                                 <div class="card accordionCard">
                                     <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
+                                        <h3 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 Başvuru ve Onay Süreci
                                             </button>
