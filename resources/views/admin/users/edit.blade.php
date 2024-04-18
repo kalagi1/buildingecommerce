@@ -284,10 +284,11 @@
                                         @endif
                                     </div>
                                     <div class="mt-3">
-                                        <label class="q-label">Yetkili İsim Soyisim</label>
+                                        <label class="form-label">Yetkili İsim Soyisim</label>
                                         <input type="text" name="username"
                                             class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
-                                            value="{{ old('username') }}">
+                                            value="{{ $userDetail->username }}">
+
                                         @if ($errors->has('username'))
                                             <span class="error-message">{{ $errors->first('username') }}</span>
                                         @endif
@@ -398,7 +399,7 @@
                                             <div class="corporate-input input-city">
                                                 <div class="mbdef">
                                                     <div class="select select-tax-office">
-                                                        <label for="" class="q-label">Vergi Dairesi
+                                                        <label for="" class="form-label">Vergi Dairesi
                                                             İli</label>
                                                         <select id="taxOfficeCity"
                                                             class="form-control {{ $errors->has('taxOfficeCity') ? 'error-border' : '' }}"
@@ -425,7 +426,7 @@
                                             <div class="corporate-input input-city">
                                                 <div class="mbdef">
                                                     <div class="select select-tax-office">
-                                                        <label for="" class="q-label">Vergi Dairesi
+                                                        <label for="" class="form-label">Vergi Dairesi
                                                         </label>
 
                                                         <select id="taxOffice"
@@ -452,7 +453,7 @@
 
 
                                         <div class="mt-3">
-                                            <label for="" class="q-label">İl</label>
+                                            <label for="" class="form-label">İl</label>
                                             <select
                                                 class="form-control {{ $errors->has('city_id') ? 'error-border' : '' }}"
                                                 id="citySelect" name="city_id">
@@ -470,7 +471,7 @@
                                             @endif
                                         </div>
                                         <div class="mt-3">
-                                            <label for="" class="q-label">İlçe</label>
+                                            <label for="" class="form-label">İlçe</label>
                                             <select
                                                 class="form-control {{ $errors->has('county_id') ? 'error-border' : '' }}"
                                                 name="county_id" id="countySelect">
@@ -481,7 +482,7 @@
                                             @endif
                                         </div>
                                         <div class="mt-3">
-                                            <label for="" class="q-label">Mahalle</label>
+                                            <label for="" class="form-label">Mahalle</label>
                                             <select
                                                 class="form-control {{ $errors->has('neighborhood_id') ? 'error-border' : '' }}"
                                                 name="neighborhood_id" id="neighborhoodSelect">
@@ -494,25 +495,28 @@
                                         </div>
 
                                         <div class="mt-3">
-                                            <label for="" class="q-label">İşletme Türü</label>
+                                            <label for="" class="form-label">İşletme Türü</label>
                                             <div class="companyType">
-                                                <label for="of"><input type="radio" class="input-radio off"
-                                                        id="of" name="account_type" value="1"
-                                                        {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
-                                                    Şirketi</label>
-                                                <label for="on"><input type="radio" class="input-radio off"
-                                                        id="on" name="account_type" value="2"
-                                                        {{ old('account_type') == 2 ? 'checked' : '' }}> Limited veya
-                                                    Anonim Şirketi</label>
+                                                <label for="of">
+                                                    <input type="radio" class="input-radio off" id="of" name="account_type" value="1"
+                                                        {{ $userDetail->account_type == 1 ? 'checked' : '' }}>
+                                                    Şahıs Şirketi
+                                                </label>
+                                                <label for="on">
+                                                    <input type="radio" class="input-radio off" id="on" name="account_type" value="2"
+                                                        {{ $userDetail->account_type == 2 ? 'checked' : '' }}>
+                                                    Limited veya Anonim Şirketi
+                                                </label>
                                             </div>
                                         </div>
-
+                                        
                                         <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
                                                 id="idNumberDiv">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
-                                                            <label for="" class="q-label">TC Kimlik No</label>
+                                                            <label for="" class="form-label">TC Kimlik No</label>
+
                                                             <input type="text" id="idNumber" name="idNumber"
                                                                 class="form-control" value="{{ old('idNumber') }}">
                                                         </div>
