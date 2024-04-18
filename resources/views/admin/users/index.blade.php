@@ -7,7 +7,7 @@
                 <div id="userList">
                     <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center mt-5">
                         <div class="col-auto">
-                            <h2 class="mb-0">Üyeler
+                            <h3 class="mb-0">Üyeler
 
                             </h2>
 
@@ -100,7 +100,7 @@
                                                         class="d-flex align-items-center px-1 py-1 bg-warning-100 rounded me-2">
                                                         <span class="text-warning-600 dark__text-warning-300"
                                                             data-feather="grid"></span>
-                                                    </div><span>Belgeler</span>
+                                                    </div><span>Telefon</span>
                                                 </div>
                                             </th>
                                             <th class="sort align-middle ps-4 pe-5 text-uppercase border-end" scope="col"
@@ -201,6 +201,13 @@
                                                     class="email align-middle white-space-nowrap fw-semi-bold ps-4 border-end">
                                                     <a class="text-1000"
                                                         href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+
+                                                        @if($user->type == 2)
+                                                        <br>
+                                                        <a
+                                                            href="{{ route('admin.user.show-corporate-account', ['user' => $user->id]) }}">Belgeleri Onayla</a>
+                
+                                                       @endif
                                                 </td>
                                                 <td
                                                     class="contact align-middle white-space-nowrap ps-4 border-end fw-semi-bold text-1000">
@@ -217,8 +224,13 @@
                                                 </td>
                                                 <td
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
-                                                    <a
-                                                        href="{{ route('admin.user.show-corporate-account', ['user' => $user->id]) }}">İncele</a>
+
+                                                    @if($user->type = '2' || !$user->parent_id == NULL)
+                                                        <p>Cep No = <a href="tel:{{ $user->mobile_phone }}" class="text-success"> <strong>{{ $user->mobile_phone ? $user->mobile_phone : 'Belirtilmemiş' }}</strong> </a> </p>
+                                                        <p>İş No =  <a href="tel:{{ $user->phone }}" class="text-success"> <strong>{{ $user->phone ? $user->phone : 'Belirtilmemiş' }}</strong> </a> </p>
+                                                    @else
+                                                        <p>Cep No = <a href="tel:{{ $user->mobile_phone }}" class="text-success"> <strong>{{ $user->mobile_phone ? $user->mobile_phone : 'Belirtilmemiş' }}</strong> </a> </p>
+                                                    @endif
                                                 </td>
                                                 <td
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">

@@ -24,10 +24,7 @@ class FormController extends Controller {
             $formData[ 'ruhsat_belgesi' ] = $ruhsatFileName;
         }
 
-        // Store ID'yi ekle
     $formData['store_id'] = $request->input('store_id');
-
-    // Veritabanına kaydet
     Form::create($formData);
 
     // Başarılı bir şekilde kaydedildiğine dair mesaj gönder

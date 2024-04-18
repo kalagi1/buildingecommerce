@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import EditorToolbar, { modules, formats } from "./QuilToolbar";
 import BlockRooms from './BlockRooms';
 import Rooms from './Rooms';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { baseUrl } from '../../define/variables';
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { fromAddress, setDefaults } from 'react-geocode';
@@ -354,7 +354,7 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                 <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="Proje Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
                 <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"situations"} setProjectDataFunc={setProjectDataFunc} title="Vaziyet & Kat Planı" multiple={true}/>
                 <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Ruhsat Belgesi / Tapu Belgesi" multiple={false}/>
-                <FinishArea createProject={createProject}/>
+                <FinishArea allErrors={allErrors} projectData={projectData} setProjectDataFunc={setProjectDataFunc} createProject={createProject}/>
             </div>
         </div>
     )

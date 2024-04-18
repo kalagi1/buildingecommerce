@@ -8,7 +8,7 @@
                 data-list='{"valueNames":["id","name","subject","action"],"page":12,"pagination":true}'>
                 <div class="row justify-content-between mb-4 gx-6 gy-3 align-items-center">
                     <div class="col-auto">
-                        <h2 class="mb-0">Banka Hesapları<span class="fw-normal text-700 ms-3">({{ count($bankAccounts) }})</span>
+                        <h3 class="mb-0">Banka Hesapları<span class="fw-normal text-700 ms-3">({{ count($bankAccounts) }})</span>
                         </h2>
                     </div>
                     <div class="col-auto">

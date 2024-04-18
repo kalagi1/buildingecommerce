@@ -457,22 +457,6 @@
         });
     </script>
     
-
-    <script>
-        var errorMessage = "{{ session('error') }}";
-
-        if (errorMessage) {
-            Toastify({
-                text: errorMessage,
-                duration: 5000,
-                gravity: 'bottom',
-                position: 'center',
-                backgroundColor: '#ff4d4d',
-                stopOnFocus: true,
-            }).showToast();
-        }
-    </script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             fetchChatHistory();

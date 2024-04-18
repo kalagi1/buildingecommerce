@@ -107,6 +107,7 @@
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
                             @php
                                 $advertiseTitle = $projectHousingsList[$housingOrder]['advertise_title[]'] ?? null;
+                                $isSwap = $projectHousingsList[$housingOrder]['swap[]'] ?? null;
                                 $status = optional($sold)->status;
                             @endphp
 
@@ -430,6 +431,7 @@
                                 </div>
                             </div>
 
+                            @if ($isSwap == '["Evet"]')
                             <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                 <div class="add-to-collection-button-wrapper">
                                     <div class="add-to-collection-button">
@@ -472,7 +474,7 @@
                             </div>
                             <div class="modal fade" id="takasModal" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Takas Formu</h5>
@@ -858,12 +860,17 @@
 
                                                 <button type="submit"
                                                     style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
+                                                    <button type="button" data-bs-dismiss="modal"
+                                                    style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
                                             </form>
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
+                            @endif
+
+                          
                         </div>
                     @endif
 

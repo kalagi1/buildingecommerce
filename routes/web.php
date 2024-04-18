@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ChangePhoneController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
@@ -105,8 +106,8 @@ Route::post('/update-collection-status', [HomeController::class, 'updateCollecti
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
 Route::get('/neighbors' , [NeighborViewController::class, 'index'])->name('neighbors.index');
 Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
-Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment');
-Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment');
+Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
+Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
 Route::post('/neighbor/payment', [NeighborViewController::class, 'initiate3DPayment'])->name('neighbor.3d.pay');
 Route::get('/emlak-kulup/{slug}/{userid}/koleksiyonlar/{id}', [SharerController::class, "showClientLinks"])->name('sharer.links.showClientLinks');
 Route::get('/sat-kirala-nedir', [RealEstateController::class, "index2"])->name('real.estate.index2');
@@ -221,8 +222,12 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::get('/club_user_applications', [AdminEstateClubController::class, "list"])->name('estate.club.users.list');
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class, "seeApplications"])->name('estate.see.users.list');
-
+  
     Route::get('/admin', [AdminHomeController::class, "index"]);
+
+    Route::get('/change-phone',  [ChangePhoneController::class, "index"])->name('change.phone.index');
+    Route::post('/change-phone-number-status-by-user/{userId}', [ChangePhoneController::class, 'changePhoneNumberStatusByUser'])->name('change-phone-number-status-by-user');
+
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class, "changeStatus"])->name('changeStatus');
     Route::post('/changeStatusNeighbor/{applyId}/{action}',  [AdminEstateClubController::class, "changeStatusNeighbor"])->name('changeStatusNeighbor');
@@ -798,6 +803,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('get/identity-document', [InstitutionalUserController::class, 'getIdentityDocument'])->name('get.identity-document');
     Route::get('get/company-document', [InstitutionalUserController::class, 'getCompanyDocument'])->name('get.company-document');
 
+
+
+
     // Offers - Kampanyalar
     Route::middleware(['checkPermission:CreateOffer'])->group(function () {
         Route::get('/offers/create', [InstitutionalOfferController::class, 'create'])->name('offers.create');
@@ -911,6 +919,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/profile/edit', [InstitutionalProfileController::class, "edit"])->name('profile.edit');
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
         Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
+
+        Route::put('/profile/phone', [InstitutionalProfileController::class, "editPhone"])->name('edit.phone');
 
         Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
         Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
@@ -1133,6 +1143,7 @@ Route::group(['prefix' => 'react'], function () {
     Route::post('/save_payment_status', [ApiProjectController::class, "savePaymentStatus"]);
     Route::post('/save_template', [ApiProjectController::class, "saveTemplate"]);
     Route::get('/last_data', [ApiProjectController::class, "getLastData"]);
+    Route::get('/get_invoice_data/{cartId}', [ApiProjectController::class, "getInvoiceData"]);
 });
 
 Route::post('give_offer', [ClientProjectController::class, 'give_offer'])->name('give_offer');
