@@ -385,42 +385,51 @@
                         </div>
                     </div>
                     @php
-                        $itemPrice = $cart['item']['amount'];
+                    $itemPrice = $cart['item']['amount'];
+                    if ($cart['hasCounter']) {
+                        if ($cart['type'] == 'housing') {
+                            $housing = App\Models\Housing::find($cart['item']['id']);
+                            $housingData = json_decode($housing->housing_type_data);
+                            $discountRate = $housingData->discount_rate[0] ?? 0;
 
-                        if ($cart['hasCounter']) {
-                            if ($cart['type'] == 'housing') {
-                                $housing = App\Models\Housing::find($cart['item']['id']);
-                                $housingData = json_decode($housing->housing_type_data);
-                                $discountRate = $housingData->discount_rate[0] ?? 0;
-
-                                $housingAmount = $itemPrice - $housingDiscountAmount;
-                                $discountedPrice = $housingAmount - ($housingAmount * $discountRate) / 100;
-                            } else {
-                                $project = App\Models\Project::find($cart['item']['id']);
-                                $roomOrder = $cart['item']['housing'];
-                                $projectHousing = App\Models\ProjectHousing::where('project_id', $project->id)
-                                    ->where('room_order', $roomOrder)
-                                    ->get()
-                                    ->keyBy('name');
-
-                                $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
-                                $projectAmount = $itemPrice - $projectDiscountAmount;
-                                $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
-                            }
+                            $housingAmount = $itemPrice - $housingDiscountAmount;
+                            $discountedPrice =
+                                $housingAmount - ($housingAmount * $discountRate) / 100;
                         } else {
-                            $discountedPrice = $itemPrice;
-                            $discountRate = 0;
+                            $project = App\Models\Project::find($cart['item']['id']);
+                            $roomOrder = $cart['item']['housing'];
+                            $projectHousing = App\Models\ProjectHousing::where(
+                                'project_id',
+                                $project->id,
+                            )
+                                ->where('room_order', $roomOrder)
+                                ->get()
+                                ->keyBy('name');
+                            $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
+                            $projectAmount = $itemPrice - $projectDiscountAmount;
+                            $discountedPrice =
+                                $projectAmount - ($projectAmount * $discountRate) / 100;
                         }
-                        $selectedPaymentOption = request('paymentOption');
-                        $itemPrice =
-                            $selectedPaymentOption === 'taksitli' && isset($cart['item']['installmentPrice'])
-                                ? $cart['item']['installmentPrice']
-                                : $discountedPrice;
+                    } else {
+                        $discountedPrice = $itemPrice;
+                        $discountRate = 0;
+                    }
+                    $selectedPaymentOption = request('paymentOption');
+                    $itemPrice =
+                        $selectedPaymentOption === 'taksitli' &&
+                        isset($cart['item']['installmentPrice'])
+                            ? $cart['item']['installmentPrice']
+                            : $discountedPrice;
+                    $discountedPrice =
+                        $itemPrice -
+                        ($housingDiscountAmount
+                            ? $housingDiscountAmount
+                            : $projectDiscountAmount);
 
-                        $displayedPrice = number_format($itemPrice, 0, ',', '.');
-                        $share_sale = $cart['item']['isShare'] ?? null;
-                        $number_of_share = $cart['item']['numbershare'] ?? null;
-                    @endphp
+                    $displayedPrice = number_format($discountedPrice, 0, ',', '.');
+                    $share_sale = $cart['item']['isShare'] ?? null;
+                    $number_of_share = $cart['item']['numbershare'] ?? null;
+                @endphp
                     <div class="col-md-12 col-lg-12 col-xl-7">
                         <div class="tr-single-box">
                             <div class="tr-single-body">
