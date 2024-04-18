@@ -53,7 +53,7 @@
                                     <div class="mt-3">
                                         <label class="q-label">Cep Telefon</label>
                                         <input type="number" name="mobile_phone" class="form-control" id="phone"
-                                            value="{{ old('mobile_phone', $user->mobile_phone) }}">
+                                            value="{{ old('mobile_phone', $user->mobile_phone) }}" maxlength="10">
                                         <span id="error_message" class="error-message"></span>
                                     </div>
 
@@ -74,7 +74,7 @@
                                         <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>
                                             <input type="number" name="phone" class="form-control" id="landPhone"
-                                                value="{{ old('phone', $user->phone) }}">
+                                                value="{{ old('phone', $user->phone) }}" maxlength="10">
                                             <span id="error_message_land_phone" class="error-message"></span>
                                         </div>
                                         <div class="mt-3">
@@ -144,11 +144,20 @@
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message_land_phone").text(
-                        "Lütfen sabit telefon numarasını belirtilen formatta girin. Örneğin: (222) 111 22 33"
+                        "Lütfen geçerli bir telefon numarası giriniz."
                         );
                 } else {
                     $("#error_message_land_phone").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#landPhone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
             });
         });
     </script>
@@ -160,10 +169,19 @@
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(
-                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                        "Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                     $("#error_message").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
             });
         });
     </script>
