@@ -754,7 +754,7 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
+                                                                <input class="form-check-input mt-0" type="radio"
                                                                     name="payment_option" id="option1" value="option1"
                                                                     checked>
                                                                 <label class="form-check-label pt-1 ml-2  mb-2 offset-md-1"
@@ -765,7 +765,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
+                                                                <input class="form-check-input mt-0" type="radio"
                                                                     name="payment_option" id="option2" value="option2">
                                                                 <label class="form-check-label pt-1 ml-2 mb-2 offset-md-1"
                                                                     for="option2">
