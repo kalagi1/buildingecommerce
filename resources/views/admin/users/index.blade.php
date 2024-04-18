@@ -225,11 +225,12 @@
                                                 <td
                                                     class="company align-middle white-space-nowrap text-600 ps-4 border-end fw-semi-bold text-1000">
 
-                                                    @if($user->type = '2' || !$user->parent_id == NULL)
+                                                    @if($user->type == '1')
+                                                    <p>Cep No = <a href="tel:{{ $user->mobile_phone }}" class="text-success"> <strong>{{ $user->mobile_phone ? $user->mobile_phone : 'Belirtilmemiş' }}</strong> </a> </p>
+                                                    @else
+                                                        
                                                         <p>Cep No = <a href="tel:{{ $user->mobile_phone }}" class="text-success"> <strong>{{ $user->mobile_phone ? $user->mobile_phone : 'Belirtilmemiş' }}</strong> </a> </p>
                                                         <p>İş No =  <a href="tel:{{ $user->phone }}" class="text-success"> <strong>{{ $user->phone ? $user->phone : 'Belirtilmemiş' }}</strong> </a> </p>
-                                                    @else
-                                                        <p>Cep No = <a href="tel:{{ $user->mobile_phone }}" class="text-success"> <strong>{{ $user->mobile_phone ? $user->mobile_phone : 'Belirtilmemiş' }}</strong> </a> </p>
                                                     @endif
                                                 </td>
                                                 <td
