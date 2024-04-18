@@ -229,10 +229,11 @@ class PayController extends Controller
 
     private function preparePaymentData($requestData, $orderId, $amount, $transaction)
     {
-        // $clientId = '190100000';
-        // $storeKey = '123456';
-        $clientId = '190933121';
-        $storeKey = 'MasteR3457';
+
+        $clientId = '190100000';
+        $storeKey = '123456';
+        // $clientId = '190933121';
+        // $storeKey = 'MasteR3457';
         $expDateMonth = $requestData['month'];
         $expDateYear = $requestData['year'];
         $okUrl = url('/resultpaymentsuccess');
@@ -245,6 +246,9 @@ class PayController extends Controller
         $hashAlgorithm = 'ver3';
         $currency = '949';
         $lang = 'tr';
+
+        $creditCardNumbers = implode('', $requestData['creditcard']);
+
 
         $data = [
             'amount' => $amount,
@@ -259,7 +263,7 @@ class PayController extends Controller
             'lang' => $lang,
             'oid' => $transaction,
             'okurl' => $okUrl,
-            'pan' => $requestData['creditcard'],
+            'pan' => $creditCardNumbers,
             'rnd' => $rnd,
             'storetype' => $storetype,
             'taksit'  => '',
