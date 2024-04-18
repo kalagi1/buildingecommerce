@@ -31,7 +31,7 @@
                                 <label class="form-label">Telefon</label>
                                 <input type="number" name="phone"
                                     class="form-control @error('phone') is-invalid @enderror"
-                                    value="{{ old('phone', $user->phone) }}" id="phone">
+                                    value="{{ old('phone', $user->phone) }}" id="phone" maxlength="10">
                                     <span id="error_message" class="error-message"></span>
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -541,10 +541,19 @@
         var pattern = /^5[1-9]\d{8}$/;
     
         if (!pattern.test(phoneNumber)) {
-          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+          $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
         } else {
           $("#error_message").text("");
         }
+             // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+             $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
       });
     });
     </script>

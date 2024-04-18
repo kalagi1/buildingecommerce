@@ -441,7 +441,7 @@
                                         <div class="col-sm-6">
                                             <label for="phone">Telefon:</label>
                                             <input type="number" class="form-control" id="phone" name="phone"
-                                                required>
+                                                required maxlength="10">
                                                 <span id="error_message" class="error-message"></span>
                                         </div>
                                         <div class="col-sm-6">
@@ -798,10 +798,19 @@
                 var pattern = /^5[1-9]\d{8}$/;
             
                 if (!pattern.test(phoneNumber)) {
-                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                  $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                   $("#error_message").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
               });
             });
             </script>

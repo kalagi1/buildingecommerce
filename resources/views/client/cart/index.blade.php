@@ -335,8 +335,8 @@
                                                     class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @else
-                                            <li>Toplam Fiyatın %2 Kaporası :<strong
-                                                    class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                            <li>Toplam Fiyatın %4 Kaporası :<strong
+                                                    class="pull-right">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @endif
 
@@ -370,7 +370,7 @@
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
-                                            class="button-price-inner">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}</span>
+                                            class="button-price-inner">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </a>
                                 @endif
@@ -519,7 +519,7 @@
                                             <div class="form-group">
                                                 <label for="phone">Telefon:</label>
                                                 <input type="tel" class="form-control" id="phone" name="phone"
-                                                    required>
+                                                    required maxlength="10">
                                                     <span id="error_message" class="error-message"></span>
                                             </div>
                                         </div>
@@ -730,10 +730,20 @@
                 var pattern = /^5[1-9]\d{8}$/;
             
                 if (!pattern.test(phoneNumber)) { 
-                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                  $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                   $("#error_message").text("");
                 }
+
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
               });
             });
             </script>
