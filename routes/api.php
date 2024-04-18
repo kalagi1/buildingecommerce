@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\Client\FormController;
 use App\Http\Controllers\Api\Client\HousingController;
 use App\Http\Controllers\Api\Client\MenuController;
 use App\Http\Controllers\Api\Institutional\ProjectController as InstitutionalProjectController;
-
+use App\Http\Controllers\Api\Client\TaxOfficeController;
 
 use App\Http\Controllers\Api\Client\ProjectController;
 use App\Http\Controllers\Api\Client\RealEstateController;
@@ -86,3 +86,5 @@ Route::post('/remove_pay_dec_item', [TempOrderController::class, 'removePayDecIt
 Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
 Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
 Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
+Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");

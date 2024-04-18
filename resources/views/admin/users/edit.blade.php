@@ -288,6 +288,7 @@
                                         <input type="text" name="username"
                                             class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
                                             value="{{ $userDetail->username }}">
+
                                         @if ($errors->has('username'))
                                             <span class="error-message">{{ $errors->first('username') }}</span>
                                         @endif
@@ -509,13 +510,13 @@
                                             </div>
                                         </div>
                                         
-
                                         <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
                                                 id="idNumberDiv">
                                                 <div class="corporate-input input-city">
                                                     <div class="mbdef">
                                                         <div class="select select-tax-office">
                                                             <label for="" class="form-label">TC Kimlik No</label>
+
                                                             <input type="text" id="idNumber" name="idNumber"
                                                                 class="form-control" value="{{ old('idNumber') }}">
                                                         </div>

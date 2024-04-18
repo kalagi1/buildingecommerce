@@ -97,7 +97,7 @@
                                             <a href="{{ route('password.request') }}"><span>Şifremi Unuttum</span></a>
                                         </div>
 
-                                        <button class="btn btn-primary q-button" type="submit"> Giriş Yap</button>
+                                        <button class="btn btn-primary q-button" type="submit">Giriş Yap</button>
 
                                         <div class="social-account-login-buttons pb-3">
                                             <div class="q-layout social-login-button flex flex-1">
@@ -236,7 +236,7 @@
                                         <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
                                             id="corporateForm">
                                             <!-- E-Posta -->
-                                            <div class="mt-3">
+                                            {{-- <div class="mt-3">
                                                 <label class="q-label">Yetkili İsim Soyisim</label>
                                                 <input type="text" name="username"
                                                     class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
@@ -244,7 +244,7 @@
                                                 @if ($errors->has('username'))
                                                     <span class="error-message">{{ $errors->first('username') }}</span>
                                                 @endif
-                                            </div>
+                                            </div> --}}
 
 
                                             <!-- Firma Adı -->
