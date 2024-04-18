@@ -110,6 +110,7 @@
                                     @php
                                         $housingDiscountAmount = 0;
                                         $projectDiscountAmount = 0;
+                                        $deposit_rate = 0.04;
 
                                         if ($cart['type'] == 'housing') {
                                             $housingOffer = App\Models\Offer::where('type', 'housing')
@@ -117,6 +118,8 @@
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
+                                                $deposit_rate = 0.04;
+
 
                                             $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
                                         } else {
@@ -138,6 +141,8 @@
                                                 ->first();
 
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
+                                            $deposit_rate = $project->deposit_rate * 100;
+
                                         }
 
                                     @endphp
@@ -335,8 +340,8 @@
                                                     class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @else
-                                            <li>Toplam Fiyatın %4 Kaporası :<strong
-                                                    class="pull-right">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
+                                            <li>Kapora :<strong
+                                                    class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @endif
 
@@ -370,7 +375,7 @@
                                         class="btn btn-primary btn-lg btn-block paymentButton button-price"
                                         style="height: 50px !important;font-size: 11px;margin: 0 auto;">
                                         <span
-                                            class="button-price-inner">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}</span>
+                                            class="button-price-inner">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}</span>
                                         TL <br> KAPORA ÖDE
                                     </a>
                                 @endif
