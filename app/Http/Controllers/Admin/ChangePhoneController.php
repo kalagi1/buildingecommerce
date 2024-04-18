@@ -33,8 +33,11 @@ class ChangePhoneController extends Controller
     
         // Telefon numarasını değiştir ve durumu güncelle
         $user->mobile_phone = $newPhoneNumber;
+
+        $user->phone_verification_status= '0';
+        $user->phone_verification_status= null;
         $phoneNumber->phone_number_changed = 1;
-    
+        
         // Kayıtları kaydet
         $user->save();
         $phoneNumber->save();
