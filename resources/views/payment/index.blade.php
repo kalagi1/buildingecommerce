@@ -841,7 +841,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mrg-bot-20" style="width:100% !important">
-                                                            <div class="col-sm-6 col-md-6 p-0">
+                                                            <div class="col-sm-6 col-md-6 p-0 pl-0">
                                                                 <label>Son Kullanma Ayı</label>
                                                                 {{-- <input type="number" class="form-control" id="month"
                                                             name="month" placeholder="09"> --}}
@@ -861,7 +861,7 @@
                                                                     <option value="12">Aralık</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-sm-6 col-md-6 pr-0">
+                                                            <div class="col-sm-6 col-md-6 pr-0 pl-0">
                                                                 <label>Son Kullanma Yılı</label>
                                                                 <select class="form-control" id="year"
                                                                     name="year">
