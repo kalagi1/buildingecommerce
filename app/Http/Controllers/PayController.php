@@ -70,9 +70,6 @@ class PayController extends Controller
             $cart = json_decode($cartItem->cart, true);
         }
 
-
-
-        // dd($cart);
         $bankAccounts = BankAccount::all();
 
 
@@ -230,10 +227,10 @@ class PayController extends Controller
     private function preparePaymentData($requestData, $orderId, $amount, $transaction)
     {
 
-        $clientId = '190100000';
-        $storeKey = '123456';
-        // $clientId = '190933121';
-        // $storeKey = 'MasteR3457';
+        // $clientId = '190100000';
+        // $storeKey = '123456';
+        $clientId = '190933121';
+        $storeKey = 'MasteR3457';
         $expDateMonth = $requestData['month'];
         $expDateYear = $requestData['year'];
         $okUrl = url('/resultpaymentsuccess');
@@ -489,13 +486,17 @@ class PayController extends Controller
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
+            $deposit_rate = 0.04;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
+                $deposit_rate = 0.04;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
+                $deposit_rate = $project->deposit_rate / 100;
             }
+
 
             if ($saleType == 'kiralik') {
                 if ($coupon) {
@@ -575,10 +576,10 @@ class PayController extends Controller
                             $haveDiscount = true;
                             if ($coupon->discount_type == 1) {
                                 $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                                $amount = number_format($amount * 0.04, 2, ',', '.');
+                                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                             } else {
                                 $amount = $amountWithoutDiscount - $coupon->amount;
-                                $amount = number_format($amount * 0.04, 2, ',', '.');
+                                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                             }
                         } else if ($coupon->select_housings_type == 2) {
                             $couponHousings = array_keys($coupon->housings->keyBy('item_id')->toArray());
@@ -586,30 +587,30 @@ class PayController extends Controller
                                 $haveDiscount = true;
                                 if ($coupon->discount_type == 1) {
                                     $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                                    $amount = number_format($amount * 0.04, 2, ',', '.');
+                                    $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                                 } else {
                                     $amount = $amountWithoutDiscount - $coupon->amount;
-                                    $amount = number_format($amount * 0.04, 2, ',', '.');
+                                    $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                                 }
                             } else {
                                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                                 $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                                $amount = number_format($amount * 0.04, 2, ',', '.');
+                                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                             }
                         } else {
                             $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                             $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                            $amount = number_format($amount * 0.04, 2, ',', '.');
+                            $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                         }
                     } else {
                         if ($coupon->select_projects_type == 1) {
                             if ($coupon->discount_type == 1) {
                                 $haveDiscount = true;
                                 $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                                $amount = number_format($amount * 0.04, 2, ',', '.');
+                                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                             } else {
                                 $amount = $amountWithoutDiscount - $coupon->amount;
-                                $amount = number_format($amount * 0.04, 2, ',', '.');
+                                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                             }
                         } else if ($coupon->select_projects_type == 2) {
                             $couponProjects = array_keys($coupon->projects->keyBy('item_id')->toArray());
@@ -617,38 +618,41 @@ class PayController extends Controller
                                 $haveDiscount = true;
                                 if ($coupon->discount_type == 1) {
                                     $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($coupon->amount / 100));
-                                    $amount = number_format($amount * 0.04, 2, ',', '.');
+                                    $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                                 } else {
                                     $amount = $amountWithoutDiscount - $coupon->amount;
-                                    $amount = number_format($amount * 0.04, 2, ',', '.');
+                                    $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                                 }
                             } else {
                                 $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                                 $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                                $amount = number_format($amount * 0.04, 2, ',', '.');
+                                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                             }
                         } else {
                             $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                             $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                            $amount = number_format($amount * 0.04, 2, ',', '.');
+                            $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                         }
                     }
                 } else {
                     $discountRate = floatval($cartJson['item']['discount_rate'] ?? 0);
                     $amount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    $amount = number_format($amount * 0.04, 2, ',', '.');
+                    $amount = number_format($amount * $deposit_rate, 2, ',', '.');
                 }
             }
         } else {
             $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
             $cart = json_decode($cartItem->cart, true);
+            $deposit_rate = 0.04;
             if ($cart['type'] == 'housing') {
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
+                $deposit_rate = 0.04;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
+                $deposit_rate = $project->deposit_rate / 100;
             }
 
             if ($saleType == 'kiralik') {
@@ -664,7 +668,7 @@ class PayController extends Controller
                 }
                 $amount = $amountWithoutDiscount - $discountX;
 
-                $amount = number_format($amount * 0.04, 2, ',', '.');
+                $amount = number_format($amount * $deposit_rate, 2, ',', '.');
             }
         }
         $order->amount = $amount;
@@ -723,8 +727,8 @@ class PayController extends Controller
                     $sharedAmount_balance = $newAmount * $share_percent_balance;
                     $sharedAmount_earn = $newAmount * $share_percent_earn;
                 } else {
-                    $sharedAmount_balance = $newAmount * 0.04 * $share_percent_balance;
-                    $sharedAmount_earn = $newAmount * 0.04 * $share_percent_earn;
+                    $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent_balance;
+                    $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
                 }
 
                 UseCoupon::create([
@@ -775,8 +779,8 @@ class PayController extends Controller
                         $sharedAmount_balance = $newAmount * $share_percent_balance;
                         $sharedAmount_earn = $newAmount * $share_percent_earn;
                     } else {
-                        $sharedAmount_balance = $newAmount * 0.04 * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * 0.04 * $share_percent_earn;
+                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
                     }
 
                     if ($collection->user_id != Auth::user()->id) {
@@ -816,8 +820,8 @@ class PayController extends Controller
                         $sharedAmount_balance = $newAmount * $share_percent_balance;
                         $sharedAmount_earn = $newAmount * $share_percent_earn;
                     } else {
-                        $sharedAmount_balance = $newAmount * 0.04 * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * 0.04 * $share_percent_earn;
+                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
                     }
 
                     CartPrice::create([
@@ -852,8 +856,8 @@ class PayController extends Controller
                         $sharedAmount_balance = $newAmount * $share_percent_balance;
                         $sharedAmount_earn = $newAmount * $share_percent_earn;
                     } else {
-                        $sharedAmount_balance = $newAmount * 0.04 * $share_percent_balance;
-                        $sharedAmount_earn = $newAmount * 0.04 * $share_percent_earn;
+                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent_balance;
+                        $sharedAmount_earn = $newAmount * $deposit_rate * $share_percent_earn;
                     }
 
                     CartPrice::create([
@@ -901,7 +905,7 @@ class PayController extends Controller
                 if ($saleType == 'kiralik') {
                     $sharedAmount_balance = $newAmount * $share_percent;
                 } else {
-                    $sharedAmount_balance = $newAmount * 0.04 * $share_percent;
+                    $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent;
                 }
 
                 UseCoupon::create([
@@ -942,7 +946,7 @@ class PayController extends Controller
                     if ($saleType == 'kiralik') {
                         $sharedAmount_balance = $newAmount * $share_percent;
                     } else {
-                        $sharedAmount_balance = $newAmount * 0.04 * $share_percent;
+                        $sharedAmount_balance = $newAmount * $deposit_rate * $share_percent;
                     }
 
                     if ($collection->user_id != Auth::user()->id) {
@@ -961,7 +965,7 @@ class PayController extends Controller
                             'user_id' => $order->user_id,
                             'cart_id' => $order->id,
                             'status' => '1',
-                            'earn' => $cartJson['item']['amount'] * 0.04,
+                            'earn' => $cartJson['item']['amount'] * $deposit_rate,
                             'earn2' => 0,
                         ]);
                     }
@@ -972,7 +976,7 @@ class PayController extends Controller
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '1',
-                        'earn' => $newAmount * 0.04,
+                        'earn' => $newAmount * $deposit_rate,
                         'earn2' => 0,
 
                     ]);
@@ -983,7 +987,7 @@ class PayController extends Controller
                         'user_id' => $order->user_id,
                         'cart_id' => $order->id,
                         'status' => '1',
-                        'earn' => $newAmount * 0.04,
+                        'earn' => $newAmount * $deposit_rate,
                         'earn2' => 0,
 
                     ]);

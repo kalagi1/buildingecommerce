@@ -83,44 +83,44 @@
                             @foreach ($cartOrders as $order)
                                 @php($o = json_decode($order->cart))
                                 @php(
-                                $project =
-                                    $o->type == 'project'
-                                        ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
-                                        : null
-                            )
-    
-    
+                            $project =
+                                $o->type == 'project'
+                                    ? App\Models\Project::with('roomInfo')->where('id', $o->item->id)->first()
+                                    : null,
+                        )
+
+
                                 <div class="order">
                                     <div class="order-header">
                                         <?php
                                         $tarih = date('d F Y', strtotime($order->created_at));
                                         $tarih = str_replace(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'], $tarih);
                                         ?>
-    
+
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b style="font-weight:700 !important">Sipariş Detayı </b>
-    
+
                                         </div>
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>Sipariş Tarihi: {{ $tarih }} </b>
-    
+
                                         </div>
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>
                                                 Alıcı: {{ Auth::user()->name }}
                                             </b>
                                         </div>
-    
+
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>
                                                 Tutar: <span style="color: #EA2B2E;font-weight:700 !important">
                                                     {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.04, 0, ',', '.') }}
                                                     ₺</span>
                                             </b>
-    
+
                                         </div>
-    
-    
+
+
                                     </div>
                                     <div class="order-list d-flex justify-content-between">
                                         <div class="order-item-images d-flex">
@@ -139,25 +139,25 @@
                                                 @else
                                                     <strong>
                                                         {{ mb_convert_case($project->project_title, MB_CASE_TITLE, 'UTF-8') }}{{ ' ' }}Projesinde
-    
+
                                                         {{ ' ' }}
                                                         {{ json_decode($order->cart)->item->housing }} {{ "No'lu" }}
                                                         {{ $project->step1_slug }}
                                                     </strong>
                                                 @endif
-    
+
                                                 <br>
-    
+
                                                 <span> {!! [
                                                     '0' =>
                                                         '<i class="fa fa-exclamation-circle text-warning"></i><span class="text-warning ml-2"> Rezerve Edildi</span>',
                                                     '1' => '<i class="fa fa-check-circle text-success"></i><span class="text-success ml-2"> Ödeme Onaylandı</span>',
                                                     '2' => '<i class="fa fa-times-circle text-danger"></i><span class="text-danger ml-2"> Ödeme Reddedildi</span>',
                                                 ][$order->status] !!}</span>
-    
+
                                             </div>
-    
-    
+
+
                                         </div>
                                         <div>
                                             @if ($order->invoice)
@@ -194,7 +194,7 @@
                                                             style="color: #EA2B2E;font-weight:700 !important">
                                                             {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.04, 0, ',', '.') }}
                                                             ₺</span></div>
-    
+
                                             </div>
                                         </div>
                                     </div>
@@ -204,12 +204,12 @@
                             <span class="text-center">Sipariş Bulunamadı</span>
                         @endif
                     </div>
-    
-    
+
+
                 </div>
-    
-    
-                
+
+
+
             </div>
 
 

@@ -9,12 +9,24 @@
             {{ session('error') }}
         </div>
     @endif
-    {{-- @php
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'];
-        $uri = $_SERVER['REQUEST_URI'];
-        $shareUrl = $protocol . '://' . $host . $uri;
-    @endphp --}}
+    @php
+        
+        $deposit_rate = 0.04;
+        $discount_percent = 4;
+            if ($cart['type'] == 'housing') {
+                $housing = \App\Models\Housing::where('id', $cart['item']['id'])->first();
+                $saleType = $housing->step2_slug;
+                $deposit_rate = 0.04;
+                $discount_percent = 4;
+
+            } else {
+                $project = \App\Models\Project::where('id', $cart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+                $deposit_rate = $project->deposit_rate / 100;
+                $discount_percent =  $project->deposit_rate;
+
+            }
+    @endphp
     <section class="payment-method notfound">
         <div class="container  pt-5">
 
@@ -126,22 +138,6 @@
                                 <div class="box-2 text-end ">
 
                                     <div class="icon-boxs flex">
-                                        {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
-                                        {{-- <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="18" cy="5" r="3" />
-                                        <circle cx="6" cy="12" r="3" />
-                                        <circle cx="18" cy="19" r="3" />
-                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                                    </svg>
-                                </a> --}}
                                         <a
                                             href="{{ $cart['type'] == 'housing'
                                                 ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
@@ -158,11 +154,6 @@
                                             İLANI GÖR
                                         </a>
 
-                                        {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.3222 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
                                     </div>
                                     <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                         {{ number_format($cart['item']['amount'], 0, ',', '.') }}
@@ -229,9 +220,6 @@
                                                 Satılık {{ $housing->housing_type_title }}
                                             @endif
                                         </div>
-                                        {{-- <div class="text-address">
-                                    
-                                </div> --}}
                                         <div class="years-icon flex align-center">
                                             <i class="fa fa-map-marker"></i>
                                             <p class="text-color-2">
@@ -242,7 +230,6 @@
                                         </div>
                                         <div class="icon-inner flex">
                                             <div class="view-icon flex align-center">
-                                                {{-- <i class="far fa-eye"></i> --}}
                                                 <p class="text-color-2">{{ $housing->create_company }}</p>
                                             </div>
                                         </div>
@@ -309,22 +296,6 @@
                                 </div>
                                 <div class="box-2 text-end">
                                     <div class="icon-boxs flex">
-                                        {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15.75 6.1875C15.75 4.32375 14.1758 2.8125 12.234 2.8125C10.7828 2.8125 9.53625 3.657 9 4.86225C8.46375 3.657 7.21725 2.8125 5.76525 2.8125C3.825 2.8125 2.25 4.32375 2.25 6.1875C2.25 11.6025 9 15.1875 9 15.1875C9 15.1875 15.75 11.6025 15.75 6.1875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
-                                        {{-- <a href="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="18" cy="5" r="3" />
-                                        <circle cx="6" cy="12" r="3" />
-                                        <circle cx="18" cy="19" r="3" />
-                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                                    </svg>
-                                </a> --}}
                                         <a
                                             href="{{ $cart['type'] == 'housing'
                                                 ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
@@ -341,16 +312,10 @@
                                             İLANI GÖR
                                         </a>
 
-                                        {{-- <a href="#">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.04 10.3718C4.86 10.3943 4.68 10.4183 4.5 10.4438M5.04 10.3718C7.66969 10.0418 10.3303 10.0418 12.96 10.3718M5.04 10.3718L4.755 13.5M12.96 10.3718C13.14 10.3943 13.32 10.4183 13.5 10.4438M12.96 10.3718L13.245 13.5L13.4167 15.3923C13.4274 15.509 13.4136 15.6267 13.3762 15.7378C13.3388 15.8489 13.2787 15.951 13.1996 16.0376C13.1206 16.1242 13.0244 16.1933 12.9172 16.2407C12.8099 16.288 12.694 16.3125 12.5767 16.3125H5.42325C4.92675 16.3125 4.53825 15.8865 4.58325 15.3923L4.755 13.5M4.755 13.5H3.9375C3.48995 13.5 3.06072 13.3222 2.74426 13.0057C2.42779 12.6893 2.25 12.2601 2.25 11.8125V7.092C2.25 6.28125 2.826 5.58075 3.62775 5.46075C4.10471 5.3894 4.58306 5.32764 5.0625 5.2755M13.2435 13.5H14.0618C14.2834 13.5001 14.5029 13.4565 14.7078 13.3718C14.9126 13.287 15.0987 13.1627 15.2555 13.006C15.4123 12.8493 15.5366 12.6632 15.6215 12.4585C15.7063 12.2537 15.75 12.0342 15.75 11.8125V7.092C15.75 6.28125 15.174 5.58075 14.3723 5.46075C13.8953 5.38941 13.4169 5.32764 12.9375 5.2755M12.9375 5.2755C10.3202 4.99073 7.67978 4.99073 5.0625 5.2755M12.9375 5.2755V2.53125C12.9375 2.0655 12.5595 1.6875 12.0938 1.6875H5.90625C5.4405 1.6875 5.0625 2.0655 5.0625 2.53125V5.2755M13.5 7.875H13.506V7.881H13.5V7.875ZM11.25 7.875H11.256V7.881H11.25V7.875Z" stroke="#8E8E93" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </a> --}}
                                     </div>
                                     <div class="moneys fs-30 fw-7 lh-45 text-color-3">
                                         {{ number_format($cart['item']['amount'], 0, ',', '.') }}
                                         TL</div>
-                                    {{-- <div class="text-sq fs-12 lh-16">1964 Sq Ft</div> --}}
 
                                     <div class="show-mobile">
                                         <a
@@ -570,7 +535,7 @@
                                                 </select>
                                             @endif
                                         </div>
-                                      
+
 
 
                                         @if (isset($cart) && isset($cart['type']))
@@ -617,17 +582,18 @@
                                         </div>
 
                                         @if ($project->step2_slug)
-                                        @if ($project->step2_slug == 'satilik')
-                                            <div class="col-sm-12 pt-2">
-                                                <div class="d-flex align-items-center mb-3">
-                                                    <input id="checkSignature" type="checkbox" name="checkSignature">
-                                                    <label for="checkSignature" class="m-0 ml-1 text-black">
-                                                       Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi kabul ve beyan ediyorum.
-                                                    </label>
+                                            @if ($project->step2_slug == 'satilik')
+                                                <div class="col-sm-12 pt-2">
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <input id="checkSignature" type="checkbox" name="checkSignature">
+                                                        <label for="checkSignature" class="m-0 ml-1 text-black">
+                                                            Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi
+                                                            kabul ve beyan ediyorum.
+                                                        </label>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endif
-                                    @endif
                                     </div>
                                 </form>
                             </div>
@@ -699,8 +665,8 @@
                                                                 class="pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                                 TL</strong></li>
                                                     @else
-                                                        <li>Toplam Fiyatın %4 Kaporası :<strong
-                                                                class="pull-right">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
+                                                        <li> %{{$discount_percent}} Kapora:<strong
+                                                                class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                                 TL</strong></li>
                                                     @endif
 
@@ -725,7 +691,7 @@
                                         @else
                                             <div>
                                                 <div class="text-success">Ödenecek Tutar :<strong
-                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
+                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                         TL</strong></div>
 
                                             </div>
@@ -740,7 +706,7 @@
                                         @else
                                             <div id="other-amount">
                                                 <div class="text-success">Ödenecek Tutar : <strong
-                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
+                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                         TL</strong></div>
                                             </div>
                                         @endif
@@ -1213,7 +1179,7 @@
             @if ($saleType == 'kiralik')
                 payableAmount = {{ $discountedPrice }};
             @else
-                payableAmount = {{ $discountedPrice * 0.04 }};
+                payableAmount = {{ $discountedPrice * $deposit_rate }};
             @endif
         @endif
         // Ödeme tutarını form alanına yerleştir
