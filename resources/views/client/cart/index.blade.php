@@ -111,6 +111,7 @@
                                         $housingDiscountAmount = 0;
                                         $projectDiscountAmount = 0;
                                         $deposit_rate = 0.04;
+                                        $discount_percent = 4;
 
                                         if ($cart['type'] == 'housing') {
                                             $housingOffer = App\Models\Offer::where('type', 'housing')
@@ -118,8 +119,8 @@
                                                 ->where('start_date', '<=', now())
                                                 ->where('end_date', '>=', now())
                                                 ->first();
-                                                $deposit_rate = 0.04;
-
+                                            $deposit_rate = 0.04;
+                                            $discount_percent = 4;
 
                                             $housingDiscountAmount = $housingOffer ? $housingOffer->discount_amount : 0;
                                         } else {
@@ -141,10 +142,11 @@
                                                 ->first();
 
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                            $deposit_rate = optional(App\Models\Project::find($cart['item']['id']))->deposit_rate / 100;
-
+                                            $deposit_rate =
+                                                optional(App\Models\Project::find($cart['item']['id']))->deposit_rate /
+                                                100;
+                                            $discount_percent = $project->deposit_rate;
                                         }
-
                                     @endphp
                                     <tr>
                                         <td class="image myelist">
@@ -247,10 +249,10 @@
                                         <td>
                                             <span style="width:100%;text-align:center">
 
-                                                
-                                               
 
-                                                @if (isset($share_sale) &&  count($share_sale) > 0)
+
+
+                                                @if (isset($share_sale) && count($share_sale) > 0)
                                                     <div
                                                         class="text-center w-100 d-flex align-items-center justify-content-center mb-3">
                                                         <button
@@ -340,7 +342,7 @@
                                                     class="pull-right">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @else
-                                            <li>Kapora :<strong
+                                            <li>%{{ $discount_percent }} Kapora :<strong
                                                     class="pull-right">{{ number_format($discountedPrice * $deposit_rate, 0, ',', '.') }}
                                                     TL</strong></li>
                                         @endif
@@ -525,7 +527,7 @@
                                                 <label for="phone">Telefon:</label>
                                                 <input type="tel" class="form-control" id="phone" name="phone"
                                                     required maxlength="10">
-                                                    <span id="error_message" class="error-message"></span>
+                                                <span id="error_message" class="error-message"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -628,6 +630,7 @@
             color: red;
             font-size: 11px;
         }
+
         #loadingIndicator {
             color: #007bff;
         }
@@ -728,30 +731,30 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <script>
-            $(document).ready(function(){
-                $("#phone").on("input blur", function(){
+    <script>
+        $(document).ready(function() {
+            $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[1-9]\d{8}$/;
-            
-                if (!pattern.test(phoneNumber)) { 
-                  $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
-                  $("#error_message").text("");
+                    $("#error_message").text("");
                 }
 
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
-              });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
-            </script>
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
