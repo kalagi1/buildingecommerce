@@ -13,11 +13,11 @@
         
         $deposit_rate = 0.04;
             if ($cart['type'] == 'housing') {
-                $housing = Housing::where('id', $cart['item']['id'])->first();
+                $housing = \App\Models\Housing::where('id', $cart['item']['id'])->first();
                 $saleType = $housing->step2_slug;
                 $deposit_rate = 0.04;
             } else {
-                $project = Project::where('id', $cart['item']['id'])->first();
+                $project = \App\Models\Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
                 $deposit_rate = $project->deposit_rate * 100;
             }
