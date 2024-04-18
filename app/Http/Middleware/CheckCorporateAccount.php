@@ -26,6 +26,7 @@ class CheckCorporateAccount
         'institutional.profile.edit',
         'institutional.profile.update',
         'client.logout',
+        'institutional.edit.phone',
     ];
 
     /**
