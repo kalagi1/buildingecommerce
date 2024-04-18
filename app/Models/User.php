@@ -160,4 +160,8 @@ class User extends Authenticatable
         return $this->belongsTo(UserPlan::class, "id", "user_id");
     }
 
+    public function phoneNumbers()
+    {
+        return $this->hasMany(PhoneNumber::class);
+    }
 }

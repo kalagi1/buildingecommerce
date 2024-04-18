@@ -259,10 +259,12 @@ class ProjectController extends Controller
 
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
+            
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title,
+                "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image),
                 "meta_author" => "Emlak Sepette"
             ];
 

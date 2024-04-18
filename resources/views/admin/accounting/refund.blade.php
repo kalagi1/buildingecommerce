@@ -7,7 +7,7 @@
     <div class="mb-9">
         <div class="row g-3 mb-4">
             <div class="col-auto">
-                <h2 class="mb-0">İade Tablosu</h2>
+                <h3 class="mb-0">İade Tablosu</h2>
             </div>
         </div>
         <div id="orderTable"
