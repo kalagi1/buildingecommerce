@@ -18,7 +18,8 @@
         ];
     @endphp
         @php
-        
+                                            $orderCart = json_decode($order->cart, true);
+
         $deposit_rate = 0.04;
         $discount_percent = 4;
             if ($orderCart['type'] == 'housing') {
@@ -142,9 +143,6 @@
                                 </div>
 
 
-                                @php
-                                    $orderCart = json_decode($order->cart, true);
-                                @endphp
                                 <div class="col-md-4 text-center">
                                     <p>İlan No</p>
 
