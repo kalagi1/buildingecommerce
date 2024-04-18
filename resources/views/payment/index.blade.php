@@ -570,18 +570,7 @@
                                                 </select>
                                             @endif
                                         </div>
-                                        @if ($project->step2_slug)
-                                            @if ($project->step2_slug == 'satilik')
-                                                <div class="col-sm-12 pt-2">
-                                                    <div class="d-flex align-items-center mb-3">
-                                                        <input id="checkSignature" type="checkbox" name="checkSignature">
-                                                        <label for="checkPay" class="m-0 ml-1 text-black">
-                                                           Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi kabul ve beyan ediyorum.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endif
+                                      
 
 
                                         @if (isset($cart) && isset($cart['type']))
@@ -626,6 +615,19 @@
                                                 </label>
                                             </div>
                                         </div>
+
+                                        @if ($project->step2_slug)
+                                        @if ($project->step2_slug == 'satilik')
+                                            <div class="col-sm-12 pt-2">
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <input id="checkSignature" type="checkbox" name="checkSignature">
+                                                    <label for="checkSignature" class="m-0 ml-1 text-black">
+                                                       Sözleşme aslını imzalamak için 7 iş günü içerisinde geleceğimi kabul ve beyan ediyorum.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
                                     </div>
                                 </form>
                             </div>
@@ -1456,7 +1458,7 @@
                 $('#checkSignature').css({
                     "border": "1px solid red"
                 });
-                return;
+                return false;
             }
 
             // Kullanıcı bilgileri mevcutsa formu gönder
