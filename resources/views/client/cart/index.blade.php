@@ -141,7 +141,7 @@
                                                 ->first();
 
                                             $projectDiscountAmount = $projectOffer ? $projectOffer->discount_amount : 0;
-                                            $deposit_rate = optional(App\Models\Project::find($cart['item']['id']))->deposit_rate * 100;
+                                            $deposit_rate = optional(App\Models\Project::find($cart['item']['id']))->deposit_rate / 100;
 
                                         }
 

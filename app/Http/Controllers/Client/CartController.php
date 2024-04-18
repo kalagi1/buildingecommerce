@@ -104,7 +104,7 @@ class CartController extends Controller
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
-                $deposit_rate = $project->deposit_rate * 100;
+                $deposit_rate = $project->deposit_rate / 100;
             }
 
             if ($saleType == 'kiralik') {
@@ -262,7 +262,7 @@ class CartController extends Controller
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
-                $deposit_rate = $project->deposit_rate * 100;
+                $deposit_rate = $project->deposit_rate / 100;
             }
 
             if ($saleType == 'kiralik') {

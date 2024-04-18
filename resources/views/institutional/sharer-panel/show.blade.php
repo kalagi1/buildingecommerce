@@ -45,7 +45,7 @@
                                             $number_of_share = $item['project_values']['number_of_shares[]'] ?? null;
                                             $price = $item['project_values']['price[]'] - $item['discount_amount'];
                                             $discountedPrice = $price - ($price * $discountRate) / 100;
-                                            $deposit_rate = $item['project']->deposit_rate * 100;
+                                            $deposit_rate = $item['project']->deposit_rate / 100;
                                         }
                                     @endphp
 

@@ -19,7 +19,7 @@
             } else {
                 $project = \App\Models\Project::where('id', $cart['item']['id'])->first();
                 $saleType = $project->step2_slug;
-                $deposit_rate = $project->deposit_rate * 100;
+                $deposit_rate = $project->deposit_rate / 100;
                 echo $deposit_rate;
             }
     @endphp
