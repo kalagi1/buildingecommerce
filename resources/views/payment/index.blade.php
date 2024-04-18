@@ -593,7 +593,7 @@
                                             @if (
                                                 ($cart['type'] == 'project' && isset($share_sale) && $share_sale == '[]') ||
                                                     ($cart['type'] == 'project' && empty($share_sale)))
-                                                <div class="col-sm-12 pt-5">
+                                                <div class="col-sm-12 pt-2">
                                                     <div class="d-flex align-items-center mb-3">
                                                         <input id="is_show_user" type="checkbox" value="off"
                                                             name="is_show_user">
@@ -601,7 +601,7 @@
 
                                                         <i class="fa fa-info-circle ml-2 mobile-hidden"
                                                         title="Komşumu Gör özelliğini aktif ettiğinizde, diğer komşularınızın sizin iletişim bilgilerinize ulaşmasına izin vermiş olursunuz."
-                                                        style="font-size: 18px; color: black;"></i> <br>
+                                                        style="font-size: 18px; color: black;"></i> 
                                                     <label for="is_show_user" class="m-0 ml-1 text-black">
                                                         Komşumu Gör özelliği ile iletişim bilgilerimi paylaşmayı
                                                         kabul
