@@ -206,11 +206,7 @@
 
                                             @if ($off_sale_check && !$sold_check && $share_sale_empty)
 
-                                                <h6
-                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                    {{ number_format($discounted_price, 0, ',', '.') }}
-                                                    ₺
-                                                </h6>
+                                           
                                                 @if ($projectDiscountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
@@ -226,6 +222,12 @@
                                                         ₺
                                                     </del>
                                                 @endif
+                                                <h6
+                                                style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
+                                                {{ number_format($discounted_price, 0, ',', '.') }}
+                                                ₺
+                                            </h6>
+                                            <h6  style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                             @elseif(
                                                 (isset($share_sale) &&
                                                     $share_sale != '[]' &&
