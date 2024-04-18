@@ -14217,7 +14217,7 @@ a.button {
 
 label {
     font-size: 11px;
-    line-height: 15px;
+    line-height: 15px !important;
     font-weight: 400;
     margin-bottom: 5px;
     color: #000;
