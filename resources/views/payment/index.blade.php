@@ -680,8 +680,8 @@
                                                                 class="pull-right ">{{ number_format($discountedPrice, 0, ',', '.') }}
                                                                 TL</strong></li>
                                                     @else
-                                                        <li>Toplam Fiyatın %2 Kaporası :<strong
-                                                                class="pull-right">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                        <li>Toplam Fiyatın %4 Kaporası :<strong
+                                                                class="pull-right">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
                                                                 TL</strong></li>
                                                     @endif
 
@@ -706,7 +706,7 @@
                                         @else
                                             <div>
                                                 <div class="text-success">Ödenecek Tutar :<strong
-                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
                                                         TL</strong></div>
 
                                             </div>
@@ -721,7 +721,7 @@
                                         @else
                                             <div id="other-amount">
                                                 <div class="text-success">Ödenecek Tutar : <strong
-                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.02, 0, ',', '.') }}
+                                                        class="button-price-inner pull-right text-success">{{ number_format($discountedPrice * 0.04, 0, ',', '.') }}
                                                         TL</strong></div>
                                             </div>
                                         @endif
@@ -1042,7 +1042,7 @@
             @if ($saleType == 'kiralik')
                 payableAmount = {{ $discountedPrice }};
             @else
-                payableAmount = {{ $discountedPrice * 0.02 }};
+                payableAmount = {{ $discountedPrice * 0.04 }};
             @endif
         @endif
         // Ödeme tutarını form alanına yerleştir

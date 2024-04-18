@@ -114,7 +114,7 @@
                                         <div class="order-header-info" style="flex-direction: column;">
                                             <b>
                                                 Tutar: <span style="color: #EA2B2E;font-weight:700 !important">
-                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.02, 0, ',', '.') }}
+                                                    {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.04, 0, ',', '.') }}
                                                     ₺</span>
                                             </b>
     
@@ -192,7 +192,7 @@
                                                 <div class="price-info"><span class="price-text">Ödenen Kapora
                                                         Miktarı</span><span class="price-amount"><span
                                                             style="color: #EA2B2E;font-weight:700 !important">
-                                                            {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.02, 0, ',', '.') }}
+                                                            {{ number_format(floatval(str_replace('.', '', json_decode($order->cart)->item->price)) * 0.04, 0, ',', '.') }}
                                                             ₺</span></div>
     
                                             </div>

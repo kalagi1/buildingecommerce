@@ -159,7 +159,7 @@
                                                                     ->price[0]
                                                                 : json_decode($item['housing']['housing_type_data'])
                                                                     ->daily_rent[0];
-                                                            $earningAmount = $discountedPrice * 0.02 * $sharePercent;
+                                                            $earningAmount = $discountedPrice * 0.04 * $sharePercent;
                                                         @endphp
                                                         <strong>
 
@@ -173,7 +173,7 @@
                                                                     : isset($item['project_values']['price[]']))
                                                                 ? $item['project_values']['price[]']
                                                                 : $item['project_values']['daily_rent[]'];
-                                                            $earningAmount = $discountedPrice * 0.02 * $sharePercent;
+                                                            $earningAmount = $discountedPrice * 0.04 * $sharePercent;
                                                         @endphp
                                                         <strong>
                                                             @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
@@ -369,7 +369,7 @@
                                                                 ->price[0]
                                                             : json_decode($item['housing']['housing_type_data'])
                                                                 ->daily_rent[0];
-                                                        $earningAmount = $discountedPrice * 0.02 * $sharePercent;
+                                                        $earningAmount = $discountedPrice * 0.04 * $sharePercent;
                                                     @endphp
                                                     <strong>
 
@@ -383,7 +383,7 @@
                                                                 : isset($item['project_values']['price[]']))
                                                             ? $item['project_values']['price[]']
                                                             : $item['project_values']['daily_rent[]'];
-                                                        $earningAmount = $discountedPrice * 0.02 * $sharePercent;
+                                                        $earningAmount = $discountedPrice * 0.04 * $sharePercent;
                                                     @endphp
                                                     <strong>
                                                         @if (isset($share_sale) && $share_sale != "[]" && $number_of_share != 0)
