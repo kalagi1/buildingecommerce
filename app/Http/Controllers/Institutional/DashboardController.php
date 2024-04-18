@@ -159,7 +159,7 @@ class DashboardController extends Controller
         $name = $user->name;
 
         // SMS metni oluştur
-        $message = "$user->phone_verification_code nolu onay kod ile hesabınızı güvenli bir şekilde doğrulayabilirsiniz.";
+        $message = "$user->phone_verification_code nolu onay kodu ile hesabınızı güvenli bir şekilde doğrulayabilirsiniz.";
       
         // SMS gönderme işlemi
         $smsService = new SmsService();
