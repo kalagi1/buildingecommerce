@@ -7,7 +7,7 @@
                 <div class="card shadow-sm border-300 border-bottom mb-4">
 
                     <div class="card-body">
-                        @if ($errors->any())
+                        {{-- @if ($errors->any())
                             <div class="alert alert-danger text-white">
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
@@ -15,7 +15,7 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
+                        @endif --}}
                         {{-- @if (session('success'))
                             <div class="alert alert-success text-white text-white">
                                 {{ session('success') }}
@@ -124,7 +124,7 @@
 
 
 
-            <div class="col-7">
+            <div class="col-md-7 col-12">
                 <div class="card shadow-sm border-300 border-bottom mb-4">
                     <div class="card-body">
                         @if ($errors->any())
@@ -191,7 +191,7 @@
                 </div>
             </div>
 
-            <div class="col-5">
+            <div class="col-md-5 col-12">
                 <div class="card shadow-sm border-100 border-bottom mb-4">
                     <div class="card-body">
                         <p class="card-text">Belge formatı:</p>

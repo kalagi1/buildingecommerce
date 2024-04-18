@@ -44,6 +44,10 @@ class CheckCorporateAccount
         {
             return redirect()->route('institutional.corporate-account-verification');
         }
+        elseif(auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && request()->route()->getName() == 'institutional.corporate-account-verification' )
+        {
+            return redirect()->route('institutional.phone.verification');
+        }
         elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && !in_array(request()->route()->getName(), $this->whitelist))
         {
          
