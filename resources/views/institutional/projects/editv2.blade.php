@@ -109,8 +109,12 @@
                         </div>
                         <div class="form-group description-field">
                             <label for="">İlan Açıklaması <span class="required">*</span></label>
-                            <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
-                                class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
+                            <div id="editor2">
+                                {!! isset($tempData->description) ? $tempData->description : '' !!}
+                            </div>
+                              
+                            {{-- <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
+                                class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea> --}}
                         </div>
 
                         <div class="card p-3 mb-4">
@@ -303,6 +307,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -317,6 +323,68 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async defer></script>
 
     <script>
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video', 'formula'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+
+            ['clean']                                         // remove formatting button
+        ];
+        const quill = new Quill('#editor2', {
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarOptions,
+            }
+        });
+
+        console.log($('#editor2').html());
+
+        $('#editor2').on('text-change',() => {
+            console.log("asd");
+        })
+
+        quill.on('text-change', function(delta, oldDelta, source) {
+            if (quill.container.firstChild.innerHTML != "") {
+                descriptionText = "evet var";
+
+            }
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                "content");
+
+
+            // Verileri FormData nesnesine ekleyin
+            const formData = new FormData();
+            formData.append('_token', csrfToken);
+            formData.append('value', quill.container.firstChild.innerHTML);
+            formData.append('key', "description");
+            formData.append('item_type', 3);
+
+            // AJAX isteği gönderin
+            fetch("{{ route('institutional.temp.order.data.change') }}", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(data => {
+                    // Sunucu yanıtını işleyebilirsiniz.
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
         var nextTemp = false;
         var housingImages = [];
         var descriptionText =
