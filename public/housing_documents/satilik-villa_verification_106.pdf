@@ -11,7 +11,7 @@
                                     <div class="col-sm-6">
                                         <div class="invoice-name text-end">
                                             <div class="logo">
-                                                <img class="logo" src="https://test.emlaksepette.com//images/emlaksepettelogo.png" alt="logo">
+                                                <img class="logo" src="https://test.emlaksepette.com/images/emlaksepettelogo.png" alt="logo">
                                             </div>
                                         </div>
                                     </div>
@@ -23,7 +23,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <img src="https://test.emlaksepette.com//housing_images/yatirim-firsati-cevizli-tamirhane-konumu-islek-satilik-dukkan-1.jpg" style="width:200px">
+                                                    <img src="https://test.emlaksepette.com/housing_images/yatirim-firsati-cevizli-tamirhane-konumu-islek-satilik-dukkan-1.jpg" style="width:200px">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -95,7 +95,7 @@
                                                 <li><strong>Hesap:</strong>
                                                     Garanti Bankası</li>
                                                 <li><strong>Ödeme Şekli</strong> EFT/HAVALE</li>
-                                                <li><strong>Web Adresi</strong> <a href="https://test.emlaksepette.com//">https://test.emlaksepette.com//</a></li>
+                                                <li><strong>Web Adresi</strong> <a href="https://test.emlaksepette.com/">https://test.emlaksepette.com/</a></li>
 
                                             </ul>
                                         </div>

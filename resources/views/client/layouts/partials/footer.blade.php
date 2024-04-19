@@ -1492,7 +1492,7 @@ if (successMessage) {
         $('body').on("click", ".toggle-favorite", toggleFavorite);
 
     });
-    const appUrl = "https://test.emlaksepette.com//"; // Uygulama URL'si
+    const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
     let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
     function showSearchingMessage() {
@@ -1639,7 +1639,7 @@ if (successMessage) {
     })
     'use strict';
     $(function() {
-        const appUrl = "https://test.emlaksepette.com//"; // Uygulama URL'si
+        const appUrl = "https://test.emlaksepette.com/"; // Uygulama URL'si
         let timeout; // AJAX isteği için zamanlayıcı değişkeni
 
         function showSearchingMessage() {
