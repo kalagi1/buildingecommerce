@@ -635,7 +635,8 @@
 
                     </div>
 
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
+
                         <form action="{{ route('neighborView.index') }}" method="POST">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $sold->id }}">
