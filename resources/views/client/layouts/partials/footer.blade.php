@@ -689,10 +689,10 @@
                                  
 
                                         var projectedEarningsData = "";
-                                        // var projectedEarnings = getDataJS(response,
-                                        //     "projected_earnings", response.room_info[i]
-                                        //     .room_order);
-                                        var projectedEarnings = 10;
+                                        var projectedEarnings = getDataJS(response,
+                                            "projected_earnings", response.room_info[i]
+                                            .room_order);
+                                        // var projectedEarnings = 10;
                                         var svgCode =
                                             '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
                                         var projectedEarningsHTML = projectedEarnings ? svgCode +
