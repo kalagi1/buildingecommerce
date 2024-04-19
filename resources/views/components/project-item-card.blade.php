@@ -206,7 +206,7 @@
 
                                             @if ($off_sale_check && !$sold_check && $share_sale_empty)
 
-                                           
+
                                                 @if ($projectDiscountAmount)
                                                     <svg viewBox="0 0 24 24" width="18" height="18"
                                                         stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
@@ -223,11 +223,13 @@
                                                     </del>
                                                 @endif
                                                 <h6
-                                                style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
-                                                {{ number_format($discounted_price, 0, ',', '.') }}
-                                                ₺
-                                            </h6>
-                                            <h6  style="color: #27bb53 !important;">(Kampanyalı)</h6>
+                                                    style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
+                                                    {{ number_format($discounted_price, 0, ',', '.') }}
+                                                    ₺
+                                                </h6>
+                                                @if ($projectDiscountAmount)
+                                                    <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
+                                                @endif
                                             @elseif(
                                                 (isset($share_sale) &&
                                                     $share_sale != '[]' &&
@@ -313,7 +315,7 @@
                                     @if (!$neighborView && $sold->status == '1' && isset($sold->is_show_user) && $sold->is_show_user == 'on' && !$isUserSame)
                                         <span class="first-btn see-my-neighbor"
                                             @if (Auth::check()) data-bs-toggle="modal" data-bs-target="#neighborViewModal{{ $sold->id }}" data-order="{{ $sold->id }}" @else onclick="window.location.href='{{ route('client.login') }}'" @endif>
-                                                                                                
+
                                             <span><svg viewBox="0 0 24 24" width="18" height="18"
                                                     stroke="currentColor" stroke-width="2" fill="none"
                                                     stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
@@ -505,7 +507,7 @@
                                     <label for="surname" class="q-label">Telefon Numarası : </label>
                                     <input type="number" class="modal-input" placeholder="Telefon Numarası"
                                         id="phone" name="phone">
-                                        <span id="error_message" class="error-message"></span>
+                                    <span id="error_message" class="error-message"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -603,14 +605,14 @@
                                             <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
                                                     aria-hidden="true"></i>Ödeme işlemini tamamlayın ve belirtilen
                                                 tutarı ödediğiniz taktirde,
-                                                </li>
+                                            </li>
                                             <li><i class="fa fa-circle circleIcon mr-1" style="color: #EA2B2E ;"
                                                     aria-hidden="true"></i>Ödemeniz onaylandıktan sonra, "Komşumu Gör"
                                                 düğmesi
                                                 aktif olacak ve komşunuzun iletişim bilgilerine ulaşabileceksiniz.</li>
                                         </ul>
                                     </div>
-                              
+
 
                                 </div>
                             </div>
@@ -621,7 +623,8 @@
                             <form action="{{ route('neighborView.index') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $sold->id }}">
-                                <button type="submit" class="btn btn-success btn-lg btn-block mt-3" style="width:150px;float:right">
+                                <button type="submit" class="btn btn-success btn-lg btn-block mt-3"
+                                    style="width:150px;float:right">
                                     250 TL Öde
                                 </button>
                             </form>
@@ -678,11 +681,9 @@
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        
+
 
         <script>
-           
-
             function generateRandomCode() {
                 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
                 const codeLength = 8; // Kod uzunluğu
