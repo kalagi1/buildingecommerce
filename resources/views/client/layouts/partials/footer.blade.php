@@ -689,6 +689,7 @@
                                  
 
                                         var projectedEarningsData = "";
+                                        console.log(response);
                                         var projectedEarnings = getDataJS(response,
                                             "projected_earnings", response.room_info[i]
                                             .room_order);
