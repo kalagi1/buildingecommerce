@@ -221,12 +221,19 @@
                                                         {{ number_format($projectHousingsList[$keyIndex]['price[]'], 0, ',', '.') }}
                                                         ₺
                                                     </del>
+                                                    <h6
+                                                        style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
+                                                        {{ number_format($discounted_price, 0, ',', '.') }}
+                                                        ₺
+                                                    </h6>
+                                                @else
+                                                    <h6
+                                                        style="color:#274abb; position: relative; top: 4px; font-weight: 700">
+                                                        {{ number_format($discounted_price, 0, ',', '.') }}
+                                                        ₺
+                                                    </h6>
                                                 @endif
-                                                <h6
-                                                    style="color: #27bb53 !important; position: relative; top: 4px; font-weight: 700">
-                                                    {{ number_format($discounted_price, 0, ',', '.') }}
-                                                    ₺
-                                                </h6>
+                                          
                                                 @if ($projectDiscountAmount)
                                                     <h6 style="color: #27bb53 !important;">(Kampanyalı)</h6>
                                                 @endif
