@@ -576,6 +576,7 @@
     });
     $('body').on('click', '.payment-plan-button', function(event) {
         var order = $(this).attr('order');
+        console.log(order);
         var block = $(this).data("block");
         var paymentOrder = $(this).data("payment-order");
         var soldStatus = $(this).data('sold');
