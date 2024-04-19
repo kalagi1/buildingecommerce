@@ -161,10 +161,19 @@
     </div>
     <div class="payment-plan-pop-content">
         <div class="payment-plan-pop-close-icon"><i class="fa fa-times"></i></div>
-
+        
         <div class="my-properties">
             <table class="payment-plan table">
-
+                {{-- route('project.housings.detail', [
+                                                            'projectSlug' =>
+                                                                optional(App\Models\Project::find($orderCart['item']['id']))->slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($orderCart['item']['id']))->step2_slug .
+                                                                '-' .
+                                                                optional(App\Models\Project::find($orderCart['item']['id']))->housingtype->slug,
+                                                            'projectID' => optional(App\Models\Project::find($orderCart['item']['id']))->id + 1000000,
+                                                            'housingOrder' => $orderCart['item']['housing'],
+                                                        )] }}"> --}}
                 <tbody>
                     <tr>
                         <td>Peşin</td>
@@ -269,6 +278,14 @@
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script>
+    function shareStore(url) {
+        // WhatsApp üzerinde paylaşım yapmak için aşağıdaki URL'yi kullanabilirsiniz
+        window.open('https://api.whatsapp.com/send?text=' + url);
+    }
+</script>
+
 <script>
     var errorMessage = "{{ session('error') }}";
 
@@ -342,10 +359,6 @@ if (successMessage) {
             return;
 
         }
-
-
-
-     
 
         var button = $(this);
         var productId = $(this).data("id");
@@ -616,6 +629,7 @@ if (successMessage) {
                 type: "get", // Veriyi göndermek için POST kullanabilirsiniz
                 data: cart,
                 success: function(response) {
+                    console.log(response);
                     for (var i = 0; i < response.room_info.length; i++) {
                         var numberOfShares = 0;
                         var shareSale = getDataJS(response, "share_sale[]", response.room_info[i]
@@ -648,6 +662,8 @@ if (successMessage) {
 
 
                             var html = "";
+
+                            
 
                             function formatPrice(number) {
                                 number = parseFloat(number);
@@ -883,8 +899,15 @@ if (successMessage) {
 
                             }
 
-                            $('.payment-plan tbody').html(html);
+                          
+                            var whatsappShareButton = "<button onclick=\"shareOnWhatsApp('" + encodeURIComponent(response.slug + response.step2_slug + response.housing_type.slug + response.id + 1000000) "')\">WhatsApp'ta Paylaş</button>";
 
+
+                            // Oluşturulan butonu HTML'e ekleyin
+                            $('.payment-plan-pop-up').append(whatsappShareButton);
+
+                           
+                            $('.payment-plan tbody').html(html);
                             $('.payment-plan-pop-up').removeClass('d-none')
                         }
                     }
@@ -898,6 +921,10 @@ if (successMessage) {
         }
 
     })
+    function shareOnWhatsApp(text) {
+    var whatsapp_url = "https://api.whatsapp.com/send?text=" + text;
+    window.open(whatsapp_url, '_blank');
+}
 
     $(document).ready(function() {
         const searchInput = $(".search-input");

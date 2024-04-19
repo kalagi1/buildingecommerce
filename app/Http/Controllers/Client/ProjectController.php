@@ -387,7 +387,7 @@ class ProjectController extends Controller
 
     public function projectPaymentPlan(Request $request)
     {
-        $project = Project::with("roomInfo")->where('id', $request->input('project_id'))->first();
+        $project = Project::with("roomInfo", "housingType")->where('id', $request->input('project_id'))->first();
         return $project;
     }
 
