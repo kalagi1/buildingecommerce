@@ -158,7 +158,7 @@
                                                     </li>
                                                     <li><strong>Ödeme Şekli:</strong> EFT/HAVALE</li>
                                                     <li><strong>Web Adresi:</strong> <a
-                                                            href="https://emlaksepette.com">https://emlaksepette.com</a>
+                                                            href="https://test.emlaksepette.com/">https://test.emlaksepette.com/</a>
                                                     </li>
 
                                                 </ul>
