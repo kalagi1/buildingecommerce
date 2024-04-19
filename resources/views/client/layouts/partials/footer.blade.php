@@ -686,6 +686,7 @@
                                         var installementData = "";
                                         var advanceData = "";
                                         var monhlyPrice = "";
+                                 
 
                                         var projectedEarningsData = "";
                                         var projectedEarnings = getDataJS(response,
@@ -698,11 +699,10 @@
                                             "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
                                             "<span style='color:#28a745'> %" + projectedEarnings +
                                             "</span>" : "";
-                                            console.log(projectedEarnings);
-
 
                                         projectedEarningsData += projectedEarningsHTML;
-
+                                        console.log("ssas");
+                                        console.log(projectedEarnings);
                                     } else {
 
 
