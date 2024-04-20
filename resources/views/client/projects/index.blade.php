@@ -921,6 +921,7 @@
         }
     </script>
 
+
     <script>
         $(document).ready(function() {
 
@@ -1348,7 +1349,7 @@
                 breakpoint: 993,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 2,
+                    slidesToScroll: 3,
                     dots: false,
                     arrows: false
                 }
@@ -1381,26 +1382,55 @@
         }
 
 
-        // Sol ok tuşuna tıklandığında
-        $('.pagination .page-item-left').on('click', function(event) {
-            event.preventDefault();
-            $('#listingDetailsSlider').carousel('prev');
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // // Sol ok tuşuna tıklandığında
+        // $('.pagination .page-item-left').on('click', function(event) {
+        //     event.preventDefault();
+        //     $('#listingDetailsSlider').carousel('prev');
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-        });
+        // });
+
+        // // Sağ ok tuşuna tıklandığında
+        // $('.pagination .page-item-right').on('click', function(event) {
+        //     event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+        //     $('#listingDetailsSlider').carousel('next');
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // });
+
+        // Başlangıçta mevcut slaydın indeksini 0 olarak ayarlayalım
+        var currentSlideIndex = 0;
 
         // Sağ ok tuşuna tıklandığında
         $('.pagination .page-item-right').on('click', function(event) {
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('next');
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
+            var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
+            console.log(totalItems)
+            console.log(remainingItems)
+            if (remainingItems >= 5) {
+                currentSlideIndex++;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
+            } else {
+                console.log('yunus')
+                $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
+            }
         });
+
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }
+        });
+
 
 
 
@@ -1411,12 +1441,12 @@
 
 
         // Büyük görsel kaydığında küçük görselleri de eşleştirme
-        $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-        });
+        // $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // });
     </script>
 
     <script>
