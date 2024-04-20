@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3" id="sozlesmeLink">
-                    <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle ml-2">
+                    <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle w-100">
                             <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
                                 Oluştur</span>
                         </button></a>
