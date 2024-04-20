@@ -285,7 +285,59 @@ class HomeController extends Controller
         if ($opt) {
             $query->where("step2_slug", $opt);
         }
-        if ($housingType) {
+
+        if (empty($housingType) && !empty($housingTypeParentSlug) ) {
+            $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)->with("parents.connections.housingType")->first();
+
+
+            // HousingTypeParent içindeki bağlantıları al
+            $parentConnections = $connections->parents->pluck('connections')->flatten();
+
+            // Benzersiz housing_type_id değerlerini bul
+            $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
+            $filtersDb = Filter::where('item_type', 2)->whereIn('housing_type_id', $uniqueHousingTypeIds)->get()->keyBy('filter_name')->toArray();
+            $filtersDbx = array_keys($filtersDb);
+            foreach ($filtersDb as $data) {
+                if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                    $inputName = $data['filter_name'];
+                    if ($request->input($inputName)) {
+                        $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                            $query->where([
+                                ['name', $data->name],
+                            ])->whereIn('value', $request->input($inputName))->groupBy('project_id');
+                        }, '>=', 1);
+                    }
+                } else if ($data['filter_type'] == 'text') {
+                    if ($filtersDb[$data['filter_name']]['text_style'] == 'min-max') {
+                        $inputName = str_replace('[]', '', $data['filter_name']);
+                        if ($request->input($inputName . '-min')) {
+                            $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                $query->where([
+                                    ['name', $data->name],
+                                ])->where('value', '>=', intval($request->input($inputName . '-min')))->groupBy('project_id');
+                            }, '>=', 1);                        }
+
+                        if ($request->input($inputName . '-max')) {
+                            $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                $query->where([
+                                    ['name', $data->name],
+                                ])->where('value', '<=', intval($request->input($inputName . '-max')))->groupBy('project_id');
+                            }, '>=', 1);                        }
+                    } else {
+                        $inputName = str_replace('[]', '', $data->name);
+                        if ($request->input($inputName)) {
+                            $query->whereHas('roomInfo', function ($query) use ($inputName, $request, $data) {
+                                $query->where([
+                                    ['name', $data->name],
+                                ])->where('value', 'LIKE', '%' . $request->input($inputName) . '%')->groupBy('project_id');
+                            }, '>=', 1);
+                        }
+                    }
+                }
+            }
+        }
+       
+        if (!empty($housingType) ) {
             $query->where('housing_type_id', $housingType);
             $housingTypeData = HousingType::where('id', $housingType)->first();
             $tempFilter = 0;
