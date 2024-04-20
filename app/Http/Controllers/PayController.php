@@ -110,7 +110,6 @@ class PayController extends Controller
                     )
                     ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                     ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-                    ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
                     ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
                     ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                     ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
