@@ -4,12 +4,12 @@
     <section class="divIlan">
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" id="sozlesmeLink">
                     <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle ml-2">
                             <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
                                 Oluştur</span>
                         </button></a>
-                    <ul class="list-unstyled components" style="font-size: 13px"  id="sozlesmeLink">
+                    <ul class="list-unstyled components" style="font-size: 13px;background: #060607;">
                         @foreach ($contract_pages as $page)
                             <li>
                                 <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>
@@ -243,10 +243,6 @@
         #sozlesmeler p {
             color: black !important;
             font-size: 12px;
-        }
-
-        #sozlesmeLink {
-            background: #060607;
         }
 
         #sozlesmeLink ul li a {
