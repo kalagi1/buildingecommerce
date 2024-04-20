@@ -5,6 +5,9 @@
     <div class="wrapper mt-5 mb-5">
         <nav id="sidebar">
             <ul class="list-unstyled components" style="font-size: 13px">
+              <li>
+                <a href="{{url('/destek')}}">Destek Talebi Oluştur</a>
+            </li>
               @foreach($contract_pages as $page)
                 <li>
                     <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>

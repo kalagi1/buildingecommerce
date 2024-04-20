@@ -6,6 +6,9 @@
             <div class="row">
                 <div class="col-md-3" id="sozlesmeLink">
                     <ul class="list-unstyled components" style="font-size: 13px">
+                        <li>
+                            <a href="{{url('/destek')}}">Destek Talebi Oluştur</a>
+                        </li>
                         @foreach ($contract_pages as $page)
                             <li>
                                 <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>
