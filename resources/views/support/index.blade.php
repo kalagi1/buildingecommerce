@@ -70,9 +70,12 @@
                                             <span id="fileStatus" style="font-size: 12px;"></span>
                                         </div>
 
-                                        <p style="float: left;margin-left: -330px;margin-top: 22px;color:hsl(0, 1%, 38%) !important">Kişisel
-                                            verilerin korunması hakkında detaylı bilgiye <a href="" id="kvkkLink">buradan</a>
-                                            ulaşabilirsiniz.</p>
+                                        <div class="col-md-12">
+                                            <span>Kişisel
+                                                verilerin korunması hakkında detaylı bilgiye <a href="" id="kvkkLink">buradan</a>
+                                                ulaşabilirsiniz.</span>
+                                        </div>
+
 
                                         <div class="col-md-3 mb-3">
                                             <button type="submit" class="btn btn-primary formButton">Gönder</button>
