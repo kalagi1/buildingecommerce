@@ -188,7 +188,6 @@
                                 </div>
                             </div>
                         @else
-                        {{dd($housing)}}
                             <div class="wrap-house wg-dream flex bg-white">
                                 <div class="box-0">
                                     <a

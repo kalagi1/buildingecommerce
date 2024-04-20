@@ -117,7 +117,6 @@ class PayController extends Controller
                     ->where("housings.id", $cart['item']['id'])
                     ->where('project_list_items.item_type', 2)
                     ->first();
-return $housing;
                 $saleType = $housing->step2_slug;
             } else {
                 $project = Project::where('id', $cart['item']['id'])->first();
