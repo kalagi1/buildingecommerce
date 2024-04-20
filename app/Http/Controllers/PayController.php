@@ -83,7 +83,7 @@ class PayController extends Controller
 
         if (isset($cart) && !empty($cart)) {
             if ($cart['type'] == 'housing') {
-                $housing = Housing::with('images',"city","county","neighborhood")
+                $housing = Housing::with('images')
                     ->select(
                         'housings.id',
                         'housings.slug',
@@ -127,8 +127,6 @@ class PayController extends Controller
                 });
             }
         }
-
-return $housing;
 
         return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
