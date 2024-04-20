@@ -4,10 +4,13 @@
 <div class="container">
     <div class="wrapper mt-5 mb-5">
         <nav id="sidebar">
+          <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle w-100"
+            style="justify-content: start !important;padding:0 10px;">
+            <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
+                Oluştur</span>
+        </button></a>
             <ul class="list-unstyled components" style="font-size: 13px">
-              <li>
-                <a href="{{url('/destek')}}">Destek Talebi Oluştur</a>
-            </li>
+            
               @foreach($contract_pages as $page)
                 <li>
                     <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>
