@@ -45,7 +45,7 @@
             @else
                 <div class="row">
                     <div class="col-md-12">
-                        {{dd($cart['type'])}}
+                        {{dd($cart)}}
                         @if ($cart['type'] == 'project')
                             <div class="wrap-house wg-dream flex bg-white">
                                 <div class="box-0">
