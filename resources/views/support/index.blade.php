@@ -371,11 +371,6 @@
             transition: color 0.3s, border-bottom 0.3s;
         }
 
-        .kategori:hover {
-            color: #0056b3;
-            border-bottom: 2px solid #0056b3;
-        }
-
         .messageBaslik {
             color: #333333;
             font-size: 32px !important;
