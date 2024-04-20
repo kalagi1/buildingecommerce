@@ -11,7 +11,7 @@ class SupportController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
+        if (!Auth::check()) {
             redirect("/");
         }
         $supports = Support::where('user_id', Auth::id())->get();
