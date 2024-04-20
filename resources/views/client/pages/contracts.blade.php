@@ -3,8 +3,8 @@
     <div class="container">
         <div class="wrapper mt-5 mb-5">
             <nav id="sidebar">
-                <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle w-100"
-                        style="justify-content: start !important;padding:0 14px;">
+                <a href="{{ url('/destek') }}" data-target="{{ $contract_pages[0]->title }}"><button type="button"
+                        class=" newButtonStyle w-100" style="justify-content: start !important;padding:0 14px;">
                         <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
                             Oluştur</span>
                     </button></a>
@@ -29,7 +29,7 @@
 <script>
     $(document).ready(function() {
         // Sayfa yüklendiğinde ilk linkin içeriğini göster
-        var firstLink = $('#sidebar ul.components li:second-child a');
+        var firstLink = $('#sidebar ul.components li:first-child a');
         var target = firstLink.data('target');
         getContent(target);
 
