@@ -12,7 +12,7 @@ class SupportController extends Controller
     public function index()
     {
         if (!Auth::check()) {
-            redirect("/");
+          return redirect("/");
         }
         $supports = Support::where('user_id', Auth::id())->get();
         $contract_pages = Page::where('is_contract_page', 1)->get();
