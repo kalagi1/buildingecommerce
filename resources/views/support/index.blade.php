@@ -70,7 +70,7 @@
                                             <span id="fileStatus" style="font-size: 12px;"></span>
                                         </div>
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mb-3">
                                             <span>Kişisel
                                                 verilerin korunması hakkında detaylı bilgiye <a href="" id="kvkkLink">buradan</a>
                                                 ulaşabilirsiniz.</span>
