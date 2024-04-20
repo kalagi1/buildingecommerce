@@ -16,7 +16,7 @@
                 <div class="col-md-9" id="sozlesmeler">
                     <div class="row" style="margin-bottom:50px;">
 
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-center mt-5">
                             <p class="messageBaslik">Destek Merkezi</p>
                         </div>
                     </div>
@@ -319,6 +319,7 @@
             list-style-type: none;
             padding: 0;
             margin: 0;
+            background: #ebebeb;
         }
 
         .kategori {
@@ -331,7 +332,6 @@
             font-size: 20px;
             cursor: pointer;
             color: #333333;
-            border-bottom: 2px solid gray;
             transition: color 0.3s, border-bottom 0.3s;
         }
 
