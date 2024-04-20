@@ -5,18 +5,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3" id="sozlesmeLink">
-                    <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle w-100"
-                            style="justify-content: start !important;padding:0 10px;">
-                            <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
-                                Oluştur</span>
-                        </button></a>
-                    <ul class="list-unstyled components" style="font-size: 13px;background: #060607;">
-                        @foreach ($contract_pages as $page)
-                            <li>
-                                <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <nav id="sidebar">
+                        <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle w-100"
+                                style="justify-content: start !important;padding:0 10px;">
+                                <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
+                                    Oluştur</span>
+                            </button></a>
+                        <ul class="list-unstyled components" style="font-size: 13px;background: #060607;">
+                            @foreach ($contract_pages as $page)
+                                <li>
+                                    <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </nav>
                 </div>
                 <div class="col-md-9" id="sozlesmeler">
                     <div class="row" style="margin-bottom:50px;">
@@ -246,21 +248,53 @@
             font-size: 12px;
         }
 
-        #sozlesmeLink ul li a {
+
+
+        .table td {
+            display: table-cell;
+        }
+
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #060607;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        #sidebar.active {
+            margin-left: -250px;
+        }
+
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #060607;
+        }
+
+        #sidebar ul p {
+            color: #fff;
+            padding: 10px;
+        }
+
+        #sidebar ul li a {
             padding: 10px;
             font-size: 12px;
             display: block;
             color: white;
             margin: 5px;
+
         }
 
-        #sozlesmeLink ul li a:hover {
+        #sidebar ul li a:hover {
             color: #060607;
             background: #fff;
         }
 
-        .table td {
-            display: table-cell;
+        #sidebar ul li.active>a,
+        a[aria-expanded="true"] {
+            color: #fff;
+            background: #6d7fcc;
         }
 
         .formButton {
