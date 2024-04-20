@@ -134,7 +134,6 @@ class PayController extends Controller
             }
         }
 
-        return $housing;
 
         return view('payment.index', compact('user', 'cart', 'bankAccounts', 'saleType', 'project', 'projectHousingsList', 'projectHousings', 'housing'));
     }
