@@ -105,7 +105,7 @@ Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.inde
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
-Route::get('/neighbors' , [NeighborViewController::class, 'index'])->name('neighbors.index');
+Route::get('/neighbors', [NeighborViewController::class, 'index'])->name('neighbors.index');
 Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
 Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
 Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
@@ -188,6 +188,9 @@ Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
+
+    Route::get('destek', [SupportController::class, 'index'])->name('support.index');
+    Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
 });
 
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
@@ -223,7 +226,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::get('/club_user_applications', [AdminEstateClubController::class, "list"])->name('estate.club.users.list');
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class, "seeApplications"])->name('estate.see.users.list');
-  
+
     Route::get('/admin', [AdminHomeController::class, "index"]);
 
     Route::get('/change-phone',  [ChangePhoneController::class, "index"])->name('change.phone.index');
@@ -308,7 +311,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
         Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
         Route::post('/receipt/pdf', [AdminHomeController::class, 'upload'])->name('receipt.refund.upload.pdf');
-        
+
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
         Route::post('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
@@ -329,7 +332,6 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
 
         Route::post('/update/status/{refundId}', [AdminHomeController::class, 'updateStatus'])->name('refund.update.status');
-
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
@@ -786,13 +788,13 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
-    
+
     Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
-    ->name('phone.generateVerificationCode');
+        ->name('phone.generateVerificationCode');
 
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
-    ->name('phone.verifyPhoneNumber');
+        ->name('phone.verifyPhoneNumber');
 
     Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
     Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
@@ -1036,8 +1038,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
-        
-
     });
 });
 
@@ -1173,21 +1173,18 @@ Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name(
 
 //Toplu Main Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-mail/create', [EmailTemplateController::class, 'MultipleMail'])->name('admin.multiple_mail.create');
-Route::post('multiple_mail/store' , [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
-Route::get('multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
-Route::get('multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
-Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
+Route::post('multiple_mail/store', [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
+Route::get('multiple-mail/get/users', [EmailTemplateController::class, 'MultipleMailGetUsers']);
+Route::get('multiple-mail/get/users/bireysel', [EmailTemplateController::class, 'MultipleMailGetUsersBireysel']);
+Route::get('multiple-mail/get/users/kurumsal', [EmailTemplateController::class, 'MultipleMailGetUsersKurumsal']);
 
 //Toplu Sms Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-sms/create', [AdminSmsController::class, 'MultipleSms'])->name('admin.multiple_sms.create');
-Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
+Route::post('multiple_sms/store', [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
 
 //Ödeme yapıldıktan sonra dekont yükleme
-Route::post('dekot/file/upload',[CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
-Route::get('/dekont/indir/{order_id}',[CartController::class,'dekontIndir'])->name('dekont.indir');
+Route::post('dekot/file/upload', [CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
+Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->name('dekont.indir');
 
 
 //Destek Merkezi
-
-Route::get('destek',[SupportController::class, 'index'])->name('support.index');
-Route::post('destek/talep',[SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
