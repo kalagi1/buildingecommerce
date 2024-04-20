@@ -83,7 +83,7 @@ class PayController extends Controller
 
         if (isset($cart) && !empty($cart)) {
             if ($cart['type'] == 'housing') {
-                $housing = Housing::with('images')
+                $housing = Housing::with('images',"city","county","neighborhood")
                     ->select(
                         'housings.id',
                         'housings.slug',
@@ -114,10 +114,8 @@ class PayController extends Controller
                     ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
                     ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
                     ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-                    ->where('housings.status', 1)
                     ->where("housings.id", $cart['item']['id'])
                     ->where('project_list_items.item_type', 2)
-                    ->orderByDesc('housings.created_at')
                     ->first();
 
                 $saleType = $housing->step2_slug;
