@@ -83,6 +83,7 @@ class PayController extends Controller
 
         if (isset($cart) && !empty($cart)) {
             if ($cart['type'] == 'housing') {
+                dd("asas");
                 $housing = Housing::with('images',"city","county","neighborhood")
                     ->select(
                         'housings.id',
