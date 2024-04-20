@@ -7,7 +7,7 @@
                 <div class="col-md-3" id="sozlesmeLink">
                     <nav id="sidebar">
                         <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle w-100"
-                                style="justify-content: start !important;padding:0 10px;">
+                                style="justify-content: start !important;padding:0 14px;">
                                 <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
                                     Oluştur</span>
                             </button></a>
