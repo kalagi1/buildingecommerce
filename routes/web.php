@@ -86,6 +86,7 @@ use App\Http\Controllers\Client\SmsController;
 use App\Http\Controllers\Admin\SmsController as AdminSmsController;
 use App\Http\Controllers\Client\FormController;
 use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\SupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1184,3 +1185,9 @@ Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore
 //Ödeme yapıldıktan sonra dekont yükleme
 Route::post('dekot/file/upload',[CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
 Route::get('/dekont/indir/{order_id}',[CartController::class,'dekontIndir'])->name('dekont.indir');
+
+
+//Destek Merkezi
+
+Route::get('destek',[SupportController::class, 'index'])->name('support.index');
+Route::post('destek/talep',[SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
