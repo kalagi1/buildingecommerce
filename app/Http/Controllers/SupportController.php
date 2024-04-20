@@ -12,7 +12,7 @@ class SupportController extends Controller
     public function index()
     {
         if (!Auth::check()) {
-          return redirect("/");
+          return redirect("/")->with('error', 'Destek talebi oluşturmak için lütfen giriş yapınız.');
         }
         $supports = Support::where('user_id', Auth::id())->get();
         $contract_pages = Page::where('is_contract_page', 1)->get();
