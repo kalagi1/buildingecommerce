@@ -40,7 +40,7 @@
                                     <form action="{{ route('support.sendSupportMessage') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <div class="col-md-7 mb-3">
+                                        <div class="col-md-12 mb-3">
                                             <label for="exampleFormControlTextarea1" class="form-label"
                                                 style="font-size: 12px !important;">Kategori</label>
                                             <select class="formInput" aria-label="select example" name="category" required
@@ -55,13 +55,13 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-7 mb-3">
+                                        <div class="col-md-12 mb-3">
                                             <label for="exampleFormControlTextarea1" class="form-label"
                                                 style="font-size: 12px !important;">Açıklama</label>
                                             <textarea class="formInput" id="exampleFormControlTextarea1" style="height: 150px !important" name="description"></textarea>
                                         </div>
 
-                                        <div class="col-md-7 mb-3">
+                                        <div class="col-md-12 mb-3">
                                             <label class="custom-file-upload">
                                                 <i class="fas fa-link" style="font-size:14px;"></i>
                                                 <span style="font-size:14px; color: cornflowerblue;">Dosya Ekle</span>
