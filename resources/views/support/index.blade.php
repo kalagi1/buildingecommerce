@@ -36,7 +36,7 @@
                         <div class="col-md-12 ">
                             <div id="kategori1Content" class="accordion-content">
 
-                                <div class="col-md-7 mx-auto">
+                                <div class="col-md-9 mx-auto">
                                     <form action="{{ route('support.sendSupportMessage') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
