@@ -319,7 +319,7 @@
             list-style-type: none;
             padding: 0;
             margin: 0;
-            background: #ebebeb;
+            background: #ebebeb !important;
         }
 
         .kategori {
@@ -329,7 +329,7 @@
             /* background-color: #f0f0f0; */
             margin: 0 20px;
             /* İhtiyaca göre sağ tarafta boşluk bırakabilirsiniz */
-            font-size: 20px;
+            font-size: 15px;
             cursor: pointer;
             color: #333333;
             transition: color 0.3s, border-bottom 0.3s;
