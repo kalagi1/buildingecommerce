@@ -189,10 +189,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
 
-    Route::get('destek', [SupportController::class, 'index'])->name('support.index');
-    Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
+    
 });
 
+
+Route::get('destek', [SupportController::class, 'index'])->name('support.index');
+    Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
