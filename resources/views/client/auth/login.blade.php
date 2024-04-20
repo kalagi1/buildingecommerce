@@ -236,7 +236,7 @@
                                         <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
                                             id="corporateForm">
                                             <!-- E-Posta -->
-                                            {{-- <div class="mt-3">
+                                          <div class="mt-3">
                                                 <label class="q-label">Yetkili İsim Soyisim</label>
                                                 <input type="text" name="username"
                                                     class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
@@ -244,7 +244,7 @@
                                                 @if ($errors->has('username'))
                                                     <span class="error-message">{{ $errors->first('username') }}</span>
                                                 @endif
-                                            </div> --}}
+                                            </div> 
 
 
                                             <!-- Firma Adı -->
