@@ -1598,9 +1598,9 @@
         }
 
         .sales {
-            padding: 6px, 8px, 6px, 8px;
+            padding: 6px 8px 6px 8px;
             background-color: #EA2B2E;
-            width: 100px;
+            width: 140px;
             color: #fff;
             height: 20px;
             display: flex;
