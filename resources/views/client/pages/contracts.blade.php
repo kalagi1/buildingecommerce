@@ -27,7 +27,7 @@
   <script>
 $(document).ready(function() {
     // Sayfa yüklendiğinde ilk linkin içeriğini göster
-    var firstLink = $('#sidebar ul.components li:first-child a');
+    var firstLink = $('#sidebar ul.components li:second-child a');
     var target = firstLink.data('target');
     getContent(target);
 

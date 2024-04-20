@@ -5,10 +5,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3" id="sozlesmeLink">
+                    <a href="{{ url('/destek') }}"><button type="button" class=" newButtonStyle ml-2">
+                            <span class="buyUserRequest__text newButtonStyle__text"> Destek Talebi
+                                Oluştur</span>
+                        </button></a>
                     <ul class="list-unstyled components" style="font-size: 13px">
-                        <li>
-                            <a href="{{url('/destek')}}">Destek Talebi Oluştur</a>
-                        </li>
                         @foreach ($contract_pages as $page)
                             <li>
                                 <a href="#" data-target="{{ $page->title }}">{{ $page->title }}</a>
@@ -75,7 +76,8 @@
 
                                         <div class="col-md-12 mb-3">
                                             <span>Kişisel
-                                                verilerin korunması hakkında detaylı bilgiye <a href="" id="kvkkLink">buradan</a>
+                                                verilerin korunması hakkında detaylı bilgiye <a href=""
+                                                    id="kvkkLink">buradan</a>
                                                 ulaşabilirsiniz.</span>
                                         </div>
 
@@ -117,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
             </div>
