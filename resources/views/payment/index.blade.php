@@ -590,8 +590,8 @@
                                             </div>
                                         </div>
 
-                                        @if ($project->step2_slug)
-                                            @if ($project->step2_slug == 'satilik')
+                                       
+                                            
                                                 <div class="col-sm-12 pt-2">
                                                     <div class="d-flex align-items-center mb-3">
                                                         <input id="checkSignature" type="checkbox" name="checkSignature">
@@ -601,8 +601,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                            @endif
-                                        @endif
+                                            
                                     </div>
                                 </form>
                             </div>
