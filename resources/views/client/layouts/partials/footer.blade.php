@@ -914,7 +914,7 @@
                             var housingOrder = paymentOrder;
                             
                             var domain = window.location.hostname;
-                            var url = domain + '/proje/' + projectSlug + '/ilan/' + projectID + '/' + housingOrder + '/detay' + "/odeme-planı";
+                            var url = domain + '/proje/' + projectSlug + '/ilan/' + projectID + '/' + housingOrder + '/detay' + "/odeme-plani";
                             
                           
                             // Whatsapp yönlendirme URL'sini oluştur
