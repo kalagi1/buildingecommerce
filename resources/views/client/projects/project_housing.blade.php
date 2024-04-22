@@ -980,7 +980,8 @@
                 <div class="col-md-12">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="contact-tab" data-bs-toggle="tab"
+                            <button class="nav-link  active  "
+                            id="contact-tab" data-bs-toggle="tab"
                                 data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
                                 aria-selected="false">Projedeki
                                 Diğer Konutlar
@@ -996,8 +997,9 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-
-                        <li class="nav-item" role="presentation">
+                           
+                            <li class="nav-item" role="presentation">
+                            
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
@@ -1392,6 +1394,25 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <script>
+        var navLinks = document.querySelectorAll('.nav-link');
+
+        // Her bir nav-link öğesi için bir event listener ekleyin
+        navLinks.forEach(function(navLink) {
+            navLink.addEventListener('click', function() {
+                // Tüm nav-link öğelerinden active sınıfını kaldırın
+                navLinks.forEach(function(link) {
+                    link.classList.remove('active');
+                });
+                
+                // Tıklanan öğeye active sınıfını ekleyin
+                this.classList.add('active');
+            });
+});
+
+    </script>
+
+</script>
+    <script>
         var successMessage = "{{ session('success') }}";
 
         if (successMessage) {
@@ -1609,7 +1630,13 @@
             console.log("Küçük Görsel Index: ", smallIndex);
         });
 
-
+        $(document).ready(function() {
+            // Sayfa yüklendiğinde, öncelikle $active değişkenini kontrol ediyoruz
+            if ("{{ isset($active) ? $active : '' }}") {
+                // Eğer $active varsa, payment-plan-tab butonuna tıklanmış gibi yaparak işlem yapıyoruz
+                $('#payment-tab').click();
+            }
+        });
 
         $('.payment-plan-tab').click(function() {
             showLoadingSpinner();

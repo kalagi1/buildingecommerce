@@ -164,6 +164,7 @@
 
         <div class="my-properties">
             <table class="payment-plan table">
+                <button id="whatsappButton" class="btn btn-primary">Paylaş</button>
 
                 <tbody>
                     <tr>
@@ -626,10 +627,12 @@
 
 
                         }
+                        
 
                         if (response.room_info[i].name == "payment-plan[]" && response.room_info[i]
                             .room_order == parseInt(order)) {
 
+                                
                             var paymentPlanData = JSON.parse(response.room_info[i].value);
                             if (!paymentPlanData.includes("pesin")) {
                                 // "peşin" not present, add it to the beginning of the array
@@ -901,6 +904,23 @@
                             $('.payment-plan tbody').html(html);
 
                             $('.payment-plan-pop-up').removeClass('d-none')
+
+                            document.getElementById("whatsappButton").addEventListener("click", function() {
+                            var projectSlug = response.slug + "-" + response.step2_slug + "-" +  response.housing_type.slug;
+                            var projectID = response.id + 1000000;
+                            var housingOrder = paymentOrder;
+                            
+                            var domain = window.location.hostname;
+                            var url = domain + '/proje/' + projectSlug + '/ilan/' + projectID + '/' + housingOrder + '/detay' + "/active";
+                            
+                          
+                            // Whatsapp yönlendirme URL'sini oluştur
+                            var whatsappURL = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(url);
+
+                           
+                           
+                            window.open(whatsappURL, '_blank');
+                        });
                         }
                     }
                 },
@@ -913,6 +933,10 @@
         }
 
     })
+
+    
+   
+
 
     $(document).ready(function() {
         const searchInput = $(".search-input");
