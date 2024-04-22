@@ -40,7 +40,7 @@ class RegisterController extends Controller
             'password' => 'required|min:6',
             'mobile_phone' =>  'required',
             'type' => 'required|in:1,2,21',
-            'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
+            // 'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
             'activity' => 'required_if:type,2',
             'check-a' => 'required_if:type,1',
             'check-d' => 'required_if:type,2',
@@ -54,6 +54,7 @@ class RegisterController extends Controller
             "taxOfficeCity" => "required_if:type,2",
             'taxNumber' => "required_if:type,2",
             'idNumber' => "required_if:account_type,1",
+            'commercial_title' => 'required'
         ];
 
         $msgs = [
@@ -69,8 +70,8 @@ class RegisterController extends Controller
             'password.min' => 'Şifre en az 6 karakter uzunluğunda olmalıdır.',
             'type.required' => 'Kullanıcı türü seçimi zorunludur.',
             'type.in' => 'Geçerli bir kullanıcı türü seçiniz.',
-            'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
-            'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
+            // 'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
+            // 'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
             'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
             'county_id.required_if' => 'İlçe seçimi zorunludur.',
             'city_id.required_if' => 'Şehir seçimi zorunludur.',
@@ -81,6 +82,7 @@ class RegisterController extends Controller
             'taxNumber.required_if' => 'Vergi numarası zorunludur.',
             'idNumber.required_if' => 'T.C. kimlik numarası zorunludur.',
             'subscription_plan_id.nullable' => 'Abonelik planı seçimi yapılmışsa geçerli bir abonelik planı seçiniz.',
+            'commercial_title' => 'Ticari Ünvan zorunludur.'
         ];
 
         $city = City::where("title", $request->input("taxOfficeCity"))->first();
@@ -121,7 +123,8 @@ class RegisterController extends Controller
         $user->idNumber = $request->input("idNumber");
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
-        $user->corporate_type = $request->input("corporate-account-type");
+        $user->commercial_title =  $request->input("commercial_title");
+        // $user->corporate_type = $request->input("activity");
         $user->save();
 
         if ($request->input("type") == 2) {

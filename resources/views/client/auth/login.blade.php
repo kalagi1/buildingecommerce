@@ -2,30 +2,32 @@
 
 @section('content')
     <section class="loginItems">
-        <div class="container"> 
+        <div class="container">
             <div class="row">
                 <div class="col-md-7 mx-auto">
                     <div class="login-container">
                         <ul class="nav nav-tabs login-tabs" id="myTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if ($errors->has('login_error') || !$errors->any() && !isset($_GET['uye-ol'])) active show @else hide @endif "
-                                    id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal" aria-selected="true">
+                                <a class="nav-link @if ($errors->has('login_error') || (!$errors->any() && !isset($_GET['uye-ol']))) active show @else hide @endif "
+                                    id="normal-tab" data-toggle="tab" href="#normal" role="tab" aria-controls="normal"
+                                    aria-selected="true">
                                     <h3 class="text-center ">Giriş Yap</h3>
                                 </a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link @if ($errors->any() && !$errors->has('login_error') || isset($_GET['uye-ol'])) active show @endif" id="corporate-tab"
-                                    data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate" aria-selected="false">
+                                <a class="nav-link @if (($errors->any() && !$errors->has('login_error')) || isset($_GET['uye-ol'])) active show @endif" id="corporate-tab"
+                                    data-toggle="tab" href="#corporate" role="tab" aria-controls="corporate"
+                                    aria-selected="false">
                                     <h3 class="text-center ">Kayıt Ol</h3>
                                 </a>
                             </li>
                         </ul>
-                        
+
                         <div class="login-content">
                             <!-- Sekme İçeriği -->
                             <div class="tab-content" id="myTabContent">
                                 <!-- Normal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade @if ($errors->has('login_error') || !$errors->any() && !isset($_GET['uye-ol'])) active show @else hide @endif "
+                                <div class="tab-pane fade @if ($errors->has('login_error') || (!$errors->any() && !isset($_GET['uye-ol']))) active show @else hide @endif "
                                     id="normal" role="tabpanel" aria-labelledby="normal-tab">
 
                                     <div class="mt-5">
@@ -47,7 +49,7 @@
                                     <form method="POST"class="form w-100" action="{{ route('client.submit.login') }}">
                                         @csrf
 
-                                        <input type="hidden" name="backurl" value="{{request('backurl')}}">
+                                        <input type="hidden" name="backurl" value="{{ request('backurl') }}">
                                         @if ($errors->has('login_error'))
                                             <div class="alert alert-danger text-white">
                                                 {{ $errors->first('login_error') }}
@@ -111,7 +113,8 @@
                                                             style="color: black;text-decoration:none">
                                                             <div style="text-transform: capitalize;">facebook</div>
                                                             <small>ile giriş yap</small>
-                                                        </a>                                                    </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -140,7 +143,7 @@
                                 </div>
 
                                 <!-- Kurumsal Hesap Girişi Sekmesi -->
-                                <div class="tab-pane fade @if ($errors->any() && !$errors->has('login_error') || isset($_GET['uye-ol'])) active show @endif"
+                                <div class="tab-pane fade @if (($errors->any() && !$errors->has('login_error')) || isset($_GET['uye-ol'])) active show @endif"
                                     id="corporate" role="tabpanel" aria-labelledby="corporate-tab">
 
 
@@ -167,7 +170,7 @@
 
                                             <!-- İsim -->
                                             <div class="mt-3">
-                                                <label class="q-label">İsim</label>
+                                                <label class="q-label">İsim Soyisim</label>
                                                 <input type="text" name="name1"
                                                     class="form-control {{ $errors->has('name1') ? 'error-border' : '' }}"
                                                     value="{{ old('name1') }}">
@@ -176,6 +179,8 @@
                                                 @endif
                                             </div>
                                         </div>
+
+
 
 
                                         <!-- E-Posta -->
@@ -195,7 +200,7 @@
                                             <input type="number" name="mobile_phone" id="mobile_phone"
                                                 class="form-control {{ $errors->has('mobile_phone') ? 'error-border' : '' }}"
                                                 value="{{ old('mobile_phone') }}" maxlength="10">
-                                                <span id="error_message" class="error-message"></span>
+                                            <span id="error_message" class="error-message"></span>
                                             @if ($errors->has('mobile_phone'))
                                                 <span class="error-message">{{ $errors->first('mobile_phone') }}</span>
                                             @endif
@@ -235,26 +240,39 @@
 
                                         <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
                                             id="corporateForm">
-                                            <!-- E-Posta -->
-                                          <div class="mt-3">
-                                                <label class="q-label">Yetkili İsim Soyisim</label>
+                                            <div class="mt-3">
+                                                <label class="q-label">İsim Soyisim</label>
                                                 <input type="text" name="username"
                                                     class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
                                                     value="{{ old('username') }}">
                                                 @if ($errors->has('username'))
                                                     <span class="error-message">{{ $errors->first('username') }}</span>
                                                 @endif
-                                            </div> 
+                                            </div>
 
-
-                                            <!-- Firma Adı -->
                                             <div class="mt-3">
-                                                <label class="q-label">Firma Adı
+                                                <label class="q-label">Ticari Ünvan
                                                     <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
                                                         data-placement="top"
-                                                        title="Firma adını kısaltmadan aynen yazınız."></i>
+                                                        title="Ticari Ünvanı kısaltmadan yazınız."></i>
                                                 </label>
-
+    
+                                                <input type="text" name="commercial_title"
+                                                    class="form-control {{ $errors->has('commercial_title') ? 'error-border' : '' }}"
+                                                    value="{{ old('commercial_title') }}">
+                                                @if ($errors->has('commercial_title'))
+                                                    <span class="error-message">{{ $errors->first('commercial_title') }}</span>
+                                                @endif
+                                            </div>
+    
+    
+                                            <div class="mt-3">
+                                                <label class="q-label"> Mağaza Adı
+                                                    <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Mağaza Adını kısaltmadan yazınız."></i>
+                                                </label>
+    
                                                 <input type="text" name="name"
                                                     class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
                                                     value="{{ old('name') }}">
@@ -263,8 +281,11 @@
                                                 @endif
                                             </div>
 
+                                            <!-- Firma Adı -->
+
+
                                             <div class="mt-3">
-                                                <label class="q-label">Sabit Telefon</label>
+                                                <label class="q-label">Sabit Telefon (Opsiyonel)</label>
                                                 <input type="number" name="phone"
                                                     class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
                                                     value="{{ old('phone') }}" maxlength="10">
@@ -274,30 +295,7 @@
                                             </div>
 
                                             <!-- Kurumsal Hesap Türü -->
-                                            <div class="mt-3">
-                                                <label for="corporate-account-type" class="q-label">Kurumsal Hesap
-                                                    Türü</label>
-                                                <select name="corporate-account-type" id="corporate-account-type"
-                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}">
-                                                    <option value="" disabled selected>Seçiniz</option>
-                                                    <option value="Emlakçı"
-                                                        {{ old('corporate-account-type') == 'Emlakçı' ? 'selected' : '' }}>
-                                                        Emlakçı</option>
-                                                    <option value="Banka"
-                                                        {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
-                                                        Banka</option>
-                                                    <option value="İnşaat"
-                                                        {{ old('corporate-account-type') == 'İnşaat' ? 'selected' : '' }}>
-                                                        İnşaat</option>
-                                                    <option value="Turizm"
-                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
-                                                        Turizm</option>
-                                                </select>
-                                                @if ($errors->has('corporate-account-type'))
-                                                    <span
-                                                        class="error-message">{{ $errors->first('corporate-account-type') }}</span>
-                                                @endif
-                                            </div>
+
 
                                             <!-- Faaliyet Alanı -->
                                             <div class="mt-3">
@@ -306,15 +304,28 @@
                                                     class="form-control {{ $errors->has('activity') ? 'error-border' : '' }}"
                                                     name="activity">
                                                     <option value="">Seçiniz</option>
-                                                    <option value="İnşaat"
-                                                        {{ old('activity') == 'İnşaat' ? 'selected' : '' }}>İnşaat</option>
-                                                    <option value="Gayrimenkul"
-                                                        {{ old('activity') == 'Gayrimenkul' ? 'selected' : '' }}>
-                                                        Gayrimenkul</option>
-                                                    <option value="Turizm"
-                                                        {{ old('activity') == 'Turizm' ? 'selected' : '' }}>Turizm</option>
+
+
+                                                    <option value="Emlak Ofisi"
+                                                        {{ old('activity') == 'EmlakOfisi' ? 'selected' : '' }}>
+                                                        Emlak Ofisi</option>
+                                                    <option value="İnşaat Ofisi"
+                                                        {{ old('activity') == 'İnşaatOfisi' ? 'selected' : '' }}>
+                                                        İnşaat Ofisi</option>
+                                                    <option value="Prefabrik Yapı"
+                                                        {{ old('activity') == 'PrefabrikYapı' ? 'selected' : '' }}>
+                                                        Prefabrik Yapı</option>
                                                     <option value="Banka"
-                                                        {{ old('activity') == 'Banka' ? 'selected' : '' }}>Banka</option>
+                                                        {{ old('activity') == 'Banka' ? 'selected' : '' }}>
+                                                        Banka</option>
+                                                    <option value="Turizm"
+                                                        {{ old('activity') == 'Turizm' ? 'selected' : '' }}>
+                                                        Turizm</option>
+                                                    <option value="Ustalar & Hizmetler"
+                                                        {{ old('activity') == 'Ustalar&Hizmetler' ? 'selected' : '' }}>
+                                                        Ustalar & Hizmetler</option>
+
+
                                                 </select>
                                                 @if ($errors->has('activity'))
                                                     <span class="error-message">{{ $errors->first('activity') }}</span>
@@ -568,28 +579,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
-        $(document).ready(function(){
-            $("#mobile_phone").on("input blur", function(){
-            var phoneNumber = $(this).val();
-            var pattern = /^5[1-9]\d{8}$/;
-        
-            if (!pattern.test(phoneNumber)) {
-              $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
-            } else {
-              $("#error_message").text("");
-            }
-                 // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                 $('#mobile_phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
-          });
+        $(document).ready(function() {
+            $("#mobile_phone").on("input blur", function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[1-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+                } else {
+                    $("#error_message").text("");
+                }
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#mobile_phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
+            });
         });
-        </script>
+    </script>
     <script>
         const individualForm = document.getElementById('individualForm');
         const individualFormCheck = document.getElementById('individualFormCheck');
@@ -905,6 +916,7 @@
             color: red;
             font-size: 11px;
         }
+
         .success-message {
             color: green;
             font-size: 11px;
