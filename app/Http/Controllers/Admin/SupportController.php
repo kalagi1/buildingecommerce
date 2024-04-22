@@ -33,7 +33,7 @@ class SupportController extends Controller
 
       $subject = "Destek talebiniz yanıtlandı.";
 
-      // Mail::to($user->email)->send(new CustomMail($subject, $request->return_support));
+      Mail::to($user->email)->send(new CustomMail($subject, $request->return_support));
 
       return back()->with('success', 'Destek talebiniz yanıtlandı.');
 
@@ -51,7 +51,7 @@ class SupportController extends Controller
 
       $subject = "Destek talebiniz yanıtlandı.";
 
-      // Mail::to($user->email)->send(new CustomMail($subject, $request->return_support));
+      Mail::to($user->email)->send(new CustomMail($subject, $request->return_support));
 
       return back()->with('success', 'Destek talebiniz yenilendi.');
     }//End
