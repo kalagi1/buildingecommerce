@@ -6,6 +6,7 @@ use App\Models\Support;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Page;
+use Illuminate\Support\Facades\Response;
 
 class SupportController extends Controller
 {
@@ -52,4 +53,21 @@ class SupportController extends Controller
         $kvkk = Page::where('id', 12)->value('content');
         return response()->json(['kvkk' => $kvkk]);
     } //End
+
+    public function supportFileDownload($id){
+        $support = Support::find($id);
+
+        if (!$support) {
+            return abort(404);
+        }
+
+        $destekTalepDosyaYolu = public_path('support/' . $support->file_path);
+
+        if (file_exists($destekTalepDosyaYolu)) {
+            return Response::download($destekTalepDosyaYolu);
+        } else {
+            return abort(404);
+            // Dekont bulunamazsa 404 hatası döndür
+        }
+    }//End
 }

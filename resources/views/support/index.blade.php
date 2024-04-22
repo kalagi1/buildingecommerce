@@ -102,6 +102,7 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Kategori</th>
                                                     <th scope="col">Evrak Gönderim Nedeni</th>
+                                                    <th scope="col">Dosya</th>
                                                     <th scope="col">Açıklama</th>
                                                     <th scope="col">Oluşturma Tarihi</th>
                                                     <th scope="col">Talep Durumu</th>
@@ -113,6 +114,13 @@
                                                         <td>{{ $item->id }}</td>
                                                         <td>{{ $item->category }}</td>
                                                         <td>{{ isset($item->send_reason) ? $item->send_reason : '-' }}</td>
+                                                        <td>
+                                                            @if(empty($item->file_path))
+                                                            -
+                                                            @else
+                                                                <a href="{{ route('destek.talep.dosya.indir', ['id' => $item->id]) }}">Dosyayı indir</a><br>
+                                                            @endif
+                                                        </td>
                                                         <td>{{ $item->description }}</td>
                                                         <td>{{ $item->created_at->format('d.m.Y') }}</td>
                                                         <td>

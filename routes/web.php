@@ -196,6 +196,7 @@ Route::middleware('guest')->group(function () {
 
 Route::get('destek', [SupportController::class, 'index'])->name('support.index');
     Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
+    Route::get('destek/talep/dosya/indir/{id}', [SupportController::class, 'supportFileDownload'])->name('destek.talep.dosya.indir');
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
