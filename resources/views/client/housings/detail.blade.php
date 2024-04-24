@@ -1367,7 +1367,7 @@
                                                 <tr>
                                                     <td>
                                                         <span> Mağaza :</span>
-                                                        <span class="det" style="color:#274abb;">
+                                                        <span class="det text-wrap" style="color:#274abb;">
                                                             {!! $housing->user->name !!}
                                                         </span>
                                                     </td>
@@ -1376,7 +1376,7 @@
                                                 <tr>
                                                     <td>
                                                         <span> Kimden :</span>
-                                                        <span class="det" style="color:#274abb;">
+                                                        <span class="det text-wrap" style="color:#274abb;">
                                                             {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
                                                         </span>
                                                     </td>
