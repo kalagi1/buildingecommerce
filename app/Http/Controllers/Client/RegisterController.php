@@ -40,8 +40,8 @@ class RegisterController extends Controller
             'password' => 'required|min:6',
             'mobile_phone' =>  'required',
             'type' => 'required|in:1,2,21',
-            // 'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
-            'activity' => 'required_if:type,2',
+            'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
+            // 'activity' => 'required_if:type,2',
             'check-a' => 'required_if:type,1',
             'check-d' => 'required_if:type,2',
             'check-b' => 'required',
@@ -70,9 +70,9 @@ class RegisterController extends Controller
             'password.min' => 'Şifre en az 6 karakter uzunluğunda olmalıdır.',
             'type.required' => 'Kullanıcı türü seçimi zorunludur.',
             'type.in' => 'Geçerli bir kullanıcı türü seçiniz.',
-            // 'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
-            // 'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
-            'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
+            'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
+            'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
+            // 'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
             'county_id.required_if' => 'İlçe seçimi zorunludur.',
             'city_id.required_if' => 'Şehir seçimi zorunludur.',
             'neighborhood_id.required_if' => 'Mahalle seçimi zorunludur.',
@@ -107,7 +107,7 @@ class RegisterController extends Controller
         $user->banner_hex_code = "black";
         $user->password = bcrypt($request->input("password"));
         $user->type = $request->input("type") ? $request->input("type") : 1;
-        $user->activity = $request->input("activity");
+        // $user->activity = $request->input("activity");
         $user->iban = $request->input("iban");
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
@@ -124,7 +124,7 @@ class RegisterController extends Controller
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
         $user->commercial_title =  $request->input("commercial_title");
-        // $user->corporate_type = $request->input("activity");
+        $user->corporate_type = $request->input("corporate-account-type");
         $user->save();
 
         if ($request->input("type") == 2) {

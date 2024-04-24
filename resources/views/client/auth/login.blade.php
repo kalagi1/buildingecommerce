@@ -301,34 +301,34 @@
                                             <div class="mt-3">
                                                 <label for="" class="q-label">Faaliyet Alanınız</label>
                                                 <select
-                                                    class="form-control {{ $errors->has('activity') ? 'error-border' : '' }}"
-                                                    name="activity">
+                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}"
+                                                    name="corporate-account-type">
                                                     <option value="">Seçiniz</option>
 
 
                                                     <option value="Emlak Ofisi"
-                                                        {{ old('activity') == 'EmlakOfisi' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'EmlakOfisi' ? 'selected' : '' }}>
                                                         Emlak Ofisi</option>
                                                     <option value="İnşaat Ofisi"
-                                                        {{ old('activity') == 'İnşaatOfisi' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'İnşaatOfisi' ? 'selected' : '' }}>
                                                         İnşaat Ofisi</option>
                                                     <option value="Prefabrik Yapı"
-                                                        {{ old('activity') == 'PrefabrikYapı' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'PrefabrikYapı' ? 'selected' : '' }}>
                                                         Prefabrik Yapı</option>
                                                     <option value="Banka"
-                                                        {{ old('activity') == 'Banka' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
                                                         Banka</option>
                                                     <option value="Turizm"
-                                                        {{ old('activity') == 'Turizm' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
                                                         Turizm</option>
                                                     <option value="Ustalar & Hizmetler"
-                                                        {{ old('activity') == 'Ustalar&Hizmetler' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'Ustalar&Hizmetler' ? 'selected' : '' }}>
                                                         Ustalar & Hizmetler</option>
 
 
                                                 </select>
-                                                @if ($errors->has('activity'))
-                                                    <span class="error-message">{{ $errors->first('activity') }}</span>
+                                                @if ($errors->has('corporate-account-type'))
+                                                    <span class="error-message">{{ $errors->first('corporate-account-type') }}</span>
                                                 @endif
                                             </div>
 

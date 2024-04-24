@@ -164,7 +164,7 @@ class AuthController extends Controller
             'mobile_phone' =>  'required',
             'type' => 'required|in:1,2,21',
             'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
-            'activity' => 'required_if:type,2',
+            // 'activity' => 'required_if:type,2',
             'iban' => 'required_if:type,2',
             'check-a' => 'required_if:type,1',
             'check-d' => 'required_if:type,2',
@@ -195,7 +195,7 @@ class AuthController extends Controller
             'type.in' => 'Geçerli bir kullanıcı türü seçiniz.',
             'corporate-account-type.required_if' => 'Kurumsal hesap türü seçimi zorunludur.',
             'corporate-account-type.in' => 'Geçerli bir kurumsal hesap türü seçiniz.',
-            'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
+            // 'activity.required_if' => 'Kurumsal hesap aktivitesi seçimi zorunludur.',
             'iban.required_if' => 'Iban zorunludur.',
             'county_id.required_if' => 'İlçe seçimi zorunludur.',
             'city_id.required_if' => 'Şehir seçimi zorunludur.',
@@ -233,7 +233,7 @@ class AuthController extends Controller
         $user->banner_hex_code = "black";
         $user->password = bcrypt($request->input("password"));
         $user->type = $request->input("type") ? $request->input("type") : 1;
-        $user->activity = $request->input("activity");
+        // $user->activity = $request->input("activity");
         $user->iban = $request->input("iban");
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
