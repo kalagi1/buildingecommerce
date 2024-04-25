@@ -371,7 +371,7 @@
                                                 @endif
                                             </button>
                                         @else
-                                            <button class="CartBtn second-btn mobileCBtn" data-type='project'
+                                            <button class="CartBtn second-btn" data-type='project'
                                                 data-project='{{ $project->id }}' data-id='{{ $housingOrder }}'
                                                 data-share="{{ $share_sale }}"
                                                 data-number-share="{{ $number_of_share }}">
