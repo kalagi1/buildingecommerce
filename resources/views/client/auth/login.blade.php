@@ -471,13 +471,13 @@
                                                 <div class="checkboxes float-left">
                                                     <div class="filter-tags-wrap   {{ old('type') == '1' ? 'd-show ' : '' }}  {{ old('type') == '2' ? 'hidden' : '' }}  {{ $errors->has('check-a') ? 'error-check' : '' }}"
                                                         id="individualFormCheck">
-                                                        <input id="check-a" type="checkbox" name="check-a">
+                                                        <input id="check-a" type="checkbox" name="check-a" style="margin-top-10px !important;">
                                                         <label for="check-a" style="font-size: 11px;">
-                                                            <a href="/sayfa/bireysel-uyelik-sozlesmesi" target="_blank">
+                                                            <a href="/sayfa/bireysel-uyelik-sozlesmesi" target="_blank" style="margin-top: 20px;">
                                                                 Bireysel üyelik sözleşmesini
                                                             </a>
                                                             okudum onaylıyorum.
-                                                        </label> <br>
+                                                        </label> 
                                                         @if ($errors->has('check-a'))
                                                             <span
                                                                 class="error-message">{{ $errors->first('check-a') }}</span>
@@ -492,7 +492,6 @@
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
-                                                        <br>
                                                         @if ($errors->has('check-d'))
                                                             <span
                                                                 class="error-message">{{ $errors->first('check-d') }}</span>
@@ -507,7 +506,6 @@
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
-                                                        <br>
                                                         @if ($errors->has('check-b'))
                                                             <span
                                                                 class="error-message">{{ $errors->first('check-b') }}</span>
@@ -523,7 +521,6 @@
                                                             </a>
                                                             okudum onaylıyorum.
                                                         </label>
-                                                        <br>
                                                         @if ($errors->has('check-c'))
                                                             <span
                                                                 class="error-message">{{ $errors->first('check-c') }}</span>
@@ -540,9 +537,10 @@
 
                                         </div>
 
-                                        <button class="btn btn-primary q-button mb-5" type="submit"> Üye OL</button>
+                                        <button class="btn btn-primary q-button mb-3" type="submit"> Üye OL</button>
                                     </form>
                                 </div>
+                                <h4 class="support-phone">Bilgi Almak için arayın : <a href="tel:4443284">444 3 284</a></h4>
 
                             </div>
                         </div>
@@ -870,6 +868,47 @@
 
 @section('styles')
     <style>
+
+.inner-pages .checkboxes label:before {
+    content: "";
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    top: -3px;
+    background-color: #fff;
+    border: 2px solid #d0d0d0;
+    border-radius: 2px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: border-color 0.3s;
+    transition: border-color 0.3s;
+}
+        .filter-tags-wrap{
+            margin-bottom: 8px;
+        }
+        .support-phone {
+            font-size: 18px;
+            color: hsl(0, 0%, 7%);
+            font-family: Arial, sans-serif;
+            margin-bottom: 10px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 1.2px;
+        }
+
+        .support-phone a {
+            text-decoration: none;
+            color: #007bff; /* Link rengi */
+        }
+
+        .support-phone a:hover {
+            text-decoration: underline;
+        }
+
         #passwordInput {
             position: relative;
 
