@@ -281,7 +281,7 @@
                                             </div>
 
                                             <div class="mt-3">
-                                                <label class="q-label">Sabit Telefon</label>
+                                                <label class="q-label">Sabit Telefon (Opsiyonel)</label>
                                                 <input type="number" name="phone"
                                                     class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
                                                     value="{{ old('phone') }}" maxlength="10">
