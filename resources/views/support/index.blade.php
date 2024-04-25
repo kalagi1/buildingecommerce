@@ -102,8 +102,10 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Kategori</th>
                                                     <th scope="col">Evrak Gönderim Nedeni</th>
+                                                    <th scope="col">Dosya</th>
                                                     <th scope="col">Açıklama</th>
                                                     <th scope="col">Oluşturma Tarihi</th>
+                                                    <th scope="col">Talep Durumu</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -112,8 +114,47 @@
                                                         <td>{{ $item->id }}</td>
                                                         <td>{{ $item->category }}</td>
                                                         <td>{{ isset($item->send_reason) ? $item->send_reason : '-' }}</td>
+                                                        <td>
+                                                            @if(empty($item->file_path))
+                                                            -
+                                                            @else
+                                                                <a href="{{ route('destek.talep.dosya.indir', ['id' => $item->id]) }}">Dosyayı indir</a><br>
+                                                            @endif
+                                                        </td>
                                                         <td>{{ $item->description }}</td>
                                                         <td>{{ $item->created_at->format('d.m.Y') }}</td>
+                                                        <td>
+                                                            @if(!$item->return_support)
+                                                                <span>Talebiniz 24 saat içerisinde yanıtlanacaktır.</span>
+                                                            @else
+                                                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#returnModalYanit{{ $item->id }}" >
+                                                                    Yanıtı Gör
+                                                                </button>
+                                                            @endif    
+                                                        </td>
+                                                                 <!--Yanıtı Gör Modal -->
+                                <div class="modal fade" id="returnModalYanit{{ $item->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="returnModalYanitLabel{{ $item->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="returnModalYanitLabel{{ $item->id }}">Yanıt
+                                                </h5>
+                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">                                                
+                                                <div class="form-group">
+                                                    <p>  {!! $item->return_support !!}</p>
+                                                </div>                                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                                </div>                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
                                                     </tr>
                                                 @endforeach
                                             </tbody>
