@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('send_reason')->nullable();
             $table->text('description')->nullable();
             $table->string('file_path')->nullable();
+            $table->text('return_support')->nullable();
             $table->timestamps();
         });
     }

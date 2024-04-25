@@ -10,7 +10,7 @@ class TaxOfficeController extends Controller
 {
     public function getTaxOffice($city)
     {
-        $taxOffices = TaxOffice::where('il', $city)->get();
+        $taxOffices = TaxOffice::where('plaka', $city)->get();
         return response()->json($taxOffices);
     }
 }
