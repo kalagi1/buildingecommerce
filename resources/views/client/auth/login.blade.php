@@ -540,7 +540,7 @@
                                         <button class="btn btn-primary q-button mb-3" type="submit"> Üye OL</button>
                                     </form>
                                 </div>
-                                <h4 class="support-phone">Bilgi Almak için arayın : <a href="tel:4443284">444 3 284</a></h4>
+                                <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3 284</a></h4>
 
                             </div>
                         </div>
