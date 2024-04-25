@@ -890,14 +890,12 @@
             margin-bottom: 8px;
         }
         .support-phone {
-            font-size: 18px;
+            font-size: 14px;
             color: hsl(0, 0%, 7%);
-            font-family: Arial, sans-serif;
             margin-bottom: 10px;
             text-align: center;
             margin-top: 20px;
             margin-bottom: 20px;
-            letter-spacing: 1.2px;
         }
 
         .support-phone a {
