@@ -103,10 +103,14 @@
         </div>
     </section>
 
-
+   
     <section class="featured  home18 bg-white" style="height: 100px">
         <div class="container">
+           
             <div class="portfolio ">
+                <div class="section-title mb-3">
+                    <h2>Mağaza Vitrini</h2>
+                </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
                         <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
@@ -165,6 +169,7 @@
 
 
     <section class="container justify-content-center mt-4">
+        
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
                 <div

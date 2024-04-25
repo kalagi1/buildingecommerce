@@ -340,10 +340,13 @@
                                         <p class="text-body-emphasis fw-semibold">
                                             {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
                                     </div>
+                                    @if (isset(json_decode($order->cart)->item->qt))
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Adet:</p>
-                                        <p class="text-danger fw-semibold">{{json_decode($order->cart)->item->qt}}</p>
+                                        <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                        </p>
                                     </div>
+                                @endif
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
                                         <p class="text-body-emphasis fw-semibold">%{{$discount_percent}}</p>
@@ -786,7 +789,7 @@
     $(document).ready(function(){
         $(".phoneControl").on("input blur", function(){
         var phoneNumber = $(this).val();
-        var pattern = /^5[1-9]\d{8}$/;
+        var pattern = /^5[0-9]\d{8}$/;
     
         if (!pattern.test(phoneNumber)) {
           $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");

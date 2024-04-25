@@ -430,7 +430,7 @@
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_company" class="filter-now" />
-                                    <label for="from_company" class="form-check-label w-100 small">İnşaat
+                                    <label for="from_company" class="form-check-label w-100 small">İnşaat Ofisi
                                         Firmasından</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">

@@ -715,7 +715,7 @@ class PayController extends Controller
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $user = User::where('id', $housing->user_id)->first();
 
-                if ($user->corporate_type == 'Emlakçı') {
+                if ($user->corporate_type == 'Emlak Ofisi') {
                     $share_percent_balance = 0.25;
                     $share_percent_earn = 0.75;
                 } else {
@@ -756,7 +756,7 @@ class PayController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    if ($user->corporate_type == 'Emlakçı') {
+                    if ($user->corporate_type == 'Emlak Ofisi') {
                         $share_percent_balance = 0.25;
                         $share_percent_earn = 0.75;
                     } else {
@@ -797,7 +797,7 @@ class PayController extends Controller
                     }
                 } elseif (!$lastClick) {
                     $newAmount = $amountWithoutDiscount;
-                    if ($user->corporate_type == 'Emlakçı') {
+                    if ($user->corporate_type == 'Emlak Ofisi') {
                         $share_percent_balance = 0.25;
                         $share_percent_earn = 0.75;
                     } else {
@@ -833,7 +833,7 @@ class PayController extends Controller
                     ]);
                 } else {
                     $newAmount = $amountWithoutDiscount;
-                    if ($user->corporate_type == 'Emlakçı') {
+                    if ($user->corporate_type == 'Emlak Ofisi') {
                         $share_percent_balance = 0.25;
                         $share_percent_earn = 0.75;
                     } else {

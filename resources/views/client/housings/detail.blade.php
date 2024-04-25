@@ -1367,7 +1367,7 @@
                                                 <tr>
                                                     <td>
                                                         <span> Mağaza :</span>
-                                                        <span class="det" style="color:#274abb;">
+                                                        <span class="det text-wrap" style="color:#274abb;">
                                                             {!! $housing->user->name !!}
                                                         </span>
                                                     </td>
@@ -1376,8 +1376,8 @@
                                                 <tr>
                                                     <td>
                                                         <span> Kimden :</span>
-                                                        <span class="det" style="color:#274abb;">
-                                                            {{ $housing->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
+                                                        <span class="det text-wrap" style="color:#274abb;">
+                                                            {{ $housing->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $housing->user->corporate_type }}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -1765,7 +1765,7 @@
             $(document).ready(function() {
                 $("#telefon").on("input blur", function(){
                     var phoneNumber = $(this).val();
-                    var pattern = /^5[1-9]\d{8}$/;
+                    var pattern = /^5[0-9]\d{8}$/;
 
                     if (!pattern.test(phoneNumber)) {
                         $("#error_message").text(
@@ -2109,7 +2109,7 @@
         $(document).ready(function() {
             $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(

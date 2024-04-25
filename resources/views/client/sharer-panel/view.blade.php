@@ -244,7 +244,7 @@
                                 <p>
                                     Emlaksepette.com’ da bulunan proje ilanlarını koleksiyonuna ekleyerek paylaşım yaptığın
                                     ilanların satılması durumunda
-                                    toplam fiyat üzerinden %1 komisyon kazanırsınız. (Örneğin X İnşaat firmasının
+                                    toplam fiyat üzerinden %1 komisyon kazanırsınız. (Örneğin X İnşaat Ofisi firmasının
                                     projesindeki bir dairenin fiyatı 10 milyon TL
                                     paylaşmış olduğun link üzerinde satılması karşılığında emlak sepette.com emlak kulübü
                                     üyesine vergiler düşülerek net
@@ -538,7 +538,7 @@
     $(document).ready(function(){
         $("#phone").on("input blur", function(){
         var phoneNumber = $(this).val();
-        var pattern = /^5[1-9]\d{8}$/;
+        var pattern = /^5[0-9]\d{8}$/;
     
         if (!pattern.test(phoneNumber)) {
           $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");

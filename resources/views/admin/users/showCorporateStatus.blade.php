@@ -89,7 +89,7 @@
                                             </select>
                                         </div>
                                     @endif
-                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Emlakçı')
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Emlak Ofisi')
                                         <div class="form-group">
                                             <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Taşınmaz
                                                 Yetki Belgesi:
@@ -147,7 +147,7 @@
                                             </select>
                                         </div>
                                     @endif
-                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'İnşaat')
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'İnşaat Ofisi')
                                         <div class="form-group">
                                             <label for="insaat_belgesi" class="mb-2 d-flex align-items-center">Müteahhitlik
                                                 Belgesi (Opsiyonel):

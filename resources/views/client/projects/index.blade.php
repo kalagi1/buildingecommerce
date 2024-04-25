@@ -193,7 +193,7 @@
                                                     <td>
                                                         <span class="autoWidthTr">Kimden:</span>
                                                         <span class="det" style="color: #274abb !important;">
-                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
+                                                            {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -1466,7 +1466,7 @@
               $(document).ready(function() {
                 $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(

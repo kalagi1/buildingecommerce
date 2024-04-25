@@ -387,7 +387,7 @@ class ProjectController extends Controller
 
     public function projectPaymentPlan(Request $request)
     {
-        $project = Project::with("roomInfo")->where('id', $request->input('project_id'))->first();
+        $project = Project::with("roomInfo","housingType")->where('id', $request->input('project_id'))->first();
         return $project;
     }
 
@@ -997,11 +997,13 @@ class ProjectController extends Controller
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
+        
+      
 
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request)
+    public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request, $active = null,)
     {
         if ($projectID > 1000000) {
             $projectID -= 1000000;
@@ -1167,8 +1169,10 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
 
+        $active = isset($active) ? 'active' : null;
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug"));
+
+        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug","active"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)

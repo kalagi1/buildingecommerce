@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
+use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
@@ -195,6 +196,7 @@ Route::middleware('guest')->group(function () {
 
 Route::get('destek', [SupportController::class, 'index'])->name('support.index');
     Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
+    Route::get('destek/talep/dosya/indir/{id}', [SupportController::class, 'supportFileDownload'])->name('destek.talep.dosya.indir');
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
@@ -1190,18 +1192,3 @@ Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->
 
 
 //Destek Merkezi
-
-
-//Üyelik Tipimi Değiştir
-Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
-Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalRegister"])->name('client.institutional.register');
-
-//üyelik tipi için belge girme sayfası
-Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
-Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
-
-//Rol değişikliği
-Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
-Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
-
-Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->name('get.documents');

@@ -639,7 +639,7 @@ class HomeController extends Controller
                         ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
                         ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
                         ->where('users.type', '2')
-                        ->where('subscription_plans.plan_type', 'Emlakçı');
+                        ->where('subscription_plans.plan_type', 'Emlak Ofisi');
                     break;
 
                 case 'from_bank':
@@ -655,7 +655,7 @@ class HomeController extends Controller
                         ->join('user_plans', 'user_plans.user_id', '=', 'users.id')
                         ->join('subscription_plans', 'subscription_plans.id', '=', 'user_plans.subscription_plan_id')
                         ->where('users.type', '2')
-                        ->where('subscription_plans.plan_type', 'İnşaat');
+                        ->where('subscription_plans.plan_type', 'İnşaat Ofisi');
                     break;
             }
         }

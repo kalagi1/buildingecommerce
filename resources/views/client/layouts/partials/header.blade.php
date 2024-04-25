@@ -13,12 +13,12 @@
         <title>{{ $pageInfo->meta_title }}</title>
 
         <meta property="og:site_name" content="Emlak Sepette">
-		<meta property="og:url"content="https://emlaksepette.com/"/>
-		<meta property="og:type"content="website"/>
-		<meta property="og:title"content="{{ $pageInfo->meta_title }}"/>
-		<meta property="og:description"content="{{ $pageInfo->meta_description }}"/>
-		<meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png"/>
-		<meta property="og:image:width" content="300">
+        <meta property="og:url"content="https://emlaksepette.com/" />
+        <meta property="og:type"content="website" />
+        <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
+        <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
+        <meta property="og:image" content="https://emlaksepette.com/images/mini_logo.png" />
+        <meta property="og:image:width" content="300">
     @endif
 
 
@@ -70,6 +70,12 @@
     <style>
         .notification-card.unread {
             background-color: #eff2f6;
+        }
+
+        #whatsappButton {
+            height: 100% !important;
+            background: green;
+            margin-bottom: 10px;
         }
 
         .notification-card {
@@ -324,7 +330,7 @@
             }
         }
     </style>
-   
+
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
@@ -671,7 +677,9 @@
                                     @endphp
                                     <a href="{{ url('/emlak-kulup') }}">
                                         <button type="button" class=" newButtonStyle ml-2">
-                                            <span class="buyUserRequest__text newButtonStyle__text"><img src="{{URL::to('/')}}/emlakkulüplogo.png" alt=""> Emlak Kulüp</span>
+                                            <span class="buyUserRequest__text newButtonStyle__text"><img
+                                                    src="{{ URL::to('/') }}/emlakkulüplogo.png" alt="">
+                                                Emlak Kulüp</span>
                                         </button>
                                     </a>
                                     <a href="{{ $link }}">
@@ -686,7 +694,9 @@
                                     @auth
                                         <a href="{{ url('/emlak-kulup') }}">
                                             <button type="button" class=" newButtonStyle ml-4">
-                                                <span class="buyUserRequest__text newButtonStyle__text"><img src="{{URL::to('/')}}/emlakkulüplogo.png" alt="">  Emlak Kulüp</span>
+                                                <span class="buyUserRequest__text newButtonStyle__text"><img
+                                                        src="{{ URL::to('/') }}/emlakkulüplogo.png" alt="">
+                                                    Emlak Kulüp</span>
                                             </button>
                                         </a>
                                         <a href="{{ route('real.estate.index') }}">
@@ -700,7 +710,9 @@
                                     @else
                                         <a href="{{ url('/emlak-kulup') }}">
                                             <button type="button" class=" newButtonStyle ml-4">
-                                                <span class="buyUserRequest__text newButtonStyle__text"><img src="{{URL::to('/')}}/emlakkulüplogo.png" alt=""> Emlak Kulüp</span>
+                                                <span class="buyUserRequest__text newButtonStyle__text"><img
+                                                        src="{{ URL::to('/') }}/emlakkulüplogo.png" alt="">
+                                                    Emlak Kulüp</span>
                                             </button>
                                         </a>
                                         <a href="{{ url('/sat-kirala-nedir') }}">

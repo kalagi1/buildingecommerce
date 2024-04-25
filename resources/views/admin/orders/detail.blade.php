@@ -18,24 +18,22 @@
         ];
     @endphp
     @php
-                                            $orderCart = json_decode($order->cart, true);
+        $orderCart = json_decode($order->cart, true);
 
-    $deposit_rate = 0.04;
-    $discount_percent = 4;
+        $deposit_rate = 0.04;
+        $discount_percent = 4;
         if ($orderCart['type'] == 'housing') {
             $housing = \App\Models\Housing::where('id', $orderCart['item']['id'])->first();
             $saleType = $housing->step2_slug;
             $deposit_rate = 0.04;
             $discount_percent = 4;
-
         } else {
             $project = \App\Models\Project::where('id', $orderCart['item']['id'])->first();
             $saleType = $project->step2_slug;
             $deposit_rate = $project->deposit_rate / 100;
-            $discount_percent =  $project->deposit_rate;
-
+            $discount_percent = $project->deposit_rate;
         }
-@endphp
+    @endphp
     @php
         // İade talebinin oluşturulma tarihini al
         $refundCreatedAt = $order->created_at;
@@ -280,7 +278,7 @@
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="">
                                                 @else
-                                                    <img src="{{ $itemImage}}"
+                                                    <img src="{{ $itemImage }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
 
@@ -336,13 +334,17 @@
                                         <p class="text-body-emphasis fw-semibold">
                                             {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Adet:</p>
-                                        <p class="text-danger fw-semibold">{{json_decode($order->cart)->item->qt}}</p>
-                                    </div>
+                                    @if (isset(json_decode($order->cart)->item->qt))
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-body fw-semibold">Adet:</p>
+                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                            </p>
+                                        </div>
+                                    @endif
+
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
-                                        <p class="text-body-emphasis fw-semibold">%{{$discount_percent}}</p>
+                                        <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
                                 </div>
                                 <div
@@ -431,7 +433,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                       
+
                                                         <div class="col-12">
                                                             <div class="card">
                                                                 <div class="card-body">
@@ -440,7 +442,7 @@
                                                                     @if (isset($order->refund->path))
                                                                         {{-- {{dd($order->path)}} --}}
 
-                                                                        
+
                                                                         <a href="{{ asset($order->refund->path) }}"
                                                                             target="_blank">
                                                                             <i class="fa fa-file"></i> Dosyayı Görüntüle
@@ -468,15 +470,15 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
 
-                                                       
+
+
                                                         <div class="col-12 mt-3">
                                                             <div class="card">
                                                                 <div class="card-body">
                                                                     <h4 class="card-title mb-4">İade Durumu</h4>
-                                                                   
-                                                                   
+
+
                                                                     <form
                                                                         action="{{ route('admin.refund.update.status', $order->refund->id) }}"
                                                                         method="POST">
@@ -492,11 +494,11 @@
                                                                                 {{ $order->refund->status == 3 ? 'selected' : '' }}>
                                                                                 Geri Ödeme tamamlandı</option>
                                                                         </select>
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-primary" type="submit">Güncelle</button>
@@ -504,7 +506,7 @@
                                                             data-bs-dismiss="modal">kapat</button>
                                                     </div>
                                                     </form>
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
@@ -720,7 +722,7 @@
 
 
 
-                    
+
                 </div>
             </div>
         </div>

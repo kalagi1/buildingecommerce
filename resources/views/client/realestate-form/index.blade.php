@@ -194,7 +194,7 @@
                                     <label for="banyoTuvalet">Banyo/Tuvalet</label>
                                     <select class="form-select form-control" aria-label="Default select example" name="banyo_tuvalet">
                                         <option selected>Seçiniz</option>
-                                        <option value="Yok">Yok</option>
+                                        <option value="0">Yok</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -204,7 +204,7 @@
                                         <option value="7">7</option>
                                         <option value="8">8</option>
                                         <option value="9">9</option>
-                                        <option value="10 ve üzeri">10 ve üzeri</option>
+                                        <option value="10">10 ve üzeri</option>
 
                                     </select>
                                 </div>
@@ -531,7 +531,7 @@
         $(document).ready(function(){
             $("#phone").on("input blur", function(){
             var phoneNumber = $(this).val();
-            var pattern = /^5[1-9]\d{8}$/;
+            var pattern = /^5[0-9]\d{8}$/;
         
             if (!pattern.test(phoneNumber)) {
               $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");

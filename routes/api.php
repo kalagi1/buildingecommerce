@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\SliderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayController;
+
+use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -88,3 +90,37 @@ Route::post('/update_situation_order_temp_update', [TempOrderController::class, 
 Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
 Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
+
+
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
+
+        Route::middleware(['checkPermission:CreateRole'])->group(function () {
+            Route::get('/roles/create', [InstitutionalRoleController::class, 'create'])->name('roles.create');
+            Route::post('/roles', [InstitutionalRoleController::class, 'store'])->name('roles.store');
+        });
+    
+        Route::middleware(['checkPermission:GetRoleById'])->group(function () {
+            Route::get('/roles/{role}/edit', [InstitutionalRoleController::class, 'edit'])->name('roles.edit');
+        });
+    
+        // Rol Düzenleme Sayfasına Erişim Kontrolü (UpdateRole izni gerekli)
+        Route::middleware(['checkPermission:UpdateRole'])->group(function () {
+            Route::put('/roles/{role}', [InstitutionalRoleController::class, 'update'])->name('roles.update');
+        });
+    
+        // Rol Listeleme Sayfasına Erişim Kontrolü (GetRoles izni gerekli)
+        Route::middleware(['checkPermission:GetRoles'])->group(function () {
+            Route::get('/roles', [InstitutionalRoleController::class, 'index'])->name('roles.index');
+        });
+    
+        // Rol Silme İşlemi için Erişim Kontrolü (DeleteRole izni gerekli)
+        Route::middleware(['checkPermission:DeleteRole'])->group(function () {
+            Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
+        });
+});
+
+    // API rotaları buraya gelecek
+});
+  

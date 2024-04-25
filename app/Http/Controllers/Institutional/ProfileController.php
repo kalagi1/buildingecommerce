@@ -64,7 +64,7 @@ class ProfileController extends Controller
         }
 
         switch ($user->corporate_type) {
-            case 'Emlakçı':
+            case 'Emlak Ofisi':
                 $data =
                     [
                     'subscription_plan_id' => $plan->id,
@@ -76,7 +76,7 @@ class ProfileController extends Controller
                 break;
 
             case 'Banka':
-            case 'İnşaat':
+            case 'İnşaat Ofisi':
                 $data =
                     [
                     'subscription_plan_id' => $plan->id,

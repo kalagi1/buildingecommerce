@@ -40,9 +40,9 @@
                                 <label class="form-label" for="plan_type">Plan Türü</label>
                                 <select name="plan_type" id="plan_type" class="form-control">
                                     <option value="Bireysel"{{ $subscriptionPlan->plan_type == 'Bireysel' ? ' selected' : null }}>Bireysel</option>
-                                    <option value="Emlakçı"{{ $subscriptionPlan->plan_type == 'Emlakçı' ? ' selected' : null }}>Emlakçı</option>
+                                    <option value="Emlak Ofisi"{{ $subscriptionPlan->plan_type == 'Emlak Ofisi' ? ' selected' : null }}>Emlak Ofisi</option>
                                     <option value="Banka"{{ $subscriptionPlan->plan_type == 'Banka' ? ' selected' : null }}>Banka</option>
-                                    <option value="İnşaat"{{ $subscriptionPlan->plan_type == 'İnşaat' ? ' selected' : null }}>İnşaat</option>
+                                    <option value="İnşaat Ofisi"{{ $subscriptionPlan->plan_type == 'İnşaat Ofisi' ? ' selected' : null }}>İnşaat Ofisi</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Güncelle</button>

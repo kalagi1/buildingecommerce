@@ -603,9 +603,7 @@
                             <div class="invoice-body">
                                 <div class="invoice-total mt-3">
                                     <div class="mt-3">
-                                        <span><strong style="color:black">Komşumu Gör Özelliği:</strong> Bu özellik,
-                                            komşunuzun
-                                            iletişim bilgilerine ulaşabilmeniz için aktif edilmelidir.</span><br>
+                                        <span><strong style="color:black">Komşumu Gör Özelliği:</strong> İlgilendiğiniz projeden konut alanları arayıp proje hakkında detaylı referans bilgisi almanıza imkan sağlar.</span><br>
                                         <span>Komşunuza ait iletişim bilgilerini görmek için aşağıdaki adımları takip
                                             edin:</span>
                                         <ul>
@@ -635,8 +633,8 @@
                                     250 TL Öde
                                 </button>
                             </form>
-                            <button type="button" class="btn btn-secondary btn-lg btn-block mt-3 mb-3"
-                                style="width:150px;margin-left:10px" data-bs-dismiss="modal">İptal</button>
+                            <button type="button" class=" btn btn-danger"
+                                style="width:150px;margin-left:10px; margin-top:10px; " data-bs-dismiss="modal">İptal</button>
                         </div>
 
 
