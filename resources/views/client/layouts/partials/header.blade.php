@@ -72,17 +72,11 @@
             background-color: #eff2f6;
         }
 
-        /* #whatsappButton {
-            background-color: green !important;
-    color: white;
-    border: none;
-    padding: 3px 20px;
-    margin-bottom: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: 12%;
-        } */
+        #whatsappButton {
+            height: 100% !important;
+            background: green;
+            margin-bottom: 10px;
+        }
 
         .notification-card {
             cursor: pointer;
