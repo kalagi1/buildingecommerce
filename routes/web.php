@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ChangePhoneController;
+use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
@@ -195,6 +196,7 @@ Route::middleware('guest')->group(function () {
 
 Route::get('destek', [SupportController::class, 'index'])->name('support.index');
     Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
+    Route::get('destek/talep/dosya/indir/{id}', [SupportController::class, 'supportFileDownload'])->name('destek.talep.dosya.indir');
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
@@ -1189,4 +1191,8 @@ Route::post('dekot/file/upload', [CartController::class, 'dekontfileUpload'])->n
 Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->name('dekont.indir');
 
 
-//Destek Merkezi
+//Admin panel Destek Takip
+
+Route::get('qR9zLp2xS6y/secured/destek/takip',[AdminSupportController::class,'index'])->name('admin.support.index');
+Route::post('qR9zLp2xS6y/secured/destek/yanit',[AdminSupportController::class,'returnSupport'])->name('admin.return.support');
+Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle',[AdminSupportController::class,'returnSupportEdit'])->name('admin.return.support.edit');
