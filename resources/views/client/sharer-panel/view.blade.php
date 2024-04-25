@@ -244,7 +244,7 @@
                                 <p>
                                     Emlaksepette.com’ da bulunan proje ilanlarını koleksiyonuna ekleyerek paylaşım yaptığın
                                     ilanların satılması durumunda
-                                    toplam fiyat üzerinden %1 komisyon kazanırsınız. (Örneğin X İnşaat firmasının
+                                    toplam fiyat üzerinden %1 komisyon kazanırsınız. (Örneğin X İnşaat Ofisi firmasının
                                     projesindeki bir dairenin fiyatı 10 milyon TL
                                     paylaşmış olduğun link üzerinde satılması karşılığında emlak sepette.com emlak kulübü
                                     üyesine vergiler düşülerek net

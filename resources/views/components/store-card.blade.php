@@ -101,7 +101,7 @@
                         <a class="navbar-item {{ Route::is('institutional.profile*') ? 'active' : '' }}"
                             href="{{ route('institutional.profile', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Mağaza
                             Profili</a>
-                        @if ($store->corporate_type != 'Emlakçı')
+                        @if ($store->corporate_type != 'Emlak Ofisi')
                             <a class="navbar-item {{ Route::is('institutional.projects.detail*') ? 'active' : '' }}"
                                 href="{{ route('institutional.projects.detail', ['slug' => Str::slug($store->name), 'userID' => $store->id]) }}">Proje
                                 İlanları</a>

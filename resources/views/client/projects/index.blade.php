@@ -193,7 +193,7 @@
                                                     <td>
                                                         <span class="autoWidthTr">Kimden:</span>
                                                         <span class="det" style="color: #274abb !important;">
-                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
+                                                            {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
                                                         </span>
                                                     </td>
                                                 </tr>

@@ -75,7 +75,7 @@
                         accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->tax_document_approve ? ' ' : null }} />
 
                 </div>
-                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'Emlakçı')
+                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'Emlak Ofisi')
                     <div class="form-group">
                         <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Taşınmaz Yetki Belgesi:
 
@@ -117,7 +117,7 @@
                     </div>
                 @endif
 
-                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'İnşaat')
+                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'İnşaat Ofisi')
                     <div class="form-group">
                         <label for="insaat_belgesi" class="mb-2 d-flex align-items-center">Müteahhitlik Belgesi (Opsiyonel):
 

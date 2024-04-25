@@ -110,9 +110,9 @@ class LoginController extends Controller {
         $subscriptionPlans = SubscriptionPlan::all();
 
         $subscriptionPlans_bireysel = SubscriptionPlan::where( 'plan_type', 'Bireysel' )->get();
-        $subscriptionPlans_emlakci = SubscriptionPlan::where( 'plan_type', 'Emlakçı' )->get();
+        $subscriptionPlans_emlakci = SubscriptionPlan::where( 'plan_type', 'Emlak Ofisi' )->get();
         $subscriptionPlans_banka = SubscriptionPlan::where( 'plan_type', 'Banka' )->get();
-        $subscriptionPlans_insaat = SubscriptionPlan::where( 'plan_type', 'İnşaat' )->get();
+        $subscriptionPlans_insaat = SubscriptionPlan::where( 'plan_type', 'İnşaat Ofisi' )->get();
         
         $pageInfo = [
             "meta_title" => "Giriş Yap & Kayıt Ol",

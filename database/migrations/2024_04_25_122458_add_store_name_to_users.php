@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('subscription_plans', function (Blueprint $table) {
-            $table->enum('plan_type', ['Bireysel','Emlak Ofisi','Banka','İnşaat Ofisi']);
+        Schema::table('users', function (Blueprint $table) {
+            $table->string("store_name")->nullable();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('subscription_plans', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
