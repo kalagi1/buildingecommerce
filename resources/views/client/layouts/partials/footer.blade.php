@@ -913,7 +913,7 @@
                             var projectID = response.id + 1000000;
                             var housingOrder = paymentOrder;
                             
-                            var domain = window.location.hostname;
+                            var domain = window.location.origin;
                             var url = domain + '/proje/' + projectSlug + '/ilan/' + projectID + '/' + housingOrder + '/detay' + "/odeme-plani";
                             
                           
