@@ -340,10 +340,13 @@
                                         <p class="text-body-emphasis fw-semibold">
                                             {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
                                     </div>
+                                    @if (isset(json_decode($order->cart)->item->qt))
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Adet:</p>
-                                        <p class="text-danger fw-semibold">{{json_decode($order->cart)->item->qt}}</p>
+                                        <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                        </p>
                                     </div>
+                                @endif
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
                                         <p class="text-body-emphasis fw-semibold">%{{$discount_percent}}</p>
