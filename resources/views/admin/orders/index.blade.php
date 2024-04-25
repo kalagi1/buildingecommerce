@@ -198,10 +198,13 @@
                                                 @if(isset($order->payment_result))
                                                     <!-- Payment result varsa -->
                                                     Kredi Kartı ile<br>
-                                                @else
-                                                    <span>EFT / Havale</span> <br>
-                                                    <!-- Payment result yoksa -->
-                                                    <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}">Dekontu indir</a><br>
+                                                    @else
+                                                        <span>EFT / Havale</span> <br>
+                                                        @if(isset($order->dekont))
+                                                            <a href="{{ route('dekont.indir', ['order_id' => $order->id]) }}" style="color: hsla(229, 100%, 50%, 0.89)">Dekontu indir</a><br>
+                                                        @else
+                                                            <span style="color: #EA2B2E">Dekont Eklenmedi</span>
+                                                        @endif
                                                 @endif
                                             </td>
                                             
