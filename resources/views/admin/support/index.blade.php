@@ -209,7 +209,7 @@
                 if (selectedCategory === "Evrak Gönderimi") {
                     // Ekstra bir seçim kutusu ekleyin
                     var extraSelectBox =
-                        '<label class="form-label mt-3 " style="font-size: 12px !important;">Evrak Gönderim Nedeni</label><select class="formInput" name="sendReason"><option value="">Gönderim Nedeni Seçiniz</option><option value="Turizm Amaçlı Kiralık Mağaza Doğrulama">Turizm Amaçlı Kiralık Mağaza Doğrulama</option><option value="İlan İlgili Belge Talebi">İlan İlgili Belge Talebi</option><option value="Mağaza Açma">Mağaza Açma</option><option value="Marka Tescili">Marka Tescili</option><option value="Yetkili Bayii Belgesi">Yetkili Bayii Belgesi</option></select>';
+                        '<label class="form-label mt-3 " style="font-size: 12px !important;">Evrak Gönderim Nedeni</label><select class="formInput" name="sendReason"><option value="">Gönderim Nedeni Seçiniz</option><option value="Turizm Amaçlı Kiralama Amaçlı Kiralık Mağaza Doğrulama">Turizm Amaçlı Kiralama Amaçlı Kiralık Mağaza Doğrulama</option><option value="İlan İlgili Belge Talebi">İlan İlgili Belge Talebi</option><option value="Mağaza Açma">Mağaza Açma</option><option value="Marka Tescili">Marka Tescili</option><option value="Yetkili Bayii Belgesi">Yetkili Bayii Belgesi</option></select>';
                     $(this).parent().append(extraSelectBox);
                 } else {
                     // Seçilen kategori "Evrak Gönderimi" değilse, ekstra seçim kutusunu kaldırın

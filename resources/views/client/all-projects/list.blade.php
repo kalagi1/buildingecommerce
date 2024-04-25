@@ -421,7 +421,7 @@
                             <div class="mt-4" style="display: none;">
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_owner" class="filter-now" />
-                                    <label for="from_owner" class="form-check-label w-100 small">Turizm</label>
+                                    <label for="from_owner" class="form-check-label w-100 small">Turizm Amaçlı Kiralama</label>
                                 </div>
                                 <div class="mb-2 d-flex align-items-center w-100">
                                     <input type="radio" name="whose" id="from_office" class="filter-now" />

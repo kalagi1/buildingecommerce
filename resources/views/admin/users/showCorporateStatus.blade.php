@@ -118,7 +118,7 @@
                                             </select>
                                         </div>
                                     @endif
-                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Turizm')
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Turizm Amaçlı Kiralama')
                                         <div class="form-group">
                                             <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Acenta
                                                 Belgesi:

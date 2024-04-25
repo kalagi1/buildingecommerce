@@ -305,9 +305,9 @@
                                                     <option value="İnşaat Ofisi"
                                                         {{ old('corporate-account-type') == 'İnşaat Ofisi' ? 'selected' : '' }}>
                                                         İnşaat Ofisi</option>
-                                                    <option value="Turizm"
-                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
-                                                        Turizm</option>
+                                                    <option value="Turizm Amaçlı Kiralama"
+                                                        {{ old('corporate-account-type') == 'Turizm Amaçlı Kiralama' ? 'selected' : '' }}>
+                                                        Turizm Amaçlı Kiralama</option>
                                                 </select>
                                                 @if ($errors->has('corporate-account-type'))
                                                     <span
