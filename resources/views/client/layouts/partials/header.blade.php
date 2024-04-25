@@ -72,7 +72,7 @@
             background-color: #eff2f6;
         }
 
-        #whatsappButton {
+        /* #whatsappButton {
             background-color: green !important;
     color: white;
     border: none;
@@ -82,7 +82,7 @@
     align-items: center;
     justify-content: start;
     width: 12%;
-        }
+        } */
 
         .notification-card {
             cursor: pointer;
