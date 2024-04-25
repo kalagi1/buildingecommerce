@@ -20,9 +20,11 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
+                                            <th scope="col">Gönderen</th>
                                             <th scope="col">Kategori</th>
                                             <th scope="col">Evrak Gönderim Nedeni</th>
                                             <th scope="col">Açıklama</th>
+                                            <th scope="col">Belge</th>
                                             <th scope="col">Oluşturma Tarihi</th>
                                             <th>Yanıtla</th>
 
@@ -32,9 +34,25 @@
                                         @foreach ($supports as $item)
                                             <tr>
                                                 <td>{{ $item->id }}</td>
+                                                <td>
+                                                    @if($item->user)
+                                                        {{ $item->user->name }}
+                                                    @else
+                                                        Kullanıcı Bulunamadı
+                                                    @endif
+                                                </td>
+                                                
                                                 <td>{{ $item->category }}</td>
                                                 <td>{{ isset($item->send_reason) ? $item->send_reason : '-' }}</td>
                                                 <td>{{ $item->description }}</td>
+                                                <td>
+                                                    @if($item->file_path)
+                                                        <a href="{{ $item->file_path }}" class="btn btn-sm btn-info" style="background-color:#0080c7;" download>Belgeyi İndir</a>
+                                                    @else
+                                                        Belge Bulunamadı
+                                                    @endif
+                                                </td>
+                                                
                                                 <td>{{ $item->created_at->format('d.m.Y') }}</td>
                                                 <td>
                                                     @if(!$item->return_support)
