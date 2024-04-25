@@ -108,7 +108,7 @@
         <div class="container">
            
             <div class="portfolio ">
-                <div class="section-title">
+                <div class="section-title mb-3">
                     <h2>Mağaza Vitrini</h2>
                 </div>
                 <div class="slick-lancers">
