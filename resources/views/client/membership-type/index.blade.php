@@ -16,9 +16,7 @@
                                         @csrf
                                         <div class="user-type-selection">
                                             <div class="button-group" style="height: 40px">
-                                                <button
-                                                    class="user-type-button mb-3 institutional {{ old('type') == 2 ? 'active' : '' }}"
-                                                    data-user-type="2" type="button">Kurumsala Kayıt Ol</button>
+                                                <h4 class="text-center mb-4">Kurumsala Kayıt Ol</h4>
                                             </div>
                                             <input type="hidden" name="type" id="user-type-input"
                                                 value="{{ old('type', 1) }}">
@@ -127,17 +125,17 @@
                                                     class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}">
                                                     <option value="" disabled selected>Seçiniz</option>
                                                     <option value="Emlakçı"
-                                                        {{ old('corporate-account-type') == 'Emlakçı' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'Emlak Ofisi' ? 'selected' : '' }}>
                                                         Emlak Ofisi</option>
                                                     <option value="Banka"
                                                         {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
                                                         Banka</option>
                                                     <option value="İnşaat"
-                                                        {{ old('corporate-account-type') == 'İnşaat' ? 'selected' : '' }}>
+                                                        {{ old('corporate-account-type') == 'İnşaat Ofisi' ? 'selected' : '' }}>
                                                         İnşaat Ofisi</option>
-                                                    <option value="Turizm"
-                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
-                                                        Turizm</option>
+                                                    <option value="Turizm Amaçlı Kiralama"
+                                                        {{ old('corporate-account-type') == 'Turizm Amaçlı' ? 'selected' : '' }}>
+                                                        Turizm Amaçlı Kiralama</option>
                                                 </select>
                                                 @if ($errors->has('corporate-account-type'))
                                                     <span
@@ -193,7 +191,7 @@
                                                 <select class="form-control" id="taxOfficeCity"  name="taxOfficeCity">
                                                     <option value="">Şehir Seçiniz</option>
                                                     @foreach ($cities as $city)
-                                                        <option value="{{ $city->id }}">
+                                                        <option value="{{ $city->title }}">
                                                             {{ $city->title }}</option>
                                                     @endforeach
                                                 </select>
@@ -382,6 +380,8 @@
                     success: function(data) {
                         console.log(data)
                         $('#county_id').empty().prop('disabled', false);
+                        $('#county_id').html(
+                                '<option value="">İlçe Seçiniz</option>');
                         $.each(data, function(index, district) {
                             $('#county_id').append('<option value="' + district
                                 .ilce_key + '">' + district.ilce_title +
@@ -499,32 +499,6 @@
                 } else if (this.value === '2') { // Limited veya Anonim Şirketi seçildiğinde
                     taxNumberInput.style.display = 'block'; // Vergi Numarası gizli
                     idNumberInput.style.display = 'none'; // TC Kimlik Numarası görünür
-                }
-            });
-        });
-
-   
-
-        $(document).ready(function() {
-            $('.owl-carousel').owlCarousel({
-                items: 2, // Varsayılan olarak 2 öğe göster
-                loop: true,
-                margin: 10,
-                dots: false,
-                autoplay: true,
-                autoplayTimeout: 5000,
-                autoplayHoverPause: true,
-                responsive: {
-                    0: {
-                        items: 1
-
-                    },
-                    768: {
-                        items: 1 // 768 piksel genişlikte 1 öğe göster
-                    },
-                    1000: {
-                        items: 2
-                    }
                 }
             });
         });

@@ -1192,3 +1192,25 @@ Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->
 
 
 //Destek Merkezi
+
+
+//Üyelik Tipimi Değiştir
+Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
+Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalRegister"])->name('client.institutional.register');
+
+//üyelik tipi için belge girme sayfası
+Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
+Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
+
+//Rol değişikliği
+Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+
+Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->name('get.documents');
+
+
+//Admin panel Destek Takip
+
+Route::get('qR9zLp2xS6y/secured/destek/takip',[AdminSupportController::class,'index'])->name('admin.support.index');
+Route::post('qR9zLp2xS6y/secured/destek/yanit',[AdminSupportController::class,'returnSupport'])->name('admin.return.support');
+Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle',[AdminSupportController::class,'returnSupportEdit'])->name('admin.return.support.edit');

@@ -52,7 +52,7 @@
                                 </td>
 
                                 <td class="ad_no align-middle  fw-semibold text-body-highlight">
-                                    {{ $item->phone }}
+                                    {{ $item->mobile_phone }}
                                 </td>
 
                                 <td class="customer align-middle white-space-nowrap">
@@ -69,7 +69,7 @@
                                 </td>
 
                                 <td class="order_amount align-middle  fw-semibold text-body-highlight">
-                                    {{$item->commercial_title}}
+                                    {{$item->store_name}}
                                 </td>
                                 
                                 <td class="order_amount align-middle  fw-semibold text-body-highlight">

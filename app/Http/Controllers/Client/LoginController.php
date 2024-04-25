@@ -501,42 +501,42 @@ class LoginController extends Controller {
     }//End
 
     public function institutionalRegister(Request $request){
-        print_r($request->all());die;
+        // print_r($request->all());die;
         
-        $rules = [
-            'name1' => [
-                function ($attribute, $value, $fail) use ($request) {
-                    if ($request->input('type') == 1 && empty($value)) {
-                        $fail('İsim alanı zorunludur.');
-                    }
-                },
-            ],
-            'name' => [
-                function ($attribute, $value, $fail) use ($request) {
-                    if ($request->input('type') == 2 && empty($value)) {
-                        $fail('İsim alanı zorunludur.');
-                    }
-                },
-            ],
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-            'mobile_phone' =>  'required',
-            'type' => 'required|in:1,2,21',
-            'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
-            'activity' => 'required_if:type,2',
-            'check-a' => 'required_if:type,1',
-            'check-d' => 'required_if:type,2',
-            'check-b' => 'required',
-            'check-c' => 'required',
-            'county_id' => "required_if:type,2",
-            'city_id' => "required_if:type,2",
-            'neighborhood_id' => "required_if:type,2",
-            'username' => "required_if:type,2",
-            'taxOffice' => "required_if:type,2",
-            "taxOfficeCity" => "required_if:type,2",
-            'taxNumber' => "required_if:type,2",
-            'idNumber' => "required_if:account_type,1",
-        ];
+        // $rules = [
+        //     'name1' => [
+        //         function ($attribute, $value, $fail) use ($request) {
+        //             if ($request->input('type') == 1 && empty($value)) {
+        //                 $fail('İsim alanı zorunludur.');
+        //             }
+        //         },
+        //     ],
+        //     'name' => [
+        //         function ($attribute, $value, $fail) use ($request) {
+        //             if ($request->input('type') == 2 && empty($value)) {
+        //                 $fail('İsim alanı zorunludur.');
+        //             }
+        //         },
+        //     ],
+        //     'email' => 'required|email',
+        //     'password' => 'required|min:6',
+        //     'mobile_phone' =>  'required',
+        //     'type' => 'required|in:1,2,21',
+        //     'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
+        //     'activity' => 'required_if:type,2',
+        //     'check-a' => 'required_if:type,1',
+        //     'check-d' => 'required_if:type,2',
+        //     'check-b' => 'required',
+        //     'check-c' => 'required',
+        //     'county_id' => "required_if:type,2",
+        //     'city_id' => "required_if:type,2",
+        //     'neighborhood_id' => "required_if:type,2",
+        //     'username' => "required_if:type,2",
+        //     'taxOffice' => "required_if:type,2",
+        //     "taxOfficeCity" => "required_if:type,2",
+        //     'taxNumber' => "required_if:type,2",
+        //     'idNumber' => "required_if:account_type,1",
+        // ];
 
         $msgs = [
             // 'email.required' => 'E-posta adresi alanı zorunludur.',
@@ -574,7 +574,7 @@ class LoginController extends Controller {
         }
 
         // Form doğrulama işlemini gerçekleştirin
-        $validatedData = $request->validate($rules, $msgs);
+        // $validatedData = $request->validate($rules, $msgs);
        
         $user = User::where('id',Auth::id())->first();
         $user->email = $request->input("email");
@@ -587,7 +587,6 @@ class LoginController extends Controller {
         $user->banner_hex_code                 = "black";
         // $user->password                        = bcrypt($request->input("password"));
         $user->type                            = $request->input("type") ? $request->input("type") : 1;
-        $user->activity                        = $request->input("activity");
         // $user->iban                            = $request->input("iban");
         $user->county_id                       = $request->input("county_id");
         $user->city_id                         = $request->input("city_id");
@@ -601,6 +600,7 @@ class LoginController extends Controller {
         $user->taxOffice                       = $request->input("taxOffice");
         $user->taxNumber                       = $request->input("taxNumber");
         $user->idNumber                        = $request->input("idNumber");
+        $user->store_name                      = $request->input("store_name");
         $user->status                          = 1;
         $user->email_verification_token        = Str::random(40);
         $user->corporate_type                  = $request->input("corporate-account-type");
@@ -610,7 +610,6 @@ class LoginController extends Controller {
         $user->record_document_approve         = 0;
         $user->institutional_awaiting_approval = 0;
         $user->save();
-        print_r($user);die;
 
         if ($request->input("type") == 2) {
             $maxOrder = User::where("type", 2)->max("order");
