@@ -1292,7 +1292,7 @@
                                                                     `<button class="btn second-btn " style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı</button>`
                                                                     :
                                                                     res.action === 'payment_await' ?
-                                                                        `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi</button>`
+                                                                        `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;">Rezerve Edildi</button>`
                                                                         :
                                                                         res.action === 'sold' ?
                                                                             `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
@@ -1382,7 +1382,7 @@
                                                                                 `<button class="btn second-btn " style="background: #EA2B2E !important;width:100%;color:White">Satışa Kapatıldı</button>`
                                                                                 :
                                                                                 res.action === 'payment_await' ?
-                                                                                    `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;margin-top:30px">Rezerve Edildi</button>`
+                                                                                    `<button class="btn second-btn " style="background: orange !important;width:100%;color:White;">Rezerve Edildi</button>`
                                                                                     :
                                                                                     res.action === 'sold' ?
                                                                                         `<button class="btn second-btn " style="width: 100%; border: none; background:#EA2B2E !important; border-radius: 10px; padding: 5px 0px; color: white">Satıldı</button>`
