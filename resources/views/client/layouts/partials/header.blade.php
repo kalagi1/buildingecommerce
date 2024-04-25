@@ -71,6 +71,13 @@
         .notification-card.unread {
             background-color: #eff2f6;
         }
+        #whatsappButton{
+            background-color: green !important;
+    color: white;
+    border: none;
+    padding: 3px 20px;
+    margin-bottom: 10px;
+        }
 
         .notification-card {
             cursor: pointer;
