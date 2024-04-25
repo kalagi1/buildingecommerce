@@ -1535,7 +1535,7 @@
 
         $('.listingDetailsSliderNav').slick({
             slidesToShow: 5,
-            slidesToScroll: 1,
+            slidesToScroll: 5,
             dots: false,
             loop: false,
             autoplay: false,
