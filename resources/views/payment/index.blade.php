@@ -1121,7 +1121,7 @@
 
             $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#success_message").text("");

@@ -369,7 +369,7 @@
                $(document).ready(function() {
                 $("#telefon").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(
