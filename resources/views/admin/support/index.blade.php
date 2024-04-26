@@ -1,18 +1,14 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    <section class="divIlan">
-        <div class="container">
+    <section class="content">
             <div class="col-md-12 mt-3 ml-4" 
             data-list='{"valueNames":["id","title"],"page":1,"pagination":true}'>
                 <div class="row" style="margin-bottom:50px;">
 
-                    <div class="col-md-12 text-center mt-3">
-                        <p style="font-size: 32px;color:#333333;">Destek Merkezi</p>
-                    </div>
+                    <h3 class="mb-0">Destek Merkezi</h3>
 
-                    
-                    <div style="margin-left: 100px;">
+                
 
                         <div class="card shadow-none border border-300 my-4 p-5">
                             <div class="table-responsive scrollbar">
@@ -149,10 +145,8 @@
                             
                             
                         </div>
-                    </div>
                 </div>
             </div>   
-        </div>
     </section>
 @endsection
 

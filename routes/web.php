@@ -1205,10 +1205,6 @@ Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalR
 // Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
 // Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
 
-//Rol değişikliği
-// Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
-// Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
-// Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
 
 Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->name('get.documents');
 
