@@ -231,7 +231,7 @@ class ProjectController extends Controller
                         $project->cartOrders += 1;
                     }
                 } else {
-                    if ($projectCounts) {
+                    if ($projectCounts && !isset($projectHousingsList[$i]['number_of_shares[]']) ) {
                         $project->cartOrders += 1;
                     }
                  
