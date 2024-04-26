@@ -230,7 +230,7 @@ class ProjectController extends Controller
                 // Eğer housing değeri varsa, total_quantity'yi al
                 if ($housing_exists) {
                     $total_quantity = CartOrder::selectRaw(
-                        "SUM(CAST(COALESCE(JSON_UNQUOTE(json_extract(cart, '$.item.qt')), '1') AS UNSIGNED)) as total_quantity"
+                        "SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity"
                     )
                     ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where(DB::raw($housing_json_path), $i)
