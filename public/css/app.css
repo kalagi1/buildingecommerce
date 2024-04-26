@@ -1,0 +1,67 @@
+.js-cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 450px; /* Verdiğiniz CSS'deki genişlik değeri */
+    background-color: #333; /* Verdiğiniz CSS'deki arka plan rengi */
+    color: #fff; /* Verdiğiniz CSS'deki metin rengi */
+    padding: 20px; /* İçeriğin iç kenar boşluğu */
+    text-align: center;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    border-radius: 8px; /* Verdiğiniz CSS'deki kenar yuvarlaklığı */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.js-cookie-consent.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.js-cookie-consent .cookie-consent__message {
+    margin-top: 20px; /* İleti üst boşluğu */
+    margin-bottom: 20px; /* İleti alt boşluğu */
+}
+
+.js-cookie-consent .js-cookie-consent-agree {
+    background: #fff;
+    color: #333;
+    border: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px; /* Düğme üst boşluğu */
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    border-radius: 8px; 
+
+}
+
+.js-cookie-consent .js-cookie-consent-agree:hover {
+    background-color: rgba(196, 218, 214, 0.76); /* Hover durumunda düğme arka plan rengi */
+}
+.cookie-consent-link {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff; /* Metin rengi beyaz */
+    font-size: 16px; /* Metin boyutu */
+    line-height: 1.5; /* Satır yüksekliği */
+    margin-left: 5px; /* İkon ile metin arasındaki boşluk */
+    margin-bottom: 20px;
+}
+
+.cookie-icon {
+    vertical-align: middle; /* İkonu metinle hizalama */
+    fill: #fff; /* İkon rengi beyaz */
+    margin-right: 5px; /* İkon ile metin arasındaki boşluk */
+}
+.js-cookie-consent .cookie-consent-link:hover {
+    color: rgba(196, 218, 214, 0.76); /* Hover durumunda düğme arka plan rengi */
+}
+
+
+.cookie-consent__message{
+    font-size: 15px; 
+}

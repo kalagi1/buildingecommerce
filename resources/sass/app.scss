@@ -4,5 +4,11 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
+  // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Cookie Consent
+.js-cookie-consent {
+   background-color: red;
+  }
+
