@@ -4,8 +4,7 @@
     <div class="content">
         <div class="col-auto">
             <h3 class="mb-0">Rol Değişikliği Talepleri</h3>
-            <br>
-            <h3>Bireysel => Kurumsal</h3>
+            <span>Bireysel => Kurumsal</span>
         </div>
         @if (Session::has('success'))
             <div class="alert alert-success" role="alert">
