@@ -214,33 +214,30 @@ class ProjectController extends Controller
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
 
             $project->cartOrders = 0;
-            $projectCounts= 0;
-            if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] && $projectHousingsList[1]['share_sale[]'] != "[]") {
-                $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
-            
-                for ($i = 1; $i <= $room_counts; $i++) {
-                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
-                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
-                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                        ->where(DB::raw($housingJsonPath), $i)
-                        ->first();
-            
-                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
-                        $project->cartOrders += 1;
-                    }
-                }
-            }else{
-                $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                ->groupBy('project_id')
-                ->where("status", "1")
-                ->get();
-                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+            $projectCounts = 0;
+            $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
 
+            for ($i = 1; $i <= $room_counts; $i++) {
+                $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+                
+                $total_quantity = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
+                    ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                    ->where(DB::raw($housing_json_path), $i)
+                    ->where("status","1")
+                    ->first();
+            
+                $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
+                $has_same_quantity = $total_quantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $total_quantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
+            
+                if ($has_share_sale && $has_same_quantity) {
+                    $project->cartOrders += 1;
+                } elseif (!$has_share_sale && $total_quantity) {
+                    $project->cartOrders += 1;
+                }
             }
             
 
-        
+
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
             $blockIndex = $request->input('block_id') ?? 0;
@@ -259,7 +256,7 @@ class ProjectController extends Controller
 
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
-            
+
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
@@ -387,7 +384,7 @@ class ProjectController extends Controller
 
     public function projectPaymentPlan(Request $request)
     {
-        $project = Project::with("roomInfo","housingType")->where('id', $request->input('project_id'))->first();
+        $project = Project::with("roomInfo", "housingType")->where('id', $request->input('project_id'))->first();
         return $project;
     }
 
@@ -997,8 +994,8 @@ class ProjectController extends Controller
         $housingStatuses = HousingStatus::get();
         $cities = City::get();
         $menu = Menu::getMenuItems();
-        
-      
+
+
 
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
@@ -1172,7 +1169,7 @@ class ProjectController extends Controller
         $active = isset($active) ? 'active' : null;
 
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug","active"));
+        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
