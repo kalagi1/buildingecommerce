@@ -146,8 +146,13 @@
                     <div class="headings-2 pt-0 pb-0">
                         <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
 
+                            @if ($projectHousingsList[$housingOrder]['projected_earnings[]'])
+                            <svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>
+                            <strong style="color:#28a745"> Öngörülen Yıllık Kazanç:</strong>
+                            <span style="color:#28a745"> {{$projectHousingsList[$housingOrder]['projected_earnings[]']}}</span>
+                            @endif
 
-                            @php
+                            {{-- @php
                                 $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
                                 $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
                                 $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
@@ -203,7 +208,7 @@
                                         @endif
                                     </h4>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>
