@@ -226,7 +226,7 @@ class ProjectController extends Controller
                 $total_quantity = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
                     ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where(DB::raw($housing_json_path), $i)
-                    ->where("status", 1)
+                    ->where("status", "1")
                     ->first();
             
                 $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
