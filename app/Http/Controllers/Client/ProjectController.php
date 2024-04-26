@@ -230,6 +230,10 @@ class ProjectController extends Controller
                     ->where(DB::raw($housing_json_path), $i)
                     ->where("status", "1")
                     ->first();
+
+                    if(isset($total_quantity)) {
+                        return $total_quantity;
+                    }
                 
             
                 $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
