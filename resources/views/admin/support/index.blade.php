@@ -8,8 +8,7 @@
 
                     <h3 class="mb-0">Destek Merkezi</h3>
 
-                    
-                    <div style="margin-left: 100px;">
+                
 
                         <div class="card shadow-none border border-300 my-4 p-5">
                             <div class="table-responsive scrollbar">
@@ -146,7 +145,6 @@
                             
                             
                         </div>
-                    </div>
                 </div>
             </div>   
     </section>
