@@ -3,7 +3,7 @@
     bottom: 20px;
     left: 20px;
     width: 450px; /* Verdiğiniz CSS'deki genişlik değeri */
-    background-color: #333; /* Verdiğiniz CSS'deki arka plan rengi */
+    background-color: black; /* Verdiğiniz CSS'deki arka plan rengi */
     color: #fff; /* Verdiğiniz CSS'deki metin rengi */
     padding: 20px; /* İçeriğin iç kenar boşluğu */
     text-align: center;
@@ -27,12 +27,12 @@
 
 .js-cookie-consent .js-cookie-consent-agree {
     background: #fff;
-    color: #333;
+    color: #f27a1a;
     border: none;
     padding: 8px 20px;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 10px; /* Düğme üst boşluğu */
+    margin-bottom: 10px; /* Düğme üst boşluğu */
     border-radius: 4px;
     transition: background-color 0.3s ease;
     border-radius: 8px; 
