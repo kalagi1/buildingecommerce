@@ -449,7 +449,7 @@
                                     @endif
 
                                     <div class="button-effect toggle-project-favorite"
-                                    style="margin-left:13px;width:30% !important"
+                                    style="margin-left:13px;width:27% !important"
                                     data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                     data-project-id={{ $project->id }}>
                                     <i class="fa fa-heart-o"></i>
