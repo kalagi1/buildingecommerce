@@ -93,7 +93,7 @@
                                                     <span style="color: green;">
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                     </span><br>
-                                                    <del style="color: red;">
+                                                    <del style="color: #e54242;">
 
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
@@ -312,7 +312,7 @@
                                                     <span>
                                                         {{ number_format($discountedPrice, 0, ',', '.') }} ₺
                                                     </span><br>
-                                                    <del style="color: red;">
+                                                    <del style="color: #e54242;">
                                                         @if ($item['item_type'] == 1)
                                                             @if (isset($item['project_values']['price[]']))
                                                                 {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}

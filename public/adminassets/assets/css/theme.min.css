@@ -42781,7 +42781,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
     margin-left: 5px;
     font-size: 13px;
     font-weight: 700;
-    color: red;
+    color: #e54242;
 }
 
 .dec-pay-area{
@@ -43079,7 +43079,7 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical .firefox .chat-sidebar .na
 }
 
 .required-span{
-    color: red;
+    color: #e54242;
 }
 
 .section-title {
@@ -44141,7 +44141,7 @@ ul {
 }
 
 .tm_danger_color {
-  color: red;
+  color: #e54242;
 }
 
 .tm_primary_color {

@@ -763,6 +763,7 @@ Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class,
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
+    Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
 
     Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('get_given_offers', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
@@ -1197,9 +1198,6 @@ Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->
 
 
 //Destek Merkezi
-
-
-//Üyelik Tipimi Değiştir
 Route::get('/institutional/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
 Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalRegister"])->name('client.institutional.register');
 
