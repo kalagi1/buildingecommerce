@@ -280,7 +280,7 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                                <div class="col-md-5 col-5 mobile-action-move">
+                                <div class="col-md-6 col-6 mobile-action-move">
                                     {{-- <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
@@ -390,7 +390,7 @@
                                 </div>
 
                                 </div>
-                                <div class="col-md-7 col-7">
+                                <div class="col-md-6 col-6">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
                                             style="background: #EA2B2E !important; width: 100%; color: White; ">
