@@ -229,11 +229,10 @@ class ProjectController extends Controller
                 $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
                 $has_same_quantity = $total_quantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $total_quantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
             
-                if ($has_share_sale && $has_same_quantity) {
-                    $project->cartOrders += 1;
-                } elseif (!$has_share_sale && $total_quantity) {
+              if (!$has_share_sale && $total_quantity) {
                     $project->cartOrders += 1;
                 }
+                return $project->cartOrders;
             }
             
 
