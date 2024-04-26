@@ -392,7 +392,7 @@
                                                     </div>
                                                     @if ($isExpired)
                                                         <!-- İade talebi 14 günü geçmiş -->
-                                                        <div style="background-color: red;">Satın alım işleminde 14 gün
+                                                        <div style="background-color: #e54242;">Satın alım işleminde 14 gün
                                                             geçmiştir!</div>
                                                     @endif
                                                     <div class="modal-body">

@@ -232,7 +232,7 @@
                                                                     @endif
                                                                 </h6>
 
-                                                                <del style="color: red;">
+                                                                <del style="color: #e54242;">
                                                                     @if ($item['item_type'] == 1)
                                                                         @if (isset($item['project_values']['price[]']))
                                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -745,7 +745,7 @@
                                                                                     ₺
                                                                                 @endif
                                                                             </h6>
-                                                                            <del style="color: red;">
+                                                                            <del style="color: #e54242;">
                                                                                 @if ($item['item_type'] == 1)
                                                                                     @if (isset($item['project_values']['price[]']))
                                                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)

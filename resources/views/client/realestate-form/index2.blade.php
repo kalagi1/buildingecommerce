@@ -11,14 +11,14 @@
 
                         <div style="margin-top: 17px;margin-bottom:40px;">
                             <p class="message2">Arsa, konut, işyeri, turistik tesis, devremülk tüm <br> gayrimenkullerinizin satış veya kiralamasını <br> <span class="text-red">emlaksepette.com</span> sizin yerinize yapsın <br>
-                                zamanınız size kalsın.</p>
+                                zamanınız size kalsın. Formu doldur bilgilerini gir <br> kolay sat kirala!</p>
                         </div>   
 
-                        <div style="margin-top: 17px;">
+                        {{-- <div style="margin-top: 17px;">
                             <p class="message2 " style=" border-bottom: 2px solid #FF6B6B; padding-bottom:5px; width:74%; ">Formu doldur bilgilerini gir kolay sat kirala!</p>
-                        </div>
+                        </div> --}}
                         
-                        <div style="margin-top: 40px">
+                        <div style="margin-top: 17px">
                             <a href="{{route('real.estate.index')}}" class="btnForm">Formu Doldur</a>
                         </div>   
                     

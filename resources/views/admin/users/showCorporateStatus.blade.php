@@ -157,7 +157,7 @@
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 @else
-                                                    <span style="color: red;margin-left:5px"> Belge Yüklenmedi</span>
+                                                    <span style="color: #e54242;margin-left:5px"> Belge Yüklenmedi</span>
                                                 @endif
 
                                                 @if ($user_e->company_document_approve)

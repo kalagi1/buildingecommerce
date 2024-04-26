@@ -58,6 +58,9 @@
             housingTypes.forEach(function(housingType) {
             var row = document.createElement("tr");
 
+
+            
+
             var idCell = document.createElement("td");
             idCell.className = "align-middle id";
             idCell.textContent = housingType.id + 2000000;
@@ -114,8 +117,11 @@
                 row.appendChild(actionsCell);
 
             }
-
-
+            var deleteReasonCell = document.createElement("td");
+            deleteReasonCell.className = "align-middle delete_reason";
+            deleteReasonCell.textContent = housingType.deleteReason ? housingType.deleteReason : '-';
+            row.appendChild(deleteReasonCell);
+            
             tbody.appendChild(row);
         });
         }
