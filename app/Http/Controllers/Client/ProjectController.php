@@ -217,6 +217,7 @@ class ProjectController extends Controller
             $projectCounts = 0;
             $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
             $matching_indices = [];
+            return $room_counts;
 
             for ($i = 1; $i <= $room_counts; $i++) {
                 $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
@@ -224,7 +225,7 @@ class ProjectController extends Controller
                 $total_quantity = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
                     ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where(DB::raw($housing_json_path), $i)
-                    ->where("status",1)
+                    ->where("status", 1)
                     ->first();
             
                 $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
