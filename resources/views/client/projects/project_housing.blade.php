@@ -169,6 +169,17 @@
                                 @if ($off_sale_check && $projectDiscountAmount)
                                     <h4>
                                         <div style="text-align: center">
+                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
+                                            stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1">
+                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                        </svg>
+
+                                        <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                            ₺
+                                        </del>  <br>
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -176,18 +187,8 @@
                                                 {{ number_format($discounted_price, 0, ',', '.') }}
                                                 ₺
                                             @endif
-                                            <br>
-                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
-                                                stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
-                                                stroke-linejoin="round" class="css-i6dzq1">
-                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                            </svg>
-
-                                            <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                ₺
-                                            </del>
+                                          
+                                           
                                         </div>
                                     </h4>
                                 @elseif ($off_sale_check)
@@ -2718,7 +2719,7 @@
         }
 
         .error-message {
-            color: red;
+            color: #e54242;
             font-weight: bold;
             margin-left: 11px !important;
             margin-top: 11px !important;
@@ -2731,7 +2732,7 @@
         }
 
         .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
 

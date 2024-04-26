@@ -249,7 +249,7 @@
 
         .new {
             border-style: none none solid none;
-            border-color: red;
+            border-color: #e54242;
         }
 
         .sec:hover {
