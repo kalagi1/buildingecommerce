@@ -539,7 +539,7 @@ class UserController extends Controller
     }//End
     
     public function institutionalReject(Request $request){
-        $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->where('status',0)->first();
         $changedUser->status = 2;
         $changedUser->save();
 

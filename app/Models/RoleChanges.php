@@ -33,6 +33,11 @@ public function office()
     return $this->belongsTo(TaxOffice::class, 'taxOffice','id');
 }
 
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id','id');
+}
+
 }
 
 
