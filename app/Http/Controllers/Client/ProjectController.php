@@ -230,9 +230,7 @@ class ProjectController extends Controller
             
                 if ($has_share_sale && $has_same_quantity) {
                     $project->cartOrders += 1;
-                } elseif (!$has_share_sale && $total_quantity) {
-                    $project->cartOrders += 1;
-                }
+                } 
             }
             
 
