@@ -232,10 +232,10 @@ class ProjectController extends Controller
               if (!$has_share_sale && $total_quantity) {
                     $project->cartOrders += 1;
                 }
-                return $project->cartOrders;
+             
             }
             
-
+            return $project->cartOrders;
 
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
