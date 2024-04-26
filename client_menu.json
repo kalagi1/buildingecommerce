@@ -62,5 +62,14 @@
         "key": "neighborView",
         "url": "neighbors.index",
         "activePath": "/neighbors"
+    },
+    {
+        "id": "membershipType",
+        "label": "Üyelik Tipi",
+        "icon": "eye",
+        "text": "Üyelik Tipimi Değiştir",
+        "key": "membershipType",
+        "url": "membershipType.index",
+        "activePath": "/membershipType"
     }
 ]

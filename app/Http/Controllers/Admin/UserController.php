@@ -502,5 +502,43 @@ class UserController extends Controller
     
         return response()->json(['city' => $city, 'plaka' => $plaka]);
     }//End
+
+    public function expectedCall(){
+        $expectedCall = User::where('institutional_awaiting_approval',0)->get();
+        return view('admin.expected_call.index',compact('expectedCall'));
+    }//End
+
+    public function giveApproval(Request $request){
+
+        $user = User::find($request->id);
+
+
+        $user->company_document_approve        = 1;
+        $user->tax_document_approve            = 1;
+        $user->identity_document_approve       = 1;
+        $user->record_document_approve         = 1;
+        $user->institutional_awaiting_approval = 1; //1 olanlar onaylandı gibisinden
+        $user->type                            = 2;
+        $user->save();
+
+        return redirect()->back()->with('success','Kullanıcı belgelerini onayladınız. Bireysel müşteri kurumsal müşteriye dönüştürüldü.');
+    }//End
     
+    
+    public function getDocuments($userId){
+        // Kullanıcıyı bul
+        $user = User::find($userId);
+
+        // Kullanıcının belgelerini al
+        $taxDocument = $user->tax_document;
+        $identityDocument = $user->identity_document;
+        $companyDocument = $user->company_document;
+
+        // Belgeleri modal içeriği olarak oluştur ve döndür
+        $documentsHtml = "<h4>Vergi Belgesi</h4><a href='$taxDocument' download>Vergi Belgesi İndir</a><br>";
+        $documentsHtml .= "<h4>Kimlik Belgesi</h4><a href='$identityDocument' download>Kimlik Belgesi İndir</a><br>";
+        $documentsHtml .= "<h4>Şirket Belgesi</h4><a href='$companyDocument' download>Şirket Belgesi İndir</a>";
+
+        return $documentsHtml;
+    }//End
 }
