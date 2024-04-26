@@ -223,6 +223,11 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+    //Rol değişikliği
+Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
+
 
     Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
     Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
@@ -1195,16 +1200,17 @@ Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->
 
 
 //Üyelik Tipimi Değiştir
-Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
+Route::get('/institutional/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
 Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalRegister"])->name('client.institutional.register');
 
 //üyelik tipi için belge girme sayfası
-Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
-Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
+// Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
+// Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
 
 //Rol değişikliği
-Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
-Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+// Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+// Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+// Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
 
 Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->name('get.documents');
 

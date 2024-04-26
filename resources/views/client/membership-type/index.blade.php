@@ -16,7 +16,7 @@
                                         @csrf
                                         <div class="user-type-selection">
                                             <div class="button-group" style="height: 40px">
-                                                <h4 class="text-center mb-4">Kurumsala Kayıt Ol</h4>
+                                                <h4 class="text-center mb-4">Kurumsal Hesap Başvuru Formu</h4>
                                             </div>
                                             <input type="hidden" name="type" id="user-type-input"
                                                 value="{{ old('type', 1) }}">
@@ -25,53 +25,14 @@
                                         <div class="mt-3">
                                             <label class="q-label">Yetkili İsim Soyisim</label>
                                             <input type="text" name="username"
-                                                class="form-control {{ $errors->has('username') ? 'error-border' : '' }}"
-                                                value="{{ old('username') }}">
+                                                class="form-control {{ $errors->has('username') ? 'error-border' : '' }}" required>
                                             @if ($errors->has('username'))
                                                 <span class="error-message">{{ $errors->first('username') }}</span>
                                             @endif
                                         </div> 
 
-                                        <!-- E-Posta -->
-                                        <div class="mt-3">
-                                            <label class="q-label">E-Posta</label>
-                                            <input type="email" name="email"  class="form-control" value="{{ $user->email}}" >
-                                        </div>
-
-
-                                        <div class="mt-3">
-                                            <label class="q-label">Cep Telefonu</label>
-                                            <input type="number" name="mobile_phone" id="mobile_phone" class="form-control"  value="{{ $user->mobile_phone }}" maxlength="10">
-                                        </div>
-
-                                        <div class="mt-3" style="display: none">
-                                            <label class="q-label">Şifre</label>
-                                            <input type="password" name="password" id="passwordInput2" class="form-control" value="{{ $user->password }}" >
-                                        
-                                        </div>
-
-                                        {{-- <script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js"></script>
-                                        <script>
-                                            function togglePassword2() {
-                                                var passwordInput = document.getElementById("passwordInput2");
-                                                var eyeIcon = document.getElementById("eyeIcon2");
-
-                                                if (passwordInput.type === "password") {
-                                                    passwordInput.type = "text";
-                                                    eyeIcon.classList.remove("fa-eye-slash");
-                                                    eyeIcon.classList.add("fa-eye");
-                                                } else {
-                                                    passwordInput.type = "password";
-                                                    eyeIcon.classList.remove("fa-eye");
-                                                    eyeIcon.classList.add("fa-eye-slash");
-                                                }
-                                            }
-                                        </script> --}}
-
                                         <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
-                                            id="corporateForm">
-                                            <!-- E-Posta -->
-                                
+                                            id="corporateForm">                         
 
 
                                             <!-- Firma Adı -->
@@ -84,7 +45,7 @@
 
                                                 <input type="text" name="name"
                                                     class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
-                                                    value="{{ old('name') }}">
+                                                    value="{{ old('name') }}" required>
                                                 @if ($errors->has('name'))
                                                     <span class="error-message">{{ $errors->first('name') }}</span>
                                                 @endif
@@ -101,7 +62,7 @@
 
                                                 <input type="text" name="store_name"
                                                 class="form-control {{ $errors->has('commercial_title') ? 'error-border' : '' }}"
-                                                value="{{ old('store_name') }}">
+                                                value="{{ old('store_name') }}" required>
                                             @if ($errors->has('store_name'))
                                                 <span class="error-message">{{ $errors->first('store_name') }}</span>
                                             @endif
@@ -122,15 +83,15 @@
                                             <div class="mt-3">
                                                 <label for="corporate-account-type" class="q-label">Kurumsal Hesap Türü</label>
                                                 <select name="corporate-account-type" id="corporate-account-type"
-                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}">
+                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}" required>
                                                     <option value="" disabled selected>Seçiniz</option>
-                                                    <option value="Emlakçı"
+                                                    <option value="Emlak Ofisi"
                                                         {{ old('corporate-account-type') == 'Emlak Ofisi' ? 'selected' : '' }}>
                                                         Emlak Ofisi</option>
                                                     <option value="Banka"
                                                         {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
                                                         Banka</option>
-                                                    <option value="İnşaat"
+                                                    <option value="İnşaat Ofisi"
                                                         {{ old('corporate-account-type') == 'İnşaat Ofisi' ? 'selected' : '' }}>
                                                         İnşaat Ofisi</option>
                                                     <option value="Turizm Amaçlı Kiralama"
@@ -150,7 +111,7 @@
                                                     <select class="form-control" id="city_id"  name="city_id">
                                                         <option value="">Şehir Seçiniz</option>
                                                         @foreach ($cities as $city)
-                                                            <option value="{{ $city->id }}">
+                                                            <option value="{{ $city->id }}" required>
                                                                 {{ $city->title }}</option>
                                                         @endforeach
                                                     </select>
@@ -158,14 +119,14 @@
 
                                                 <div class="mt-3">
                                                     <label class="form-label" for="ilce">İlçe:</label>
-                                                    <select class="form-control" id="county_id" name="county_id" disabled>
+                                                    <select class="form-control" id="county_id" name="county_id" disabled required>
                                                         <option value="">İlçe Seçiniz</option>
                                                     </select>
                                                 </div>
 
                                                 <div class="mt-3">
                                                     <label class="form-label" for="mahalle">Mahalle:</label>
-                                                    <select class="form-control" id="neighborhood_id" name="neighborhood_id" disabled>
+                                                    <select class="form-control" id="neighborhood_id" name="neighborhood_id" disabled required>
                                                         <option value="">Mahalle Seçiniz</option>
                                                     </select>
                                                 </div>
@@ -173,9 +134,9 @@
 
                                             <!-- İşletme Türü -->
                                             <div class="mt-3">
-                                                <label for="" class="q-label">İşletme Türü</label>
+                                                <label for="" class="q-label mb-2">İşletme Türü</label>
                                                 <div class="companyType">
-                                                    <label for="of"><input type="radio" class="input-radio off"
+                                                    <label for="of"  style="margin-right: 10px;"><input type="radio" class="input-radio off"
                                                             id="of" name="account_type" value="1"
                                                             {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
                                                         Şirketi</label>
@@ -188,7 +149,7 @@
                                             <!-- Vergi Dairesi İli -->
                                             <div class="mt-3">
                                                 <label class="form-label" for="il">Vergi Dairesi:</label>
-                                                <select class="form-control" id="taxOfficeCity"  name="taxOfficeCity">
+                                                <select class="form-control" id="taxOfficeCity"  name="taxOfficeCity" required>
                                                     <option value="">Şehir Seçiniz</option>
                                                     @foreach ($cities as $city)
                                                         <option value="{{ $city->title }}">
@@ -206,7 +167,7 @@
 
                                                             <select id="taxOffice"
                                                                 class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}"
-                                                                name="taxOffice">
+                                                                name="taxOffice" required>
                                                                 <option value="">Seçiniz</option>
                                                             </select>
                                                             @if ($errors->has('taxOffice'))
@@ -226,7 +187,7 @@
                                                             <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
                                                                 class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
-                                                                value="{{ old('taxNumber') }}">
+                                                                value="{{ old('taxNumber') }}" required>
                                                             @if ($errors->has('taxNumber'))
                                                                 <span
                                                                     class="error-message">{{ $errors->first('taxNumber') }}</span>
@@ -245,7 +206,7 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No</label>
                                                             <input type="text" id="idNumber" name="idNumber"
-                                                                class="form-control" value="{{ old('idNumber') }}">
+                                                                class="form-control" value="{{ old('idNumber') }}" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -337,6 +298,34 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        // İşletme Türü seçildiğinde TC Kimlik Numarası alanının görünürlüğünü kontrol et
+        $(document).ready(function() {
+            $('input[name="account_type"]').change(function() {
+                var selectedAccountType = $(this).val();
+                var idNumberDiv = $('#idNumberDiv');
+    
+                // Eğer işletme türü 2 (Anonim veya Limited Şirket) ise TC Kimlik Numarası alanını gizle, aksi takdirde göster
+                if (selectedAccountType === '2') {
+                    idNumberDiv.addClass('d-none'); // TC Kimlik Numarası alanını gizle
+                } else {
+                    idNumberDiv.removeClass('d-none'); // TC Kimlik Numarası alanını göster
+                }
+            });
+        });
+    
+        // Sayfa yüklendiğinde de işletme türüne göre TC Kimlik Numarası alanını göster veya gizle
+        $(document).ready(function() {
+            var selectedAccountType = $('input[name="account_type"]:checked').val();
+            var idNumberDiv = $('#idNumberDiv');
+    
+            if (selectedAccountType === '2') {
+                idNumberDiv.addClass('d-none'); // TC Kimlik Numarası alanını gizle
+            } else {
+                idNumberDiv.removeClass('d-none'); // TC Kimlik Numarası alanını göster
+            }
+        });
+    </script>
     <script>
 
         $(document).ready(function(){
