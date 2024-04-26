@@ -280,7 +280,7 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                                <div class="col-md-6 col-6 mobile-action-move">
+                                <div class="col-md-4 col-4 mobile-action-move">
                                     {{-- <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
@@ -442,6 +442,15 @@
                                         @endif
                                     @endif
 
+                                    
+
+                                </div>
+                                <div class="col-md-2 col-2">
+                                    <div class="button-effect toggle-project-favorite"
+                                    data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                    data-project-id={{ $project->id }}>
+                                    <i class="fa fa-heart-o"></i>
+                                </div> 
                                 </div>
                             </div>
                         </div>
