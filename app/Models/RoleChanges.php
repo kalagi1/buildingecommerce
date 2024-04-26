@@ -15,7 +15,7 @@ class RoleChanges extends Model
     
     public function city()
 {
-    return $this->belongsTo(City::class, 'city_id', 'id');
+    return $this->belongsTo(City::class, 'taxOfficeCity','id');
 }
 
 public function county()
@@ -26,6 +26,11 @@ public function county()
 public function neighborhood()
 {
     return $this->belongsTo(Neighborhood::class, 'neighborhood_id', 'mahalle_id');
+}
+
+public function office()
+{
+    return $this->belongsTo(TaxOffice::class, 'taxOffice','id');
 }
 
 }
