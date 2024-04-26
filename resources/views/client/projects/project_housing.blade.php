@@ -390,7 +390,8 @@
                                 </div>
 
                                 </div>
-                                <div class="col-md-6 col-6">
+                                <div class="col-md-6 col-6"
+                                style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
                                             style="background: #EA2B2E !important; width: 100%; color: White; ">
@@ -443,6 +444,7 @@
                                     @endif
 
                                     <div class="button-effect toggle-project-favorite"
+                                    style="margin-left:13px;width:30% !important"
                                     data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                     data-project-id={{ $project->id }}>
                                     <i class="fa fa-heart-o"></i>
