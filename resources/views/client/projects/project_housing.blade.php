@@ -1784,7 +1784,7 @@
                                             var advanceData = "";
                                             var monhlyPrice = "";
 
-                                            var projectedEarningsData = "";
+                                            var projectedEarningsData = null;
                                             var projectedEarnings = getDataJS(response,
                                                 "projected_earnings[]", response.room_info[i]
                                                 .room_order);
@@ -1794,7 +1794,7 @@
                                             var projectedEarningsHTML = projectedEarnings ? svgCode +
                                                 "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
                                                 "<span style='color:#28a745'> %" + projectedEarnings +
-                                                "</span>" : "";
+                                                "</span>" : null;
 
 
                                             projectedEarningsData += projectedEarningsHTML;
@@ -1889,7 +1889,10 @@
                                                     "Fiyat:</strong> " : "") + formatPrice(
                                                     priceData) + "₺</td>";
 
-                                                html += "<td>" + projectedEarningsData + "</td>";
+                                                if (projectedEarningsData) {
+                                                    html += "<td>" + projectedEarningsData + "</td>";
+
+                                                }
                                             }
 
 
