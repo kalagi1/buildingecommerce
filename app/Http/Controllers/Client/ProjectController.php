@@ -216,6 +216,7 @@ class ProjectController extends Controller
             $project->cartOrders = 0;
             $projectCounts = 0;
             $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
+            $matching_indices = [];
 
             for ($i = 1; $i <= $room_counts; $i++) {
                 $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
@@ -231,11 +232,13 @@ class ProjectController extends Controller
             
               if (!$has_share_sale && $total_quantity && !$has_same_quantity) {
                     $project->cartOrders += 1;
+                    $matching_indices[] = $i;
+
                 }
              
             }
             
-            return $project->cartOrders;
+            return $matching_indices;
 
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
