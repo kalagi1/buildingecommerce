@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Client\AddressController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\BrandController;
+use App\Http\Controllers\Api\Client\FavoriteController;
 use App\Http\Controllers\Api\Client\FormController;
 use App\Http\Controllers\Api\Client\HousingController;
 use App\Http\Controllers\Api\Client\MenuController;
@@ -86,3 +87,5 @@ Route::post('/remove_pay_dec_item', [TempOrderController::class, 'removePayDecIt
 Route::post('/situation_image_add', [TempOrderController::class, 'situationImageAdd'])->name('temp.order.situation.add');
 Route::post('/update_situation_order_temp_update', [TempOrderController::class, 'updateSituationOrders'])->name('update.situation.order.temp.update');
 Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
+
+Route::apiResource('favorites', FavoriteController::class);
