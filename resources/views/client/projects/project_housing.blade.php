@@ -377,7 +377,7 @@
                                         </h4>
                                     @elseif ($off_sale_check)
                                         <h4
-                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:24px">
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                 ₺
