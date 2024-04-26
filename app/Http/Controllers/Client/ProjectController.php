@@ -218,24 +218,23 @@ class ProjectController extends Controller
             $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
 
             for ($i = 1; $i <= $room_counts; $i++) {
-                if (isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] && $projectHousingsList[$i]['share_sale[]'] != "[]") {
 
-                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
-                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
-                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                        ->where(DB::raw($housingJsonPath), $i)
-                        ->first();
+                $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+                $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
+                    ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                    ->where(DB::raw($housingJsonPath), $i)
+                    ->first();
+                    
+                if (isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] && $projectHousingsList[$i]['share_sale[]'] != "[]") {
 
                     if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
                         $project->cartOrders += 1;
                     }
                 } else {
-                    $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                        ->groupBy('project_id')
-                        ->where("status", "1")
-                        ->get();
-                    $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+                    if ($projectCounts) {
+                        $project->cartOrders += 1;
+                    }
+                 
                 }
             }
 
