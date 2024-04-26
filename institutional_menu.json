@@ -289,7 +289,7 @@
         "icon": "eye",
         "text": "Üyelik Tipimi Değiştir",
         "key": "membershipType",
-        "url": "institutional.membershipType.index",
+        "url": "membershipType.index",
         "activePath": "/institutional/membershipType"
     }
   

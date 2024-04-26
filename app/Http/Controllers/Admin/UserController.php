@@ -12,6 +12,7 @@ use App\Models\Chat;
 use App\Models\City;
 use App\Models\Housing;
 use App\Models\Project;
+use App\Models\RoleChanges;
 use App\Models\TaxOffice;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
@@ -504,26 +505,46 @@ class UserController extends Controller
     }//End
 
     public function expectedCall(){
-        $expectedCall = User::where('institutional_awaiting_approval',0)->get();
+        $expectedCall = RoleChanges::all();
         return view('admin.expected_call.index',compact('expectedCall'));
     }//End
 
     public function giveApproval(Request $request){
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
+        $user        = User::find($request->user_id);
 
-        $user = User::find($request->id);
+        $user->username = $changedUser->username;
+        $user->name = $changedUser->name;
+        $user->store_name = $changedUser->store_name;
+        $user->phone = $changedUser->phone;
+        $user->corporate_type = $changedUser->corporate_account_type;
+        $user->city_id = $changedUser->city_id;
+        $user->county_id = $changedUser->county_id;
+        $user->neighborhood_id = $changedUser->neighborhood_id;
+        $user->account_type = $changedUser->account_type;
+        $user->taxOfficeCity = $changedUser->taxOfficeCity;
+        $user->taxOffice = $changedUser->taxOffice;
+        $user->taxNumber = $changedUser->taxNumber;
+        $user->idNumber = $changedUser->idNumber;
+        $user->subscription_plan_id = $changedUser->subscription_plan_id;
 
+        $user->type = 2;
+        $user->corporate_account_status = 0;
+        $changedUser->status = 1;
 
-        $user->company_document_approve        = 1;
-        $user->tax_document_approve            = 1;
-        $user->identity_document_approve       = 1;
-        $user->record_document_approve         = 1;
-        $user->institutional_awaiting_approval = 1; //1 olanlar onaylandı gibisinden
-        $user->type                            = 2;
+        $changedUser->save();
         $user->save();
 
         return redirect()->back()->with('success','Kullanıcı belgelerini onayladınız. Bireysel müşteri kurumsal müşteriye dönüştürüldü.');
     }//End
     
+    public function institutionalReject(Request $request){
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
+        $changedUser->status = 2;
+        $changedUser->save();
+
+        return redirect()->back()->with('info','Reddedildi.');
+    }//End
     
     public function getDocuments($userId){
         // Kullanıcıyı bul

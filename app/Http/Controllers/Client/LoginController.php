@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Models\UserPlan;
 use App\Models\Chat;
-
+use App\Models\RoleChanges;
 
 class LoginController extends Controller {
     public function showLoginForm() {
@@ -565,7 +565,7 @@ class LoginController extends Controller {
             'subscription_plan_id.nullable' => 'Abonelik planı seçimi yapılmışsa geçerli bir abonelik planı seçiniz.',
         ];
 
-        $city = City::where("id", $request->input("taxOfficeCity"))->value('title');
+        $city = City::where("title", $request->taxOfficeCity)->first();
 
         if ($request->input("account_type") == "1") {
             $accountType = "Şahıs Şirketi";
@@ -573,27 +573,22 @@ class LoginController extends Controller {
             $accountType = "Limited veya Anonim Şirketi";
         }
 
-        // Form doğrulama işlemini gerçekleştirin
-        // $validatedData = $request->validate($rules, $msgs);
-       
-        $user = User::where('id',Auth::id())->first();
-        $user->email = $request->input("email");
+        $user = new RoleChanges();
+        $user->user_id                         = User::where('id',Auth::id())->value('id');
+        $user->email                           = User::where('id',Auth::id())->value('email');
+        $user->mobile_phone                    = User::where('id',Auth::id())->value('mobile_phone');
+        $user->name                            = $request->input("name");
+        $user->city_id                         = $request->input("city_id");
+        $user->county_id                       = $request->input("county_id");
+        $user->neighborhood_id                 = $request->input("neighborhood_id");
+        $user->phone                           = $request->input("phone") ? $request->input('phone') : "";
+        $user->corporate_account_type          = $request->input('corporate-account-type');           
+        $user->status                          = 0;
+
         $user->subscription_plan_id = $request->input("subscription_plan_id");
 
         $subscriptionPlan = SubscriptionPlan::where("id", $request->input("subscription_plan_id"))->first();
 
-        $user->name                            = $request->input("name") ? $request->input("name") : $request->input("name1");
-        $user->profile_image                   = "indir.png";
-        $user->banner_hex_code                 = "black";
-        // $user->password                        = bcrypt($request->input("password"));
-        $user->type                            = $request->input("type") ? $request->input("type") : 1;
-        // $user->iban                            = $request->input("iban");
-        $user->county_id                       = $request->input("county_id");
-        $user->city_id                         = $request->input("city_id");
-        $user->phone                           = $request->input("phone");
-        $user->mobile_phone                    = $request->input("mobile_phone");
-        $user->phone                           = $request->input("phone") ? $request->input('phone') : "";
-        $user->neighborhood_id                 = $request->input("neighborhood_id");
         $user->username                        = $request->input("username");
         $user->account_type                    = $accountType;
         $user->taxOfficeCity                   = $city->id ?? 0;
@@ -601,201 +596,141 @@ class LoginController extends Controller {
         $user->taxNumber                       = $request->input("taxNumber");
         $user->idNumber                        = $request->input("idNumber");
         $user->store_name                      = $request->input("store_name");
-        $user->status                          = 1;
-        $user->email_verification_token        = Str::random(40);
-        $user->corporate_type                  = $request->input("corporate-account-type");
-        $user->company_document_approve        = 0;
-        $user->tax_document_approve            = 0;
-        $user->identity_document_approve       = 0;
-        $user->record_document_approve         = 0;
-        $user->institutional_awaiting_approval = 0;
         $user->save();
 
-        if ($request->input("type") == 2) {
-            $maxOrder = User::where("type", 2)->max("order");
-            $user->order = $maxOrder + 1;
-            $user->save();
-            UserPlan::create([
-                "user_id" => $user->id,
-                "subscription_plan_id" => null,
-                "project_limit" => 0,
-                "user_limit" => 0,
-                "housing_limit" => 0,
-            ]);
-        } else {
-            $user->update([
-                "corporate_account_status" => 1,
-            ]);
-        }
-
-        $emailTemplate = EmailTemplate::where('slug', "account-verify")->first();
-
-        if (!$emailTemplate) {
-            return response()->json([
-                'message' => 'Email template not found.',
-                'status' => 203,
-                'success' => true,
-            ], 203);
-        }
-
-        $content = $emailTemplate->body;
-
-        $variables = [
-            'username' => $user->name,
-            'companyName' => "Emlak Sepette",
-            "email" => $request->input("email"),
-            "token" => $user->email_verification_token,
-            "verificationLink" => URL::to("/verify-email/{$user->email_verification_token}"),
-        ];
-
-        foreach ($variables as $key => $value) {
-            $content = str_replace("{{" . $key . "}}", $value, $content);
-        }
-
-        Chat::create([
-            "user_id" => $user->id
-        ]);
 
 
-        try
-        {
-            Mail::to($request->input("email"))->send(new CustomMail($emailTemplate->subject, $content));
-            session()->flash('success', 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.');
-
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['status' => 'Onay e-postası gönderilemedi.']);
-        }
-
-        return redirect()->route('add.document');
+        return redirect()->back();
+        return redirect()->url('/institutional')->with('success','Başvurunuz başarıyla gönderildi');
     }//End
 
-    public function addDocument(){
-        $user = User::where('id',Auth::id())->first();
-        return view('client.add-document.index',compact('user'));
-    }//End
+    // public function addDocument(){
+    //     $user = User::where('id',Auth::id())->first();
+    //     return view('client.add-document.index',compact('user'));
+    // }//End
 
-    public function addDocumentPost(Request $request){
+    // public function addDocumentPost(Request $request){
 
-        $user = User::where('id',Auth::id())->first();
+    //     $user = User::where('id',Auth::id())->first();
 
-        $request->validate(
-            [
-                'vergi_levhasi' => 'nullable',
-                'sicil_belgesi' => 'nullable',
-                'kimlik_belgesi' => 'nullable',
-                'insaat_belgesi' => 'nullable',
-            ]
-        );
+    //     $request->validate(
+    //         [
+    //             'vergi_levhasi' => 'nullable',
+    //             'sicil_belgesi' => 'nullable',
+    //             'kimlik_belgesi' => 'nullable',
+    //             'insaat_belgesi' => 'nullable',
+    //         ]
+    //     );
 
-        $array = [];
+    //     $array = [];
 
-        if ($request->hasFile('vergi_levhasi')) {
-            $image = $request->file('vergi_levhasi');
-            $imageFileName = 'tax_document_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/tax_documents', $imageFileName);
-            $image->move(public_path('tax_documents'), $imageFileName);
-            $array = array_merge($array, ['tax_document' => $imageFileName]);
-        }
+    //     if ($request->hasFile('vergi_levhasi')) {
+    //         $image = $request->file('vergi_levhasi');
+    //         $imageFileName = 'tax_document_' . time() . '.' . $image->getClientOriginalExtension();
+    //         $image->storeAs('public/tax_documents', $imageFileName);
+    //         $image->move(public_path('tax_documents'), $imageFileName);
+    //         $array = array_merge($array, ['tax_document' => $imageFileName]);
+    //     }
 
-        if ($request->hasFile('sicil_belgesi')) {
-            $image = $request->file('sicil_belgesi');
-            $imageFileName = 'record_document_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/record_documents', $imageFileName);
-            $image->move(public_path('record_documents'), $imageFileName);
-            $array = array_merge($array, ['record_document' => $imageFileName]);
-        }
+    //     if ($request->hasFile('sicil_belgesi')) {
+    //         $image = $request->file('sicil_belgesi');
+    //         $imageFileName = 'record_document_' . time() . '.' . $image->getClientOriginalExtension();
+    //         $image->storeAs('public/record_documents', $imageFileName);
+    //         $image->move(public_path('record_documents'), $imageFileName);
+    //         $array = array_merge($array, ['record_document' => $imageFileName]);
+    //     }
 
-        if ($request->hasFile('kimlik_belgesi')) {
-            $image = $request->file('kimlik_belgesi');
-            $imageFileName = 'identity_document_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('identity_documents'), $imageFileName);
-            $array = array_merge($array, ['identity_document' => $imageFileName]);
-        }
+    //     if ($request->hasFile('kimlik_belgesi')) {
+    //         $image = $request->file('kimlik_belgesi');
+    //         $imageFileName = 'identity_document_' . time() . '.' . $image->getClientOriginalExtension();
+    //         $image->move(public_path('identity_documents'), $imageFileName);
+    //         $array = array_merge($array, ['identity_document' => $imageFileName]);
+    //     }
 
-        if ($request->hasFile('insaat_belgesi')) {
-            $image = $request->file('insaat_belgesi');
-            $imageFileName = 'company_document_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('company_documents'), $imageFileName);
-            $array = array_merge($array, ['company_document' => $imageFileName]);
-        }
+    //     if ($request->hasFile('insaat_belgesi')) {
+    //         $image = $request->file('insaat_belgesi');
+    //         $imageFileName = 'company_document_' . time() . '.' . $image->getClientOriginalExtension();
+    //         $image->move(public_path('company_documents'), $imageFileName);
+    //         $array = array_merge($array, ['company_document' => $imageFileName]);
+    //     }
 
-        auth()->user()->update($array);
+    //     auth()->user()->update($array);
 
-        $emailTemplate = EmailTemplate::where('slug', "send-files")->first();
+    //     $emailTemplate = EmailTemplate::where('slug', "send-files")->first();
 
-        if (!$emailTemplate) {
-            return response()->json([
-                'message' => 'Email template not found.',
-                'status' => 203,
-                'success' => true,
-            ], 203);
-        }
+    //     if (!$emailTemplate) {
+    //         return response()->json([
+    //             'message' => 'Email template not found.',
+    //             'status' => 203,
+    //             'success' => true,
+    //         ], 203);
+    //     }
 
-        $content = $emailTemplate->body;
-        $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
+    //     $content = $emailTemplate->body;
+    //     $user = User::where("id", auth()->user()->parent_id ?? auth()->user()->id)->first();
 
-        $variables = [
-            'username' => $user->name,
-            'companyName' => "Emlak Sepette",
-            "email" => $user->email,
-            "token" => $user->email_verification_token,
-        ];
+    //     $variables = [
+    //         'username' => $user->name,
+    //         'companyName' => "Emlak Sepette",
+    //         "email" => $user->email,
+    //         "token" => $user->email_verification_token,
+    //     ];
 
-        foreach ($variables as $key => $value) {
-            $content = str_replace("{{" . $key . "}}", $value, $content);
-        }
+    //     foreach ($variables as $key => $value) {
+    //         $content = str_replace("{{" . $key . "}}", $value, $content);
+    //     }
 
-        // Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
+    //     // Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
 
-        DocumentNotification::create([
-            'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-            'text' => "Belgeleriniz Emlak Sepette Yönetimine İletildi",
-            'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
-            'link' => route('institutional.index'),
-            'owner_id' => auth()->user()->parent_id ?? auth()->user()->id,
-            'is_visible' => true,
-        ]);
+    //     DocumentNotification::create([
+    //         'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
+    //         'text' => "Belgeleriniz Emlak Sepette Yönetimine İletildi",
+    //         'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+    //         'link' => route('institutional.index'),
+    //         'owner_id' => auth()->user()->parent_id ?? auth()->user()->id,
+    //         'is_visible' => true,
+    //     ]);
 
-        $emailAdminTemplate = EmailTemplate::where('slug', "get-files")->first();
+    //     $emailAdminTemplate = EmailTemplate::where('slug', "get-files")->first();
 
-        if (!$emailAdminTemplate) {
-            return response()->json([
-                'message' => 'Email template not found.',
-                'status' => 203,
-                'success' => true,
-            ], 203);
-        }
+    //     if (!$emailAdminTemplate) {
+    //         return response()->json([
+    //             'message' => 'Email template not found.',
+    //             'status' => 203,
+    //             'success' => true,
+    //         ], 203);
+    //     }
 
-        $contentAdmin = $emailAdminTemplate->body;
+    //     $contentAdmin = $emailAdminTemplate->body;
 
-        $admins = User::where("type", "3")->get();
+    //     $admins = User::where("type", "3")->get();
 
-        foreach ($admins as $key => $admin) {
-            DocumentNotification::create([
-                'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                'text' => 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: ' . auth()->user()->email,
-                'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
-                'link' => route('admin.user.show-corporate-account', ['user' => auth()->user()->parent_id ?? auth()->user()->id]),
-                'owner_id' => 4,
-                'is_visible' => true,
-            ]);
+    //     foreach ($admins as $key => $admin) {
+    //         DocumentNotification::create([
+    //             'user_id' => auth()->user()->parent_id ?? auth()->user()->id,
+    //             'text' => 'Hesap onayı için yeni bir belge gönderildi. Kullanıcı: ' . auth()->user()->email,
+    //             'item_id' => auth()->user()->parent_id ?? auth()->user()->id,
+    //             'link' => route('admin.user.show-corporate-account', ['user' => auth()->user()->parent_id ?? auth()->user()->id]),
+    //             'owner_id' => 4,
+    //             'is_visible' => true,
+    //         ]);
 
-            $adminVariables = [
-                'username' => $user->name,
-                'adminName' => $admin->name,
-                'companyName' => "Emlak Sepette",
-                "email" => $user->email,
-                "token" => $user->email_verification_token,
-            ];
+    //         $adminVariables = [
+    //             'username' => $user->name,
+    //             'adminName' => $admin->name,
+    //             'companyName' => "Emlak Sepette",
+    //             "email" => $user->email,
+    //             "token" => $user->email_verification_token,
+    //         ];
 
-            foreach ($adminVariables as $key => $value) {
-                $contentAdmin = str_replace("{{" . $key . "}}", $value, $contentAdmin);
-            }
+    //         foreach ($adminVariables as $key => $value) {
+    //             $contentAdmin = str_replace("{{" . $key . "}}", $value, $contentAdmin);
+    //         }
 
-            // Mail::to($admin->email)->send(new CustomMail($emailAdminTemplate->subject, $contentAdmin));
-        }
+    //         // Mail::to($admin->email)->send(new CustomMail($emailAdminTemplate->subject, $contentAdmin));
+    //     }
 
-        return redirect()->back()->with('success','Belgeler yüklendi.');
-    }//End
+    //     return redirect()->back()->with('success','Belgeler yüklendi.');
+    // }//End
 
  }

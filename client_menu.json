@@ -70,6 +70,6 @@
         "text": "Üyelik Tipimi Değiştir",
         "key": "membershipType",
         "url": "membershipType.index",
-        "activePath": "/membershipType"
+        "activePath": "/institutional/membershipType"
     }
 ]
