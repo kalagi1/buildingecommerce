@@ -127,9 +127,9 @@
                                                     <div class="col-md-6">
                                                         <p><strong>Mahalle:</strong> {{$item->neighborhood->mahalle_title}}</p> <!-- Mahalle title değeri -->
                                                         <p><strong>İşletme Türü:</strong> {{$item->account_type}}</p>
-                                                        <p><strong>Vergi Dairesi İl:</strong> {{$item->taxOfficeCity}}</p>
-                                                        <p><strong>Vergi Dairesi:</strong> {{$item->taxOffice}}</p>
-                                                        <p><strong>Vergi No:</strong> {{$item->taxNumber}}</p>
+                                                        <p><strong>Vergi Dairesi İl:</strong> {{$item->city->title}}</p>
+                                                        <p><strong>Vergi Dairesi:</strong> {{$item->office->daire}}</p>
+                                                        <p><strong>Vergi No:</strong>{{$item->taxNumber}}</p>
                                                         <p><strong>TC:</strong> {{$item->idNumber}}</p>
                                                     </div>
                                                 </div>

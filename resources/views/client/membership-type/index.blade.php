@@ -11,271 +11,280 @@
                                         <div class="card shadow-sm border-300 border-bottom mb-4">
 
                                             <div class="card-body">
-
-                                    <form method="POST" class="form" action="{{ route('client.institutional.register') }}">
-                                        @csrf
-                                        <div class="user-type-selection">
-                                            <div class="button-group" style="height: 40px">
-                                                <h4 class="text-center mb-4">Kurumsal Hesap Başvuru Formu</h4>
-                                            </div>
-                                            <input type="hidden" name="type" id="user-type-input"
-                                                value="{{ old('type', 1) }}">
+                                                @if($changedUser)
+                                                       <!-- Başvurunuz incelenmeye alınmıştır mesajı -->
+                                        <div class="text-center">
+                                            <i class="fas fa-exclamation-circle fa-5x text-warning mb-3"></i>
+                                            <h5 class="text-warning">Başvurunuz İncelenmeye Alınmıştır</h5>
+                                            <p class="text-muted">Başvurunuz inceleniyor. Lütfen bekleyiniz.</p>
                                         </div>
+                                                @else
 
-                                        <div class="mt-3">
-                                            <label class="q-label">Yetkili İsim Soyisim</label>
-                                            <input type="text" name="username"
-                                                class="form-control {{ $errors->has('username') ? 'error-border' : '' }}" required>
-                                            @if ($errors->has('username'))
-                                                <span class="error-message">{{ $errors->first('username') }}</span>
-                                            @endif
-                                        </div> 
+                                            <form method="POST" class="form" action="{{ route('client.institutional.register') }}">
+                                                @csrf
+                                                <div class="user-type-selection">
+                                                    <div class="button-group" style="height: 40px">
+                                                        <h4 class="text-center mb-4">Kurumsal Hesap Başvuru Formu</h4>
+                                                    </div>
+                                                    <input type="hidden" name="type" id="user-type-input"
+                                                        value="{{ old('type', 1) }}">
+                                                </div>
 
-                                        <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
-                                            id="corporateForm">                         
+                                                <div class="mt-3">
+                                                    <label class="q-label">Yetkili İsim Soyisim</label>
+                                                    <input type="text" name="username"
+                                                        class="form-control {{ $errors->has('username') ? 'error-border' : '' }}" required>
+                                                    @if ($errors->has('username'))
+                                                        <span class="error-message">{{ $errors->first('username') }}</span>
+                                                    @endif
+                                                </div> 
+
+                                                <div class="corporate-form {{ old('type') == 2 ? 'd-show' : '' }} "
+                                                    id="corporateForm">                         
 
 
-                                            <!-- Firma Adı -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Mağaza Adı
-                                                    <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="Firma adını kısaltmadan aynen yazınız."></i>
-                                                </label>
+                                                    <!-- Firma Adı -->
+                                                    <div class="mt-3">
+                                                        <label class="q-label">Mağaza Adı
+                                                            <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title="Firma adını kısaltmadan aynen yazınız."></i>
+                                                        </label>
 
-                                                <input type="text" name="name"
-                                                    class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
-                                                    value="{{ old('name') }}" required>
-                                                @if ($errors->has('name'))
-                                                    <span class="error-message">{{ $errors->first('name') }}</span>
-                                                @endif
-                                            </div>
+                                                        <input type="text" name="name"
+                                                            class="form-control {{ $errors->has('name') ? 'error-border' : '' }}"
+                                                            value="{{ old('name') }}" required>
+                                                        @if ($errors->has('name'))
+                                                            <span class="error-message">{{ $errors->first('name') }}</span>
+                                                        @endif
+                                                    </div>
 
+                                                    
+                                                    <!-- ticari Unvan -->
+                                                    <div class="mt-3">
+                                                        <label class="q-label">Ticari Unvan
+                                                            <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title="Ticari Unvanı kısaltmadan aynen yazınız."></i>
+                                                        </label>
+
+                                                        <input type="text" name="store_name"
+                                                        class="form-control {{ $errors->has('commercial_title') ? 'error-border' : '' }}"
+                                                        value="{{ old('store_name') }}" required>
+                                                    @if ($errors->has('store_name'))
+                                                        <span class="error-message">{{ $errors->first('store_name') }}</span>
+                                                    @endif
+                                                    
+                                                    </div>
+
+                                                    <div class="mt-3">
+                                                        <label class="q-label">Sabit Telefon (Opsiyonel)</label>
+                                                        <input type="number" name="phone"
+                                                            class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
+                                                            value="{{ old('phone') }}" maxlength="10">
+                                                        @if ($errors->has('phone'))
+                                                            <span class="error-message">{{ $errors->first('phone') }}</span>
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Kurumsal Hesap Türü -->
+                                                    <div class="mt-3">
+                                                        <label for="corporate-account-type" class="q-label">Kurumsal Hesap Türü</label>
+                                                        <select name="corporate-account-type" id="corporate-account-type"
+                                                            class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}" required>
+                                                            <option value="" disabled selected>Seçiniz</option>
+                                                            <option value="Emlak Ofisi"
+                                                                {{ old('corporate-account-type') == 'Emlak Ofisi' ? 'selected' : '' }}>
+                                                                Emlak Ofisi</option>
+                                                            <option value="Banka"
+                                                                {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
+                                                                Banka</option>
+                                                            <option value="İnşaat Ofisi"
+                                                                {{ old('corporate-account-type') == 'İnşaat Ofisi' ? 'selected' : '' }}>
+                                                                İnşaat Ofisi</option>
+                                                            <option value="Turizm Amaçlı Kiralama"
+                                                                {{ old('corporate-account-type') == 'Turizm Amaçlı' ? 'selected' : '' }}>
+                                                                Turizm Amaçlı Kiralama</option>
+                                                        </select>
+                                                        @if ($errors->has('corporate-account-type'))
+                                                            <span
+                                                                class="error-message">{{ $errors->first('corporate-account-type') }}</span>
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- İl -->                                    
                                             
-                                            <!-- ticari Unvan -->
-                                            <div class="mt-3">
-                                                <label class="q-label">Ticari Unvan
-                                                    <i class="info-icon fas fa-info-circle" data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="Ticari Unvanı kısaltmadan aynen yazınız."></i>
-                                                </label>
-
-                                                <input type="text" name="store_name"
-                                                class="form-control {{ $errors->has('commercial_title') ? 'error-border' : '' }}"
-                                                value="{{ old('store_name') }}" required>
-                                            @if ($errors->has('store_name'))
-                                                <span class="error-message">{{ $errors->first('store_name') }}</span>
-                                            @endif
-                                            
-                                            </div>
-
-                                            <div class="mt-3">
-                                                <label class="q-label">Sabit Telefon (Opsiyonel)</label>
-                                                <input type="number" name="phone"
-                                                    class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
-                                                    value="{{ old('phone') }}" maxlength="10">
-                                                @if ($errors->has('phone'))
-                                                    <span class="error-message">{{ $errors->first('phone') }}</span>
-                                                @endif
-                                            </div>
-
-                                            <!-- Kurumsal Hesap Türü -->
-                                            <div class="mt-3">
-                                                <label for="corporate-account-type" class="q-label">Kurumsal Hesap Türü</label>
-                                                <select name="corporate-account-type" id="corporate-account-type"
-                                                    class="form-control {{ $errors->has('corporate-account-type') ? 'error-border' : '' }}" required>
-                                                    <option value="" disabled selected>Seçiniz</option>
-                                                    <option value="Emlak Ofisi"
-                                                        {{ old('corporate-account-type') == 'Emlak Ofisi' ? 'selected' : '' }}>
-                                                        Emlak Ofisi</option>
-                                                    <option value="Banka"
-                                                        {{ old('corporate-account-type') == 'Banka' ? 'selected' : '' }}>
-                                                        Banka</option>
-                                                    <option value="İnşaat Ofisi"
-                                                        {{ old('corporate-account-type') == 'İnşaat Ofisi' ? 'selected' : '' }}>
-                                                        İnşaat Ofisi</option>
-                                                    <option value="Turizm Amaçlı Kiralama"
-                                                        {{ old('corporate-account-type') == 'Turizm Amaçlı' ? 'selected' : '' }}>
-                                                        Turizm Amaçlı Kiralama</option>
-                                                </select>
-                                                @if ($errors->has('corporate-account-type'))
-                                                    <span
-                                                        class="error-message">{{ $errors->first('corporate-account-type') }}</span>
-                                                @endif
-                                            </div>
-
-                                            <!-- İl -->                                    
-                                       
-                                                <div class="mt-3">
-                                                    <label class="form-label" for="il"> İl:</label>
-                                                    <select class="form-control" id="city_id"  name="city_id">
-                                                        <option value="">Şehir Seçiniz</option>
-                                                        @foreach ($cities as $city)
-                                                            <option value="{{ $city->id }}" required>
-                                                                {{ $city->title }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-
-                                                <div class="mt-3">
-                                                    <label class="form-label" for="ilce">İlçe:</label>
-                                                    <select class="form-control" id="county_id" name="county_id" disabled required>
-                                                        <option value="">İlçe Seçiniz</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="mt-3">
-                                                    <label class="form-label" for="mahalle">Mahalle:</label>
-                                                    <select class="form-control" id="neighborhood_id" name="neighborhood_id" disabled required>
-                                                        <option value="">Mahalle Seçiniz</option>
-                                                    </select>
-                                                </div>
-                                           
-
-                                            <!-- İşletme Türü -->
-                                            <div class="mt-3">
-                                                <label for="" class="q-label mb-2">İşletme Türü</label>
-                                                <div class="companyType">
-                                                    <label for="of"  style="margin-right: 10px;"><input type="radio" class="input-radio off"
-                                                            id="of" name="account_type" value="1"
-                                                            {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
-                                                        Şirketi</label>
-                                                    <label for="on"><input type="radio" class="input-radio off"
-                                                            id="on" name="account_type" value="2"
-                                                            {{ old('account_type') == 2 ? 'checked' : '' }}> Limited veya
-                                                        Anonim Şirketi</label>
-                                                </div>
-                                            </div>
-                                            <!-- Vergi Dairesi İli -->
-                                            <div class="mt-3">
-                                                <label class="form-label" for="il">Vergi Dairesi:</label>
-                                                <select class="form-control" id="taxOfficeCity"  name="taxOfficeCity" required>
-                                                    <option value="">Şehir Seçiniz</option>
-                                                    @foreach ($cities as $city)
-                                                        <option value="{{ $city->title }}">
-                                                            {{ $city->title }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="split-form corporate-input mt-3">
-                                                <div class="corporate-input input-city">
-                                                    <div class="mbdef">
-                                                        <div class="select select-tax-office">
-                                                            <label for="" class="q-label">Vergi Dairesi
-                                                            </label>
-
-                                                            <select id="taxOffice"
-                                                                class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}"
-                                                                name="taxOffice" required>
-                                                                <option value="">Seçiniz</option>
+                                                        <div class="mt-3">
+                                                            <label class="form-label" for="il"> İl:</label>
+                                                            <select class="form-control" id="city_id"  name="city_id">
+                                                                <option value="">Şehir Seçiniz</option>
+                                                                @foreach ($cities as $city)
+                                                                    <option value="{{ $city->id }}" required>
+                                                                        {{ $city->title }}</option>
+                                                                @endforeach
                                                             </select>
-                                                            @if ($errors->has('taxOffice'))
-                                                                <span
-                                                                    class="error-message">{{ $errors->first('taxOffice') }}</span>
-                                                            @endif
+                                                        </div>
+
+                                                        <div class="mt-3">
+                                                            <label class="form-label" for="ilce">İlçe:</label>
+                                                            <select class="form-control" id="county_id" name="county_id" disabled required>
+                                                                <option value="">İlçe Seçiniz</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="mt-3">
+                                                            <label class="form-label" for="mahalle">Mahalle:</label>
+                                                            <select class="form-control" id="neighborhood_id" name="neighborhood_id" disabled required>
+                                                                <option value="">Mahalle Seçiniz</option>
+                                                            </select>
+                                                        </div>
+                                                
+
+                                                    <!-- İşletme Türü -->
+                                                    <div class="mt-3">
+                                                        <label for="" class="q-label mb-2">İşletme Türü</label>
+                                                        <div class="companyType">
+                                                            <label for="of"  style="margin-right: 10px;"><input type="radio" class="input-radio off"
+                                                                    id="of" name="account_type" value="1"
+                                                                    {{ old('account_type') == 1 ? 'checked' : '' }}> Şahıs
+                                                                Şirketi</label>
+                                                            <label for="on"><input type="radio" class="input-radio off"
+                                                                    id="on" name="account_type" value="2"
+                                                                    {{ old('account_type') == 2 ? 'checked' : '' }}> Limited veya
+                                                                Anonim Şirketi</label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Vergi Dairesi İli -->
+                                                    <div class="mt-3">
+                                                        <label class="form-label" for="il">Vergi Dairesi:</label>
+                                                        <select class="form-control" id="taxOfficeCity"  name="taxOfficeCity" required>
+                                                            <option value="">Şehir Seçiniz</option>
+                                                            @foreach ($cities as $city)
+                                                                <option value="{{ $city->title }}">
+                                                                    {{ $city->title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Vergi Dairesi
+                                                                    </label>
+
+                                                                    <select id="taxOffice"
+                                                                        class="form-control {{ $errors->has('taxOffice') ? 'error-border' : '' }}"
+                                                                        name="taxOffice" required>
+                                                                        <option value="">Seçiniz</option>
+                                                                    </select>
+                                                                    @if ($errors->has('taxOffice'))
+                                                                        <span
+                                                                            class="error-message">{{ $errors->first('taxOffice') }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Vergi No -->
+                                                    <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Vergi No</label>
+                                                                    <input type="text" id="taxNumber" name="taxNumber"
+                                                                        class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
+                                                                        value="{{ old('taxNumber') }}" required>
+                                                                    @if ($errors->has('taxNumber'))
+                                                                        <span
+                                                                            class="error-message">{{ $errors->first('taxNumber') }}</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- TC Kimlik No -->
+                                                    <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
+                                                        id="idNumberDiv">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">TC Kimlik No</label>
+                                                                    <input type="text" id="idNumber" name="idNumber"
+                                                                        class="form-control" value="{{ old('idNumber') }}" required>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- Vergi No -->
-                                            <div class="split-form corporate-input mt-3">
-                                                <div class="corporate-input input-city">
-                                                    <div class="mbdef">
-                                                        <div class="select select-tax-office">
-                                                            <label for="" class="q-label">Vergi No</label>
-                                                            <input type="text" id="taxNumber" name="taxNumber"
-                                                                class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
-                                                                value="{{ old('taxNumber') }}" required>
-                                                            @if ($errors->has('taxNumber'))
-                                                                <span
-                                                                    class="error-message">{{ $errors->first('taxNumber') }}</span>
-                                                            @endif
+                                                <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
+                                                <div class="fl-wrap filter-tags clearfix mt-3 mb-3">
+                                                    <fieldset>
+
+                                                        <div class="checkboxes float-left">
+                                                            <div class="filter-tags-wrap {{ old('type') == '2' ? 'd-show ' : '' }}{{ old('type') == '1' ? 'hidden' : '' }} {{ $errors->has('check-d') ? 'error-check' : '' }}"
+                                                                id="corporateFormCheck">
+                                                                <input id="check-d" type="checkbox" name="check-d">
+                                                                <label for="check-d" style="font-size: 11px;">
+                                                                    <a href="/sayfa/kurumsal-uyelik-sozlesmesi" target="_blank">
+                                                                        Kurumsal üyelik sözleşmesini
+                                                                    </a>
+                                                                    okudum onaylıyorum.
+                                                                </label>
+                                                                <br>
+                                                                @if ($errors->has('check-d'))
+                                                                    <span
+                                                                        class="error-message">{{ $errors->first('check-d') }}</span>
+                                                                @endif
+                                                            </div>
+                                                            <div
+                                                                class="filter-tags-wrap {{ $errors->has('check-b') ? 'error-check' : '' }}">
+                                                                <input id="check-b" type="checkbox" name="check-b">
+                                                                <label for="check-b" style="font-size: 11px;">
+                                                                    <a href="/sayfa/kvkk-politikasi" target="_blank">
+                                                                        Kvkk metnini
+                                                                    </a>
+                                                                    okudum onaylıyorum.
+                                                                </label>
+                                                                <br>
+                                                                @if ($errors->has('check-b'))
+                                                                    <span
+                                                                        class="error-message">{{ $errors->first('check-b') }}</span>
+                                                                @endif
+                                                            </div>
+                                                            <div
+                                                                class="filter-tags-wrap {{ $errors->has('check-c') ? 'error-check' : '' }}">
+                                                                <input id="check-c" type="checkbox" name="check-c">
+                                                                <label for="check-c" style="font-size: 11px;">
+                                                                    <a href="/sayfa/gizlilik-sozlesmesi-ve-aydinlatma-metni"
+                                                                        target="_blank">
+                                                                        Gizlilik sözleşmesi ve aydınlatma metnini
+                                                                    </a>
+                                                                    okudum onaylıyorum.
+                                                                </label>
+                                                                <br>
+                                                                @if ($errors->has('check-c'))
+                                                                    <span
+                                                                        class="error-message">{{ $errors->first('check-c') }}</span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="filter-tags-wrap">
+                                                                <input id="check-e" type="checkbox" name="check-e">
+                                                                <label for="check-e" style="font-size: 11px;">
+                                                                    Tarafıma elektronik ileti gönderilmesini kabul ediyorum.
+                                                                </label>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </fieldset>
                                                 </div>
-                                            </div>
-
-
-                                            <!-- TC Kimlik No -->
-                                            <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
-                                                id="idNumberDiv">
-                                                <div class="corporate-input input-city">
-                                                    <div class="mbdef">
-                                                        <div class="select select-tax-office">
-                                                            <label for="" class="q-label">TC Kimlik No</label>
-                                                            <input type="text" id="idNumber" name="idNumber"
-                                                                class="form-control" value="{{ old('idNumber') }}" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <button class="btn btn-primary q-button mb-5" type="submit">Kurumsal Üye OL</button>
+                                            </form>
+                                            @endif
                                         </div>
-
-                                        <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
-                                        <div class="fl-wrap filter-tags clearfix mt-3 mb-3">
-                                            <fieldset>
-
-                                                <div class="checkboxes float-left">
-                                                    <div class="filter-tags-wrap {{ old('type') == '2' ? 'd-show ' : '' }}{{ old('type') == '1' ? 'hidden' : '' }} {{ $errors->has('check-d') ? 'error-check' : '' }}"
-                                                        id="corporateFormCheck">
-                                                        <input id="check-d" type="checkbox" name="check-d">
-                                                        <label for="check-d" style="font-size: 11px;">
-                                                            <a href="/sayfa/kurumsal-uyelik-sozlesmesi" target="_blank">
-                                                                Kurumsal üyelik sözleşmesini
-                                                            </a>
-                                                            okudum onaylıyorum.
-                                                        </label>
-                                                        <br>
-                                                        @if ($errors->has('check-d'))
-                                                            <span
-                                                                class="error-message">{{ $errors->first('check-d') }}</span>
-                                                        @endif
-                                                    </div>
-                                                    <div
-                                                        class="filter-tags-wrap {{ $errors->has('check-b') ? 'error-check' : '' }}">
-                                                        <input id="check-b" type="checkbox" name="check-b">
-                                                        <label for="check-b" style="font-size: 11px;">
-                                                            <a href="/sayfa/kvkk-politikasi" target="_blank">
-                                                                Kvkk metnini
-                                                            </a>
-                                                            okudum onaylıyorum.
-                                                        </label>
-                                                        <br>
-                                                        @if ($errors->has('check-b'))
-                                                            <span
-                                                                class="error-message">{{ $errors->first('check-b') }}</span>
-                                                        @endif
-                                                    </div>
-                                                    <div
-                                                        class="filter-tags-wrap {{ $errors->has('check-c') ? 'error-check' : '' }}">
-                                                        <input id="check-c" type="checkbox" name="check-c">
-                                                        <label for="check-c" style="font-size: 11px;">
-                                                            <a href="/sayfa/gizlilik-sozlesmesi-ve-aydinlatma-metni"
-                                                                target="_blank">
-                                                                Gizlilik sözleşmesi ve aydınlatma metnini
-                                                            </a>
-                                                            okudum onaylıyorum.
-                                                        </label>
-                                                        <br>
-                                                        @if ($errors->has('check-c'))
-                                                            <span
-                                                                class="error-message">{{ $errors->first('check-c') }}</span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="filter-tags-wrap">
-                                                        <input id="check-e" type="checkbox" name="check-e">
-                                                        <label for="check-e" style="font-size: 11px;">
-                                                            Tarafıma elektronik ileti gönderilmesini kabul ediyorum.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <button class="btn btn-primary q-button mb-5" type="submit">Kurumsal Üye OL</button>
-                                    </form>
-                                </div>
                                 </div>
                             </div>
                             </div>
