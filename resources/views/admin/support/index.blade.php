@@ -2,7 +2,6 @@
 
 @section('content')
     <section class="content">
-        <div class="divIlan">
             <div class="col-md-12 mt-3 ml-4" 
             data-list='{"valueNames":["id","title"],"page":1,"pagination":true}'>
                 <div class="row" style="margin-bottom:50px;">
@@ -150,7 +149,6 @@
                     </div>
                 </div>
             </div>   
-        </div>
     </section>
 @endsection
 
