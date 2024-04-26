@@ -1492,7 +1492,7 @@
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
                 .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
         .success-message {
