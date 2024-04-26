@@ -218,38 +218,33 @@ class ProjectController extends Controller
             $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
             $matching_indices = [];
             $matching_total = [];
-            
+
+
             for ($i = 1; $i <= $room_counts; $i++) {
                 $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
-            
-                $housing_value = DB::raw($housing_json_path);  // Housing değerini al
-                $housing_exists = !empty($housing_value);  // Housing değerinin varlığını kontrol et
                 
-                $total_quantity = null;
-            
-                // Eğer housing değeri varsa, total_quantity'yi al
-                if ($housing_exists) {
-                    $total_quantity = CartOrder::selectRaw(
-                        "SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity"
-                    )
+                $total_quantity = CartOrder::selectRaw(
+                    "SUM(CAST(COALESCE(JSON_UNQUOTE(json_extract(cart, '$.item.qt')), '1') AS UNSIGNED)) as total_quantity")
                     ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where(DB::raw($housing_json_path), $i)
                     ->where("status", "1")
                     ->first();
-                }
-                
+
+            
                 $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
                 $has_same_quantity = $total_quantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $total_quantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
-                
-                if (!$has_share_sale && $housing_exists && isset($total_quantity) && !$has_same_quantity) {
+            
+              if (!$has_share_sale && !empty($total_quantity->total_quantity) && isset($total_quantity) && !$has_same_quantity) {
                     $project->cartOrders += 1;
                     $matching_indices[] = $i;
                     $matching_total[] = $total_quantity;
+
+
                 }
+             
             }
             
             return $matching_total;
-            
 
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
