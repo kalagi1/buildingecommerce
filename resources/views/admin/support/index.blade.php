@@ -7,9 +7,7 @@
             data-list='{"valueNames":["id","title"],"page":1,"pagination":true}'>
                 <div class="row" style="margin-bottom:50px;">
 
-                    <div class="col-md-12 text-center mt-3">
-                        <p style="font-size: 32px;color:#333333;">Destek Merkezi</p>
-                    </div>
+                    <h3 class="mb-0">Destek Merkezi</h3>
 
                     
                     <div style="margin-left: 100px;">
