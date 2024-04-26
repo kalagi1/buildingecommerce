@@ -452,6 +452,8 @@ class LoginController extends Controller {
     }
 
     public function membershipType(){
+        $changedUser = RoleChanges::where('user_id',Auth::id())->where('status',0)->first();
+        // print_r($changedUser);die;
         $towns = Town::all()->toArray();
         $cities = City::all();
         $turkishAlphabet = [
@@ -459,6 +461,7 @@ class LoginController extends Controller {
             'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
         ];
         $user = User::where('id',Auth::id())->first();
+       
 
         usort($towns, function($a, $b) use ($turkishAlphabet) {
             $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
@@ -497,7 +500,7 @@ class LoginController extends Controller {
                 return $comparison;
             }
         });
-        return view('client.membership-type.index',compact('towns','turkishAlphabet','cities','user'));
+        return view('client.membership-type.index',compact('towns','turkishAlphabet','cities','user','changedUser'));
     }//End
 
     public function institutionalRegister(Request $request){
