@@ -148,8 +148,8 @@
 
                             @if ($projectHousingsList[$housingOrder]['projected_earnings[]'])
                             <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>
-                            <strong style="color:#28a745;font-size:14px;"> Öngörülen Yıllık Kazanç: </strong>
-                            <span style="color:#28a745;font-size:14px;"> %{{$projectHousingsList[$housingOrder]['projected_earnings[]']}}</span>
+                            <strong style="color:#28a745;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                            <span style="color:#28a745;font-size:13px;margin-left:4px"> %{{$projectHousingsList[$housingOrder]['projected_earnings[]']}}</span>
                             @endif
 
                             {{-- @php
