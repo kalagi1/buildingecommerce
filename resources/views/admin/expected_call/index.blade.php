@@ -3,7 +3,7 @@
 @section('content')
     <div class="content">
         <div class="col-auto">
-            <h3 class="mb-0">Rol Değişikliği Talepleri (Bireysel => Kurumsal)</h3>
+            <h3 class="mb-3">Rol Değişikliği Talepleri (Bireysel => Kurumsal)</h3>
         </div>
         @if (Session::has('success'))
             <div class="alert alert-success" role="alert">
