@@ -214,7 +214,7 @@
                                                                 <div class="select select-tax-office">
                                                                     <label for="" class="q-label">TC Kimlik No</label>
                                                                     <input type="text" id="idNumber" name="idNumber"
-                                                                        class="form-control" value="{{ old('idNumber') }}" required>
+                                                                        class="form-control" value="{{ old('idNumber') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
