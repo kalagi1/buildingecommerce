@@ -244,7 +244,6 @@ class ProjectController extends Controller
              
             }
             
-            return $matching_total;
 
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
