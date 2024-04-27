@@ -2677,7 +2677,7 @@ button[data-cmd="insertAll"] {
   cursor: pointer; }
 
 .fr-file-error {
-  color: red;
+  color: #e54242;
   font-weight: 200;
   font-size: 11px;
   padding-bottom: 5px; }
@@ -2803,7 +2803,7 @@ button[data-cmd="insertAll"] {
   top: 10px; }
 
 .file-error {
-  color: red; }
+  color: #e54242; }
 
 #myprogressBar {
   width: 10%;

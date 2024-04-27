@@ -144,10 +144,15 @@
                 </div>
                 <div class="col-md-4">
                     <div class="headings-2 pt-0 pb-0">
-                        <div class="pro-wrapper" style="width: 100%; justify-content: space-between;">
+                        <div class="pro-wrapper" style="width: 100%; justify-content: center;align-items:center">
 
+                            @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
+                            <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>
+                            <strong style="color:#28a745;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                            <span style="color:#28a745;font-size:13px;margin-left:4px"> %{{$projectHousingsList[$housingOrder]['projected_earnings[]']}}</span>
+                            @endif
 
-                            @php
+                            {{-- @php
                                 $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
                                 $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
                                 $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
@@ -169,6 +174,17 @@
                                 @if ($off_sale_check && $projectDiscountAmount)
                                     <h4>
                                         <div style="text-align: center">
+                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
+                                            stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
+                                            stroke-linejoin="round" class="css-i6dzq1">
+                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                        </svg>
+
+                                        <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                            ₺
+                                        </del>  <br>
                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
                                                 {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                 ₺
@@ -176,18 +192,8 @@
                                                 {{ number_format($discounted_price, 0, ',', '.') }}
                                                 ₺
                                             @endif
-                                            <br>
-                                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
-                                                stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
-                                                stroke-linejoin="round" class="css-i6dzq1">
-                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                <polyline points="17 18 23 18 23 12"></polyline>
-                                            </svg>
-
-                                            <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                ₺
-                                            </del>
+                                          
+                                           
                                         </div>
                                     </h4>
                                 @elseif ($off_sale_check)
@@ -202,7 +208,7 @@
                                         @endif
                                     </h4>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>
@@ -279,8 +285,8 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                                <div class="col-md-5 col-5 mobile-action-move">
-                                    <div class="buttons">
+                                <div class="col-md-5 col-5 mobile-action-move p-0">
+                                    {{-- <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -328,10 +334,69 @@
                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
-                                    </div>
+                                    </div> --}}
+
+                                    @php
+                                    $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
+                                    $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
+                                    $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
+                                    $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                                    $discounted_price =
+                                        $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
+    
+                                @endphp
+    
+                                <div class="listing-title-bar text-start w-100">
+    
+    
+                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                        <span class="text-center w-100">
+                                            1 Hisse Fiyatı
+                                        </span>
+                                    @endif
+    
+                                    @if ($off_sale_check && $projectDiscountAmount)
+                                        <h4>
+                                            <div style="text-align: center">
+                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
+                                                stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                            </svg>
+    
+                                            <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </del>  <br>
+                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                    {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                    ₺
+                                                @else
+                                                    {{ number_format($discounted_price, 0, ',', '.') }}
+                                                    ₺
+                                                @endif
+                                              
+                                               
+                                            </div>
+                                        </h4>
+                                    @elseif ($off_sale_check)
+                                        <h4
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                ₺
+                                            @else
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            @endif
+                                        </h4>
+                                    @endif
+                                </div>
 
                                 </div>
-                                <div class="col-md-7 col-7">
+                                <div class="col-md-7 col-7"
+                                style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
                                             style="background: #EA2B2E !important; width: 100%; color: White; ">
@@ -383,6 +448,13 @@
                                         @endif
                                     @endif
 
+                                    <div class="button-effect toggle-project-favorite"
+                                    style="margin-left:13px;width:27% !important"
+                                    data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                    data-project-id={{ $project->id }}>
+                                    <i class="fa fa-heart-o"></i>
+                                </div> 
+
                                 </div>
                             </div>
                         </div>
@@ -432,317 +504,327 @@
                             </div>
 
                             @if ($isSwap == '["Evet"]')
-                            <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
-                                <div class="add-to-collection-button-wrapper">
-                                    <div class="add-to-collection-button">
+                                <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
+                                    <div class="add-to-collection-button-wrapper">
+                                        <div class="add-to-collection-button">
 
-                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="32" height="32" fill="#F0F0F0" />
-                                            <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
-                                                <rect width="1440" height="1577"
-                                                    transform="translate(-1100 -1183)" fill="white" />
-                                                <g id="Group 6131">
-                                                    <g id="Frame 21409">
-                                                        <g id="Group 6385">
-                                                            <rect id="Rectangle 4168" x="-8" y="-8" width="228"
-                                                                height="48" rx="8" fill="#FEF4EB" />
-                                                            <g id="Group 2664">
-                                                                <rect id="Rectangle 316" width="32"
-                                                                    height="32" rx="4" fill="#F27A1A" />
-                                                                <g id="Group 72">
-                                                                    <path d="M16 11V21M11 16H21" stroke="white"
-                                                                        stroke-width="2" stroke-linecap="round" />
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="32" height="32" fill="#F0F0F0" />
+                                                <g id="Add Collections-00 (Default)" clip-path="url(#clip0_1750_971)">
+                                                    <rect width="1440" height="1577"
+                                                        transform="translate(-1100 -1183)" fill="white" />
+                                                    <g id="Group 6131">
+                                                        <g id="Frame 21409">
+                                                            <g id="Group 6385">
+                                                                <rect id="Rectangle 4168" x="-8" y="-8" width="228"
+                                                                    height="48" rx="8" fill="#FEF4EB" />
+                                                                <g id="Group 2664">
+                                                                    <rect id="Rectangle 316" width="32"
+                                                                        height="32" rx="4" fill="#F27A1A" />
+                                                                    <g id="Group 72">
+                                                                        <path d="M16 11V21M11 16H21" stroke="white"
+                                                                            stroke-width="2" stroke-linecap="round" />
+                                                                    </g>
                                                                 </g>
                                                             </g>
                                                         </g>
                                                     </g>
                                                 </g>
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_1750_971">
-                                                    <rect width="1440" height="1577" fill="white"
-                                                        transform="translate(-1100 -1183)" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
+                                                <defs>
+                                                    <clipPath id="clip0_1750_971">
+                                                        <rect width="1440" height="1577" fill="white"
+                                                            transform="translate(-1100 -1183)" />
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
 
-                                        <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
-                                    </div>
-                                    <i class="fa fa-caret-right"></i>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="takasModal" tabindex="-1"
-                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Takas Formu</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
+                                            <span class="add-to-collection-button-text">Takas Başvurusu Yap</span>
                                         </div>
-                                        <div class="modal-body">
+                                        <i class="fa fa-caret-right"></i>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="takasModal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Takas Formu</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
 
-                                            <form action="{{ route('form.kaydet') }}" method="POST" id="takasFormu"
-                                                enctype="multipart/form-data">
-                                                @csrf
+                                                <form action="{{ route('form.kaydet') }}" method="POST" id="takasFormu"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
 
-                                                <div class="row">
-                                                    <div class="col-md-6 col-12">
-                                                        <label class="form-label" for="ad">Ad:</label>
-                                                        <input class="formInput" type="text" id="ad" required name="ad">
-                                                    </div>
-
-                                                    <div class="col-md-6 col-12">
-                                                        <label class="form-label" for="soyad">Soyadınız:</label>
-                                                        <input class="formInput" type="text" id="soyad" required name="soyad">
-                                                    </div>
-
-                                                    <div class="col-md-6 col-12">
-                                                        <label class="form-label" for="telefon">Telefon
-                                                            Numaranız:</label>
-                                                        <input class="formInput" type="number" id="telefon" required name="telefon" maxlength="10">
-                                                            <span id="error_message" class="error-message"></span>
-                                                    </div>
-
-                                                    <div class="col-md-6 col-12">
-                                                        <label class="form-label" for="email">E-mail:</label>
-                                                        <input class="formInput" type="email" id="email" required name="email">
-                                                    </div>
-
-                                                    <div class="col-md-6 col-12">
-                                                        <label class="form-label" for="sehir">Şehir:</label>
-                                                        <select class="formInput" id="sehir" name="sehir" required>
-                                                            <option value="">Şehir Seçiniz</option>
-                                                            @foreach ($cities as $city)
-                                                                <option value="{{ $city->id }}">
-                                                                    {{ $city->title }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-6 col-12">
-                                                        <label class="form-label" for="ilce">İlçe:</label>
-                                                        <select class="formInput" id="ilce" name="ilce" required disabled>
-                                                            <option value="">İlçe Seçiniz</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-md-12 col-12">
-                                                        <label class="form-label" for="takas_tercihi">Takas
-                                                            Tercihiniz:</label>
-                                                        <select class="formInput" id="takas_tercihi" required name="takas_tercihi">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="emlak">Emlak</option>
-                                                            <option value="araç">Araç</option>
-                                                            <option value="barter">Barter</option>
-                                                            <option value="diğer">Diğer</option>
-                                                        </select>
-                                                    </div>
-
-
-                                                    <div id="digeryse" style="display: none;"
-                                                        class="col-md-12 col-12">
-                                                        <label class="form-label" for="diger_detay">Takas ile ilgili ürün/hizmet detayı:</label>
-                                                        <textarea class="formInput" id="diger_detay" name="diger_detay"></textarea>
-                                                    </div>
-
-                                                    <div id="barteryse" style="display: none;"
-                                                        class="col-md-12 col-12">
-                                                        <label class="form-label" for="barter_detay">Lütfen barter durumunuz ile ilgili detaylı bilgileri giriniz:</label>
-                                                        <textarea class="formInput" id="barter_detay" name="barter_detay"></textarea>
-                                                    </div>
-
-                                                    <div id="emlakyse" style="display: none;"
-                                                        class="col-md-12 col-12">
-                                                        <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
-                                                        <select class="formInput" id="emlak_tipi" name="emlak_tipi">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="konut">Konut</option>
-                                                            <option value="arsa">Arsa</option>
-                                                            <option value="işyeri">İşyeri</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div id="konutyse" style="display: none;"
-                                                        class="col-md-12 col-12">
-                                                        <label class="form-label" for="konut_tipi">Konut Tipi:</label>
-                                                        <select class="formInput" id="konut_tipi" name="konut_tipi">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="daire">Daire</option>
-                                                            <option value="villa">Villa</option>
-                                                            <option value="residance">Residance</option>
-                                                            <option value="prefabrik_ev">Prefabrik Ev</option>
-                                                            <option value="çiftlik_evi">Çiftlik Evi</option>
-                                                        </select>
-
-                                                        <label for="oda_sayisi">Oda Sayısı</label>
-                                                        <select class="form-select formInput"
-                                                            aria-label="Default select example" id="oda_sayisi"
-                                                            name="oda_sayisi">
-                                                            <option selected>Seçiniz</option>
-                                                            <option value="1+0">1+0</option>
-                                                            <option value="1.5+1">1.5+1</option>
-                                                            <option value="2+0">2+0</option>
-                                                            <option value="2+1">2+1</option>
-                                                            <option value="2.5+1">2.5+1</option>
-                                                            <option value="3+0">3+0</option>
-                                                            <option value="3+1">3+1</option>
-                                                            <option value="3.5+1">3.5+1</option>
-                                                            <option value="3+2">3+2</option>
-                                                            <option value="3+3">3+3</option>
-                                                            <option value="4+0">4+0</option>
-                                                            <option value="4+1">4+1</option>
-                                                            <option value="4.5+1">4.5+1</option>
-                                                            <option value="4+2">4+2</option>
-                                                            <option value="4+3">4+3</option>
-                                                            <option value="4+4">4+4</option>
-                                                            <option value="5+1">5+1</option>
-                                                            <option value="5.5+1">5.5+1</option>
-                                                            <option value="5+2">5+2</option>
-                                                            <option value="5+3">5+3</option>
-                                                            <option value="5+4">5+4</option>
-                                                            <option value="6+1">6+1</option>
-                                                            <option value="6+2">6+2</option>
-                                                            <option value="6.5+1">6.5+1</option>
-                                                            <option value="6+3">6+3</option>
-                                                            <option value="6+4">6+4</option>
-                                                            <option value="7+1">7+1</option>
-                                                            <option value="7+2">7+2</option>
-                                                            <option value="7+3">7+3</option>
-                                                            <option value="8+1">8+1</option>
-                                                            <option value="8+2">8+2</option>
-                                                            <option value="8+3">8+3</option>
-                                                            <option value="8+4">8+4</option>
-                                                            <option value="9+1">9+1</option>
-                                                            <option value="9+2">9+2</option>
-                                                            <option value="9+3">9+3</option>
-                                                            <option value="9+4">9+4</option>
-                                                            <option value="9+5">9+5</option>
-                                                            <option value="9+6">9+6</option>
-                                                            <option value="10+1">10+1</option>
-                                                            <option value="10+2">10+2</option>
-                                                            <option value="11+1">11+1</option>
-                                                            <option value="12 ve üzeri">12 ve üzeri</option>
-                                                        </select>
-
-                                                        <label class="form-label" for="konut_tipi">Konut Yaşı:</label>
-                                                        <select class="formInput" id="konut_yasi" name="konut_yasi">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5-10">5-10</option>
-                                                            <option value="11-15">11-15</option>
-                                                            <option value="16-20">16-20</option>
-                                                            <option value="20 ve Üzeri">20 ve Üzeri</option>
-                                                        </select>
-
-                                                        <input class="formInput" type="hidden" id="store_id"
-                                                            name="store_id" value="{{ $project->user->id }}">
-
-                                                        <label class="form-label" for="kullanim_durumu">Kullanım
-                                                            Durumu:</label>
-                                                        <select class="formInput" id="kullanim_durumu"
-                                                            name="kullanim_durumu">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="kiracılı">Kiracılı</option>
-                                                            <option value="boş">Boş</option>
-                                                            <option value="mülk_sahibi">Mülk Sahibi</option>
-                                                        </select>
-
-                                                        <label class="form-label"
-                                                            for="konut_satis_rakami">Düşündüğünüz Satış Rakamı:</label>
-                                                        <input class="formInput" type="text"
-                                                            id="konut_satis_rakami" name="konut_satis_rakami"
-                                                            min="0">
-
-                                                        <label class="form-label" for="tapu_belgesi">Tapu Belgesi
-                                                            Yükleyiniz:</label>
-                                                        <input class="formInput" type="file" id="tapu_belgesi"
-                                                            name="tapu_belgesi" accept=".pdf,.doc,.docx">
-                                                    </div>
-
-                                                    <div id="arsayse" style="display: none;"
-                                                        class="col-md-12 col-12">
-
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <label class="form-label" for="arsa_il">Arsa
-                                                                    İl:</label>
-                                                                <select class="formInput" id="arsa_il"
-                                                                    name="arsa_il">
-                                                                    <option value="">Şehir Seçiniz</option>
-                                                                    @foreach ($cities as $city)
-                                                                        <option value="{{ $city->id }}">
-                                                                            {{ $city->title }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                <label class="form-label" for="arsa_ilce">Arsa
-                                                                    İlçe:</label>
-                                                                <select class="formInput" id="arsa_ilce"
-                                                                    name="arsa_ilce" disabled>
-                                                                    <option value="">İlçe Seçiniz</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                <label class="form-label" for="arsa_mahalle">Arsa
-                                                                    Mahalle:</label>
-                                                                <select class="formInput" id="arsa_mahalle"
-                                                                    name="arsa_mahalle" disabled>
-                                                                    <option value="">Mahalle Seçiniz</option>
-                                                                </select>
-                                                            </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="ad">Ad:</label>
+                                                            <input class="formInput" type="text" id="ad"
+                                                                required name="ad">
                                                         </div>
 
-                                                        <label class="form-label" for="ada_parsel">Ada Parsel
-                                                            Bilgisi:</label>
-                                                        <input class="formInput" type="text" id="ada_parsel"
-                                                            name="ada_parsel">
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="soyad">Soyadınız:</label>
+                                                            <input class="formInput" type="text" id="soyad"
+                                                                required name="soyad">
+                                                        </div>
 
-                                                        <label class="form-label" for="imar_durumu">Arsa İmar
-                                                            Durumu:</label>
-                                                        <select class="formInput" id="imar_durumu"
-                                                            name="imar_durumu">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="villa">Villa</option>
-                                                            <option value="konut">Konut</option>
-                                                            <option value="turizm">Turizm Amaçlı Kiralama</option>
-                                                            <option value="sanayi">Sanayi</option>
-                                                            <option value="ticari">Ticari</option>
-                                                            <option value="bağ_bahçe">Bağ Bahçe</option>
-                                                            <option value="tarla">Tarla</option>
-                                                        </select>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="telefon">Telefon
+                                                                Numaranız:</label>
+                                                            <input class="formInput" type="number" id="telefon"
+                                                                required name="telefon" maxlength="10">
+                                                            <span id="error_message" class="error-message"></span>
+                                                        </div>
 
-                                                        <label class="form-label" for="satis_rakami">Düşündüğünüz
-                                                            Satış Rakamı:</label>
-                                                        <input class="formInput" type="text" id="satis_rakami"
-                                                            name="satis_rakami" min="0">
-                                                    </div>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="email">E-mail:</label>
+                                                            <input class="formInput" type="email" id="email"
+                                                                required name="email">
+                                                        </div>
 
-                                                    <div id="aracyse" style="display: none;"
-                                                        class="col-md-12 col-12">
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="sehir">Şehir:</label>
+                                                            <select class="formInput" id="sehir" name="sehir"
+                                                                required>
+                                                                <option value="">Şehir Seçiniz</option>
+                                                                @foreach ($cities as $city)
+                                                                    <option value="{{ $city->id }}">
+                                                                        {{ $city->title }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
 
-                                                        <label class="form-label" for="arac_model_yili">Araç Model
-                                                            Yılı:</label>
-                                                        <select class="formInput" id="arac_model_yili"
-                                                            name="arac_model_yili">
-                                                            <option value="">Model Yılı Seçiniz</option>
-                                                            @for ($year = date('Y'); $year >= 2004; $year--)
-                                                                <option value="{{ $year }}">
-                                                                    {{ $year }}</option>
-                                                            @endfor
-                                                        </select>
+                                                        <div class="col-md-6 col-12">
+                                                            <label class="form-label" for="ilce">İlçe:</label>
+                                                            <select class="formInput" id="ilce" name="ilce"
+                                                                required disabled>
+                                                                <option value="">İlçe Seçiniz</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-12 col-12">
+                                                            <label class="form-label" for="takas_tercihi">Takas
+                                                                Tercihiniz:</label>
+                                                            <select class="formInput" id="takas_tercihi" required
+                                                                name="takas_tercihi">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="emlak">Emlak</option>
+                                                                <option value="araç">Araç</option>
+                                                                <option value="barter">Barter</option>
+                                                                <option value="diğer">Diğer</option>
+                                                            </select>
+                                                        </div>
 
 
-                                                        <label class="form-label" for="arac_markasi">Araç
-                                                            Markası:</label>
-                                                            <select class="formInput" name="arac_markasi" id="arac_markasi">
+                                                        <div id="digeryse" style="display: none;"
+                                                            class="col-md-12 col-12">
+                                                            <label class="form-label" for="diger_detay">Takas ile ilgili
+                                                                ürün/hizmet detayı:</label>
+                                                            <textarea class="formInput" id="diger_detay" name="diger_detay"></textarea>
+                                                        </div>
+
+                                                        <div id="barteryse" style="display: none;"
+                                                            class="col-md-12 col-12">
+                                                            <label class="form-label" for="barter_detay">Lütfen barter
+                                                                durumunuz ile ilgili detaylı bilgileri giriniz:</label>
+                                                            <textarea class="formInput" id="barter_detay" name="barter_detay"></textarea>
+                                                        </div>
+
+                                                        <div id="emlakyse" style="display: none;"
+                                                            class="col-md-12 col-12">
+                                                            <label class="form-label" for="emlak_tipi">Emlak Tipi:</label>
+                                                            <select class="formInput" id="emlak_tipi" name="emlak_tipi">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="konut">Konut</option>
+                                                                <option value="arsa">Arsa</option>
+                                                                <option value="işyeri">İşyeri</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div id="konutyse" style="display: none;"
+                                                            class="col-md-12 col-12">
+                                                            <label class="form-label" for="konut_tipi">Konut Tipi:</label>
+                                                            <select class="formInput" id="konut_tipi" name="konut_tipi">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="daire">Daire</option>
+                                                                <option value="villa">Villa</option>
+                                                                <option value="residance">Residance</option>
+                                                                <option value="prefabrik_ev">Prefabrik Ev</option>
+                                                                <option value="çiftlik_evi">Çiftlik Evi</option>
+                                                            </select>
+
+                                                            <label for="oda_sayisi">Oda Sayısı</label>
+                                                            <select class="form-select formInput"
+                                                                aria-label="Default select example" id="oda_sayisi"
+                                                                name="oda_sayisi">
+                                                                <option selected>Seçiniz</option>
+                                                                <option value="1+0">1+0</option>
+                                                                <option value="1.5+1">1.5+1</option>
+                                                                <option value="2+0">2+0</option>
+                                                                <option value="2+1">2+1</option>
+                                                                <option value="2.5+1">2.5+1</option>
+                                                                <option value="3+0">3+0</option>
+                                                                <option value="3+1">3+1</option>
+                                                                <option value="3.5+1">3.5+1</option>
+                                                                <option value="3+2">3+2</option>
+                                                                <option value="3+3">3+3</option>
+                                                                <option value="4+0">4+0</option>
+                                                                <option value="4+1">4+1</option>
+                                                                <option value="4.5+1">4.5+1</option>
+                                                                <option value="4+2">4+2</option>
+                                                                <option value="4+3">4+3</option>
+                                                                <option value="4+4">4+4</option>
+                                                                <option value="5+1">5+1</option>
+                                                                <option value="5.5+1">5.5+1</option>
+                                                                <option value="5+2">5+2</option>
+                                                                <option value="5+3">5+3</option>
+                                                                <option value="5+4">5+4</option>
+                                                                <option value="6+1">6+1</option>
+                                                                <option value="6+2">6+2</option>
+                                                                <option value="6.5+1">6.5+1</option>
+                                                                <option value="6+3">6+3</option>
+                                                                <option value="6+4">6+4</option>
+                                                                <option value="7+1">7+1</option>
+                                                                <option value="7+2">7+2</option>
+                                                                <option value="7+3">7+3</option>
+                                                                <option value="8+1">8+1</option>
+                                                                <option value="8+2">8+2</option>
+                                                                <option value="8+3">8+3</option>
+                                                                <option value="8+4">8+4</option>
+                                                                <option value="9+1">9+1</option>
+                                                                <option value="9+2">9+2</option>
+                                                                <option value="9+3">9+3</option>
+                                                                <option value="9+4">9+4</option>
+                                                                <option value="9+5">9+5</option>
+                                                                <option value="9+6">9+6</option>
+                                                                <option value="10+1">10+1</option>
+                                                                <option value="10+2">10+2</option>
+                                                                <option value="11+1">11+1</option>
+                                                                <option value="12 ve üzeri">12 ve üzeri</option>
+                                                            </select>
+
+                                                            <label class="form-label" for="konut_tipi">Konut Yaşı:</label>
+                                                            <select class="formInput" id="konut_yasi" name="konut_yasi">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5-10">5-10</option>
+                                                                <option value="11-15">11-15</option>
+                                                                <option value="16-20">16-20</option>
+                                                                <option value="20 ve Üzeri">20 ve Üzeri</option>
+                                                            </select>
+
+                                                            <input class="formInput" type="hidden" id="store_id"
+                                                                name="store_id" value="{{ $project->user->id }}">
+
+                                                            <label class="form-label" for="kullanim_durumu">Kullanım
+                                                                Durumu:</label>
+                                                            <select class="formInput" id="kullanim_durumu"
+                                                                name="kullanim_durumu">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="kiracılı">Kiracılı</option>
+                                                                <option value="boş">Boş</option>
+                                                                <option value="mülk_sahibi">Mülk Sahibi</option>
+                                                            </select>
+
+                                                            <label class="form-label"
+                                                                for="konut_satis_rakami">Düşündüğünüz Satış Rakamı:</label>
+                                                            <input class="formInput" type="text"
+                                                                id="konut_satis_rakami" name="konut_satis_rakami"
+                                                                min="0">
+
+                                                            <label class="form-label" for="tapu_belgesi">Tapu Belgesi
+                                                                Yükleyiniz:</label>
+                                                            <input class="formInput" type="file" id="tapu_belgesi"
+                                                                name="tapu_belgesi" accept=".pdf,.doc,.docx">
+                                                        </div>
+
+                                                        <div id="arsayse" style="display: none;"
+                                                            class="col-md-12 col-12">
+
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label" for="arsa_il">Arsa
+                                                                        İl:</label>
+                                                                    <select class="formInput" id="arsa_il"
+                                                                        name="arsa_il">
+                                                                        <option value="">Şehir Seçiniz</option>
+                                                                        @foreach ($cities as $city)
+                                                                            <option value="{{ $city->id }}">
+                                                                                {{ $city->title }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label" for="arsa_ilce">Arsa
+                                                                        İlçe:</label>
+                                                                    <select class="formInput" id="arsa_ilce"
+                                                                        name="arsa_ilce" disabled>
+                                                                        <option value="">İlçe Seçiniz</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <label class="form-label" for="arsa_mahalle">Arsa
+                                                                        Mahalle:</label>
+                                                                    <select class="formInput" id="arsa_mahalle"
+                                                                        name="arsa_mahalle" disabled>
+                                                                        <option value="">Mahalle Seçiniz</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <label class="form-label" for="ada_parsel">Ada Parsel
+                                                                Bilgisi:</label>
+                                                            <input class="formInput" type="text" id="ada_parsel"
+                                                                name="ada_parsel">
+
+                                                            <label class="form-label" for="imar_durumu">Arsa İmar
+                                                                Durumu:</label>
+                                                            <select class="formInput" id="imar_durumu"
+                                                                name="imar_durumu">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="villa">Villa</option>
+                                                                <option value="konut">Konut</option>
+                                                                <option value="turizm">Turizm Amaçlı Kiralama</option>
+                                                                <option value="sanayi">Sanayi</option>
+                                                                <option value="ticari">Ticari</option>
+                                                                <option value="bağ_bahçe">Bağ Bahçe</option>
+                                                                <option value="tarla">Tarla</option>
+                                                            </select>
+
+                                                            <label class="form-label" for="satis_rakami">Düşündüğünüz
+                                                                Satış Rakamı:</label>
+                                                            <input class="formInput" type="text" id="satis_rakami"
+                                                                name="satis_rakami" min="0">
+                                                        </div>
+
+                                                        <div id="aracyse" style="display: none;"
+                                                            class="col-md-12 col-12">
+
+                                                            <label class="form-label" for="arac_model_yili">Araç Model
+                                                                Yılı:</label>
+                                                            <select class="formInput" id="arac_model_yili"
+                                                                name="arac_model_yili">
+                                                                <option value="">Model Yılı Seçiniz</option>
+                                                                @for ($year = date('Y'); $year >= 2004; $year--)
+                                                                    <option value="{{ $year }}">
+                                                                        {{ $year }}</option>
+                                                                @endfor
+                                                            </select>
+
+
+                                                            <label class="form-label" for="arac_markasi">Araç
+                                                                Markası:</label>
+                                                            <select class="formInput" name="arac_markasi"
+                                                                id="arac_markasi">
                                                                 <option value="">Seçiniz...</option>
                                                                 <option value="Alfa Romeo">Alfa Romeo</option>
                                                                 <option value="Aston Martin">Aston Martin</option>
@@ -814,63 +896,63 @@
                                                                 <option value="Yudo">Yudo</option>
                                                             </select>
 
-                                                        <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
-                                                        <select class="formInput" id="yakit_tipi" name="yakit_tipi">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="benzin">Benzin</option>
-                                                            <option value="dizel">Dizel</option>
-                                                            <option value="lpg">LPG</option>
-                                                            <option value="elektrik">Elektrik</option>
-                                                        </select>
+                                                            <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
+                                                            <select class="formInput" id="yakit_tipi" name="yakit_tipi">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="benzin">Benzin</option>
+                                                                <option value="dizel">Dizel</option>
+                                                                <option value="lpg">LPG</option>
+                                                                <option value="elektrik">Elektrik</option>
+                                                            </select>
 
-                                                        <label class="form-label" for="vites_tipi">Vites Tipi:</label>
-                                                        <select class="formInput" id="vites_tipi" name="vites_tipi">
-                                                            <option value="">Seçiniz</option>
-                                                            <option value="manuel">Manuel</option>
-                                                            <option value="otomatik">Otomatik</option>
-                                                        </select>
+                                                            <label class="form-label" for="vites_tipi">Vites Tipi:</label>
+                                                            <select class="formInput" id="vites_tipi" name="vites_tipi">
+                                                                <option value="">Seçiniz</option>
+                                                                <option value="manuel">Manuel</option>
+                                                                <option value="otomatik">Otomatik</option>
+                                                            </select>
 
-                                                        <label class="form-label" for="arac_satis_rakami">Satış
-                                                            Rakamı:</label>
-                                                        <input class="formInput" type="text"
-                                                            id="arac_satis_rakami" name="arac_satis_rakami"
-                                                            min="0">
+                                                            <label class="form-label" for="arac_satis_rakami">Satış
+                                                                Rakamı:</label>
+                                                            <input class="formInput" type="text"
+                                                                id="arac_satis_rakami" name="arac_satis_rakami"
+                                                                min="0">
 
-                                                        <label class="form-label" for="ruhsat_belgesi">Ruhsat Belgesi
-                                                            Yükleyiniz:</label>
-                                                        <input class="formInput" type="file" id="ruhsat_belgesi"
-                                                            name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
+                                                            <label class="form-label" for="ruhsat_belgesi">Ruhsat Belgesi
+                                                                Yükleyiniz:</label>
+                                                            <input class="formInput" type="file" id="ruhsat_belgesi"
+                                                                name="ruhsat_belgesi" accept=".pdf,.doc,.docx">
+                                                        </div>
+
+                                                        <div id="isyeriyse" style="display: none;"
+                                                            class="mb-3 col-md-12 col-12">
+
+                                                            <label for="ticari_bilgiler" class="form-label">Ticari ile
+                                                                ilgili Bilgileri Giriniz:</label>
+                                                            <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
+
+                                                            <label for="isyeri_satis_rakami"
+                                                                class="form-label">Düşündüğünüz Satış Rakamı:</label>
+                                                            <input type="text" class="formInput"
+                                                                id="isyeri_satis_rakami" name="isyeri_satis_rakami"
+                                                                min="0">
+                                                        </div>
+
                                                     </div>
 
-                                                    <div id="isyeriyse" style="display: none;"
-                                                        class="mb-3 col-md-12 col-12">
-
-                                                        <label for="ticari_bilgiler" class="form-label">Ticari ile
-                                                            ilgili Bilgileri Giriniz:</label>
-                                                        <textarea class="formInput" id="ticari_bilgiler" name="ticari_bilgiler"></textarea>
-
-                                                        <label for="isyeri_satis_rakami"
-                                                            class="form-label">Düşündüğünüz Satış Rakamı:</label>
-                                                        <input type="text" class="formInput"
-                                                            id="isyeri_satis_rakami" name="isyeri_satis_rakami"
-                                                            min="0">
-                                                    </div>
-
-                                                </div>
-
-                                                <button type="submit"
-                                                    style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
+                                                    <button type="submit"
+                                                        style="background-color: #ea2a28; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Başvur</button>
                                                     <button type="button" data-bs-dismiss="modal"
-                                                    style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
-                                            </form>
-                                        </div>
+                                                        style="background-color: black; color: white; padding: 10px; border: none;width:150px;margin-top:20px">Kapat</button>
+                                                </form>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div> 
                             @endif
 
-                          
+
                         </div>
                     @endif
 
@@ -881,7 +963,7 @@
                             <div class="widget-boxed">
                                 <div class="widget-boxed-body pt-0">
                                     <div class="sidebar-widget author-widget2">
-                                       
+
                                         <table class="table">
                                             <tr style="border-top: none !important">
                                                 <td style="border-top: none !important">
@@ -910,42 +992,42 @@
                                                 </td>
                                             </tr>
                                             @if ($project->user->phone)
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">İş:</span>
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:#274abb;"
+                                                                href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if ($project->user->mobile_phone)
+                                                <tr>
+                                                    <td>
+                                                        <span class="autoWidthTr">Cep :</span>
+                                                        <span class="det">
+                                                            <a style="text-decoration: none;color:#274abb;"
+                                                                href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                             <tr>
                                                 <td>
-                                                    <span class="autoWidthTr">İş:</span>
-                                                    <span class="det">
-                                                        <a style="text-decoration: none;color:#274abb;"
-                                                            href="tel:{!! $project->user->phone !!}">{!! $project->user->phone !!}</a>
-                                                    </span>
+                                                    E-Posta :
+                                                    <span class="det"> <a style="text-decoration: none;color:inherit"
+                                                            href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
                                                 </td>
                                             </tr>
-                                        @endif
-                                        @if ($project->user->mobile_phone)
                                             <tr>
                                                 <td>
-                                                    <span class="autoWidthTr">Cep :</span>
-                                                    <span class="det">
-                                                        <a style="text-decoration: none;color:#274abb;"
-                                                            href="tel:{!! $project->user->mobile_phone !!}">{!! $project->user->mobile_phone !!}</a>
-                                                    </span>
+                                                    Mağaza :
+                                                    <span class="det"> <a style="text-decoration: none;color:inherit"
+                                                            href="{{ route('institutional.dashboard', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">{!! $project->user->name !!}</a></span>
                                                 </td>
                                             </tr>
-                                        @endif
-                                        <tr>
-                                            <td>
-                                                E-Posta :
-                                                <span class="det"> <a style="text-decoration: none;color:inherit"
-                                                        href="mailto:{!! $project->user->email !!}">{!! $project->user->email !!}</a></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                            Mağaza :
-                                                <span class="det"> <a style="text-decoration: none;color:inherit"
-                                                        href="{{ route('institutional.dashboard', ['slug' => Str::slug($project->user->name), 'userID' => $project->user->id]) }}">{!! $project->user->name !!}</a></span>
-                                            </td>
-                                        </tr>
-                                                  
+
                                             @if ($project->step1_slug)
                                                 <tr>
                                                     <td>
@@ -965,7 +1047,7 @@
                                                     </td>
                                                 </tr>
                                             @endif
-                                          
+
                                         </table>
                                     </div>
                                 </div>
@@ -980,8 +1062,7 @@
                 <div class="col-md-12">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link  active  "
-                            id="contact-tab" data-bs-toggle="tab"
+                            <button class="nav-link  active  " id="contact-tab" data-bs-toggle="tab"
                                 data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
                                 aria-selected="false">Projedeki
                                 Diğer Konutlar
@@ -997,9 +1078,9 @@
                                 type="button" role="tab" aria-controls="profile"
                                 aria-selected="false">Özellikler</button>
                         </li>
-                           
-                            <li class="nav-item" role="presentation">
-                            
+
+                        <li class="nav-item" role="presentation">
+
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
@@ -1072,7 +1153,23 @@
                                                     }
                                                 @endphp
 
-                                                @if (!$isArrayCheck && isset($value) && $value !== '')
+                                                @if (
+                                                    !$isArrayCheck &&
+                                                        isset($value) &&
+                                                        $value !== '' &&
+                                                        $housingSetting->label != 'Kapak Resmi' &&
+                                                        $housingSetting->label != 'Taksitli Satış' &&
+                                                        $housingSetting->label != 'Fiyat' &&
+                                                        $housingSetting->label != 'Seçenekler' &&
+                                                        $housingSetting->label != 'Acil Satılık' &&
+                                                        $housingSetting->label != 'İndirim Oranı %' &&
+                                                        $housingSetting->label != 'Yıldız Sayısı' &&
+                                                        $housingSetting->label != 'Yapının Durumu' &&
+                                                        $housingSetting->label != 'Peşinat' &&
+                                                        $housingSetting->label != 'İlan Başlığı' &&
+                                                        $housingSetting->label != 'Günlük Fiyat' &&
+                                                        $housingSetting->label != 'Peşin Fiyat' &&
+                                                        $housingSetting->label != 'Taksitli Toplam Fiyat')
                                                     <tr>
                                                         <td>
                                                             <span class="mr-1">{{ $housingSetting->label }}:</span>
@@ -1403,15 +1500,14 @@
                 navLinks.forEach(function(link) {
                     link.classList.remove('active');
                 });
-                
+
                 // Tıklanan öğeye active sınıfını ekleyin
                 this.classList.add('active');
             });
-});
-
+        });
     </script>
 
-</script>
+    </script>
     <script>
         var successMessage = "{{ session('success') }}";
 
@@ -1760,14 +1856,20 @@
                                             var advanceData = "";
                                             var monhlyPrice = "";
 
-                                            var projectedEarningsData ="";
-                                     var projectedEarnings = getDataJS(response, "projected_earnings[]", response.room_info[i].room_order);
-                                        // var projectedEarnings = 10;
-                                        var svgCode = '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
-                                        var projectedEarningsHTML = projectedEarnings ? svgCode + "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" + "<span style='color:#28a745'> %" + projectedEarnings + "</span>" : "";
+                                            var projectedEarningsData = "";
+                                            var projectedEarnings = getDataJS(response,
+                                                "projected_earnings[]", response.room_info[i]
+                                                .room_order);
+                                            // var projectedEarnings = 10;
+                                            var svgCode =
+                                                '<svg viewBox="0 0 24 24" width="21" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>';
+                                            var projectedEarningsHTML = projectedEarnings ? svgCode +
+                                                "<strong style='color:#28a745'> Öngörülen Yıllık Kazanç:</strong>" +
+                                                "<span style='color:#28a745'> %" + projectedEarnings +
+                                                "</span>" : "";
 
 
-                                        projectedEarningsData += projectedEarningsHTML;
+                                            projectedEarningsData += projectedEarningsHTML;
 
                                         } else {
 
@@ -1859,7 +1961,10 @@
                                                     "Fiyat:</strong> " : "") + formatPrice(
                                                     priceData) + "₺</td>";
 
-                                                    html += "<td>" + projectedEarningsData + "</td>";  
+                                                if (projectedEarningsData) {
+                                                    html += "<td>" + projectedEarningsData + "</td>";
+
+                                                }
                                             }
 
 
@@ -2348,96 +2453,85 @@
             var endIndex = 12;
 
         }
-        $(document).ready(function(){
-            $("#telefon").on("input blur", function(){
-            var phoneNumber = $(this).val();
-            var pattern = /^5[0-9]\d{8}$/;
-        
-            if (!pattern.test(phoneNumber)) {
-              $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
-            } else {
-              $("#error_message").text("");
-            }
-                 // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                 $('#telefon').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
-          });
+        $(document).ready(function() {
+            $("#telefon").on("input blur", function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[0-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+                } else {
+                    $("#error_message").text("");
+                }
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#telefon').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
+            });
         });
     </script>
 
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // jQuery Validation eklentisini form elemanlarına uygula
-        $('#takasFormu').validate({
-            // Türkçe hata mesajlarını tanımla
-            messages: {
-                ad: {
-                    required: "Lütfen adınızı girin."
-                },
-                soyad: {
-                    required: "Lütfen soyadınızı girin."
-                },
-                telefon: {
-                    required: "Lütfen telefon numaranızı girin."
-                },
-                email: {
-                    required: "Lütfen e-posta adresinizi girin.",
-                    email: "Lütfen geçerli bir e-posta adresi girin."
-                },
-                sehir: {
-                    required: "Lütfen bir şehir seçin."
-                },
-                ilce: {
-                    required: "Lütfen bir ilçe seçin."
-                },
-                takas_tercihi: {
-                    required: "Lütfen takas tercihinizi belirtin."
-                }
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#takasFormu').submit(function(e) {
-            var isEmpty = false;
-
-            // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
-            if ($('#takas_tercihi').val() === 'emlak') {
-                        var emlakTipi = $('#emlak_tipi').val();
-                        if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
-                            var requiredFields = [];
-                            if (emlakTipi === 'konut') {
-                                requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi', 'oda_sayisi', 'konut_tipi'];
-                            } else if (emlakTipi === 'arsa') {
-                                requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel', 'imar_durumu', 'satis_rakami'];
-                            }
-                        } else if (emlakTipi === 'işyeri') {
-                            requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
-                        }
-            
-                        for (var i = 0; i < requiredFields.length; i++) {
-                            var field = $('#' + requiredFields[i]);
-                            if (field.val().trim() === '') {
-                                isEmpty = true;
-                                field.addClass('error');
-                            } else {
-                                field.removeClass('error');
-                            }
-                        }
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // jQuery Validation eklentisini form elemanlarına uygula
+            $('#takasFormu').validate({
+                // Türkçe hata mesajlarını tanımla
+                messages: {
+                    ad: {
+                        required: "Lütfen adınızı girin."
+                    },
+                    soyad: {
+                        required: "Lütfen soyadınızı girin."
+                    },
+                    telefon: {
+                        required: "Lütfen telefon numaranızı girin."
+                    },
+                    email: {
+                        required: "Lütfen e-posta adresinizi girin.",
+                        email: "Lütfen geçerli bir e-posta adresi girin."
+                    },
+                    sehir: {
+                        required: "Lütfen bir şehir seçin."
+                    },
+                    ilce: {
+                        required: "Lütfen bir ilçe seçin."
+                    },
+                    takas_tercihi: {
+                        required: "Lütfen takas tercihinizi belirtin."
                     }
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#takasFormu').submit(function(e) {
+                var isEmpty = false;
 
-             // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
-                if ($('#takas_tercihi').val() === 'araç') {
-                    var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi', 'arac_satis_rakami'];
+                // Emlak seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                if ($('#takas_tercihi').val() === 'emlak') {
+                    var emlakTipi = $('#emlak_tipi').val();
+                    if (emlakTipi === 'konut' || emlakTipi === 'arsa') {
+                        var requiredFields = [];
+                        if (emlakTipi === 'konut') {
+                            requiredFields = ['konut_satis_rakami', 'kullanim_durumu', 'konut_yasi',
+                                'oda_sayisi', 'konut_tipi'
+                            ];
+                        } else if (emlakTipi === 'arsa') {
+                            requiredFields = ['arsa_il', 'arsa_ilce', 'arsa_mahalle', 'ada_parsel',
+                                'imar_durumu', 'satis_rakami'
+                            ];
+                        }
+                    } else if (emlakTipi === 'işyeri') {
+                        requiredFields = ['ticari_bilgiler', 'isyeri_satis_rakami'];
+                    }
 
                     for (var i = 0; i < requiredFields.length; i++) {
                         var field = $('#' + requiredFields[i]);
@@ -2450,29 +2544,46 @@
                     }
                 }
 
-       
-            // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
-            if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
-                $('.conditional-fields:visible').find('.formInput').each(function() {
-                    if ($(this).val().trim() === '') {
-                        isEmpty = true;
-                        $(this).addClass('error');
-                    } else {
-                        $(this).removeClass('error');
-                    }
-                });
-            }
+                // Araç seçildiyse, ilgili alanların doldurulma zorunluluğunu kontrol et
+                if ($('#takas_tercihi').val() === 'araç') {
+                    var requiredFields = ['arac_model_yili', 'arac_markasi', 'yakit_tipi', 'vites_tipi',
+                        'arac_satis_rakami'
+                    ];
 
-            if (isEmpty) {
-                e.preventDefault();
-                alert('Tüm zorunlu alanları doldurunuz!');
-            }
-    
-        });   
-    });
+                    for (var i = 0; i < requiredFields.length; i++) {
+                        var field = $('#' + requiredFields[i]);
+                        if (field.val().trim() === '') {
+                            isEmpty = true;
+                            field.addClass('error');
+                        } else {
+                            field.removeClass('error');
+                        }
+                    }
+                }
+
+
+                // Barter veya Diğer seçildiyse, ilgili alanların boş olup olmadığını kontrol et
+                if ($('#takas_tercihi').val() === 'barter' || $('#takas_tercihi').val() === 'diğer') {
+                    $('.conditional-fields:visible').find('.formInput').each(function() {
+                        if ($(this).val().trim() === '') {
+                            isEmpty = true;
+                            $(this).addClass('error');
+                        } else {
+                            $(this).removeClass('error');
+                        }
+                    });
+                }
+
+                if (isEmpty) {
+                    e.preventDefault();
+                    alert('Tüm zorunlu alanları doldurunuz!');
+                }
+
+            });
+        });
     </script>
 
-     <script>
+    <script>
         $(document).ready(function() {
             $('#sehir').change(function() {
                 var cityId = $(this).val();
@@ -2669,14 +2780,20 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ asset('css/project-housing.css') }}">
     <style>
-        #ad-error, #soyad-error, #email-error, #telefon-error, #sehir-error,  #takas_tercihi-error {
+        #ad-error,
+        #soyad-error,
+        #email-error,
+        #telefon-error,
+        #sehir-error,
+        #takas_tercihi-error {
             font-size: 10px !important;
         }
+
         .error-message {
-            color: red;
+            color: #e54242;
             font-weight: bold;
-            margin-left:11px !important; 
-            margin-top:11px !important; 
+            margin-left: 11px !important;
+            margin-top: 11px !important;
         }
 
         .mobile-action-move {
@@ -2684,14 +2801,17 @@
             align-items: center;
             justify-content: space-evenly;
         }
+
         .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
+
         .success-message {
             color: green;
             font-size: 11px;
         }
+
         .inner-pages .form-control {
             padding: 0 0.3rem !important
         }
@@ -2717,6 +2837,5 @@
             outline: 0;
             box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
         }
-
     </style>
 @endsection
