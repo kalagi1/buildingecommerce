@@ -882,6 +882,7 @@ class ProjectController extends Controller
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
         $isShare = auth()->user()->type == 1 ? true : false;
 
+        return $projectData;
         $project = Housing::create(
             [
                 'housing_type_id' => $housingTypeParentConnection->housingType->id,
