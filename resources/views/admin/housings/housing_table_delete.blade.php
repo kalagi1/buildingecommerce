@@ -3,7 +3,7 @@
         <tr>
             <th>ID</th>
             <th>Başlık</th>
-            <th>Daire Türü</th>
+            <th>Emlak Tipi</th>
             <th>Oluşturulma Tarihi</th>
         </tr>
     </thead>

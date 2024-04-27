@@ -19,7 +19,7 @@
                         </div>
                         
                         <div style="margin-top: 40px">
-                            <a href="{{route('real.estate.index')}}" class="btnForm">Formu Doldur</a>
+                            <a href="{{route('institutional.housing.create.v3')}}" class="btnForm">Paylaşımlı Emlak Yayınla</a>
                         </div>   
                     
                     </div>
