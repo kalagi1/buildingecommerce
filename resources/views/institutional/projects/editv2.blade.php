@@ -109,8 +109,12 @@
                         </div>
                         <div class="form-group description-field">
                             <label for="">İlan Açıklaması <span class="required">*</span></label>
-                            <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
-                                class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea>
+                            <div id="editor2">
+                                {!! isset($tempData->description) ? $tempData->description : '' !!}
+                            </div>
+                              
+                            {{-- <textarea name="description" id="editor" cols="30" rows="5" onkeyup="changeData(this.value,'description')"
+                                class="form-control">{!! isset($tempData->description) ? $tempData->description : '' !!}</textarea> --}}
                         </div>
 
                         <div class="card p-3 mb-4">
@@ -303,6 +307,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -317,6 +323,297 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async defer></script>
 
     <script>
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            ['link', 'image', 'video', 'formula'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+
+            ['clean']                                         // remove formatting button
+        ];
+        const quill = new Quill('#editor2', {
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarOptions,
+            }
+        });
+
+        $('.finish-button').click(function(e) {
+            e.preventDefault();
+            console.log("asd");
+            var next = true;
+            var topError = 0;
+            if (!$('input[name="name"]').val()) {
+                next = false;
+                console.log("deneme")
+                $('input[name="name"]').addClass('error-border')
+                topError = $('input[name="name"]').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+            }
+
+
+            if (!$('#location').val()) {
+                next = false;
+                if (topError) {
+                    if ($('#location').parent('div').offset().top - parseFloat($('.navbar-top').css('height')) -
+                        100 < topError) {
+                        topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css(
+                            'height')) - 100;
+                    }
+                } else {
+                    topError = $('#location').parent('div').offset().top - parseFloat($('.navbar-top').css(
+                        'height')) - 100;
+                }
+                $('#location').parent('div').find('.error-text').remove();
+                $('#location').parent('div').append(
+                    '<span class="error-text">Haritadan konum seçmek zorunludur</span>')
+            }
+
+            if (!$('.rules_confirm').is(':checked')) {
+                next = false;
+
+                if (topError) {
+                    if ($('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                        topError) {
+                        topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) -
+                            100;
+                    }
+                } else {
+                    topError = $('.finish-tick').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                }
+                $('.finish-tick').addClass('error-border')
+            }
+
+            if (descriptionText == "") {
+                next = false;
+                if (topError) {
+                    if ($('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                        topError) {
+                        topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css(
+                            'height')) - 100;
+                    }
+                } else {
+                    topError = $('.description-field').offset().top - parseFloat($('.navbar-top').css('height')) -
+                        100;
+                }
+                $('.description-field .error-text').remove();
+                $('.description-field').append('<span class="error-text">Açıklama metnini girmek zorunludur</span>')
+            }
+
+            $('.tab-pane.active input[required="required"]').map((key, item) => {
+                if (!$(item).val() && $(item).attr('type') != 'file') {
+                    next = false;
+
+                    if (topError) {
+                        if ($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                            topError) {
+                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) -
+                                100;
+                        }
+                    } else {
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                    }
+                    $(item).addClass("error-border")
+                }
+            })
+
+            $('.tab-pane.active input[type="file"]').map((key, item) => {
+                if ($(item).parent('div').find('.project_imaget').length == 0) {
+                    next = false;
+
+                    if (topError) {
+                        if ($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                            topError) {
+                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) -
+                                100;
+                        }
+                    } else {
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                    }
+                    $(item).addClass("error-border")
+                }
+            })
+
+            $('.tab-pane.active select[required="required"]').map((key, item) => {
+                if (!$(item).val() || $(item).val() == "Seçiniz") {
+                    next = false;
+                    if (topError) {
+                        if ($(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                            topError) {
+                            topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) -
+                                100;
+                        }
+                    } else {
+                        topError = $(item).offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                    }
+                    $(item).addClass("error-border")
+                }
+            })
+
+
+
+            if ($('.photos .project_imagex').length == 0) {
+                next = false;
+                if (topError) {
+                    if ($('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                        topError) {
+                        topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                    }
+                } else {
+                    topError = $('.photo-area').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                }
+                $('.photo-area').addClass('error-border')
+            }
+
+            if ($('.cover-photo .project_imagex').length == 0) {
+                next = false;
+                if (topError) {
+                    if ($('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100 <
+                        topError) {
+                        topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) -
+                            100;
+                    }
+                } else {
+                    topError = $('.cover-photo').offset().top - parseFloat($('.navbar-top').css('height')) - 100;
+                }
+                $('.cover-photo-area').addClass('error-border')
+            }
+
+            if (!$('select[name="city_id"]').val()) {
+                next = false;
+                if (topError) {
+                    if ($('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css('height')) -
+                        100 < topError) {
+                        topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css(
+                            'height')) - 100;
+                    }
+                } else {
+                    topError = $('select[name="city_id"]').offset().top - parseFloat($('.navbar-top').css(
+                        'height')) - 100;
+                }
+                $('select[name="city_id"]').addClass('error-border')
+            }
+
+            if (!$('select[name="county_id"]').val()) {
+                next = false;
+                if (topError) {
+                    if ($('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css('height')) -
+                        100 < topError) {
+                        topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css(
+                            'height')) - 100;
+                    }
+                } else {
+                    topError = $('select[name="county_id"]').offset().top - parseFloat($('.navbar-top').css(
+                        'height')) - 100;
+                }
+                $('select[name="county_id"]').addClass('error-border')
+            }
+
+            if (!$('select[name="neighbourhood_id"]').val()) {
+                next = false;
+                if (topError) {
+                    if ($('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css(
+                            'height')) - 100 < topError) {
+                        topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top')
+                            .css('height')) - 100;
+                    }
+                } else {
+                    topError = $('select[name="neighbourhood_id"]').offset().top - parseFloat($('.navbar-top').css(
+                        'height')) - 100;
+                }
+                $('select[name="neighbourhood_id"]').addClass('error-border')
+            }
+
+            if ($('.pricing-item-first .price-radio.select').length > 0) {
+                if ($('.single-price-project-area .pricing-item .price-radio.select').length == 0) {
+                    if (topError) {
+                        if ($('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css(
+                                'height')) - 100 < topError) {
+                            topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top')
+                                .css('height')) - 100;
+                        }
+                    } else {
+                        topError = $('.single-price-project-area').offset().top - parseFloat($('.navbar-top').css(
+                            'height')) - 100;
+                    }
+                    $('.single-price-project-area .error-text').remove();
+                    $('.single-price-project-area').append(
+                        "<p class='error-text'>İlan süresini seçmeniz gerekmektedir</p>")
+                }
+            }
+            if (next) {
+                $('.loading-area').removeClass('d-none');
+                nextTemp = true;
+                $.ajax({
+                    method: "POST",
+                    url: "{{ route('institutional.project.update.temp.order') }}",
+                    data: {
+                        _token: csrfToken,
+                        without_doping: 1
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+
+                        if (response.status) {
+                            window.location.href =
+                                "{{ route('institutional.react.projects') }}"
+                        }
+                    }
+                })
+            } else {
+                nextTemp = false;
+                $('html, body').animate({
+                    scrollTop: topError
+                }, 100);
+            }
+        })
+
+        console.log($('#editor2').html());
+
+        $('#editor2').on('text-change',() => {
+            console.log("asd");
+        })
+
+        quill.on('text-change', function(delta, oldDelta, source) {
+            if (quill.container.firstChild.innerHTML != "") {
+                descriptionText = "evet var";
+
+            }
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                "content");
+
+
+            // Verileri FormData nesnesine ekleyin
+            const formData = new FormData();
+            formData.append('_token', csrfToken);
+            formData.append('value', quill.container.firstChild.innerHTML);
+            formData.append('key', "description");
+            formData.append('item_type', 3);
+
+            // AJAX isteği gönderin
+            fetch("{{ route('institutional.temp.order.data.change') }}", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(data => {
+                    // Sunucu yanıtını işleyebilirsiniz.
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
         var nextTemp = false;
         var housingImages = [];
         var descriptionText =
@@ -2186,483 +2483,6 @@
                 }
 
             }
-
-            const houseCountInput = document.getElementById('house_count');
-            const generateTabsButton = document.getElementById('generate_tabs');
-            const tabsContainer = document.getElementById('tabs');
-
-            generateTabsButton.addEventListener('click', function() {
-                if (selectedid) {
-                    $('.rendered-area').removeClass('d-none')
-                } else {
-                    $.toast({
-                        heading: 'Hata',
-                        text: 'Proje Hangi Tipte Konutlardan Oluşuyor Seçeneğini Lütfen Seçiniz',
-                        position: 'top-right',
-                        stack: false
-                    })
-                }
-                const houseCount = parseInt(houseCountInput.value);
-
-                if (isNaN(houseCount) || houseCount <= 0) {
-                    alert('Lütfen geçerli bir sayı girin.');
-                    return;
-                }
-
-
-                $.ajax({
-                    method: "GET",
-                    url: "{{ route('institutional.ht.getform') }}",
-                    data: {
-                        id: selectedid
-                    },
-                    success: function(response) {
-                        var html = "";
-                        var htmlContent = "";
-                        for (var i = 0; i < houseCount; i++) {
-                            html +=
-                                '<div class="item-left-area"><a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center ' +
-                                (i == 0 ? 'active' : '') + '" id="Tab' + (i + 1) +
-                                '" data-bs-toggle="tab" data-bs-target="#TabContent' + (i + 1) +
-                                '" role="tab" aria-controls="TabContent' + (i + 1) +
-                                '" aria-selected="true">' +
-                                '<span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>' +
-                                '<span class="d-block d-sm-inline">' + (i + 1) +
-                                ' Nolu Konut Bilgileri</span>' +
-                                '<span class="d-block d-sm-inline">Kopyala (Aynı Olan Dairelere Otomatik Giriş) ' +
-                                getCopyList(houseCount, i + 1) + '</span>' +
-                                '</a></div>';
-
-                            htmlContent += '<div class="tab-pane fade show ' + (i == 0 ?
-                                    'active' : '') + '" id="TabContent' + (i + 1) +
-                                '" role="tabpanel">' +
-                                '<div id="renderForm' + (i + 1) + '" class="card p-4"></div>' +
-                                '</div>';
-                        }
-
-                        $('#tablist').html(html);
-                        $('.tab-content').html(htmlContent)
-                        for (let i = 1; i <= houseCount; i++) {
-                            console.log(i);
-                            formRenderOpts = {
-                                dataType: 'json',
-                                formData: response.form_json
-                            };
-
-                            var renderedForm = $('<div>');
-                            renderedForm.formRender(formRenderOpts);
-                            var renderHtml = renderedForm.html().toString();
-                            renderHtml = renderHtml.toString().split('images[][]');
-                            var json = JSON.parse(response.form_json);
-                            renderHtml = renderHtml[0] + 'images' + i + '[][]' + renderHtml[1];
-                            for (var lm = 0; lm < json.length; lm++) {
-                                if (json[lm].type == "checkbox-group") {
-                                    console.log();
-                                    var renderHtml = renderHtml.toString().split(json[lm].name +
-                                        '[]');
-                                    renderHtmlx = "";
-                                    var json = JSON.parse(response.form_json);
-                                    for (var t = 0; t < renderHtml.length; t++) {
-                                        if (t != renderHtml.length - 1) {
-                                            renderHtmlx += renderHtml[t] + (json[lm].name.split(
-                                                '[]')[0]) + i + '[][]';
-                                        } else {
-                                            renderHtmlx += renderHtml[t];
-                                        }
-                                    }
-
-                                    renderHtml = renderHtmlx;
-                                }
-
-                                $('.checkbox-item').closest('.checkbox-group').addClass(
-                                    'd-flex')
-                                $('.checkbox-item').closest('.checkbox-group').addClass(
-                                    'checkbox-items')
-                            }
-
-                            $('#renderForm' + (i)).html(renderHtml);
-
-                            if (i > 1 && i != $('.tab-pane').length) {
-                                $('.rendered-form').eq(i - 1).append(
-                                    '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                )
-                            } else if (i == $('.tab-pane').length) {
-                                $('.rendered-form').eq(i - 1).append(
-                                    '<div class="housing_buttons"><button class="prev_house btn btn-primary">Önceki Ev</button></div>'
-                                )
-                            } else {
-                                $('.rendered-form').eq(i - 1).append(
-                                    '<div class="housing_buttons"><button class="next_house btn btn-primary">Sonraki Konut</button></div>'
-                                )
-                            }
-                        }
-
-                        $('.next_house').click(function() {
-                            var nextHousing = true;
-                            $('.tab-pane.active input[required="required"]').map((key,
-                                item) => {
-                                if (!$(item).val()) {
-                                    nextHousing = false;
-                                    $(item).addClass("error-border")
-                                }
-                            })
-
-                            $('.tab-pane.active select[required="required"]').map((key,
-                                item) => {
-                                if (!$(item).val()) {
-                                    nextHousing = false;
-                                    $(item).addClass("error-border")
-                                }
-                            })
-                            if ($('.tab-pane.active input[required="required"]')
-                                .val() == "") {
-                                nextHousing = false;
-                                $('.tab-pane.active input[name="price[]"]').addClass(
-                                    'error-border')
-                            }
-                            var indexItem = $('.tab-pane.active').index();
-                            if (nextHousing) {
-                                $('.tab-pane.active').removeClass('active');
-                                $('.tab-pane').eq(indexItem + 1).addClass('active');
-                            } else {
-                                $('html, body').animate({
-                                    scrollTop: $('.tab-pane.active').offset()
-                                        .top - parseFloat($('.navbar-top').css(
-                                            'height'))
-                                }, 100);
-                            }
-                        })
-
-                        $('.prev_house').click(function() {
-
-                            var indexItem = $('.tab-pane.active').index();
-                            console.log(indexItem);
-                            $('.tab-pane.active').removeClass('active');
-                            $('.tab-pane').eq(indexItem - 1).addClass('active');
-                        })
-
-                        $('.copy-item').change(function() {
-                            var transactionIndex = 0;
-                            $('.tab-pane').prepend(
-                                '<div class="loading-icon-right"><i class="fa fa-spinner"></i></div>'
-                            );
-                            var order = parseInt($(this).val()) - 1;
-                            var currentOrder = parseInt($(this).closest(
-                                '.item-left-area').index());
-                            var arrayValues = {};
-                            for (var lm = 0; lm < json.length; lm++) {
-                                if (json[lm].type == "checkbox-group") {
-                                    arrayValues[json[lm].name.replace("[]", "").replace(
-                                        "[]", "") + (currentOrder + 1)] = [];
-                                    for (var i = 0; i < json[lm].values.length; i++) {
-                                        var isChecked = $('input[name="' + (json[lm]
-                                                .name.replace('[]', '')) + (order +
-                                                1) + '[][]"][value="' + json[lm]
-                                            .values[i].value + '"]' + '').is(
-                                            ':checked')
-                                        if (isChecked) {
-                                            $('input[name="' + (json[lm].name.replace(
-                                                    '[]', '')) + (currentOrder +
-                                                    1) + '[][]"][value="' + json[lm]
-                                                .values[i].value + '"]' + '').prop(
-                                                'checked', true)
-
-                                            arrayValues[json[lm].name.replace("[]", "")
-                                                .replace("[]", "") + (currentOrder +
-                                                    1)].push(json[lm].values[i]
-                                                .value)
-                                        } else {
-                                            transactionIndex++;
-                                            $('input[name="' + (json[lm].name.replace(
-                                                    '[]', '')) + (currentOrder +
-                                                    1) + '[][]"][value="' + json[lm]
-                                                .values[i].value + '"]' + '').prop(
-                                                'checked', false)
-                                        }
-                                    }
-                                    var formData = new FormData();
-                                    var csrfToken = $("meta[name='csrf-token']").attr(
-                                        "content");
-                                    formData.append('_token', csrfToken);
-                                    formData.append('value', JSON.stringify(
-                                        arrayValues));
-                                    formData.append('order', currentOrder);
-                                    formData.append('key', json[lm].name.replace("[]",
-                                        "").replace("[]", "") + (currentOrder +
-                                        1));
-                                    formData.append('item_type', 3);
-                                    formData.append('checkbox', "1");
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "{{ route('institutional.temp.order.copy.checkbox') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-                                        success: function(response) {
-                                            if (transactionIndex + 1 == json
-                                                .length) {
-                                                $('.loading-icon-right')
-                                                    .remove();
-                                            }
-
-                                            transactionIndex++;
-                                        },
-                                    });
-                                } else if (json[lm].type == "select") {
-                                    var value = $('select[name="' + (json[lm].name) +
-                                        '"]').eq(order).val();
-                                    $('select[name="' + (json[lm].name) + '"]').eq(
-                                        currentOrder).children('option').removeAttr(
-                                        'selected')
-                                    $('select[name="' + (json[lm].name) + '"]').eq(
-                                        currentOrder).children('option[value="' +
-                                        value + '"]').prop('selected', true);
-                                    var formData = new FormData();
-                                    var csrfToken = $("meta[name='csrf-token']").attr(
-                                        "content");
-                                    formData.append('_token', csrfToken);
-                                    formData.append('value', value);
-                                    formData.append('order', currentOrder);
-                                    formData.append('key', json[lm].name.replace("[]",
-                                        "").replace("[]", ""));
-                                    formData.append('item_type', 3);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-                                        success: function(response) {
-                                            if (transactionIndex + 1 == json
-                                                .length) {
-                                                $('.loading-icon-right')
-                                                    .remove();
-                                            }
-                                            transactionIndex++;
-                                        },
-                                    });
-
-                                    confirmHousings();
-                                } else if (json[lm].type == "file" && json[lm].name ==
-                                    "image[]") {
-
-                                    var formData = new FormData();
-                                    var csrfToken = $("meta[name='csrf-token']").attr(
-                                        "content");
-                                    formData.append('_token', csrfToken);
-                                    formData.append('lastorder', order);
-                                    formData.append('order', currentOrder);
-                                    formData.append('item_type', 3);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "{{ route('institutional.copy.item.image') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                        data: formData,
-                                        processData: false,
-                                        contentType: false,
-                                        success: function(response) {
-                                            if (transactionIndex + 1 == json
-                                                .length) {
-                                                $('.loading-icon-right')
-                                                    .remove();
-                                            }
-                                            transactionIndex++;
-                                        },
-                                    });
-                                    var cloneImage = $('.tab-pane').eq(order).find(
-                                        '.project_imaget').clone();
-                                    $('.tab-pane.active').find(
-                                        '.cover-image-by-housing-type').parent(
-                                        'div').find('.project_imaget').remove();
-                                    $('.tab-pane.active').find(
-                                        '.cover-image-by-housing-type').parent(
-                                        'div').append(cloneImage)
-                                } else if (json[lm].type != "file") {
-                                    if (json[lm].name) {
-                                        var value = $('input[name="' + (json[lm].name) +
-                                            '"]').eq(order).val();
-                                        var formData = new FormData();
-                                        var csrfToken = $("meta[name='csrf-token']")
-                                            .attr("content");
-                                        formData.append('_token', csrfToken);
-                                        formData.append('value', value);
-                                        formData.append('order', currentOrder);
-                                        formData.append('key', json[lm].name.replace(
-                                            "[]", "").replace("[]", ""));
-                                        formData.append('item_type', 3);
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                            data: formData,
-                                            processData: false,
-                                            contentType: false,
-                                            success: function(response) {
-                                                if (transactionIndex + 1 ==
-                                                    json.length) {
-                                                    $('.loading-icon-right')
-                                                        .remove();
-                                                }
-                                                transactionIndex++;
-                                            },
-                                        });
-
-                                        confirmHousings();
-                                        $('input[name="' + (json[lm].name) + '"]').eq(
-                                            currentOrder).val(value);
-                                    }
-
-                                }
-                            }
-                            console.log(transactionIndex);
-                        })
-
-                        $('.rendered-form input').change(function() {
-                            if ($(this).attr('type') != "file") {
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr(
-                                    "content");
-                                formData.append('_token', csrfToken);
-                                formData.append('value', $(this).val());
-                                formData.append('order', parseInt($(this).closest(
-                                    '.tab-pane').attr('id').replace(
-                                    'TabContent', "")) - 1);
-                                formData.append('key', $(this).attr('name').replace(
-                                    "[]", "").replace("[]", ""));
-                                formData.append('item_type', 3);
-                                if ($(this).attr('type') == "checkbox") {
-                                    formData.append('checkbox', "1");
-                                }
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {},
-                                });
-
-                                confirmHousings();
-                            }
-                        })
-
-                        $('.rendered-form select').change(function() {
-                            confirmHousings();
-                            if ($(this).val()) {
-                                $(this).removeClass('error-border')
-                            }
-                            var formData = new FormData();
-                            var csrfToken = $("meta[name='csrf-token']").attr(
-                                "content");
-                            formData.append('_token', csrfToken);
-                            formData.append('value', $(this).val());
-                            console.log($(this).closest('.tab-pane').attr('id'))
-                            formData.append('order', parseInt($(this).closest(
-                                '.tab-pane').attr('id').replace(
-                                'TabContent', "")) - 1);
-                            formData.append('key', $(this).attr('name').replace("[]",
-                                ""));
-                            formData.append('item_type', 3);
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ route('institutional.temp.order.project.housing.change') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                data: formData,
-                                processData: false,
-                                contentType: false,
-                                success: function(response) {},
-                            });
-                        })
-
-                        $('.dropzonearea').closest('.formbuilder-file').remove();
-
-
-                        $('.number-only').keyup(function() {
-                            $('.number-only .error-text').remove();
-                            if ($(this).val() != parseInt($(this).val())) {
-                                if ($(this).closest('.form-group').find('.error-text')
-                                    .length > 0) {
-                                    $(this).val("");
-                                } else {
-                                    $(this).closest('.form-group').append(
-                                        '<span class="error-text">Girilen değer sadece sayı olmalıdır</span>'
-                                    )
-                                    $(this).val("");
-                                }
-
-                            } else {
-                                $(this).closest('.form-group').find('.error-text')
-                                    .remove();
-                            }
-                        })
-
-                        $('.formbuilder-text input').change(function() {
-                            if ($(this).val() != "") {
-                                $(this).removeClass('error-border')
-                            }
-                        })
-
-                        $('.formbuilder-number input').change(function() {
-                            if ($(this).val() != "") {
-                                $(this).removeClass('error-border')
-                            }
-                        })
-
-                        $('.cover-image-by-housing-type').change(function() {
-                            var input = this;
-                            if (input.files && input.files[0]) {
-                                $(this).removeClass('error-border');
-                                confirmHousings();
-                                var reader = new FileReader();
-
-                                var formData = new FormData();
-                                var csrfToken = $("meta[name='csrf-token']").attr(
-                                    "content");
-                                formData.append('_token', csrfToken);
-                                formData.append('file', this.files[0]);
-                                formData.append('item_type', 3);
-                                $.ajax({
-                                    type: "POST",
-                                    url: "{{ route('institutional.temp.order.project.add.image') }}", // Sunucunuzun dosya yükleme işlemini karşılayan URL'sini buraya ekleyin
-                                    data: formData,
-                                    processData: false,
-                                    contentType: false,
-                                    success: function(response) {},
-                                    error: function() {
-                                        // Hata durumunda kullanıcıya bir mesaj gösterebilirsiniz
-                                        alert("Dosya yüklenemedi.");
-                                    }
-                                });
-
-                                reader.onload = function(e) {
-                                    // Resmi görüntülemek için bir div oluşturun
-                                    var imageDiv = $(
-                                        '<div class="project_imaget"></div>');
-
-                                    // Resmi oluşturun ve div içine ekleyin
-                                    var image = $('<img>').attr('src', e.target
-                                        .result);
-                                    imageDiv.append(image);
-                                    // Resmi görüntüleyici divini temizleyin ve yeni resmi ekleyin
-                                    $('.cover-photo').html(imageDiv);
-
-                                    $('.tab-pane.active .cover-image-by-housing-type img')
-                                        .remove()
-                                    $('.tab-pane.active .cover-image-by-housing-type')
-                                        .closest('.formbuilder-file').append(
-                                            imageDiv)
-                                };
-
-                                // Resmi okuyun
-                                reader.readAsDataURL(input.files[0]);
-
-                            }
-                        })
-                    },
-                    error: function(error) {
-                        console.log(error)
-                    }
-                })
-                // Belirtilen sayıda sekme oluştur
-
-            });
         });
 
         @if (isset($tempData->city_id))
@@ -2852,6 +2672,7 @@
 
         $('.finish-button').click(function(e) {
             e.preventDefault();
+            console.log("asd");
             var next = true;
             var topError = 0;
             if (!$('input[name="name"]').val()) {

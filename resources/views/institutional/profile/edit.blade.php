@@ -7,7 +7,7 @@
                 <div class="card shadow-sm border-300 border-bottom mb-4">
 
                     <div class="card-body">
-                        @if ($errors->any())
+                        {{-- @if ($errors->any())
                             <div class="alert alert-danger text-white">
                                 <ul class="mb-0">
                                     @foreach ($errors->all() as $error)
@@ -15,15 +15,15 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
-                        @if (session('success'))
+                        @endif --}}
+                        {{-- @if (session('success'))
                             <div class="alert alert-success text-white text-white">
                                 {{ session('success') }}
                             </div>
-                        @endif
+                        @endif --}}
 
-                        <form action="{{ route('institutional.profile.update') }}" method="POST"
-                            enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <form action="{{ route('institutional.profile.update') }}" method="POST" enctype="multipart/form-data"
+                            onsubmit="return validateForm()">
                             @csrf
                             @method('PUT')
 
@@ -50,12 +50,12 @@
                                         <input type="text" name="name" class="form-control"
                                             value="{{ old('name', $user->name) }}">
                                     </div>
-                                    <div class="mt-3">
+                                    {{-- <div class="mt-3">
                                         <label class="q-label">Cep Telefon</label>
                                         <input type="number" name="mobile_phone" class="form-control" id="phone"
-                                            value="{{ old('mobile_phone', $user->mobile_phone) }}">
+                                            value="{{ old('mobile_phone', $user->mobile_phone) }}" maxlength="10">
                                         <span id="error_message" class="error-message"></span>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mt-3">
                                         <label class="q-label">Iban Numarası</label>
@@ -74,7 +74,7 @@
                                         <div class="mt-3">
                                             <label class="q-label">Sabit Telefon</label>
                                             <input type="number" name="phone" class="form-control" id="landPhone"
-                                                value="{{ old('phone', $user->phone) }}">
+                                                value="{{ old('phone', $user->phone) }}" maxlength="10">
                                             <span id="error_message_land_phone" class="error-message"></span>
                                         </div>
                                         <div class="mt-3">
@@ -120,7 +120,96 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+
+
+
+            <div class="col-md-7 col-12">
+                <div class="card shadow-sm border-300 border-bottom mb-4">
+                    <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger text-white">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success text-white text-white">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+
+
+                        <form action="{{ route('institutional.edit.phone') }}" method="POST" enctype="multipart/form-data"
+                            onsubmit="return validateForm()">
+                            @csrf
+                            @method('PUT')
+
+                            <div class="corporate-form row" id="corporateForm">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mt-3">
+                                            <label class="q-label">Cep Numarası</label>
+                                            <span id="error_message" class="error-message"></span>
+                                            <input type="number" name="mobile_phone" class="form-control"
+                                                id="phone" value="{{ old('mobile_phone', $user->mobile_phone) }}"
+                                                readonly>
+                                            <input type="checkbox" id="enablePhone" onchange="togglePhone()">
+                                            <label for="enablePhone" class="mt-5 mb-5">Güncellemek İstiyorum</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div id="phoneFields" style="display: none;">
+                                            <label class="q-label mt-3">Belge Ekle</label>
+                                            <div class="" style="position: relative;">
+                                                <!-- Resmin boyutunu küçültmek için max-width ve max-height stil özellikleri ekleyelim -->
+                                                <img src="" alt="Yüklenen Resim" id="uploadedImage"
+                                                    style="display: none; max-width: 200px; max-height: 200px; border: 1px solid #ccc;">
+                                            </div>
+                                            <input type="file" name="image" id="image" class="form-control"
+                                                onchange="toggleUpdateButton()">
+
+                                            <p class="text-danger mt-2">Lütfen Belge Formatına Uygun Şeklinde Ekleyiniz.
+                                                </p>    
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-lg-6"> 
+                                <button type="submit" class="btn btn-primary mt-4" id="updateButton"
+                                            disabled>Güncelle</button>
+                                        </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-12">
+                <div class="card shadow-sm border-100 border-bottom mb-4">
+                    <div class="card-body">
+                        <p class="card-text">Belge formatı:</p>
+                        <p class="card-text">xxxx mail adresim ve xxxx telefon numarası ile kayıtlı olan üyeliğimdeki</p>
+                        <p class="card-text">xxxx mail addresim ve xxxx telefon numarasıyla değiştirilmesini talep ediyorum
+                        </p>
+                        <p class="card-text">isim soyisim</p>
+                        <p class="card-text">imza</p>
+                        <!-- TC Kimlik Numarası alanı -->
+                        <img class="img-fluid mx-auto d-block" src="{{ asset('images/tc/tcpng.png') }}"
+                            alt="Örnek Resim" style="width: 300px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 @endsection
 
 
@@ -136,19 +225,65 @@
     <!-- Google Maps API script -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap" async
         defer></script>
+
+    <script>
+        function togglePhone() {
+            var phoneInput = document.getElementById('phone');
+            var enablePhoneCheckbox = document.getElementById('enablePhone');
+            var phoneFields = document.getElementById('phoneFields');
+            var updateButton = document.getElementById('updateButton');
+
+            if (enablePhoneCheckbox.checked) {
+                phoneInput.readOnly = false;
+                phoneFields.style.display = 'block';
+                toggleUpdateButton(); // Telefonu düzenle seçildiğinde, güncelleme butonunu kontrol et
+            } else {
+                phoneInput.readOnly = true;
+                phoneFields.style.display = 'none';
+                toggleUpdateButton(); // Telefonu düzenle seçilmediğinde, güncelleme butonunu kontrol et
+            }
+        }
+
+        function toggleUpdateButton() {
+            var imageInput = document.getElementById('image');
+            var updateButton = document.getElementById('updateButton');
+            var uploadedImage = document.getElementById('uploadedImage');
+
+            if (imageInput.files.length > 0) {
+                updateButton.disabled = false; // Eğer bir resim yüklendi ise, güncelleme butonunu etkinleştir
+                uploadedImage.src = URL.createObjectURL(imageInput.files[0]); // Yüklenen resmi göster
+                uploadedImage.style.display = 'block';
+            } else {
+                updateButton.disabled = true; // Eğer resim yüklenmedi ise, güncelleme butonunu devre dışı bırak
+                uploadedImage.src = '';
+                uploadedImage.style.display = 'none';
+            }
+        }
+    </script>
+
+
     <script>
         $(document).ready(function() {
             $("#landPhone").blur(function() {
                 var phoneNumber = $(this).val();
-                var pattern = /^[1-9]\d{9}$/;
+                var pattern = /^[0-9]\d{9}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message_land_phone").text(
-                        "Lütfen sabit telefon numarasını belirtilen formatta girin. Örneğin: (222) 111 22 33"
+                        "Lütfen geçerli bir telefon numarası giriniz."
                         );
                 } else {
                     $("#error_message_land_phone").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#landPhone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
             });
         });
     </script>
@@ -156,14 +291,23 @@
         $(document).ready(function() {
             $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(
-                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                        "Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                     $("#error_message").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
             });
         });
     </script>
@@ -454,7 +598,7 @@
         }
 
         .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
     </style>

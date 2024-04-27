@@ -9,4 +9,9 @@ class TaxOffice extends Model
 {
     protected $guarded = [];
     use HasFactory;
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id', 'taxOfficeCity');
+    }
 }

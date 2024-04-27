@@ -193,7 +193,7 @@
                                                     <td>
                                                         <span class="autoWidthTr">Kimden:</span>
                                                         <span class="det" style="color: #274abb !important;">
-                                                            {{ $project->user->corporate_type == 'Emlakçı' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
+                                                            {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -921,6 +921,7 @@
         }
     </script>
 
+
     <script>
         $(document).ready(function() {
 
@@ -1348,7 +1349,7 @@
                 breakpoint: 993,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 2,
+                    slidesToScroll: 3,
                     dots: false,
                     arrows: false
                 }
@@ -1381,26 +1382,55 @@
         }
 
 
-        // Sol ok tuşuna tıklandığında
-        $('.pagination .page-item-left').on('click', function(event) {
-            event.preventDefault();
-            $('#listingDetailsSlider').carousel('prev');
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // // Sol ok tuşuna tıklandığında
+        // $('.pagination .page-item-left').on('click', function(event) {
+        //     event.preventDefault();
+        //     $('#listingDetailsSlider').carousel('prev');
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-        });
+        // });
+
+        // // Sağ ok tuşuna tıklandığında
+        // $('.pagination .page-item-right').on('click', function(event) {
+        //     event.preventDefault(); // Sayfanın yukarı gitmesini engelle
+        //     $('#listingDetailsSlider').carousel('next');
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // });
+
+        // Başlangıçta mevcut slaydın indeksini 0 olarak ayarlayalım
+        var currentSlideIndex = 0;
 
         // Sağ ok tuşuna tıklandığında
         $('.pagination .page-item-right').on('click', function(event) {
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('next');
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+            var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
+            var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
+            console.log(totalItems)
+            console.log(remainingItems)
+            if (remainingItems >= 5) {
+                currentSlideIndex++;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
+            } else {
+                console.log('yunus')
+                $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
+            }
         });
+
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }
+        });
+
 
 
 
@@ -1411,12 +1441,12 @@
 
 
         // Büyük görsel kaydığında küçük görselleri de eşleştirme
-        $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
-        });
+        // $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // });
     </script>
 
     <script>
@@ -1436,14 +1466,23 @@
               $(document).ready(function() {
                 $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(
-                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                        "Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                     $("#error_message").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
             });
         });
     </script>
@@ -1453,7 +1492,7 @@
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
                 .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
         .success-message {

@@ -32,7 +32,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Telefon Numarası</label>
-                            <input type="text" value="{{old('phone')}}" name="phone" id="phone" class="form-control inputForm">
+                            <input type="text" value="{{old('phone')}}" name="phone" id="phone" class="form-control inputForm" maxlength="10">
                             <span id="error_message" class="error-message"></span>
                         </div>
                         <div class="form-group col-md-4">
@@ -194,7 +194,7 @@
                                     <label for="banyoTuvalet">Banyo/Tuvalet</label>
                                     <select class="form-select form-control" aria-label="Default select example" name="banyo_tuvalet">
                                         <option selected>Seçiniz</option>
-                                        <option value="Yok">Yok</option>
+                                        <option value="0">Yok</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -204,7 +204,7 @@
                                         <option value="7">7</option>
                                         <option value="8">8</option>
                                         <option value="9">9</option>
-                                        <option value="10 ve üzeri">10 ve üzeri</option>
+                                        <option value="10">10 ve üzeri</option>
 
                                     </select>
                                 </div>
@@ -503,7 +503,7 @@
                                 <div class="filter-tags-wrap ">
                                     <input id="check-b" type="checkbox" name="check-b">
                                     <label for="check-b" style="font-size: 11px;">
-                                        <a href="https://emlaksepette.com/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
+                                        <a href="https://test.emlaksepette.com/sayfa/gayrimenkul-kayit-bilgilendirme-politikasi" target="_blank">
                                             Sat Kirala Formu sözleşmesini
                                         </a>
                                         okudum onaylıyorum.
@@ -531,13 +531,22 @@
         $(document).ready(function(){
             $("#phone").on("input blur", function(){
             var phoneNumber = $(this).val();
-            var pattern = /^5[1-9]\d{8}$/;
+            var pattern = /^5[0-9]\d{8}$/;
         
             if (!pattern.test(phoneNumber)) {
-              $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+              $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
             } else {
               $("#error_message").text("");
             }
+                 // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                 $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
           });
         });
         </script>
@@ -664,7 +673,7 @@ $(document).ready(function() {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
                 .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
         .inputForm{

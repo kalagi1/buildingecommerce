@@ -28,7 +28,7 @@ class SubscriptionPlanController extends Controller
             'project_limit' => 'required|integer',
             'user_limit' => 'required|integer',
             'housing_limit' => 'required|integer',
-            'plan_type' => 'required|string|in:Bireysel,Emlakçı,Banka,İnşaat',
+            'plan_type' => 'required|string|in:Bireysel,Emlak Ofisi,Banka,İnşaat Ofisi',
         ]);
 
         if ($validator->fails()) {
@@ -63,7 +63,7 @@ class SubscriptionPlanController extends Controller
             'project_limit' => 'required|integer',
             'user_limit' => 'required|integer',
             'housing_limit' => 'required|integer',
-            'plan_type' => 'required|string|in:Bireysel,Emlakçı,Banka,İnşaat',
+            'plan_type' => 'required|string|in:Bireysel,Emlak Ofisi,Banka,İnşaat Ofisi',
         ]);
 
         if ($validator->fails()) {

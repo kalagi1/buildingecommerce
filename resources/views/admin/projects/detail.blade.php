@@ -12,7 +12,7 @@
         }
     @endphp
     <div class="content">
-        <div class="row g-3 flex-between-end mb-5">
+        <div class="row d-flex justify-content-between g-3 align-items-center mb-5">
             <div class="col-auto">
                 <div class="card-body position-relative">
                     <div class="badge badge-phoenix fs-10 badge-phoenix-warning mb-4"><span class="fw-bold">İlan No:
@@ -50,6 +50,7 @@
                     href="{{ URL::to('/') }}/housing_documents/{{ $project->document }}" download>Proje Belgesini İndir</a>
             </div>
         </div>
+        
         <div class="row g-5">
             <div class="col-12 col-xl-8">
                 <div class="mb-6">

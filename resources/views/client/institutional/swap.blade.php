@@ -28,7 +28,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('form.kaydet') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('form.kaydet') }}" method="POST" enctype="multipart/form-data" id="takasFormu"> 
                 @csrf
 
                 <div class="row">
@@ -44,7 +44,7 @@
 
                     <div class="col-md-6 col-12">
                         <label class="form-label" for="telefon">Telefon Numaranız:</label>
-                        <input class="formInput always-required" type="number" id="telefon" name="telefon" required>
+                        <input class="formInput always-required" type="number" id="telefon" name="telefon" required maxlength="10">
                         <span id="error_message" class="error-message"></span>
                     </div>
 
@@ -228,7 +228,7 @@
                             <option value="">Seçiniz</option>
                             <option value="villa">Villa</option>
                             <option value="konut">Konut</option>
-                            <option value="turizm">Turizm</option>
+                            <option value="turizm">Turizm Amaçlı Kiralama</option>
                             <option value="sanayi">Sanayi</option>
                             <option value="ticari">Ticari</option>
                             <option value="bağ_bahçe">Bağ Bahçe</option>
@@ -251,8 +251,77 @@
 
 
                         <label class="form-label" for="arac_markasi">Araç Markası:</label>
-                        <input class="formInput" type="text" id="arac_markasi" name="arac_markasi">
-
+                        <select class="formInput" name="arac_markasi" id="arac_markasi">
+                            <option value="">Seçiniz...</option>
+                            <option value="Alfa Romeo">Alfa Romeo</option>
+                            <option value="Aston Martin">Aston Martin</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Bentley">Bentley</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Bugatti">Bugatti</option>
+                            <option value="Buick">Buick</option>
+                            <option value="Cadillac">Cadillac</option>
+                            <option value="Chery">Chery</option>
+                            <option value="Chevrolet">Chevrolet</option>
+                            <option value="Chrysler">Chrysler</option>
+                            <option value="Citroen">Citroen</option>
+                            <option value="Cupra">Cupra</option>
+                            <option value="Dacia">Dacia</option>
+                            <option value="DS Automobiles">DS Automobiles</option>
+                            <option value="Daewoo">Daewoo</option>
+                            <option value="Daihatsu">Daihatsu</option>
+                            <option value="Dodge">Dodge</option>
+                            <option value="Ferrari">Ferrari</option>
+                            <option value="Fiat">Fiat</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Geely">Geely</option>
+                            <option value="Honda">Honda</option>
+                            <option value="Hyundai">Hyundai</option>
+                            <option value="Infiniti">Infiniti</option>
+                            <option value="Isuzu">Isuzu</option>
+                            <option value="Iveco">Iveco</option>
+                            <option value="Jaguar">Jaguar</option>
+                            <option value="Jeep">Jeep</option>
+                            <option value="Kia">Kia</option>
+                            <option value="Lada">Lada</option>
+                            <option value="Lamborghini">Lamborghini</option>
+                            <option value="Lancia">Lancia</option>
+                            <option value="Land-rover">Land-rover</option>
+                            <option value="Leapmotor">Leapmotor</option>
+                            <option value="Lexus">Lexus</option>
+                            <option value="Lincoln">Lincoln</option>
+                            <option value="Lotus">Lotus</option>
+                            <option value="Maserati">Maserati</option>
+                            <option value="Mazda">Mazda</option>
+                            <option value="McLaren">McLaren</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="MG">MG</option>
+                            <option value="Mini">Mini</option>
+                            <option value="Mitsubishi">Mitsubishi</option>
+                            <option value="Nissan">Nissan</option>
+                            <option value="Opel">Opel</option>
+                            <option value="Peugeot">Peugeot</option>
+                            <option value="Porsche">Porsche</option>
+                            <option value="Proton">Proton</option>
+                            <option value="Renault">Renault</option>
+                            <option value="Rolls Royce">Rolls Royce</option>
+                            <option value="Rover">Rover</option>
+                            <option value="Saab">Saab</option>
+                            <option value="Seat">Seat</option>
+                            <option value="Skoda">Skoda</option>
+                            <option value="Smart">Smart</option>
+                            <option value="Ssangyong">Ssangyong</option>
+                            <option value="Subaru">Subaru</option>
+                            <option value="Suzuki">Suzuki</option>
+                            <option value="Tata">Tata</option>
+                            <option value="Tesla">Tesla</option>
+                            <option value="Tofaş">Tofaş</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Volkswagen">Volkswagen</option>
+                            <option value="Volvo">Volvo</option>
+                            <option value="Voyah">Voyah</option>
+                            <option value="Yudo">Yudo</option>
+                        </select>
                         <label class="form-label" for="yakit_tipi">Yakıt Tipi:</label>
                         <select class="formInput" id="yakit_tipi" name="yakit_tipi">
                             <option value="">Seçiniz</option>
@@ -298,16 +367,26 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
                $(document).ready(function() {
-            $("#telefon").blur(function() {
+                $("#telefon").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
 
                 if (!pattern.test(phoneNumber)) {
                     $("#error_message").text(
-                        "Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                        "Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                     $("#error_message").text("");
                 }
+
+                 // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                    $('#telefon').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
             });
         });
     </script>
@@ -377,6 +456,40 @@
         
             });   
         });
+        </script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                // jQuery Validation eklentisini form elemanlarına uygula
+                $('#takasFormu').validate({
+                    // Türkçe hata mesajlarını tanımla
+                    messages: {
+                        ad: {
+                            required: "Lütfen adınızı girin."
+                        },
+                        soyad: {
+                            required: "Lütfen soyadınızı girin."
+                        },
+                        telefon: {
+                            required: "Lütfen telefon numaranızı girin."
+                        },
+                        email: {
+                            required: "Lütfen e-posta adresinizi girin.",
+                            email: "Lütfen geçerli bir e-posta adresi girin."
+                        },
+                        sehir: {
+                            required: "Lütfen bir şehir seçin."
+                        },
+                        ilce: {
+                            required: "Lütfen bir ilçe seçin."
+                        },
+                        takas_tercihi: {
+                            required: "Lütfen takas tercihinizi belirtin."
+                        }
+                    }
+                });
+            });
         </script>
 
     <script>
@@ -559,8 +672,11 @@
 
 @section('styles')
     <style>
+           #ad-error, #soyad-error, #email-error, #telefon-error, #sehir-error,  #takas_tercihi-error {
+            font-size: 10px !important;
+        }
         label {
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         .inner-pages .form-control {

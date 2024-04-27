@@ -17,6 +17,25 @@
             'Aralık',
         ];
     @endphp
+        @php
+                                            $orderCart = json_decode($order->cart, true);
+
+        $deposit_rate = 0.04;
+        $discount_percent = 4;
+            if ($orderCart['type'] == 'housing') {
+                $housing = \App\Models\Housing::where('id', $orderCart['item']['id'])->first();
+                $saleType = $housing->step2_slug;
+                $deposit_rate = 0.04;
+                $discount_percent = 4;
+    
+            } else {
+                $project = \App\Models\Project::where('id', $orderCart['item']['id'])->first();
+                $saleType = $project->step2_slug;
+                $deposit_rate = $project->deposit_rate / 100;
+                $discount_percent =  $project->deposit_rate;
+    
+            }
+    @endphp
     
     <div class="content">
 
@@ -124,9 +143,6 @@
                                 </div>
 
 
-                                @php
-                                    $orderCart = json_decode($order->cart, true);
-                                @endphp
                                 <div class="col-md-4 text-center">
                                     <p>İlan No</p>
 
@@ -324,13 +340,16 @@
                                         <p class="text-body-emphasis fw-semibold">
                                             {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
                                     </div>
+                                    @if (isset(json_decode($order->cart)->item->qt))
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Adet:</p>
-                                        <p class="text-danger fw-semibold">1</p>
+                                        <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                        </p>
                                     </div>
+                                @endif
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Kapora Yüzdesi:</p>
-                                        <p class="text-body-emphasis fw-semibold">%2</p>
+                                        <p class="text-body fw-semibold">Kapora Oranı:</p>
+                                        <p class="text-body-emphasis fw-semibold">%{{$discount_percent}}</p>
                                     </div>
                                     {{-- <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Subtotal :</p>
@@ -617,7 +636,7 @@
                                                                                 type="text" name="phone"
                                                                                 placeholder="Telefon Numarası"
                                                                                 id="bootstrap-wizard-validation-wizard-phone"
-                                                                                required="required">
+                                                                                required="required" maxlength="10">
                                                                                 <span id="error_message" class="error-message"></span>
                                                                             <div class="invalid-feedback">Alan Zorunludur.
                                                                             </div>
@@ -770,13 +789,22 @@
     $(document).ready(function(){
         $(".phoneControl").on("input blur", function(){
         var phoneNumber = $(this).val();
-        var pattern = /^5[1-9]\d{8}$/;
+        var pattern = /^5[0-9]\d{8}$/;
     
         if (!pattern.test(phoneNumber)) {
-          $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+          $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
         } else {
           $("#error_message").text("");
         }
+             // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+             $('.phoneControl').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
       });
     });
     </script>
@@ -823,7 +851,7 @@
 @section('css')
     <style>
                 .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
         .order_status span {

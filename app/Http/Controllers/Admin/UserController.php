@@ -12,10 +12,13 @@ use App\Models\Chat;
 use App\Models\City;
 use App\Models\Housing;
 use App\Models\Project;
+use App\Models\RoleChanges;
 use App\Models\TaxOffice;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Town;
+
 
 class UserController extends Controller
 {
@@ -351,12 +354,60 @@ class UserController extends Controller
         $housingCount     = Housing::where('user_id',$userDetail->id)->count();
         $userChildCount   = User::where('parent_id',$userDetail->id)->count();
         $userCommentCount = count($userDetail->comments);
+
+        $turkishAlphabet = [
+            'A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'Ğ', 'H', 'I', 'İ', 'J', 'K', 'L',
+            'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'
+        ];
+
+        $cities = City::get();
+
+        $towns = Town::all()->toArray();
+
+        usort($towns, function($a, $b) use ($turkishAlphabet) {
+            $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
+            $endPriorityLetters = ["Y", "Z"];
         
-        return view('admin.users.edit', compact('userDetail', 'roles','parent','projectCount','housingCount','userChildCount','userCommentCount','taxOffices'));
+            // Check if $a and $b are in the priority list
+            $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
+            $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
+        
+            // If both are in the priority list, sort based on their position in the list
+            if ($aPriority !== false && $bPriority !== false) {
+                return $aPriority - $bPriority;
+            }
+        
+            // If only $a is in the priority list, move it to the top
+            elseif ($aPriority !== false) {
+                return -1;
+            }
+        
+            // If only $b is in the priority list, move it to the top
+            elseif ($bPriority !== false) {
+                return 1;
+            }
+        
+            // If neither $a nor $b is in the priority list, sort based on the first letter of the title
+            else {
+                $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
+        
+                // If the first letters are the same, check if they are 'Y' or 'Z'
+                if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return 1;
+                } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
+                    return -1;
+                }
+        
+                return $comparison;
+            }
+        });
+        
+        return view('admin.users.edit', compact('userDetail', 'roles','parent','projectCount','housingCount','userChildCount','userCommentCount','taxOffices','towns','cities'));
     }
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $taxOfficeCity = City::where('title',$request->taxOfficeCity)->value('id');
         // Form doğrulama kurallarını tanımlayın
         $rules = [
@@ -364,9 +415,11 @@ class UserController extends Controller
             'email'          => 'required|email|unique:users,email,' . $id,
             'type'           => 'required|in:1,2',
             'is_active'      => 'nullable',
-            'iban'           => 'required|string|max:255|nullable',
-            'corporate_type' => 'required|string|max:255|nullable',
-            'account_type'   => 'required|string|max:255|nullable',
+            'iban'           => 'nullable|string|max:255',
+            'corporate_type' => 'nullable|string|max:255',
+            'account_type'   => 'nullable|string|max:255',
+            'mobile_phone'   => 'nullable|string|max:255',
+            'username' => 'nullable|string|max:255',
         ];
 
         // Form doğrulama işlemini gerçekleştirin
@@ -375,21 +428,41 @@ class UserController extends Controller
         // Kullanıcıyı güncelleyin
         $user = User::findOrFail($id); // Kullanıcıyı bulun veya hata döndürün
         $user->name           = $validatedData['name'];
+        $user->username       = $validatedData['username'];
         $user->email          = $validatedData['email'];
+        $user->mobile_phone   = $validatedData['mobile_phone'];
         $user->type           = $validatedData['type'];
         $user->status         = $request->has('is_active') ? 1 : 0;
-        $user->iban           = $validatedData['iban'];
-        $user->corporate_type = $validatedData['corporate_type'];
-        $user->account_type   = $validatedData['account_type'];
         $user->taxOfficeCity  = $taxOfficeCity;
         $user->taxOffice      = $request->taxOffice;
         $user->taxNumber      = $request->taxNumber;
+        $user->city_id          = $request->city_id;
+        $user->county_id        = $request->county_id;
+        $user->neighborhood_id  = $request->neighborhood_id;
+        $user->account_type    = $request->account_type;
+        $user->idNumber    =  $request->idNumber;
 
         if($user->account_type == 'Şahıs Şirketi'){
             $user->idNumber = $request->idNumber;
         }
 
-        
+        if($request->has('iban')){
+            $user->iban = $request->input('iban'); 
+        }
+
+        if ($request->has('phone')) {
+            $user->phone = $request->input('phone'); 
+        }
+
+        if ($request->has('corporate_type')) {
+            $user->corporate_type = $request->input('corporate_type'); 
+        }
+            
+        if ($request->has('account_type')) {
+            $user->account_type = $request->input('account_type'); 
+        }
+
+
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
@@ -430,5 +503,63 @@ class UserController extends Controller
     
         return response()->json(['city' => $city, 'plaka' => $plaka]);
     }//End
+
+    public function expectedCall(){
+        $expectedCall = RoleChanges::all();
+        return view('admin.expected_call.index',compact('expectedCall'));
+    }//End
+
+    public function giveApproval(Request $request){
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
+        $user        = User::find($request->user_id);
+
+        $user->username = $changedUser->username;
+        $user->name = $changedUser->name;
+        $user->store_name = $changedUser->store_name;
+        $user->phone = $changedUser->phone;
+        $user->corporate_type = $changedUser->corporate_account_type;
+        $user->city_id = $changedUser->city_id;
+        $user->county_id = $changedUser->county_id;
+        $user->neighborhood_id = $changedUser->neighborhood_id;
+        $user->account_type = $changedUser->account_type;
+        $user->taxOfficeCity = $changedUser->taxOfficeCity;
+        $user->taxOffice = $changedUser->taxOffice;
+        $user->taxNumber = $changedUser->taxNumber;
+        $user->idNumber = $changedUser->idNumber;
+        $user->subscription_plan_id = $changedUser->subscription_plan_id;
+
+        $user->type = 2;
+        $user->corporate_account_status = 0;
+        $changedUser->status = 1;
+
+        $changedUser->save();
+        $user->save();
+
+        return redirect()->back()->with('success','Kullanıcı belgelerini onayladınız. Bireysel müşteri kurumsal müşteriye dönüştürüldü.');
+    }//End
     
+    public function institutionalReject(Request $request){
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->where('status',0)->first();
+        $changedUser->status = 2;
+        $changedUser->save();
+
+        return redirect()->back()->with('info','Reddedildi.');
+    }//End
+    
+    public function getDocuments($userId){
+        // Kullanıcıyı bul
+        $user = User::find($userId);
+
+        // Kullanıcının belgelerini al
+        $taxDocument = $user->tax_document;
+        $identityDocument = $user->identity_document;
+        $companyDocument = $user->company_document;
+
+        // Belgeleri modal içeriği olarak oluştur ve döndür
+        $documentsHtml = "<h4>Vergi Belgesi</h4><a href='$taxDocument' download>Vergi Belgesi İndir</a><br>";
+        $documentsHtml .= "<h4>Kimlik Belgesi</h4><a href='$identityDocument' download>Kimlik Belgesi İndir</a><br>";
+        $documentsHtml .= "<h4>Şirket Belgesi</h4><a href='$companyDocument' download>Şirket Belgesi İndir</a>";
+
+        return $documentsHtml;
+    }//End
 }

@@ -410,7 +410,7 @@
                                                 <div class="form-group">
                                                     <label for="surname" class="q-label">Telefon: </label>
                                                     <input type="number" class="modal-input" id="phone"
-                                                        name="phone" value="{{ $cartOrder->phone }}">
+                                                        name="phone" value="{{ $cartOrder->phone }}" maxlength="10">
                                                         <span id="error_message" class="error-message"></span>
                                                 </div>
                                                 <div class="form-group">
@@ -643,7 +643,7 @@
                                         <div class="form-group">
                                             <label for="surname" class="q-label">Telefon:</label>
                                             <input type="number" class="modal-input" id="phone" name="phone"
-                                                required>
+                                                required maxlength="10">
                                                 <span id="error_message" class="error-message"></span>
                                                 <span id="success_message" class="success-message"></span>
                                         </div>
@@ -1225,7 +1225,7 @@
 
                             <div class="form-group">
                                 <label for="surname" class="q-label">Telefon:</label>
-                                <input type="number" class="modal-input" id="phone" name="phone" required>
+                                <input type="number" class="modal-input" id="phone" name="phone" required maxlength="10">
                                 <span id="error_message" class="error-message"></span>
                             </div>
 
@@ -1457,7 +1457,7 @@
                             mevzuata ve Portal'daki İlan Yayınlama Kurallarına uygun hareket etmekle yükümlüdür. Yasal
                             yükümlülüklerini yerine getirmeden günlük kiralık ilan yayınlayanlar hakkında uygulanacak
                             cezalardan münhasıran Günlük Kiralık İlan Veren sorumlu olacaktır.</li>
-                        <li> Turizm amaçlı kiralık ilan yayınlayanlar; “7464 sayılı “Konutların Turizm Amaçlı Kiralanmasına
+                        <li> Turizm Amaçlı Kiralama amaçlı kiralık ilan yayınlayanlar; “7464 sayılı “Konutların Turizm Amaçlı Kiralama Amaçlı Kiralanmasına
                             ve Bazı Kanunlarda Değişiklik Yapılmasına Dair Kanun” ile getirilen yeni düzenlemelere, yasal
                             mevzuata ve Portal'daki İlan Yayınlama Kurallarına uygun hareket etmekle yükümlüdür. Yasal
                             yükümlülüklerini yerine getirmeden turizm amaçlı kiralık ilan yayınlayanlar hakkında uygulanacak
@@ -1553,13 +1553,22 @@
             $(document).ready(function(){
                 $("#phone").on("input blur", function(){
                 var phoneNumber = $(this).val();
-                var pattern = /^5[1-9]\d{8}$/;
+                var pattern = /^5[0-9]\d{8}$/;
             
                 if (!pattern.test(phoneNumber)) {
-                  $("#error_message").text("Lütfen telefon numarasını belirtilen formatta girin. Örneğin: (555) 111 22 33");
+                  $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
                   $("#error_message").text("");
                 }
+                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                     $('#phone').on('keypress', function (e) {
+                        var max_length = 10;
+                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                            // Olayın işlenmesini durdur
+                            e.preventDefault();
+                        }
+                    });
               });
             });
             </script>
@@ -2244,7 +2253,7 @@
 
     <style>
             .error-message {
-                color: red;
+                color: #e54242;
                 font-size: 11px;
             }
         #spinner-overlay {

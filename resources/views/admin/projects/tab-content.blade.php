@@ -8,10 +8,9 @@
                     <th>Mağaza Adı</th>
                     <th>Toplam İlan Sayısı</th>
                     <th>Emlak Tipi</th>
+                    <th>Kapora Oranı</th>
                     <th>İlanları Düzenle</th>
-
                     <th>Yayın Durumu</th>
-                    {{-- <th>Siparişleri Gör</th> --}}
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -30,8 +29,25 @@
                         <td>{{ $project['project']->user->name }} </td>
                         <td>{{ $project['project']->room_count }}</td>
                         <td>{{ $project['project']->housingType->title }}</td>
-                        <td><a href='{{ URL::to('/') }}/qR9zLp2xS6y/secured/projects/{{ $project['project']->id }}/housings'                             
-                            class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a></td>
+                        <td >
+                            <form method="POST" action="{{ route('admin.projects.update', $project['project']->id) }}">
+                                @csrf
+                                @method('PUT')
+                                    <div class="form-group mb-0">
+                                        <input type="number" class="form-control w-70" id="deposit_rate" name="deposit_rate"
+                                            value="{{ $project['project']->deposit_rate }}">
+                                    </div>
+    
+                                    <button type="submit" class="update-button" style="color:red;font-weight:700;background:transparent;border:none;background-color:White">Güncelle</button>
+                                   
+
+
+                    
+                            </form>
+                        </td>
+
+                        <td><a href='{{ URL::to('/') }}/qR9zLp2xS6y/secured/projects/{{ $project['project']->id }}/housings'
+                                class='badge badge-phoenix badge-phoenix-success'>İlanları Düzenle</a></td>
                         <td>
                             @if ($project['project']->status == 1)
                                 <span class="badge badge-phoenix badge-phoenix-success">Aktif</span>

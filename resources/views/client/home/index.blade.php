@@ -3,6 +3,8 @@
 @section('content')
     <meta name="description" content="Emlak Sepette">
     <meta name="author" content="Innovatica Code">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
     <title>Emlak Sepette</title>
     <style>
         section.portfolio .slick-slide {
@@ -103,13 +105,17 @@
         </div>
     </section>
 
-
+   
     <section class="featured  home18 bg-white" style="height: 100px">
         <div class="container">
+           
             <div class="portfolio ">
+                <div class="section-title mb-3">
+                    <h2>Mağaza Vitrini</h2>
+                </div>
                 <div class="slick-lancers">
                     <div class="agents-grid" data-aos="fade-up" data-aos-delay="150">
-                        <a href="https://emlaksepette.com/kategori/al-sat-acil" class="homes-img">
+                        <a href="https://test.emlaksepette.com/kategori/al-sat-acil" class="homes-img">
                             <div class="landscapes">
                                 <div class="project-single">
                                     <div class="project-inner project-head">
@@ -165,6 +171,7 @@
 
 
     <section class="container justify-content-center mt-4">
+        
         <div class="special-button-content row">
             @foreach ($dashboardStatuses as $key => $status)
                 <div
@@ -187,7 +194,7 @@
                     <div class="section-title">
                         <h2>Öne Çıkan Projeler</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
+                    <a href="https://test.emlaksepette.com/kategori/tum-projeler" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white; padding: 5px 10px; border: none;"
                             class="w-100">
                             Tüm Projeleri Gör
@@ -213,7 +220,7 @@
                     <div class="section-title">
                         <h2>Emlak İlanları</h2>
                     </div>
-                    <a href="https://emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
+                    <a href="https://test.emlaksepette.com/kategori/emlak-ilanlari" style="font-size: 11px;">
                         <button style="background-color: #ea2a28; color: white;padding: 5px 10px;border:none;"
                             class="w-100">
                             Tümünü Gör
@@ -333,7 +340,7 @@
             </footer>
         </div>
     @endif --}}
-
+    @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -370,6 +377,8 @@
                     </div>
                 </div>
             </div>
+           
+            
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\SmtpSettingController;
 use App\Http\Controllers\Admin\SocialMediaIconController;
 use App\Http\Controllers\Admin\SubscriptionPlanController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ChangePhoneController;
+use App\Http\Controllers\Admin\SupportController as AdminSupportController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\ClientPanel\ChangePasswordController as ClientPanelChangePasswordController;
 use App\Http\Controllers\ClientPanel\DashboardController as ClientPanelDashboardController;
@@ -85,6 +87,7 @@ use App\Http\Controllers\Client\SmsController;
 use App\Http\Controllers\Admin\SmsController as AdminSmsController;
 use App\Http\Controllers\Client\FormController;
 use App\Http\Controllers\Institutional\FormController as InstitutionalFormController;
+use App\Http\Controllers\SupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,7 +106,7 @@ Route::get('/emlak-kulup', [SharerController::class, "view"])->name('sharer.inde
 Route::post('/update-brand-status', [HomeController::class, 'updateBrandStatus'])->name('update.brand.status');
 Route::post('/update-collection-status', [HomeController::class, 'updateCollectionStatus'])->name('update.collection.status');
 Route::post('/neighbor-view/store', [NeighborViewController::class, 'store'])->name('neighbor.store');
-Route::get('/neighbors' , [NeighborViewController::class, 'index'])->name('neighbors.index');
+Route::get('/neighbors', [NeighborViewController::class, 'index'])->name('neighbors.index');
 Route::post('/neighbor-view/checkout', [NeighborViewController::class, 'neighborView'])->name('neighborView.index');
 Route::post('/neighbor/resultpaymentsuccess', [NeighborViewController::class, 'resultPaymentSuccess'])->name('neighborView.result.payment.success');
 Route::post('/neighbor/resultpaymentfail', [NeighborViewController::class, 'resultPaymentFail'])->name('neighborView.result.payment.fail');
@@ -153,7 +156,7 @@ Route::get('/get-counties-for-client/{city}', [CountyController::class, "getCoun
 Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class, "getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
 Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
-Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
+// Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
@@ -186,8 +189,14 @@ Route::middleware('guest')->group(function () {
     Route::get('/giris-yap', [ClientLoginController::class, "showLoginForm"])->name('client.login');
     Route::post('/login', [ClientLoginController::class, "login"])->name('client.submit.login');
     Route::post('/kayit-ol', [RegisterController::class, "register"])->name('client.submit.register');
+
+    
 });
 
+
+Route::get('destek', [SupportController::class, 'index'])->name('support.index');
+    Route::post('destek/talep', [SupportController::class, 'sendSupportMessage'])->name('support.sendSupportMessage');
+    Route::get('destek/talep/dosya/indir/{id}', [SupportController::class, 'supportFileDownload'])->name('destek.talep.dosya.indir');
 Route::get('/markAllAsRead', [InfoController::class, 'markAllAsRead'])->name('markAllAsRead');
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 Route::resource('collections', CollectionController::class);
@@ -214,6 +223,11 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+    //Rol değişikliği
+Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
+
 
     Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
     Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
@@ -223,6 +237,10 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class, "seeApplications"])->name('estate.see.users.list');
 
     Route::get('/admin', [AdminHomeController::class, "index"]);
+
+    Route::get('/change-phone',  [ChangePhoneController::class, "index"])->name('change.phone.index');
+    Route::post('/change-phone-number-status-by-user/{userId}', [ChangePhoneController::class, 'changePhoneNumberStatusByUser'])->name('change-phone-number-status-by-user');
+
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class, "changeStatus"])->name('changeStatus');
     Route::post('/changeStatusNeighbor/{applyId}/{action}',  [AdminEstateClubController::class, "changeStatusNeighbor"])->name('changeStatusNeighbor');
@@ -302,7 +320,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/reservation_info/{id}', [AdminHomeController::class, 'reservationInfo'])->name('reservation.info');
         Route::get('/reservation/delete_cancel_request/{id}', [AdminHomeController::class, 'deleteCancelRequest'])->name('reservation.info.delete');
         Route::post('/receipt/pdf', [AdminHomeController::class, 'upload'])->name('receipt.refund.upload.pdf');
-        
+
         Route::get('/package-orders', [AdminHomeController::class, 'getPackageOrders'])->name('packageOrders');
 
         Route::post('/order/approve/{cartOrder}', [AdminHomeController::class, 'approveOrder'])->name('approve-order');
@@ -323,7 +341,6 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/order/unapprove/package/{userPlan}', [AdminHomeController::class, 'unapprovePackageOrder'])->name('unapprove-package-order');
 
         Route::post('/update/status/{refundId}', [AdminHomeController::class, 'updateStatus'])->name('refund.update.status');
-
     });
 
     Route::middleware(['checkPermission:GetHousingTypeForm'])->group(function () {
@@ -746,6 +763,7 @@ Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class,
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
+    Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
 
     Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('get_given_offers', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
@@ -780,13 +798,13 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
-    
+
     Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])
-    ->name('phone.generateVerificationCode');
+        ->name('phone.generateVerificationCode');
 
     Route::post('phone-verification/verify', [DashboardController::class, 'verifyPhoneNumber'])
-    ->name('phone.verifyPhoneNumber');
+        ->name('phone.verifyPhoneNumber');
 
     Route::get('has-club-verification', [DashboardController::class, 'corporateHasClubAccountVerification'])->name('corporate-has-club-verification');
     Route::get('has-club-status', [DashboardController::class, 'corporateHasClubAccountVerificationStatus'])->name('corporate-has-club-status');
@@ -797,6 +815,9 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::get('get/record-document', [InstitutionalUserController::class, 'getRecordDocument'])->name('get.record-document');
     Route::get('get/identity-document', [InstitutionalUserController::class, 'getIdentityDocument'])->name('get.identity-document');
     Route::get('get/company-document', [InstitutionalUserController::class, 'getCompanyDocument'])->name('get.company-document');
+
+
+
 
     // Offers - Kampanyalar
     Route::middleware(['checkPermission:CreateOffer'])->group(function () {
@@ -912,6 +933,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::put('/profile/update', [InstitutionalProfileController::class, "update"])->name('profile.update');
         Route::put('/club/update', [InstitutionalProfileController::class, "clubUpdate"])->name('club.update');
 
+        Route::put('/profile/phone', [InstitutionalProfileController::class, "editPhone"])->name('edit.phone');
+
         Route::get('/profile/upgrade', [InstitutionalProfileController::class, 'upgrade'])->name('profile.upgrade');
         Route::post('/profile/upgrade/{id}', [InstitutionalProfileController::class, 'upgradeProfile'])->name('profile.upgrade.action');
     });
@@ -1025,8 +1048,6 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::get('/order_detail/{order_id}', [ClientPanelProfileController::class, 'orderDetail'])->name('order.detail');
         Route::post('/upload/pdf', [ClientPanelProfileController::class, 'upload'])->name('contract.upload.pdf');
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
-        
-
     });
 });
 
@@ -1162,15 +1183,34 @@ Route::get('/komsumu-sil/{id}', [ProjectController::class, 'komsumuSil'])->name(
 
 //Toplu Main Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-mail/create', [EmailTemplateController::class, 'MultipleMail'])->name('admin.multiple_mail.create');
-Route::post('multiple_mail/store' , [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
-Route::get('multiple-mail/get/users',[EmailTemplateController::class,'MultipleMailGetUsers']);
-Route::get('multiple-mail/get/users/bireysel',[EmailTemplateController::class,'MultipleMailGetUsersBireysel']);
-Route::get('multiple-mail/get/users/kurumsal',[EmailTemplateController::class,'MultipleMailGetUsersKurumsal']);
+Route::post('multiple_mail/store', [EmailTemplateController::class, 'MultipleMailStore'])->name('admin.multiple_mail.store');
+Route::get('multiple-mail/get/users', [EmailTemplateController::class, 'MultipleMailGetUsers']);
+Route::get('multiple-mail/get/users/bireysel', [EmailTemplateController::class, 'MultipleMailGetUsersBireysel']);
+Route::get('multiple-mail/get/users/kurumsal', [EmailTemplateController::class, 'MultipleMailGetUsersKurumsal']);
 
 //Toplu Sms Gönderimi
 Route::get('qR9zLp2xS6y/secured/multiple-sms/create', [AdminSmsController::class, 'MultipleSms'])->name('admin.multiple_sms.create');
-Route::post('multiple_sms/store' , [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
+Route::post('multiple_sms/store', [AdminSmsController::class, 'MultipleSmsStore'])->name('admin.multiple_sms.store');
 
 //Ödeme yapıldıktan sonra dekont yükleme
-Route::post('dekot/file/upload',[CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
-Route::get('/dekont/indir/{order_id}',[CartController::class,'dekontIndir'])->name('dekont.indir');
+Route::post('dekot/file/upload', [CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
+Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->name('dekont.indir');
+
+
+//Destek Merkezi
+Route::get('/institutional/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
+Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalRegister"])->name('client.institutional.register');
+
+//üyelik tipi için belge girme sayfası
+// Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
+// Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
+
+
+Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->name('get.documents');
+
+
+//Admin panel Destek Takip
+
+Route::get('qR9zLp2xS6y/secured/destek/takip',[AdminSupportController::class,'index'])->name('admin.support.index');
+Route::post('qR9zLp2xS6y/secured/destek/yanit',[AdminSupportController::class,'returnSupport'])->name('admin.return.support');
+Route::post('qR9zLp2xS6y/secured/destek/yanit/duzenle',[AdminSupportController::class,'returnSupportEdit'])->name('admin.return.support.edit');

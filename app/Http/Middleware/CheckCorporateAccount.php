@@ -26,6 +26,7 @@ class CheckCorporateAccount
         'institutional.profile.edit',
         'institutional.profile.update',
         'client.logout',
+        'institutional.edit.phone',
     ];
 
     /**
@@ -39,7 +40,13 @@ class CheckCorporateAccount
             die('Bağlı olduğunuz ana kurum hesabı onaylanmamış.');
         } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 && auth()->user()->type == 2 && !in_array(request()->route()->getName(), $this->whitelist)) {
             return redirect()->route('institutional.corporate-account-verification');
-        } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && !in_array(request()->route()->getName(), $this->whitelist)) {
+            
+        } 
+        elseif(auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && request()->route()->getName() == 'institutional.corporate-account-verification' )
+        {
+            return redirect()->route('institutional.phone.verification');
+        }
+        elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && !in_array(request()->route()->getName(), $this->whitelist)) {
 
             return redirect()->route('institutional.phone.verification');
         } elseif (auth()->user()->corporate_account_status == 1 && auth()->user()->phone_verification_status == 1  && request()->route()->getName() == 'institutional.corporate-account-verification' && request()->route()->getName() == 'institutional.phone.verification') {
