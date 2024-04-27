@@ -104,7 +104,7 @@
                                         @if ($housing->user->phone)
                                             <tr>
                                                 <td>
-                                                    Telefon :
+                                                    İş :
                                                     <span class="det">
                                                         <a style="text-decoration: none;color:inherit"
                                                             href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
@@ -115,7 +115,7 @@
                                         @if ($housing->user->mobile_phone)
                                         <tr>
                                             <td>
-                                                Telefon :
+                                                Cep :
                                                 <span class="det">
                                                     <a style="text-decoration: none;color:inherit"
                                                         href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
