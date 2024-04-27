@@ -89,3 +89,4 @@ Route::post('/update_situation_order_temp_update', [TempOrderController::class, 
 Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 'deleteSituationOrders'])->name('delete.situation.order.temp.update');
 
 Route::apiResource('favorites', FavoriteController::class);
+Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);

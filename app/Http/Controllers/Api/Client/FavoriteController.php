@@ -3,30 +3,47 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Housing;
+use App\Models\HousingFavorite;
 use App\Models\ProjectFavorite;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Throwable;
 
 class FavoriteController extends Controller
 {
     public function index(){
-        $user = User::where("id", auth()->guard('api')->user()->id)->with("housingFavorites.housing", 'housingFavorites.housing.city', 'housingFavorites.housing.brand')->first();
-        $favorites = $user->housingFavorites;
-        $projectFavorites = ProjectFavorite::where("user_id", auth()->guard('api')->user()->id)
-            ->with('project.roomInfo', 'projectHousing')
-            ->orderBy("created_at", "desc")
-            ->get();
+        try{
+            if(auth()->guard('api')->user()){
+                $user = User::where("id", auth()->guard('api')->user()->id)->with("housingFavorites.housing", "housingFavorites.housing.listItems", 'housingFavorites.housing.city', 'housingFavorites.housing.brand')->first();
+                $favorites = $user->housingFavorites;
+                $projectFavorites = ProjectFavorite::where("user_id", auth()->guard('api')->user()->id)
+                    ->with('project.roomInfo', 'projectHousing')
+                    ->orderBy("created_at", "desc")
+                    ->get();
+                
+                $mergedFavorites = $favorites->merge($projectFavorites);
+                
+                $mergedFavorites = $mergedFavorites->sortByDesc('created_at');
+                
+                return json_encode([
+                    "user" => $user,
+                    "favorites" => $favorites,
+                    "mergedFavorites" => $mergedFavorites,
+                    "projectFavorites" => $projectFavorites,
+                ]);
+            }else{
+                return Response::json([
+                    'message' => "Authorization Failed"
+                ], 401);
+            }
+        }catch(Throwable $e){
+            return Response::json([
+                'message' => "Bad Request"
+            ], 400);
+        }
         
-        $mergedFavorites = $favorites->merge($projectFavorites);
-        
-        $mergedFavorites = $mergedFavorites->sortByDesc('created_at');
-        
-        return json_encode([
-            "user" => $user,
-            "favorites" => $favorites,
-            "projectFavorites" => $projectFavorites,
-            "mergedFavorites" => $mergedFavorites,
-        ]);
     }
 
     public function addHousingToFavorites($id)
