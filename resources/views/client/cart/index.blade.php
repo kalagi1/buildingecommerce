@@ -222,10 +222,7 @@
                                                         ->keyBy('name');
                                                     $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
                                                     $projectAmount = $itemPrice - $projectDiscountAmount;
-                                                    echo $projectDiscountAmount;
-                                                    echo "asasa";
-                                                    $discountedPrice =
-                                                        $projectAmount - ($projectAmount * $discountRate) / 100;
+                                                    $discountedPrice = $projectAmount - ($projectAmount * $discountRate) / 100;
                                                 }
                                             } else {
                                                 $discountedPrice = $itemPrice;
@@ -269,7 +266,7 @@
                                                 @if ($discountRate != 0)
                                                     <span>
                                                         <del
-                                                            style="color:#EA2B2E">{{ number_format($itemPrice, 0, ',', '.') }}₺</del>
+                                                            style="color:#EA2B2E">{{ number_format($discountedPrice, 0, ',', '.') }}₺</del>
                                                     </span>
                                                 @endif
 
