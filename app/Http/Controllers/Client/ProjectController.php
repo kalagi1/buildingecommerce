@@ -237,7 +237,7 @@ class ProjectController extends Controller
 
 
                 if ($i == 1) {
-                   return  $has_same_quantity;
+                   return  $total_quantity;
                 }
 
                 if (!$has_share_sale && !empty($total_quantity->total_quantity) && isset($total_quantity) && !$has_same_quantity || $has_share_sale  && $has_same_quantity) {
