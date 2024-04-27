@@ -585,6 +585,7 @@ class HousingController extends Controller {
         $nearestUsers = User::with('city')
         ->select('id', 'name', 'city_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
         ->where('type', '=', 2) // type 2 olanları al
+        ->where('corporate_type', '=', 'Emlak Ofisi') 
         ->whereNotNull('city_id') // city_id değeri null olmayanları al
         ->whereNull('parent_id') // parent_id değeri null olanları al
         ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
