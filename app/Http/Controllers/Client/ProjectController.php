@@ -229,7 +229,7 @@ class ProjectController extends Controller
                     ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
                     ->where(DB::raw($housing_json_path), $i)
                     ->where("status", "1")
-                    ->first();
+                    ->get();
 
 
                 $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
