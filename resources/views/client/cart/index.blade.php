@@ -222,6 +222,8 @@
                                                         ->keyBy('name');
                                                     $discountRate = $projectHousing['discount_rate[]']->value ?? 0;
                                                     $projectAmount = $itemPrice - $projectDiscountAmount;
+                                                    echo $projectDiscountAmount;
+                                                    echo "asasa";
                                                     $discountedPrice =
                                                         $projectAmount - ($projectAmount * $discountRate) / 100;
                                                 }
