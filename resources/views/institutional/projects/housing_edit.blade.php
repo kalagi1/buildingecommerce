@@ -11,13 +11,12 @@
             }
         }
     @endphp
-    {{dd($roomOrder)}}
     <div class="content">
         <div class="mt-4">
             <div class="second-area">
                 <div class="row">
                     <div class="form-area mt-4">
-                        <span class="section-title">{{$project->project_title}} Projesinde ki {{getData($project, 'advertise_title[]', $roomOrder)->value}} Adlı Konutu Düzenle</span>
+                        <span class="section-title">{{$project->project_title}} Projesinde ki {{getData($project, 'advertise_title[]', $roomOrder)->value ?? getData($project, 'advertise_title[]', $roomOrder)->value}} Adlı Konutu Düzenle</span>
                         @if($errors->any())
                         <div class="alert alert-danger">
                             <h4 class="c-fff">{{$errors->first()}}</h4>
