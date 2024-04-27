@@ -83,20 +83,23 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                {!! 'İl-İlçe' .
-                                                optional($housing->neighborhood)->mahalle_title ?
-                                                '-Mahalle:' : ":"!!}
+                                                {{-- Başlık kısmı --}}
+                                                {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ":") !!}
                                                 <span class="det">
-                                                    {!! optional($housing->city)->title .
-                                                        ' / ' .
-                                                        optional($housing->county)->title .
-                                                        ' / ' .
-                                                        optional($housing->neighborhood)->mahalle_title ??
-                                                        '' !!}
+                                                    {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
+                                                    {{ optional($housing->city)->title ?? '' }}
+                                                    @if(optional($housing->city)->title && optional($housing->county)->title)
+                                                        {!! ' / ' !!}
+                                                    @endif
+                                                    {{ optional($housing->county)->title ?? '' }}
+                                                    @if(optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
+                                                        {!! ' / ' !!}
+                                                    @endif
+                                                    {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
                                                 </span>
                                             </td>
-
                                         </tr>
+                                        
 
                                         @if ($housing->user->phone)
                                             <tr>
