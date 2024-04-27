@@ -42,12 +42,14 @@
                                                 <td>{{ isset($item->send_reason) ? $item->send_reason : '-' }}</td>
                                                 <td>{{ $item->description }}</td>
                                                 <td>
-                                                    @if($item->file_path)
-                                                        <a href="{{ $item->file_path }}" class="btn btn-sm btn-info" style="background-color:#0080c7;" download>Belgeyi İndir</a>
+                                                    @if(empty($item->file_path))
+                                                    -
                                                     @else
-                                                        Belge Bulunamadı
+                                                        <a href="{{ route('destek.talep.dosya.indir', ['id' => $item->id]) }}"
+                                                            class="btn btn-sm btn-info" style="background-color:#0080c7;">Dosyayı indir</a><br>
                                                     @endif
                                                 </td>
+                                                
                                                 
                                                 <td>{{ $item->created_at->format('d.m.Y') }}</td>
                                                 <td>
