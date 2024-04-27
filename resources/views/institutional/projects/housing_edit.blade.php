@@ -11,7 +11,7 @@
             }
         }
     @endphp
-    {{dd(getData($project, 'advertise_title[]', $roomOrder))}}
+    {{dd($roomOrder)}}
     <div class="content">
         <div class="mt-4">
             <div class="second-area">
