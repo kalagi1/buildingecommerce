@@ -236,9 +236,11 @@ class ProjectController extends Controller
                 $has_same_quantity = $total_quantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $total_quantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
 
 
-                if (!$has_share_sale && !empty($total_quantity->total_quantity) && isset($total_quantity) && !$has_same_quantity || $has_share_sale  && $has_same_quantity) {
+                if ($i == 1) {
+                   return $projectHousingsList[$i]['number_of_shares[]'];
+                }
 
-                    return "asa";
+                if (!$has_share_sale && !empty($total_quantity->total_quantity) && isset($total_quantity) && !$has_same_quantity || $has_share_sale  && $has_same_quantity) {
                     $project->cartOrders += 1;
                     $matching_indices[] = $i;
                     $matching_total[] = $total_quantity;
