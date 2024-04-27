@@ -39,7 +39,8 @@ class CheckCorporateAccount
         if (auth()->user()->parent_id != NULL && \App\Models\User::find(auth()->user()->parent_id)->corporate_account_status == 0) {
             die('Bağlı olduğunuz ana kurum hesabı onaylanmamış.');
         } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 && auth()->user()->type == 2 && !in_array(request()->route()->getName(), $this->whitelist)) {
-            return redirect()->route('institutional.corporate-account-verification');
+            // return redirect()->route('institutional.corporate-account-verification');
+            return redirect()->route('institutional.phone.verification');
             
         } 
         elseif(auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 1 &&  auth()->user()->phone_verification_status == 0 && request()->route()->getName() == 'institutional.corporate-account-verification' )

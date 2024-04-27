@@ -223,6 +223,17 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+
+    //arandı mı
+Route::get('/searched', [UserController::class, 'searched'])->name('searched');
+Route::get('/belge/dogrulama', [UserController::class, 'documentVerification'])->name('document.verification');
+    
+    //Aranmayı Beklenenler
+Route::get('/aranmayi-beklenenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
+Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
+Route::get('/sms-dogrulamasi', [UserController::class, "smsVerification"])->name('sms.verification');
+
+
     //Rol değişikliği
 Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
 Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');

@@ -35,6 +35,15 @@
         "activePath": "qR9zLp2xS6y/secured/rol-degisikligi"
     },
     {
+        "id": "awaitingCalled",
+        "label": "Destek Merkezi",
+        "icon": "eye",
+        "text": "Aranmayı Beklenenler",
+        "key": "awaitingCalled",
+        "url": "admin.awaiting.called.index",
+        "activePath": "qR9zLp2xS6y/secured/aranmayi-beklenenler"
+    },
+    {
         "id": "EmlakClubUsers",
         "label": "Emlak Kulüp",
         "icon": "users",
