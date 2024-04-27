@@ -352,9 +352,9 @@
                                         $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
                                         $projectOrder = 1;
                                         if (isset($blockStart) && $blockStart) {
-                                            $projectOrder = $i - $blockStart + 1;
+                                            $projectOrder = $housingOrder - $blockStart + 1;
                                         } else {
-                                            $projectOrder = $i + 1;
+                                            $projectOrder = $housingOrder + 1;
                                         }
                                     @endphp
 
