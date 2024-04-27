@@ -147,14 +147,9 @@
                         <div class="pro-wrapper" style="width: 100%; justify-content: center;align-items:center">
 
                             @if (isset($projectHousingsList[$housingOrder]['projected_earnings[]']))
-                                <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2"
-                                    fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                                    <polyline points="17 6 23 7 23 12"></polyline>
-                                </svg>
-                                <strong style="color:#28a745;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
-                                <span style="color:#28a745;font-size:13px;margin-left:4px">
-                                    %{{ $projectHousingsList[$housingOrder]['projected_earnings[]'] }}</span>
+                            <svg viewBox="0 0 24 24" width="30" height="21" stroke="green" stroke-width="2" fill="green" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 7 23 12"></polyline></svg>
+                            <strong style="color:#28a745;font-size:13px;"> Öngörülen Yıllık Kazanç: </strong>
+                            <span style="color:#28a745;font-size:13px;margin-left:4px"> %{{$projectHousingsList[$housingOrder]['projected_earnings[]']}}</span>
                             @endif
 
                             {{-- @php
@@ -342,74 +337,66 @@
                                     </div> --}}
 
                                     @php
-                                        $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
-                                        $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
-                                        $number_of_share =
-                                            $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
-                                        $sold_check = $sold && in_array($sold->status, ['1', '0']);
-                                        $discounted_price =
-                                            $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
-                                        $share_sale_empty = !isset($share_sale) || $share_sale == '[]';
-                                        $projectOrder = 1;
-                                        if (isset($blockStart) && $blockStart) {
-                                            $projectOrder = $housingOrder - $blockStart + 1;
-                                        } else {
-                                            $projectOrder = $housingOrder + 1;
-                                        }
-                                    @endphp
-
-                                    <div class="listing-title-bar text-start w-100">
-
-
-                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                            <span class="text-center w-100">
-                                                1 Hisse Fiyatı
-                                            </span>
-                                        @endif
-
-                                        @if ($off_sale_check && $projectDiscountAmount)
-                                            <h4>
-                                                <div style="text-align: center">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
-                                                        stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
-                                                        stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
-
-                                                    <del
-                                                        style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                        ₺
-                                                    </del> <br>
-                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
-                                                        ₺
-                                                    @else
-                                                        {{ number_format($discounted_price, 0, ',', '.') }}
-                                                        ₺
-                                                    @endif
-
-
-                                                </div>
-                                            </h4>
-                                        @elseif ($off_sale_check)
-                                            <h4
-                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
+                                    $off_sale_check = $projectHousingsList[$housingOrder]['off_sale[]'] == '[]';
+                                    $share_sale = $projectHousingsList[$housingOrder]['share_sale[]'] ?? null;
+                                    $number_of_share = $projectHousingsList[$housingOrder]['number_of_shares[]'] ?? null;
+                                    $sold_check = $sold && in_array($sold->status, ['1', '0']);
+                                    $discounted_price =
+                                        $projectHousingsList[$housingOrder]['price[]'] - $projectDiscountAmount;
+    
+                                @endphp
+    
+                                <div class="listing-title-bar text-start w-100">
+    
+    
+                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                        <span class="text-center w-100">
+                                            1 Hisse Fiyatı
+                                        </span>
+                                    @endif
+    
+                                    @if ($off_sale_check && $projectDiscountAmount)
+                                        <h4>
+                                            <div style="text-align: center">
+                                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
+                                                stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
+                                                stroke-linejoin="round" class="css-i6dzq1">
+                                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                <polyline points="17 18 23 18 23 12"></polyline>
+                                            </svg>
+    
+                                            <del style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            </del>  <br>
                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                    {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
                                                     ₺
                                                 @else
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                    {{ number_format($discounted_price, 0, ',', '.') }}
                                                     ₺
                                                 @endif
-                                            </h4>
-                                        @endif
-                                    </div>
+                                              
+                                               
+                                            </div>
+                                        </h4>
+                                    @elseif ($off_sale_check)
+                                        <h4
+                                            style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                ₺
+                                            @else
+                                                {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                ₺
+                                            @endif
+                                        </h4>
+                                    @endif
+                                </div>
 
                                 </div>
                                 <div class="col-md-7 col-7"
-                                    style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
+                                style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
                                             style="background: #EA2B2E !important; width: 100%; color: White; ">
@@ -462,11 +449,11 @@
                                     @endif
 
                                     <div class="button-effect toggle-project-favorite"
-                                        style="margin-left:13px;width:27% !important"
-                                        data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
-                                        data-project-id={{ $project->id }}>
-                                        <i class="fa fa-heart-o"></i>
-                                    </div>
+                                    style="margin-left:13px;width:27% !important"
+                                    data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
+                                    data-project-id={{ $project->id }}>
+                                    <i class="fa fa-heart-o"></i>
+                                </div> 
 
                                 </div>
                             </div>
@@ -1097,7 +1084,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$keyIndex]) && $sumCartOrderQt[$keyIndex]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$keyIndex]['off_sale']) && $projectHousingsList[$keyIndex]['off_sale'] != '[]') ? 1 : 0 }}"
+                                data-sold="{{ ($sold && ($sold->status == 1 || $sold->status == 0)) || $projectHousingsList[$housingOrder]['off_sale[]'] != '[]' ? '1' : '0' }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
