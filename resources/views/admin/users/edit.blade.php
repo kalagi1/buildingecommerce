@@ -352,7 +352,7 @@
                                         <div class="col-md-6">
                                             <label class="form-label" for="validationCustom04">Faaliyet Alanı</label>
                                             <select name="corporate_type" id="corporate_type" class="form-control">
-                                                @foreach (['Emlak Ofisi', 'İnşaat Ofisi', 'Turizm', 'Banka'] as $type)
+                                                @foreach (['Emlak Ofisi', 'İnşaat Ofisi', 'Turizm Amaçlı Kiralama', 'Banka'] as $type)
                                                     <option value="{{ $type }}"
                                                         {{ $userDetail->corporate_type === $type ? 'selected' : '' }}>
                                                         {{ $type }}</option>

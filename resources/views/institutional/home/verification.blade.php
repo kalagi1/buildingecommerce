@@ -96,7 +96,7 @@
                             accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->identity_document_approve == 0 ? ' ' : null }} />
                     </div>
                 @endif
-                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'Turizm')
+                @if (auth()->user()->type == 2 && auth()->user()->corporate_type == 'Turizm Amaçlı Kiralama')
                     <div class="form-group">
                         <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Acenta Belgesi:
 

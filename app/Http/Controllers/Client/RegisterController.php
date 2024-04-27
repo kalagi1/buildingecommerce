@@ -40,7 +40,7 @@ class RegisterController extends Controller
             'password' => 'required|min:6',
             'mobile_phone' =>  'required',
             'type' => 'required|in:1,2,21',
-            'corporate-account-type' => 'required_if:type,2|in:Emlak Ofisi,İnşaat Ofisi,Banka,Turizm',
+            'corporate-account-type' => 'required_if:type,2|in:Emlak Ofisi,İnşaat Ofisi,Banka,Turizm Amaçlı Kiralama',
             'store_name' => 'required_if:type,2',
             'check-a' => 'required_if:type,1',
             'check-d' => 'required_if:type,2',

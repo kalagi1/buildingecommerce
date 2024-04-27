@@ -281,7 +281,7 @@
                                             </div>
 
                                             <div class="mt-3">
-                                                <label class="q-label">Sabit Telefon</label>
+                                                <label class="q-label">Sabit Telefon (Opsiyonel)</label>
                                                 <input type="number" name="phone"
                                                     class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
                                                     value="{{ old('phone') }}" maxlength="10">
@@ -305,9 +305,9 @@
                                                     <option value="İnşaat Ofisi"
                                                         {{ old('corporate-account-type') == 'İnşaat Ofisi' ? 'selected' : '' }}>
                                                         İnşaat Ofisi</option>
-                                                    <option value="Turizm"
-                                                        {{ old('corporate-account-type') == 'Turizm' ? 'selected' : '' }}>
-                                                        Turizm</option>
+                                                    <option value="Turizm Amaçlı Kiralama"
+                                                        {{ old('corporate-account-type') == 'Turizm Amaçlı Kiralama' ? 'selected' : '' }}>
+                                                        Turizm Amaçlı Kiralama</option>
                                                 </select>
                                                 @if ($errors->has('corporate-account-type'))
                                                     <span
@@ -952,7 +952,7 @@
         }
 
         .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
 

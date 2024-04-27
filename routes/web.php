@@ -156,8 +156,8 @@ Route::get('/get-counties-for-client/{city}', [CountyController::class, "getCoun
 Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class, "getNeighborhoodsForClient"])->name("getNeighborhoodsForClient");
 Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
-Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
-Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay/{active?}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+// Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
+Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
@@ -223,6 +223,11 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
+    //Rol değişikliği
+Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
+
 
     Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
     Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
@@ -758,6 +763,7 @@ Route::get('/load-more-mobile-housings', [InstitutionalProjectController::class,
 Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
     Route::get('/react_projects', [InstitutionalProjectController::class, 'reactProjects'])->name('react.projects');
     Route::get('/swap_applications', [InstitutionalFormController::class, 'swapApplications'])->name('react.swap.applications');
+    Route::get('/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
 
     Route::get('get_received_offers', [ClientProjectController::class, 'get_received_offers'])->name('get_received_offers'); //Mağazanın aldıgı tekliflerin listesi
     Route::get('get_given_offers', [ClientProjectController::class, 'get_given_offers'])->name('get_given_offers'); //Kullanıcınn veridiği tekliflerin listesi
@@ -1189,6 +1195,18 @@ Route::post('multiple_sms/store', [AdminSmsController::class, 'MultipleSmsStore'
 //Ödeme yapıldıktan sonra dekont yükleme
 Route::post('dekot/file/upload', [CartController::class, 'dekontfileUpload'])->name('dekont.file.upload');
 Route::get('/dekont/indir/{order_id}', [CartController::class, 'dekontIndir'])->name('dekont.indir');
+
+
+//Destek Merkezi
+Route::get('/institutional/membershipType', [ClientLoginController::class, 'membershipType'])->name('membershipType.index');
+Route::post('/kurumsal-kayit-ol', [ClientLoginController::class, "institutionalRegister"])->name('client.institutional.register');
+
+//üyelik tipi için belge girme sayfası
+// Route::get('/add/document', [ClientLoginController::class, 'addDocument'])->name('add.document');
+// Route::post('/add/document/post', [ClientLoginController::class, "addDocumentPost"])->name('add.document.post');
+
+
+Route::get('/getDocuments/{userId}', [UserController::class, 'getDocuments'])->name('get.documents');
 
 
 //Admin panel Destek Takip

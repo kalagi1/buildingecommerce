@@ -3,6 +3,8 @@
 @section('content')
     <meta name="description" content="Emlak Sepette">
     <meta name="author" content="Innovatica Code">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
     <title>Emlak Sepette</title>
     <style>
         section.portfolio .slick-slide {
@@ -338,7 +340,7 @@
             </footer>
         </div>
     @endif --}}
-
+    @include('cookie-consent::index')
     @if ((Auth::check() && Auth::user()->has_club == 0) || !Auth::check())
         <div class="modal fade" id="customModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -375,6 +377,8 @@
                     </div>
                 </div>
             </div>
+           
+            
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -1169,7 +1169,7 @@
                                                                 <option value="">Seçiniz</option>
                                                                 <option value="villa">Villa</option>
                                                                 <option value="konut">Konut</option>
-                                                                <option value="turizm">Turizm</option>
+                                                                <option value="turizm">Turizm Amaçlı Kiralama</option>
                                                                 <option value="sanayi">Sanayi</option>
                                                                 <option value="ticari">Ticari</option>
                                                                 <option value="bağ_bahçe">Bağ Bahçe</option>
@@ -2974,7 +2974,7 @@
         }
 
         .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
     </style>

@@ -12,6 +12,7 @@ use App\Models\Chat;
 use App\Models\City;
 use App\Models\Housing;
 use App\Models\Project;
+use App\Models\RoleChanges;
 use App\Models\TaxOffice;
 use App\Models\UserPlan;
 use Illuminate\Http\Request;
@@ -502,5 +503,63 @@ class UserController extends Controller
     
         return response()->json(['city' => $city, 'plaka' => $plaka]);
     }//End
+
+    public function expectedCall(){
+        $expectedCall = RoleChanges::all();
+        return view('admin.expected_call.index',compact('expectedCall'));
+    }//End
+
+    public function giveApproval(Request $request){
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
+        $user        = User::find($request->user_id);
+
+        $user->username = $changedUser->username;
+        $user->name = $changedUser->name;
+        $user->store_name = $changedUser->store_name;
+        $user->phone = $changedUser->phone;
+        $user->corporate_type = $changedUser->corporate_account_type;
+        $user->city_id = $changedUser->city_id;
+        $user->county_id = $changedUser->county_id;
+        $user->neighborhood_id = $changedUser->neighborhood_id;
+        $user->account_type = $changedUser->account_type;
+        $user->taxOfficeCity = $changedUser->taxOfficeCity;
+        $user->taxOffice = $changedUser->taxOffice;
+        $user->taxNumber = $changedUser->taxNumber;
+        $user->idNumber = $changedUser->idNumber;
+        $user->subscription_plan_id = $changedUser->subscription_plan_id;
+
+        $user->type = 2;
+        $user->corporate_account_status = 0;
+        $changedUser->status = 1;
+
+        $changedUser->save();
+        $user->save();
+
+        return redirect()->back()->with('success','Kullanıcı belgelerini onayladınız. Bireysel müşteri kurumsal müşteriye dönüştürüldü.');
+    }//End
     
+    public function institutionalReject(Request $request){
+        $changedUser = RoleChanges::where('user_id',$request->user_id)->where('status',0)->first();
+        $changedUser->status = 2;
+        $changedUser->save();
+
+        return redirect()->back()->with('info','Reddedildi.');
+    }//End
+    
+    public function getDocuments($userId){
+        // Kullanıcıyı bul
+        $user = User::find($userId);
+
+        // Kullanıcının belgelerini al
+        $taxDocument = $user->tax_document;
+        $identityDocument = $user->identity_document;
+        $companyDocument = $user->company_document;
+
+        // Belgeleri modal içeriği olarak oluştur ve döndür
+        $documentsHtml = "<h4>Vergi Belgesi</h4><a href='$taxDocument' download>Vergi Belgesi İndir</a><br>";
+        $documentsHtml .= "<h4>Kimlik Belgesi</h4><a href='$identityDocument' download>Kimlik Belgesi İndir</a><br>";
+        $documentsHtml .= "<h4>Şirket Belgesi</h4><a href='$companyDocument' download>Şirket Belgesi İndir</a>";
+
+        return $documentsHtml;
+    }//End
 }

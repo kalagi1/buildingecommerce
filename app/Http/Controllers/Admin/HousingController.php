@@ -137,7 +137,8 @@ class HousingController extends Controller {
             'housings.deleted_at',
             'housings.county_id',
             'housings.neighborhood_id',
-            'housing_types.form_json'
+            'housing_types.form_json',
+            'housings.deleteReason',
         )
         ->onlyTrashed()
         ->get();

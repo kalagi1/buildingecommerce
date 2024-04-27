@@ -1457,7 +1457,7 @@
                             mevzuata ve Portal'daki İlan Yayınlama Kurallarına uygun hareket etmekle yükümlüdür. Yasal
                             yükümlülüklerini yerine getirmeden günlük kiralık ilan yayınlayanlar hakkında uygulanacak
                             cezalardan münhasıran Günlük Kiralık İlan Veren sorumlu olacaktır.</li>
-                        <li> Turizm amaçlı kiralık ilan yayınlayanlar; “7464 sayılı “Konutların Turizm Amaçlı Kiralanmasına
+                        <li> Turizm Amaçlı Kiralama amaçlı kiralık ilan yayınlayanlar; “7464 sayılı “Konutların Turizm Amaçlı Kiralama Amaçlı Kiralanmasına
                             ve Bazı Kanunlarda Değişiklik Yapılmasına Dair Kanun” ile getirilen yeni düzenlemelere, yasal
                             mevzuata ve Portal'daki İlan Yayınlama Kurallarına uygun hareket etmekle yükümlüdür. Yasal
                             yükümlülüklerini yerine getirmeden turizm amaçlı kiralık ilan yayınlayanlar hakkında uygulanacak
@@ -2253,7 +2253,7 @@
 
     <style>
             .error-message {
-                color: red;
+                color: #e54242;
                 font-size: 11px;
             }
         #spinner-overlay {
