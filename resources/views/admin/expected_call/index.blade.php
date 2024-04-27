@@ -20,6 +20,8 @@
                     <tr>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_no" style="width: 3%"> No</th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            data-sort="order_date" style="width: 15%">Gönderen Kişi</th>    
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_date" style="width: 15%">Ad Soyad</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -48,6 +50,10 @@
 
                                 <td class="order_no align-middle  fw-semibold text-body-highlight">
                                     {{ $item->id }}
+                                </td>
+
+                                <td class="order_no align-middle  fw-semibold text-body-highlight">
+                                    {{ $item->user->name }}
                                 </td>
 
                                 <td class="order_date align-middle white-space-nowrap text-body-tertiary  text-wrap">

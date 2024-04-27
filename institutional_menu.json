@@ -285,9 +285,9 @@
     },
     {
         "id": "membershipType",
-        "label": "Üyelik Tipi",
+        "label": "Rol Değişimi",
         "icon": "eye",
-        "text": "Üyelik Tipimi Değiştir",
+        "text": "Kurumsal Hesap Başvurusu",
         "key": "membershipType",
         "url": "membershipType.index",
         "activePath": "/institutional/membershipType"

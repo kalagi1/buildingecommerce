@@ -26,6 +26,15 @@
         "activePath": "qR9zLp2xS6y/secured/destek/takip"
     },
     {
+        "id": "membershipType",
+        "label": "Destek Merkezi",
+        "icon": "eye",
+        "text": "Rol Değişikliği",
+        "key": "membershipType",
+        "url": "admin.expected.call.index",
+        "activePath": "qR9zLp2xS6y/secured/rol-degisikligi"
+    },
+    {
         "id": "EmlakClubUsers",
         "label": "Emlak Kulüp",
         "icon": "users",
