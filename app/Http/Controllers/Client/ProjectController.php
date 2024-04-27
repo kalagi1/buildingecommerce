@@ -239,7 +239,7 @@ class ProjectController extends Controller
                     $project->cartOrders += 1;
                     $matching_indices[] = $i;
                     $matching_total[] = $total_quantity;
-                } else if ($has_share_sale && $has_same_quantity) {
+                } elseif ($has_share_sale && $has_same_quantity) {
                     $project->cartOrders += 1;
                 }
             }
