@@ -11,6 +11,7 @@
             }
         }
     @endphp
+    {{dd($project)}}
     <div class="content">
         <div class="mt-4">
             <div class="second-area">
