@@ -18,8 +18,9 @@
                             <p class="message2 " style=" border-bottom: 2px solid #FF6B6B; padding-bottom:5px; width:74%; ">Formu doldur bilgilerini gir kolay sat kirala!</p>
                         </div> --}}
                         
-                        <div style="margin-top: 17px">
-                            <a href="{{route('real.estate.index')}}" class="btnForm">Formu Doldur</a>
+                        <div style="margin-top: 40px">
+                            <a href="{{route('institutional.housing.create.v3')}}" class="btnForm">Paylaşımlı Emlak Yayınla</a>
+
                         </div>   
                     
                     </div>

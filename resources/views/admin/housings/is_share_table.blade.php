@@ -2,15 +2,13 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>İlan Sahibi</th>
             <th>Başlık</th>
             <th>Emlak Tipi</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
-            <th>Loglar</th>
-            <th>Düzenle</th>
-            <th>Resimler</th>
-            <th  colspan="2">İşlemler</th>
-
+            <th style="width: 50px">İşlemler</th>
+            
         </tr>
     </thead>
     <tbody class="list" id="{{ $tableId }}"></tbody>

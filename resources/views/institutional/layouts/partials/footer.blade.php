@@ -96,6 +96,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js"></script>
 
 {{-- <script src="{{URL::to('/')}}/build/assets/app-3ef0d7af.js"></script> --}}
+
 <script src="{{URL::to('/')}}/build/assets/app-2162818f.js"></script>
 
 
