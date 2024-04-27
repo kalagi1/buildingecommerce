@@ -266,7 +266,7 @@
                                                 @if ($discountRate != 0)
                                                     <span>
                                                         <del
-                                                            style="color:#EA2B2E">{{ number_format($discountedPrice, 0, ',', '.') }}₺</del>
+                                                            style="color:#EA2B2E">{{ number_format($cart['item']['amount'], 0, ',', '.') }}₺</del>
                                                     </span>
                                                 @endif
 
