@@ -164,7 +164,7 @@
         "label": "Emlak Sepette İlanları",
         "icon": "thumbs-up",
         "text": "Paylaşımlı Emlak İlanları",
-        "key": "Housings",
+        "key": "IsShareHousings",
         "url": "admin.is_share.housings.index",
         "activePath": "qR9zLp2xS6y/secured/housing/is-share"
     },
