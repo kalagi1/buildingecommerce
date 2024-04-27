@@ -25,8 +25,38 @@
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
                 @elseif($housing->status == 2)
-                    <a href="{{ route('admin.housings.set.status', $housing->id) }}"
-                        class="btn btn-success set_status">Onayla</a>
+                    {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
+                        class="btn btn-success set_status">Emlakçıya Atma</a> --}}
+                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                            Emlakçıya Atma
+                        </a>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Emlakçıya Atma</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                            <select name="user_id" class="form-select" aria-label="Select user">
+                                                @foreach ($nearestUsers as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-primary">Emlakçıya Ata Ve İlanı Aktif Et</button>
+                                        </form>
+                                        
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
                 @elseif($housing->status == 3)
@@ -83,28 +113,43 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                {{-- Başlık kısmı --}}
-                                                {!! 'İl-İlçe' . (optional($housing->neighborhood)->mahalle_title ? '-Mahalle:' : ":") !!}
+                                                İlan Sahibi :
                                                 <span class="det">
-                                                    {{-- Şehir, İlçe ve Mahalle bilgisini optional kullanarak ve doğru bir şekilde string birleştirme yaparak gösterim --}}
-                                                    {{ optional($housing->city)->title ?? '' }}
-                                                    @if(optional($housing->city)->title && optional($housing->county)->title)
-                                                        {!! ' / ' !!}
-                                                    @endif
-                                                    {{ optional($housing->county)->title ?? '' }}
-                                                    @if(optional($housing->county)->title && optional($housing->neighborhood)->mahalle_title)
-                                                        {!! ' / ' !!}
-                                                    @endif
-                                                    {{ optional($housing->neighborhood)->mahalle_title ?? '' }}
+                                                    <a style="text-decoration: none;color:inherit"
+                                                        href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
                                                 </span>
                                             </td>
                                         </tr>
-                                        
+                                        <tr>
+                                            <td>
+                                                Atama Yapılan Emlakçı :
+                                                <span class="det">
+                                                    <a style="text-decoration: none;color:inherit"
+                                                        href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                {!! 'İl-İlçe' .
+                                                optional($housing->neighborhood)->mahalle_title ?
+                                                '-Mahalle:' : ":"!!}
+                                                <span class="det">
+                                                    {!! optional($housing->city)->title .
+                                                        ' / ' .
+                                                        optional($housing->county)->title .
+                                                        ' / ' .
+                                                        optional($housing->neighborhood)->mahalle_title ??
+                                                        '' !!}
+                                                </span>
+                                            </td>
+
+                                        </tr>
 
                                         @if ($housing->user->phone)
                                             <tr>
                                                 <td>
-                                                    İş :
+                                                    Telefon :
                                                     <span class="det">
                                                         <a style="text-decoration: none;color:inherit"
                                                             href="tel:{!! $housing->user->phone !!}">{!! $housing->user->phone !!}</a>
@@ -115,7 +160,7 @@
                                         @if ($housing->user->mobile_phone)
                                         <tr>
                                             <td>
-                                                Cep :
+                                                Telefon :
                                                 <span class="det">
                                                     <a style="text-decoration: none;color:inherit"
                                                         href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>

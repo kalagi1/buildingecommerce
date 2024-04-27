@@ -1248,6 +1248,7 @@
                 var fileInput = document.getElementById('fileInput');
                 if (fileInput.files.length == 0) {
                     toastr.warning('Lütfen dekont yükleyiniz.')
+                    return false;
                 }
                 if ($('#fullName').val() === '' && $('#tc').val() === '' && $('#email').val() === '') {
                     toastr.warning('Ad Soyad, TC ve E-posta alanları zorunludur.')
