@@ -110,9 +110,9 @@ class HousingController extends Controller {
         $housing = Housing::with( 'neighborhood', 'images', 'reservations', 'user.housings', 'user.banners', 'brand', 'city', 'county' )
         ->where( 'id', $realHousingID )
         ->where( 'status', 1 )->first();
-        $housing->increment('views_count');
 
         if ( $housing ) {
+            $housing->increment('views_count');
 
             $housingSetting = ProjectHouseSetting::all();
             $housingComments = HousingComment::where( 'housing_id', $realHousingID )->where( 'status', 1 )->with( 'user' )->get();
