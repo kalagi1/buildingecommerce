@@ -193,7 +193,7 @@
                                                     <td>
                                                         <span class="autoWidthTr">Kimden:</span>
                                                         <span class="det" style="color: #274abb !important;">
-                                                            {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }} Şirketi
+                                                            {{ $project->user->corporate_type == 'Emlak Ofisi' ? 'Gayrimenkul Ofisi' : $project->user->corporate_type }}
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -1492,7 +1492,7 @@
     <link rel="stylesheet" href="{{ asset('css/project.css') }}">
     <style>
                 .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
         .success-message {

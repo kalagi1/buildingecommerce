@@ -2501,9 +2501,14 @@ class ProjectController extends Controller
         $project->delete();
     }
 
-    public function housingDestroy($id)
+    public function housingDestroy(Request $request, $id)
     {
+        $deleteReason = $request->input('deleteReason');
+        
         $housing = Housing::findOrFail($id);
+        $housing->deleteReason = $deleteReason;
+
+        $housing->save();
         $housing->delete();
     }
 

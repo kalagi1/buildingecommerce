@@ -5,6 +5,7 @@
             <th>Başlık</th>
             <th>Emlak Tipi</th>
             <th>Oluşturulma Tarihi</th>
+            <th> Silinme Nedeni </th>
         </tr>
     </thead>
     <tbody class="list" id="{{ $tableId }}"></tbody>

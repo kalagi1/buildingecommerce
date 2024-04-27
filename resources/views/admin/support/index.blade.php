@@ -1,18 +1,14 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    <section class="divIlan">
-        <div class="container">
+    <section class="content">
             <div class="col-md-12 mt-3 ml-4" 
             data-list='{"valueNames":["id","title"],"page":1,"pagination":true}'>
                 <div class="row" style="margin-bottom:50px;">
 
-                    <div class="col-md-12 text-center mt-3">
-                        <p style="font-size: 32px;color:#333333;">Destek Merkezi</p>
-                    </div>
+                    <h3 class="mb-0">Destek Merkezi</h3>
 
-                    
-                    <div style="margin-left: 100px;">
+                
 
                         <div class="card shadow-none border border-300 my-4 p-5">
                             <div class="table-responsive scrollbar">
@@ -20,9 +16,11 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
+                                            <th scope="col">Gönderen</th>
                                             <th scope="col">Kategori</th>
                                             <th scope="col">Evrak Gönderim Nedeni</th>
                                             <th scope="col">Açıklama</th>
+                                            <th scope="col">Belge</th>
                                             <th scope="col">Oluşturma Tarihi</th>
                                             <th>Yanıtla</th>
 
@@ -32,9 +30,27 @@
                                         @foreach ($supports as $item)
                                             <tr>
                                                 <td>{{ $item->id }}</td>
+                                                <td>
+                                                    @if($item->user)
+                                                        {{ $item->user->name }}
+                                                    @else
+                                                        Kullanıcı Bulunamadı
+                                                    @endif
+                                                </td>
+                                                
                                                 <td>{{ $item->category }}</td>
                                                 <td>{{ isset($item->send_reason) ? $item->send_reason : '-' }}</td>
                                                 <td>{{ $item->description }}</td>
+                                                <td>
+                                                    @if(empty($item->file_path))
+                                                    -
+                                                    @else
+                                                        <a href="{{ route('destek.talep.dosya.indir', ['id' => $item->id]) }}"
+                                                            class="btn btn-sm btn-info" style="background-color:#0080c7;">Dosyayı indir</a><br>
+                                                    @endif
+                                                </td>
+                                                
+                                                
                                                 <td>{{ $item->created_at->format('d.m.Y') }}</td>
                                                 <td>
                                                     @if(!$item->return_support)
@@ -112,7 +128,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
+                            {{-- <div class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200" >
                                 <div class="d-flex">
                                     <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900"
                                         data-list-info="data-list-info">
@@ -127,26 +143,103 @@
                                         <span class="fas fa-chevron-right"></span>
                                     </button>
                                 </div>
+                            </div> --}}
+                            <div id="pagination" class="d-flex flex-wrap align-items-center justify-content-between py-3 pe-0 fs--1 border-bottom border-200">
+                                <div class="d-flex">
+                                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info">
+                                    </p>
+                                </div>
+                                <div class="d-flex">
+                                    <button id="prevPage" class="page-link">
+                                        <span class="fas fa-chevron-left"></span>
+                                    </button>
+                                    <span id="pageNumber" class="mb-0 pagination mt-2"></span>
+                                    <button id="nextPage" class="page-link pe-0">
+                                        <span class="fas fa-chevron-right"></span>
+                                    </button>
+                                </div>
                             </div>
                             
                             
+                            
                         </div>
-                    </div>
                 </div>
             </div>   
-        </div>
     </section>
 @endsection
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <!-- DataTables CDN -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <!-- DataTables Turkish Language File -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json">
     </script>
       <script src="//cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
+      <script>
+        // Tablo verilerini tutacak olan dizi
+var tableData = {!! json_encode($supports) !!};
+
+// Sayfa numarasını ve her sayfada kaç öğe görüntüleneceğini belirleyin
+var currentPage = 1;
+var itemsPerPage = 10;
+
+// Tabloyu güncelleyen fonksiyon
+function updateTable() {
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = startIndex + itemsPerPage;
+    var displayedItems = tableData.slice(startIndex, endIndex);
+    
+    // Tabloyu güncelle
+    renderTable(displayedItems);
+}
+
+// Tabloyu güncelleyen fonksiyon
+function renderTable(data) {
+    var tableBody = '';
+    $.each(data, function(index, item) {
+        var fileName = item.file_path ? '<a href="' + item.file_path + '" class="btn btn-sm btn-info" style="background-color:#0080c7;">Dosyayı indir</a><br>' : '-';
+        var responseButton = !item.return_support ? '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#returnModal' + item.id + '">Yanıtla</button>' : '<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#returnModalYanit' + item.id + '">Yanıtı Gör</button>';
+        tableBody += '<tr>' +
+            '<td>' + item.id + '</td>' +
+            '<td>' + (item.user ? item.user.name : 'Kullanıcı Bulunamadı') + '</td>' +
+            '<td>' + item.category + '</td>' +
+            '<td>' + (item.send_reason ? item.send_reason : '-') + '</td>' +
+            '<td>' + item.description + '</td>' +
+            '<td>' + fileName + '</td>' +
+            '<td>' + item.created_at + '</td>' +
+            '<td>' + responseButton + '</td>' +
+            '</tr>';
+    });
+    $('table tbody').html(tableBody);
+}
+
+
+// Sayfa numarasını güncelleyen fonksiyon
+function updatePageNumber() {
+    $("#pageNumber").text(currentPage);
+}
+
+// Önceki sayfaya gitme işlevi
+$("#prevPage").click(function() {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+        updatePageNumber();
+    }
+});
+
+// Sonraki sayfaya gitme işlevi
+$("#nextPage").click(function() {
+    var maxPage = Math.ceil(tableData.length / itemsPerPage);
+    if (currentPage < maxPage) {
+        currentPage++;
+        updateTable();
+        updatePageNumber();
+    }
+});
+
+// İlk tabloyu oluştur
+updateTable();
+updatePageNumber();
+
+      </script>
       <script>
           $(document).ready(function() {
               function createEditor(itemId) {
@@ -190,15 +283,6 @@
         
             </script>
     <script>
-
-        // $(document).ready(function() {
-
-        //     $('#supportRequest').DataTable({
-        //         "language": {
-        //             "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
-        //         }
-        //     });
-        // });
 
         
         $(document).ready(function() {

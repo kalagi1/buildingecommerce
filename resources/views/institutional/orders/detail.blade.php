@@ -851,7 +851,7 @@
 @section('css')
     <style>
                 .error-message {
-            color: red;
+            color: #e54242;
             font-size: 11px;
         }
         .order_status span {

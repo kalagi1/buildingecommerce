@@ -178,6 +178,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <!-- DataTables Turkish Language File -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </script>
     <script>
         $(document).ready(function() {
@@ -209,19 +210,59 @@
         });
 
         $(document).ready(function() {
-            // Kategori seçimini izle
-            $('select[name="category"]').change(function() {
+                        // Kategori seçimini izle
+                $('select[name="category"]').change(function() {
                 var selectedCategory = $(this).val();
+                // Ekstra Select Box'ı temsil edecek değişken
+                var extraSelectBox = $(this).parent().find('select[name="sendReason"]');
+
                 // Eğer seçilen kategori "Evrak Gönderimi" ise
                 if (selectedCategory === "Evrak Gönderimi") {
-                    // Ekstra bir seçim kutusu ekleyin
-                    var extraSelectBox =
-                        '<label class="form-label mt-3 " style="font-size: 12px !important;">Evrak Gönderim Nedeni</label><select class="formInput" name="sendReason"><option value="">Gönderim Nedeni Seçiniz</option><option value="Turizm Amaçlı Kiralama Amaçlı Kiralık Mağaza Doğrulama">Turizm Amaçlı Kiralama Amaçlı Kiralık Mağaza Doğrulama</option><option value="İlan İlgili Belge Talebi">İlan İlgili Belge Talebi</option><option value="Mağaza Açma">Mağaza Açma</option><option value="Marka Tescili">Marka Tescili</option><option value="Yetkili Bayii Belgesi">Yetkili Bayii Belgesi</option></select>';
-                    $(this).parent().append(extraSelectBox);
+                    // Ekstra Select Box henüz eklenmemişse ekle
+                    if (extraSelectBox.length === 0) {
+                        var extraSelectBoxHtml =
+                            '<select class="formInput" name="sendReason"><option value="" disabled selected required>Gönderim Nedeni Seçiniz</option><option value="Turizm Amaçlı Kiralama Amaçlı Kiralık Mağaza Doğrulama">Turizm Amaçlı Kiralama Amaçlı Kiralık Mağaza Doğrulama</option><option value="İlan İlgili Belge Talebi">İlan İlgili Belge Talebi</option><option value="Mağaza Açma">Mağaza Açma</option><option value="Marka Tescili">Marka Tescili</option><option value="Yetkili Bayii Belgesi">Yetkili Bayii Belgesi</option></select>';
+                        $(this).parent().append(extraSelectBoxHtml);
+                    }
                 } else {
-                    // Seçilen kategori "Evrak Gönderimi" değilse, ekstra seçim kutusunu kaldırın
-                    $(this).parent().find('select[name="documentType"]').remove();
+                    // Seçilen kategori "Evrak Gönderimi" değilse ve extraSelectBox varsa, kaldır
+                    if (extraSelectBox.length > 0) {
+                        extraSelectBox.remove();
+                    }
                 }
+            });
+
+
+             // Form submit işlemi
+            $('form').submit(function(event) {
+                var selectedCategory = $('select[name="category"]').val();
+                console.log(selectedCategory)
+                var selectedSendReason = $('select[name="sendReason"]').val();
+
+                // Eğer kategori "Evrak Gönderimi" seçildiyse ve Gönderim Nedeni Seçiniz seçili kaldıysa
+                if (selectedCategory === "Evrak Gönderimi" && selectedSendReason === null) {
+                    console.log(selectedSendReason)
+                    event.preventDefault(); // Formun submit işlemini engelle
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata!',
+                        text: 'Lütfen bir gönderim nedeni seçiniz.'
+                    });
+                }
+
+                if(selectedCategory === "Evrak Gönderimi"){
+                    var fileName = $('#fileInput').val().split('\\').pop(); 
+
+                    if (fileName === "") {
+                        event.preventDefault(); // Formun submit işlemini engelle
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata!',
+                            text: 'Lütfen bir dosya seçiniz.'
+                        });
+                    } 
+                }
+              
             });
 
             $('#fileInput').change(function() {
@@ -278,6 +319,18 @@
         @if (session('error'))
             toastr.error('{{ session('error') }}', 'Hata!');
         @endif
+    </script>
+    <script>
+        window.onload = function() {
+    // Sayfa yüklendiğinde çalışacak kod
+    var categorySelect = document.querySelector('select[name="category"]');
+    
+    // Kategori seçiminde herhangi bir değişiklik olduğunda özel geçerlilik mesajını kaldıran işlev
+    categorySelect.addEventListener('change', function() {
+        this.setCustomValidity('');
+    });
+}
+
     </script>
 @endsection
 
@@ -351,7 +404,7 @@
         .custom-file-upload {
             border: 1px solid #ccc;
             display: inline-block;
-            padding: 9px 12px;
+            padding: 12px 12px;
             cursor: pointer;
             background-color: #cfcfcf69;
             height: 47px;
@@ -372,6 +425,8 @@
             display: block;
             width: 100%;
             padding: .375rem .75rem;
+            margin-top:15px;
+            margin-bottom:15px;
             font-size: 1rem;
             line-height: 2.0;
             background-color: #fff;
