@@ -173,7 +173,7 @@
                                         $commentCount = \App\Models\HousingComment::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
 
                                     }elseif ($menuItem['key'] == "awaitingCalled") {
-                                        $commentCount = \App\Models\User::where("type","2")->where("is_called","0")->get();
+                                        $commentCount = \App\Models\User::where("type","2")->where('corporate_account_status',0)->where("is_called","0")->get();
 
                                     }
                                     elseif ($menuItem['key'] == "IsShareHousings") {
