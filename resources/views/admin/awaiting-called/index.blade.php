@@ -23,7 +23,9 @@
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_date" >Yetkili İsim Soyisim</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                            data-sort="order_date" >Cep Telefonu</th>            
+                            data-sort="order_date" >Cep Telefonu</th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            data-sort="order_date" >Sabit Telefonu</th>              
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_date" >Email Doğrulaması</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -47,13 +49,24 @@
                                     {{ $item->id }}
                                 </td>
 
-                                <td class="order_no align-middle  fw-semibold text-body-highlight">
-                                    {{ $item->name }}
+                                <td class="order_no align-middle  fw-semibold text-body-highlight text-center">
+                                    {{ $item->name }} <br>
+                                    @if($item->email_verified_at && $item->phone_verification_status == 1 && $item->is_show_files == 1)
+                                        <a href="{{route('admin.user.show-corporate-account',['user' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-success ">Belgeleri Görüntüle</a>
+                                    @endif
                                 </td>
 
                                 <td class="order_no align-middle  fw-semibold text-body-highlight">
                                     @if($item->mobile_phone)
-                                        <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->mobile_phone }}</a>
+                                        <a href="tel:{{ $item->mobile_phone }}" class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->mobile_phone }}</a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+
+                                <td class="order_no align-middle  fw-semibold text-body-highlight">
+                                    @if($item->phone)
+                                        <a class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->phone }}</a>
                                     @else
                                         -
                                     @endif
@@ -83,7 +96,8 @@
                                                 @if($item->is_show_files == 0)
                                                     <a href="{{route('admin.document.load.page',['id' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-info belgeYuklemeEkrani">Belge Yükleme Ekranı Göster</a>
                                                 @else
-                                                    <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-success ">Belge Yükleme Ekranına Yönlendirildi</a>
+                                                    <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-success ">Belge Yükleme Ekranına Yönlendirildi</a><br>
+                                                    {{-- <a href="{{route('admin.user.show-corporate-account',['user' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-success ">Belgeleri Görüntüle</a> --}}
 
                                                 @endif
                                             @endif
@@ -142,7 +156,7 @@ $(document).ready(function() {
             if (willMarkAsSearched) {
                 window.location.href = url; 
               
-                swal("Başarılı!", "Belge başarıyla yüklendi.", "success");
+                swal("Başarılı!", "Kullanıcı belge yükleme alanına başarıyla yönlendirildi.", "success");
             } else {
                 swal("İşlem iptal edildi.", {
                     icon: "error",

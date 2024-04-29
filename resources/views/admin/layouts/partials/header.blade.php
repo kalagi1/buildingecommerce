@@ -137,6 +137,7 @@
                                     $neighborCount = null;
                                     $reservationsCount = null;
                                     $commentCount = null;
+                                    $sharerCount = null;
 
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
@@ -170,6 +171,14 @@
                                         $reservationsCount = \App\Models\Reservation::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
                                     }elseif ($menuItem['key'] == "GetHousingComments") {
                                         $commentCount = \App\Models\HousingComment::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
+
+                                    }elseif ($menuItem['key'] == "awaitingCalled") {
+                                        $commentCount = \App\Models\User::where("type","2")->where('corporate_account_status',0)->where("is_called","0")->get();
+
+                                    }
+                                    elseif ($menuItem['key'] == "IsShareHousings") {
+                                        $sharerCount = \App\Models\Housing::with('owner')->orderByDesc( 'created_at' )->where("status","0")->get();
+
                                     };
                                     
                                     
@@ -194,6 +203,7 @@
                                                 {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
                                                 {{ $reservationsCount != null ? "(". $reservationsCount->count() .")" : null }}   
                                                 {{ $commentCount != null ? "(". $commentCount->count() .")" : null }}     
+                                                {{ $sharerCount != null ? "(". $sharerCount->count() .")" : null }}   
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
