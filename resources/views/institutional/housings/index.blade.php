@@ -22,7 +22,7 @@
                 </li>
 
             </ul>
-            {{dd($activeHousingTypes)}}
+           
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
                     <div class="table-responsive">
