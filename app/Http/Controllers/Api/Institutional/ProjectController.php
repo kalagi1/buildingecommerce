@@ -32,9 +32,19 @@ use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Throwable;
+use App\Services\SmsService;
 
 class ProjectController extends Controller
 {
+
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+
     protected function getProjectCounts($userProjectIds, $status)
     {
         return CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
@@ -869,6 +879,8 @@ class ProjectController extends Controller
 
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
+        $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+        $isShare = auth()->user()->type == 1 ? true : false;
 
         $project = Housing::create(
             [
@@ -893,8 +905,32 @@ class ProjectController extends Controller
                 'latitude' => explode('-', $request->input('projectData')['coordinates'])[0],
                 'longitude' => explode('-', $request->input('projectData')['coordinates'])[1],
                 'status' => 2,
+                'owner_id' =>  $ownerId,
+                'is_share' =>  $isShare,
+                
             ]
         );
+
+
+        if ($project && auth()->user()->type == 1) {
+            $user = auth()->user();
+            // Kullanıcının telefon numarasını kontrol et
+            if ($user->mobile_phone) {
+                $ownerId = $user->id;
+                $isShare = true;
+        
+                // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
+                $userPhoneNumber = $user->mobile_phone;
+                $message = $project->id + 2000000 .  "No'lu Emlak İlanınız Yetkili Emlak Ofisine Atanması için EmlakSepette Yönetimine  İletilmiştir. "; // Göndermek istediğiniz mesajı buraya ekleyin
+        
+                // SmsService sınıfını kullanarak SMS gönderme işlemi
+                $smsService = new SmsService();
+                $source_addr = 'MaliyetinEv'; // Kaynak adresi değiştirin, gerektiğinde.
+        
+                $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+            }
+        }
+        
 
         $defaultHousingconnection = HousingStatus::where('is_default', 1)->where('is_housing', 1)->first();
         HousingStatusConnection::create([

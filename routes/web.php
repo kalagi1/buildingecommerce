@@ -394,9 +394,11 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::middleware(['checkPermission:GetHousingById'])->group(function () {
         Route::post('/housings/{housing}/set_status', [HousingController::class, 'setStatus'])->name('housings.set.status');
+        Route::post('/housings/{housing}/is-share/set_status', [HousingController::class, 'isShareSetStatus'])->name('is_share_housings.set.status');
         Route::get('/housings/{housing}/set_status', [HousingController::class, 'setStatusGet'])->name('housings.set.status.get');
         Route::get('/housings/{housing}/edit', [HousingController::class, 'edit'])->name('housings.edit');
         Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
+        Route::get('/housings/{housing}/is-share/detail', [HousingController::class, 'isShareDetail'])->name('is_share_housings.detail');
         Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
     });
 
@@ -406,6 +408,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
         Route::get('/housings', [HousingController::class, 'index'])->name('housings.index');
+        Route::get('/housings/is-share', [HousingController::class, 'isShareİndex'])->name('is_share.housings.index');
     });
     Route::middleware(['checkPermission:GetHousingComments'])->group(function () {
         Route::get('/housing/comments', [HousingController::class, 'comments'])->name('housings.comments');

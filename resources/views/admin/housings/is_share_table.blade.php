@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>İlan Sahibi</th>
             <th>Başlık</th>
             <th>Emlak Tipi</th>
             <th>Statü</th>

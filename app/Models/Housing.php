@@ -10,11 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Housing extends Model {
     use HasFactory;
     use SoftDeletes;
-
-    protected $fillable = [
-        'deleteReason',
-       
-    ];
     
     protected $guarded = [];
 
@@ -64,5 +59,10 @@ class Housing extends Model {
 
     public function listItems() {
         return $this->hasOne( ProjectListItem::class, 'housing_type_id', 'housing_type_id' );
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

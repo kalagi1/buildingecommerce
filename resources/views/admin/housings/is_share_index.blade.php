@@ -3,14 +3,15 @@
 
 @section('content')
     <div class="content">
-        <h2 class="mb-2 lh-sm">Emlak İlanları</h2>
+      
+        <h2 class="mb-2 lh-sm">Paylaşımlı Emlak</h2>
         <div class="card shadow-none border border-300 my-4">
             <ul class="nav nav-tabs px-4 mt-3 mb-3" id="housingTabs">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Onay Bekleyen İlanlar</a>
+                    <a class="nav-link active" id="pendingHousingTypes-tab" data-bs-toggle="tab" href="#pendingHousingTypes">Atanmayı Bekleyen İlanlar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active">Aktif İlanlar</a>
+                    <a class="nav-link" id="active-tab" data-bs-toggle="tab" href="#active">Atanma İşlemi Tamamlanan İlanlar</a>
                 </li>
              
                 <li class="nav-item">
@@ -25,19 +26,19 @@
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade " id="active">
-                    @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-active', 'housingTypes' => $activeHousingTypes])
+                    @include('admin.housings.is_share_table', ['tableId' => 'bulk-select-body-active', 'housingTypes' => $activeHousingTypes])
                 </div>
                 <div class="tab-pane fade show active" id="pendingHousingTypes">
-                    @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-pendingHousingTypes', 'housingTypes' => $pendingHousingTypes])
+                    @include('admin.housings.is_share_table', ['tableId' => 'bulk-select-body-pendingHousingTypes', 'housingTypes' => $pendingHousingTypes])
                 </div>
                 <div class="tab-pane fade" id="disabledHousingTypes">
-                    @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-disabledHousingTypes', 'housingTypes' => $disabledHousingTypes])
+                    @include('admin.housings.is_share_table', ['tableId' => 'bulk-select-body-disabledHousingTypes', 'housingTypes' => $disabledHousingTypes])
                 </div>
                 <div class="tab-pane fade" id="inactive">
-                    @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-inactive', 'housingTypes' => $inactiveHousingTypes])
+                    @include('admin.housings.is_share_table', ['tableId' => 'bulk-select-body-inactive', 'housingTypes' => $inactiveHousingTypes])
                 </div>
                 <div class="tab-pane fade" id="deletedHousings">
-                    @include('admin.housings.housing_table_delete', ['tableId' => 'bulk-select-body-deletedHousings', 'housingTypes' => $deletedHousings])
+                    @include('admin.housings.is_share_table', ['tableId' => 'bulk-select-body-deletedHousings', 'housingTypes' => $deletedHousings])
                 </div>
             </div>
         </div>
@@ -58,15 +59,19 @@
             housingTypes.forEach(function(housingType) {
             var row = document.createElement("tr");
 
-
-            
-
             var idCell = document.createElement("td");
             idCell.className = "align-middle id";
             idCell.textContent = housingType.id + 2000000;
 
+            var housingOwner = document.createElement("td");
+                if (housingType.owner && housingType.owner.name) {
+                    housingOwner.className = "align-middle housing_owner";
+                    housingOwner.textContent =  housingType.owner.name ;
+                }
+
+
             var housingTitleCell = document.createElement("td");
-            housingTitleCell.className = "align-middle housing_title";
+            housingTitleCell.className = "align-middle";
             housingTitleCell.innerHTML = housingType.housing_title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
                     .title + " / " +
@@ -78,6 +83,8 @@
             housingTypeCell.className = "align-middle housing_type";
             housingTypeCell.textContent = housingType.housing_type;
 
+            
+
             var statusCell = document.createElement("td");
             statusCell.className = "align-middle status";
             statusCell.innerHTML = housingType.status == 1 ? '<span class="badge badge-phoenix badge-phoenix-success">Aktif</span>' :
@@ -85,6 +92,8 @@
                 .status == 3 ? '<span class="badge badge-phoenix badge-phoenix-danger">Yönetim Tarafından Reddedildi</span>' :
                 '<span class="badge badge-phoenix badge-phoenix-danger">Pasif</span>';
                 
+
+            
 
             var createdAtCell = document.createElement("td");
             createdAtCell.className = "align-middle created_at";
@@ -94,19 +103,21 @@
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
             var exportLink = document.createElement("a");
             exportLink.className = "badge badge-phoenix badge-phoenix-primary";
-            exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/detail';
+            exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/is-share/detail';
             exportLink.textContent = "Görüntüle";
-            var viewLink = document.createElement("a");
-            viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
-            viewLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/logs';
-            viewLink.textContent = "Loglar";
+            // var viewLink = document.createElement("a");
+            // viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
+            // viewLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/logs';
+            // viewLink.textContent = "Loglar";
             actionsCell.appendChild(exportLink);
-            actionsCell.appendChild(viewLink);
+            // actionsCell.appendChild(viewLink);
 
 
             row.appendChild(idCell);
+            row.appendChild(housingOwner);
             row.appendChild(housingTitleCell);
             row.appendChild(housingTypeCell);
+            
 
             if (housingType.deleted_at == null) {
                 row.appendChild(statusCell);
@@ -117,11 +128,8 @@
                 row.appendChild(actionsCell);
 
             }
-            var deleteReasonCell = document.createElement("td");
-            deleteReasonCell.className = "align-middle delete_reason";
-            deleteReasonCell.textContent = housingType.deleteReason ? housingType.deleteReason : null;
-            row.appendChild(deleteReasonCell);
-            
+
+
             tbody.appendChild(row);
         });
         }

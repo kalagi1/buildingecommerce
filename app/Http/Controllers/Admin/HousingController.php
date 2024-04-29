@@ -9,6 +9,7 @@ use App\Models\DefaultMessage;
 use App\Models\Housing;
 use App\Models\HousingStatus;
 use App\Models\HousingType;
+use App\Models\User;
 use App\Models\Log;
 use App\Models\HousingComment;
 use App\Models\HousingTypeParent;
@@ -16,15 +17,25 @@ use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\DB;
+use App\Services\SmsService;
 class HousingController extends Controller {
     /**
     * Display a listing of the resource.
     */
 
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+
     public function index() {
         $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 1 )
+        ->where('is_share', '!=', 1)
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -45,6 +56,7 @@ class HousingController extends Controller {
 
         $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 0 )
+        ->where('is_share', '!=', 1)
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -65,6 +77,7 @@ class HousingController extends Controller {
 
         $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 3 )
+        ->where('is_share', '!=', 1)
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -85,6 +98,7 @@ class HousingController extends Controller {
 
         $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 3 )
+        ->where('is_share', '!=', 1)
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -105,6 +119,7 @@ class HousingController extends Controller {
 
         $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 2 )
+        ->where('is_share', '!=', 1)
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -124,6 +139,7 @@ class HousingController extends Controller {
         ->get();
 
         $deletedHousings = Housing::with( 'city', 'county', 'neighborhood' )
+        ->where('is_share', '!=', 1)
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
             'housings.id',
@@ -373,5 +389,240 @@ class HousingController extends Controller {
     public function logs( $housingId ) {
         $logs = Log::where( 'item_type', 2 )->where( 'item_id', $housingId )->orderByDesc( 'created_at' )->get();
         return view( 'admin.housings.logs', compact( 'logs' ) );
+    }
+
+
+    public function isShareİndex(){
+
+        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood','owner' )
+        ->where( 'status', 1 )
+        ->where( 'is_share', 1 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.deleted_at',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json',
+            'housings.is_share',
+            'owner_id',
+        )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        if ($activeHousingTypes->isNotEmpty()) {
+            foreach ($activeHousingTypes as $housing) {
+                if (!is_null($housing->owner_id)) {
+                    $owner = User::find($housing->owner_id);
+                    $housing->owner = $owner;
+                } else {
+                    $housing->owner = null;
+                }
+            }
+        }
+
+        $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood','owner' )
+        ->where( 'status', 0 )
+        ->where( 'is_share', 1 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.deleted_at',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json',
+            'housings.is_share',
+            'owner_id',
+            
+        )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        if ($inactiveHousingTypes->isNotEmpty()) {
+            foreach ($activeHousingTypes as $housing) {
+                if (!is_null($housing->owner_id)) {
+                    $owner = User::find($housing->owner_id);
+                    $housing->owner = $owner;
+                } else {
+                    $housing->owner = null;
+                }
+            }
+        }
+
+        $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood','owner' )
+        ->where( 'status', 3 )
+        ->where( 'is_share', 1 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json',
+            'housings.is_share',
+            'owner_id',
+        )
+        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        if ($disabledHousingTypes->isNotEmpty()) {
+            foreach ($activeHousingTypes as $housing) {
+                if (!is_null($housing->owner_id)) {
+                    $owner = User::find($housing->owner_id);
+                    $housing->owner = $owner;
+                } else {
+                    $housing->owner = null;
+                }
+            }
+        }
+       
+
+        $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood','owner' )
+        ->where( 'status', 2 )
+        ->where( 'is_share', 1 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.deleted_at',
+            'housings.city_id',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json',
+            'housings.is_share',
+            'owner_id',
+        )
+        ->orderByDesc( 'housings.updated_at' )
+        ->get();
+
+        if ($pendingHousingTypes->isNotEmpty()) {
+            foreach ($activeHousingTypes as $housing) {
+                if (!is_null($housing->owner_id)) {
+                    $owner = User::find($housing->owner_id);
+                    $housing->owner = $owner;
+                } else {
+                    $housing->owner = null;
+                }
+            }
+        }
+
+        $deletedHousings = Housing::with( 'city', 'county', 'neighborhood','owner' )
+        ->where( 'is_share', 1 )
+        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.deleted_at',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json',
+            'housings.is_share',
+            'owner_id',
+        )
+        ->onlyTrashed()
+        ->get();
+
+        if ($deletedHousings->isNotEmpty()) {
+            foreach ($activeHousingTypes as $housing) {
+                if (!is_null($housing->owner_id)) {
+                    $owner = User::find($housing->owner_id);
+                    $housing->owner = $owner;
+                } else {
+                    $housing->owner = null;
+                }
+            }
+        }
+
+        return view( 'admin.housings.is_share_index', compact( 'activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes') );
+
+    }
+
+    public function isShareDetail( $housingId ) {
+
+        $defaultMessages = DefaultMessage::get();
+       $housing = Housing::where('id', $housingId)
+                    ->with('owner', 'user')
+                    ->first();
+
+        $housingData = json_decode( $housing->housing_type_data );
+        $housingTypeData = HousingType::where( 'id', $housing->housing_type_id )->first();
+        $housingTypeData = json_decode( $housingTypeData->form_json );
+        $parent = HousingTypeParent::where( 'slug', $housing->step1_slug )->first();
+        $housingCityId = (int) $housing->city_id;
+
+      // $ownerCityId = (int) $housing->owner->id;
+        $nearestUsers = User::with('city')
+        ->select('id', 'name', 'city_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
+        ->where('type', '=', 2) // type 2 olanları al
+        ->where('corporate_type', '=', 'Emlak Ofisi') 
+        ->whereNotNull('city_id') // city_id değeri null olmayanları al
+        ->whereNull('parent_id') // parent_id değeri null olanları al
+        ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
+        ->get();
+    
+
+        return vieW( 'admin.housings.is_share_detail', compact( 'housing', 'parent', 'defaultMessages', 'housingData', 'housingTypeData' ,'nearestUsers' ) );
+    }
+
+    public function isShareSetStatus( $housingId, Request $request ) {
+        
+        $housing = Housing::where( 'id', $housingId )->firstOrFail();
+        $housingUpdate = Housing::where( 'id', $housingId )->update( [
+            'status' => '1',
+            'user_id' => $request->input( 'user_id' ),
+        ] );
+
+        if ($housing) {
+            $user = auth()->user();
+            // Kullanıcının telefon numarasını kontrol et
+            if ($housing->owner->mobile_phone) {
+                
+             
+
+                // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
+                $userPhoneNumber = $housing->owner->mobile_phone;
+                $message = $housing->id + 2000000 .  " No'lu Emlak İlanınız " . $housing->owner->name . " mağazasında yayınlanmıştır. İlan detayı: " . url('ilan/' . $housing->slug . "/" . $housing->id + 2000000  . '/detay');; // Göndermek istediğiniz mesajı buraya ekleyin
+        
+                // SmsService sınıfını kullanarak SMS gönderme işlemi
+                $smsService = new SmsService();
+                $source_addr = 'MaliyetinEv'; // Kaynak adresi değiştirin, gerektiğinde.
+        
+                $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+            }
+        }
+
+       return redirect()->back();
     }
 }
