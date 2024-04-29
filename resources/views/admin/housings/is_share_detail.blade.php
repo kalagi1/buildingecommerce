@@ -20,10 +20,38 @@
             </div>
             <div class="col-auto">
                 @if ($housing->status == 1)
+                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                    Emlak Ofisi Değiştir
+                </a>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                    <select name="user_id" id="selectUser" class="form-select" aria-label="Select user">
+                                        @foreach ($nearestUsers as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini Değiştir</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
                         class="btn btn-danger set_status">Pasife Al</a>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
+                        
                 @elseif($housing->status == 2)
                     {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-success set_status">Emlakçıya Atma</a> --}}
@@ -48,7 +76,7 @@
                                                     <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->city ? $user->city->title : 'Unknown' }}</option>
                                                 @endforeach
                                             </select>
-                                            <button type="submit" class="btn btn-primary mt-4">Emlakçıya Ata Ve İlanı Aktif Et</button>
+                                            <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı Aktif Et</button>
                                         </form>
                                     </div>
                                 </div>
