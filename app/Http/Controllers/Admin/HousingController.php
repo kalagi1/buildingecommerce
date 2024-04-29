@@ -613,7 +613,7 @@ class HousingController extends Controller {
 
                 // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
                 $userPhoneNumber = $housing->owner->mobile_phone;
-                $message = $housing->id + 2000000 .  " No'lu Emlak İlanınız " . $housing->owner->name . " mağazasında yayınlanmıştır. İlan detayı: " . url('ilan/' . $housing->slug . "/" . $housing->housing + 2000000  . '/detay');; // Göndermek istediğiniz mesajı buraya ekleyin
+                $message = $housing->id + 2000000 .  " No'lu Emlak İlanınız " . $housing->owner->name . " mağazasında yayınlanmıştır. İlan detayı: " . url('ilan/' . $housing->slug . "/" . $housing->id + 2000000  . '/detay');; // Göndermek istediğiniz mesajı buraya ekleyin
         
                 // SmsService sınıfını kullanarak SMS gönderme işlemi
                 $smsService = new SmsService();
