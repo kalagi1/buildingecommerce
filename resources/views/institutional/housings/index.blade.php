@@ -22,6 +22,7 @@
                 </li>
 
             </ul>
+           
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
                     <div class="table-responsive">
@@ -89,6 +90,12 @@
                     housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
                         .mahalle_title : "") +
                     "</span>";
+
+                var housingOwner = document.createElement("td");
+                if (housingType.owner && housingType.owner.name) {
+                    housingOwner.className = "align-middle housing_owner";
+                    housingOwner.textContent =  housingType.owner.name ;
+                } 
 
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";
@@ -330,6 +337,7 @@
 
                 row.appendChild(idCell);
                 row.appendChild(housingTitleCell);
+                row.appendChild(housingOwner);
                 row.appendChild(housingTypeCell);
                 row.appendChild(statusCell);
                 row.appendChild(createdAtCell);
@@ -338,7 +346,7 @@
                 row.appendChild(imageLinksCell);
                 row.appendChild(actionsCell);
                 row.appendChild(deleteCell);
-
+            
 
 
                 tbody.appendChild(row);

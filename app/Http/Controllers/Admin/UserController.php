@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CustomMail;
+use App\Models\AwaitingCalled;
 use App\Models\DocumentNotification;
 use App\Models\EmailTemplate;
 use App\Models\Role;
@@ -18,6 +19,8 @@ use App\Models\UserPlan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Town;
+use Illuminate\Support\Facades\URL;
+use App\Services\SmsService;
 
 
 class UserController extends Controller
@@ -561,5 +564,77 @@ class UserController extends Controller
         $documentsHtml .= "<h4>Şirket Belgesi</h4><a href='$companyDocument' download>Şirket Belgesi İndir</a>";
 
         return $documentsHtml;
+    }//End
+
+    public function awaitingCalled(){
+        $users = User::where('type',2)->where('corporate_account_status',0)->orderby('created_at','desc')->get();
+        return view('admin.awaiting-called.index',compact('users'));
+    }//End
+
+    public function mailVerification(Request $request){
+        $user  = User::find($request->id);
+
+        $emailTemplate = EmailTemplate::where( 'slug', 'account-confirmation' )->first();
+
+        // if ( !$emailTemplate ) {
+        //     return response()->json( [
+        //         'message' => 'Email template not found.',
+        //         'status' => 203,
+        //         'success' => true,
+        //     ], 203 );
+        // }
+
+        $content = $emailTemplate->body;
+
+        $variables = [
+            'username' => $user->name,
+            'companyName' => 'Emlak Sepette',
+            'email' => $user->email,
+            'token' => $user->email_verification_token,
+            'verificationLink' => URL::to( "/verify-email/{$user->email_verification_token}" ),
+        ];
+
+        foreach ( $variables as $key => $value ) {
+            $content = str_replace( '{{' . $key . '}}', $value, $content );
+        }
+
+        Mail::to( $user->email )->send( new CustomMail( $emailTemplate->subject, $content ) );
+
+        return redirect()->back()->with('success','Doğrulama linki gönderildi.');
+    }//End
+
+    public function smsVerification(Request $request){
+        $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
+            
+        $user = User::find($request->id); // Mevcut kullanıcıyı alıyoruz
+
+        if ($user) {
+            $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
+            $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
+            $user->save();// Kullanıcıyı kaydediyoruz
+            if($user->phone_verification_code) {
+                $this->sendSMS($user);
+            }
+        
+            return redirect()->back();
+        } 
+    }//End
+
+    public function searched(Request $request){
+        $user = User::find($request->id);
+
+        $user->is_called = 1;
+        $user->save();
+        // print_r($user);die;
+        return redirect()->back();
+    }//End
+
+    public function documentLoadPage(Request $request){
+        $user = User::find($request->id);
+
+        $user->is_show_files = 1;
+        $user->save();
+      
+        return redirect()->back();
     }//End
 }
