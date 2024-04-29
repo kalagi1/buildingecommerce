@@ -53,7 +53,7 @@
 
                                 <td class="order_no align-middle  fw-semibold text-body-highlight">
                                     @if($item->mobile_phone)
-                                        <a href="" class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->mobile_phone }}</a>
+                                        <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->mobile_phone }}</a>
                                     @else
                                         -
                                     @endif
@@ -63,33 +63,46 @@
                                     @if($item->email_verified_at == null)
                                         <a href="{{route('admin.mail.verification', ['id' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-warning">Doğrulama Linki Gönder</a>
                                     @else
-                                    <a href="" class="badge badge-phoenix fs--2 badge-phoenix-success">Doğrulanmış</a>
+                                    <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-success">Doğrulanmış</a>
 
                                     @endif
                                 </td>
 
                                 <td class="ad_no align-middle  fw-semibold text-body-highlight">
                                     @if($item->phone_verification_status == 0)
-                                        <a href="" class="badge badge-phoenix fs--2 badge-phoenix-warning">Doğrulanmamış</a>
+                                        <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-warning">Doğrulanmamış</a>
                                     @else
-                                        <a href="" class="badge badge-phoenix fs--2 badge-phoenix-success">Doğrulanmış</a>
+                                        <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-success">Doğrulanmış</a>
                                     @endif
                                 </td>
                                 
 
                                 <td class="order_amount align-middle fw-semibold text-body-highlight">
-                                        @if($item->corporate_account_status == 0 && ($item->email_verified_at) && $item->phone_verification_status == 1 )
-                                            <a href="" class="badge badge-phoenix fs--2 badge-phoenix-info">Belge Doğrulama Yetkisi</a>
+                                        @if( ($item->email_verified_at) && $item->phone_verification_status == 1 )
+                                            @if($item->corporate_account_status == 0)
+                                                @if($item->is_show_files == 0)
+                                                    <a href="{{route('admin.document.load.page',['id' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-info belgeYuklemeEkrani">Belge Yükleme Ekranı Göster</a>
+                                                @else
+                                                    <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-success ">Belge Yükleme Ekranına Yönlendirildi</a>
+
+                                                @endif
+                                            @endif
                                         @else
-                                          <span class="badge badge-phoenix fs--2 badge-phoenix-danger">Email ve Telefon Doğrulaması yapılmadı</span>  
+                                            @if(($item->email_verified_at) && $item->phone_verification_status == 0)
+                                                <span class="badge badge-phoenix fs--2 badge-phoenix-danger">Telefon Doğrulaması yapılmadı</span>  
+                                            @endif
+                                            @if(($item->email_verified_at == null) && $item->phone_verification_status == 0)
+                                                <span class="badge badge-phoenix fs--2 badge-phoenix-danger">Email ve Telefon Doğrulaması yapılmadı</span>  
+                                            @endif
+                                          {{-- <span class="badge badge-phoenix fs--2 badge-phoenix-danger">Email ve Telefon Doğrulaması yapılmadı</span>   --}}
                                         @endif
                                 </td>
 
                                 <td class="order_amount align-middle  fw-semibold text-body-highlight">
                                     @if($item->is_called == 1)
-                                        <a href="" class="badge badge-phoenix fs--2 badge-phoenix-success">Arandı</a>
+                                        <a href="#" class="badge badge-phoenix fs--2 badge-phoenix-success">Arandı</a>
                                     @else
-                                        <a href="{{route('admin.searched',['id' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-warning">Aranacak</a>    
+                                        <a href="{{route('admin.searched',['id' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-warning isCalled">Aranacak</a>    
                                     @endif
                                 </td>               
                                 
@@ -109,7 +122,65 @@
 @endsection
 
 @section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.belgeYuklemeEkrani').click(function(e) {
+        e.preventDefault();
+        
+        var url = $(this).attr('href');
+        
+        swal({
+            title: "Emin misiniz?",
+            text: "Kullanıcı belge yükleme ekranına yönlendirilsin mi?",
+            icon: "warning",
+            buttons: ["Vazgeç", "Eminim"],
+            dangerMode: true,
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+        }).then((willMarkAsSearched) => {
+            if (willMarkAsSearched) {
+                window.location.href = url; 
+              
+                swal("Başarılı!", "Belge başarıyla yüklendi.", "success");
+            } else {
+                swal("İşlem iptal edildi.", {
+                    icon: "error",
+                });
+            }
+        });
+    });
+});
+
+</script>
+<script>
+    $(document).ready(function() {
+        $('.isCalled').click(function(e) {
+            e.preventDefault();
+            
+            var url = $(this).attr('href');
+            
+            swal({
+                title: "Emin misiniz?",
+                text: "Kullanıcı arandı olarak işaretlensin mi ?",
+                icon: "warning",
+                buttons: ["Vazgeç", "Eminim"],
+                dangerMode: true,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+            })
+            .then((willMarkAsSearched) => {
+                if (willMarkAsSearched) {
+                    window.location.href = url; // SweetAlert onaylandıktan sonra doğrudan yönlendirme yap
+                } else {
+                    swal("İşlem iptal edildi.", {
+                        icon: "error",
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     // Onay ver butonuna tıklandığında

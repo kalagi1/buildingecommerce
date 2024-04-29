@@ -224,25 +224,22 @@ Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRe
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
 
-    //arandı mı
-Route::get('/searched', [UserController::class, 'searched'])->name('searched');
-Route::get('/belge/dogrulama', [UserController::class, 'documentVerification'])->name('document.verification');
-    
-    //Aranmayı Beklenenler
-Route::get('/aranmayi-beklenenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
-Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
-Route::get('/sms-dogrulamasi', [UserController::class, "smsVerification"])->name('sms.verification');
+        //arandı mı
+    Route::get('/searched', [UserController::class, 'searched'])->name('searched');
+    Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
+        
+        //Aranmayı Beklenenler
+    Route::get('/aranmayi-beklenenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
+    Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
+    Route::get('/sms-dogrulamasi', [UserController::class, "smsVerification"])->name('sms.verification');
 
-
-    //Rol değişikliği
-Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
-Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
-Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
-
+        //Rol değişikliği
+    Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+    Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+    Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
 
     Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
     Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
-
 
     Route::get('/club_user_applications', [AdminEstateClubController::class, "list"])->name('estate.club.users.list');
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class, "seeApplications"])->name('estate.see.users.list');
@@ -251,7 +248,6 @@ Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->
 
     Route::get('/change-phone',  [ChangePhoneController::class, "index"])->name('change.phone.index');
     Route::post('/change-phone-number-status-by-user/{userId}', [ChangePhoneController::class, 'changePhoneNumberStatusByUser'])->name('change-phone-number-status-by-user');
-
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class, "changeStatus"])->name('changeStatus');
     Route::post('/changeStatusNeighbor/{applyId}/{action}',  [AdminEstateClubController::class, "changeStatusNeighbor"])->name('changeStatusNeighbor');
@@ -809,6 +805,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('waiting', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
+
 
     Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])

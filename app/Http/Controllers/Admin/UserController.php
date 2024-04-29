@@ -629,7 +629,12 @@ class UserController extends Controller
         return redirect()->back();
     }//End
 
-    public function documentVerification(Request $request){
-        
+    public function documentLoadPage(Request $request){
+        $user = User::find($request->id);
+
+        $user->is_show_files = 1;
+        $user->save();
+      
+        return redirect()->back();
     }//End
 }
