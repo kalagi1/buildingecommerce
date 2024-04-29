@@ -586,6 +586,7 @@ class HousingController extends Controller {
         $nearestUsers = User::with('city')
         ->select('id', 'name', 'city_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
         ->where('type', '=', 2) // type 2 olanları al
+        ->where('corporate_type', '=', 'Emlak Ofisi') 
         ->whereNotNull('city_id') // city_id değeri null olmayanları al
         ->whereNull('parent_id') // parent_id değeri null olanları al
         ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
@@ -603,14 +604,14 @@ class HousingController extends Controller {
             'user_id' => $request->input( 'user_id' ),
         ] );
 
-        if ($housing&& auth()->user()->type == 1) {
+        if ($housing) {
             $user = auth()->user();
             // Kullanıcının telefon numarasını kontrol et
             if ($housing->owner->mobile_phone) {
         
                 // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
                 $userPhoneNumber = $housing->owner->mobile_phone;
-                $message = $housing->id + 2000000 .  "No'lu Emlak İlanınız " . $housing->user->name . " mağazasında yayınlanmıştır. "; // Göndermek istediğiniz mesajı buraya ekleyin
+                $message = $housing->id + 2000000 .  " No'lu Emlak İlanınız " . $housing->user->name . " mağazasında yayınlanmıştır. "; // Göndermek istediğiniz mesajı buraya ekleyin
         
                 // SmsService sınıfını kullanarak SMS gönderme işlemi
                 $smsService = new SmsService();
