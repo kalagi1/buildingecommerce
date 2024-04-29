@@ -143,8 +143,8 @@
                                         @endif
                                     </h3>
                                 </div>
-                                <div class="mobile-action"></div>
 
+                                
                             </div>
 
                         </div>
@@ -298,6 +298,8 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
+                               
+                                @if ($sold && $sold->status == "2" || !$sold)
                                 <div class="col-md-5 col-5 mobile-action-move p-0">
                                     {{-- <div class="buttons">
                                         <button class="main-button">
@@ -401,7 +403,13 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-7 col-7"
+                                @endif
+                             
+                                <div class="  @if ($sold && $sold->status == "2" || !$sold)
+                                    col-md-7 col-7
+                                    @else
+                                    col-md-12 col-12
+                                @endif "
                                     style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
@@ -455,7 +463,7 @@
                                     @endif
 
                                     <div class="button-effect toggle-project-favorite"
-                                        style="margin-left:13px;width:27% !important"
+                                        style="margin-left:13px;width:40px !important"
                                         data-project-housing-id="{{ $projectHousingsList[$housingOrder]['squaremeters[]'] }}"
                                         data-project-id={{ $project->id }}>
                                         <i class="fa fa-heart-o"></i>
