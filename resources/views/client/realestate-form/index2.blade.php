@@ -19,12 +19,12 @@
                         doldur bilgilerini gir kolay sat kirala!</p>
                 </div>
 
-                <div style="margin-top: 40px">
+                {{-- <div style="margin-top: 40px">
                     <a href="{{ route('real.estate.index') }}" class="btnForm">Formu Doldur</a>
-                </div>
+                </div> --}}
 
                 <div style="margin-top: 40px">
-                    <a href="#" onclick="checkAuth()" class="btnShare">Paylaşımlı Emlak Yayınla</a>
+                    <a href="#" onclick="checkAuth()" class="btnForm">Ücretsiz İlan Yayınla</a>
                 </div>
 
                 <script>
