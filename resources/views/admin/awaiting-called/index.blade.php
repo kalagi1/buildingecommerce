@@ -23,7 +23,9 @@
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_date" >Yetkili İsim Soyisim</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                            data-sort="order_date" >Cep Telefonu</th>            
+                            data-sort="order_date" >Cep Telefonu</th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            data-sort="order_date" >Sabit Telefonu</th>              
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_date" >Email Doğrulaması</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -57,6 +59,14 @@
                                 <td class="order_no align-middle  fw-semibold text-body-highlight">
                                     @if($item->mobile_phone)
                                         <a href="tel:{{ $item->mobile_phone }}" class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->mobile_phone }}</a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+
+                                <td class="order_no align-middle  fw-semibold text-body-highlight">
+                                    @if($item->phone)
+                                        <a class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->phone }}</a>
                                     @else
                                         -
                                     @endif
