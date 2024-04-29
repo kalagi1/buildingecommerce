@@ -143,7 +143,7 @@
                                               
                                                     <span class="det">
                                                         @if ($housing->user && $housing->owner)
-                                                            @if ($housing->user->id != $housing->owner->id)
+                                                            @if ($housing->user->id == $housing->owner->id)
                                                                 <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
                                                             @else
                                                                 <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
@@ -162,7 +162,7 @@
                                             <td>
                                                 Atama Yapılan Emlakçı :
                                                 <span class="det">
-                                                    @if ($housing->user && $housing->owner)
+                                                    @if ($housing->owner)
                                                         @if ($housing->user->id != $housing->owner->id)
                                                             <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
                                                         @else
