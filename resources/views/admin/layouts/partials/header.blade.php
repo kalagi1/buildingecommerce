@@ -171,7 +171,7 @@
                                         $reservationsCount = \App\Models\Reservation::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
                                     }elseif ($menuItem['key'] == "GetHousingComments") {
                                         $commentCount = \App\Models\HousingComment::with('user')->orderByDesc( 'created_at' )->where("status","0")->get();
-                                    };
+                                    }
                                     elseif ($menuItem['key'] == "IsShareHousings") {
                                         $sharerCount = \App\Models\Housing::with('owner')->orderByDesc( 'created_at' )->where("status","0")->get();
                                     };
