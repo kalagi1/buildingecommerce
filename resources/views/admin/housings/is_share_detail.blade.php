@@ -140,24 +140,42 @@
                                         <tr>
                                             <td>
                                                 İlan Sahibi :
-                                                <span class="det">
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
-                                                </span>
+                                              
+                                                    <span class="det">
+                                                        @if ($housing->user && $housing->owner)
+                                                            @if ($housing->user->id != $housing->owner->id)
+                                                                <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
+                                                            @else
+                                                                <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
+                                                                Atama Yapılmadı
+                                                            @endif
+                                                        @else
+                                                            <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
+                                                            <span>Kullanıcı Bulunamadı</span>
+                                                        @endif
+                                                    </span>
+
+                                                
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 Atama Yapılan Emlakçı :
                                                 <span class="det">
-                                                    @if ($housing->user && $housing->user->id != $housing->owner->id)
-                                                        <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
+                                                    @if ($housing->user && $housing->owner)
+                                                        @if ($housing->user->id != $housing->owner->id)
+                                                            <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
+                                                        @else
+                                                            <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
+                                                            Atama Yapılmadı
+                                                        @endif
                                                     @else
-                                                        <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
-                                                        Atama Yapılmadı
+                                                        <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
+                                                        <span>Kullanıcı Bulunamadı</span>
                                                     @endif
                                                 </span>
                                             </td>
+                                            
                                         </tr>
                                         <tr>
                                             <td>
