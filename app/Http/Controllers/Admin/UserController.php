@@ -516,20 +516,21 @@ class UserController extends Controller
         $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
         $user        = User::find($request->user_id);
 
-        $user->username = $changedUser->username;
-        $user->name = $changedUser->name;
-        $user->store_name = $changedUser->store_name;
-        $user->phone = $changedUser->phone;
-        $user->corporate_type = $changedUser->corporate_account_type;
-        $user->city_id = $changedUser->city_id;
-        $user->county_id = $changedUser->county_id;
-        $user->neighborhood_id = $changedUser->neighborhood_id;
-        $user->account_type = $changedUser->account_type;
-        $user->taxOfficeCity = $changedUser->taxOfficeCity;
-        $user->taxOffice = $changedUser->taxOffice;
-        $user->taxNumber = $changedUser->taxNumber;
-        $user->idNumber = $changedUser->idNumber;
+        $user->username             = $changedUser->username;
+        $user->name                 = $changedUser->name;
+        $user->store_name           = $changedUser->store_name;
+        $user->phone                = $changedUser->phone;
+        $user->corporate_type       = $changedUser->corporate_account_type;
+        $user->city_id              = $changedUser->city_id;
+        $user->county_id            = $changedUser->county_id;
+        $user->neighborhood_id      = $changedUser->neighborhood_id;
+        $user->account_type         = $changedUser->account_type;
+        $user->taxOfficeCity        = $changedUser->taxOfficeCity;
+        $user->taxOffice            = $changedUser->taxOffice;
+        $user->taxNumber            = $changedUser->taxNumber;
+        $user->idNumber             = $changedUser->idNumber;
         $user->subscription_plan_id = $changedUser->subscription_plan_id;
+        $user->authority_licence    = $changedUser->authority_licence;
 
         $user->type = 2;
         $user->corporate_account_status = 0;

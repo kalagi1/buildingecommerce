@@ -599,9 +599,8 @@ class LoginController extends Controller {
         $user->taxNumber                       = $request->input("taxNumber");
         $user->idNumber                        = $request->input("idNumber");
         $user->store_name                      = $request->input("store_name");
+        $user->authority_licence               = $request->input("authority_licence");
         $user->save();
-
-
 
         return redirect()->back();
         return redirect()->url('/institutional')->with('success','Başvurunuz başarıyla gönderildi');

@@ -120,6 +120,7 @@ class RegisterController extends Controller
         $user->status = 0;
         $user->email_verification_token = Str::random(40);
         $user->corporate_type = $request->input("corporate-account-type");
+        $user->authority_licence = $request->input("authority_licence");
         $user->save();
 
         if ($request->input("type") == 2) {
