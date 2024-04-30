@@ -759,8 +759,8 @@ class PayController extends Controller
                         $sales_rate_club = $rates->last()->sales_rate_club;
                     }
 
-                    $estateclubrate = $sharedAmount_balance * $sales_rate_club;
-                    $remaining = $sharedAmount_balance - $estateclubrate;
+                    $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                    $remaining = $sharedAmount_earn - $estateclubrate;
 
 
                     SharerPrice::create([
@@ -823,8 +823,8 @@ class PayController extends Controller
                             $sales_rate_club = $rates->last()->sales_rate_club;
                         }
 
-                        $estateclubrate = $sharedAmount_balance * $sales_rate_club;
-                        $remaining = $sharedAmount_balance - $estateclubrate;
+                        $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                        $remaining = $sharedAmount_earn - $estateclubrate;
 
 
                         SharerPrice::create([
