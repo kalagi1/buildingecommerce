@@ -632,9 +632,10 @@ class HousingController extends Controller
             ->whereNull('parent_id') // parent_id değeri null olanları al
             ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
             ->get();
+        $institutions = Institution::all(); // Tüm kurumları al
+        $rates = Rate::where('housing_id', $housingId)->get(); // Konut için oranları al
 
-
-        return vieW('admin.housings.is_share_detail', compact('housing', 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers'));
+        return vieW('admin.housings.is_share_detail', compact('housing', "institutions", "rates", 'parent', 'defaultMessages', 'housingData', 'housingTypeData', 'nearestUsers'));
     }
 
     public function isShareSetStatus($housingId, Request $request)
