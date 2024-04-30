@@ -294,7 +294,7 @@
                                                 <div class="col-md-12">
                                                     <label class="q-label">Sabit Telefon (Opsiyonel)</label>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 r-0">
                                                     <div class="input-group">
                                                         <select name="area_code" id="area_code" class="form-control">
                                                             <option value="">Alan Kodu Seçiniz</option>
@@ -401,7 +401,7 @@
                                                         </select>
                                                     </div>   
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-8 pl-0">
                                                     <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="10">
                                                 </div>    
                                             </div>                                            
