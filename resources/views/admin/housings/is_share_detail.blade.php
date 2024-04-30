@@ -566,24 +566,7 @@
             })
         @endif
 
-        $(document).ready(function() {
-            $('#editRatesModal').on('show.bs.modal', function(event) {
-                var modal = $(this);
-
-                // AJAX ile oranları yükleme
-                $.ajax({
-                    url: "{{ route('admin.housing.edit-rates', $housing->id) }}",
-                    method: 'GET',
-                    success: function(data) {
-                        // Modal içeriğine AJAX sonucu ekleme
-                        modal.find('.modal-body').html(data);
-                    },
-                    error: function() {
-                        modal.find('.modal-body').html("Oranlar yüklenemedi.");
-                    }
-                });
-            });
-        });
+     
     </script>
 @endsection
 
