@@ -91,11 +91,35 @@
                         .mahalle_title : "") +
                     "</span>";
 
-                var housingOwner = document.createElement("td");
-                if (housingType.owner && housingType.owner.name) {
+                    var housingOwner = document.createElement("td");
                     housingOwner.className = "align-middle housing_owner";
-                    housingOwner.textContent =  housingType.owner.name ;
-                } 
+
+                    if (housingType.owner && housingType.owner.name) {
+                        var badge = document.createElement("span");
+                        badge.className = "badge badge-phoenix badge-phoenix-success";
+                        badge.textContent = "Var";
+                        housingOwner.appendChild(badge);
+                        
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        var ownerInfo = document.createElement("span");
+                        ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
+                        housingOwner.appendChild(ownerInfo);
+
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        var phoneInfo = document.createElement("span");
+                        phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
+                        housingOwner.appendChild(phoneInfo);
+                    } else {
+                        var badge = document.createElement("span");
+                        badge.className = "badge badge-phoenix badge-phoenix-danger";
+                        badge.textContent = "Yok";
+                        housingOwner.appendChild(badge);
+                    }
+
 
                 var housingTypeCell = document.createElement("td");
                 housingTypeCell.className = "align-middle housing_type";

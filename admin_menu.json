@@ -29,7 +29,7 @@
         "id": "membershipType",
         "label": "Destek Merkezi",
         "icon": "eye",
-        "text": "Rol Değişikliği",
+        "text": "Bireysel => Kurumsal Talepler",
         "key": "membershipType",
         "url": "admin.expected.call.index",
         "activePath": "qR9zLp2xS6y/secured/rol-degisikligi"
@@ -133,7 +133,7 @@
         "label": "Üye Yönetimi",
         "icon": "wind",
         "text": "Mağaza Sıralama",
-        "key": "ViewDashboard",
+        "key": "UserManagement",
         "url": "admin.users.orders",
         "activePath": "qR9zLp2xS6y/secured/users/orders"
     },
