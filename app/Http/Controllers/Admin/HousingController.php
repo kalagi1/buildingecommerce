@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Log;
 use App\Models\HousingComment;
 use App\Models\HousingTypeParent;
+use App\Models\Rate;
 use App\Models\ShareLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,23 @@ class HousingController extends Controller {
         $this->smsService = $smsService;
     }
 
+    public function updateRates(Request $request, $id) {
+        $housing = Housing::findOrFail($id); // Konutu bul
+
+        // Oranları güncelleme
+        foreach ($request->input('rates') as $rateId => $rateData) {
+            $rate = Rate::findOrFail($rateId); // Oran nesnesini al
+
+            // Güncelleme yap
+            $rate->update([
+                'default_deposit_rate' => $rateData['default_deposit_rate'],
+                'sales_rate_club' => $rateData['sales_rate_club'],
+                'sales_rate_others' => $rateData['sales_rate_others'],
+            ]);
+        }
+
+        return redirect()->back();
+    }
 
     public function index() {
         $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
@@ -573,7 +591,7 @@ class HousingController extends Controller {
 
         $defaultMessages = DefaultMessage::get();
        $housing = Housing::where('id', $housingId)
-                    ->with('owner', 'user')
+                    ->with('owner', 'user',"rates")
                     ->first();
 
         $housingData = json_decode( $housing->housing_type_data );

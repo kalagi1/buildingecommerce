@@ -921,14 +921,14 @@ class ProjectController extends Controller
                     'institution_id' => $institution->id,
                     'housing_id' => $project->id,
                     'default_deposit_rate' => 0.90,
-                    'sales_rate_club' => 0.25,
+                    'sales_rate_club' => 0.50,
                 ]);
             }else{
                 Rate::create([
                     'institution_id' => $institution->id,
                     'housing_id' => $project->id,
                     'default_deposit_rate' => 0.90,
-                    'sales_rate_club' => 0.50,
+                    'sales_rate_club' => 0.25,
                 ]);
             }
         }

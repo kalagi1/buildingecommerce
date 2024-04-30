@@ -400,6 +400,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
         Route::get('/housings/{housing}/is-share/detail', [HousingController::class, 'isShareDetail'])->name('is_share_housings.detail');
         Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
+        Route::post('/housing/{id}/update-rates', [HousingController::class, 'updateRates'])->name('housing.update-rates');
+
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
