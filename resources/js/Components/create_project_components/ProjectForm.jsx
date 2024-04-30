@@ -1,7 +1,7 @@
 import { Alert, FormControl, Switch } from '@mui/material'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import EditorToolbar, { modules, formats } from "./QuilToolbar";
 import BlockRooms from './BlockRooms';
 import Rooms from './Rooms';
@@ -17,11 +17,19 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
     const [neighborhoods,setNeighborhoods] = useState([]);
     const [map, setMap] = useState(null);
     const [fullEnded,setFullEnded] = useState(false);
-    const [zoom,setZoom] = useState(6);
+    const [zoom,setZoom] = useState(4);
+    const [mapRef,setMapRef] = useState();
     const [center,setCenter] = useState({
-        lat: -3.745,
-        lng: -38.523
+        lat: 37.874641,
+        lng: 32.493156
     });
+
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
+        language : "tr"
+    })
+
     const [selectedLocation,setSelectedLocation] = useState({});
     const setProjectTitle = (projectTitle) => {
         if(projectTitle.length <= 70){
@@ -112,6 +120,14 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
         })
         .catch(console.error);
     }
+    
+    useEffect(() => {
+        setTimeout(() => {
+            mapRef?.setZoom(6);
+            console.log("qwe");
+            setZoom(6)
+        },1000)
+    },[fullEnded])
 
     const getCounties = (cityId) => {
         axios.get(baseUrl+'counties?city_id='+cityId).then((res) => {
@@ -132,12 +148,6 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
         height: '400px'
     };
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0",
-        language : "tr"
-    })
-
     const onLoad = useCallback(function callback(map) {
         // This is just an example of getting and using the map instance!!! don't just blindly copy!
         const bounds = new window.google.maps.LatLngBounds(center);
@@ -146,7 +156,8 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
             const lat = e.latLng.lat();
             const lng = e.latLng.lng();
             setSelectedLocation({lat,lng});
-          });
+        });
+        setMapRef(map);
         setMap(map)
     }, [])
 
@@ -338,6 +349,7 @@ function ProjectForm({formDataHousing,anotherBlockErrors,selectedBlock,setSelect
                                 mapContainerStyle={containerStyle}
                                 center={center}
                                 onLoad={onLoad}
+                                ref={mapRef}
                                 onUnmount={onUnmount}
                                 options={{
                                     gestureHandling: "greedy"
