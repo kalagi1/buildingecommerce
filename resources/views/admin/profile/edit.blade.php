@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="card shadow-sm border-300 border-bottom mb-4">
                     <div class="card-header border-bottom border-300 bg-soft">
-                        <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Edit Profile</h4>
+                        <h4 class="text-900 mb-0" data-anchor="data-anchor" id="soft-buttons">Profili Düzenle</h4>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -28,7 +28,7 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
+                                <label for="name" class="form-label">Ad Soyad</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="{{ $user->name }}" required>
                             </div>
@@ -39,7 +39,7 @@
                                     value="{{ z->email }}" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
                         </form>
                     </div>
                 </div>
