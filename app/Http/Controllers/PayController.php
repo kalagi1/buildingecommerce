@@ -698,7 +698,6 @@ class PayController extends Controller
         $o = json_decode($cartOrder);
         $productDetails = json_decode($o->cart)->item;
         if (json_decode($o->cart)->type == 'housing') {
-            return "asasas";
             $housingTypeImage = asset('housing_images/' . json_decode(Housing::find($productDetails->id ?? 0)->housing_type_data ?? '[]')->image ?? null);
             $city = Housing::find($productDetails->id ?? 0)->city->title;
             $county = Housing::find($productDetails->id ?? 0)->county->title;
