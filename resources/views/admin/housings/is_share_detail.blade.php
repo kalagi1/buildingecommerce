@@ -45,7 +45,6 @@
                                                 <th>Kurum</th>
                                                 <th>Kapora Oranı</th>
                                                 <th>Satış Oranı (Kulüp)</th>
-                                                <th>Satış Oranı (Diğer)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -61,11 +60,6 @@
                                                         <input type="number" step="0.01"
                                                             name="rates[{{ $rate->id }}][sales_rate_club]"
                                                             value="{{ $rate->sales_rate_club }}" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="number" step="0.01"
-                                                            name="rates[{{ $rate->id }}][sales_rate_others]"
-                                                            value="{{ $rate->sales_rate_others }}" />
                                                     </td>
                                                 </tr>
                                             @endforeach
