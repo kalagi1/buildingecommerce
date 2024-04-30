@@ -229,7 +229,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
         
         //Aranmayı Beklenenler
-    Route::get('/aranmayi-beklenenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
+    Route::get('/kurumsal-onayi-bekleyenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
     Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
     Route::get('/sms-dogrulamasi', [UserController::class, "smsVerification"])->name('sms.verification');
 

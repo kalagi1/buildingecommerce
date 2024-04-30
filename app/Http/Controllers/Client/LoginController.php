@@ -606,4 +606,6 @@ class LoginController extends Controller {
         return redirect()->url('/institutional')->with('success','Başvurunuz başarıyla gönderildi');
     }//End
 
+   
+
  }

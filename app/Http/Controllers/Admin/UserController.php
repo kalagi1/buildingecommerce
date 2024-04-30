@@ -568,7 +568,7 @@ class UserController extends Controller
     }//End
 
     public function awaitingCalled(){
-        $users = User::where('type',2)->where('corporate_account_status',0)->get();
+        $users = User::where('type',2)->where('corporate_account_status',0)->orderby('created_at','desc')->get();
         return view('admin.awaiting-called.index',compact('users'));
     }//End
 
