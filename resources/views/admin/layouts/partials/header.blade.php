@@ -177,7 +177,7 @@
 
                                     }
                                     elseif ($menuItem['key'] == "IsShareHousings") {
-                                        $sharerCount = \App\Models\Housing::with('owner')->orderByDesc( 'created_at' )->where("status","0")->get();
+                                        $sharerCount = \App\Models\Housing::with('owner')->where( 'is_share', 1 )->orderByDesc( 'created_at' )->where("status","0")->get();
 
                                     };
                                     
