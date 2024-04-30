@@ -39,7 +39,7 @@
         "id": "GetSwapApplications",
         "label": "Başvurular",
         "icon": "users",
-        "text": "Takas Başvuruları",
+        "text": "Takas Başvurularım",
         "key": "GetSwapApplications",
         "url": "institutional.react.swap.applications",
         "activePath": "/institutional/swap_applications"
@@ -143,7 +143,7 @@
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
-        "text": "Satış",
+        "text": "Alım Satım Geçmişim",
         "key": "Orders",
         "url": "#nv-shopping",
         "activePath": [
@@ -152,13 +152,13 @@
         ],
         "subMenu": [
             {
-                "text": "Gayrimenkul Alış",
+                "text": "Aldıklarım",
                 "key": "ShowCartOrders",
                 "url": "institutional.profile.cart-orders",
                 "activePath": "/institutional/my-orders"
             },
             {
-                "text": "Gayrimenkul Satış",
+                "text": "Sattıklarım",
                 "key": "GetOrders",
                 "url": "institutional.orders",
                 "activePath": "/institutional/orders"
@@ -169,7 +169,7 @@
         "id": "shopping-bag",
         "label": "Mağazam Emlak Sepette",
         "icon": "shopping-bag",
-        "text": "Kiralık",
+        "text": "Kiralık Geçimişim",
         "key": "Reservations",
         "url": "#nv-shopping",
         "activePath": [
