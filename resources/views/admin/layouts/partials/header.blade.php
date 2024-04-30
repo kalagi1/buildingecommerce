@@ -137,6 +137,7 @@
                                     $neighborCount = null;
                                     $reservationsCount = null;
                                     $commentCount = null;
+                                    $sharerCount = null;
 
                                     if ($menuItem['key'] == 'EmlakClubApplications') {
                                         $applicationCount = \App\Models\User::where("has_club", "2")->count() ?: null;
@@ -196,6 +197,7 @@
                                                 {{ $orderCount != null ? "(". $orderCount->count() .")" : null }}
                                                 {{ $reservationsCount != null ? "(". $reservationsCount->count() .")" : null }}   
                                                 {{ $commentCount != null ? "(". $commentCount->count() .")" : null }}     
+                                                {{ $sharerCount != null ? "(". $sharerCount->count() .")" : null }}   
                                             </span>
                         
                                             @if (isset($menuItem['subMenu']) && count($menuItem['subMenu']) > 0)
