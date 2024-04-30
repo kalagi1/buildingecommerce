@@ -5,7 +5,7 @@
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0">Rezervasyonlar</h2>
+                    <h3 class="mb-0">Rezervasyonlar</h2>
                 </div>
             </div>
             <div id="orderTable"
@@ -651,7 +651,7 @@
                             <th>Param Güvende</th>
                             <th>Geri Ödenecek Tutar</th>
                             <th>Emlak Sepette Kazancı</th>
-                            <th>Turizm Acentesi Kazancı</th>
+                            <th>Turizm Amaçlı Kiralama Acentesi Kazancı</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -670,7 +670,7 @@
                 </table>
 
                 <div class="info mt-3">
-                    <span><strong>Turizm Acentesi Iban Numarası</strong></span>
+                    <span><strong>Turizm Amaçlı Kiralama Acentesi Iban Numarası</strong></span>
                     <br>
                     <span class="tourism-iban">Tr52</span>
                 </div>

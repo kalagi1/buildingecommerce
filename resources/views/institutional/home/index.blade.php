@@ -25,13 +25,13 @@
                         </span><span
                             class="border border-primary-200 position-absolute top-50 translate-middle-y w-100 start-0 z-index--1"></span>
                     </h3>
-                    <span class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
+                    {{-- <span class="mt-5">Emlak Sepette, ücretsiz, sınırsız ve süresiz ilan paylaşımı
                         imkanı sunarak ilanlarınızın satışına aracılık eder. Değerli kurumsal üyelerimizden aylık sabit
                         ücret talep
                         etmeyiz. İlanlarınızın daha hızlı satılmasına ve kiralanmasına aracılık ederiz.
 
                         Emlak ilanlarınızın, emlak sepette ile satılması durumunda %0.5 hizmet bedeli alınır.
-                        .</span>
+                        .</span> --}}
 
 
                 </div>
@@ -113,7 +113,7 @@
                                                     <h5>{{ Auth::user()->name }}</h5>
                                                     <span style="display: flex"> <img style="height: 21px;"
                                                             class="lazy entered loading"
-                                                            src="https://emlaksepette.com/yeniler_2.svg" alt="Yeniler"
+                                                            src="https://test.emlaksepette.com/yeniler_2.svg" alt="Yeniler"
                                                             data-ll-status="loading">Emlak Kulüp Üyesi</span>
                                                 </div>
                                             </div>

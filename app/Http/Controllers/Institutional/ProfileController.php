@@ -64,7 +64,7 @@ class ProfileController extends Controller
         }
 
         switch ($user->corporate_type) {
-            case 'Emlakçı':
+            case 'Emlak Ofisi':
                 $data =
                     [
                     'subscription_plan_id' => $plan->id,
@@ -76,7 +76,7 @@ class ProfileController extends Controller
                 break;
 
             case 'Banka':
-            case 'İnşaat':
+            case 'İnşaat Ofisi':
                 $data =
                     [
                     'subscription_plan_id' => $plan->id,
@@ -167,16 +167,69 @@ class ProfileController extends Controller
         return view('institutional.profile.edit', compact('user', "towns", "neighborhoods", "districts", 'taxOffices', 'cities', 'subscriptionPlans', 'counties'));
     }
 
+    public function editPhone(Request $request)
+    {
+        // Form verilerini doğrula
+        $request->validate([
+            'mobile_phone' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Resim doğrulaması eklendi
+        ], [
+            'mobile_phone.required' => 'Cep telefonu zorunludur',
+            'image.image' => 'Geçerli bir resim dosyası seçiniz.',
+            'image.mimes' => 'Resim dosyası sadece JPEG, PNG, JPG veya GIF formatında olabilir.',
+            'image.max' => 'Resim dosyası boyutu maksimum 2MB olabilir.',
+        ]);
+    
+        $user = Auth::user(); // Giriş yapmış kullanıcıyı al
+    
+        // Eğer kullanıcının zaten bir telefon numarası kaydı varsa, güncelle
+        if ($user->phoneNumbers->isNotEmpty()) {
+            $phoneNumber = $user->phoneNumbers->last(); // En son eklenen kaydı al
+            $phoneNumber->update([
+                'old_phone_number' => $user->mobile_phone,
+                'new_phone_number' => $request->input('mobile_phone'),
+                'phone_number_changed' => '0',
+            ]);
+        } else { // Eğer kullanıcının henüz bir telefon numarası kaydı yoksa, yeni bir kayıt oluştur
+            $phoneNumber = $user->phoneNumbers()->create([
+                'old_phone_number' => $user->mobile_phone,
+                'new_phone_number' => $request->input('mobile_phone'),
+            ]);
+        }
+    
+        // Eğer bir resim yüklendi ise
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Resim adı oluştur
+    
+            // Resmi kaydetmek için yol belirle
+            $imagePath = '/images/' . $imageName; // Örnek olarak public/images dizini altına kaydedilecek
+    
+            // Resmi belirtilen yola taşı
+            $image->move(public_path('images'), $imageName);
+    
+            // Resim yolu ve dosya adını güncelle
+            $phoneNumber->image_path = $imagePath;
+            $phoneNumber->file_name = $imageName;
+            $phoneNumber->save();
+        }
+    
+        return redirect()->back()->with('success', 'Telefon numarası değiştirme talebiniz destek ekibine iletilmiştir.');
+    }
+    
+    
+
+
     public function update(Request $request)
     {
         $request->validate([
             "name" => "required",
-            "mobile_phone" => "required",
+            // "mobile_phone" => "required",
             "iban" => "required",
             "banner_hex_code" => "required",
         ],[
             "name.required" => "İsim alanı zorunludur",
-            "mobile_phone.required" => "Cep telefonu zorunludur",
+            // "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
@@ -188,7 +241,7 @@ class ProfileController extends Controller
         $taxOfficeCityId = $city ? $city->id : null;
         $year = $request->input("year");
         $bank_name = $request->input("bank_name");
-        $phone = $request->input("phone");
+        // $phone = $request->input("phone");
         $longitude = $request->input("longitude");
         $latitude = $request->input("latitude");
         $website = $request->input("website");
@@ -215,7 +268,7 @@ class ProfileController extends Controller
         $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
         $data['year'] = $year; // Vergi Dairesi İli güncellendi
         $data['bank_name'] = $bank_name; // Vergi Dairesi İli güncellendi
-        $data['phone'] = $phone;
+        // $data['phone'] = $phone;
         $data['longitude'] = $longitude;
         $data['latitude'] = $latitude;
         $data['website'] = $website;

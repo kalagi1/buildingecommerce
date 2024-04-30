@@ -282,6 +282,15 @@
                 "activePath": "/institutional/store-banners"
             }
         ]
+    },
+    {
+        "id": "membershipType",
+        "label": "Rol Değişimi",
+        "icon": "eye",
+        "text": "Kurumsal Hesap Başvurusu",
+        "key": "membershipType",
+        "url": "membershipType.index",
+        "activePath": "/institutional/membershipType"
     }
   
 ]

@@ -5,7 +5,7 @@
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0">Gelir Tablosu</h2>
+                    <h3 class="mb-0">Gelir Tablosu</h2>
                 </div>
             </div>
             <div id="orderTable"
@@ -67,7 +67,7 @@
                                     @if($reservation)
                                         @php($housing = App\Models\Housing::with('user')->find($reservation->housing_id))
 
-                                        <tr @if(isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) style="background-color: red;" @endif>
+                                        <tr @if(isset($item->cart->refund) && in_array($item->cart->refund->status, [1, 3])) style="background-color: #e54242;" @endif>
 
 
                                             <td>{{ $reservation->key ?? null }}</td>

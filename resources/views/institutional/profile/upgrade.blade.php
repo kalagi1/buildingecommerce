@@ -13,7 +13,7 @@
                             {{ $plan->name }}
                         </div>
                         <div class="card-body p-0">
-                            @if (auth()->user()->corporate_type != 'Emlakçı')
+                            @if (auth()->user()->corporate_type != 'Emlak Ofisi')
                                 <div class="py-2 px-3 border-bottom d-flex">
                                     <b>Proje Limiti:</b>
                                     <span style="margin-left: auto;">

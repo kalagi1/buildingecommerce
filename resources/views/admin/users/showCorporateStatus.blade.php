@@ -89,7 +89,7 @@
                                             </select>
                                         </div>
                                     @endif
-                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Emlakçı')
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Emlak Ofisi')
                                         <div class="form-group">
                                             <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Taşınmaz
                                                 Yetki Belgesi:
@@ -118,7 +118,7 @@
                                             </select>
                                         </div>
                                     @endif
-                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Turizm')
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'Turizm Amaçlı Kiralama')
                                         <div class="form-group">
                                             <label for="kimlik_belgesi" class="mb-2 d-flex align-items-center">Acenta
                                                 Belgesi:
@@ -147,7 +147,7 @@
                                             </select>
                                         </div>
                                     @endif
-                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'İnşaat')
+                                    @if ($user_e->type == 2 && $user_e->corporate_type == 'İnşaat Ofisi')
                                         <div class="form-group">
                                             <label for="insaat_belgesi" class="mb-2 d-flex align-items-center">Müteahhitlik
                                                 Belgesi (Opsiyonel):
@@ -157,7 +157,7 @@
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 @else
-                                                    <span style="color: red;margin-left:5px"> Belge Yüklenmedi</span>
+                                                    <span style="color: #e54242;margin-left:5px"> Belge Yüklenmedi</span>
                                                 @endif
 
                                                 @if ($user_e->company_document_approve)

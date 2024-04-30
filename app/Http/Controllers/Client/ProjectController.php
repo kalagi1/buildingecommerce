@@ -214,33 +214,37 @@ class ProjectController extends Controller
             $offer = Offer::where('project_id', $project->id)->where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
 
             $project->cartOrders = 0;
-            $projectCounts= 0;
-            if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] && $projectHousingsList[1]['share_sale[]'] != "[]") {
-                $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
-            
-                for ($i = 1; $i <= $room_counts; $i++) {
-                    $housingJsonPath = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
-                    $projectCounts = CartOrder::selectRaw("SUM(CAST(JSON_UNQUOTE(json_extract(cart, '$.item.qt')) AS UNSIGNED)) as total_quantity")
-                        ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                        ->where(DB::raw($housingJsonPath), $i)
-                        ->first();
-            
-                    if ($projectCounts && isset($projectHousingsList[$i]['number_of_shares[]']) && $projectCounts->total_quantity == $projectHousingsList[$i]['number_of_shares[]']) {
-                        $project->cartOrders += 1;
-                    }
-                }
-            }else{
-                $projectCounts = CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
-                ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
-                ->groupBy('project_id')
-                ->where("status", "1")
-                ->get();
-                $project->cartOrders = $projectCounts->where('project_id', $project->id)->first()->count ?? 0;
+            $projectCounts = 0;
+            $room_counts = intval($project->room_count); // room_counts değerini integer'a dönüştürdük
+            $matching_indices = [];
+            $matching_total = [];
 
+
+            for ($i = 1; $i <= $room_counts; $i++) {
+                $housing_json_path = 'JSON_UNQUOTE(json_extract(cart, "$.item.housing"))';
+                
+                $total_quantity = CartOrder::selectRaw(
+                    "SUM(CAST(COALESCE(JSON_UNQUOTE(json_extract(cart, '$.item.qt')), '1') AS UNSIGNED)) as total_quantity")
+                    ->where(DB::raw('JSON_UNQUOTE(json_extract(cart, "$.item.id"))'), $project->id)
+                    ->where(DB::raw($housing_json_path), $i)
+                    ->where("status", "1")
+                    ->first();
+
+            
+                $has_share_sale = isset($projectHousingsList[$i]['share_sale[]']) && $projectHousingsList[$i]['share_sale[]'] !== "[]";
+                $has_same_quantity = $total_quantity && isset($projectHousingsList[$i]['number_of_shares[]']) && $total_quantity->total_quantity == $projectHousingsList[$i]['number_of_shares[]'];
+            
+              if (!$has_share_sale && !empty($total_quantity->total_quantity) && isset($total_quantity) && !$has_same_quantity) {
+                    $project->cartOrders += 1;
+                    $matching_indices[] = $i;
+                    $matching_total[] = $total_quantity;
+
+
+                }
+             
             }
             
 
-        
             $projectHousingSetting = ProjectHouseSetting::orderBy('order')->get();
             $selectedPage = $request->input('selected_page') ?? 0;
             $blockIndex = $request->input('block_id') ?? 0;
@@ -259,10 +263,12 @@ class ProjectController extends Controller
 
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
+
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title,
+                "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image),
                 "meta_author" => "Emlak Sepette"
             ];
 
@@ -385,7 +391,7 @@ class ProjectController extends Controller
 
     public function projectPaymentPlan(Request $request)
     {
-        $project = Project::with("roomInfo")->where('id', $request->input('project_id'))->first();
+        $project = Project::with("roomInfo", "housingType")->where('id', $request->input('project_id'))->first();
         return $project;
     }
 
@@ -675,34 +681,105 @@ class ProjectController extends Controller
         $menu = Menu::getMenuItems();
         $newHousingType = HousingType::where('slug', $housingTypeSlug)->first();
         if ($projects) {
-            if ($housingTypeSlug && $newHousingType) {
-                $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
-                $filtersDbx = array_keys($filtersDb);
-                $housingTypeData = json_decode($newHousingType->form_json);
+            if (empty($housingTypeSlug) && !empty($housingTypeSlugName) || $newHousingType ||  $slug == "al-sat-acil") {
+                $connections = HousingTypeParent::where("title", $housingTypeSlugName)->with("parents.connections.housingType")->first();
+                $parentConnections = $connections->parents->pluck('connections')->flatten();
+                $uniqueHousingTypeIds = $parentConnections->pluck('housingType.id')->unique();
+                $uniqueHousingTypeNames = ["price", "squaremeters"];
+                if ($housingTypeSlugName == "Müstakil Tatil") {
+                    if ($newHousingType) {
+                        $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                    } elseif ($slug == "al-sat-acil" && !$newHousingType) {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->get()
+                            ->where("is_sale", 1)
+                            ->whereIn('filter_name', $uniqueHousingTypeNames)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("is_daily_rent", 1)
 
-                if (isset($housingTypeData)) {
-                    foreach ($housingTypeData as $data) {
-                        if (in_array(str_replace('[]', '', $data->name), $filtersDbx)) {
-                            $filterItem = [
-                                "label" => $data->label,
-                                "type" => $data->type,
-                                "name" => str_replace('[]', '', $data->name),
-                            ];
 
-                            if ($data->type == "select" || $data->type == "checkbox-group") {
-                                $filterItem["values"] = $data->values;
-                            } else if ($data->type == "text") {
-                                $filterItem['text_style'] = $filtersDb[str_replace('[]', '', $data->name)]['text_style'];
-                            }
-
-                            // Eğer toggle varsa, toggle değerini ekleyin
-                            if (isset($data->toggle)) {
-                                $filterItem['toggle'] = $data->toggle;
-                            }
-
-                            array_push($filters, $filterItem);
-                        }
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
                     }
+                } else {
+
+                    if ($slug == "al-sat-acil" && !$housingTypeSlugName) {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->get()
+                            ->where("is_sale", 1)
+                            ->whereIn('filter_name', $uniqueHousingTypeNames)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } elseif ($newHousingType && !$housingTypeSlugName) {
+                        $filtersDb = Filter::where('item_type', 1)->where('housing_type_id', $newHousingType->id)->get()->keyBy('filter_name')->toArray();
+                    } else {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("is_sale", 1)
+
+
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
+                }
+
+
+
+                if (!empty($optName)) {
+
+                    if ($optName == "Satılık") {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("is_sale", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Kiralık") {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("is_rent", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    } else if ($optName == "Günlük Kiralık") {
+                        $filtersDb = Filter::where('item_type', 1)
+                            ->whereIn('housing_type_id', $uniqueHousingTypeIds)
+                            ->get()
+                            ->where("is_daily_rent", 1)
+                            ->unique('filter_name') // filter_name değerine göre tekil olanları al
+                            ->values() // Anahtarları sıfırlamak için values() fonksiyonunu kullan
+                            ->toArray();
+                    }
+                }
+                foreach ($filtersDb as $data) {
+                    $filterItem = [
+                        "label" => $data['filter_label'],
+                        "type" => $data['filter_type'],
+                        "name" => $data['filter_name'],
+                    ];
+
+                    if ($data['filter_type'] == "select" || $data['filter_type'] == "checkbox-group") {
+                        $filterItem["values"] = json_decode($data['options']);
+                    } else if ($data['filter_type'] == "text") {
+                        $filterItem['text_style'] = $data['text_style'];
+                    } else if ($data['filter_type'] == "toggle") {
+                        $filterItem['toggle'] = true;
+                        $filterItem["values"] = json_decode($data['options']);
+                    }
+
+                    array_push($filters, $filterItem);
                 }
             }
         } else {
@@ -925,10 +1002,12 @@ class ProjectController extends Controller
         $cities = City::get();
         $menu = Menu::getMenuItems();
 
+
+
         return view('client.all-projects.list', compact('menu', 'projects', 'secondhandHousings', 'housingTypes', 'housingStatuses', 'cities', 'title'));
     }
 
-    public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request)
+    public function projectHousingDetail($projectSlug, $projectID, $housingOrder, Request $request, $active = null,)
     {
         if ($projectID > 1000000) {
             $projectID -= 1000000;
@@ -1094,8 +1173,10 @@ class ProjectController extends Controller
                 ->with('error', 'İlan yayından kaldırıldı veya bulunamadı.');
         }
 
+        $active = isset($active) ? 'active' : null;
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug"));
+
+        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)

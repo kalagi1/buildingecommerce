@@ -163,7 +163,7 @@ class AuthController extends Controller
             'password' => 'required|min:6',
             'mobile_phone' =>  'required',
             'type' => 'required|in:1,2,21',
-            'corporate-account-type' => 'required_if:type,2|in:Emlakçı,İnşaat,Banka,Turizm',
+            'corporate-account-type' => 'required_if:type,2|in:Emlak Ofisi,İnşaat Ofisi,Banka,Turizm Amaçlı Kiralama',
             'activity' => 'required_if:type,2',
             'iban' => 'required_if:type,2',
             'check-a' => 'required_if:type,1',

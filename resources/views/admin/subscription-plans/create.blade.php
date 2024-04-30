@@ -48,9 +48,9 @@
                                 <label class="form-label" for="plan_type">Plan Türü</label>
                                 <select name="plan_type" id="plan_type" class="form-control">
                                     <option value="Bireysel">Bireysel</option>
-                                    <option value="Emlakçı">Emlakçı</option>
+                                    <option value="Emlak Ofisi">Emlak Ofisi</option>
                                     <option value="Banka">Banka</option>
-                                    <option value="İnşaat">İnşaat</option>
+                                    <option value="İnşaat Ofisi">İnşaat Ofisi</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Oluştur</button>
