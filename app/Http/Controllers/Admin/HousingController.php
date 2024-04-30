@@ -46,8 +46,7 @@ class HousingController extends Controller
             // Güncelleme yap
             $rate->update([
                 'default_deposit_rate' => $rateData['default_deposit_rate'],
-                'sales_rate_club' => $rateData['sales_rate_club'],
-                'sales_rate_others' => $rateData['sales_rate_others'],
+                'sales_rate_club' => $rateData['sales_rate_club']
             ]);
         }
 
