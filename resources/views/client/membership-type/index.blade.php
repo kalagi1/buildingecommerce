@@ -212,7 +212,7 @@
                                                             <div class="mbdef">
                                                                 <div class="select select-tax-office">
                                                                     <label for="" class="q-label">Yetki Belgesi No</label>
-                                                                    <input type="text" id="authority_licence" name="authority_licence" class="form-control">
+                                                                    <input type="text" id="authority_licence" name="authority_licence" class="form-control"  maxlength="7">
                                                                 </div>
                                                             </div>
                                                         </div>
