@@ -810,6 +810,7 @@ class PayController extends Controller
                         $estateclubrate = $sharedAmount_balance * $sales_rate_club;
                         $remaining = $sharedAmount_balance - $estateclubrate;
 
+                        return $sharedAmount_balance;
 
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
