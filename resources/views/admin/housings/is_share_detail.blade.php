@@ -143,12 +143,8 @@
                                               
                                                     <span class="det">
                                                         @if ($housing->user && $housing->owner)
-                                                            @if ($housing->user->id == $housing->owner->id)
-                                                                <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
-                                                            @else
-                                                                <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
-                                                                Atama Yapılmadı
-                                                            @endif
+                                                        <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
+
                                                         @else
                                                             <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
                                                             <span>Kullanıcı Bulunamadı</span>
