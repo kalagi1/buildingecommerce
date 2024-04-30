@@ -3,7 +3,7 @@
         <tr>
             <th>ID</th>
             <th>Başlık</th>
-            <th>Paylaşımlı İlan Sahibi</th>
+            <th>Paylaşımlı Emlak</th>
             <th>Emlak Tipi</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>

@@ -9,6 +9,7 @@ use App\Models\County;
 use App\Models\District;
 use App\Models\DocumentNotification;
 use App\Models\Housing;
+use App\Models\User;
 use App\Models\HousingStatus;
 use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
