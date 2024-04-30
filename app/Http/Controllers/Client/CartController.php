@@ -418,7 +418,6 @@ class CartController extends Controller
                         $estateclubrate = $sharedAmount_balance * $sales_rate_club;
                         $remaining = $sharedAmount_balance - $estateclubrate;
 
-                        return $remaining;
 
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
