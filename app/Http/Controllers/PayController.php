@@ -743,12 +743,20 @@ class PayController extends Controller
                 ]);
 
                 if ($coupon->user_id != Auth::user()->id) {
-                    $sales_rate_club = 0.25;
+                    $sales_rate_club = null; // Başlangıçta boş veya null değer
 
-                    foreach ($rates as $key => $rate) {
+                    foreach ($rates as $rate) {
                         if ($coupon->user->corporate_type == $rate->institution->name) {
-                            $sales_rate_club =  $rate->sales_rate_club;
+                            // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
+                            $sales_rate_club = $rate->sales_rate_club;
+                    
+                            break; // Eşleşme bulunduğunda döngüyü sonlandırın
                         }
+                    }
+                    
+                    // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
+                    if ($sales_rate_club === null && count($rates) > 0) {
+                        $sales_rate_club = $rates->last()->sales_rate_club;
                     }
 
                     $estateclubrate = $sharedAmount_balance * $sales_rate_club;
@@ -799,12 +807,20 @@ class PayController extends Controller
 
                     if ($collection->user_id != Auth::user()->id) {
 
-                        $sales_rate_club = 0.25;
+                        $sales_rate_club = null; // Başlangıçta boş veya null değer
 
-                        foreach ($rates as $key => $rate) {
+                        foreach ($rates as $rate) {
                             if ($collection->user->corporate_type == $rate->institution->name) {
-                                $sales_rate_club =  $rate->sales_rate_club;
+                                // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
+                                $sales_rate_club = $rate->sales_rate_club;
+                        
+                                break; // Eşleşme bulunduğunda döngüyü sonlandırın
                             }
+                        }
+                        
+                        // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
+                        if ($sales_rate_club === null && count($rates) > 0) {
+                            $sales_rate_club = $rates->last()->sales_rate_club;
                         }
 
                         $estateclubrate = $sharedAmount_balance * $sales_rate_club;

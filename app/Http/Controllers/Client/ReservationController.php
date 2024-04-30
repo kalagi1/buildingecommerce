@@ -85,18 +85,26 @@ class ReservationController extends Controller
         $earnMoney = intval($request->input('price')) / 2;
         if ($lastClick) {
             $collection = Collection::where('id', $lastClick->collection_id)->first();
-            $sales_rate_club = 0.25;
             $rates = Rate::where("housing_id", $request->input('housing_id'))->get();
             $housing = Housing::where('id', $request->input('housing_id'))->first();
 
-            foreach ($rates as $key => $rate) {
+
+            $sales_rate_club = null; // Başlangıçta boş veya null değer
+
+            foreach ($rates as $rate) {
                 if ($collection->user->corporate_type == $rate->institution->name) {
-                    $sales_rate_club =  $rate->sales_rate_club;
+                    // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
+                    $sales_rate_club = $rate->sales_rate_club;
                 }
                 if ($housing->user->corporate_type == $rate->institution->name) {
                     $share_percent_earn =  $rate->default_deposit_rate;
                     $share_percent_balance = 1.0 - $share_percent_earn;
                 }
+            }
+
+            // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
+            if ($sales_rate_club === null && count($rates) > 0) {
+                $sales_rate_club = $rates->last()->sales_rate_club;
             }
 
             $estateclubrate = $earnMoney * $sales_rate_club;

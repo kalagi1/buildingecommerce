@@ -947,7 +947,7 @@ class ProjectController extends Controller
 
                 // SmsService sınıfını kullanarak SMS gönderme işlemi
                 $smsService = new SmsService();
-                $source_addr = 'MaliyetinEv'; // Kaynak adresi değiştirin, gerektiğinde.
+                $source_addr = 'Emlkspette'; // Kaynak adresi değiştirin, gerektiğinde.
 
                 $smsService->sendSms($source_addr, $message, $userPhoneNumber);
             }

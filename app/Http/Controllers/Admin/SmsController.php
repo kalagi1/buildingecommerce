@@ -23,7 +23,7 @@ class SmsController extends Controller
 
     public function MultipleSmsStore(Request $request)
     {
-        $title = "MaliyetinEv";
+        $title = "Emlkspette";
         $content = $request->content;
         $userIds = $request->selectedUsers;
         $dest = '';
