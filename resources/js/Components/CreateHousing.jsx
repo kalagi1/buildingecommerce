@@ -25,6 +25,8 @@ function CreateHousing(props) {
     const [haveBlocks,setHaveBlocks] = useState(false);
     const [slug,setSlug] = useState("");
 
+    console.log(selectedTypes,selectedHousingType,slug);
+
     const [blocks,setBlocks] = useState([{
         name : "housing",
         roomCount : 1,
@@ -191,29 +193,39 @@ function CreateHousing(props) {
                                                         behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                     });
                                                 }else{
-                                                    if(!projectData.document){
-                                                        var element = document.getElementById("document");
-                                                        window.scrollTo({
-                                                            top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
-                                                            behavior: 'smooth' // Yumuşak kaydırma efekti için
-                                                        });
+                                                    if(slug == "gunluk-kiralik"){
+                                                        if(!projectData.rules_confirm){
+                                                            var element = document.getElementById("finish-tick-id");
+                                                            window.scrollTo({
+                                                                top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                            }); 
+                                                        }
                                                     }else{
-                                                        if(!projectData.authority_certificate){
-                                                            var element = document.getElementById("authority_certificate");
+                                                        if(!projectData.document){
+                                                            var element = document.getElementById("document");
                                                             window.scrollTo({
                                                                 top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
                                                                 behavior: 'smooth' // Yumuşak kaydırma efekti için
                                                             });
                                                         }else{
-                                                            if(!projectData.rules_confirm){
-                                                                var element = document.getElementById("finish-tick-id");
+                                                            if(!projectData.authority_certificate){
+                                                                var element = document.getElementById("authority_certificate");
                                                                 window.scrollTo({
                                                                     top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
                                                                     behavior: 'smooth' // Yumuşak kaydırma efekti için
-                                                                }); 
+                                                                });
+                                                            }else{
+                                                                if(!projectData.rules_confirm){
+                                                                    var element = document.getElementById("finish-tick-id");
+                                                                    window.scrollTo({
+                                                                        top: getCoords(element).top - document.getElementById('navbarDefault').offsetHeight - 40,
+                                                                        behavior: 'smooth' // Yumuşak kaydırma efekti için
+                                                                    }); 
+                                                                }
                                                             }
+                                                            
                                                         }
-                                                        
                                                     }
                                                 }
                                             }
@@ -281,12 +293,14 @@ function CreateHousing(props) {
             tempErrors.push("gallery");
         }
 
-        if(!projectData.document){
-            tempErrors.push("document");
-        }
-
-        if(!projectData.authority_certificate){
-            tempErrors.push("authority_certificate");
+        if(slug != "gunluk-kiralik"){
+            if(!projectData.document){
+                tempErrors.push("document");
+            }
+    
+            if(!projectData.authority_certificate){
+                tempErrors.push("authority_certificate");
+            }
         }
 
         if(!projectData.rules_confirm){

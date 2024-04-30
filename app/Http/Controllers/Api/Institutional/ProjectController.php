@@ -780,29 +780,38 @@ class ProjectController extends Controller
             $encoded->save(public_path('housing_images/' . $fileNameCoverImage));
         }
 
-        if ($request->file('projectData')['document']) {
+        $housingTypeParent = HousingTypeParent::where('id',$request->input('selectedTypes')[1])->first();
 
-            $file = $request->file('projectData')['document'];
+        if($housingTypeParent->slug != "gunluk-kiralik"){
+            if ($request->file('projectData')['document']) {
 
-            // Dosyanın hedef dizini
-            $destinationPath = public_path('housing_documents'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-
-            // Dosyayı belirlenen hedefe taşı
-            $fileNameDocument = $projectSlug . '_housing_document_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($destinationPath, $fileNameDocument);
+                $file = $request->file('projectData')['document'];
+    
+                // Dosyanın hedef dizini
+                $destinationPath = public_path('housing_documents'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+                // Dosyayı belirlenen hedefe taşı
+                $fileNameDocument = $projectSlug . '_housing_document_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileNameDocument);
+            }
+    
+            if ($request->file('projectData')['document']) {
+    
+                $file = $request->file('projectData')['authority_certificate'];
+    
+                // Dosyanın hedef dizini
+                $destinationPath = public_path('authority_certificates'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
+    
+                // Dosyayı belirlenen hedefe taşı
+                $fileNameAuthorityCertificateName = $projectSlug . '_authority_certificate_' . time() . '.' . $file->getClientOriginalExtension();
+                $file->move($destinationPath, $fileNameAuthorityCertificateName);
+            }
+        }else{
+            $fileNameAuthorityCertificateName = "";
+            $fileNameDocument = "";
         }
 
-        if ($request->file('projectData')['document']) {
-
-            $file = $request->file('projectData')['authority_certificate'];
-
-            // Dosyanın hedef dizini
-            $destinationPath = public_path('authority_certificates'); // Örnek olarak 'uploads' klasörü altına kaydedilecek
-
-            // Dosyayı belirlenen hedefe taşı
-            $fileNameAuthorityCertificateName = $projectSlug . '_authority_certificate_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($destinationPath, $fileNameAuthorityCertificateName);
-        }
+        
 
         $galleryImages = [];
 
