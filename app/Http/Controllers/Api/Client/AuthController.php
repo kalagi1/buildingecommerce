@@ -233,8 +233,8 @@ class AuthController extends Controller
         $user->banner_hex_code = "black";
         $user->password = bcrypt($request->input("password"));
         $user->type = $request->input("type") ? $request->input("type") : 1;
-        $user->activity = $request->input("activity");
-        $user->iban = $request->input("iban");
+        // $user->activity = $request->input("activity");
+        // $user->iban = $request->input("iban");
         $user->county_id = $request->input("county_id");
         $user->city_id = $request->input("city_id");
         $user->phone = $request->input("phone");
