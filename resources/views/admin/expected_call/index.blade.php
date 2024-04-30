@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="content" >
-    <h4 class="tableHeader" style="">Bireyselden Kurumsala Geçiş Başvuruları</h4>
+    <h4 class="tableHeader" style="">Kurumsal Üyelik Talepleri</h4>
     @if (Session::has('success'))
         <div class="alert alert-success" role="alert">
         {{ Session::get('success') }}
@@ -29,7 +29,7 @@
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="sales_person">Şehir</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
-                            data-sort="order_amount" style="width: 18%">Vergi No</th>
+                            data-sort="order_amount">Vergi No</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="pay_type" style="width: 18%">Ticari Unvan</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -232,11 +232,8 @@
 @section('styles')
 <style>
     .tableHeader{
-        background-color: #343a40; 
-        color: white; 
         padding: 10px; 
         border-radius: 5px; 
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
         letter-spacing:1px;
         margin-left: 5px;
         margin-bottom: 35px;

@@ -223,15 +223,23 @@ Route::post('/institutional/login', [LoginController::class, 'login'])->name('in
 Route::post('/mark-notification-as-read/{id}', [InfoController::class, "markAsRead"]);
 
 Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' => ['admin']], function () {
-    //Rol değişikliği
-Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
-Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
-Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
 
+        //arandı mı
+    Route::get('/searched', [UserController::class, 'searched'])->name('searched');
+    Route::get('/belge/yukleme/ekrani', [UserController::class, 'documentLoadPage'])->name('document.load.page');
+        
+        //Aranmayı Beklenenler
+    Route::get('/kurumsal-onayi-bekleyenler', [UserController::class, 'awaitingCalled'])->name('awaiting.called.index');
+    Route::get('/mail-dogrulamasi', [UserController::class, "mailVerification"])->name('mail.verification');
+    Route::get('/sms-dogrulamasi', [UserController::class, "smsVerification"])->name('sms.verification');
+
+        //Rol değişikliği
+    Route::get('/rol-degisikligi', [UserController::class, 'expectedCall'])->name('expected.call.index');
+    Route::get('/kurumsal/onayi/ver', [UserController::class, "giveApproval"])->name('institutional.give.approval');
+    Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->name('institutional.reject');
 
     Route::get('/projects/{project_id}/housings', [ProjectController::class, 'housings'])->name('projects.housings');
     Route::get('/invoice/{order}', [InstitutionalInvoiceController::class, "adminshow"])->name('invoice.show');
-
 
     Route::get('/club_user_applications', [AdminEstateClubController::class, "list"])->name('estate.club.users.list');
     Route::get('/see_neighbor_applications', [AdminEstateClubController::class, "seeApplications"])->name('estate.see.users.list');
@@ -240,7 +248,6 @@ Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->
 
     Route::get('/change-phone',  [ChangePhoneController::class, "index"])->name('change.phone.index');
     Route::post('/change-phone-number-status-by-user/{userId}', [ChangePhoneController::class, 'changePhoneNumberStatusByUser'])->name('change-phone-number-status-by-user');
-
 
     Route::post('/changeStatus/{userId}/{action}',  [AdminEstateClubController::class, "changeStatus"])->name('changeStatus');
     Route::post('/changeStatusNeighbor/{applyId}/{action}',  [AdminEstateClubController::class, "changeStatusNeighbor"])->name('changeStatusNeighbor');
@@ -387,10 +394,14 @@ Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->
 
     Route::middleware(['checkPermission:GetHousingById'])->group(function () {
         Route::post('/housings/{housing}/set_status', [HousingController::class, 'setStatus'])->name('housings.set.status');
+        Route::post('/housings/{housing}/is-share/set_status', [HousingController::class, 'isShareSetStatus'])->name('is_share_housings.set.status');
         Route::get('/housings/{housing}/set_status', [HousingController::class, 'setStatusGet'])->name('housings.set.status.get');
         Route::get('/housings/{housing}/edit', [HousingController::class, 'edit'])->name('housings.edit');
         Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
+        Route::get('/housings/{housing}/is-share/detail', [HousingController::class, 'isShareDetail'])->name('is_share_housings.detail');
         Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
+        Route::post('/housing/{id}/update-rates', [HousingController::class, 'updateRates'])->name('housing.update-rates');
+
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
@@ -399,6 +410,7 @@ Route::get('/kurumsal/reddet', [UserController::class, "institutionalReject"])->
 
     Route::middleware(['checkPermission:GetHousings'])->group(function () {
         Route::get('/housings', [HousingController::class, 'index'])->name('housings.index');
+        Route::get('/housings/is-share', [HousingController::class, 'isShareİndex'])->name('is_share.housings.index');
     });
     Route::middleware(['checkPermission:GetHousingComments'])->group(function () {
         Route::get('/housing/comments', [HousingController::class, 'comments'])->name('housings.comments');
@@ -798,6 +810,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/set_single_data_image/{project_id}', [InstitutionalProjectController::class, 'setSingleHousingImage'])->name('projects.set.single.image');
 
     Route::get('verification', [DashboardController::class, 'corporateAccountVerification'])->name('corporate-account-verification');
+    Route::get('waiting', [DashboardController::class, 'corporateAccountWaiting'])->name('corporate-account-waiting');
+
 
     Route::get('phone-verification', [DashboardController::class, 'phoneVerification'])->name('phone.verification');
     Route::post('phone-verification/generate', [DashboardController::class, 'generateVerificationCode'])

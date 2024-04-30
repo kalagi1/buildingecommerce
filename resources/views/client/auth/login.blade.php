@@ -441,6 +441,17 @@
                                                 </div>
                                             </div>
 
+                                                      <!-- Yetki Belgesi No -->
+                                                      <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Yetki Belgesi No</label>
+                                                                    <input type="text" id="authority_licence" name="authority_licence" class="form-control" maxlength="7">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                             <!-- TC Kimlik No -->
                                             <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"

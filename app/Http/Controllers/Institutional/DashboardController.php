@@ -117,6 +117,12 @@ class DashboardController extends Controller
         return view('institutional.home.verification');
     }
 
+    
+public function corporateAccountWaiting()
+{
+    return view('institutional.home.waiting');
+}
+
     public function corporateHasClubAccountVerification()
     {
         return view('institutional.home.has-club-verification');
@@ -163,7 +169,7 @@ class DashboardController extends Controller
       
         // SMS gönderme işlemi
         $smsService = new SmsService();
-        $source_addr = 'MaliyetinEv';
+        $source_addr = 'Emlkspette';
 
         $smsService->sendSms($source_addr, $message, $userPhoneNumber);
     }

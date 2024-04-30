@@ -890,6 +890,8 @@
                                         <i class="fa fa-caret-right"></i>
                                     </div>
                                 </div>
+                                @if (isset(json_decode($housing->housing_type_data)->swap[0]))
+
                                 <div class="add-to-swap-wrapper" data-bs-toggle="modal" data-bs-target="#takasModal">
                                     <div class="add-to-collection-button-wrapper">
                                         <div class="add-to-collection-button">
@@ -930,6 +932,7 @@
                                         <i class="fa fa-caret-right"></i>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="modal fade" id="takasModal" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">

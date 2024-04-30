@@ -119,7 +119,7 @@
             }
             var deleteReasonCell = document.createElement("td");
             deleteReasonCell.className = "align-middle delete_reason";
-            deleteReasonCell.textContent = housingType.deleteReason ? housingType.deleteReason : '-';
+            deleteReasonCell.textContent = housingType.deleteReason ? housingType.deleteReason : null;
             row.appendChild(deleteReasonCell);
             
             tbody.appendChild(row);
