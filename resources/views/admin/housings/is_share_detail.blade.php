@@ -44,7 +44,7 @@
                                             <tr>
                                                 <th>Kurum</th>
                                                 <th>Kapora Oranı</th>
-                                                <th>Satış Oranı (Kulüp)</th>
+                                                <th>Satış Oranı (Emlak Kulüp)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
