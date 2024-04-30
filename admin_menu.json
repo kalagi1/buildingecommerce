@@ -29,7 +29,7 @@
         "id": "membershipType",
         "label": "Destek Merkezi",
         "icon": "eye",
-        "text": "Bireysel => Kurumsal Talepler",
+        "text": "Kurumsal Üyelik Talepleri",
         "key": "membershipType",
         "url": "admin.expected.call.index",
         "activePath": "qR9zLp2xS6y/secured/rol-degisikligi"
