@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editRatesModal">
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRatesModal">
                     Kapora Oranlarını Düzenle
                 </button>
                 <!-- Modal şablonu -->
