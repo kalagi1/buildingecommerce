@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         // $this->call(OrderChangeSeeder::class);
         $this->call(InstitutionSeeder::class);
+        $this->call(HousingSeeder::class);
 
     }
 }
