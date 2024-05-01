@@ -362,7 +362,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title,
+                "meta_description" => $project->project_title.' projesi, modern yaşamın tüm olanaklarını sunan benzersiz bir konut projesidir. Konforlu yaşam alanları, yeşil peyzajlar ve şehir merkezine yakınlığıyla dikkat çekiyor. Hemen keşfedin ve hayalinizdeki eve adım atın!',
                 "meta_author" => "Emlak Sepette",
             ];
 
@@ -584,7 +584,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title,
+                "meta_description" => $project->project_title.' projesi, modern yaşamın tüm olanaklarını sunan benzersiz bir konut projesidir. Konforlu yaşam alanları, yeşil peyzajlar ve şehir merkezine yakınlığıyla dikkat çekiyor. Hemen keşfedin ve hayalinizdeki eve adım atın!',
                 "meta_author" => "Emlak Sepette",
             ];
 
@@ -820,7 +820,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title,
+                "meta_description" => $project->project_title.' projesi, modern yaşamın tüm olanaklarını sunan benzersiz bir konut projesidir. Konforlu yaşam alanları, yeşil peyzajlar ve şehir merkezine yakınlığıyla dikkat çekiyor. Hemen keşfedin ve hayalinizdeki eve adım atın!',
                 "meta_author" => "Emlak Sepette",
             ];
 
@@ -1053,7 +1053,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title,
+                "meta_description" => $project->project_title.' projesi, modern yaşamın tüm olanaklarını sunan benzersiz bir konut projesidir. Konforlu yaşam alanları, yeşil peyzajlar ve şehir merkezine yakınlığıyla dikkat çekiyor. Hemen keşfedin ve hayalinizdeki eve adım atın!',
                 "meta_author" => "Emlak Sepette",
             ];
 

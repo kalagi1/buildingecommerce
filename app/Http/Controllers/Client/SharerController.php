@@ -30,7 +30,7 @@ class SharerController extends Controller
         $pageInfo = [
             "meta_title" => "Emlak Kulüp",
             "meta_keywords" => "Emlak Sepette,Emlak Kulüp",
-            "meta_description" => "Emlak Kulüp",
+            "meta_description" => "Emlak Kulüp, konut ihtiyaçlarınız için en güvenilir ve kapsamlı çözümleri sunar. Uzman danışmanlarımızla birlikte, satın alma, kiralamaya veya yatırıma yönelik en iyi seçenekleri keşfedin. Geniş portföyümüzdeki lüks dairelerden ticari gayrimenkullere kadar her türlü konut ihtiyacınızı karşılamak için buradayız. Müşteri memnuniyeti odaklı hizmet anlayışımız ve sektördeki deneyimimizle, Emlak Kulüp sizin yanınızda",
             "meta_author" => "Emlak Sepette",
         ];
 
