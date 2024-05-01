@@ -84,9 +84,7 @@
 <script src="{{ URL::to('/') }}/adminassets/vendors//echarts/echarts.min.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet/leaflet.js"></script>
 <script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.markercluster/leaflet.markercluster.js"></script>
-<script
-    src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js">
-</script>
+<script src="{{ URL::to('/') }}/adminassets/vendors//leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
 
 <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js"></script>
 <!--FormBuilder-->
@@ -95,7 +93,7 @@
 <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-formBuilder/3.4.2/form-render.min.js"></script>
 
-<script src="{{URL::to('/')}}/build/assets/app-eca8790f.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-a00207ef.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
 <script src="https://www.jqueryscript.net/demo/leaflet-location-picker/src/leaflet-locationpicker.js"></script>
