@@ -20,6 +20,8 @@
                     <tr>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_no" style="width: 3%"> No</th>
+                            <th class="sort white-space-nowrap align-middle pe-3" scope="col"
+                            data-sort="order_date" >Mağaza Adı</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
                             data-sort="order_date" >Yetkili İsim Soyisim</th>
                         <th class="sort white-space-nowrap align-middle pe-3" scope="col"
@@ -49,13 +51,16 @@
                                     {{ $item->id }}
                                 </td>
 
-                                <td class="order_no align-middle  fw-semibold text-body-highlight text-center">
+                                <td class="order_no align-middle  fw-semibold text-body-highlight">
                                     {{ $item->name }} <br>
                                     @if($item->email_verified_at && $item->phone_verification_status == 1 && $item->is_show_files == 1)
                                         <a href="{{route('admin.user.show-corporate-account',['user' => $item->id])}}" class="badge badge-phoenix fs--2 badge-phoenix-success ">Belgeleri Görüntüle</a>
                                     @endif
                                 </td>
 
+                                <td class="order_no align-middle  fw-semibold text-body-highlight">
+                                    {{ $item->username }}
+                                </td>
                                 <td class="order_no align-middle  fw-semibold text-body-highlight">
                                     @if($item->mobile_phone)
                                         <a href="tel:{{ $item->mobile_phone }}" class="badge badge-phoenix fs--2 badge-phoenix-info">{{ $item->mobile_phone }}</a>
