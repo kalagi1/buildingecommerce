@@ -18,10 +18,27 @@
         <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
         <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
         @php
-            $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+            use Intervention\Image\Drivers\Gd\Driver;
+            use Intervention\Image\ImageManager;
+            $manager = new ImageManager(new Driver());
+
+            // Mevcut resim URL'sini alın
+$imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+
+// Resmi okuyun ve PNG olarak yeniden kodlayın
+$image = $manager->make($imageUrl)->encode('png');
+
+// Benzersiz bir dosya adı oluşturun
+$uniqueFileName = 'meta_image_' . uniqid() . '.png';
+
+// PNG formatındaki resmi benzersiz bir dosya adıyla saklayın
+$imagePath = public_path('storage/project_images/' . $uniqueFileName);
+$image->save($imagePath);
+$imageUrlPath = asset('storage/project_images/' . $uniqueFileName);
+
         @endphp
 
-        <meta property="og:image" content="{{ $imageUrl }}" />
+        <meta property="og:image" content="{{ $imageUrlPath }}" />
 
         <meta property="og:image:width" content="300">
     @endif
