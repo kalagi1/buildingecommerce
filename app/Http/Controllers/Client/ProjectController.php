@@ -25,6 +25,8 @@ use App\Models\ProjectOffersGiven;
 use App\Models\ProjectOffersReceived;
 use App\Models\StandOutUser;
 use App\Models\Town;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -262,11 +264,27 @@ class ProjectController extends Controller
             $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
             $status = HousingStatus::find($statusID);
 
+           
+    
+            // ImageManager ile PNG dosyasını oluştur
+            $manager = new ImageManager(new Driver());
+            $imageUrl = URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image);
+    
+            $image = $manager->make($imageUrl)->encode('png');
+    
+            // Benzersiz dosya adı oluşturun ve saklayın
+            $uniqueFileName = 'meta_image_' . uniqid() . '.png';
+            $imagePath = public_path('storage/project_images/' . $uniqueFileName);
+            $image->save($imagePath);
+    
+            // Yeni benzersiz URL'yi belirleyin
+            $imageUrl = asset('storage/project_images/' . $uniqueFileName);
+
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => $project->project_title.' projesi, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!',
-                "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image),
+                "meta_image" => $imageUrl,
                 "meta_author" => "Emlak Sepette"
             ];
 
