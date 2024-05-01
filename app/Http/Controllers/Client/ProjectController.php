@@ -1156,7 +1156,7 @@ class ProjectController extends Controller
                         : "Emlak Sepette"),
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
                 "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise_title[]'.'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!']
+                    ? $projectHousingsList[$housingOrder]['advertise_title[]'.' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!']
                     : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
                         ? $projectHousingsList[$housingOrder]['advertise-title[]'.'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!']
                         : "Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!"),

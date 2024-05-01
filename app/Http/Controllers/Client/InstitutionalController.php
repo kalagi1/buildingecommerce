@@ -165,7 +165,7 @@ class InstitutionalController extends Controller
         $pageInfo = [
             "meta_title" => $institutional->name,
             "meta_keywords" => "Emlak Sepette," . $institutional->name,
-            "meta_description" => "Emlak Kulüp " . $institutional->name.'uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet ve geniş seçeneklerle hayallerinizi gerçekleştirin!',
+            "meta_description" => "Emlak Kulüp " . $institutional->name.' uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet ve geniş seçeneklerle hayallerinizi gerçekleştirin!',
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -202,7 +202,7 @@ class InstitutionalController extends Controller
         $pageInfo = [
             "meta_title" => $institutional->name,
             "meta_keywords" => "Emlak Sepette," . $institutional->name,
-            "meta_description" => "Emlak Kulüp " . $institutional->name .'uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet, geniş seçenekler ve uygun fiyatlarla hayallerinizi gerçekleştirin!',
+            "meta_description" => "Emlak Kulüp " . $institutional->name .' uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet, geniş seçenekler ve uygun fiyatlarla hayallerinizi gerçekleştirin!',
             "meta_author" => "Emlak Sepette",
         ];
 
