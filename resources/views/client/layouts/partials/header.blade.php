@@ -34,347 +34,346 @@ $uniqueFileName = 'meta_image_' . uniqid() . '.png';
 // PNG formatındaki resmi benzersiz bir dosya adıyla saklayın
 $imagePath = public_path('storage/project_images/' . $uniqueFileName);
 $image->save($imagePath);
-$imageUrlPath = asset('storage/project_images/' . $uniqueFileName);
-
+$imageUrl = asset('storage/project_images/' . $uniqueFileName);
+$imageUrlPath = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
         @endphp
 
         <meta property="og:image" content="{{ $imageUrlPath }}" />
 
         <meta property="og:image:width" content="300">
+    @endif
 
 
+    <!-- FAVICON -->
+    <!-- Canonical URL için bölüm -->
+    @if (isset($canonicalUrl))
+        <link rel="canonical" href="{{ $canonicalUrl }}" />
+    @endif
+    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800" rel="stylesheet">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="{{ URL::to('/') }}/font/flaticon.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/fontawesome-5-all.min.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/font-awesome.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <!-- ARCHIVES CSS -->
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/search-form.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/search.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/animate.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/aos.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/aos2.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/lightcase.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
+    <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
+    <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
 
-        <!-- FAVICON -->
-        <!-- Canonical URL için bölüm -->
-        @if (isset($canonicalUrl))
-            <link rel="canonical" href="{{ $canonicalUrl }}" />
-        @endif
-        <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
-        <!-- GOOGLE FONTS -->
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i%7CMontserrat:600,800"
-            rel="stylesheet">
-        <!-- FONT AWESOME -->
-        <link rel="stylesheet" href="{{ URL::to('/') }}/font/flaticon.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/fontawesome-5-all.min.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/font-awesome.min.css">
-        <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <!-- ARCHIVES CSS -->
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/search-form.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/search.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/animate.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/aos.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/aos2.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/magnific-popup.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/lightcase.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/owl.carousel.min.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/menu.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/slick.css">
-        <link rel="stylesheet" href="{{ URL::to('/') }}/css/styles.css?v=2">
-        <link rel="stylesheet" id="color" href="{{ URL::to('/') }}/css/colors/dark-gray.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap" rel="stylesheet">
-        <!-- SweetAlert CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    @yield('styles')
 
-        @yield('styles')
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVHQEVC6S0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVHQEVC6S0"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
 
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
+        gtag('config', 'G-FVHQEVC6S0');
+    </script>
+    <style>
+        .notification-card.unread {
+            background-color: #eff2f6;
+        }
 
-            gtag('config', 'G-FVHQEVC6S0');
-        </script>
-        <style>
-            .notification-card.unread {
-                background-color: #eff2f6;
-            }
+        #whatsappButton {
+            height: 100% !important;
+            background: green;
+            margin-bottom: 10px;
+        }
 
-            #whatsappButton {
-                height: 100% !important;
-                background: green;
-                margin-bottom: 10px;
-            }
+        .notification-card {
+            cursor: pointer;
+        }
 
-            .notification-card {
-                cursor: pointer;
-            }
+        .box::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            background-color: #F5F5F5;
+            border-radius: 5px
+        }
 
-            .box::-webkit-scrollbar-track {
-                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-                background-color: #F5F5F5;
-                border-radius: 5px
-            }
+        .box::-webkit-scrollbar {
+            width: 7px;
+            background-color: #F5F5F5;
+            border-radius: 5px
+        }
 
-            .box::-webkit-scrollbar {
-                width: 7px;
-                background-color: #F5F5F5;
-                border-radius: 5px
-            }
-
-            .box::-webkit-scrollbar-thumb {
-                background-color: #787373;
-                border: 1px solid rgba(0, 0, 0, .03);
-                border-radius: 5px
-            }
+        .box::-webkit-scrollbar-thumb {
+            background-color: #787373;
+            border: 1px solid rgba(0, 0, 0, .03);
+            border-radius: 5px
+        }
 
 
-            .icons {
-                display: inline;
-                float: right
-            }
+        .icons {
+            display: inline;
+            float: right
+        }
 
-            .notification {
-                padding-top: 10px;
-                position: relative;
-                display: inline-block;
-            }
+        .notification {
+            padding-top: 10px;
+            position: relative;
+            display: inline-block;
+        }
 
-            .number {
-                height: 22px;
-                width: 22px;
-                background-color: #d63031;
-                border-radius: 20px;
-                color: white;
-                text-align: center;
-                position: absolute;
-                top: -1px;
-                left: 27px;
-                display: flex;
-                padding: 0;
-                font-size: 10px;
-                border-style: solid;
-                align-items: center;
-                justify-content: center;
-            }
+        .number {
+            height: 22px;
+            width: 22px;
+            background-color: #d63031;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            position: absolute;
+            top: -1px;
+            left: 27px;
+            display: flex;
+            padding: 0;
+            font-size: 10px;
+            border-style: solid;
+            align-items: center;
+            justify-content: center;
+        }
 
-            .number:empty {
-                display: none;
-            }
+        .number:empty {
+            display: none;
+        }
 
-            .notBtn {
-                transition: 0.5s;
-                cursor: pointer
-            }
+        .notBtn {
+            transition: 0.5s;
+            cursor: pointer
+        }
 
-            .fa-bell {
-                font-size: 18px;
-                padding-bottom: 10px;
-                color: black;
-                margin-left: 20px;
-                margin-right: 20px;
+        .fa-bell {
+            font-size: 18px;
+            padding-bottom: 10px;
+            color: black;
+            margin-left: 20px;
+            margin-right: 20px;
 
-            }
+        }
 
-            .fs--1 {
-                text-align: left;
-                font-size: 11px !important;
-                line-height: 11px;
-                margin-bottom: 0 !important;
-            }
+        .fs--1 {
+            text-align: left;
+            font-size: 11px !important;
+            line-height: 11px;
+            margin-bottom: 0 !important;
+        }
 
-            .box {
-                width: 300px;
-                z-index: 9999;
-                height: 300px !important;
-                height: 200px;
-                border-radius: 10px;
-                transition: 0.5s;
-                position: absolute;
-                overflow-y: scroll;
-                overflow-x: hidden;
-                padding: 0px;
-                left: -74px;
-                margin-top: 5px;
-                background-color: #F4F4F4;
-                -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
-                -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-                box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
-                cursor: context-menu;
-            }
+        .box {
+            width: 300px;
+            z-index: 9999;
+            height: 300px !important;
+            height: 200px;
+            border-radius: 10px;
+            transition: 0.5s;
+            position: absolute;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding: 0px;
+            left: -74px;
+            margin-top: 5px;
+            background-color: #F4F4F4;
+            -webkit-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+            box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
+            cursor: context-menu;
+        }
 
-            .fas:hover {
-                color: #d63031;
-            }
-
-
-            .gry {
-                background-color: #F4F4F4;
-            }
-
-            .top {
-                color: black;
-                padding: 10px
-            }
+        .fas:hover {
+            color: #d63031;
+        }
 
 
-            .cont {
-                position: absolute;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: #F4F4F4;
-            }
+        .gry {
+            background-color: #F4F4F4;
+        }
 
-            .cont:empty {
-                display: none;
-            }
+        .top {
+            color: black;
+            padding: 10px
+        }
 
-            .stick {
-                text-align: center;
-                display: block;
-                font-size: 50pt;
-                padding-top: 70px;
-                padding-left: 80px
-            }
 
-            .stick:hover {
-                color: black;
-            }
+        .cont {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #F4F4F4;
+        }
 
-            .cent {
-                text-align: center;
-                display: block;
-            }
+        .cont:empty {
+            display: none;
+        }
 
-            .sec {
-                padding: 25px 10px;
-                background-color: #F4F4F4;
-                transition: 0.5s;
-            }
+        .stick {
+            text-align: center;
+            display: block;
+            font-size: 50pt;
+            padding-top: 70px;
+            padding-left: 80px
+        }
 
-            .profCont {
-                padding-left: 15px;
-            }
+        .stick:hover {
+            color: black;
+        }
 
-            .profile {
-                -webkit-clip-path: circle(50% at 50% 50%);
-                clip-path: circle(50% at 50% 50%);
-                width: 75px;
-                float: left;
-            }
+        .cent {
+            text-align: center;
+            display: block;
+        }
 
-            .txt {
-                vertical-align: top;
-                font-size: 1.25rem;
-                padding: 5px 10px 0px 115px;
-            }
+        .sec {
+            padding: 25px 10px;
+            background-color: #F4F4F4;
+            transition: 0.5s;
+        }
 
-            .sub {
-                font-size: 1rem;
-                color: grey;
-            }
+        .profCont {
+            padding-left: 15px;
+        }
 
-            .new {
-                border-style: none none solid none;
-                border-color: #e54242;
-            }
+        .profile {
+            -webkit-clip-path: circle(50% at 50% 50%);
+            clip-path: circle(50% at 50% 50%);
+            width: 75px;
+            float: left;
+        }
 
-            .sec:hover {
-                background-color: #BFBFBF;
-            }
+        .txt {
+            vertical-align: top;
+            font-size: 1.25rem;
+            padding: 5px 10px 0px 115px;
+        }
 
-            .filter-date {
-                display: flex;
-                align-items: center;
-                justify-content: start;
-            }
+        .sub {
+            font-size: 1rem;
+            color: grey;
+        }
 
-            .collectionTitle {
-                width: 100%;
-                display: block;
-                color: black;
-                font-size: 13px !important;
-            }
+        .new {
+            border-style: none none solid none;
+            border-color: #e54242;
+        }
 
-            .circleIcon {
-                font-size: 5px !important;
-                color: #e54242 !important;
-                padding-right: 5px
+        .sec:hover {
+            background-color: #BFBFBF;
+        }
+
+        .filter-date {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+        }
+
+        .collectionTitle {
+            width: 100%;
+            display: block;
+            color: black;
+            font-size: 13px !important;
+        }
+
+        .circleIcon {
+            font-size: 5px !important;
+            color: #e54242 !important;
+            padding-right: 5px
+        }
+
+        .button-container {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .pro-wrapper {
+                text-align: center
             }
 
             .button-container {
-                display: none;
+                z-index: 9999999;
+                position: fixed;
+                width: 100%;
+                bottom: 0;
+                display: flex;
+                background-color: #F7F7F7;
+                height: 60px;
+                align-items: center;
+                justify-content: space-around;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
+                    rgba(245, 73, 144, 0.5) 5px 10px 15px;
             }
 
-            @media (max-width: 768px) {
-                .pro-wrapper {
-                    text-align: center
-                }
+            .button-container .button {
+                outline: 0 !important;
+                border: 0 !important;
+                padding: 0 !important;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background-color: transparent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: black;
+                transition: all ease-in-out 0.3s;
+                cursor: pointer;
+                flex-direction: column;
 
-                .button-container {
-                    z-index: 9999999;
-                    position: fixed;
-                    width: 100%;
-                    bottom: 0;
-                    display: flex;
-                    background-color: #F7F7F7;
-                    height: 60px;
-                    align-items: center;
-                    justify-content: space-around;
-                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px,
-                        rgba(245, 73, 144, 0.5) 5px 10px 15px;
-                }
-
-                .button-container .button {
-                    outline: 0 !important;
-                    border: 0 !important;
-                    padding: 0 !important;
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    background-color: transparent;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: black;
-                    transition: all ease-in-out 0.3s;
-                    cursor: pointer;
-                    flex-direction: column;
-
-                }
-
-                .button-container .button span {
-                    margin-top: 5px;
-                    font-size: 11px
-                }
-
-                .button-container .button:hover {
-                    transform: translateY(-3px);
-                }
-
-                .button-container .icon {
-                    font-size: 18px;
-                }
             }
-        </style>
-        <!-- Google Tag Manager -->
-        <script>
-            (function(w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({
-                    'gtm.start': new Date().getTime(),
-                    event: 'gtm.js'
-                });
-                var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s),
-                    dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-55Q6HGHL');
-        </script>
-        <!-- End Google Tag Manager -->
+
+            .button-container .button span {
+                margin-top: 5px;
+                font-size: 11px
+            }
+
+            .button-container .button:hover {
+                transform: translateY(-3px);
+            }
+
+            .button-container .icon {
+                font-size: 18px;
+            }
+        }
+    </style>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-55Q6HGHL');
+    </script>
+    <!-- End Google Tag Manager -->
 </head>
 
 <body class="m0a homepage-2 the-search hd-white inner-pages">
