@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayController;
 
+use App\Http\Controllers\Api\Client\PageController as ClientPageController;
+
 use App\Http\Controllers\Api\Institutional\RoleController as InstitutionalRoleController;
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +99,10 @@ Route::post('add_project_to_favorites/{housingId}', [FavoriteController::class, 
 Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 
+Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.show');
+//sözleşmeler
+Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
+Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
 
 Route::group(['middleware' => 'auth:api'], function () {

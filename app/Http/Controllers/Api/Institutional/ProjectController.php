@@ -14,6 +14,7 @@ use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
 use App\Models\HousingTypeParent;
 use App\Models\HousingTypeParentConnection;
+use App\Models\Institution;
 use App\Models\Invoice;
 use App\Models\Neighborhood;
 use App\Models\Project;
@@ -21,6 +22,7 @@ use App\Models\ProjectHousing;
 use App\Models\ProjectHousingType;
 use App\Models\ProjectImage;
 use App\Models\ProjectSituation;
+use App\Models\Rate;
 use App\Models\ShareLink;
 use App\Models\TempOrder;
 use App\Models\User;
@@ -32,9 +34,19 @@ use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Throwable;
+use App\Services\SmsService;
 
 class ProjectController extends Controller
 {
+
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+
     protected function getProjectCounts($userProjectIds, $status)
     {
         return CartOrder::selectRaw('COUNT(*) as count, JSON_UNQUOTE(json_extract(cart, "$.item.id")) as project_id, MAX(status) as status')
@@ -359,8 +371,8 @@ class ProjectController extends Controller
         $statusID = $project->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
         $status = HousingStatus::find($statusID);
 
-        $defaultProjectStatus = HousingStatus::where('is_project',1)->where('is_default',1)->first();
-        $selectedProjectStatus = HousingStatus::where('id',$request->input('selectedTypes')[0])->first();
+        $defaultProjectStatus = HousingStatus::where('is_project', 1)->where('is_default', 1)->first();
+        $selectedProjectStatus = HousingStatus::where('id', $request->input('selectedTypes')[0])->first();
 
         ProjectHousingType::create([
             'housing_type_id' => $defaultProjectStatus->id,
@@ -878,6 +890,8 @@ class ProjectController extends Controller
 
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
+        $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+        $isShare = auth()->user()->type == 1 ? true : false;
 
         $project = Housing::create(
             [
@@ -902,8 +916,52 @@ class ProjectController extends Controller
                 'latitude' => explode('-', $request->input('projectData')['coordinates'])[0],
                 'longitude' => explode('-', $request->input('projectData')['coordinates'])[1],
                 'status' => 2,
+                'owner_id' =>  $ownerId,
+                'is_share' =>  $isShare,
+
             ]
         );
+
+        $institutions = Institution::all();
+
+        foreach ($institutions as $key => $institution) {
+            if ($institution->name != "Diğer") {
+                Rate::create([
+                    'institution_id' => $institution->id,
+                    'housing_id' => $project->id,
+                    'default_deposit_rate' => 0.90,
+                    'sales_rate_club' => 0.50,
+                ]);
+            }else{
+                Rate::create([
+                    'institution_id' => $institution->id,
+                    'housing_id' => $project->id,
+                    'default_deposit_rate' => 0.90,
+                    'sales_rate_club' => 0.25,
+                ]);
+            }
+        }
+
+
+        if ($project && auth()->user()->type == 1) {
+            $user = auth()->user();
+            // Kullanıcının telefon numarasını kontrol et
+            if ($user->mobile_phone) {
+                $ownerId = $user->id;
+                $isShare = true;
+
+                // Eğer kullanıcıya ait bir telefon numarası varsa, SMS gönderme işlemi gerçekleştirilir
+                $userPhoneNumber = $user->mobile_phone;
+                $message = $project->id + 2000000 .  "No'lu Emlak İlanınız Yetkili Emlak Ofisine Atanması için EmlakSepette Yönetimine  İletilmiştir. "; // Göndermek istediğiniz mesajı buraya ekleyin
+
+                // SmsService sınıfını kullanarak SMS gönderme işlemi
+                $smsService = new SmsService();
+                $source_addr = 'Emlkspette'; // Kaynak adresi değiştirin, gerektiğinde.
+
+                $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+            }
+        }
+
 
         $defaultHousingconnection = HousingStatus::where('is_default', 1)->where('is_housing', 1)->first();
         HousingStatusConnection::create([
@@ -1007,23 +1065,22 @@ class ProjectController extends Controller
     {
         if ($request->input('is_dot')) {
             ProjectHousing::where('project_id', $request->input('project_id'))
-            ->whereIn('room_order', $request->input('rooms'))
-            ->where('name', $request->input('column_name') . '[]')
-            ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '".$request->input('project_id')."' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing') = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2)))"))
-            ->update([
-                "name" => $request->input('column_name') . "[]",
-                "value" => str_replace('.', '', $request->input('value'))
-            ]);
-            
+                ->whereIn('room_order', $request->input('rooms'))
+                ->where('name', $request->input('column_name') . '[]')
+                ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing') = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2)))"))
+                ->update([
+                    "name" => $request->input('column_name') . "[]",
+                    "value" => str_replace('.', '', $request->input('value'))
+                ]);
         } else {
             ProjectHousing::where('project_id', $request->input('project_id'))
-            ->whereIn('room_order', $request->input('rooms'))
-            ->where('name', $request->input('column_name') . '[]')
-            ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '".$request->input('project_id')."' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
-            ->update([
-                "name" => $request->input('column_name') . "[]",
-                "value" => str_replace('.', '', $request->input('value'))
-            ]);
+                ->whereIn('room_order', $request->input('rooms'))
+                ->where('name', $request->input('column_name') . '[]')
+                ->whereNull(DB::raw("(SELECT status FROM cart_orders WHERE JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.id')) = '" . $request->input('project_id') . "' AND JSON_UNQUOTE(JSON_EXTRACT(cart, '$.item.housing')) = project_housings.room_order AND (cart_orders.status = 1 OR cart_orders.status = 2))"))
+                ->update([
+                    "name" => $request->input('column_name') . "[]",
+                    "value" => str_replace('.', '', $request->input('value'))
+                ]);
         }
 
         return json_encode([
@@ -1140,7 +1197,8 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function saveTemplate(Request $request){
+    public function saveTemplate(Request $request)
+    {
         TempOrder::create([
             "user_id" => auth()->user()->id,
             "data" => json_encode($request->all()),
@@ -1150,15 +1208,17 @@ class ProjectController extends Controller
         return $request->all();
     }
 
-    public function getLastData(){
-        $lastData = TempOrder::where('user_id',auth()->user()->id)->where('item_type',1)->first();
+    public function getLastData()
+    {
+        $lastData = TempOrder::where('user_id', auth()->user()->id)->where('item_type', 1)->first();
 
         return json_encode([
             "lastData" => json_decode($lastData->data)
         ]);
     }
 
-    public function getInvoiceData($cartId){
+    public function getInvoiceData($cartId)
+    {
         $order = CartOrder::where("id", $cartId)->first();
         $cart = json_decode($order->cart);
         $project = null;

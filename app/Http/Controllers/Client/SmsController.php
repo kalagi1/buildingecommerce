@@ -14,7 +14,7 @@ class SmsController extends Controller {
     }
 
     public function sendSms( Request $request ) {
-        $source_addr = 'MaliyetinEv';
+        $source_addr = 'Emlkspette';
         $message = 'Test mesajıdır';
         $dest = '905075634137,';
 

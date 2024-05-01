@@ -9,6 +9,7 @@ use App\Models\County;
 use App\Models\District;
 use App\Models\DocumentNotification;
 use App\Models\Housing;
+use App\Models\User;
 use App\Models\HousingStatus;
 use App\Models\HousingStatusConnection;
 use App\Models\HousingType;
@@ -276,7 +277,7 @@ class HousingController extends Controller {
 
     public function index() {
 
-        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
+        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood','owner' )
         ->where( 'status', 1 )
         ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
         ->select(
@@ -290,11 +291,24 @@ class HousingController extends Controller {
             'housings.city_id',
             'housings.county_id',
             'housings.neighborhood_id',
-            'housing_types.form_json'
+            'housing_types.form_json',
+            'housings.is_share',
+            'owner_id',
         )
         ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
         ->orderByDesc( 'housings.updated_at' )
         ->get();
+
+        if ($activeHousingTypes->isNotEmpty()) {
+            foreach ($activeHousingTypes as $housing) {
+                if (!is_null($housing->owner_id)) {
+                    $owner = User::find($housing->owner_id);
+                    $housing->owner = $owner;
+                } else {
+                    $housing->owner = null;
+                }
+            }
+        }
 
         $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
         ->where( 'status', 0 )

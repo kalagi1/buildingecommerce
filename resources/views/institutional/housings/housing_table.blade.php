@@ -3,7 +3,8 @@
         <tr>
             <th>ID</th>
             <th>Başlık</th>
-            <th>Daire Türü</th>
+            <th>Paylaşımlı Emlak</th>
+            <th>Emlak Tipi</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th>Loglar</th>
