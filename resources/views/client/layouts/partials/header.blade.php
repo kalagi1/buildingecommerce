@@ -7,41 +7,40 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     @if (isset($pageInfo))
-        <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
-        <meta name="description" content="{{ $pageInfo->meta_description }}">
-        <meta name="author" content="{{ $pageInfo->meta_author }}">
-        <title>{{ $pageInfo->meta_title }}</title>
+    <meta name="keywords" content="{{ $pageInfo->meta_keywords }}">
+    <meta name="description" content="{{ $pageInfo->meta_description }}">
+    <meta name="author" content="{{ $pageInfo->meta_author }}">
+    <title>{{ $pageInfo->meta_title }}</title>
 
-        <meta property="og:site_name" content="Emlak Sepette">
-        <meta property="og:url"content="https://emlaksepette.com/" />
-        <meta property="og:type"content="website" />
-        <meta property="og:title"content="{{ $pageInfo->meta_title }}" />
-        <meta property="og:description"content="{{ $pageInfo->meta_description }}" />
-        @php
-            use Intervention\Image\Drivers\Gd\Driver;
-            use Intervention\Image\ImageManager;
-            $manager = new ImageManager(new Driver());
+    <meta property="og:site_name" content="Emlak Sepette">
+    <meta property="og:url" content="https://emlaksepette.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ $pageInfo->meta_title }}" />
+    <meta property="og:description" content="{{ $pageInfo->meta_description }}" />
 
-            // Mevcut resim URL'sini alın
-$imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
+    @php
+        use Intervention\Image\Drivers\Gd\Driver;
+        use Intervention\Image\ImageManager;
 
-// Resmi okuyun ve PNG olarak yeniden kodlayın
-$image = $manager->make($imageUrl)->encode('png');
+        // ImageManager ile PNG dosyasını oluştur
+        $manager = new ImageManager(new Driver());
+        $imageUrl = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
 
-// Benzersiz bir dosya adı oluşturun
-$uniqueFileName = 'meta_image_' . uniqid() . '.png';
+        $image = $manager->make($imageUrl)->encode('png');
 
-// PNG formatındaki resmi benzersiz bir dosya adıyla saklayın
-$imagePath = public_path('storage/project_images/' . $uniqueFileName);
-$image->save($imagePath);
-$imageUrl = asset('storage/project_images/' . $uniqueFileName);
-$imageUrlPath = $pageInfo->meta_image ?? 'https://emlaksepette.com/images/mini_logo.png';
-        @endphp
+        // Benzersiz dosya adı oluşturun ve saklayın
+        $uniqueFileName = 'meta_image_' . uniqid() . '.png';
+        $imagePath = public_path('storage/project_images/' . $uniqueFileName);
+        $image->save($imagePath);
 
-        <meta property="og:image" content="{{ $imageUrlPath }}" />
+        // Yeni benzersiz URL'yi belirleyin
+        $imageUrl = asset('storage/project_images/' . $uniqueFileName);
+    @endphp
 
-        <meta property="og:image:width" content="300">
-    @endif
+    <!-- Open Graph için benzersiz PNG URL'sini kullan -->
+    <meta property="og:image" content="{{ $imageUrl }}" />
+    <meta property="og:image:width" content="300">
+@endif
 
 
     <!-- FAVICON -->
