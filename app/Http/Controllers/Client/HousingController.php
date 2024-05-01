@@ -144,7 +144,7 @@ class HousingController extends Controller {
             $pageInfo = [
                 'meta_title' => $housing->title,
                 'meta_keywords' => 'Emlak Sepette,İkinci el konut,konut',
-                'meta_description' => 'Emlak Kulüpte' . $housing->title . 'ile hayallerinizdeki konutu bulabilirsiniz. Geniş seçenekler, uygun fiyatlar ve konforlu yaşam sizi bekliyor!
+                'meta_description' => 'Emlak Kulüpte ' . $housing->title . ' ile hayallerinizdeki konutu bulabilirsiniz. Geniş seçenekler, uygun fiyatlar ve konforlu yaşam sizi bekliyor!
                     Şimdi alım yapın.Geleceğe yatırım yapın.',
                 'meta_author' => 'Emlak Sepette',
             ];
