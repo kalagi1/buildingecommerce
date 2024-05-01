@@ -270,7 +270,7 @@ class ProjectController extends Controller
             $manager = new ImageManager(new Driver());
             $imageUrl = URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image);
     
-            $image = $manager->make($imageUrl)->encode('png');
+            $image = $manager->read($imageUrl)->toPng();
     
             // Benzersiz dosya adı oluşturun ve saklayın
             $uniqueFileName = 'meta_image_' . uniqid() . '.png';
