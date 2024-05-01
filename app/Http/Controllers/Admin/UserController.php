@@ -44,8 +44,9 @@ class UserController extends Controller
             echo $response;
         }
     }
-    public function messages(){
-        $chats = Chat::with("messages","user")->get();
+    public function messages()
+    {
+        $chats = Chat::with("messages", "user")->get();
         return view("admin.chat.index", compact("chats"));
     }
 
@@ -65,25 +66,25 @@ class UserController extends Controller
                 ]);
             }
 
-              // Send email to the offerer
-        $message = 'Hesabınız erişime kapatıldı';
-        $response ='Sayın '. $user->name . ', '. '<br>'.$blockReason;
+            // Send email to the offerer
+            $message = 'Hesabınız erişime kapatıldı';
+            $response = 'Sayın ' . $user->name . ', ' . '<br>' . $blockReason;
 
-        Mail::to($user->email)->send(new CustomMail($message, $response));
+            Mail::to($user->email)->send(new CustomMail($message, $response));
             return redirect()->back()->with('success', 'Kullanıcı engellendi.');
         }
     }
 
     public function orders(Request $request)
     {
-        $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status","1")->orderBy("order","asc")->get();
-      return view('admin.users.orders', compact('brands'));
+        $brands = User::where("type", "2")->where("status", "1")->where("corporate_account_status", "1")->orderBy("order", "asc")->get();
+        return view('admin.users.orders', compact('brands'));
     }
 
     public function updateOrder(Request $request)
     {
         foreach ($request->input('orders') as $key => $order) {
-            User::where('id', $order['id'])->update(['order' => $key +1]);
+            User::where('id', $order['id'])->update(['order' => $key + 1]);
         }
 
         return response()->json(['message' => 'Order updated successfully']);
@@ -119,7 +120,8 @@ class UserController extends Controller
         $roles = Role::where("parent_id", "4")->get();
         return view('admin.users.create', compact("roles"));
     }
-    public function store( Request $request ) {
+    public function store(Request $request)
+    {
         $messages = [
             'name.required' => 'İsim alanı zorunludur.',
             'name.string' => 'İsim alanı metin türünde olmalıdır.',
@@ -139,41 +141,40 @@ class UserController extends Controller
             'type' => 'required',
         ];
 
-        $validatedData = $request->validate( $rules, $messages );
-        $mainUser = User::where( 'id', auth()->user()->parent_id ?? auth()->user()->id )->with( 'plan' )->first();
-        $countUser = UserPlan::where( 'user_id', $mainUser->id )->first();
-        $users = User::where( 'parent_id', auth()->user()->parent_id ?? auth()->user()->id )->get();
+        $validatedData = $request->validate($rules, $messages);
+        $mainUser = User::where('id', auth()->user()->parent_id ?? auth()->user()->id)->with('plan')->first();
+        $countUser = UserPlan::where('user_id', $mainUser->id)->first();
+        $users = User::where('parent_id', auth()->user()->parent_id ?? auth()->user()->id)->get();
         $userCount = User::all();
         $lastUser = User::latest()->first();
 
         $user = new User();
-        $user->name = $validatedData[ 'name' ];
-        $user->email = $validatedData[ 'email' ];
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
         $user->profile_image = 'indir.png';
-        $user->password = bcrypt( $validatedData[ 'password' ] );
+        $user->password = bcrypt($validatedData['password']);
         // Şifreyi şifreleyin
-        $user->type = $validatedData[ 'type' ];
-        $user->status = $request->has( 'is_active' ) ? 1 : 5;
+        $user->type = $validatedData['type'];
+        $user->status = $request->has('is_active') ? 1 : 5;
         $user->corporate_account_status = 1;
-        $user->parent_id = ( auth()->user()->parent_id ?? auth()->user()->id ) != 3 ? ( auth()->user()->parent_id ?? auth()->user()->id ) : null;
+        $user->parent_id = (auth()->user()->parent_id ?? auth()->user()->id) != 3 ? (auth()->user()->parent_id ?? auth()->user()->id) : null;
         $user->code = $lastUser->id + auth()->user()->id  + 1000000;
         $user->subscription_plan_id = $mainUser->subscription_plan_id;
 
         $user->save();
 
-        if ( $user->save() ) {
+        if ($user->save()) {
             $countUser->user_limit = $countUser->user_limit - 1;
             $countUser->save();
         }
 
-        Chat::create( [
+        Chat::create([
             'user_id' => $user->id
-        ] );
+        ]);
 
-        session()->flash( 'success', 'Kullanıcı başarıyla oluşturuldu.' );
+        session()->flash('success', 'Kullanıcı başarıyla oluşturuldu.');
 
-        return redirect()->route( 'admin.users.index' );
-
+        return redirect()->route('admin.users.index');
     }
 
     public function getTaxDocument(User $user)
@@ -252,8 +253,8 @@ class UserController extends Controller
         if (!is_null($request->input('company_document_approve'))) {
             $company =
                 [
-                'company_document_approve' => $request->input('company_document_approve'),
-            ];
+                    'company_document_approve' => $request->input('company_document_approve'),
+                ];
         }
 
         if ($request->input("status") == "1") {
@@ -332,7 +333,9 @@ class UserController extends Controller
                     'identity_document_approve' => $request->input('identity_document_approve'),
                     'corporate_account_note' => $request->input('note'),
                     'corporate_account_status' => $request->input('status'),
-                ], $company)
+                ],
+                $company
+            )
         );
 
         return redirect()->back();
@@ -350,12 +353,12 @@ class UserController extends Controller
         $userDetail = User::with("comments", "owners", "parent", "town", "child", "role", "projects", "city", "district", "neighborhood", "housings", "plan")->findOrFail($id);
 
         $taxOffices = TaxOffice::all();
-        
-        $parent = User::where('id',$userDetail->parent_id)->value('name');
 
-        $projectCount     = Project::where('user_id',$userDetail->id)->count();
-        $housingCount     = Housing::where('user_id',$userDetail->id)->count();
-        $userChildCount   = User::where('parent_id',$userDetail->id)->count();
+        $parent = User::where('id', $userDetail->parent_id)->value('name');
+
+        $projectCount     = Project::where('user_id', $userDetail->id)->count();
+        $housingCount     = Housing::where('user_id', $userDetail->id)->count();
+        $userChildCount   = User::where('parent_id', $userDetail->id)->count();
         $userCommentCount = count($userDetail->comments);
 
         $turkishAlphabet = [
@@ -367,51 +370,51 @@ class UserController extends Controller
 
         $towns = Town::all()->toArray();
 
-        usort($towns, function($a, $b) use ($turkishAlphabet) {
+        usort($towns, function ($a, $b) use ($turkishAlphabet) {
             $priorityCities = ["İSTANBUL", "İZMİR", "ANKARA"];
             $endPriorityLetters = ["Y", "Z"];
-        
+
             // Check if $a and $b are in the priority list
             $aPriority = array_search(strtoupper($a['sehir_title']), $priorityCities);
             $bPriority = array_search(strtoupper($b['sehir_title']), $priorityCities);
-        
+
             // If both are in the priority list, sort based on their position in the list
             if ($aPriority !== false && $bPriority !== false) {
                 return $aPriority - $bPriority;
             }
-        
+
             // If only $a is in the priority list, move it to the top
             elseif ($aPriority !== false) {
                 return -1;
             }
-        
+
             // If only $b is in the priority list, move it to the top
             elseif ($bPriority !== false) {
                 return 1;
             }
-        
+
             // If neither $a nor $b is in the priority list, sort based on the first letter of the title
             else {
                 $comparison = array_search(mb_substr($a['sehir_title'], 0, 1), $turkishAlphabet) - array_search(mb_substr($b['sehir_title'], 0, 1), $turkishAlphabet);
-        
+
                 // If the first letters are the same, check if they are 'Y' or 'Z'
                 if ($comparison === 0 && in_array(mb_substr($a['sehir_title'], 0, 1), $endPriorityLetters)) {
                     return 1;
                 } elseif ($comparison === 0 && in_array(mb_substr($b['sehir_title'], 0, 1), $endPriorityLetters)) {
                     return -1;
                 }
-        
+
                 return $comparison;
             }
         });
-        
-        return view('admin.users.edit', compact('userDetail', 'roles','parent','projectCount','housingCount','userChildCount','userCommentCount','taxOffices','towns','cities'));
+
+        return view('admin.users.edit', compact('userDetail', 'roles', 'parent', 'projectCount', 'housingCount', 'userChildCount', 'userCommentCount', 'taxOffices', 'towns', 'cities'));
     }
 
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        $taxOfficeCity = City::where('title',$request->taxOfficeCity)->value('id');
+        $taxOfficeCity = City::where('title', $request->taxOfficeCity)->value('id');
         // Form doğrulama kurallarını tanımlayın
         $rules = [
             'name'           => 'required|string|max:255',
@@ -445,24 +448,24 @@ class UserController extends Controller
         $user->account_type    = $request->account_type;
         $user->idNumber    =  $request->idNumber;
 
-        if($user->account_type == 'Şahıs Şirketi'){
+        if ($user->account_type == 'Şahıs Şirketi') {
             $user->idNumber = $request->idNumber;
         }
 
-        if($request->has('iban')){
-            $user->iban = $request->input('iban'); 
+        if ($request->has('iban')) {
+            $user->iban = $request->input('iban');
         }
 
         if ($request->has('phone')) {
-            $user->phone = $request->input('phone'); 
+            $user->phone = $request->input('phone');
         }
 
         if ($request->has('corporate_type')) {
-            $user->corporate_type = $request->input('corporate_type'); 
+            $user->corporate_type = $request->input('corporate_type');
         }
-            
+
         if ($request->has('account_type')) {
-            $user->account_type = $request->input('account_type'); 
+            $user->account_type = $request->input('account_type');
         }
 
 
@@ -470,9 +473,9 @@ class UserController extends Controller
             $image = $request->file('profile_image');
             $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('profile_images', $imageFileName, 'public');
-            $user->profile_image = $imageFileName; 
+            $user->profile_image = $imageFileName;
         }
-        
+
 
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
@@ -482,7 +485,7 @@ class UserController extends Controller
 
         session()->flash('success', 'Kullanıcı başarıyla güncellendi.');
 
-        return redirect()->route('admin.users.index'); 
+        return redirect()->route('admin.users.index');
     }
 
     public function destroy($id)
@@ -497,23 +500,26 @@ class UserController extends Controller
         return redirect()->route('admin.users.index'); // index route'unu kullanarak kullanıcıları listeleme sayfasına yönlendirme
     }
 
-    public function getTaxOfficeCity(Request $request){
+    public function getTaxOfficeCity(Request $request)
+    {
         $taxOfficeId = $request->input('taxOfficeId');
 
         $taxOffice = TaxOffice::find($taxOfficeId);
-        $city = $taxOffice->il; 
-        $plaka = $taxOffice->plaka; 
-    
+        $city = $taxOffice->il;
+        $plaka = $taxOffice->plaka;
+
         return response()->json(['city' => $city, 'plaka' => $plaka]);
-    }//End
+    } //End
 
-    public function expectedCall(){
+    public function expectedCall()
+    {
         $expectedCall = RoleChanges::all();
-        return view('admin.expected_call.index',compact('expectedCall'));
-    }//End
+        return view('admin.expected_call.index', compact('expectedCall'));
+    } //End
 
-    public function giveApproval(Request $request){
-        $changedUser = RoleChanges::where('user_id',$request->user_id)->first();
+    public function giveApproval(Request $request)
+    {
+        $changedUser = RoleChanges::where('user_id', $request->user_id)->first();
         $user        = User::find($request->user_id);
 
         $user->username             = $changedUser->username;
@@ -539,18 +545,20 @@ class UserController extends Controller
         $changedUser->save();
         $user->save();
 
-        return redirect()->back()->with('success','Kullanıcı belgelerini onayladınız. Bireysel müşteri kurumsal müşteriye dönüştürüldü.');
-    }//End
-    
-    public function institutionalReject(Request $request){
-        $changedUser = RoleChanges::where('user_id',$request->user_id)->where('status',0)->first();
+        return redirect()->back()->with('success', 'Kullanıcı belgelerini onayladınız. Bireysel müşteri kurumsal müşteriye dönüştürüldü.');
+    } //End
+
+    public function institutionalReject(Request $request)
+    {
+        $changedUser = RoleChanges::where('user_id', $request->user_id)->where('status', 0)->first();
         $changedUser->status = 2;
         $changedUser->save();
 
-        return redirect()->back()->with('info','Reddedildi.');
-    }//End
-    
-    public function getDocuments($userId){
+        return redirect()->back()->with('info', 'Reddedildi.');
+    } //End
+
+    public function getDocuments($userId)
+    {
         // Kullanıcıyı bul
         $user = User::find($userId);
 
@@ -565,17 +573,19 @@ class UserController extends Controller
         $documentsHtml .= "<h4>Şirket Belgesi</h4><a href='$companyDocument' download>Şirket Belgesi İndir</a>";
 
         return $documentsHtml;
-    }//End
+    } //End
 
-    public function awaitingCalled(){
-        $users = User::where('type',2)->where('corporate_account_status',0)->orderby('created_at','desc')->get();
-        return view('admin.awaiting-called.index',compact('users'));
-    }//End
+    public function awaitingCalled()
+    {
+        $users = User::where('type', 2)->where('corporate_account_status', 0)->orderby('updated_at', 'desc')->get();
+        return view('admin.awaiting-called.index', compact('users'));
+    } //End
 
-    public function mailVerification(Request $request){
+    public function mailVerification(Request $request)
+    {
         $user  = User::find($request->id);
 
-        $emailTemplate = EmailTemplate::where( 'slug', 'account-confirmation' )->first();
+        $emailTemplate = EmailTemplate::where('slug', 'account-confirmation')->first();
 
         // if ( !$emailTemplate ) {
         //     return response()->json( [
@@ -592,50 +602,53 @@ class UserController extends Controller
             'companyName' => 'Emlak Sepette',
             'email' => $user->email,
             'token' => $user->email_verification_token,
-            'verificationLink' => URL::to( "/verify-email/{$user->email_verification_token}" ),
+            'verificationLink' => URL::to("/verify-email/{$user->email_verification_token}"),
         ];
 
-        foreach ( $variables as $key => $value ) {
-            $content = str_replace( '{{' . $key . '}}', $value, $content );
+        foreach ($variables as $key => $value) {
+            $content = str_replace('{{' . $key . '}}', $value, $content);
         }
 
-        Mail::to( $user->email )->send( new CustomMail( $emailTemplate->subject, $content ) );
+        Mail::to($user->email)->send(new CustomMail($emailTemplate->subject, $content));
 
-        return redirect()->back()->with('success','Doğrulama linki gönderildi.');
-    }//End
+        return redirect()->back()->with('success', 'Doğrulama linki gönderildi.');
+    } //End
 
-    public function smsVerification(Request $request){
-        $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
-            
+    public function smsVerification(Request $request)
+    {
+        $verificationCode = mt_rand(100000, 999999); // Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
+
         $user = User::find($request->id); // Mevcut kullanıcıyı alıyoruz
 
         if ($user) {
             $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
             $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
-            $user->save();// Kullanıcıyı kaydediyoruz
-            if($user->phone_verification_code) {
+            $user->save(); // Kullanıcıyı kaydediyoruz
+            if ($user->phone_verification_code) {
                 $this->sendSMS($user);
             }
-        
-            return redirect()->back();
-        } 
-    }//End
 
-    public function searched(Request $request){
+            return redirect()->back();
+        }
+    } //End
+
+    public function searched(Request $request)
+    {
         $user = User::find($request->id);
 
         $user->is_called = 1;
         $user->save();
         // print_r($user);die;
         return redirect()->back();
-    }//End
+    } //End
 
-    public function documentLoadPage(Request $request){
+    public function documentLoadPage(Request $request)
+    {
         $user = User::find($request->id);
 
         $user->is_show_files = 1;
         $user->save();
-      
+
         return redirect()->back();
-    }//End
+    } //End
 }
