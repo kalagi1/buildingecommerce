@@ -23,7 +23,7 @@ class LoginController extends Controller
             $user = Auth::user();
 
             // Check if the user's type is 3 (or the desired type)
-            if ($user->type == 3) {
+            if ($user->type == 3 || $user->parent_id == 4) {
                 // Giriş başarılı
                 return redirect()->intended('/qR9zLp2xS6y/secured/admin'); // Admin paneline yönlendir
             } else {
