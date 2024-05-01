@@ -19,70 +19,137 @@
                 </div>
             </div>
             <div class="col-auto">
-                @if ($housing->status == 1)
-                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
-                    Emlak Ofisi Değiştir
-                </a>
-                
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRatesModal">
+                    Kapora Oranlarını Düzenle
+                </button>
+                <!-- Modal şablonu -->
+                <div class="modal fade" id="editRatesModal" tabindex="-1" aria-labelledby="editRatesModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h5 class="modal-title" id="editRatesModalLabel">Kapora Oranlarını Düzenle</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}" method="POST">
+                                <!-- resources/views/admin/edit-rates-modal.blade.php -->
+                                <form method="post" action="{{ route('admin.housing.update-rates', $housing->id) }}">
                                     @csrf
-                                    <input type="hidden" name="housing_id" value="{{ $housing->id }}">
-                                    <select name="user_id" id="selectUser" class="form-select" aria-label="Select user">
-                                        @foreach ($nearestUsers as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->city ? $user->city->title : 'Unknown' }}</option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini Değiştir</button>
+                                    @method('POST') <!-- PUT veya POST gibi metotları doğru şekilde kullanın -->
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Kurum</th>
+                                                <th>Kapora Oranı</th>
+                                                <th>Satış Oranı (Emlak Kulüp)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rates as $rate)
+                                                <tr>
+                                                    <td>{{ $rate->institution->name }}</td>
+                                                    <td>
+                                                        <input type="number" step="0.01"
+                                                            name="rates[{{ $rate->id }}][default_deposit_rate]"
+                                                            value="{{ $rate->default_deposit_rate }}" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" step="0.01"
+                                                            name="rates[{{ $rate->id }}][sales_rate_club]"
+                                                            value="{{ $rate->sales_rate_club }}" />
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+                                    <button type="submit" class="btn btn-primary">Güncelle</button>
                                 </form>
+
                             </div>
                         </div>
                     </div>
                 </div>
+
+                @if ($housing->status == 1)
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Emlak Ofisi Değiştir
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Değiştirme</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                        <select name="user_id" id="selectUser" class="form-select" aria-label="Select user">
+                                            @foreach ($nearestUsers as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }} -
+                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-4">Emlak Ofisini Değiştir</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
                         class="btn btn-danger set_status">Pasife Al</a>
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
-                        
                 @elseif($housing->status == 2)
                     {{-- <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-success set_status">Emlakçıya Atma</a> --}}
-                        <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
-                            Emlak Ofisi Atama
-                        </a>
-                        
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Atama</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="housing_id" value="{{ $housing->id }}">
-                                            <select name="user_id" id="selectUser" class="form-select" aria-label="Select user">
-                                                @foreach ($nearestUsers as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->city ? $user->city->title : 'Unknown' }}</option>
-                                                @endforeach
-                                            </select>
-                                            <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı Aktif Et</button>
-                                        </form>
-                                    </div>
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Emlak Ofisi Atama
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Emlak Ofisi Atama</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        action="{{ route('admin.is_share_housings.set.status', ['housing' => $housing->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <input type="hidden" name="housing_id" value="{{ $housing->id }}">
+                                        <select name="user_id" id="selectUser" class="form-select"
+                                            aria-label="Select user">
+                                            @foreach ($nearestUsers as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }} -
+                                                    {{ $user->city ? $user->city->title : 'Unknown' }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-4">Emlak Ofisine Ata Ve İlanı
+                                            Aktif
+                                            Et</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        
+                    </div>
+
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}"
                         class="btn btn-danger reject">Reddet</a>
                 @elseif($housing->status == 3)
@@ -95,8 +162,12 @@
                         class="btn btn-success set_status">Aktife Al</a>
                 @endif
                 <a class="btn btn-primary mb-2 mb-sm-0 download_document"
-                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter Sözleşmesini İndir</a>
-                    <a class="btn btn-primary mb-2 mb-sm-0 download_document" href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}" download>Yetki Belgesi İndir</a>
+                    href="{{ URL::to('/') }}/housing_documents/{{ $housing->document }}" download>Tapu Belgesi/Noter
+                    Sözleşmesini İndir</a>
+                <a class="btn btn-primary mb-2 mb-sm-0 download_document"
+                    href="{{ URL::to('/') }}/authority_certificates/{{ $housing->authority_certificate }}"
+                    download>Yetki
+                    Belgesi İndir</a>
             </div>
         </div>
         <div class="row g-5">
@@ -140,18 +211,18 @@
                                         <tr>
                                             <td>
                                                 İlan Sahibi :
-                                              
-                                                    <span class="det">
-                                                        @if ($housing->user && $housing->owner)
-                                                        <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
 
-                                                        @else
-                                                            <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
-                                                            <span>Kullanıcı Bulunamadı</span>
-                                                        @endif
-                                                    </span>
+                                                <span class="det">
+                                                    @if ($housing->user && $housing->owner)
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="tel:{!! $housing->owner->name !!}">{!! $housing->owner->name !!}</a>
+                                                    @else
+                                                        <!-- Eğer $housing->user veya $housing->owner null ise, uygun bir mesaj görüntüleyebilirsiniz -->
+                                                        <span>Kullanıcı Bulunamadı</span>
+                                                    @endif
+                                                </span>
 
-                                                
+
                                             </td>
                                         </tr>
                                         <tr>
@@ -160,7 +231,8 @@
                                                 <span class="det">
                                                     @if ($housing->owner)
                                                         @if ($housing->user->id != $housing->owner->id)
-                                                            <a style="text-decoration: none;color:inherit" href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
+                                                            <a style="text-decoration: none;color:inherit"
+                                                                href="tel:{!! $housing->user->name !!}">{!! $housing->user->name !!}</a>
                                                         @else
                                                             <!-- Eğer atanmış emlakçı yoksa veya sahibin kendisi atanmış emlakçı ise sadece sahibin adını göster -->
                                                             Atama Yapılmadı
@@ -171,13 +243,11 @@
                                                     @endif
                                                 </span>
                                             </td>
-                                            
+
                                         </tr>
                                         <tr>
                                             <td>
-                                                {!! 'İl-İlçe' .
-                                                optional($housing->neighborhood)->mahalle_title ?
-                                                'Mahalle:' : ":"!!}
+                                                {!! 'İl-İlçe' . optional($housing->neighborhood)->mahalle_title ? 'Mahalle:' : ':' !!}
                                                 <span class="det">
                                                     {!! optional($housing->city)->title .
                                                         ' / ' .
@@ -202,16 +272,16 @@
                                             </tr>
                                         @endif
                                         @if ($housing->user->mobile_phone)
-                                        <tr>
-                                            <td>
-                                                Telefon :
-                                                <span class="det">
-                                                    <a style="text-decoration: none;color:inherit"
-                                                        href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    @endif
+                                            <tr>
+                                                <td>
+                                                    Telefon :
+                                                    <span class="det">
+                                                        <a style="text-decoration: none;color:inherit"
+                                                            href="tel:{!! $housing->user->mobile_phone !!}">{!! $housing->user->mobile_phone !!}</a>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @endif
 
                                         <tr>
                                             <td>
@@ -266,10 +336,11 @@
                                                 @if (isset($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)}))
                                                     @if ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} != 'payment-data')
                                                         <div class="view-form-json mt-4">
-                                                            <label for="" style="">{{ $housingType->label }}</label>
+                                                            <label for=""
+                                                                style="">{{ $housingType->label }}</label>
                                                             @foreach ($housingData->{str_replace('[]', '', $housingType->name) . ($i + 1)} as $checkboxItem)
                                                                 <p class="mb-1">
-                                                                    {{ is_array($checkboxItem) ? implode(',',$checkboxItem) : $checkboxItem }}
+                                                                    {{ is_array($checkboxItem) ? implode(',', $checkboxItem) : $checkboxItem }}
                                                                 </p>
                                                             @endforeach
                                                         </div>
@@ -306,32 +377,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"
         integrity="sha512-zlWWyZq71UMApAjih4WkaRpikgY9Bz1oXIW5G0fED4vk14JjGlQ1UmkGM392jEULP8jbNMiwLWdM8Z87Hu88Fw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
-<script>
-    $(document).ready(function() {
-        $('#selectUser').select2({
-            theme: 'bootstrap-5',
-            placeholder: 'Emlakçı ara...',
-            allowClear: true,
-            width: '100%',
-            dropdownAutoWidth: true, // Dropdown genişliğinin otomatik ayarlanmasını sağlar
-            dropdownParent: $('#selectUser').parent(), // Dropdown'ı belirtilen elementin içine yerleştirir
-            language: {
-                searching: function () {
-                    return "Aranıyor...";
-                },
-                loadingMore: function () {
-                    return "Daha fazla yükleniyor...";
+    <script>
+        $(document).ready(function() {
+            $('#selectUser').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Emlakçı ara...',
+                allowClear: true,
+                width: '100%',
+                dropdownAutoWidth: true, // Dropdown genişliğinin otomatik ayarlanmasını sağlar
+                dropdownParent: $('#selectUser')
+                    .parent(), // Dropdown'ı belirtilen elementin içine yerleştirir
+                language: {
+                    searching: function() {
+                        return "Aranıyor...";
+                    },
+                    loadingMore: function() {
+                        return "Daha fazla yükleniyor...";
+                    }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
 
     <script>
         $('.owl-carousel').owlCarousel({
@@ -487,6 +559,8 @@
                 })
             })
         @endif
+
+     
     </script>
 @endsection
 

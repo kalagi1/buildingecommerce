@@ -266,6 +266,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::get('/real_estates', [AdminRealEstateController::class, "index"])->name('real.estates');
     Route::get('/real_estate/{id}', [AdminRealEstateController::class, "detail"])->name('real.estate.detail');
+    Route::get('sat/kirala/yetki/ver/{id}',[AdminRealEstateController::class,"satKiralaYetkiVer"])->name('sat.kirala.yetki.ver');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
@@ -400,6 +401,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
         Route::get('/housings/{housing}/is-share/detail', [HousingController::class, 'isShareDetail'])->name('is_share_housings.detail');
         Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
+        Route::post('/housing/{id}/update-rates', [HousingController::class, 'updateRates'])->name('housing.update-rates');
+
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {

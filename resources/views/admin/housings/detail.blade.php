@@ -19,6 +19,60 @@
                 </div>
             </div>
             <div class="col-auto">
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editRatesModal">
+                    Kapora Oranlarını Düzenle
+                </button>
+                <!-- Modal şablonu -->
+                <div class="modal fade" id="editRatesModal" tabindex="-1" aria-labelledby="editRatesModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editRatesModalLabel">Kapora Oranlarını Düzenle</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- resources/views/admin/edit-rates-modal.blade.php -->
+                                <form method="post" action="{{ route('admin.housing.update-rates', $housing->id) }}">
+                                    @csrf
+                                    @method('POST') <!-- PUT veya POST gibi metotları doğru şekilde kullanın -->
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Kurum</th>
+                                                <th>Kapora Oranı</th>
+                                                <th>Satış Oranı (Emlak Kulüp)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($rates as $rate)
+                                                <tr>
+                                                    <td>{{ $rate->institution->name }}</td>
+                                                    <td>
+                                                        <input type="number" step="0.01"
+                                                            name="rates[{{ $rate->id }}][default_deposit_rate]"
+                                                            value="{{ $rate->default_deposit_rate }}" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" step="0.01"
+                                                            name="rates[{{ $rate->id }}][sales_rate_club]"
+                                                            value="{{ $rate->sales_rate_club }}" />
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+
+                                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @if ($housing->status == 1)
                     <a href="{{ route('admin.housings.set.status', $housing->id) }}" project_id="{{ $housing->id }}"
                         class="btn btn-danger set_status">Pasife Al</a>
