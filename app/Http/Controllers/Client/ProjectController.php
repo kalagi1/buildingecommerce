@@ -1148,20 +1148,33 @@ class ProjectController extends Controller
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
 
 
-            $pageInfo = [
-                "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
-                    : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
-                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
-                        : "Emlak Sepette"),
-                "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise_title[]'.' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!']
-                    : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
-                        ? $projectHousingsList[$housingOrder]['advertise-title[]'.'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!']
-                        : "Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!"),
-                "meta_author" => "Emlak Sepette",
-            ];
+     // Meta bilgi değişkeni tanımlanıyor
+$pageInfo = [
+    "meta_title" => 
+        // 'advertise_title[]' anahtarı var mı kontrol ediliyor
+        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
+            ? $projectHousingsList[$housingOrder]['advertise_title[]'] 
+            : (
+                // Yoksa 'advertise-title[]' anahtarı var mı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
+                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] 
+                    : "Emlak Sepette"
+              ),
+    "meta_keywords" => 
+        // Proje başlığı ve şehir bilgisi kullanılarak anahtar kelimeler oluşturuluyor
+        $project->project_title . " Proje, Proje Detay, " . $project->city->title,
+    "meta_description" => 
+        // 'advertise_title[]' anahtarı kontrol ediliyor
+        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
+            ? $projectHousingsList[$housingOrder]['advertise_title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+            : (
+                // 'advertise-title[]' anahtarı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
+                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                    : 'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+              ),
+    "meta_author" => "Emlak Sepette", // Meta yazar bilgisi
+];
 
             $pageInfo = json_encode($pageInfo);
             $pageInfo = json_decode($pageInfo);
