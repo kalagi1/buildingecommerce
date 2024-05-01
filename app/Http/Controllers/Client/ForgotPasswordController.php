@@ -20,7 +20,8 @@ class ForgotPasswordController extends Controller {
         $pageInfo = [
             "meta_title" => "Şifremi Sıfırla",
             "meta_keywords" => "Emlak Sepette,Şifremi Sıfırla",
-            "meta_description" => "Emlak Sepette Sifremi Sıfırla",
+            "meta_description" => "Emlak Sepette Şifremi Sıfırla, hesabınızı güvende tutmak için kolay ve güvenli bir şekilde şifrenizi yenileyin. 
+                Hemen başlayın ve güvenle devam edin!",
             "meta_author" => "Emlak Sepette",
         ];
 
