@@ -21,8 +21,9 @@ class PageController extends Controller
     }
 
     public function contracts_show(){   
+        $title = "Sözleşmeler";
         $contract_pages = Page::where('is_contract_page',1)->get();
-        return view('client.pages.contracts',compact('contract_pages'));
+        return view('client.pages.contracts',compact('contract_pages','title'));
     }//End
 
     public function getContent($target)
