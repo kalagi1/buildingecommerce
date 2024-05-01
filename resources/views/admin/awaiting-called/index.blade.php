@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="content" >
-    <h4 class="tableHeader" style="">Aranmayı Beklenenler</h4>
+    <h4 class="tableHeader" style="">Kurumsal Onay Süreci</h4>
     @if (Session::has('success'))
         <div class="alert alert-success" role="alert">
         {{ Session::get('success') }}
