@@ -25,7 +25,7 @@
                                 <ul>
                                     @foreach ($footerLinks as $footerLink)
                                         @if ($footerLink->widget == $widgetGroup->widget)
-                                            <li><a href="{{ $footerLink->url }}">{!! $footerLink->title !!}</a></li>
+                                            <li><a href="{{ $footerLink->url }}" target="_blank">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
                                 </ul>
@@ -45,7 +45,7 @@
             </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
-                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"></i></a>
+                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true" target="_blank"></i></a>
                     </li>
                 @endforeach
             </ul>

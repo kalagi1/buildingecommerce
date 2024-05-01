@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sözleşmeler</title>
+    <!-- Ek CSS ve JavaScript bağlantıları buraya gelebilir -->
+
+    <style>
+        /* CSS stilleri buraya yapıştırılabilir */
+    </style>
+</head>
+<body>
 @extends('client.layouts.master')
 @section('content')
     <div class="container">
@@ -237,3 +250,6 @@
         }
     }
 </style>
+
+</body>
+</html>
