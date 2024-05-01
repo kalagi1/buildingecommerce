@@ -24,9 +24,9 @@
 
     <!-- FAVICON -->
                                                                                 <!-- Canonical URL için bölüm -->
-                                                                                @if(isset($canonicalUrl))
+                                                                                {{-- @if(isset($canonicalUrl))
                                                                                         <link rel="canonical" href="{{ $canonicalUrl }}" />
-                                                                                @endif
+                                                                                @endif --}}
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('/') }}/favicon.png">
     <link rel="stylesheet" href="{{ URL::to('/') }}/css/jquery-ui.css">
     <!-- GOOGLE FONTS -->
