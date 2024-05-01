@@ -70,7 +70,7 @@ class InstitutionalController extends Controller
         $pageInfo = [
             "meta_title" => $store->name,
             "meta_keywords" => "Emlak Sepette," . $store->name,
-            "meta_description" => "Emlak Kulüp " . $store->name,
+            "meta_description" => "Emlak Kulüp " . $store->name .' en iyi gayrimenkul seçenekleri ve profesyonel hizmetlerle konut sahibi olmanın keyfini yaşayın. Hemen ziyaret edin. Fırsatları kaçırmayın!',
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -165,7 +165,7 @@ class InstitutionalController extends Controller
         $pageInfo = [
             "meta_title" => $institutional->name,
             "meta_keywords" => "Emlak Sepette," . $institutional->name,
-            "meta_description" => "Emlak Kulüp " . $institutional->name,
+            "meta_description" => "Emlak Kulüp " . $institutional->name.'uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet ve geniş seçeneklerle hayallerinizi gerçekleştirin!',
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -202,7 +202,7 @@ class InstitutionalController extends Controller
         $pageInfo = [
             "meta_title" => $institutional->name,
             "meta_keywords" => "Emlak Sepette," . $institutional->name,
-            "meta_description" => "Emlak Kulüp " . $institutional->name,
+            "meta_description" => "Emlak Kulüp " . $institutional->name .'uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet, geniş seçenekler ve uygun fiyatlarla hayallerinizi gerçekleştirin!',
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -260,7 +260,8 @@ class InstitutionalController extends Controller
                 $pageInfo = [
                     "meta_title" => $store->name . " Emlak İlanları",
                     "meta_keywords" => "Emlak Sepette," . $store->name . " Proje İlanları",
-                    "meta_description" => "Emlak Kulüp " . $store->name,
+                    "meta_description" => "Emlak Kulüp " . $store->name.' en iyi emlak çözümleri ve uzman danışmanlık hizmetleriyle hayallerinizi gerçekleştirmek için doğru adres! 
+                        Hemen ziyaret edin ve fırsatları keşfedin!',
                     "meta_author" => "Emlak Sepette",
                 ];
 
@@ -290,7 +291,7 @@ class InstitutionalController extends Controller
         $pageInfo = [
             "meta_title" => $institutional->name . " Proje İlanları",
             "meta_keywords" => "Emlak Sepette," . $institutional->name . " Proje İlanları",
-            "meta_description" => "Emlak Kulüp " . $institutional->name,
+            "meta_description" => "Emlak Kulüp " . $institutional->name.' uzman ekibimizle en iyi gayrimenkul çözümlerini keşfedin. Güvenilir hizmet, geniş seçenekler ve uygun fiyatlarla hayallerinizi gerçekleştirin!',
             "meta_author" => "Emlak Sepette",
         ];
 

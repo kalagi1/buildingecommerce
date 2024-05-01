@@ -121,7 +121,7 @@ class LoginController extends Controller {
         $pageInfo = [
             "meta_title" => "Giriş Yap & Kayıt Ol",
             "meta_keywords" => "Giriş Yap",
-            "meta_description" => "Emlak Sepetteye giriş yap",
+            "meta_description" => "Emlak Sepetteye giriş yapın ve en yeni konutları keşfedin. Kolay arama ve güvenli alışveriş için hemen üye olun.Kayıt ol , incele ve fırsatların keyfini çıkar. Şimdi sende gel!",
             "meta_author" => "Emlak Sepette",
         ];
 

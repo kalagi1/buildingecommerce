@@ -1220,7 +1220,8 @@ class CartController extends Controller
         $pageInfo = [
             'meta_title' => 'Sepetim',
             'meta_keywords' => 'Sepetim',
-            'meta_description' => 'Emlak Sepette Sepetim',
+            'meta_description' => 'Emlak Sepette Sepetim, en yeni ve en uygun konutları keşfedin. 
+                Geniş seçenekler, kolay ödeme seçenekleri ve profesyonel hizmetlerle konut sahibi olun!',
             'meta_author' => 'Emlak Sepette',
         ];
 
