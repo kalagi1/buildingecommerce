@@ -77,7 +77,8 @@
 
 
 .cookie-consent__message {
-    font-size: 15px;
+    font-size: 13px;
+    text-align: left;
 }
 
 @media (max-width:768px) {
