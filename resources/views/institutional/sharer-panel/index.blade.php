@@ -52,11 +52,23 @@
                                                 </svg></button>
                                             <ul class="dropdown-menu dropdown-menu-end" data-popper-placement="bottom-end">
                                                 <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#silModal{{ $collection->id }}">Koleksiyonu Sil</a>
+                                                        data-bs-target="#silModal{{ $collection->id }}">
+                                                        @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                            Portföyü
+                                                        @else
+                                                            Koleksiyonu
+                                                        @endif Sil
+                                                    </a>
                                                 </li>
                                                 <li><a class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#editCollectionModal{{ $collection->id }}">Koleksiyon
-                                                        Adını Düzenle</a></li>
+                                                        data-bs-target="#editCollectionModal{{ $collection->id }}">
+                                                        @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                            Portföy
+                                                        @else
+                                                            Koleksiyon
+                                                        @endif
+                                                        Adını Düzenle
+                                                    </a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -115,10 +127,10 @@
                                                     <div class="mb-3">
                                                         <label for="collectionName" class="form-label">
                                                             @if (Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                            Portföy Adı:
-                                                        @else
-                                                            Koleksiyon Adı:
-                                                        @endif
+                                                                Portföy Adı:
+                                                            @else
+                                                                Koleksiyon Adı:
+                                                            @endif
                                                         </label>
                                                         <input type="text" class="form-control" id="collectionName"
                                                             name="collectionName" value="{{ $collection->name }}" required>
@@ -135,11 +147,12 @@
                                     <div class="col-md-7">
                                         <div class="d-flex align-items-center mb-2">
 
-                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">  @if (Auth::user()->corporate_type == 'Emlak Ofisi')
-                                                Portföy Adı:
-                                            @else
-                                                Koleksiyon Adı:
-                                            @endif <span
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">
+                                                @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                    Portföy Adı:
+                                                @else
+                                                    Koleksiyon Adı:
+                                                @endif <span
                                                     class="fw-semibold text-primary ms-1">{{ $collection->name }}</span>
                                             </p>
                                         </div>
