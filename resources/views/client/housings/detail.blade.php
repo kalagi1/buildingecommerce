@@ -887,12 +887,12 @@
                                                         </clipPath>
                                                     </defs>
                                                 </svg><span class="add-to-collection-button-text">
-                                                    @if (Auth::user()->corporate_type == "Emlak Ofisi")
-                                                    Portföyüme Ekle
-                                                        @else
+                                                    @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                        Portföyüme Ekle
+                                                    @else
                                                         Koleksiyona Ekle
                                                     @endif
-                                                 </span>
+                                                </span>
                                             </div>
                                             <i class="fa fa-caret-right"></i>
                                         </div>
