@@ -398,8 +398,7 @@
                     var pluralText;
 
                     if (isLoggedIn) {
-                        var accountType = {!! json_encode(Auth::user()->account_type) !!};
-                        console.log(accountType);
+                        var accountType = {!! json_encode(Auth::user()->corporate_type) !!};
                         if (accountType === "Emlak Ofisi") {
                             text = "Portföy";
                             pluralText = "Portföylerden";
