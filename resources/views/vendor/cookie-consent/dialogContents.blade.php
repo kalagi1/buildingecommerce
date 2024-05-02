@@ -3,13 +3,13 @@
 
         <div class="p-2 rounded-lg bg-yellow-100">
             <div class="flex items-center justify-between flex-wrap">
-                <div class="w-0 flex-1 items-center hidden md:inline">
-                    <span class="ml-3 text-black cookie-consent__message">
+                <div class="w-0 flex-1 items-center hidden md:inline text-left">
+                    <span class="text-black cookie-consent__message">
                         {!! trans('cookie-consent::texts.message') !!}
                     </span>
                 </div>
                 <span>
-                    Detaylı bilgi için <a href="{{ url('sayfa/cerez-politikasi') }}" class="cookie-consent-link"> Çerez
+                    Detaylı bilgi için <a href="{{ url('sayfa/cerez-politikasi') }}" > Çerez
                         Aydınlatma Metni’ni </a> inceleyebilirsiniz.
                 </span>
 
