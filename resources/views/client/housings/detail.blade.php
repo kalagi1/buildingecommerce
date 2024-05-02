@@ -887,7 +887,7 @@
                                                         </clipPath>
                                                     </defs>
                                                 </svg><span class="add-to-collection-button-text">
-                                                    @if (Auth::user()->account_type == "Emlak Ofisi")
+                                                    @if (Auth::user()->corporate_type == "Emlak Ofisi")
                                                     Portföyüme Ekle
                                                         @else
                                                         Koleksiyona Ekle
