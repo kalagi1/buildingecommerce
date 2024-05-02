@@ -113,8 +113,13 @@
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="mb-3">
-                                                        <label for="collectionName" class="form-label">Koleksiyon
-                                                            Adı</label>
+                                                        <label for="collectionName" class="form-label">
+                                                            @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                            Portföy Adı:
+                                                        @else
+                                                            Koleksiyon Adı:
+                                                        @endif
+                                                        </label>
                                                         <input type="text" class="form-control" id="collectionName"
                                                             name="collectionName" value="{{ $collection->name }}" required>
                                                     </div>
