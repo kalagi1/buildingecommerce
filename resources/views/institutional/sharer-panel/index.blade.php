@@ -135,8 +135,11 @@
                                     <div class="col-md-7">
                                         <div class="d-flex align-items-center mb-2">
 
-                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">Koleksiyon
-                                                Adı: <span
+                                            <p class="fw-bold mb-0 lh-1" style="font-size: 12px !important">  @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                Portföy Adı:
+                                            @else
+                                                Koleksiyon Adı:
+                                            @endif <span
                                                     class="fw-semibold text-primary ms-1">{{ $collection->name }}</span>
                                             </p>
                                         </div>
