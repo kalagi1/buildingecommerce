@@ -4,14 +4,15 @@
         <div class="p-2 rounded-lg bg-yellow-100">
             <div class="flex items-center justify-between flex-wrap">
                 <div class="w-0 flex-1 items-center hidden md:inline text-left">
-                    <span class="text-black cookie-consent__message">
+                    <span class="text-black cookie-consent__message mb-2">
                         {!! trans('cookie-consent::texts.message') !!}
                     </span>
+                    <span>
+                        Detaylı bilgi için <a href="{{ url('sayfa/cerez-politikasi') }}" > Çerez
+                            Aydınlatma Metni’ni </a> inceleyebilirsiniz.
+                    </span>
                 </div>
-                <span>
-                    Detaylı bilgi için <a href="{{ url('sayfa/cerez-politikasi') }}" > Çerez
-                        Aydınlatma Metni’ni </a> inceleyebilirsiniz.
-                </span>
+             
 
                 <div class="mt-2 flex-shrink-0 w-full sm:mt-0 sm:w-auto">
                     <button
