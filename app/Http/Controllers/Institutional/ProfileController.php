@@ -224,12 +224,14 @@ class ProfileController extends Controller
     {
         $request->validate([
             "name" => "required",
-            // "mobile_phone" => "required",
-            "iban" => "required",
+            "iban" => function ($attribute, $value, $fail) use ($request) {
+                if (auth()->user()->has_club == 1 && empty($value)) {
+                    $fail('Iban alanı zorunludur');
+                }
+            },
             "banner_hex_code" => "required",
-        ],[
+        ], [
             "name.required" => "İsim alanı zorunludur",
-            // "mobile_phone.required" => "Cep telefonu zorunludur",
             "iban.required" => "Iban alanı zorunludur",
             "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
         ]);
@@ -247,9 +249,7 @@ class ProfileController extends Controller
         $website = $request->input("website");
 
 
-
-
-        $data = $request->all();
+        $data = $request->except('area_code');
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
