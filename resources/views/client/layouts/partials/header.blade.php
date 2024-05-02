@@ -450,7 +450,10 @@
                                                 [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa-bookmark',
-                                                    'text' => 'Koleksiyonlarım',
+                                                    'text' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => route('institutional.profile.cart-orders'),
@@ -500,7 +503,10 @@
                                                 [
                                                     'url' => route('institutional.sharer.index'),
                                                     'icon' => 'fa-bookmark',
-                                                    'text' => 'Koleksiyonlarım',
+                                                    'text' =>
+                                                        Auth::user()->corporate_type == 'Emlak Ofisi'
+                                                            ? 'Portföylerim'
+                                                            : 'Koleksiyonlarım',
                                                 ],
                                                 [
                                                     'url' => url('institutional/ilan-tipi-sec'),
