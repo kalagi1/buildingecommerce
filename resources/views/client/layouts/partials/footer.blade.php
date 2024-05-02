@@ -399,6 +399,7 @@
 
                     if (isLoggedIn) {
                         var accountType = {!! json_encode(Auth::user()->account_type) !!};
+                        console.log(accountType);
                         if (accountType === "Emlak Ofisi") {
                             text = "Portföy";
                             pluralText = "Portföylerden";
