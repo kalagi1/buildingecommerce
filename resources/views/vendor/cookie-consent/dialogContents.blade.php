@@ -6,9 +6,9 @@
                 <div class="w-0 flex-1 items-center hidden md:inline text-left">
                     <span class="text-black cookie-consent__message mb-2">
                         {!! trans('cookie-consent::texts.message') !!}
-                    </span><br>
+                    </span><br><br>
                     <span>
-                        Detaylı bilgi için <a href="{{ url('sayfa/cerez-politikasi') }}" > Çerez
+                        Detaylı bilgi için <a href="{{ url('sayfa/cerez-politikasi') }}" style="color: white"> Çerez
                             Aydınlatma Metni’ni </a> inceleyebilirsiniz.
                     </span>
                 </div>
