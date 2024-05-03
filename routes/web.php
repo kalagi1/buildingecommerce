@@ -617,6 +617,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.projects.get');
     Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.projects.store');
 
+    Route::get('sold/invoice_detail/{id}', [ProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
+    Route::get('sold/order_detail/{id}', [ProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
+
     Route::middleware(['checkPermission:DeleteFooterLink'])->group(function () {
         Route::delete('/footer_links/{footer_link}', [FooterLinkController::class, 'destroy'])->name('footer_links.destroy');
     });

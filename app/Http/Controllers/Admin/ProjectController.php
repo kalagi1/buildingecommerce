@@ -576,4 +576,23 @@ class ProjectController extends Controller
 
         return redirect()->back()->with('error', 'Silme işlemi yapılırken hata!');
     } //End
+
+    public function soldInvoiceDetail($id){
+        $order = CartOrder::where('cart->item->id', $id)->latest()->first();
+
+        $project = Housing::where("id", $id)->with("user")->first();
+        $invoice = Invoice::where('order_id',$order->id)->first();
+
+        $data = [
+            'invoice' => $invoice,
+            'project' => $project,
+        ];
+
+        return view('admin.invoice.index',compact('data'));
+    }//End
+
+    public function soldOrderDetail($id){
+        $order = CartOrder::where('cart->item->id', $id)->latest()->first();
+        return view('admin.orders.detail', compact('order'));
+    }//End
 }
