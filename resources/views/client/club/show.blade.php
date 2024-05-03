@@ -3,9 +3,9 @@
 @section('content')
     <section>
 
-        @if ($store->type == '2')
+       
             <x-store-card :store="$store" :collection="$collection" :mergedItems="$mergedItems" />
-        @endif
+      
 
 
         <div class="container featured portfolio rec-pro disc bg-white">
