@@ -82,7 +82,7 @@
                                     @endif
                                 @endif
                             @endforeach --}}
-                            <div class="row project-filter-reverse blog-pots" style="width: 100%">
+                            <div class="row project-filter-reverse blog-pots">
                                 <table class="table">
                                     <tbody class="collection-title">
 
@@ -916,7 +916,7 @@
         }
 
         .mobile-hidden {
-            display: flex;
+            display: block;
             flex-wrap: wrap
         }
 
