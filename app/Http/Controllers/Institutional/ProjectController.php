@@ -2526,6 +2526,26 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function soldInvoiceDetail($id){
+        $order = CartOrder::where('cart->item->id', $id)->first();
+
+        $project = Housing::where("id", $id)->with("user")->first();
+        $invoice = Invoice::where('order_id',$order->id)->first();
+
+        $data = [
+            'invoice' => $invoice,
+            'project' => $project,
+        ];
+
+        return view('institutional.invoice.index',compact('data'));
+    }//End
+
+    public function soldOrderDetail($id){
+        $order = CartOrder::where('cart->item->id', $id)->first();
+
+        return view('institutional.orders.detail', compact('order'));
+    }//End
+
     public function newProjectImage(Request $request, $projectId)
     {
         if ($request->hasFile('file')) {
