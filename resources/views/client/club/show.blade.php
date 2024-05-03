@@ -3,9 +3,9 @@
 @section('content')
     <section>
 
-       
-            <x-store-card :store="$store" :collection="$collection" :mergedItems="$mergedItems" />
-      
+
+        <x-store-card :store="$store" :collection="$collection" :mergedItems="$mergedItems" />
+
 
 
         <div class="container featured portfolio rec-pro disc bg-white">
@@ -154,7 +154,7 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title . "<br>" }}
+                                                        {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title . '<br>' }}
 
                                                         @if ($item['item_type'] == 1)
                                                             {!! $item['room_order'] . " No'lu Daire <br>" !!}
@@ -171,7 +171,9 @@
                                                                     $item['project']['county']['ilce_title'] .
                                                                     ' / ' .
                                                                     $item['project']['neighbourhood']['mahalle_title'] }}
-                                                            @elseif (isset($item['housing']['city']['title']))
+                                                            @elseif (isset($item['housing']['city']['title']) &&
+                                                                    isset($item['housing']['county']['ilce_title']) &&
+                                                                    isset($item['housing']['neighborhood']['mahalle_title']))
                                                                 {{ $item['housing']['city']['title'] }}
                                                             @endif
                                                             <br>
