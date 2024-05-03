@@ -206,25 +206,10 @@
 
 
                     </li>
-                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                        @if ($sold != null)
-                            @if ($sold != '1' && $sold != '0')
-                                @if (!$housing->discount_amount)
-                                    <li
-                                        style="display: flex; justify-content: right;width:100%">
-                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
-                                    </li>
-                                @endif
-                            @endif
-                        @else
-                            @if (!$housing->discount_amount)
-                                <li
-                                    style="display: flex; justify-content: right;width:100%">
-                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
-                                </li>
-                            @endif
-                        @endif
-                    @endif
+                    <li
+                    style="display: flex; justify-content: right;width:100%">
+                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
+                </li>
 
                 </ul>
 
