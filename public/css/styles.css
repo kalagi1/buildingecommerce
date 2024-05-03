@@ -6125,6 +6125,7 @@ element.style {
 .homepage-2 .portfolio .homes-price {
     font-size: 11px !important;
     background: green !important;
+    color: white !important
 }
 
 .homepage-2 .portfolio .homes-price i {
