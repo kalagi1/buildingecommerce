@@ -151,8 +151,30 @@
                                                 @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
                                                     @if ($item['item_type'] == 2)
                                                         @php
-                                                            $sharePercent = 0.25;
-                                                            $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+
+                                                            $rates = App\Models\Rate::where(
+                                                                'housing_id',
+                                                                $item['housing']['id'],
+                                                            )->get();
+
+                                                            $share_percent_earn = null;
+
+                                                            foreach ($rates as $key => $rate) {
+                                                                if (
+                                                                    Auth::user()->corporate_type ==
+                                                                    $rate->institution->name
+                                                                ) {
+                                                                    $share_percent_earn = $rate->default_deposit_rate;
+                                                                    $share_percent_balance = 1.0 - $share_percent_earn;
+                                                                }
+                                                            }
+
+                                                            if ($share_percent_earn === null && count($rates) > 0) {
+                                                                $share_percent_earn = $rates->last()->sales_rate_club;
+                                                            }
+                                                            
+                                                            $earningAmount =
+                                                                $discountedPrice * $deposit_rate * $share_percent_earn;
                                                         @endphp
                                                         <strong>
 
@@ -166,7 +188,8 @@
                                                                     : isset($item['project_values']['price[]']))
                                                                 ? $item['project_values']['price[]']
                                                                 : $item['project_values']['daily_rent[]'];
-                                                            $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+                                                            $earningAmount =
+                                                                $discountedPrice * $deposit_rate * $sharePercent;
                                                         @endphp
                                                         <strong>
                                                             @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -362,7 +385,8 @@
                                                                 ->price[0]
                                                             : json_decode($item['housing']['housing_type_data'])
                                                                 ->daily_rent[0];
-                                                        $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+                                                        $earningAmount =
+                                                            $discountedPrice * $deposit_rate * $sharePercent;
                                                     @endphp
                                                     <strong>
 
@@ -376,7 +400,8 @@
                                                                 : isset($item['project_values']['price[]']))
                                                             ? $item['project_values']['price[]']
                                                             : $item['project_values']['daily_rent[]'];
-                                                        $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
+                                                        $earningAmount =
+                                                            $discountedPrice * $deposit_rate * $sharePercent;
                                                     @endphp
                                                     <strong>
                                                         @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
