@@ -104,12 +104,7 @@ Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.s
 Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
-//telefon doğrulama
-Route::post('phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
-->name('phone.generateVerificationCode');
 
-Route::post('phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
-->name('phone.verifyPhoneNumber');
 
 
 
@@ -139,6 +134,13 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::middleware(['checkPermission:DeleteRole'])->group(function () {
             Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
         });
+
+        //telefon doğrulama
+Route::post('phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
+->name('phone.generateVerificationCode');
+
+Route::post('phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
+->name('phone.verifyPhoneNumber');
 });
 
     // API rotaları buraya gelecek
