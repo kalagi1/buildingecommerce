@@ -31,35 +31,41 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row g-3">
-                                <div class="border-top border-bottom border-translucent" id="leadDetailsTable"
-                                    >
+                                <div class="border-top border-bottom border-translucent" id="leadDetailsTable">
                                     <div class="table-responsive scrollbar mx-n1 px-1">
                                         <table class="table fs-9 mb-0">
                                             <thead>
                                                 <tr>
                                                     <th class="sort white-space-nowrap align-middle pe-3 ps-0 "
                                                         scope="col" data-sort="dealName"
-                                                        style="width:15%; min-width:200px">Koleksiyon Adı</th>
-                                                    <th class="sort align-middle pe-6  text-end"
-                                                        scope="col" data-sort="amount"
-                                                        style="width:15%; min-width:100px">İlan Sayısı</th>
+                                                        style="width:15%; min-width:200px">
+                                                        @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                                            Portföy Adı:
+                                                        @else
+                                                            Koleksiyon Adı:
+                                                        @endif
+                                                    </th>
+                                                    <th class="sort align-middle pe-6  text-end" scope="col"
+                                                        data-sort="amount" style="width:15%; min-width:100px">İlan Sayısı
+                                                    </th>
 
                                                 </tr>
                                             </thead>
                                             <tbody class="list" id="lead-details-table-body">
                                                 @foreach ($collections as $item)
-                                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                                    <tr class="hover-actions-trigger btn-reveal-trigger position-static">
 
-                                                    <td class="dealName align-middle white-space-nowrap py-2 ps-0"><a
-                                                            class="fw-semibold text-primary" href="#!">{{$item->name}}</a>
-                                                    </td>
-                                                    <td
-                                                        class="amount align-middle white-space-nowrap text-start fw-bold text-body-tertiary py-2 text-end pe-6">
-                                                       {{count($item->links)}}</td>
+                                                        <td class="dealName align-middle white-space-nowrap py-2 ps-0"><a
+                                                                class="fw-semibold text-primary"
+                                                                href="#!">{{ $item->name }}</a>
+                                                        </td>
+                                                        <td
+                                                            class="amount align-middle white-space-nowrap text-start fw-bold text-body-tertiary py-2 text-end pe-6">
+                                                            {{ count($item->links) }}</td>
 
-                                                </tr>
+                                                    </tr>
                                                 @endforeach
-                 
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -131,7 +137,7 @@
                                     <div>
                                         <p class="fw-bold mb-1" style="color: red">Reddedilen Komisyon Tutarı</p>
                                         <h4 class="fw-bolder text-nowrap">
-                                            {{ $balanceStatus2}} ₺
+                                            {{ $balanceStatus2 }} ₺
                                         </h4>
                                     </div>
                                 </div>
@@ -249,7 +255,8 @@
                                         </td>
                                         <td class="py-2 d-none d-sm-block pe-sm-2">:</td>
                                         <td class="py-2"><a class="ps-6 ps-sm-0 fw-semibold mb-0 text-body"
-                                                href="mailto:{{ Auth::user()->email }}">{{ Auth::user()->email }}</a></td>
+                                                href="mailto:{{ Auth::user()->email }}">{{ Auth::user()->email }}</a>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -25,7 +25,8 @@
                                 <ul>
                                     @foreach ($footerLinks as $footerLink)
                                         @if ($footerLink->widget == $widgetGroup->widget)
-                                            <li><a href="{{ $footerLink->url }}" target="_blank">{!! $footerLink->title !!}</a></li>
+                                            <li><a href="{{ $footerLink->url }}"
+                                                    target="_blank">{!! $footerLink->title !!}</a></li>
                                         @endif
                                     @endforeach
                                 </ul>
@@ -45,7 +46,8 @@
             </p>
             <ul class="netsocials">
                 @foreach ($socialMediaIcons as $icon)
-                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true" target="_blank"></i></a>
+                    <li><a href="{{ $icon->url }}"><i class="{{ $icon->icon_class }}" aria-hidden="true"
+                                target="_blank"></i></a>
                     </li>
                 @endforeach
             </ul>
@@ -379,7 +381,6 @@
         } else if (isLoggedIn && hasClub ==
             1) {
             $('#addCollectionModal').modal('show');
-
             $(".addCollection").data('cart-info', {
                 id: productId,
                 type: type,
@@ -389,61 +390,86 @@
                 selectedCollectionId: null
             });
 
+
             fetch('/getCollections')
                 .then(response => response.json())
                 .then(data => {
+                    var text;
+                    var pluralText;
+
+                    if (isLoggedIn) {
+                        var user = {!! Auth::check() ? json_encode(Auth::user()) : 'null' !!};
+                        if (accountType === "Emlak Ofisi") {
+                            text = "Portföy";
+                            pluralText = "Portföylerden";
+                        } else {
+                            text = "Koleksiyon";
+                            pluralText = "Koleksiyonlardan";
+                        }
+                    } else {
+                        text = "Koleksiyon";
+                        pluralText = "Koleksiyonlardan";
+                    }
+
                     let modalContent =
-                        '<div class="modal-header"><h3 class="modal-title fs-5" id="exampleModalLabel">Koleksiyona Ekle</h3></div><div class="modal-body collection-body">';
+                        `<div class="modal-header">
+          <h3 class="modal-title fs-5" id="exampleModalLabel">${text} Ekle</h3>
+       </div>
+       <div class="modal-body collection-body">`;
 
                     if (data.collections.length > 0) {
                         modalContent +=
-                            '<span class="collectionTitle mb-3">Koleksiyonlarından birini seç veya yeni bir koleksiyon oluştur</span>';
+                            `<span class="collectionTitle mb-3">${pluralText} birini seç veya yeni bir ${text} oluştur</span>`;
                         modalContent +=
-                            '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
-                        modalContent +=
-                            '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
+                            `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
+            <ul class="list-group" id="collectionList" style="justify-content: space-between;">`;
+
                         data.collections.forEach(collection => {
                             modalContent +=
-                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">${collection.name}</li>`;
+                                `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important" data-collection-id="${collection.id}">
+             ${collection.name}
+           </li>`;
                         });
+
                         modalContent +=
-                            '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
-                        modalContent += '</ul>';
-                        modalContent += '</div>';
+                            `<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important">
+           <i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle
+         </li>`;
+                        modalContent += '</ul></div>';
                     } else {
-                        modalContent += '<p>Henüz koleksiyonun yok. Yeni koleksiyon oluştur:</p>';
+                        modalContent += `<p>Henüz ${text} yok. Yeni bir ${text} oluştur:</p>`;
                         modalContent +=
-                            '<div class="collection-item-wrapper" id="selectedCollectionWrapper">';
+                            `<div class="collection-item-wrapper" id="selectedCollectionWrapper">
+            <ul class='list-group' id='collectionList' style='justify-content: space-between;'>`;
                         modalContent +=
-                            '<ul class="list-group" id="collectionList" style="justify-content: space-between;">';
-                        modalContent +=
-                            '<li class="list-group-item mb-3" style="cursor:pointer;color:black;font-size:11px !important"><i class="fa fa-plus" style="color:#e54242;"></i> Yeni Ekle</li>';
-                        modalContent += '</ul>';
-                        modalContent += '</div>';
+                            `<li class='list-group-item mb-3' style='cursor:pointer;color:black;font-size:11px !important'>
+           <i class='fa fa-plus' style='color:#e54242;'></i> Yeni Ekle
+         </li>`;
+                        modalContent += '</ul></div>';
                     }
 
                     modalContent +=
                         '</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button></div>';
+
                     let modal = document.getElementById('addCollectionModal');
                     let modalBody = modal.querySelector('.modal-content');
                     modalBody.innerHTML = modalContent;
 
+                    // Olay dinleyicilerini yeniden ekleyin
                     document.querySelectorAll('#collectionList li').forEach(item => {
                         item.addEventListener('click', function() {
-
                             let selectedCollectionId = this.getAttribute(
                                 'data-collection-id');
                             if (!this.isEqualNode(document.querySelector(
                                     '#collectionList li:last-child'))) {
-
                                 var cart = {
-                                    id: productId, // productId nereden alındığını kontrol etmelisiniz
+                                    id: productId,
                                     type: type,
-                                    project: project, // project nereden alındığını kontrol etmelisiniz
+                                    project: project,
                                     _token: "{{ csrf_token() }}",
                                     clear_cart: "no",
                                     selectedCollectionId: parseInt(selectedCollectionId,
-                                        10) // Convert to number using parseInt
+                                        10)
                                 };
 
                                 $.ajax({
@@ -452,36 +478,33 @@
                                     data: JSON.stringify(cart),
                                     contentType: "application/json;charset=UTF-8",
                                     success: function(response) {
-
                                         if (response.failed) {
                                             toastr.warning(
                                                 "Ürün bu koleksiyonda zaten mevcut."
-                                            );
+                                                );
                                         } else {
                                             toastr.success(
                                                 "Ürün Koleksiyonunuza Eklendi"
-                                            );
+                                                );
                                         }
-
-
                                     },
                                     error: function(error) {
                                         console.error(error);
                                     }
                                 });
+
                                 closeModal();
                             }
                         });
                     });
 
-
                     document.querySelector('#collectionList li:last-child').addEventListener('click',
                         function() {
                             $('#addCollectionModal').modal('hide');
                             $('#newCollectionModal').modal('show');
-
                         });
                 });
+
         }
 
         function redirectToLogin() {
@@ -814,7 +837,7 @@
                                                     paymentPlanData[j]] + " " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
-                                                if (projectedEarningsData) {
+                                            if (projectedEarningsData) {
                                                 html += "<td>" + projectedEarningsData + "</td>";
 
                                             }
