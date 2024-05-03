@@ -1274,6 +1274,7 @@
                                                     <div class="homes-content px-3 py-3" style="${res.sold ? 'background: #EEE !important;' : ''}">
                                                         <!-- homes address -->
                                                         <a href="${res.housing_url}">
+                                                            ${isAvailable}
                                                             <h4>${kisaltilmisBaslik}</h4>
                                                         </a>
                                                         <p class="homes-address mb-3">
