@@ -905,6 +905,7 @@
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <button type="button"
                                                         class="btn btn-block btn-m btn-success mt-5 paySuccess"
+                                                        data-order="{{ $order->id }}"
                                                         id="completePaymentButton" style="float:right">Ödemeyi
                                                         Tamamla
                                                     </button>
