@@ -108,6 +108,10 @@ Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])
 Route::post('phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
 ->name('phone.generateVerificationCode');
 
+Route::post('phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
+->name('phone.verifyPhoneNumber');
+
+
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {

@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Services\SmsService;
+
 
 class AuthController extends Controller
 {
@@ -333,8 +335,46 @@ class AuthController extends Controller
             }
            
             return response()->json([
-                'success' => 'Telefon doğrulama kodu gönderildi.'
+                'success' => true
             ]);
         } 
     }//End
+
+    private function sendSMS($user)
+    {
+        // Kullanıcının telefon numarasını al
+        $userPhoneNumber = $user->mobile_phone;
+
+        // Kullanıcının adını ve soyadını al
+        $name = $user->name;
+
+        // SMS metni oluştur
+        $message = "$user->phone_verification_code nolu onay kodu ile hesabınızı güvenli bir şekilde doğrulayabilirsiniz.";
+      
+        // SMS gönderme işlemi
+        $smsService = new SmsService();
+        $source_addr = 'Emlkspette';
+
+        $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+    }
+
+    public function verifyPhoneNumber(Request $request)
+    {
+        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
+
+        if ($user) {
+            $verificationCode = implode('', $request->input('code')); // Kodları birleştir
+
+            if ($verificationCode == $user->phone_verification_code) {
+                $user->phone_verification_status = 1; // Doğrulama durumunu 1 olarak ayarlıyoruz
+                $user->save(); // Kullanıcıyı kaydediyoruz
+                return response()->json([
+                    'success' => true
+                ]);
+            } else {
+                return response()->json()->withErrors(['error' => 'Doğrulama Kodu Eşleşmedi']);
+            }
+
+        }
+    }   
 }
