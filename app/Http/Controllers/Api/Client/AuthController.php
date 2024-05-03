@@ -122,6 +122,7 @@ class AuthController extends Controller
                         "buyerStatus" => $user->status,
                         "corporateAccountStatus" => $user->corporate_account_status,
                         'email' => $user->email,
+                        'mobile_phone' => $user->mobile_phone,
                         'access_token' => $accessToken,
                         "rolePermissions" => $user->role->rolePermissions,
                         "works" => $user->works,
