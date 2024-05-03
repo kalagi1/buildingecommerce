@@ -175,7 +175,7 @@
                                                             }
 
                                                             if ($share_percent_earn === null && count($rates) > 0) {
-                                                                $share_percent_earn = $rates->last()->sales_rate_club;
+                                                                $sales_rate_club = $rates->last()->sales_rate_club;
                                                             }
 
                                                             $earningAmount =
