@@ -58,6 +58,7 @@ class HousingController extends Controller
         $activeHousingTypes = Housing::with('city', 'county', 'neighborhood')
             ->where('status', 1)
             ->where('is_share', '!=', 1)
+            ->where('is_sold', null)
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->select(
                 'housings.id',
@@ -181,7 +182,27 @@ class HousingController extends Controller
             ->onlyTrashed()
             ->get();
 
-        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes'));
+            
+        $soldHousingsTypes = Housing::with('city', 'county', 'neighborhood')
+        ->where('is_sold', 1)
+        ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+        ->select(
+            'housings.id',
+            'housings.title AS housing_title',
+            'housings.status AS status',
+            'housings.address',
+            'housings.created_at',
+            'housing_types.title as housing_type',
+            'housing_types.slug',
+            'housings.city_id',
+            'housings.deleted_at',
+            'housings.county_id',
+            'housings.neighborhood_id',
+            'housing_types.form_json',
+            'housings.deleteReason',
+        )
+        ->get();
+        return view('admin.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'deletedHousings', 'inactiveHousingTypes','soldHousingsTypes'));
     }
 
     /**
