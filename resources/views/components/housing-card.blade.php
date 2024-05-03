@@ -10,6 +10,7 @@
                         <div class="homes-tag button alt featured" style="width:90px !important">
                             No: {{ $housing->id + 2000000 }}
                         </div>
+                        
                         <div class="type-tag button alt featured">
                             @if ($housing->step2_slug == 'kiralik')
                                 Kiralık
@@ -19,6 +20,7 @@
                                 Satılık
                             @endif
                         </div>
+                        <div class="homes-price">$9,000/mo</div>
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive">
