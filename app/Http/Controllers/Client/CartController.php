@@ -806,10 +806,11 @@ class CartController extends Controller
             // Sipariş bulunamazsa 404 hatası döndür
         }
 
-        $dekontDosyaYolu = public_path('dekont/' . $order->dekont);
+        $dekontDosyaYolu = "https://test.emlaksepette.com/public/dekont/" .$order->dekont;
+       
+        if ($dekontDosyaYolu) {
+            return redirect()->away($dekontDosyaYolu);
 
-        if (file_exists($dekontDosyaYolu)) {
-            return Response::download($dekontDosyaYolu);
         } else {
             return abort(404);
             // Dekont bulunamazsa 404 hatası döndür
