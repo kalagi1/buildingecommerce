@@ -871,7 +871,7 @@ class HomeController extends Controller
             $housingTypeData = json_decode($item->housing_type_data, true);
             $offSale = isset($housingTypeData['off_sale1']);
             $share = isset($housingTypeData['share-open1']);
-            $open_share1 = isset($housingTypeData['open_share1']);
+            $open_share1 = isset($housingTypeData['open_sharing1']);
 
 
             return [
