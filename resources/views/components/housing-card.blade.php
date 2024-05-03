@@ -20,7 +20,7 @@
                                 Satılık
                             @endif
                         </div>
-                        <div class="homes-price"><i class="fa fa-handshake-o"></i></div>
+                        <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı Emlak</div>
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive">
