@@ -337,7 +337,8 @@ class AuthController extends Controller
             }
            
             return response()->json([
-                'success' => true
+                'success' => true,
+                'code'   =>$verificationCode
             ]);
         } 
     }//End
