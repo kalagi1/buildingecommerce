@@ -628,7 +628,7 @@
                                                         }
                                                     @endphp
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        <span class="text-center w-100">
+                                                        <span class="w-100">
                                                             1 Hisse Fiyatı
                                                         </span>
                                                     @endif
