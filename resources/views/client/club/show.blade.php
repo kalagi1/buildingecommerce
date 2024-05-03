@@ -259,7 +259,7 @@
                                                                     style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
                                                                     @if ($item['item_type'] == 1)
                                                                         @if (isset($item['project_values']['price[]']))
-                                                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                            @if (isset($share_sale) && $share_sale != '[]' && !empty($share_sale) && $number_of_share != 0)
                                                                                 {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
                                                                             @else
                                                                                 {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
@@ -788,130 +788,7 @@
                                                             </button>
                                                         @else
                                                             <div style="width:50% !important;">
-                                                                <span class="ml-auto text-primary priceFont"
-                                                                    style="display: block;width:100% !important;text-align:center">
-                                                                    @if (($item['action'] && $item['action'] == 'tryBuy') || $item['action'] == 'noCart')
-                                                                        @php
-                                                                            $discountedPrice = null;
-                                                                            $price = null;
-                                                                            $discountRate = null;
-                                                                            if (
-                                                                                $item['item_type'] == 2 &&
-                                                                                isset(
-                                                                                    json_decode(
-                                                                                        $item['housing'][
-                                                                                            'housing_type_data'
-                                                                                        ],
-                                                                                    )->discount_rate[0],
-                                                                                )
-                                                                            ) {
-                                                                                $discountRate = json_decode(
-                                                                                    $item['housing'][
-                                                                                        'housing_type_data'
-                                                                                    ],
-                                                                                )->discount_rate[0];
-                                                                                $price =
-                                                                                    json_decode(
-                                                                                        $item['housing'][
-                                                                                            'housing_type_data'
-                                                                                        ],
-                                                                                    )->price[0] -
-                                                                                    $item['discount_amount'];
-                                                                                $discountedPrice =
-                                                                                    $price -
-                                                                                    ($price * $discountRate) / 100;
-                                                                            } elseif ($item['item_type'] == 1) {
-                                                                                $discountRate =
-                                                                                    $item['project_values'][
-                                                                                        'discount_rate[]'
-                                                                                    ] ?? 0;
-                                                                                $share_sale =
-                                                                                    $item['project_values'][
-                                                                                        'share_sale[]'
-                                                                                    ] ?? null;
-                                                                                $number_of_share =
-                                                                                    $item['project_values'][
-                                                                                        'number_of_shares[]'
-                                                                                    ] ?? null;
-                                                                                $price =
-                                                                                    $item['project_values']['price[]'] -
-                                                                                    $item['discount_amount'];
-                                                                                $discountedPrice =
-                                                                                    $price -
-                                                                                    ($price * $discountRate) / 100;
-                                                                            }
-                                                                        @endphp
-                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                            <span class="text-center w-100">
-                                                                                1 Hisse Fiyatı
-                                                                            </span><br>
-                                                                        @endif
-                                                                        @if (isset($discountRate) && $discountRate != 0)
-                                                                        <del style="color: #e54242;">
-                                                                            @if ($item['item_type'] == 1)
-                                                                                @if (isset($item['project_values']['price[]']))
-                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                        {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                    @else
-                                                                                        {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @elseif($item['project_values']['daily_rent[]'])
-                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                        {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                    @else
-                                                                                        {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endif
-                                                                            @else
-                                                                                @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
-                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
-                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
-                                                                                @endif
-                                                                            @endif ₺
-                                                                        </del>
-                                                                            <h6
-                                                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                    {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
-                                                                                    ₺
-                                                                                @else
-                                                                                    {{ number_format($discountedPrice, 0, ',', '.') }}
-                                                                                    ₺
-                                                                                @endif
-                                                                            </h6>
-                                                                        
-                                                                        @else
-                                                                            <h6
-                                                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-
-                                                                                @if ($item['item_type'] == 1)
-                                                                                    @if (isset($item['project_values']['price[]']))
-                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                            {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                        @else
-                                                                                            {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
-                                                                                        @endif
-                                                                                    @elseif($item['project_values']['daily_rent[]'])
-                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                            {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                        @else
-                                                                                            {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
-                                                                                        @endif
-                                                                                    @endif
-                                                                                @else
-                                                                                    @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
-                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                    @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
-                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endif ₺
-                                                                            </h6>
-                                                                        @endif
-                                                                    @endif
-
-
-                                                                </span>
+                         
                                                                 <button class="CartBtn second-btn mobileCBtn "
                                                                     data-type='project'
                                                                     data-project='{{ $item['project']->id }}'
