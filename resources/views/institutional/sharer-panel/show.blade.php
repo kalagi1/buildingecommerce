@@ -159,7 +159,6 @@
 
                                                             $share_percent_earn = null;
 
-                                                            print_r( $item['housing']["user"]);
 
                                                             foreach ($rates as $key => $rate) {
                                                                 if (
@@ -168,6 +167,10 @@
                                                                 ) {
                                                                     $share_percent_earn = $rate->sales_rate_club;
                                                                 }
+                                                                if ($item['housing']['user']["corporate_type"] == $rate->institution->name) {
+                                                                    $share_percent_earn = $rate->default_deposit_rate;
+                                                                    $share_percent_balance = 1.0 - $share_percent_earn;
+                                                                }
                                                             }
 
                                                             if ($share_percent_earn === null && count($rates) > 0) {
@@ -175,7 +178,7 @@
                                                             }
 
                                                             $earningAmount =
-                                                                $discountedPrice * 0.04 * $share_percent_earn;
+                                                                $discountedPrice * $share_percent_earn * 0.04 * $share_percent_earn;
                                                         @endphp
                                                         <strong>
 
