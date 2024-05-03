@@ -158,6 +158,7 @@
                                                             )->get();
 
                                                             $share_percent_earn = null;
+                                                            $sales_rate_club= null;
 
 
                                                             foreach ($rates as $key => $rate) {
@@ -178,7 +179,7 @@
                                                             }
 
                                                             $earningAmount =
-                                                                $discountedPrice * $share_percent_earn * 0.04 * $share_percent_earn;
+                                                                $discountedPrice * $sales_rate_club * 0.04 * $share_percent_earn;
                                                         @endphp
                                                         <strong>
 
