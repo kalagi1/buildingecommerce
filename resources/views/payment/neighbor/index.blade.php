@@ -678,26 +678,20 @@
                                                 </div>
                                             </div>
                                             <div class='form'>
-                                                <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="cart"
-                                                        value="{{ json_encode($cart) }}">
-                                                    <input type="hidden" name="payable_amount" id="payableAmountInput">
-                                                    <input type="hidden" id="fullName2" name="fullName">
-                                                    <input type="hidden" id="email2" name="email">
-                                                    <input type="hidden" id="tc2" name="tc">
-                                                    <input type="hidden" id="phone2" name="phone">
-                                                    <input type="hidden" id="address2" name="address">
-                                                    <input type="hidden" id="notes2" name="notes">
-                                                    <input type="hidden" id="reference_code2" name="reference_code">
-                                                    <input type="hidden" id="orderKey2" name="key">
-                                                    <input type="hidden" id="is_reference2" name="is_reference">
-                                                    <input type="hidden" id="have_discount2" name="have_discount "
-                                                        class="have_discount">
-                                                    <input type="hidden" id="discount2" name="discount"
-                                                        class="discount">
-                                                    <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
-                                                        value="{{ $cart['item']['payment-plan'] ?? null }}">
+                                                <form method="POST" id="3dPayForm"
+                                                action="{{ route('neighbor.3d.pay') }}">
+                                                @csrf
+                                                <input type="hidden" id="fullName2" name="fullName">
+                                                <input type="hidden" id="email2" name="email">
+                                                <input type="hidden" id="tc2" name="tc">
+                                                <input type="hidden" id="phone2" name="phone">
+                                                <input type="hidden" id="address2" name="address">
+                                                <input type="hidden" id="notes2" name="notes">
+                                                <input type="hidden" id="order_id" name="order_id">
+                                                <input type="hidden" name="user_id" id="user_id">
+                                                <input type="hidden" name="status" value="0">
+                                                <input type="hidden" name="key" id="key">
+                                                <input type="hidden" name="amount" value="250">
                                                     <div class='cd-numbers'>
                                                         <label>Kart Numarası</label>
                                                         <div class='fields'>
