@@ -1237,6 +1237,7 @@
                                 // Tarih verisini al
                                 var tarih = formatDate(res.created_at);
                                 const isAvailable =  res.housing_type.open_share1 == true;
+                                console.log(res.housing_type.open_share1);
 
                                 // Class assignment with nested conditions
                                 const spanClass = isAvailable ?
