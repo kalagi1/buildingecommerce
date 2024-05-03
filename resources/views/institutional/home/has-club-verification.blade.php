@@ -31,16 +31,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div> --}}
-                                <div class="mt-3">
-                                    <label class="form-label">Telefon</label>
-                                    <input type="number" name="phone" id="phone"
-                                        class="form-control @error('phone') is-invalid @enderror"
-                                        value="{{ old('phone', $user->phone) }}" maxlength="10">
-                                        <span id="error_message" class="error-message"></span>
-                                    @error('phone')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                             
                                 @if (Auth::check() && Auth::user()->type == '1')
                                     <div class="mt-3">
                                         <label class="form-label">Tc Kimlik No</label>
