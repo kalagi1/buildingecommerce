@@ -120,6 +120,7 @@ class AuthController extends Controller
                         'role' => $user->role->name,
                         'slug' => $user->role->slug,
                         "buyerStatus" => $user->status,
+                        "corporateAccountStatus" => $user->corporate_account_status,
                         'email' => $user->email,
                         'access_token' => $accessToken,
                         "rolePermissions" => $user->role->rolePermissions,
