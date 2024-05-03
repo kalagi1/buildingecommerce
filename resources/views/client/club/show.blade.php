@@ -154,10 +154,12 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title . '<br>' }}
+                                                        {{ $item['item_type'] == 1 ? $item['project_values']['advertise_title[]'] : $item['housing']->title }}
 
                                                         @if ($item['item_type'] == 1)
                                                             {!! $item['room_order'] . " No'lu Daire <br>" !!}
+                                                        @else
+                                                            {!! '<br>' !!}
                                                         @endif
 
                                                         <span style="font-size: 9px !important; font-weight:700">
@@ -174,7 +176,11 @@
                                                             @elseif (isset($item['housing']['city']['title']) &&
                                                                     isset($item['housing']['county']['ilce_title']) &&
                                                                     isset($item['housing']['neighborhood']['mahalle_title']))
-                                                                {{ $item['housing']['city']['title'] }}
+                                                                {{ $item['housing']['city']['title'] .
+                                                                ' / ' .
+                                                                $item['housing']['county']['ilce_title'] .
+                                                                ' / ' .
+                                                                $item['housing']['neighborhood']['mahalle_title'] }}
                                                             @endif
                                                             <br>
                                                         </span>
