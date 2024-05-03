@@ -166,7 +166,7 @@
                                                                     Auth::user()->corporate_type ==
                                                                     $rate->institution->name
                                                                 ) {
-                                                                    $share_percent_earn = $rate->sales_rate_club;
+                                                                    $sales_rate_club = $rate->sales_rate_club;
                                                                 }
                                                                 if ($item['housing']['user']["corporate_type"] == $rate->institution->name) {
                                                                     $share_percent_earn = $rate->default_deposit_rate;
@@ -177,8 +177,6 @@
                                                             if ($share_percent_earn === null && count($rates) > 0) {
                                                                 $share_percent_earn = $rates->last()->sales_rate_club;
                                                             }
-
-                                                            echo $discountedPrice *  0.04 * $sales_rate_club;
 
                                                             $earningAmount =
                                                                 $discountedPrice * $sales_rate_club * 0.04 * $share_percent_earn;
