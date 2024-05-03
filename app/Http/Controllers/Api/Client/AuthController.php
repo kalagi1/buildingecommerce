@@ -317,4 +317,24 @@ class AuthController extends Controller
             "status" => true
         ]);
     }
+
+    public function generateVerificationCode(){
+        
+        $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
+        
+        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
+
+        if ($user) {
+            $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
+            $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
+            $user->save();// Kullanıcıyı kaydediyoruz
+            if($user->phone_verification_code) {
+                $this->sendSMS($user);
+            }
+           
+            return response()->json([
+                'success' => 'Telefon doğrulama kodu gönderildi.'
+            ]);
+        } 
+    }//End
 }

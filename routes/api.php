@@ -104,6 +104,10 @@ Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.s
 Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
+//telefon doğrulama
+Route::post('phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
+->name('phone.generateVerificationCode');
+
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware' => ['institutional', 'checkCorporateAccount', "checkHasClubAccount"]], function () {
