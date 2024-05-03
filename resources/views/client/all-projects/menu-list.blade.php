@@ -1951,6 +1951,10 @@
             border-radius: 0;
         }
 
+        .hidden{
+            display: none !important;
+        }
+
         .button-effect-div {
             display: flex;
             opacity: inherit !important;
