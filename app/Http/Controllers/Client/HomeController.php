@@ -904,7 +904,7 @@ class HomeController extends Controller
                 'housing_type' =>
                 [
                     'has_discount' => $discount_amount > 0,
-                    'open_share1' => $open_share1 ? true : null,
+                    'open_share1' => $open_share1 ? true : false,
                     // 'room_count' => getData($item, 'room_count') ? getData($item, 'room_count') : null,
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     // 'squaremeters' => getData($item, 'squaremeters') ? getData($item, 'squaremeters') : null,
