@@ -210,7 +210,7 @@ class SharerController extends Controller
                 if ($item->item_type == 2 && isset($item->housing)) {
                     $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
                         ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
-                        ->first();
+                        ->latest();
 
                     $action = $cartStatus ? (
                         ($cartStatus->status == "0") ? 'payment_await' : (
@@ -242,7 +242,7 @@ class SharerController extends Controller
 
                     $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
                         ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
-                        ->first();
+                        ->latest();
 
                     $projectCartOrders = DB::table('cart_orders')
                         ->select(
@@ -356,7 +356,7 @@ class SharerController extends Controller
             if ($item->item_type == 2) {
                 $cartStatus = CartOrder::whereRaw("JSON_UNQUOTE(json_extract(cart, '$.type')) = 'housing'")
                     ->whereRaw("JSON_UNQUOTE(json_extract(cart, '$.item.id')) = ?", [$item->item_id])
-                    ->first();
+                    ->latest();
 
                 $action = $cartStatus ? (
                     ($cartStatus->status == 0) ? 'payment_await' : (
@@ -385,7 +385,7 @@ class SharerController extends Controller
 
                 $status = CartOrder::where(DB::raw('JSON_EXTRACT(cart, "$.item.housing")'), $item->room_order)
                     ->where(DB::raw('JSON_EXTRACT(cart, "$.item.id")'), $item->item_id)
-                    ->first();
+                    ->latest();
 
                 $sharePrice = 0;
                 if ($status) {
