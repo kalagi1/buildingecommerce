@@ -871,6 +871,8 @@ class HomeController extends Controller
             $housingTypeData = json_decode($item->housing_type_data, true);
             $offSale = isset($housingTypeData['off_sale1']);
             $share = isset($housingTypeData['share-open1']);
+            $open_share1 = isset($housingTypeData['open_sharing1']);
+
 
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
@@ -901,7 +903,9 @@ class HomeController extends Controller
                 "column3" => json_decode($item->housing_type_data)->{$item->column3_name}[0] ?? null,
                 'housing_type' =>
                 [
+                    "housingTypeData" => $housingTypeData,
                     'has_discount' => $discount_amount > 0,
+                    'open_share1' => $open_share1 ? true : false,
                     // 'room_count' => getData($item, 'room_count') ? getData($item, 'room_count') : null,
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     // 'squaremeters' => getData($item, 'squaremeters') ? getData($item, 'squaremeters') : null,

@@ -315,7 +315,7 @@
                                     $text = 'Yönetim';
                                     break;
                                 default:
-                                    $link = url('sat-kirala/');
+                                    $link = url('sat-kirala-nedir/');
                                     $text = 'Sat Kirala';
                             }
                         @endphp

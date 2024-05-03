@@ -617,6 +617,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.projects.get');
     Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.projects.store');
 
+    Route::get('sold/invoice_detail/{id}', [ProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
+    Route::get('sold/order_detail/{id}', [ProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
+
     Route::middleware(['checkPermission:DeleteFooterLink'])->group(function () {
         Route::delete('/footer_links/{footer_link}', [FooterLinkController::class, 'destroy'])->name('footer_links.destroy');
     });
@@ -976,6 +979,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/housings/active/{id}', [InstitutionalProjectController::class, 'housingActive'])->name('housings.active');
     Route::post('/housings/passive/{id}', [InstitutionalProjectController::class, 'housingPassive'])->name('housings.passive');
     Route::delete('/housings/{id}', [InstitutionalProjectController::class, 'housingDestroy'])->name('housings.destroy');
+    Route::post('/housings/deed/{id}', [InstitutionalProjectController::class, 'housingDeed'])->name('housings.deed');//tapu yetki belgesi
+
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
@@ -1065,6 +1070,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
     });
 });
+
+Route::get('sold/invoice_detail/{id}', [InstitutionalProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
+Route::get('sold/order_detail/{id}', [InstitutionalProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
+
 
 Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('check.coupon');
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');

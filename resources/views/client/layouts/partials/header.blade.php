@@ -735,7 +735,7 @@
                                                     Emlak Kulüp</span>
                                             </button>
                                         </a>
-                                        <a href="{{ route('real.estate.index') }}">
+                                        <a href="{{ route('real.estate.index2') }}">
                                             <button type="button" class="buyUserRequest ml-3">
                                                 <span class="buyUserRequest__text"> Sat Kirala</span>
                                                 <span class="buyUserRequest__icon">

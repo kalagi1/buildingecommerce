@@ -93,6 +93,7 @@
                 </div>
             </div>
 
+            @if ($store->type == '2')
             <div class="card-body">
                 <nav class="navbar" style="padding: 0 !important">
                     <div class="navbar-items">
@@ -140,6 +141,7 @@
                     </div> --}}
                 </nav>
             </div>
+            @endif
         </div>
     </div>
 </div>
