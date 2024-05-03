@@ -848,6 +848,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{dd(json_decode($housing->housing_type_data))}}
                                 @if (Auth::check() && isset(json_decode($housing->housing_type_data)->open_sharing[0]))
                                     <div class="add-to-collections-wrapper addCollection" data-type='housing'
                                         data-id="{{ $housing->id }}">
