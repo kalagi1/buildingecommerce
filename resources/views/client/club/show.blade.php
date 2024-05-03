@@ -222,15 +222,7 @@
                                                             @endif
 
                                                             @if (isset($discountRate) && $discountRate != 0)
-                                                                <h6
-                                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
-                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                        {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
-                                                                        ₺
-                                                                    @else
-                                                                        {{ number_format($discountedPrice, 0, ',', '.') }} ₺
-                                                                    @endif
-                                                                </h6>
+                                                             
 
                                                                 <del style="color: #e54242;">
                                                                     @if ($item['item_type'] == 1)
@@ -253,6 +245,15 @@
 
                                                                     ₺
                                                                 </del>
+                                                                <h6
+                                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
+                                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                    {{ number_format($discountedPrice / $number_of_share, 0, ',', '.') }}
+                                                                    ₺
+                                                                @else
+                                                                    {{ number_format($discountedPrice, 0, ',', '.') }} ₺
+                                                                @endif
+                                                            </h6>
                                                             @else
                                                                 <h6
                                                                     style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
@@ -846,6 +847,29 @@
                                                                             </span><br>
                                                                         @endif
                                                                         @if (isset($discountRate) && $discountRate != 0)
+                                                                        <del style="color: #e54242;">
+                                                                            @if ($item['item_type'] == 1)
+                                                                                @if (isset($item['project_values']['price[]']))
+                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                        {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
+                                                                                    @else
+                                                                                        {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
+                                                                                    @endif
+                                                                                @elseif($item['project_values']['daily_rent[]'])
+                                                                                    @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                                                        {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
+                                                                                    @else
+                                                                                        {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
+                                                                                    @endif
+                                                                                @endif
+                                                                            @else
+                                                                                @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
+                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
+                                                                                @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
+                                                                                    {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
+                                                                                @endif
+                                                                            @endif ₺
+                                                                        </del>
                                                                             <h6
                                                                                 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
                                                                                 @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
@@ -856,29 +880,7 @@
                                                                                     ₺
                                                                                 @endif
                                                                             </h6>
-                                                                            <del style="color: #e54242;">
-                                                                                @if ($item['item_type'] == 1)
-                                                                                    @if (isset($item['project_values']['price[]']))
-                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                            {{ number_format($item['project_values']['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                        @else
-                                                                                            {{ number_format($item['project_values']['price[]'], 0, ',', '.') }}
-                                                                                        @endif
-                                                                                    @elseif($item['project_values']['daily_rent[]'])
-                                                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                                                            {{ number_format($item['project_values']['daily_rent[]'] / $number_of_share, 0, ',', '.') }}
-                                                                                        @else
-                                                                                            {{ number_format($item['project_values']['daily_rent[]'], 0, ',', '.') }}
-                                                                                        @endif
-                                                                                    @endif
-                                                                                @else
-                                                                                    @if (isset(json_decode($item['housing']['housing_type_data'])->price[0]))
-                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->price[0], 0, ',', '.') }}
-                                                                                    @elseif(isset(json_decode($item['housing']['housing_type_data'])->daily_rent[0]))
-                                                                                        {{ number_format(json_decode($item['housing']['housing_type_data'])->daily_rent[0], 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endif ₺
-                                                                            </del>
+                                                                        
                                                                         @else
                                                                             <h6
                                                                                 style="color: #274abb !important; position: relative; top: 4px; font-weight: 700">
