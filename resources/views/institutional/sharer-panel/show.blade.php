@@ -186,7 +186,7 @@
                                                         @endphp
                                                         <strong>
 
-                                                            {{ number_format($earningAmount / 2, 0, ',', '.') }} ₺
+                                                            {{ number_format($earningAmount, 0, ',', '.') }} ₺
                                                         </strong>
                                                     @elseif ($item['item_type'] == 1)
                                                         @php
