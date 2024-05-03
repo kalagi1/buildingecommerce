@@ -313,10 +313,15 @@
                                                                             <span class="text">Ödeme Bekleniyor</span>
                                                                         </button>
                                                                     @elseif ($item['action'] == 'tryBuy')
-                                                                        <button class="btn mobileCBtn second-btn"
-                                                                            style="background: orange !important;width:100%;height:40px !important;color:White">
-                                                                            <span class="text">Satın Al</span>
-                                                                        </button>
+                                                                    <button class="CartBtn mobileCBtn"
+                                                                    data-type='housing'
+                                                                    data-id='{{ $item['housing']->id }}'>
+                                                                    <span class="IconContainer">
+                                                                        <img src="{{ asset('sc.png') }}"
+                                                                            alt="">
+                                                                    </span>
+                                                                    <span class="text">Sepete Ekle</span>
+                                                                </button>
                                                                     @else
                                                                         <button class="CartBtn mobileCBtn"
                                                                             data-type='housing'
@@ -619,9 +624,13 @@
                                                                         <span class="text">Ödeme Bekleniyor</span>
                                                                     </button>
                                                                 @elseif ($item['action'] == 'tryBuy')
-                                                                    <button class="btn mobileCBtn second-btn"
-                                                                        style="background: orange !important;width:100%;height:40px !important;color:White">
-                                                                        <span class="text">Satın Al</span>
+                                                                <button class="CartBtn mobileCBtn" data-type='housing'
+                                                                        data-id='{{ $item['housing']->id }}'>
+                                                                        <span class="IconContainer">
+                                                                            <img src="{{ asset('sc.png') }}"
+                                                                                alt="">
+                                                                        </span>
+                                                                        <span class="text">Sepete Ekle</span>
                                                                     </button>
                                                                 @else
                                                                     <button class="CartBtn mobileCBtn" data-type='housing'
