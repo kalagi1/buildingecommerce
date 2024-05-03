@@ -174,11 +174,11 @@
                                                                     ' / ' .
                                                                     $item['project']['neighbourhood']['mahalle_title'] }}
                                                             @elseif (isset($item['housing']['city']['title']) &&
-                                                                    isset($item['housing']['county']['ilce_title']) &&
+                                                                    isset($item['housing']['county']['title']) &&
                                                                     isset($item['housing']['neighborhood']['mahalle_title']))
                                                                 {{ $item['housing']['city']['title'] .
                                                                 ' / ' .
-                                                                $item['housing']['county']['ilce_title'] .
+                                                                $item['housing']['county']['title'] .
                                                                 ' / ' .
                                                                 $item['housing']['neighborhood']['mahalle_title'] }}
                                                             @endif
