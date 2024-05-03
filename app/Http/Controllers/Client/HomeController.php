@@ -903,6 +903,7 @@ class HomeController extends Controller
                 "column3" => json_decode($item->housing_type_data)->{$item->column3_name}[0] ?? null,
                 'housing_type' =>
                 [
+                    "housingTypeData" => $housingTypeData,
                     'has_discount' => $discount_amount > 0,
                     'open_share1' => $open_share1 ? true : false,
                     // 'room_count' => getData($item, 'room_count') ? getData($item, 'room_count') : null,
