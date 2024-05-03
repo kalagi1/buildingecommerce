@@ -20,14 +20,16 @@
                                 Satılık
                             @endif
                         </div>
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                         <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
+                        @endif
                         <img loading="lazy"
                             src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
                             alt="{{ $housing->housing_title }}" class="img-responsive">
                     </div>
                 </div>
                 <div class="button-effect-div">
-                    @if (Auth::check() && isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                    @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
                         <span
                             class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
                             data-type='housing' data-id="{{ $housing->id }}">
