@@ -27,32 +27,32 @@
                 </div>
             @else
                 @if ($cart['type'] == 'project')
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="wrap-house wg-dream flex bg-white">
-                            <div class="box-0">
-                                <a
-                                    href="{{ $cart['type'] == 'housing'
-                                        ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                        : route('project.housings.detail', [
-                                            'projectSlug' =>
-                                                optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                '-' .
-                                                optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                            'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                            'housingOrder' => $cart['item']['housing'],
-                                        ]) }}">
-                                    <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="box-1">
-                                <div class="">
-                                    {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="wrap-house wg-dream flex bg-white">
+                                <div class="box-0">
+                                    <a
+                                        href="{{ $cart['type'] == 'housing'
+                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                            : route('project.housings.detail', [
+                                                'projectSlug' =>
+                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                    '-' .
+                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                'housingOrder' => $cart['item']['housing'],
+                                            ]) }}">
+                                        <img alt="my-properties-3" src="{{ $cart['item']['image'] }}" class="img-fluid">
+                                    </a>
                                 </div>
-                                <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
-                                {{-- <div class="inner flex">
+                                <div class="box-1">
+                                    <div class="">
+                                        {{ $cart['type'] == 'housing' ? 'İlan No: ' . $cart['item']['id'] + 2000000 : 'İlan No: ' . $cart['item']['housing'] + optional(App\Models\Project::find($cart['item']['id']))->id + 1000000 }}
+                                    </div>
+                                    <div class="title-heading fs-30 fw-7 lh-45">{{ $project->project_title }}</div>
+                                    {{-- <div class="inner flex">
                                     <div class="sales fs-12 fw-7 font-2 text-color-1">
                                         @if ($project->step2_slug)
                                             @if ($project->step2_slug == 'kiralik')
@@ -82,17 +82,18 @@
     
                                     </div>
                                 </div> --}}
-    
-                                <div class="icon-box flex">
-                                    <div class="icons icon-1 flex">
-                                        {{-- <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i> --}}
-                                        <span class="fw-6">
-                                            {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu gör</strong>
-                                                satın alım sayfası</span>
-                                        </span>
-                                    </div>
-    
-                                    {{-- @foreach (['column1', 'column2', 'column3'] as $column)
+
+                                    <div class="icon-box flex">
+                                        <div class="icons icon-1 flex">
+                                            {{-- <i class="fa fa-circle circleIcon mr-1 fa-lg-2" aria-hidden="true"></i> --}}
+                                            <span class="fw-6">
+                                                {{ $cart['item']['housing'] }} No'lu <span> konut için <strong>komşumu
+                                                        gör</strong>
+                                                    satın alım sayfası</span>
+                                            </span>
+                                        </div>
+
+                                        {{-- @foreach (['column1', 'column2', 'column3'] as $column)
                                         @php
                                             $column_name = $project->listItemValues->{$column . '_name'} ?? '';
                                             $column_additional = $project->listItemValues->{$column . '_additional'} ?? '';
@@ -112,60 +113,60 @@
                                             </div>
                                         @endif
                                     @endforeach --}}
+                                    </div>
+
                                 </div>
-    
-                            </div>
-                            <div class="box-2 text-end ">
-    
-                                <div class="icon-boxs flex">
-                                    <a
-                                        href="{{ $cart['type'] == 'housing'
-                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                            : route('project.housings.detail', [
-                                                'projectSlug' =>
-                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                    '-' .
-                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                    '-' .
-                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                                'housingOrder' => $cart['item']['housing'],
-                                            ]) }}">
-                                        İLANI GÖR
-                                    </a>
-    
-                                </div>
-    
-                                <div class="text-sq fs-12 lh-16">
-                                    @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
-                                        <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse satın
-                                            alıyorsunuz!</span>
-                                    @endif
-                                </div>
-    
-                                <div class="show-mobile">
-                                    <a
-                                        href="{{ $cart['type'] == 'housing'
-                                            ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
-                                            : route('project.housings.detail', [
-                                                'projectSlug' =>
-                                                    optional(App\Models\Project::find($cart['item']['id']))->slug .
-                                                    '-' .
-                                                    optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
-                                                    '-' .
-                                                    optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
-                                                'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
-                                                'housingOrder' => $cart['item']['housing'],
-                                            ]) }}">
-                                        <div class="mobile">İlanı Gör</div>
-                                    </a>
-    
+                                <div class="box-2 text-end ">
+
+                                    <div class="icon-boxs flex">
+                                        <a
+                                            href="{{ $cart['type'] == 'housing'
+                                                ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                                : route('project.housings.detail', [
+                                                    'projectSlug' =>
+                                                        optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                        '-' .
+                                                        optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                        '-' .
+                                                        optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                    'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                    'housingOrder' => $cart['item']['housing'],
+                                                ]) }}">
+                                            İLANI GÖR
+                                        </a>
+
+                                    </div>
+
+                                    <div class="text-sq fs-12 lh-16">
+                                        @if (isset($cart['item']['isShare']) && !empty($cart['item']['isShare']))
+                                            <span style="color:#EA2B2E" class="mt-3">{{ $cart['item']['qt'] }} adet hisse
+                                                satın
+                                                alıyorsunuz!</span>
+                                        @endif
+                                    </div>
+
+                                    <div class="show-mobile">
+                                        <a
+                                            href="{{ $cart['type'] == 'housing'
+                                                ? route('housing.show', ['housingSlug' => $cart['item']['slug'], 'housingID' => $cart['item']['id'] + 2000000])
+                                                : route('project.housings.detail', [
+                                                    'projectSlug' =>
+                                                        optional(App\Models\Project::find($cart['item']['id']))->slug .
+                                                        '-' .
+                                                        optional(App\Models\Project::find($cart['item']['id']))->step2_slug .
+                                                        '-' .
+                                                        optional(App\Models\Project::find($cart['item']['id']))->housingtype->slug,
+                                                    'projectID' => optional(App\Models\Project::find($cart['item']['id']))->id + 1000000,
+                                                    'housingOrder' => $cart['item']['housing'],
+                                                ]) }}">
+                                            <div class="mobile">İlanı Gör</div>
+                                        </a>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                  
                 @endif
                 {{-- @else
                     <div class="wrap-house wg-dream flex bg-white">
@@ -442,7 +443,7 @@
                                             <label for="phone">Telefon:</label>
                                             <input type="number" class="form-control" id="phone" name="phone"
                                                 required maxlength="10">
-                                                <span id="error_message" class="error-message"></span>
+                                            <span id="error_message" class="error-message"></span>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="address">Adres:</label>
@@ -516,247 +517,248 @@
                             <div class="col-md-12" style="background: white !important;">
                                 <div class="tr-single-box">
 
-                                <div class="tr-single-body">
-                                    <div class="tr-single-header pb-3">
-                                        <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
-                                    </div>
-                                    <div class="booking-price-detail side-list no-border mb-3">
-                                        {{-- @if (!$cart || empty($cart['item']))
+                                    <div class="tr-single-body">
+                                        <div class="tr-single-header pb-3">
+                                            <h4><i class="fa fa-star-o"></i>Sepet Özeti</h4>
+                                        </div>
+                                        <div class="booking-price-detail side-list no-border mb-3">
+                                            {{-- @if (!$cart || empty($cart['item']))
                                             <ul>
                                                 <li>Toplam Fiyat<strong class="pull-right">00.00
                                                         TL</strong></li>
                                             </ul>
                                         @else --}}
-                                        <ul>
-                                            <li>Komşumu Gör Fiyatı<strong class="pull-right">
-                                                    {{-- {{ number_format($cart['item']['amount'], 0, ',', '.') }} --}}
-                                                    250 TL</strong></li>
+                                            <ul>
+                                                <li>Komşumu Gör Fiyatı<strong class="pull-right">
+                                                        {{-- {{ number_format($cart['item']['amount'], 0, ',', '.') }} --}}
+                                                        250 TL</strong></li>
 
-                                            <li>Toplam Fiyat<strong class="pull-right">
-
-
-                                                    250 TL</strong></li>
+                                                <li>Toplam Fiyat<strong class="pull-right">
 
 
+                                                        250 TL</strong></li>
 
 
-                                        </ul>
-                                        {{-- @endif --}}
-                                    </div>
 
 
-                                    <div id="rental-amount">
-                                        <div class="text-success">Ödenecek Tutar : <strong
-                                                class="button-price-inner pull-right text-success">250 TL</strong></div>
-
-                                    </div>
+                                            </ul>
+                                            {{-- @endif --}}
+                                        </div>
 
 
-                                    <div class="col-md-12" style="background: white !important;">
-                                        <div class="mt-5">
-                                            <div class="tr-single-header">
+                                        <div id="rental-amount">
+                                            <div class="text-success">Ödenecek Tutar : <strong
+                                                    class="button-price-inner pull-right text-success">250 TL</strong>
+                                            </div>
 
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input mt-0" type="radio"
-                                                                name="payment_option" id="option1" value="option1"
-                                                                checked>
-                                                            <label class="form-check-label  ml-2  mb-2 offset-md-1"
-                                                                for="option1">
-                                                                Kredi Kartı ile Ödeme
-                                                            </label>
+                                        </div>
+
+
+                                        <div class="col-md-12" style="background: white !important;">
+                                            <div class="mt-5">
+                                                <div class="tr-single-header">
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input mt-0" type="radio"
+                                                                    name="payment_option" id="option1" value="option1"
+                                                                    checked>
+                                                                <label class="form-check-label  ml-2  mb-2 offset-md-1"
+                                                                    for="option1">
+                                                                    Kredi Kartı ile Ödeme
+                                                                </label>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input mt-0" type="radio"
-                                                                name="payment_option" id="option2" value="option2">
-                                                            <label class="form-check-label  ml-2 mb-2 offset-md-1"
-                                                                for="option2">
-                                                                EFT / Havale ile Ödeme
-                                                            </label>
+                                                        <div class="col">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input mt-0" type="radio"
+                                                                    name="payment_option" id="option2" value="option2">
+                                                                <label class="form-check-label  ml-2 mb-2 offset-md-1"
+                                                                    for="option2">
+                                                                    EFT / Havale ile Ödeme
+                                                                </label>
+                                                            </div>
                                                         </div>
-                                                    </div>
 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div id="payment1" class="payment">
-                                        <div class='card'>
-                                            <div class='front'>
-                                                <div class='top'>
-                                                    <div class='chip'></div>
-                                                    <div class='cardType'><svg
-                                                            xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                                            xmlns:cc="http://creativecommons.org/ns#"
-                                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                                            xmlns:svg="http://www.w3.org/2000/svg"
-                                                            xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                                            id="svg10306" viewBox="0 0 500.00001 162.81594"
-                                                            height="162.81593" width="500">
-                                                            <defs id="defs10308">
-                                                                <clipPath id="clipPath10271"
-                                                                    clipPathUnits="userSpaceOnUse">
-                                                                    <path id="path10273"
-                                                                        d="m 413.742,90.435 c -0.057,-4.494 4.005,-7.002 7.065,-8.493 3.144,-1.53 4.2,-2.511 4.188,-3.879 -0.024,-2.094 -2.508,-3.018 -4.833,-3.054 -4.056,-0.063 -6.414,1.095 -8.289,1.971 l -1.461,-6.837 c 1.881,-0.867 5.364,-1.623 8.976,-1.656 8.478,0 14.025,4.185 14.055,10.674 0.033,8.235 -11.391,8.691 -11.313,12.372 0.027,1.116 1.092,2.307 3.426,2.61 1.155,0.153 4.344,0.27 7.959,-1.395 l 1.419,6.615 c -1.944,0.708 -4.443,1.386 -7.554,1.386 -7.98,0 -13.593,-4.242 -13.638,-10.314 m 34.827,9.744 c -1.548,0 -2.853,-0.903 -3.435,-2.289 l -12.111,-28.917 8.472,0 1.686,4.659 10.353,0 0.978,-4.659 7.467,0 -6.516,31.206 -6.894,0 m 1.185,-8.43 2.445,-11.718 -6.696,0 4.251,11.718 m -46.284,8.43 -6.678,-31.206 8.073,0 6.675,31.206 -8.07,0 m -11.943,0 -8.403,-21.24 -3.399,18.06 c -0.399,2.016 -1.974,3.18 -3.723,3.18 l -13.737,0 -0.192,-0.906 c 2.82,-0.612 6.024,-1.599 7.965,-2.655 1.188,-0.645 1.527,-1.209 1.917,-2.742 l 6.438,-24.903 8.532,0 13.08,31.206 -8.478,0" />
-                                                                </clipPath>
-                                                                <linearGradient id="linearGradient10277"
-                                                                    spreadMethod="pad"
-                                                                    gradientTransform="matrix(84.1995,31.0088,31.0088,-84.1995,19.512,-27.4192)"
-                                                                    gradientUnits="userSpaceOnUse" y2="0"
-                                                                    x2="1" y1="0" x1="0">
-                                                                    <stop id="stop10279" offset="0"
-                                                                        style="stop-opacity:1;stop-color:#222357" />
-                                                                    <stop id="stop10281" offset="1"
-                                                                        style="stop-opacity:1;stop-color:#254aa5" />
-                                                                </linearGradient>
-                                                            </defs>
-                                                            <metadata id="metadata10311">
-                                                                <rdf:RDF>
-                                                                    <cc:Work rdf:about="">
-                                                                        <dc:format>image/svg+xml</dc:format>
-                                                                        <dc:type
-                                                                            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                                                                        <dc:title />
-                                                                    </cc:Work>
-                                                                </rdf:RDF>
-                                                            </metadata>
-                                                            <g transform="translate(-333.70157,-536.42431)"
-                                                                id="layer1">
-                                                                <g id="g10267"
-                                                                    transform="matrix(4.9846856,0,0,-4.9846856,-1470.1185,1039.6264)">
-                                                                    <g clip-path="url(#clipPath10271)" id="g10269">
-                                                                        <g transform="translate(351.611,96.896)"
-                                                                            id="g10275">
-                                                                            <path id="path10283"
-                                                                                style="fill: white;fill-opacity:1;fill-rule:nonzero;stroke:none"
-                                                                                d="M 0,0 98.437,36.252 120.831,-24.557 22.395,-60.809" />
+                                        <div id="payment1" class="payment">
+                                            <div class='card'>
+                                                <div class='front'>
+                                                    <div class='top'>
+                                                        <div class='chip'></div>
+                                                        <div class='cardType'><svg
+                                                                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                                                xmlns:cc="http://creativecommons.org/ns#"
+                                                                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                                                xmlns:svg="http://www.w3.org/2000/svg"
+                                                                xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                                                id="svg10306" viewBox="0 0 500.00001 162.81594"
+                                                                height="162.81593" width="500">
+                                                                <defs id="defs10308">
+                                                                    <clipPath id="clipPath10271"
+                                                                        clipPathUnits="userSpaceOnUse">
+                                                                        <path id="path10273"
+                                                                            d="m 413.742,90.435 c -0.057,-4.494 4.005,-7.002 7.065,-8.493 3.144,-1.53 4.2,-2.511 4.188,-3.879 -0.024,-2.094 -2.508,-3.018 -4.833,-3.054 -4.056,-0.063 -6.414,1.095 -8.289,1.971 l -1.461,-6.837 c 1.881,-0.867 5.364,-1.623 8.976,-1.656 8.478,0 14.025,4.185 14.055,10.674 0.033,8.235 -11.391,8.691 -11.313,12.372 0.027,1.116 1.092,2.307 3.426,2.61 1.155,0.153 4.344,0.27 7.959,-1.395 l 1.419,6.615 c -1.944,0.708 -4.443,1.386 -7.554,1.386 -7.98,0 -13.593,-4.242 -13.638,-10.314 m 34.827,9.744 c -1.548,0 -2.853,-0.903 -3.435,-2.289 l -12.111,-28.917 8.472,0 1.686,4.659 10.353,0 0.978,-4.659 7.467,0 -6.516,31.206 -6.894,0 m 1.185,-8.43 2.445,-11.718 -6.696,0 4.251,11.718 m -46.284,8.43 -6.678,-31.206 8.073,0 6.675,31.206 -8.07,0 m -11.943,0 -8.403,-21.24 -3.399,18.06 c -0.399,2.016 -1.974,3.18 -3.723,3.18 l -13.737,0 -0.192,-0.906 c 2.82,-0.612 6.024,-1.599 7.965,-2.655 1.188,-0.645 1.527,-1.209 1.917,-2.742 l 6.438,-24.903 8.532,0 13.08,31.206 -8.478,0" />
+                                                                    </clipPath>
+                                                                    <linearGradient id="linearGradient10277"
+                                                                        spreadMethod="pad"
+                                                                        gradientTransform="matrix(84.1995,31.0088,31.0088,-84.1995,19.512,-27.4192)"
+                                                                        gradientUnits="userSpaceOnUse" y2="0"
+                                                                        x2="1" y1="0" x1="0">
+                                                                        <stop id="stop10279" offset="0"
+                                                                            style="stop-opacity:1;stop-color:#222357" />
+                                                                        <stop id="stop10281" offset="1"
+                                                                            style="stop-opacity:1;stop-color:#254aa5" />
+                                                                    </linearGradient>
+                                                                </defs>
+                                                                <metadata id="metadata10311">
+                                                                    <rdf:RDF>
+                                                                        <cc:Work rdf:about="">
+                                                                            <dc:format>image/svg+xml</dc:format>
+                                                                            <dc:type
+                                                                                rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                                                            <dc:title />
+                                                                        </cc:Work>
+                                                                    </rdf:RDF>
+                                                                </metadata>
+                                                                <g transform="translate(-333.70157,-536.42431)"
+                                                                    id="layer1">
+                                                                    <g id="g10267"
+                                                                        transform="matrix(4.9846856,0,0,-4.9846856,-1470.1185,1039.6264)">
+                                                                        <g clip-path="url(#clipPath10271)" id="g10269">
+                                                                            <g transform="translate(351.611,96.896)"
+                                                                                id="g10275">
+                                                                                <path id="path10283"
+                                                                                    style="fill: white;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                                                                                    d="M 0,0 98.437,36.252 120.831,-24.557 22.395,-60.809" />
+                                                                            </g>
                                                                         </g>
                                                                     </g>
                                                                 </g>
-                                                            </g>
-                                                        </svg></div>
-                                                </div>
-                                                <div class='middle'>
-                                                    <div class='cd-number'>
-                                                        <p><span class='num-1'>####</span><span
-                                                                class='num-2'>####</span><span
-                                                                class='num-3'>####</span><span
-                                                                class='num-4'>####</span></p>
+                                                            </svg></div>
                                                     </div>
-                                                </div>
-                                                <div class='bottom'>
-                                                    <div class='cardholder'>
-                                                        <p class='label'>Kart Sahibinin Adı</p>
-                                                        <p class='holder'>İsim Soyisim</p>
-                                                    </div>
-                                                    <div class='expires'>
-                                                        <p class='label'>Ay/Yıl</p>
-                                                        <p><span class='month'>**</span>/<span
-                                                                class='year'>**</span></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class='back'>
-                                                <div class='top'>
-                                                    <div class='magstripe'></div>
-                                                </div>
-                                                <div class='middle'>
-                                                    <p class='label'>CCV</p>
-                                                    <div class='cvc'>
-                                                        <p>***</p>
-                                                    </div>
-                                                </div>
-                                                <div class='bottom'>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class='form'>
-                                            <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
-                                                @csrf
-                                                <input type="hidden" name="cart"
-                                                    value="{{ json_encode($cart) }}">
-                                                <input type="hidden" name="payable_amount" id="payableAmountInput">
-                                                <input type="hidden" id="fullName2" name="fullName">
-                                                <input type="hidden" id="email2" name="email">
-                                                <input type="hidden" id="tc2" name="tc">
-                                                <input type="hidden" id="phone2" name="phone">
-                                                <input type="hidden" id="address2" name="address">
-                                                <input type="hidden" id="notes2" name="notes">
-                                                <input type="hidden" id="reference_code2" name="reference_code">
-                                                <input type="hidden" id="orderKey2" name="key">
-                                                <input type="hidden" id="is_reference2" name="is_reference">
-                                                <input type="hidden" id="have_discount2" name="have_discount "
-                                                    class="have_discount">
-                                                <input type="hidden" id="discount2" name="discount"
-                                                    class="discount">
-                                                <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
-                                                    value="{{ $cart['item']['payment-plan'] ?? null }}">
-                                                <div class='cd-numbers'>
-                                                    <label>Kart Numarası</label>
-                                                    <div class='fields'>
-                                                        <input type='text' name="creditcard[]" class='1'
-                                                            maxlength="4" />
-                                                        <input type='text' name="creditcard[]" class='2'
-                                                            maxlength="4" />
-                                                        <input type='text' name="creditcard[]" class='3'
-                                                            maxlength="4" />
-                                                        <input type='text' name="creditcard[]" class='4'
-                                                            maxlength="4" />
-                                                    </div>
-                                                </div>
-                                                <div class='cd-holder'>
-                                                    <label for='cd-holder-input'>Kart Sahibinin Adı Soyadı</label>
-                                                    <input type='text' id='cd-holder-input' />
-                                                </div>
-                                                <div class='cd-validate'>
-                                                    <div class='expiration'>
-                                                        <div class='field'>
-                                                            <label for='month'>Ay</label>
-                                                            <select id='month' name="month">
-                                                                <option value="01">Ocak</option>
-                                                                <option value="02">Şubat</option>
-                                                                <option value="03">Mart</option>
-                                                                <option value="04">Nisan</option>
-                                                                <option value="05">Mayıs</option>
-                                                                <option value="06">Haziran</option>
-                                                                <option value="07">Temmuz</option>
-                                                                <option value="08">Ağustos</option>
-                                                                <option value="09">Eylül</option>
-                                                                <option value="10">Ekim</option>
-                                                                <option value="11">Kasım</option>
-                                                                <option value="12">Aralık</option>
-                                                            </select>
+                                                    <div class='middle'>
+                                                        <div class='cd-number'>
+                                                            <p><span class='num-1'>####</span><span
+                                                                    class='num-2'>####</span><span
+                                                                    class='num-3'>####</span><span
+                                                                    class='num-4'>####</span></p>
                                                         </div>
-                                                        <div class='field'>
-                                                            <label for='year'>Yıl</label>
-                                                            <select id='year' name="year">
-                                                                <?php
-                                                                // Başlangıç ve bitiş yılını belirle
-                                                                $startYear = date('Y'); // Şu anki yıl
-                                                                $endYear = $startYear + 10; // Şu anki yıldan 10 yıl sonrası
-                                                                
-                                                                // Yılları doldur
-                                                                for ($i = $startYear; $i <= $endYear; $i++) {
-                                                                    echo "<option value='$i'>$i</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
+                                                    </div>
+                                                    <div class='bottom'>
+                                                        <div class='cardholder'>
+                                                            <p class='label'>Kart Sahibinin Adı</p>
+                                                            <p class='holder'>İsim Soyisim</p>
+                                                        </div>
+                                                        <div class='expires'>
+                                                            <p class='label'>Ay/Yıl</p>
+                                                            <p><span class='month'>**</span>/<span
+                                                                    class='year'>**</span></p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <button type="submit" class='payButtonStyle 3dPaySuccess'><i
-                                                        class="fa fa-credit-card mr-2" aria-hidden="true"></i>Ödemeyi
-                                                    Tamamla</button>
-                                            </form>
-                                        </div>
-                                        {{-- <div class="payment-card"> --}}
+                                                <div class='back'>
+                                                    <div class='top'>
+                                                        <div class='magstripe'></div>
+                                                    </div>
+                                                    <div class='middle'>
+                                                        <p class='label'>CCV</p>
+                                                        <div class='cvc'>
+                                                            <p>***</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class='bottom'>
 
-                                        {{-- <div class="collapse show" id="debit-credit" role="tablist"
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='form'>
+                                                <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="cart"
+                                                        value="{{ json_encode($cart) }}">
+                                                    <input type="hidden" name="payable_amount" id="payableAmountInput">
+                                                    <input type="hidden" id="fullName2" name="fullName">
+                                                    <input type="hidden" id="email2" name="email">
+                                                    <input type="hidden" id="tc2" name="tc">
+                                                    <input type="hidden" id="phone2" name="phone">
+                                                    <input type="hidden" id="address2" name="address">
+                                                    <input type="hidden" id="notes2" name="notes">
+                                                    <input type="hidden" id="reference_code2" name="reference_code">
+                                                    <input type="hidden" id="orderKey2" name="key">
+                                                    <input type="hidden" id="is_reference2" name="is_reference">
+                                                    <input type="hidden" id="have_discount2" name="have_discount "
+                                                        class="have_discount">
+                                                    <input type="hidden" id="discount2" name="discount"
+                                                        class="discount">
+                                                    <input type="hidden" id="is_swap2" name="is_swap" class="is_swap"
+                                                        value="{{ $cart['item']['payment-plan'] ?? null }}">
+                                                    <div class='cd-numbers'>
+                                                        <label>Kart Numarası</label>
+                                                        <div class='fields'>
+                                                            <input type='text' name="creditcard[]" class='1'
+                                                                maxlength="4" />
+                                                            <input type='text' name="creditcard[]" class='2'
+                                                                maxlength="4" />
+                                                            <input type='text' name="creditcard[]" class='3'
+                                                                maxlength="4" />
+                                                            <input type='text' name="creditcard[]" class='4'
+                                                                maxlength="4" />
+                                                        </div>
+                                                    </div>
+                                                    <div class='cd-holder'>
+                                                        <label for='cd-holder-input'>Kart Sahibinin Adı Soyadı</label>
+                                                        <input type='text' id='cd-holder-input' />
+                                                    </div>
+                                                    <div class='cd-validate'>
+                                                        <div class='expiration'>
+                                                            <div class='field'>
+                                                                <label for='month'>Ay</label>
+                                                                <select id='month' name="month">
+                                                                    <option value="01">Ocak</option>
+                                                                    <option value="02">Şubat</option>
+                                                                    <option value="03">Mart</option>
+                                                                    <option value="04">Nisan</option>
+                                                                    <option value="05">Mayıs</option>
+                                                                    <option value="06">Haziran</option>
+                                                                    <option value="07">Temmuz</option>
+                                                                    <option value="08">Ağustos</option>
+                                                                    <option value="09">Eylül</option>
+                                                                    <option value="10">Ekim</option>
+                                                                    <option value="11">Kasım</option>
+                                                                    <option value="12">Aralık</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class='field'>
+                                                                <label for='year'>Yıl</label>
+                                                                <select id='year' name="year">
+                                                                    <?php
+                                                                    // Başlangıç ve bitiş yılını belirle
+                                                                    $startYear = date('Y'); // Şu anki yıl
+                                                                    $endYear = $startYear + 10; // Şu anki yıldan 10 yıl sonrası
+                                                                    
+                                                                    // Yılları doldur
+                                                                    for ($i = $startYear; $i <= $endYear; $i++) {
+                                                                        echo "<option value='$i'>$i</option>";
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class='payButtonStyle 3dPaySuccess'><i
+                                                            class="fa fa-credit-card mr-2" aria-hidden="true"></i>Ödemeyi
+                                                        Tamamla</button>
+                                                </form>
+                                            </div>
+                                            {{-- <div class="payment-card"> --}}
+
+                                            {{-- <div class="collapse show" id="debit-credit" role="tablist"
                                             aria-expanded="false" style="">
                                             <div class="payment-card-body">
                                                 <form method="POST" id="3dPayForm" action="{{ route('3d.pay') }}">
@@ -841,85 +843,85 @@
                                             </form>
 
                                         </div> --}}
-                                        {{-- </div> --}}
-                                    </div>
+                                            {{-- </div> --}}
+                                        </div>
 
-                                    <div id="payment2" class="payment" style="display: none;">
-                                        {{-- EFT Havale --}}
-                                        {{-- <div class="payment-card mb-0"> --}}
-                                        <header class="payment-card-header cursor-pointer collapsed"
-                                            data-toggle="collapse" data-target="#paypal" aria-expanded="true">
-                                            <div class="payment-card-title flexbox">
-                                                <h4>EFT / HAVALE</h4>
-                                            </div>
-                                        </header>
-                                        <div class="collapse show" id="paypal" role="tablist"
-                                            aria-expanded="false" style="">
-                                            {{-- <div class="payment-card-body"> --}}
-                                            <div class="invoice-total mt-3">
-                                                <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
-                                                <div class="row mb-3 mt-3 p-0 mx-0">
-                                                    <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
-                                                            id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
-                                                        alanına yazdığınızdan emin olun.</span>
+                                        <div id="payment2" class="payment" style="display: none;">
+                                            {{-- EFT Havale --}}
+                                            {{-- <div class="payment-card mb-0"> --}}
+                                            <header class="payment-card-header cursor-pointer collapsed"
+                                                data-toggle="collapse" data-target="#paypal" aria-expanded="true">
+                                                <div class="payment-card-title flexbox">
+                                                    <h4>EFT / HAVALE</h4>
+                                                </div>
+                                            </header>
+                                            <div class="collapse show" id="paypal" role="tablist"
+                                                aria-expanded="false" style="">
+                                                {{-- <div class="payment-card-body"> --}}
+                                                <div class="invoice-total mt-3">
+                                                    <span class="mt-3">EFT/Havale yapacağınız bankayı seçiniz</span>
+                                                    <div class="row mb-3 mt-3 p-0 mx-0">
+                                                        <span>1. <strong style="color:#EA2B2E;font-weight:bold !important"
+                                                                id="uniqueCodeRetry"></strong> kodunu EFT/Havale açıklama
+                                                            alanına yazdığınızdan emin olun.</span>
 
-                                                    {{-- <div class="row"> --}}
-                                                    @if ($bankAccounts && count($bankAccounts) > 0)
-                                                        @foreach ($bankAccounts as $bankAccount)
-                                                            <a class=" copy-iban-button"
-                                                                onclick="copyIban('{{ $bankAccount->iban }}')">
-                                                                <li class="fa fa-copy"></li>
-                                                            </a>
-                                                            <div class="col-sm-5 col-md-5 bank-account"
-                                                                data-id="{{ $bankAccount->id }}"
-                                                                data-iban="{{ $bankAccount->iban }}"
-                                                                data-title="{{ $bankAccount->receipent_full_name }}">
-                                                                <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
-                                                                    alt=""
-                                                                    style="width: 100%; height: 100px; object-fit: contain; cursor: pointer">
+                                                        {{-- <div class="row"> --}}
+                                                        @if ($bankAccounts && count($bankAccounts) > 0)
+                                                            @foreach ($bankAccounts as $bankAccount)
+                                                                <a class=" copy-iban-button"
+                                                                    onclick="copyIban('{{ $bankAccount->iban }}')">
+                                                                    <li class="fa fa-copy"></li>
+                                                                </a>
+                                                                <div class="col-sm-5 col-md-5 bank-account"
+                                                                    data-id="{{ $bankAccount->id }}"
+                                                                    data-iban="{{ $bankAccount->iban }}"
+                                                                    data-title="{{ $bankAccount->receipent_full_name }}">
+                                                                    <img src="{{ URL::to('/') }}/{{ $bankAccount->image }}"
+                                                                        alt=""
+                                                                        style="width: 100%; height: 100px; object-fit: contain; cursor: pointer">
 
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
 
-                                                    {{-- </div> --}}
+                                                        {{-- </div> --}}
+
+                                                    </div>
+                                                    <div id="ibanInfo" style="font-size: 12px !important"></div>
+                                                    <span>Ödeme işlemini tamamlamak için, lütfen bu
+                                                        <span style="color:#EA2B2E;font-weight:bold"
+                                                            id="uniqueCode"></span>
+                                                        kodu
+                                                        kullanarak ödemenizi
+                                                        yapın. IBAN açıklama
+                                                        alanına
+                                                        bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine
+                                                        tıklayarak
+                                                        işlemi
+                                                        bitirin.</span>
+                                                </div>
+                                                <div class="mt-5" style="width:50%">
+                                                    <label class="custom-file-upload btn btn-m">
+                                                        <i class="fas fa-link mr-2" style="font-size:14px;"></i>
+                                                        Dekont Ekle
+                                                        <input type="file" name="file" id="fileInput" />
+                                                    </label>
+                                                    <span id="fileStatus" style="font-size: 12px;"></span>
+                                                </div>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <button type="button"
+                                                        class="btn btn-block btn-m btn-success mt-5 paySuccess"
+                                                        id="completePaymentButton" style="float:right">Ödemeyi
+                                                        Tamamla
+                                                    </button>
 
                                                 </div>
-                                                <div id="ibanInfo" style="font-size: 12px !important"></div>
-                                                <span>Ödeme işlemini tamamlamak için, lütfen bu
-                                                    <span style="color:#EA2B2E;font-weight:bold"
-                                                        id="uniqueCode"></span>
-                                                    kodu
-                                                    kullanarak ödemenizi
-                                                    yapın. IBAN açıklama
-                                                    alanına
-                                                    bu kodu eklemeyi unutmayın. Ardından "Ödemeyi Tamamla" düğmesine
-                                                    tıklayarak
-                                                    işlemi
-                                                    bitirin.</span>
-                                            </div>
-                                            <div class="mt-5" style="width:50%">
-                                                <label class="custom-file-upload btn btn-m">
-                                                    <i class="fas fa-link mr-2" style="font-size:14px;"></i>
-                                                    Dekont Ekle
-                                                    <input type="file" name="file" id="fileInput" />
-                                                </label>
-                                                <span id="fileStatus" style="font-size: 12px;"></span>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <button type="button"
-                                                    class="btn btn-block btn-m btn-success mt-5 paySuccess"
-                                                    id="completePaymentButton" style="float:right">Ödemeyi
-                                                    Tamamla
-                                                </button>
-
+                                                {{-- </div> --}}
                                             </div>
                                             {{-- </div> --}}
                                         </div>
-                                        {{-- </div> --}}
                                     </div>
                                 </div>
-                            </div>
 
                             </div>
                         </div>
@@ -949,29 +951,29 @@
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-ip8tV3D9tyRNS8RMUwxU8n7mCJ9WCl0&callback=initMap"></script>
-        <script>
-            $(document).ready(function(){
-                $("#phone").on("input blur", function(){
+    <script>
+        $(document).ready(function() {
+            $("#phone").on("input blur", function() {
                 var phoneNumber = $(this).val();
                 var pattern = /^5[0-9]\d{8}$/;
-            
+
                 if (!pattern.test(phoneNumber)) {
-                  $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+                    $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
                 } else {
-                  $("#error_message").text("");
+                    $("#error_message").text("");
                 }
-                     // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-                     $('#phone').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
-              });
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('#phone').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
             });
-            </script>
+        });
+    </script>
     <script>
         function copyIban(iban) {
             // Yapıştırılacak metni oluştur
@@ -1109,11 +1111,11 @@
                     },
                     success: function(response) {
                         $("#loadingOverlay").css("visibility",
-                        "hidden"); // Loading overlay gizle
+                            "hidden"); // Loading overlay gizle
 
                         toastr.success(
                             'Ödeme onayından sonra komşu bilgileri tarafınıza iletilecektir.'
-                            );
+                        );
                         location.reload();
                         window.location.replace("{{ route('neighbors.index') }}");
 
@@ -1223,7 +1225,8 @@
                 $('#notes2').val(notes);
                 $('#order_id').val(order);
                 $('#user_id').val(
-                {{ Auth::check() ? Auth::user()->id : 'null' }}); // Auth kontrolü ile user_id'yi doldurun
+                    {{ Auth::check() ? Auth::user()->id : 'null' }}
+                    ); // Auth kontrolü ile user_id'yi doldurun
                 $('#key').val(generateRandomCode());
             });
         });
@@ -1237,10 +1240,12 @@
             color: #e54242;
             font-size: 11px;
         }
+
         .success-message {
             color: green;
             font-size: 11px;
         }
+
         .wrap-house {
             // border-radius: 10px;
             padding: 32px;
@@ -1761,6 +1766,18 @@
 
         .form .cd-numbers .fields {
             display: flex;
+        }
+
+        .custom-file-upload {
+            color: White !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
         }
 
         .form .cd-numbers .fields input {
