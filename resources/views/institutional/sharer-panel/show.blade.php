@@ -172,6 +172,7 @@
                                                             if ($share_percent_earn === null && count($rates) > 0) {
                                                                 $share_percent_earn = $rates->last()->sales_rate_club;
                                                             }
+                                                            echo $share_percent_earn;
 
                                                             $earningAmount =
                                                             $discountedPrice * 0.04  * $share_percent_earn;
