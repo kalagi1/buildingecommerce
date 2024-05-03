@@ -286,14 +286,12 @@ class ProfileController extends Controller
             $request->validate(
                 [
                     "idNumber" => "required",
-                    "phone" => "required",
                     "bank_name" => "required",
                     "iban" => "required|iban",
                     "check-d" => "required"
                 ],
                 [
                     "idNumber.required" => "TC Kimlik Numarası alanı zorunludur.",
-                    "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
                     "iban.iban" => "Lütfen geçerli bir iban giriniz.",
                     "iban.required" => "IBAN alanı zorunludur.",
@@ -303,13 +301,11 @@ class ProfileController extends Controller
         }else{
             $request->validate(
                 [
-                    "phone" => "required",
                     "bank_name" => "required",
                     "iban" => "required|iban",
                     "check-d" => "required"
                 ],
                 [
-                    "phone.required" => "Telefon Numarası alanı zorunludur.",
                     "bank_name.required" => "Banka Adı alanı zorunludur.",
                     "iban.iban" => "Lütfen geçerli bir iban giriniz.",
                     "iban.required" => "IBAN alanı zorunludur.",
