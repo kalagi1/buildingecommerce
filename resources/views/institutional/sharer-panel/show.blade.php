@@ -158,8 +158,7 @@
                                                             )->get();
 
                                                             $share_percent_earn = null;
-                                                            $sales_rate_club= null;
-
+                                                            $sales_rate_club = null;
 
                                                             foreach ($rates as $key => $rate) {
                                                                 if (
@@ -168,7 +167,10 @@
                                                                 ) {
                                                                     $sales_rate_club = $rate->sales_rate_club;
                                                                 }
-                                                                if ($item['housing']['user']["corporate_type"] == $rate->institution->name) {
+                                                                if (
+                                                                    $item['housing']['user']['corporate_type'] ==
+                                                                    $rate->institution->name
+                                                                ) {
                                                                     $share_percent_earn = $rate->default_deposit_rate;
                                                                     $share_percent_balance = 1.0 - $share_percent_earn;
                                                                 }
@@ -178,12 +180,9 @@
                                                                 $sales_rate_club = $rates->last()->sales_rate_club;
                                                             }
 
+                                                            $total = $discountedPrice * 0.04 * $share_percent_earn;
 
-                                                            $total =  $discountedPrice * 0.04 * $share_percent_earn ;
-                                                            echo $total  *$sales_rate_club;
-
-                                                            $earningAmount =
-                                                                $discountedPrice * $sales_rate_club * 0.04 * $share_percent_earn;
+                                                            $earningAmount = $total * $sales_rate_club;
                                                         @endphp
                                                         <strong>
 
