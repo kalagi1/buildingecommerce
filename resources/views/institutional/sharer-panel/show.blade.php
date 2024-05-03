@@ -178,6 +178,8 @@
                                                                 $sales_rate_club = $rates->last()->sales_rate_club;
                                                             }
 
+                                                            echo $discountedPrice * 0.04 * $share_percent_earn;
+
                                                             $earningAmount =
                                                                 $discountedPrice * $sales_rate_club * 0.04 * $share_percent_earn;
                                                         @endphp
