@@ -152,13 +152,6 @@
                                                     @if ($item['item_type'] == 2)
                                                         @php
                                                             $sharePercent = 0.25;
-                                                            $discountedPrice = (isset($discountedPrice)
-                                                                    ? $discountedPrice
-                                                                    : isset(
-                                                                        json_decode(
-                                                                            $item['housing']['housing_type_data'],
-                                                                        )->price[0],
-                                                                    ))
                                                                 ? json_decode($item['housing']['housing_type_data'])
                                                                     ->price[0]
                                                                 : json_decode($item['housing']['housing_type_data'])
