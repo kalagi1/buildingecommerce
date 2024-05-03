@@ -152,11 +152,6 @@
                                                     @if ($item['item_type'] == 2)
                                                         @php
                                                             $sharePercent = 0.25;
-                                                                ? json_decode($item['housing']['housing_type_data'])
-                                                                    ->price[0]
-                                                                : json_decode($item['housing']['housing_type_data'])
-                                                                    ->daily_rent[0];
-                                                                    echo $discountedPrice;
                                                             $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
                                                         @endphp
                                                         <strong>
