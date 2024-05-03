@@ -163,6 +163,7 @@
                                                                     ->price[0]
                                                                 : json_decode($item['housing']['housing_type_data'])
                                                                     ->daily_rent[0];
+                                                                    echo $discountedPrice;
                                                             $earningAmount = $discountedPrice * $deposit_rate * $sharePercent;
                                                         @endphp
                                                         <strong>
