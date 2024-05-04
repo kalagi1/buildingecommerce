@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string("approve_website_approve")->nullable();
+            $table->boolean("approve_website_approve")->default(0)->nullable();
 
         });
     }
