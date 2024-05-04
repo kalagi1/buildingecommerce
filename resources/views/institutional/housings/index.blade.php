@@ -102,7 +102,7 @@
                     var housingOwner = document.createElement("td");
                     housingOwner.className = "align-middle housing_owner";
                     console.log(user.id);
-                    console.log(housingType.owner.id);
+                    console.log(housingType.user);
 
                     
 
