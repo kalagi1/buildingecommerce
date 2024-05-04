@@ -154,8 +154,8 @@
                         @endif
                     </label>
                     <input type="file" name="approve_website" id="approve_website"
-                        class="form-control {{ auth()->user()->approve_website ? ' green-border' : '' }}"
-                        accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->approve_website == 0 ? ' ' : null }} />
+                        class="form-control {{ auth()->user()->approve_website_approve ? ' green-border' : '' }}"
+                        accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->approve_website_approve == 0 ? ' ' : null }} />
                 </div>
 
                 <div class="form-group">
