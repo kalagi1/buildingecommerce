@@ -94,15 +94,14 @@
                 housingTitleCell.className = "align-middle housing_title";
                 housingTitleCell.innerHTML = housingType.housing_title +
                     "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
-                    .title + " / " +
-                    housingType.county.title + (housingType.neighborhood ? " / " + housingType.neighborhood
-                        .mahalle_title : "") +
+                    .title + 
                     "</span>";
 
                     var housingOwner = document.createElement("td");
                     housingOwner.className = "align-middle housing_owner";
               
                     
+
 
                     if (user.id == housingType.owner.id) {
                         var ownerInfo = document.createElement("span");
