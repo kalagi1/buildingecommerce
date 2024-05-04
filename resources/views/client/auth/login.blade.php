@@ -545,7 +545,7 @@
                                                             <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
                                                                 class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
-                                                                value="{{ old('taxNumber') }}">
+                                                                value="{{ old('taxNumber') }}"  maxlength="10">
                                                             @if ($errors->has('taxNumber'))
                                                                 <span
                                                                     class="error-message">{{ $errors->first('taxNumber') }}</span>
@@ -561,7 +561,8 @@
                                                             <div class="mbdef">
                                                                 <div class="select select-tax-office">
                                                                     <label for="" class="q-label">Yetki Belgesi No</label>
-                                                                    <input type="text" id="authority_licence" name="authority_licence" class="form-control" maxlength="7">
+                                                                    <input type="text" id="authority_licence" name="authority_licence"
+                                                                    value="{{ old('authority_licence') }}" class="form-control" maxlength="7">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -575,7 +576,7 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No</label>
                                                             <input type="text" id="idNumber" name="idNumber"
-                                                                class="form-control" value="{{ old('idNumber') }}">
+                                                                class="form-control" value="{{ old('idNumber') }}"  maxlength="11">
                                                         </div>
                                                     </div>
                                                 </div>
