@@ -279,7 +279,7 @@ class HousingController extends Controller {
         $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
     
         // Define a common base query for reuse
-        $baseQuery = Housing::with('city', 'county', 'neighborhood')
+        $baseQuery = Housing::with('city', 'county', 'neighborhood',"owner")
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->select(
                 'housings.id',
