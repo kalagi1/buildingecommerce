@@ -276,123 +276,61 @@ class HousingController extends Controller {
     }
 
     public function index() {
-
-        $activeHousingTypes = Housing::with( 'city', 'county', 'neighborhood','owner' )
-        ->where( 'status', 1 )
-        ->where('is_sold', null)
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json',
-            'housings.is_share',
-            'owner_id',
-        )
-        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        if ($activeHousingTypes->isNotEmpty()) {
-            foreach ($activeHousingTypes as $housing) {
-                if (!is_null($housing->owner_id)) {
-                    $owner = User::find($housing->owner_id);
-                    $housing->owner = $owner;
-                } else {
-                    $housing->owner = null;
-                }
-            }
-        }
-
-        $inactiveHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 0 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        $disabledHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 3 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        $pendingHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'status', 2 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        $soldHousingTypes = Housing::with( 'city', 'county', 'neighborhood' )
-        ->where( 'is_sold', 1 )
-        ->leftJoin( 'housing_types', 'housing_types.id', '=', 'housings.housing_type_id' )
-        ->select(
-            'housings.id',
-            'housings.title AS housing_title',
-            'housings.status AS status',
-            'housings.address',
-            'housings.created_at',
-            'housing_types.title as housing_type',
-            'housing_types.slug',
-            'housings.city_id',
-            'housings.county_id',
-            'housings.neighborhood_id',
-            'housing_types.form_json'
-        )
-        ->where( 'user_id', auth()->user()->parent_id ?  auth()->user()->parent_id : auth()->user()->id )
-        ->orderByDesc( 'housings.updated_at' )
-        ->get();
-
-        return view( 'institutional.housings.index', compact( 'activeHousingTypes',"disabledHousingTypes", "pendingHousingTypes",'inactiveHousingTypes','soldHousingTypes' ) );
+        $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
+    
+        // Define a common base query for reuse
+        $baseQuery = Housing::with('city', 'county', 'neighborhood')
+            ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+            ->select(
+                'housings.id',
+                'housings.title AS housing_title',
+                'housings.status',
+                'housings.address',
+                'housings.created_at',
+                'housing_types.title as housing_type',
+                'housing_types.slug',
+                'housings.city_id',
+                'housings.county_id',
+                'housings.neighborhood_id',
+                'housing_types.form_json',
+                'housings.is_share',
+                'housings.owner_id'
+            )
+            ->where(function ($query) use ($userId) {
+                $query->where('housings.user_id', $userId)
+                      ->orWhere('housings.owner_id', $userId);
+            })
+            ->orderByDesc('housings.updated_at');
+    
+        // Active housings
+        $activeHousingTypes = (clone $baseQuery)
+            ->where('status', 1)
+            ->whereNull('is_sold')
+            ->get();
+    
+        // Inactive housings
+        $inactiveHousingTypes = (clone $baseQuery)
+            ->where('status', 0)
+            ->get();
+    
+        // Disabled housings
+        $disabledHousingTypes = (clone $baseQuery)
+            ->where('status', 3)
+            ->get();
+    
+        // Pending housings
+        $pendingHousingTypes = (clone $baseQuery)
+            ->where('status', 2)
+            ->get();
+    
+        // Sold housings
+        $soldHousingTypes = (clone $baseQuery)
+            ->where('is_sold', 1)
+            ->get();
+    
+        return view('institutional.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes'));
     }
+    
 
     public function edit( $housingId ) {
         $housing = Housing::where( 'id', $housingId )->first();
