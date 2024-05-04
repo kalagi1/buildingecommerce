@@ -116,7 +116,7 @@
 
                         var mobilephoneInfo = document.createElement("span");
                         mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
-                        housingOwner.appendChild(phoneInfo);
+                        housingOwner.appendChild(mobilephoneInfo);
                         
                         var br = document.createElement("br");
                         housingOwner.appendChild(br);
