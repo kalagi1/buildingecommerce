@@ -22,6 +22,15 @@ use App\Services\SmsService;
 
 class AuthController extends Controller
 {
+
+    protected $smsService;
+
+    public function __construct(SmsService $smsService)
+    {
+        $this->smsService = $smsService;
+    }
+
+
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|max:255',
@@ -327,13 +336,20 @@ class AuthController extends Controller
         $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
         
         $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
-
         if ($user) {
             $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
             $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
             $user->save();// Kullanıcıyı kaydediyoruz
             if($user->phone_verification_code) {
-                $this->sendSMS($user);
+                $smsSent = $this->sendSMS($user);
+                if (!$smsSent) {
+                    // SMS gönderimi başarısız olduysa
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'SMS gönderimi başarısız oldu'
+                    ]);
+                }
+                
             }
            
             return response()->json([
