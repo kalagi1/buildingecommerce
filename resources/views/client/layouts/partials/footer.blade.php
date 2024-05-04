@@ -814,7 +814,7 @@
                                                     paymentPlanData[j]] + " " +
                                                 "Fiyat:</strong> " : "") + formatPrice(
                                                 priceData) + "₺</td>";
-                                                if (projectedEarningsData) {
+                                            if (projectedEarningsData) {
                                                 html += "<td>" + projectedEarningsData + "</td>";
 
                                             }
@@ -1587,79 +1587,123 @@
                 },
                 success: function(data) {
                     let hasResults = false;
-
                     // Housing search
                     if (data.housings.length > 0) {
                         hasResults = true;
                         $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
-                            `);
-                        data.housings.forEach((e) => {
-                            const imageUrl =
-                                `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">İkinci-El Emlak</div>
+                        `);
+
+                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                        const housingsToShow = data.housings.slice(0,
+                            maxResultsToShow); // İlk 4 sonucu al
+
+                        housingsToShow.forEach((e) => {
+                            const imageUrl = `${appUrl}housing_images/${e.photo}`;
+                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                .slice(1);
+                            var baseRoute =
+                                `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
+                                .replace('slug_placeholder', e.slug)
+                                .replace('id_placeholder', parseInt(e.id) + 2000000);
 
                             //housign.show link eklenecek
                             $('.header-search-box').append(`
-                          
+                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark  align-items-center px-3 py-1" style="gap: 8px;">
+                                <span>${formattedName}</span>
+                            </a>
                         `);
-
                         });
+
+                        if (data.housings.length > maxResultsToShow) {
+                            const remainingResults = data.housings.length - maxResultsToShow;
+                            // Arama terimi "housing" olarak belirleniyor
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=housing";
+
+                            // Laravel route'u kullanarak URL oluşturma
+                            $('.header-search-box').append(`
+                            <a href="${searchUrl}" class="text-muted mt-2">${remainingResults} sonuç daha bulunmaktadır.</a>
+                        `);
+                        }
                     }
+
 
                     // Project search
                     if (data.projects.length > 0) {
+                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                        const projectsToShow = data.projects.slice(0,
+                        maxResultsToShow); // İlk 4 sonucu al
+
                         hasResults = true;
                         $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">PROJELER</div>
-                            `);
-                        data.projects.forEach((e) => {
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">PROJELER</div>
+                        `);
+
+                        projectsToShow.forEach((e) => {
                             console.log(e);
                             const imageUrl =
                                 `${appUrl}${e.photo.replace('public', 'storage')}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
-                            // Assuming you have a JavaScript variable like this:
+                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                .slice(1);
                             var baseRoute =
                                 `{{ route('project.detail', ['slug' => 'slug_placeholder', 'id' => 'id_placeholder']) }}`
-                                .replace('slug_placeholder', e.slug).replace(
-                                    'id_placeholder', parseInt(e.id) + 1000000);
-
+                                .replace('slug_placeholder', e.slug)
+                                .replace('id_placeholder', parseInt(e.id) + 1000000);
 
                             // Now, you can use it in your append statement:
                             $('.header-search-box').append(`
-                                            <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-                                                <span>${formattedName}</span>
-                                            </a>
-                                        `);
-
-
-
-
+                                <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
+                            `);
                         });
+
+                        if (data.projects.length > maxResultsToShow) {
+                            const remainingResults = data.projects.length - maxResultsToShow;
+                            // Arama terimi "project" olarak belirleniyor
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=project";
+
+                            // Laravel route'u kullanarak URL oluşturma
+                            $('.header-search-box').append(`
+                                <a href="${searchUrl}" class="text-muted mt-2">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            `);
+                        }
                     }
 
-                    // Merchant search
                     if (data.merchants.length > 0) {
                         hasResults = true;
                         $('.header-search-box').append(`
-                                <div class="font-weight-bold p-2 small" style="background-color: #EEE;">MAĞAZALAR</div>
-                            `);
-                        data.merchants.forEach((e) => {
+                            <div class="d-flex font-weight-bold justify-content-center border-bottom border-2 pb-2 pt-3 small">MAĞAZALAR</div>
+                        `);
+                        const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
+                        const merchantsToShow = data.merchants.slice(0,
+                        maxResultsToShow); // İlk 4 sonucu al
+
+                        merchantsToShow.forEach((e) => {
                             const imageUrl =
-                                `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
-                            const formattedName = e.name.charAt(0)
-                                .toUpperCase() + e.name.slice(1);
+                            `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                            const formattedName = e.name.charAt(0).toUpperCase() + e.name
+                                .slice(1);
 
                             $('.header-search-box').append(`
-    <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
-        <span>${formattedName}</span>
-    </a>
-`);
-
+                        <a href="{{ URL::to('/magaza/') }}/${e.slug}/${e.id}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                            <span>${formattedName}</span>
+                        </a>
+                    `);
                         });
+
+                        if (data.merchants.length > maxResultsToShow) {
+                            const remainingResults = data.merchants.length - maxResultsToShow;
+                            // Arama terimi "merchant" olarak belirleniyor
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=merchant";
+
+                            // Laravel route'u kullanarak URL oluşturma
+                            $('.header-search-box').append(`
+                                <a href="${searchUrl}" class="text-muted mt-2">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            `);
+                        }
                     }
+
 
                     // Veri yoksa veya herhangi bir sonuç yoksa "Sonuç Bulunamadı" mesajını görüntüle
                     if (!hasResults) {
@@ -1741,16 +1785,24 @@
                             $('.header-search-box-mobile').append(`
                                 <div class="font-weight-bold p-2 small" style="background-color: #EEE;">KONUTLAR</div>
                             `);
-                            console.log(data.housings);
+
                             data.housings.forEach((e) => {
                                 const imageUrl =
                                     `${appUrl}housing_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
                                 const formattedName = e.name.charAt(0)
                                     .toUpperCase() + e.name.slice(1);
 
+
+                                var baseRoute =
+                                    `{{ route('housing.show', ['housingSlug' => 'slug_placeholder', 'housingID' => 'id_placeholder']) }}`
+                                    .replace('slug_placeholder', e.slug).replace(
+                                        'id_placeholder', parseInt(e.id) + 2000000);
+
                                 //housign.show metodu eklenecek    
                                 $('.header-search-box-mobile').append(`
-                                  
+                                  <a href="${baseRoute.replace('slug_placeholder', e.slug).replace('id_placeholder', e.id)}" class="d-flex text-dark font-weight-bold align-items-center px-3 py-1" style="gap: 8px;">
+                                    <span>${formattedName}</span>
+                                </a>
                                 `);
 
                             });

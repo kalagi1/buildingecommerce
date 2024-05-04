@@ -62,14 +62,32 @@
     @endphp
     <section class="recently portfolio bg-white homepage-5 ">
         <div class="container">
-            <span><strong style="color: black"> "{{ $term }}"</strong> araması için toplam <strong
-                    style="color: black">{{ count($results['housings']) + count($results['projects']) + count($results['merchants']) }}
-                </strong> sonuç bulundu. </span>
+            <span>
+                <strong style="color: black">{{ $term }}</strong> araması için 
+                <strong style="color: black">
+                    @php
+                        $housingResults = isset($results['housings']) ? count($results['housings']) : 0 ;
+                        $projectResults = isset($results['projects']) ? count($results['projects']) : 0;
+                        $merchantResults = isset($results['merchants']) ? count($results['merchants']) : 0;
+                    @endphp
+            
+                    @if($housingResults > 0)
+                        toplam {{ $housingResults }}  sonucu bulundu.
+                    @elseif($projectResults > 0)
+                        toplam {{ $projectResults }} sonucu bulundu.
+                    @elseif($merchantResults > 0)
+                        toplam {{ $merchantResults }}  sonucu bulundu.
+                    @else
+                        Sonuç bulunamadı.
+                    @endif
+                </strong>
+            </span>
+            
 
             {{-- Display the search results here --}}
             <div class="header-search-box-page">
                 {{-- Result count --}}
-                @if (count($results['merchants']) > 0)
+                @if (isset($results['merchants']) && count($results['merchants']) > 0)
                     <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">MAĞAZALAR
                         ({{ count($results['merchants']) }})</div>
 
@@ -103,7 +121,7 @@
                     </section>
                 @endif
                 {{-- Housing results --}}
-                @if (count($results['housings']) > 0)
+                @if (isset($results['housings']) && count($results['housings']) > 0)
                     <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">EMLAK İLANLARI
                         ({{ count($results['housings']) }})</div>
                     <section class="featured portfolio rec-pro disc bg-white">
@@ -592,7 +610,7 @@
                 @endif
 
                 {{-- Project results --}}
-                @if (count($results['projects']) > 0)
+                @if (isset($results['projects']) && count($results['projects']) > 0)
                     <div class="font-weight-bold p-2 small mt-2 mb-3" style="background-color: #EEE;">PROJELER
                         ({{ count($results['projects']) }})</div>
                     <div class="row mt-2">
@@ -622,7 +640,7 @@
 
 
                 {{-- No results message --}}
-                @if (count($results['housings']) == 0 && count($results['projects']) == 0 && count($results['merchants']) == 0)
+                @if (isset($results['housings'], $results['projects'], $results['merchants']) && count($results['housings']) == 0 && count($results['projects']) == 0 && count($results['merchants']) == 0)
                     <div class="font-weight-bold p-2 small" style="background-color: white; text-align: center;">Sonuç
                         bulunamadı</div>
                 @endif

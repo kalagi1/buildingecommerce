@@ -380,7 +380,7 @@
 
                         </div>
                         <div class="center position-relative searchInput">
-                            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+                            <form action="{{ route('search.index') }}" method="GET" id="search-form">
                                 @csrf
                                 <div class="input-group search ml-3 d-xl-flex d-none d-lg-flex">
                                     <input type="text" name="searchTerm" class="ss-box" placeholder="Ara ..">
@@ -401,7 +401,7 @@
 
 
                             <div class="header-search-box d-none flex-column position-absolute ml-3 bg-white border-bottom border-left border-right"
-                                style="top: 100%; z-index: 100; width: calc(100% - 1rem); gap: 12px;z-index:9999;max-height: 269px;
+                                style="top: 100%; z-index: 100; width:160% ; gap: 12px;z-index:9999;max-height: 269px;
                                 overflow-y: scroll;">
                             </div>
                         </div>
@@ -792,7 +792,7 @@
 
         </header>
         <div class=" d-lg-none search-style">
-            <form action="{{ route('search.results') }}" method="GET" id="search-form">
+            <form action="{{ route('search.index') }}" method="GET" id="search-form">
                 @csrf
                 <div class="input-group search ml-3 d-xl-flex d-lg-flex"
                     style="
