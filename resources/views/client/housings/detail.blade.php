@@ -1,12 +1,15 @@
 @extends('client.layouts.master')
 
 @php
-    // Using the query builder to get the latest record
-    $sold = DB::table('cart_orders')
-        ->whereRaw('JSON_EXTRACT(cart, "$.type") = "housing"')
-        ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = ?', [$housing->id])
-        ->orderBy('created_at', 'DESC') // Replace with appropriate date column
-        ->first(); // Fetches the latest record
+    // Retrieve the most recent record where JSON_EXTRACT(cart, "$.item.id") matches $housing->id
+    $sold = DB::select(
+        'SELECT * FROM cart_orders 
+        WHERE JSON_EXTRACT(cart, "$.type") = "housing" 
+        AND JSON_EXTRACT(cart, "$.item.id") = ?
+        ORDER BY created_at DESC
+        LIMIT 1',
+        [$housing->id]
+    );
 @endphp
 
 @php
