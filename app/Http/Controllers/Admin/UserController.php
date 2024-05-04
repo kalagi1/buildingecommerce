@@ -330,6 +330,7 @@ class UserController extends Controller
                 [
                     'tax_document_approve' => $request->input('tax_document_approve') ?? '0',
                     'record_document_approve' => $request->input('record_document_approve') ?? '0',
+                    'approve_website_approve' => $request->input('approve_website_approve') ?? '0',
                     'identity_document_approve' => $request->input('identity_document_approve'),
                     'corporate_account_note' => $request->input('note'),
                     'corporate_account_status' => $request->input('status'),
