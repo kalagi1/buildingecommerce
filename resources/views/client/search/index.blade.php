@@ -16,7 +16,7 @@
                                     @foreach ($step1_data as $step2_slug => $step2_data)
                                         @php $count++ @endphp
                                         <li class="housing-item" @if($count > 3) style="display: none;" @endif>
-                                            <a href="{{ url('/kategori/' . $step1_slug . '/' . $step2_slug) }}">
+                                            <a href="{{ url('/kategori/' . $step1_slug . '/' . $step2_slug . '?' . http_build_query(['term' => $term])) }}">
                                                 {{ $step2_slug }} {{ $step1_slug }}<span>({{ $step2_data[0]['count'] }})</span>
                                             </a>
                                         </li>
@@ -68,7 +68,7 @@
                                 @foreach ($projects as $project)
                                     @php $count++ @endphp
                                     <li class="project-item" @if($count > 3) style="display: none;" @endif>
-                                        <a href="{{ url('/kategori/' . $project['status_slug']) }}"> 
+                                        <a href="{{ url('/kategori/' . $project['status_slug'] . '?' . http_build_query(['term' => $term])) }}"> 
                                             {{ $project['name'] }}<span>({{ $project['count'] }})</span>
                                         </a>
                                     </li>

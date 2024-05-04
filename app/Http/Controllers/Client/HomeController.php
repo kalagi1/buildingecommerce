@@ -441,7 +441,7 @@ class HomeController extends Controller
 
     public function getRenderedSecondhandHousings(Request $request)
     {
-
+       
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -498,6 +498,11 @@ class HomeController extends Controller
             return $a;
         }
 
+
+
+       $term =   $request->input('term');
+
+     
         $parameters = ["slug", "type", "optional", "title", "checkTitle"];
         $secondhandHousings = [];
         $projects = [];
@@ -1226,8 +1231,6 @@ class HomeController extends Controller
             }
         }
         
-
-      
        
         $housings = Housing::select(
             'housings.step1_slug',

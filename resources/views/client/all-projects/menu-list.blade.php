@@ -794,9 +794,15 @@
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head py-2" style="padding-top: 0">
+                            <span>
+                                <strong style="color: black">{{$term}}</strong> araması için 
+                                <strong style="color: black">toplam sonucu bulundu.</strong> </span><br>
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
+                                
                                 @if ($slugName)
-                                    <p class="brand-name" style="color: black">{{ $slugName }}</p>
+                                    <p class="brand-name" style="color: black">{{ $slugName }}</p> 
+                                           
+                                   
                                 @endif
                                 @if ($housingTypeSlugName)
                                     @if ($slugName)
@@ -1081,13 +1087,16 @@
             var optional = @json($opt ?? null);
             var checkTitle = @json($checkTitle ?? null);
 
+             var term = @json($term ?? null);
+
             var data = Object.assign({}, filters, {
                 _token: "{{ csrf_token() }}",
                 slug: slug,
                 type: type,
                 title: title,
                 optional: optional,
-                checkTitle: checkTitle
+                checkTitle: checkTitle,
+                term:term
             });
 
 
