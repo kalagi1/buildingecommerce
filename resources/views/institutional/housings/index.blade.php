@@ -101,9 +101,7 @@
 
                     var housingOwner = document.createElement("td");
                     housingOwner.className = "align-middle housing_owner";
-                    console.log(user.id);
-                    console.log(housingType.user);
-
+              
                     
 
                     if (user.id == housingType.owner.id) {
