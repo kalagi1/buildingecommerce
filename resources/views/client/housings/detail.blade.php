@@ -1,11 +1,14 @@
 @extends('client.layouts.master')
 
 @php
-    $sold = DB::select(
-        'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
-        [$housing->id],
-    );
+    // Using the query builder to get the latest record
+    $sold = DB::table('cart_orders')
+        ->whereRaw('JSON_EXTRACT(cart, "$.type") = "housing"')
+        ->whereRaw('JSON_EXTRACT(cart, "$.item.id") = ?', [$housing->id])
+        ->orderBy('created_at', 'DESC') // Replace with appropriate date column
+        ->first(); // Fetches the latest record
 @endphp
+
 @php
     function convertMonthToTurkishCharacter($date)
     {
