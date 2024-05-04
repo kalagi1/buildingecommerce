@@ -277,6 +277,7 @@ class HousingController extends Controller {
 
     public function index() {
         $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
+        $user = User::where("id", $userId)->first();
     
         // Define a common base query for reuse
         $baseQuery = Housing::with('city', 'county', 'neighborhood',"owner")
@@ -328,7 +329,7 @@ class HousingController extends Controller {
             ->where('is_sold', 1)
             ->get();
     
-        return view('institutional.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes'));
+        return view('institutional.housings.index', compact('activeHousingTypes',"user", 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes'));
     }
     
 

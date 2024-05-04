@@ -80,7 +80,7 @@
         var pendingHousingTypes = @json($pendingHousingTypes);
         var disabledHousingTypes = @json($disabledHousingTypes);
         var soldHousingTypes = @json($soldHousingTypes);
-
+        var user = @json($user);
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
@@ -101,16 +101,10 @@
 
                     var housingOwner = document.createElement("td");
                     housingOwner.className = "align-middle housing_owner";
+                    
 
-                    if (housingType.owner && housingType.owner.name) {
-                        var badge = document.createElement("span");
-                        badge.className = "badge badge-phoenix badge-phoenix-success";
-                        badge.textContent = "Var";
-                        housingOwner.appendChild(badge);
-                        
-                        var br = document.createElement("br");
-                        housingOwner.appendChild(br);
-
+                    if (housingType.owner && housingType.owner.name && user.id == housingType.owner.id) {
+                    
                         var ownerInfo = document.createElement("span");
                         ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
                         housingOwner.appendChild(ownerInfo);
@@ -122,10 +116,24 @@
                         phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
                         housingOwner.appendChild(phoneInfo);
                     } else {
-                        var badge = document.createElement("span");
-                        badge.className = "badge badge-phoenix badge-phoenix-danger";
-                        badge.textContent = "Yok";
-                        housingOwner.appendChild(badge);
+                
+                        var ownerInfo = document.createElement("span");
+                        ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
+                        housingOwner.appendChild(ownerInfo);
+
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        var mobilephoneInfo = document.createElement("span");
+                        mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
+                        housingOwner.appendChild(phoneInfo);
+                        
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        var phoneInfo = document.createElement("span");
+                        phoneInfo.textContent = "İş: " + housingType.user.phone;
+                        housingOwner.appendChild(phoneInfo);
                     }
 
 
