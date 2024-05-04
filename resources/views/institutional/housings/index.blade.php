@@ -92,10 +92,7 @@
 
                 var housingTitleCell = document.createElement("td");
                 housingTitleCell.className = "align-middle housing_title";
-                housingTitleCell.innerHTML = housingType.housing_title +
-                    "<br><span style='color:black;font-size:11px !important;font-weight:700'>" + housingType.city
-                    .title + 
-                    "</span>";
+                housingTitleCell.innerHTML = housingType.housing_title 
 
                     var housingOwner = document.createElement("td");
                     housingOwner.className = "align-middle housing_owner";
