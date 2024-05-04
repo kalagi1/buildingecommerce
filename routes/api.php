@@ -135,13 +135,13 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
         });
 
+       
+       
+        });
         //telefon doğrulama
-Route::post('phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
-->name('phone.generateVerificationCode');
+        Route::post('/phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
+        ->name('phone.generateVerificationCode');
 
-Route::post('phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
-->name('phone.verifyPhoneNumber');
-});
-
-    // API rotaları buraya gelecek
+        Route::post('/phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
+        ->name('phone.verifyPhoneNumber');
 });
