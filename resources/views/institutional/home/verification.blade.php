@@ -149,7 +149,7 @@
                             </div>
                         @endif
 
-                        @if (auth()->user()->approve_website)
+                        @if (auth()->user()->approve_website_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
                         @endif
                     </label>
