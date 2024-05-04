@@ -106,7 +106,7 @@
 
                     
 
-                    if (housingType.user && housingType.user.name && user.id == housingType.owner.id) {
+                    if (user.id == housingType.owner.id) {
                         var ownerInfo = document.createElement("span");
                         ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
                         housingOwner.appendChild(ownerInfo);
