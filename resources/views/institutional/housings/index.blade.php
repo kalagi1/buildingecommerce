@@ -104,19 +104,6 @@
                     
 
                     if (housingType.owner && housingType.owner.name && user.id == housingType.owner.id) {
-                    
-                        var ownerInfo = document.createElement("span");
-                        ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
-                        housingOwner.appendChild(ownerInfo);
-
-                        var br = document.createElement("br");
-                        housingOwner.appendChild(br);
-
-                        var phoneInfo = document.createElement("span");
-                        phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
-                        housingOwner.appendChild(phoneInfo);
-                    } else {
-                
                         var ownerInfo = document.createElement("span");
                         ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
                         housingOwner.appendChild(ownerInfo);
@@ -134,6 +121,19 @@
                         var phoneInfo = document.createElement("span");
                         phoneInfo.textContent = "İş: " + housingType.user.phone;
                         housingOwner.appendChild(phoneInfo);
+                     
+                    } else {
+                        var ownerInfo = document.createElement("span");
+                        ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
+                        housingOwner.appendChild(ownerInfo);
+
+                        var br = document.createElement("br");
+                        housingOwner.appendChild(br);
+
+                        var phoneInfo = document.createElement("span");
+                        phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
+                        housingOwner.appendChild(phoneInfo);
+                     
                     }
 
 
