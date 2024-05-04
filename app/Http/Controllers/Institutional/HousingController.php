@@ -295,7 +295,8 @@ class HousingController extends Controller {
                 'housings.neighborhood_id',
                 'housing_types.form_json',
                 'housings.is_share',
-                'housings.owner_id'
+                'housings.owner_id',
+                'housings.user_id'
             )
             ->where(function ($query) use ($userId) {
                 $query->where('housings.user_id', $userId)
