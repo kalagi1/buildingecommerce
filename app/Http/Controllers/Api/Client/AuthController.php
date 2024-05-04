@@ -341,15 +341,7 @@ class AuthController extends Controller
             $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
             $user->save();// Kullanıcıyı kaydediyoruz
             if($user->phone_verification_code) {
-                $smsSent = $this->sendSMS($user);
-                if (!$smsSent) {
-                    // SMS gönderimi başarısız olduysa
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'SMS gönderimi başarısız oldu'
-                    ]);
-                }
-                
+               $this->sendSMS($user);
             }
            
             return response()->json([
@@ -375,6 +367,8 @@ class AuthController extends Controller
         $source_addr = 'Emlkspette';
 
         $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+
+
     }
 
     public function verifyPhoneNumber(Request $request)
@@ -382,7 +376,8 @@ class AuthController extends Controller
         $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
 
         if ($user) {
-            $verificationCode = implode('', $request->input('code')); // Kodları birleştir
+            $verificationCode = $request->input('code');
+             // Kodları birleştir
 
             if ($verificationCode == $user->phone_verification_code) {
                 $user->phone_verification_status = 1; // Doğrulama durumunu 1 olarak ayarlıyoruz
@@ -390,10 +385,10 @@ class AuthController extends Controller
                 return response()->json([
                     'success' => true
                 ]);
-            } else {
-                return response()->json()->withErrors(['error' => 'Doğrulama Kodu Eşleşmedi']);
-            }
+            } 
 
         }
+
+        return response()->json(['error' => 'Doğrulama Kodu Eşleşmedi'], 422);
     }   
 }
