@@ -1096,6 +1096,7 @@ class HomeController extends Controller
             // Geçersiz bir "title" değeri varsa burası çalışır
             // Hata mesajı oluşturulabilir veya ana sayfaya yönlendirme yapılabilir
         }
+        
         // $results = [
         //     'project_housings' => [],
         //     'housings' =>
