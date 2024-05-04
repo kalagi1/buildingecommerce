@@ -18,6 +18,7 @@ use App\Models\UpgradeLog;
 use App\Models\User;
 use App\Models\UserPlan;
 use App\Rules\SubscriptionPlanToUpgrade;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -359,6 +360,21 @@ class ProfileController extends Controller
             'owner_id' => $user->parent_id ?? $user->id,
             'is_visible' => true,
         ]);
+
+           // Kullanıcının telefon numarasını al
+           $userPhoneNumber = $user->mobile_phone;
+
+           // Kullanıcının adını ve soyadını al
+           $name = $user->name;
+
+           // SMS metni oluştur
+           $message = "Emlak Kulüp başvurunuz alınmıştır. Bilgileriniz incelendikten sonra hesabınız aktif edilecektir.";
+
+           // SMS gönderme işlemi
+           $smsService = new SmsService();
+           $source_addr = 'Emlkspette';
+
+           $smsService->sendSms($source_addr, $message, $userPhoneNumber);
 
         return  view("institutional.home.has-club-status");
     }
