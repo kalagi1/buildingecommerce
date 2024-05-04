@@ -103,7 +103,7 @@
                     housingOwner.className = "align-middle housing_owner";
                     
 
-                    if (housingType.owner && housingType.owner.name && user.id == housingType.owner.id) {
+                    if (housingType.user && housingType.user.name && user.id == housingType.owner.id) {
                         var ownerInfo = document.createElement("span");
                         ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
                         housingOwner.appendChild(ownerInfo);
