@@ -559,8 +559,6 @@
                 })
             })
         @endif
-
-     
     </script>
 @endsection
 
