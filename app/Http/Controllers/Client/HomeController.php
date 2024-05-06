@@ -442,6 +442,7 @@ class HomeController extends Controller
 
         $itemPerPage = 12;
         $projects = $query->paginate($itemPerPage);
+        $term = $request->input('term') ?? null;
 
         $renderedProjects = $projects->through(function ($item) {
 
