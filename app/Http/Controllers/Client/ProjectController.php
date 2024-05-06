@@ -425,8 +425,10 @@ class ProjectController extends Controller
         return view('client.projects.list', compact('menu', 'projects', 'housingTypes', 'housingStatus', 'cities'));
     }
 
-    public function allMenuProjects($slug = null, $type = null, $optional = null, $title = null, $check = null)
+    public function allMenuProjects(Request $request ,$slug = null, $type = null, $optional = null, $title = null, $check = null)
     {
+        $term = $request->input('term');
+     
         $deneme = null;
         if ($slug == "al-sat-acil") {
             $deneme = "al-sat-acil";
@@ -948,7 +950,7 @@ class ProjectController extends Controller
         $pageInfo = json_decode($pageInfo);
 
 
-        return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type'));
+        return view('client.all-projects.menu-list', compact('pageInfo', 'filters', "slugItem", "items", 'nslug', 'checkTitle', 'menu', "opt", "housingTypeSlug", "housingTypeParentSlug", "optional", "optName", "housingTypeName", "housingTypeSlug", "housingTypeSlugName", "slugName", "housingTypeParent", "housingType", 'projects', "slug", 'secondhandHousings', 'housingStatuses', 'cities', 'title', 'type' , 'term'));
     }
 
     public function allProjects($slug)
@@ -1187,7 +1189,7 @@ $pageInfo = [
         $active = isset($active) ? 'active' : null;
 
 
-        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active"));
+        return view('client.projects.project_housing', compact('pageInfo', "towns", "cities", "sumCartOrderQt", "bankAccounts", 'projectHousingsList', 'blockIndex', "parent", 'lastHousingCount', 'projectCartOrders', 'offer', 'endIndex', 'startIndex', 'currentBlockHouseCount', 'menu', 'project', 'housingOrder', 'projectHousingSetting', 'projectHousing', "statusSlug", "active" ));
     }
 
     public function projectHousingDetailAjax($projectSlug, $housingOrder, Request $request)
