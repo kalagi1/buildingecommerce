@@ -794,9 +794,17 @@
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head py-2" style="padding-top: 0">
+                                <span class="d-none" id="termResultCount">
+                                    <span id="searchResultsText"> </span>
+                                </span><br>
+                            
+                           
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
+                                
                                 @if ($slugName)
-                                    <p class="brand-name" style="color: black">{{ $slugName }}</p>
+                                    <p class="brand-name" style="color: black">{{ $slugName }}</p> 
+                                           
+                                   
                                 @endif
                                 @if ($housingTypeSlugName)
                                     @if ($slugName)
@@ -1081,13 +1089,16 @@
             var optional = @json($opt ?? null);
             var checkTitle = @json($checkTitle ?? null);
 
+             var term = @json($term ?? null);
+
             var data = Object.assign({}, filters, {
                 _token: "{{ csrf_token() }}",
                 slug: slug,
                 type: type,
                 title: title,
                 optional: optional,
-                checkTitle: checkTitle
+                checkTitle: checkTitle,
+                term:term
             });
 
 
@@ -1108,15 +1119,16 @@
                     $('.pp-col').empty();
                     $('#pages').empty();
 
-                    last_page = response.last_page;
+                    last_page = response.data.last_page;
 
                     $('#pages').append(`
                         <a class="btn btn-primary prev-page">Önceki</a>
                     `);
 
-                    for (var i = 1; i <= response.last_page; ++i) {
+                    console.log(response);
+                    for (var i = 1; i <= response.data.last_page; ++i) {
                         $('#pages').append(`
-                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
+                            <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.data.current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
                         `);
                     }
 
@@ -1134,11 +1146,22 @@
                     else
                         $('.next-page').removeClass('d-none');
 
-                    if (response.data.length > 0) {
+                    if (response.data.data.length > 0) {
+                       
+                        var term = response.term;
+                        var count = response.totalCount;
+                        
+                        if (count > 0) {
+                            $(".countArray").html(count);
+                            $("#termResultCount").removeClass("d-none").addClass("d-block");
+
+                            var searchResultsText = term + " " + "toplam " + count + " sonuç bulundu.";
+                            $("#searchResultsText").html(searchResultsText);
+                        }
 
                         var assetPath = "{{ asset('images/sc.png') }}";
 
-                        response.data.forEach((res) => {
+                        response.data.data.forEach((res) => {
                             if (typeof res === "boolean")
                                 return true;
 

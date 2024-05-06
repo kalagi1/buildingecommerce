@@ -124,6 +124,7 @@ Route::post('notification/read', [NotificationController::class, "markAsRead"])-
 Route::post('/rezervasyon-yap', [ReservationController::class, "store"])->name('reservation.store');
 Route::post('/remove-from-collection', [CollectionController::class, 'removeFromCollection'])->name('remove.from.collection');
 Route::get('/search/results', [HomeController::class, "searchResults"])->name('search.results');
+Route::get('/search', [HomeController::class, "search"])->name('search.index');
 Route::get('get-search-list', [HomeController::class, 'getSearchList'])->name('get-search-list');
 Route::post('get-rendered-secondhandhousings', [HomeController::class, "getRenderedSecondhandHousings"])->name("get-rendered-secondhandhousings");
 Route::post('get-rendered-projects', [HomeController::class, "getRenderedProjects"])->name("get-rendered-projects");
