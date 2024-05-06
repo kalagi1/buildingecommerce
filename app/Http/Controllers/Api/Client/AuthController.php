@@ -477,4 +477,16 @@ class AuthController extends Controller
     public function broker() {
         return Password::broker();
     }
+
+    public function clientProfileUpdate(Request $request){
+        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
+        $user = User::where("id", auth()->user()->id)->first();
+        $user->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'data'    => $user
+        ]);
+        
+    }//End
 }
