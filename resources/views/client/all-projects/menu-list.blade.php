@@ -1151,7 +1151,7 @@
                         var term = response.term;
                         var count = response.totalCount;
                         
-                        if (count > 0) {
+                        if (count > 0 && term != null) {
                             $(".countArray").html(count);
                             $("#termResultCount").removeClass("d-none").addClass("d-block");
 
