@@ -1119,7 +1119,8 @@ class HomeController extends Controller
             ->paginate(12);
         } elseif ($title === 'project') {
             // Project sorgusu
-            $results['projects'] = Project::where('status', 1)
+            $results['projects'] = Project::with("user")
+            ->where('status', 1)
             ->where(function ($query) use ($term) {
                 $query->where('project_title', 'LIKE', "%{$term}%")
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
@@ -1140,6 +1141,10 @@ class HomeController extends Controller
                     'photo' => $item->image,
                     'name' => $item->project_title,
                     'slug' => $item->slug,
+                    'city' => $item->city->title,
+                    'county' => $item->county->ilce_title,
+                    "profile_image" => $item->user->profile_image
+
                 ];
             });
         } elseif ($title === 'merchant') {
