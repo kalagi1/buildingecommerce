@@ -436,20 +436,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#area_code').change(function() {
-                var areaCode = $(this).val();
-                $('#phone').val(areaCode);
-                $('#phone').append(areaCode);
-            });
+         $(document).ready(function() {
 
-            $('#phone').on('input', function() {
-                var areaCode = $('#area_code').val();
-                var phoneNumber = $(this).val();
-                
-                var fullPhoneNumber = areaCode + phoneNumber;
-            }); 
-        });
+$('#area_code, #phone').on('input', function() {
+var areaCode = $('#area_code').val();
+var phoneNumber = $('#phone').val();
+// Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
+if (areaCode && phoneNumber) {
+    // Telefon numarasını güncelle
+    var fullPhoneNumber = areaCode + phoneNumber;
+    // Telefon numarasını konsola yazdır
+    console.log("Telefon numarası: " + fullPhoneNumber);
+    }
+}); 
+});
 
     </script>
     <script>
