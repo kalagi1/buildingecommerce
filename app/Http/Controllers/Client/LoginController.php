@@ -121,7 +121,7 @@ class LoginController extends Controller {
         $pageInfo = [
             "meta_title" => "Giriş Yap & Kayıt Ol",
             "meta_keywords" => "Giriş Yap",
-            "meta_description" => "Emlak Sepetteye giriş yap",
+            "meta_description" => "Emlak Sepetteye giriş yapın ve en yeni konutları keşfedin. Kolay arama ve güvenli alışveriş için hemen üye olun.Kayıt ol , incele ve fırsatların keyfini çıkar. Şimdi sende gel!",
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -599,9 +599,8 @@ class LoginController extends Controller {
         $user->taxNumber                       = $request->input("taxNumber");
         $user->idNumber                        = $request->input("idNumber");
         $user->store_name                      = $request->input("store_name");
+        $user->authority_licence               = $request->input("authority_licence");
         $user->save();
-
-
 
         return redirect()->back();
         return redirect()->url('/institutional')->with('success','Başvurunuz başarıyla gönderildi');

@@ -265,7 +265,7 @@ class ProjectController extends Controller
             $pageInfo = [
                 "meta_title" => $project->project_title,
                 "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => $project->project_title,
+                "meta_description" => $project->project_title.' projesi, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!',
                 "meta_image" => URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image),
                 "meta_author" => "Emlak Sepette"
             ];
@@ -484,11 +484,11 @@ class ProjectController extends Controller
                     'project_list_items.column3_additional as column3_additional',
                     'project_list_items.column4_additional as column4_additional',
                     'housings.address',
-                    \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
+                    DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
                     'cities.title AS city_title',
                     'districts.ilce_title AS county_title',
                     'neighborhoods.mahalle_title AS neighborhood_title',
-                    DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount'),
+                    DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
                 )
                 ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
                 ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
@@ -942,7 +942,7 @@ class ProjectController extends Controller
         $pageInfo = [
             "meta_title" => $title,
             "meta_keywords" => "Emlak Sepette,asdasd",
-            "meta_description" => "Emlak Sepette",
+            "meta_description" => "Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın.Tasarımlarımıza göz gezdirin ve alışverişe başlayın!",
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -1150,20 +1150,33 @@ class ProjectController extends Controller
             $parent = HousingTypeParent::where("slug", $project->step1_slug)->first();
 
 
-            $pageInfo = [
-                "meta_title" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
-                    : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
-                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
-                        : "Emlak Sepette"),
-                "meta_keywords" => $project->project_title . "Proje,Proje Detay," . $project->city->title,
-                "meta_description" => isset($projectHousingsList[$housingOrder]['advertise_title[]'])
-                    ? $projectHousingsList[$housingOrder]['advertise_title[]']
-                    : (isset($projectHousingsList[$housingOrder]['advertise-title[]'])
-                        ? $projectHousingsList[$housingOrder]['advertise-title[]']
-                        : "Emlak Sepette"),
-                "meta_author" => "Emlak Sepette",
-            ];
+     // Meta bilgi değişkeni tanımlanıyor
+$pageInfo = [
+    "meta_title" => 
+        // 'advertise_title[]' anahtarı var mı kontrol ediliyor
+        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
+            ? $projectHousingsList[$housingOrder]['advertise_title[]'] 
+            : (
+                // Yoksa 'advertise-title[]' anahtarı var mı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
+                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] 
+                    : "Emlak Sepette"
+              ),
+    "meta_keywords" => 
+        // Proje başlığı ve şehir bilgisi kullanılarak anahtar kelimeler oluşturuluyor
+        $project->project_title . " Proje, Proje Detay, " . $project->city->title,
+    "meta_description" => 
+        // 'advertise_title[]' anahtarı kontrol ediliyor
+        isset($projectHousingsList[$housingOrder]['advertise_title[]']) 
+            ? $projectHousingsList[$housingOrder]['advertise_title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+            : (
+                // 'advertise-title[]' anahtarı kontrol ediliyor
+                isset($projectHousingsList[$housingOrder]['advertise-title[]']) 
+                    ? $projectHousingsList[$housingOrder]['advertise-title[]'] . ' Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+                    : 'Emlak Sepette projeleri sizler için muhteşem, benzersiz mimari tasarımı ve modern yaşam konseptiyle dikkat çekiyor. Doğa ile iç içe, lüks ve konfor dolu bir yaşamın kapılarını aralayın. Tasarımlarımıza göz atın ve alışverişe başlayın!'
+              ),
+    "meta_author" => "Emlak Sepette", // Meta yazar bilgisi
+];
 
             $pageInfo = json_encode($pageInfo);
             $pageInfo = json_decode($pageInfo);

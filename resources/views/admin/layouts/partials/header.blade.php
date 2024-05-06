@@ -18,6 +18,10 @@
     <!--    Favicons-->
     <!-- ===============================================-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+                                                                            <!-- Canonical URL için bölüm -->
+                                                                            @if(isset($canonicalUrl))
+                                                                                <link rel="canonical" href="{{ $canonicalUrl }}" />
+                                                                            @endif
     <link rel="apple-touch-icon" sizes="180x180"
         href="{{ URL::to('/') }}/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32"
@@ -177,7 +181,7 @@
 
                                     }
                                     elseif ($menuItem['key'] == "IsShareHousings") {
-                                        $sharerCount = \App\Models\Housing::with('owner')->orderByDesc( 'created_at' )->where("status","0")->get();
+                                        $sharerCount = \App\Models\Housing::with('owner')->where( 'is_share', 1 )->orderByDesc( 'created_at' )->where("status","2")->get();
 
                                     };
                                     

@@ -94,6 +94,7 @@ Route::post('/delete_situation_order_temp_update', [TempOrderController::class, 
 
 Route::apiResource('favorites', FavoriteController::class);
 Route::post('add_housing_to_favorites/{housingId}', [FavoriteController::class, 'addHousingToFavorites']);
+Route::post('add_project_to_favorites/{housingId}', [FavoriteController::class, 'addProjectHousingToFavorites']);
 
 Route::get('/get-tax-offices', [TaxOfficeController::class, "getTaxOffices"])->name("getTaxOffices");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
@@ -102,6 +103,10 @@ Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.s
 //sözleşmeler
 Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
+
+Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->name('password.email');
+
+
 
 
 Route::group(['middleware' => 'auth:api'], function () {
@@ -130,7 +135,17 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::middleware(['checkPermission:DeleteRole'])->group(function () {
             Route::delete('/roles/{role}', [InstitutionalRoleController::class, 'destroy'])->name('roles.destroy');
         });
-});
 
-    // API rotaları buraya gelecek
+       
+       
+        });
+        //telefon doğrulama
+        Route::post('/phone-verification/generate', [AuthController::class, 'generateVerificationCode'])
+        ->name('phone.generateVerificationCode');
+
+        Route::post('/phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
+        ->name('phone.verifyPhoneNumber');
+
+        Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
+
 });

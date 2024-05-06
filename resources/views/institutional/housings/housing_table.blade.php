@@ -3,14 +3,19 @@
         <tr>
             <th>ID</th>
             <th>Başlık</th>
-            <th>Paylaşımlı İlan Sahibi</th>
+            @if (Auth::user()->type != 1)
+                <th>İlan Sahibi</th>
+            @else
+                <th>Emlak Ofisi</th>
+            @endif
             <th>Emlak Tipi</th>
             <th>Statü</th>
             <th>Oluşturulma Tarihi</th>
             <th>Loglar</th>
             <th>Düzenle</th>
-            <th>Resimler</th>
-            <th  colspan="2">İşlemler</th>
+            <th>{{ isset($tableId) && $tableId === 'bulk-select-body-soldHousingTypes' ? 'Sipariş Durumu' : 'Resimler' }}
+            </th>
+            <th colspan="2">İşlemler</th>
 
         </tr>
     </thead>

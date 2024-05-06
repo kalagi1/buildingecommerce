@@ -13,6 +13,7 @@ use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class HousingController extends Controller {
@@ -112,7 +113,7 @@ class HousingController extends Controller {
         ->where( 'status', 1 )->first();
 
         if ( $housing ) {
-            $housing->increment('views_count');
+            $housing->increment( 'views_count' );
 
             $housingSetting = ProjectHouseSetting::all();
             $housingComments = HousingComment::where( 'housing_id', $realHousingID )->where( 'status', 1 )->with( 'user' )->get();
@@ -120,8 +121,8 @@ class HousingController extends Controller {
             $labels = [];
             $housingTypeData = json_decode( $housing->housing_type_data, true );
 
-            $housingType = HousingType::find($housing->housing_type_id);
-            foreach ($housingTypeData as $key => $value) {
+            $housingType = HousingType::find( $housing->housing_type_id );
+            foreach ( $housingTypeData as $key => $value ) {
 
                 if ( $housingType ) {
                     $formJsonItems = json_decode( $housingType->form_json, true ) ?? [];
@@ -144,15 +145,18 @@ class HousingController extends Controller {
             $pageInfo = [
                 'meta_title' => $housing->title,
                 'meta_keywords' => 'Emlak Sepette,İkinci el konut,konut',
-                'meta_description' => 'Emlak Kulüpte' . $housing->title,
+                'meta_description' => 'Emlak Kulüpte ' . $housing->title . ' ile hayallerinizdeki konutu bulabilirsiniz. Geniş seçenekler, uygun fiyatlar ve konforlu yaşam sizi bekliyor!
+                    Şimdi alım yapın.Geleceğe yatırım yapın.',
                 'meta_author' => 'Emlak Sepette',
+                'meta_image' => URL::to( '/' ) . '/' . 'housing_images/' .  json_decode( $housing->housing_type_data )->image,
+
             ];
 
             $pageInfo = json_encode( $pageInfo );
             $pageInfo = json_decode( $pageInfo );
             $parent = HousingTypeParent::where( 'slug', $housing->step1_slug )->first();
 
-            return view( 'client.housings.detail', compact( 'pageInfo', 'housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'housingID', 'housingComments', 'labels','cities' ) );
+            return view( 'client.housings.detail', compact( 'pageInfo', 'housing', 'bankAccounts', 'parent', 'menu', 'housingSetting', 'housingID', 'housingComments', 'labels', 'cities' ) );
         } else {
             return redirect( '/' )
             ->with( 'error', 'İlan yayından kaldırıldı veya bulunamadı.' );

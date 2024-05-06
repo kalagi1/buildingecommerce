@@ -22,6 +22,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="deletedHousings-tab" data-bs-toggle="tab" href="#deletedHousings">Silinen İlanlar</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="soldHousings-tab" data-bs-toggle="tab" href="#soldHousings">Satınlan İlanlar</a>
+                </li>
             </ul>
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade " id="active">
@@ -39,6 +42,9 @@
                 <div class="tab-pane fade" id="deletedHousings">
                     @include('admin.housings.housing_table_delete', ['tableId' => 'bulk-select-body-deletedHousings', 'housingTypes' => $deletedHousings])
                 </div>
+                <div class="tab-pane fade" id="soldHousings">
+                    @include('admin.housings.housing_table', ['tableId' => 'bulk-select-body-soldHousingsTypes', 'housingTypes' => $soldHousingsTypes])
+                </div>
             </div>
         </div>
       
@@ -52,13 +58,11 @@
         var pendingHousingTypes = @json($pendingHousingTypes);
         var deletedHousings = @json($deletedHousings);
         var disabledHousingTypes = @json($disabledHousingTypes);
-
+        var soldHousingsTypes = @json($soldHousingsTypes);
 
         function createTable(tbody, housingTypes) {
             housingTypes.forEach(function(housingType) {
             var row = document.createElement("tr");
-
-
             
 
             var idCell = document.createElement("td");
@@ -93,16 +97,41 @@
             var actionsCell = document.createElement("td");
             actionsCell.className = "align-middle white-space-nowrap     pe-0";
             var exportLink = document.createElement("a");
-            exportLink.className = "badge badge-phoenix badge-phoenix-primary";
+            exportLink.className = "badge badge-phoenix badge-phoenix-primary ml-2";
             exportLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/detail';
             exportLink.textContent = "Görüntüle";
             var viewLink = document.createElement("a");
             viewLink.className = "badge badge-phoenix badge-phoenix-warning ml-2 mr-2";
             viewLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/housings/" + housingType.id + '/logs';
             viewLink.textContent = "Loglar";
+
+                        
             actionsCell.appendChild(exportLink);
             actionsCell.appendChild(viewLink);
 
+            if (tbody.id === "bulk-select-body-soldHousingsTypes") {
+
+                var invoiceLinkCell = document.createElement("td");
+                    invoiceLinkCell.className = "align-middle pe-0";
+                    var invoiceLink = document.createElement("a");
+                    invoiceLink.className = "badge badge-phoenix badge-phoenix-success";
+                    invoiceLink.href = "{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/invoice_detail/" + housingType.id;
+                    invoiceLink.textContent = "Fatura Görüntüle";
+                    invoiceLinkCell.appendChild(invoiceLink);
+        
+
+                    var orderDetailCell = document.createElement("td");
+                    orderDetailCell.className = "align-middle";
+                    var orderDetailLink = document.createElement("a");
+                    orderDetailLink.className = "badge badge-phoenix badge-phoenix-success";
+                    orderDetailLink.href =  "{{ URL::to('/') }}/qR9zLp2xS6y/secured/sold/order_detail/" + housingType.id;
+                    orderDetailLink.textContent = "Sipariş Detay";
+                    orderDetailCell.appendChild(orderDetailLink);
+
+                       // Daha önce oluşturulan "actionsCell" hücresine linkleri ekle
+                    actionsCell.appendChild(invoiceLinkCell);
+                    actionsCell.appendChild(orderDetailCell);
+            }
 
             row.appendChild(idCell);
             row.appendChild(housingTitleCell);
@@ -113,6 +142,8 @@
 
             }
             row.appendChild(createdAtCell);
+            
+        
             if (housingType.deleted_at == null) {
                 row.appendChild(actionsCell);
 
@@ -130,8 +161,8 @@
         createTable(document.getElementById("bulk-select-body-inactive"), inactiveHousingTypes);
         createTable(document.getElementById("bulk-select-body-deletedHousings"), deletedHousings);
         createTable(document.getElementById("bulk-select-body-pendingHousingTypes"), pendingHousingTypes);
-        
         createTable(document.getElementById("bulk-select-body-disabledHousingTypes"), disabledHousingTypes);
+        createTable(document.getElementById("bulk-select-body-soldHousingsTypes"), soldHousingsTypes);
 
 
         // Handle tab switching

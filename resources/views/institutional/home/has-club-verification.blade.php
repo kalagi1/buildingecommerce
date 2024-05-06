@@ -11,10 +11,18 @@
                     <div class="card-header p-4 border-bottom ">
                         <strong class="me-auto">Emlak Sepette | Emlak Kulüp Başvurusu</strong>
                     </div>
-                    <div class="toast-body"> Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
+                    <div class="toast-body">
+                        @if (session()->has('error'))
+                        <div class="alert alert-danger text-white mb-3">
+                            {{ session()->get('error') }}
+                        </div>
+                    @endif
+                     Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
                         eksiksiz doldurun ve
                         üyelik
                         sözleşmesini onaylayın.
+                      
+
                         <form action="{{ route('institutional.club.update') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
@@ -31,16 +39,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div> --}}
-                                <div class="mt-3">
-                                    <label class="form-label">Telefon</label>
-                                    <input type="number" name="phone" id="phone"
-                                        class="form-control @error('phone') is-invalid @enderror"
-                                        value="{{ old('phone', $user->phone) }}" maxlength="10">
-                                        <span id="error_message" class="error-message"></span>
-                                    @error('phone')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                             
                                 @if (Auth::check() && Auth::user()->type == '1')
                                     <div class="mt-3">
                                         <label class="form-label">Tc Kimlik No</label>

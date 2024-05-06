@@ -1,7 +1,7 @@
 import { Alert, FormControl, Switch } from '@mui/material'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import EditorToolbar, { modules, formats } from "./QuilToolbar";
 import BlockRooms from './BlockRooms';
 import Rooms from './Rooms';
@@ -17,10 +17,11 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
     const [counties,setCounties] = useState([]);
     const [neighborhoods,setNeighborhoods] = useState([]);
     const [map, setMap] = useState(null);
-    const [zoom,setZoom] = useState(6);
+    const [zoom,setZoom] = useState(3);
+    const mapRef = useRef();
     const [center,setCenter] = useState({
-        lat: -3.745,
-        lng: -38.523
+        lat: 37.874641,
+        lng: 32.493156
     });
     const [selectedLocation,setSelectedLocation] = useState({});
     const setProjectTitle = (projectTitle) => {
@@ -28,6 +29,8 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
             setProjectDataFunc('project_title',projectTitle)
         }
     }
+
+    console.log(zoom);
 
     const dotNumberFormat = (number) => {
         if(number.replace('.','').replace('.','').replace('.','').replace('.','') != parseInt(number.replace('.','').replace('.','').replace('.','').replace('.','').replace('.','') )){
@@ -100,7 +103,7 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
 
     const onLoad = useCallback(function callback(map) {
         // This is just an example of getting and using the map instance!!! don't just blindly copy!
-        const bounds = new window.google.maps.LatLngBounds(center);
+        const bounds = new window.google.maps.LatLngBounds(center)
         map.fitBounds(bounds);
         map.addListener('click', (e) => {
             const lat = e.latLng.lat();
@@ -110,6 +113,8 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
         setMap(map)
     }, [])
 
+    
+
     useEffect(() => {
         setProjectDataFunc('coordinates',(selectedLocation.lat+'-'+selectedLocation.lng));
     },[selectedLocation])
@@ -117,6 +122,12 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
     const onUnmount = useCallback(function callback(map) {
         setMap(null)
     }, [])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setZoom(6)
+        },2000)
+    },[])
     
 
     return(
@@ -208,6 +219,7 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
                             <GoogleMap
                                 zoom={zoom}
                                 id='map'
+                                ref={mapRef}
                                 mapContainerStyle={containerStyle}
                                 center={center}
                                 onLoad={onLoad}
@@ -224,8 +236,15 @@ function HousingForm({slug,anotherBlockErrors,selectedBlock,setSelectedBlock,sel
                 </div>
                 <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"cover_image"} title="Kapak Fotoğrafı" setProjectDataFunc={setProjectDataFunc} multiple={false}/>
                 <FileUpload accept={"image/png, image/gif, image/jpeg"} projectData={projectData} setProjectData={setProjectData} allErrors={allErrors} fileName={"gallery"} title="İlan Galerisi" setProjectDataFunc={setProjectDataFunc} multiple={true}/>
-                <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Tapu Belgesi / Noter Sözleşmesi" multiple={false}/>
-                <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"authority_certificate"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Yetki Belgesi" multiple={false}/>
+                {
+                    slug != "gunluk-kiralik" ? 
+                        <>
+                            <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"document"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Tapu Belgesi / Noter Sözleşmesi" multiple={false}/>
+                            <FileUpload accept={"*"} projectData={projectData} document={1} setProjectData={setProjectData} fileName={"authority_certificate"} allErrors={allErrors}  setProjectDataFunc={setProjectDataFunc} title="Yetki Belgesi" multiple={false}/>
+                        </>
+                    :
+                        ""
+                }
                 <FinishArea projectData={projectData} setProjectDataFunc={setProjectDataFunc} allErrors={allErrors} createProject={createProject}/>
             </div>
         </div>

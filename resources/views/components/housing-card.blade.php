@@ -1,6 +1,6 @@
-@props(['housing','sold'])
+@props(['housing', 'sold'])
 
-<a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug. "-".$housing->step2_slug. "-" . $housing->slug, 'housingID' => $housing->id + 2000000]) }}"
+<a href="{{ route('housing.show', ['housingSlug' => $housing->step1_slug . '-' . $housing->step2_slug . '-' . $housing->slug, 'housingID' => $housing->id + 2000000]) }}"
     class="text-decoration-none">
     <div class="landscapes">
         <div class="project-single">
@@ -8,8 +8,9 @@
                 <div class="homes">
                     <div class="homes-img">
                         <div class="homes-tag button alt featured" style="width:90px !important">
-                        No: {{ $housing->id + 2000000 }}
+                            No: {{ $housing->id + 2000000 }}
                         </div>
+                        
                         <div class="type-tag button alt featured">
                             @if ($housing->step2_slug == 'kiralik')
                                 Kiralık
@@ -19,27 +20,29 @@
                                 Satılık
                             @endif
                         </div>
-                        <img loading="lazy" src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
-                            alt="{{ $housing->housing_title }}"
-                            class="img-responsive">
+                        @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        <div class="homes-price"><i class="fa fa-handshake-o"></i> Paylaşımlı İlan</div>
+                        @endif
+                        <img loading="lazy"
+                            src="{{ URL::to('/') . '/housing_images/' . json_decode($housing->housing_type_data)->image }}"
+                            alt="{{ $housing->housing_title }}" class="img-responsive">
                     </div>
                 </div>
                 <div class="button-effect-div">
-                    <span
-                        class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
-                        data-type='housing'
-                        data-id="{{ $housing->id }}">
-                        <i class="fa fa-bookmark-o"></i>
-                    </span>
+                    @if (isset(json_decode($housing->housing_type_data)->open_sharing1[0]))
+                        <span
+                            class="btn @if (($sold && $sold[0] == '1') || isset(json_decode($housing->housing_type_data)->off_sale1[0])) disabledShareButton @else addCollection mobileAddCollection @endif"
+                            data-type='housing' data-id="{{ $housing->id }}">
+                            <i class="fa fa-bookmark-o"></i>
+                        </span>
+                    @endif
 
-                    <span class="btn toggle-favorite bg-white"
-                        data-housing-id={{ $housing->id }}>
+                    <span class="btn toggle-favorite bg-white" data-housing-id={{ $housing->id }}>
                         <i class="fa fa-heart-o"></i>
                     </span>
                 </div>
             </div>
-            <div class="homes-content p-3"
-                style="padding:20px !important">
+            <div class="homes-content p-3" style="padding:20px !important">
                 <span style="text-decoration: none">
 
                     <h4 style="height:30px">
@@ -62,10 +65,8 @@
                     </p>
                 </span>
                 <!-- homes List -->
-                <ul class="homes-list clearfix pb-3"
-                    style="display: flex;justify-content:space-between">
-                    <li class="sude-the-icons"
-                        style="width:auto !important">
+                <ul class="homes-list clearfix pb-3" style="display: flex;justify-content:space-between">
+                    <li class="sude-the-icons" style="width:auto !important">
                         <i class="fa fa-circle circleIcon mr-1"></i>
                         <span>
                             {{ json_decode($housing->housing_type_data)->{$housing->column1_name}[0] ?? null }}
@@ -75,10 +76,8 @@
                         </span>
                     </li>
                     @if ($housing->column2_name)
-                        <li class="sude-the-icons"
-                            style="width:auto !important">
-                            <i
-                                class="fa fa-circle circleIcon mr-1"></i>
+                        <li class="sude-the-icons" style="width:auto !important">
+                            <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ json_decode($housing->housing_type_data)->{$housing->column2_name}[0] ?? null }}
                                 @if ($housing->column2_additional)
                                     {{ $housing->column2_additional }}
@@ -88,10 +87,8 @@
                     @endif
 
                     @if ($housing->column3_name)
-                        <li class="sude-the-icons"
-                            style="width:auto !important">
-                            <i
-                                class="fa fa-circle circleIcon mr-1"></i>
+                        <li class="sude-the-icons" style="width:auto !important">
+                            <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ json_decode($housing->housing_type_data)->{$housing->column3_name}[0] ?? null }}
                                 @if ($housing->column3_additional)
                                     {{ $housing->column3_additional }}
@@ -101,10 +98,8 @@
                     @endif
 
                     @if ($housing->column4_name)
-                        <li class="sude-the-icons"
-                            style="width:auto !important">
-                            <i
-                                class="fa fa-circle circleIcon mr-1"></i>
+                        <li class="sude-the-icons" style="width:auto !important">
+                            <i class="fa fa-circle circleIcon mr-1"></i>
                             <span>{{ json_decode($housing->housing_type_data)->{$housing->column4_name}[0] ?? null }}
                                 @if ($housing->column4_additional)
                                     {{ $housing->column4_additional }}
@@ -115,17 +110,11 @@
                 </ul>
                 <ul class="homes-list clearfix pb-3"
                     style="display: flex; justify-content: space-between;align-items:center">
-                    <li
-                        style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
+                    <li style="font-size: 16px; font-weight: 700;width:100%; white-space:nowrap">
                         @if ($housing->discount_amount)
-                            <svg viewBox="0 0 24 24" width="18"
-                                height="18" stroke="#EA2B2E"
-                                stroke-width="2" fill="#EA2B2E"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="css-i6dzq1">
-                                <polyline
-                                    points="23 18 13.5 8.5 8.5 13.5 1 6">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E" stroke-width="2"
+                                fill="#EA2B2E" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6">
                                 </polyline>
                                 <polyline points="17 18 23 18 23 12">
                                 </polyline>
@@ -139,8 +128,7 @@
                                     @if ($housing->step2_slug == 'gunluk-kiralik')
                                         @if ($housing->discount_amount)
                                             <del>
-                                                <span
-                                                    style="font-size:11px; color:#EA2B2E">
+                                                <span style="font-size:11px; color:#EA2B2E">
                                                     {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                                 </span>
                                             </del>
@@ -150,13 +138,11 @@
                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                             ₺
                                         @endif
-                                        <span
-                                            style="font-size:11px; color:#EA2B2E">
+                                        <span style="font-size:11px; color:#EA2B2E">
                                             1 Gece</span>
                                     @else
                                         @if ($housing->discount_amount)
-                                            <del
-                                                style="font-size:11px; color:#EA2B2E">
+                                            <del style="font-size:11px; color:#EA2B2E">
 
                                                 {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                             </del>
@@ -171,26 +157,22 @@
                             @else
                                 @if ($housing->step2_slug == 'gunluk-kiralik')
                                     @if ($housing->discount_amount)
-                                        <del
-                                            style="font-size:11px; color:#EA2B2E">
+                                        <del style="font-size:11px; color:#EA2B2E">
                                             {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                         </del>
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0] - $housing->discount_amount, 0, ',', '.') }}
                                         ₺
-                                        <span
-                                            style="font-size:11px; color:#EA2B2E">
+                                        <span style="font-size:11px; color:#EA2B2E">
                                             1 Gece</span>
                                     @else
                                         {{ number_format(json_decode($housing->housing_type_data)->daily_rent[0], 0, ',', '.') }}
                                         ₺
-                                        <span
-                                            style="font-size:11px; color:#EA2B2E">
+                                        <span style="font-size:11px; color:#EA2B2E">
                                             1 Gece</span>
                                     @endif
                                 @else
                                     @if ($housing->discount_amount)
-                                        <del
-                                            style="font-size:11px; color:#EA2B2E">
+                                        <del style="font-size:11px; color:#EA2B2E">
                                             {{ number_format(json_decode($housing->housing_type_data)->price[0], 0, ',', '.') }}
                                         </del>
                                         {{ number_format(json_decode($housing->housing_type_data)->price[0] - $housing->discount_amount, 0, ',', '.') }}
@@ -206,33 +188,16 @@
 
 
                     </li>
-                    @if (!isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                        @if ($sold != null)
-                            @if ($sold != '1' && $sold != '0')
-                                @if (!$housing->discount_amount)
-                                    <li
-                                        style="display: flex; justify-content: right;width:100%">
-                                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
-                                    </li>
-                                @endif
-                            @endif
-                        @else
-                            @if (!$housing->discount_amount)
-                                <li
-                                    style="display: flex; justify-content: right;width:100%">
-                                    {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
-                                </li>
-                            @endif
-                        @endif
-                    @endif
+                    <li style="display: flex; justify-content: right;width:100%">
+                        {{ date('j', strtotime($housing->created_at)) . ' ' . convertMonthToTurkishCharacter(date('F', strtotime($housing->created_at))) . ' ' . date('Y', strtotime($housing->created_at)) }}
+                    </li>
 
                 </ul>
 
 
                 @if ($housing->step2_slug != 'gunluk-kiralik')
                     @if (isset(json_decode($housing->housing_type_data)->off_sale1[0]))
-                        <button class="btn second-btn "
-                            style="background: #EA2B2E !important;width:100%;color:White">
+                        <button class="btn second-btn " style="background: #EA2B2E !important;width:100%;color:White">
 
                             <span class="text">Satışa
                                 Kapatıldı</span>
@@ -249,12 +214,9 @@
                                 @endif
                             </button>
                         @else
-                            <button class="CartBtn"
-                                data-type='housing'
-                                data-id='{{ $housing->id }}'>
+                            <button class="CartBtn" data-type='housing' data-id='{{ $housing->id }}'>
                                 <span class="IconContainer">
-                                    <img loading="lazy" src="{{ asset('sc.png') }}"
-                                        alt="">
+                                    <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
 
                                 </span>
                                 <span class="text">Sepete Ekle</span>
@@ -262,18 +224,17 @@
                         @endif
                     @endif
                 @else
-                    <button onclick="redirectToReservation()"
-                        class="reservationBtn">
+                    <button onclick="redirectToReservation()" class="reservationBtn">
                         <span class="IconContainer">
-                            <img loading="lazy" src="{{ asset('sc.png') }}"
-                                alt="">
+                            <img loading="lazy" src="{{ asset('sc.png') }}" alt="">
                         </span>
                         <span class="text">Rezervasyon Yap</span>
                     </button>
 
                     <script>
                         function redirectToReservation() {
-                         window.location.href = "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
+                            window.location.href =
+                                "{{ route('housing.show', ['housingSlug' => $housing->slug, 'housingID' => $housing->id + 2000000]) }}";
                         }
                     </script>
                 @endif

@@ -16,7 +16,7 @@ class RealEstateController extends Controller
         $pageInfo = [
             "meta_title" => "Sat Kirala",
             "meta_keywords" => "Emlak Sepette,Sat Kirala",
-            "meta_description" => "Emlak Kulüp Sat Kirala",
+            "meta_description" => "Emlak Kulüp Sat Kirala, uzman danışmanlarımızla en uygun fiyatlarla konut sahibi olun veya emlak yatırımı yapın. Güvenilir hizmet ve geniş portföyümüzle size en uygun seçenekleri sunuyoruz!",
             "meta_author" => "Emlak Sepette",
         ];
 
@@ -31,7 +31,7 @@ class RealEstateController extends Controller
         $pageInfo = [
             "meta_title" => "Sat Kirala",
             "meta_keywords" => "Emlak Sepette,Sat Kirala",
-            "meta_description" => "Emlak Kulüp Sat Kirala",
+            "meta_description" => "Emlak Kulüp Sat Kirala, uzman danışmanlarımızla en uygun fiyatlarla konut sahibi olun veya emlak yatırımı yapın. Güvenilir hizmet ve geniş portföyümüzle size en uygun seçenekleri sunuyoruz!",
             "meta_author" => "Emlak Sepette",
         ];
 

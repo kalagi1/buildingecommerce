@@ -6123,9 +6123,14 @@ element.style {
 }
 
 .homepage-2 .portfolio .homes-price {
-    padding-left: 0px;
+    font-size: 10px !important;
+    background: green !important;
+    color: white !important
 }
 
+.homepage-2 .portfolio .homes-price i {
+    color: white !important
+}
 .homepage-2 .portfolio .project-head:before {
     background: transparent !important;
 }

@@ -29,7 +29,7 @@
         "id": "membershipType",
         "label": "Destek Merkezi",
         "icon": "eye",
-        "text": "Bireysel => Kurumsal Talepler",
+        "text": "Kurumsal Üyelik Talepleri",
         "key": "membershipType",
         "url": "admin.expected.call.index",
         "activePath": "qR9zLp2xS6y/secured/rol-degisikligi"
@@ -38,7 +38,7 @@
         "id": "awaitingCalled",
         "label": "Destek Merkezi",
         "icon": "eye",
-        "text": "Kurumsal Onayı Bekleyenler",
+        "text": "Kurumsal Onay Süreci",
         "key": "awaitingCalled",
         "url": "admin.awaiting.called.index",
         "activePath": "qR9zLp2xS6y/secured/kurumsal-onayi-bekleyenler"
@@ -471,7 +471,24 @@
         "url": "admin.info.contact.index",
         "activePath": "qR9zLp2xS6y/secured/info/contact"
     },
-
+    {
+        "id": "EditProfile",
+        "label": "Hesabım & Yardım",
+        "icon": "edit",
+        "text": "Profili Güncelle",
+        "key": "EditProfile",
+        "url": "admin.profile.edit",
+        "activePath": "qR9zLp2xS6y/secured/profile/edit"
+    },
+    {
+        "id": "ChangePassword",
+        "label": "Hesabım & Yardım",
+        "icon": "lock",
+        "text": "Şifreyi Değiştir",
+        "key": "ChangePassword",
+        "url": "admin.password.edit",
+        "activePath": "qR9zLp2xS6y/secured/password/edit"
+    },
     {
         "id": "footer_links",
         "label": "Yönetim",

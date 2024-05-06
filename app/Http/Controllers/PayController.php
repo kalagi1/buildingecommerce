@@ -35,6 +35,8 @@ use App\Models\UseCoupon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use App\Models\NeighborPayment;
+use App\Models\Rate;
+use Termwind\Components\Raw;
 
 class PayController extends Controller
 {
@@ -84,41 +86,41 @@ class PayController extends Controller
         if (isset($cart) && !empty($cart)) {
             if ($cart['type'] == 'housing') {
                 $housing = Housing::with('images')
-                    ->select(
-                        'housings.id',
-                        'housings.slug',
-                        'housings.title AS housing_title',
-                        'housings.created_at',
-                        'housings.step1_slug',
-                        'housings.step2_slug',
-                        'housing_types.title as housing_type_title',
-                        'housings.housing_type_data',
-                        'project_list_items.column1_name as column1_name',
-                        'project_list_items.column2_name as column2_name',
-                        'project_list_items.column3_name as column3_name',
-                        'project_list_items.column4_name as column4_name',
-                        'project_list_items.column1_additional as column1_additional',
-                        'project_list_items.column2_additional as column2_additional',
-                        'project_list_items.column3_additional as column3_additional',
-                        'project_list_items.column4_additional as column4_additional',
-                        'housings.address',
-                        \Illuminate\Support\Facades\DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id) AS sold'),
-                        'cities.title AS city_title',
-                        'districts.ilce_title AS county_title',
-                        'neighborhoods.mahalle_title AS neighborhood_title',
-                        DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '") as discount_amount'),
+                ->select(
+                    'housings.id',
+                    'housings.slug',
+                    'housings.title AS housing_title',
+                    'housings.created_at',
+                    'housings.step1_slug',
+                    'housings.step2_slug',
+                    'housing_types.title as housing_type_title',
+                    'housings.housing_type_data',
+                    'project_list_items.column1_name as column1_name',
+                    'project_list_items.column2_name as column2_name',
+                    'project_list_items.column3_name as column3_name',
+                    'project_list_items.column4_name as column4_name',
+                    'project_list_items.column1_additional as column1_additional',
+                    'project_list_items.column2_additional as column2_additional',
+                    'project_list_items.column3_additional as column3_additional',
+                    'project_list_items.column4_additional as column4_additional',
+                    'housings.address',
+                    DB::raw('(SELECT status FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing" AND JSON_EXTRACT(cart, "$.item.id") = housings.id ORDER BY created_at DESC LIMIT 1) AS sold'),
+                    'cities.title AS city_title',
+                    'districts.ilce_title AS county_title',
+                    'neighborhoods.mahalle_title AS neighborhood_title',
+                    DB::raw('(SELECT discount_amount FROM offers WHERE housing_id = housings.id AND type = "housing" AND start_date <= "' . date('Y-m-d H:i:s') . '" AND end_date >= "' . date('Y-m-d H:i:s') . '" ORDER BY start_date DESC LIMIT 1) as discount_amount'),
                     )
-                    ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
-                    ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
-                    ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
-                    ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
-                    ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
-                    ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
-                    ->where('housings.status', 1)
-                    ->where("housings.id", $cart['item']['id'])
-                    ->where('project_list_items.item_type', 2)
-                    ->orderByDesc('housings.created_at')
-                    ->first();
+                ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
+                ->leftJoin('project_list_items', 'project_list_items.housing_type_id', '=', 'housings.housing_type_id')
+                ->leftJoin('housing_status', 'housings.status_id', '=', 'housing_status.id')
+                ->leftJoin('cities', 'cities.id', '=', 'housings.city_id')
+                ->leftJoin('districts', 'districts.ilce_key', '=', 'housings.county_id')
+                ->leftJoin('neighborhoods', 'neighborhoods.mahalle_id', '=', 'housings.neighborhood_id')
+                ->where('housings.status', 1)
+                ->where("housings.id", $cart['item']['id'])
+                ->where('project_list_items.item_type', 2)
+                ->orderByDesc('housings.created_at')
+                ->first();
 
                 $saleType = $housing->step2_slug;
             } else {
@@ -714,13 +716,13 @@ class PayController extends Controller
 
                 $housing = Housing::where('id', $cart['item']['id'])->first();
                 $user = User::where('id', $housing->user_id)->first();
+                $rates = Rate::where("housing_id", $cart['item']['id'])->get();
 
-                if ($user->corporate_type == 'Emlak Ofisi') {
-                    $share_percent_balance = 0.25;
-                    $share_percent_earn = 0.75;
-                } else {
-                    $share_percent_balance = 1;
-                    $share_percent_earn = 0;
+                foreach ($rates as $key => $rate) {
+                    if ($user->corporate_type == $rate->institution->name) {
+                        $share_percent_earn =  $rate->default_deposit_rate;
+                        $share_percent_balance = 1.0 - $share_percent_earn;
+                    }
                 }
 
                 if ($saleType == 'kiralik') {
@@ -741,13 +743,33 @@ class PayController extends Controller
                 ]);
 
                 if ($coupon->user_id != Auth::user()->id) {
+                    $sales_rate_club = null; // Başlangıçta boş veya null değer
+
+                    foreach ($rates as $rate) {
+                        if ($coupon->user->corporate_type == $rate->institution->name) {
+                            // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
+                            $sales_rate_club = $rate->sales_rate_club;
+                    
+                            break; // Eşleşme bulunduğunda döngüyü sonlandırın
+                        }
+                    }
+                    
+                    // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
+                    if ($sales_rate_club === null && count($rates) > 0) {
+                        $sales_rate_club = $rates->last()->sales_rate_club;
+                    }
+
+                    $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                    $remaining = $sharedAmount_earn - $estateclubrate;
+
+
                     SharerPrice::create([
                         'user_id' => $coupon->user_id,
                         'cart_id' => $order->id,
                         'status' => '1',
-                        'balance' => $sharedAmount_balance / 2,
-                        'earn' => $sharedAmount_balance / 2,
-                        'earn2' => $sharedAmount_earn,
+                        'balance' => $estateclubrate,
+                        'earn' => $sharedAmount_balance,
+                        'earn2' => $remaining,
                     ]);
                 }
             } else {
@@ -756,14 +778,14 @@ class PayController extends Controller
                 if ($lastClick) {
                     $collection = Collection::where('id', $lastClick->collection_id)->first();
                     $newAmount = $amountWithoutDiscount - ($amountWithoutDiscount * ($discountRate / 100));
-                    if ($user->corporate_type == 'Emlak Ofisi') {
-                        $share_percent_balance = 0.25;
-                        $share_percent_earn = 0.75;
-                    } else {
-                        $share_percent_balance = 1;
-                        $share_percent_earn = 0;
-                    }
+                    $rates = Rate::where("housing_id", $cart['item']['id'])->get();
 
+                    foreach ($rates as $key => $rate) {
+                        if ($user->corporate_type == $rate->institution->name) {
+                            $share_percent_earn =  $rate->default_deposit_rate;
+                            $share_percent_balance = 1.0 - $share_percent_earn;
+                        }
+                    }
                     $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
                     $cart = json_decode($cartItem->cart, true);
@@ -785,25 +807,47 @@ class PayController extends Controller
 
                     if ($collection->user_id != Auth::user()->id) {
 
+                        $sales_rate_club = null; // Başlangıçta boş veya null değer
+
+                        foreach ($rates as $rate) {
+                            if ($collection->user->corporate_type == $rate->institution->name) {
+                                // Eğer kullanıcı kurumsal türü ile oranlar eşleşirse, `sales_rate_club` değerini atayın
+                                $sales_rate_club = $rate->sales_rate_club;
+                        
+                                break; // Eşleşme bulunduğunda döngüyü sonlandırın
+                            }
+                        }
+                        
+                        // Eşleşme yoksa, son oran kaydının `sales_rate_club` değerini kullanın
+                        if ($sales_rate_club === null && count($rates) > 0) {
+                            $sales_rate_club = $rates->last()->sales_rate_club;
+                        }
+
+                        $estateclubrate = $sharedAmount_earn * $sales_rate_club;
+                        $remaining = $sharedAmount_earn - $estateclubrate;
+
+
                         SharerPrice::create([
                             'collection_id' => $lastClick->collection_id,
                             'user_id' => $collection->user_id,
                             'cart_id' => $order->id,
                             'status' => '1',
-                            'balance' => $sharedAmount_balance / 2,
-                            'earn' => $sharedAmount_balance / 2,
-                            'earn2' => $sharedAmount_earn,
+                            'balance' => $estateclubrate,
+                            'earn' => $sharedAmount_balance,
+                            'earn2' => $remaining,
                         ]);
                     }
                 } elseif (!$lastClick) {
                     $newAmount = $amountWithoutDiscount;
-                    if ($user->corporate_type == 'Emlak Ofisi') {
-                        $share_percent_balance = 0.25;
-                        $share_percent_earn = 0.75;
-                    } else {
-                        $share_percent_balance = 1;
-                        $share_percent_earn = 0;
+                    $rates = Rate::where("housing_id", $cart['item']['id'])->get();
+
+                    foreach ($rates as $key => $rate) {
+                        if ($user->corporate_type == $rate->institution->name) {
+                            $share_percent_earn =  $rate->default_deposit_rate;
+                            $share_percent_balance = 1.0 - $share_percent_earn;
+                        }
                     }
+    
 
                     $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
@@ -833,14 +877,14 @@ class PayController extends Controller
                     ]);
                 } else {
                     $newAmount = $amountWithoutDiscount;
-                    if ($user->corporate_type == 'Emlak Ofisi') {
-                        $share_percent_balance = 0.25;
-                        $share_percent_earn = 0.75;
-                    } else {
-                        $share_percent_balance = 1;
-                        $share_percent_earn = 0;
-                    }
+                    $rates = Rate::where("housing_id", $cart['item']['id'])->get();
 
+                    foreach ($rates as $key => $rate) {
+                        if ($user->corporate_type == $rate->institution->name) {
+                            $share_percent_earn =  $rate->default_deposit_rate;
+                            $share_percent_balance = 1.0 - $share_percent_earn;
+                        }
+                    }
                     $cartItem = CartItem::where('user_id', Auth::user()->id)->latest()->first();
 
                     $cart = json_decode($cartItem->cart, true);

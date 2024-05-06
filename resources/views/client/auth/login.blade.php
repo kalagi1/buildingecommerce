@@ -280,15 +280,131 @@
                                                 @endif
                                             </div>
 
-                                            <div class="mt-3">
+                                            {{-- <div class="mt-3">
                                                 <label class="q-label">Sabit Telefon (Opsiyonel)</label>
-                                                <input type="number" name="phone"
+                                                <input type="text" name="phone"
                                                     class="form-control {{ $errors->has('phone') ? 'error-border' : '' }}"
                                                     value="{{ old('phone') }}" maxlength="10">
                                                 @if ($errors->has('phone'))
                                                     <span class="error-message">{{ $errors->first('phone') }}</span>
                                                 @endif
-                                            </div>
+                                            </div> --}}
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <label class="q-label">Sabit Telefon (Opsiyonel)</label>
+                                                </div>
+                                                <div class="col-md-4 r-0">
+                                                    <div class="input-group">
+                                                        <select name="area_code" id="area_code" class="form-control">
+                                                            <option value="">Alan Kodu Seçiniz</option>
+                                                            <?php
+                                                            $alanKodu = [
+                                                                'Adana' => '322',
+                                                                'Adıyaman' => '416',
+                                                                'Afyon' => '272',
+                                                                'Ağrı' => '472',
+                                                                'Aksaray' => '382',
+                                                                'Amasya' => '358',
+                                                                'Ankara' => '312',
+                                                                'Antalya' => '242',
+                                                                'Ardahan' => '478',
+                                                                'Artvin' => '466',
+                                                                'Aydın' => '256',
+                                                                'Balıkesir' => '266',
+                                                                'Bartın' => '378',
+                                                                'Batman' => '488',
+                                                                'Bayburt' => '458',
+                                                                'Bilecik' => '228',
+                                                                'Bingöl' => '426',
+                                                                'Bitlis' => '434',
+                                                                'Bolu' => '374',
+                                                                'Burdur' => '248',
+                                                                'Bursa' => '224',
+                                                                'Çanakkale' => '286',
+                                                                'Çankırı' => '376',
+                                                                'Çorum' => '364',
+                                                                'Denizli' => '258',
+                                                                'Diyarbakır' => '412',
+                                                                'Düzce' => '380',
+                                                                'Edirne' => '284',
+                                                                'Elazığ' => '424',
+                                                                'Erzincan' => '446',
+                                                                'Erzurum' => '442',
+                                                                'Eskişehir' => '222',
+                                                                'Gaziantep' => '342',
+                                                                'Giresun' => '454',
+                                                                'Gümüşhane' => '456',
+                                                                'Hakkari' => '438',
+                                                                'Hatay' => '326',
+                                                                'Iğdır' => '476',
+                                                                'Isparta' => '246',
+                                                                'İçel (Mersin)' => '324',
+                                                                'İstanbul' => [
+                                                                    'Avrupa Yakası' => '212',
+                                                                    'Anadolu Yakası' => '216'
+                                                                ],
+                                                                'İzmir' => '232',
+                                                                'Kahramanmaraş' => '344',
+                                                                'Karabük' => '370',
+                                                                'Karaman' => '338',
+                                                                'Kars' => '474',
+                                                                'Kastamonu' => '366',
+                                                                'Kayseri' => '352',
+                                                                'Kırıkkale' => '318',
+                                                                'Kırklareli' => '288',
+                                                                'Kırşehir' => '386',
+                                                                'Kilis' => '348',
+                                                                'Kocaeli' => '262',
+                                                                'Konya' => '332',
+                                                                'Kütahya' => '274',
+                                                                'Malatya' => '422',
+                                                                'Manisa' => '236',
+                                                                'Mardin' => '482',
+                                                                'Muğla' => '252',
+                                                                'Muş' => '436',
+                                                                'Nevşehir' => '384',
+                                                                'Niğde' => '388',
+                                                                'Ordu' => '452',
+                                                                'Osmaniye' => '328',
+                                                                'Rize' => '464',
+                                                                'Sakarya' => '264',
+                                                                'Samsun' => '362',
+                                                                'Siirt' => '484',
+                                                                'Sinop' => '368',
+                                                                'Sivas' => '346',
+                                                                'Şanlıurfa' => '414',
+                                                                'Şırnak' => '486',
+                                                                'Tekirdağ' => '282',
+                                                                'Tokat' => '356',
+                                                                'Trabzon' => '462',
+                                                                'Tunceli' => '428',
+                                                                'Uşak' => '276',
+                                                                'Van' => '432',
+                                                                'Yalova' => '226',
+                                                                'Yozgat' => '354',
+                                                                'Zonguldak' => '372'
+                                                            ];
+                                                        
+                                                            foreach ($alanKodu as $cityName => $cityCode) {
+                                                                if (is_array($cityCode)) {
+                                                                    echo '<optgroup label="' . $cityName . '">';
+                                                                    foreach ($cityCode as $subCityName => $subCityCode) {
+                                                                        echo '<option value="' . $subCityCode . '">' . $subCityName . ' (' . $subCityCode . ')' . '</option>';
+                                                                    }
+                                                                    echo '</optgroup>';
+                                                                } else {
+                                                                    echo '<option value="' . $cityCode . '">' . $cityName . ' (' . $cityCode . ')' . '</option>';
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>   
+                                                </div>
+                                                <div class="col-md-8 pl-0">
+                                                    <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone') }}" maxlength="7">
+                                                </div>    
+                                            </div>                                            
 
                                             <!-- Kurumsal Hesap Türü -->
                                             <div class="mt-3">
@@ -313,9 +429,7 @@
                                                     <span
                                                         class="error-message">{{ $errors->first('corporate-account-type') }}</span>
                                                 @endif
-                                            </div>
-
-                                
+                                            </div>                               
 
                                             <!-- İl -->
                                             <div class="mt-3">
@@ -431,7 +545,7 @@
                                                             <label for="" class="q-label">Vergi No</label>
                                                             <input type="text" id="taxNumber" name="taxNumber"
                                                                 class="form-control {{ $errors->has('taxNumber') ? 'error-border' : '' }}"
-                                                                value="{{ old('taxNumber') }}">
+                                                                value="{{ old('taxNumber') }}"  maxlength="10">
                                                             @if ($errors->has('taxNumber'))
                                                                 <span
                                                                     class="error-message">{{ $errors->first('taxNumber') }}</span>
@@ -441,6 +555,18 @@
                                                 </div>
                                             </div>
 
+                                                      <!-- Yetki Belgesi No -->
+                                                      <div class="split-form corporate-input mt-3">
+                                                        <div class="corporate-input input-city">
+                                                            <div class="mbdef">
+                                                                <div class="select select-tax-office">
+                                                                    <label for="" class="q-label">Yetki Belgesi No</label>
+                                                                    <input type="text" id="authority_licence" name="authority_licence"
+                                                                    value="{{ old('authority_licence') }}" class="form-control" maxlength="7">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
                                             <!-- TC Kimlik No -->
                                             <div class="split-form corporate-input mt-3 {{ old('account_type') == 2 ? 'd-none' : '' }}"
@@ -450,14 +576,11 @@
                                                         <div class="select select-tax-office">
                                                             <label for="" class="q-label">TC Kimlik No</label>
                                                             <input type="text" id="idNumber" name="idNumber"
-                                                                class="form-control" value="{{ old('idNumber') }}">
+                                                                class="form-control" value="{{ old('idNumber') }}"  maxlength="11">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
                                         </div>
 
                                         <input type="hidden" id="selected-plan-id" name="subscription_plan_id">
@@ -540,20 +663,14 @@
                                 </div>
                                 <h4 class="support-phone">Bilgi almak için arayın : <a href="tel:4443284">444 3 284</a>
                                 </h4>
-
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-
         </div>
     </section>
 @endsection
-
-
 
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -564,6 +681,25 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+                $('#area_code, #phone').on('input', function() {
+                var areaCode = $('#area_code').val();
+                var phoneNumber = $('#phone').val();
+                // Eğer alan kodu veya telefon numarası girilmediyse işlem yapma
+                if (areaCode && phoneNumber) {
+                    // Telefon numarasını güncelle
+                    var fullPhoneNumber = areaCode + phoneNumber;
+                    // Telefon numarasını konsola yazdır
+                    console.log("Telefon numarası: " + fullPhoneNumber);
+                    }
+            }); 
+        });
+
+
+    </script>
     <script>
         $(document).ready(function() {
             $("#mobile_phone").on("input blur", function() {

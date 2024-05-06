@@ -158,7 +158,7 @@ Route::get('/get-neighborhoods-for-client/{county}', [CountyController::class, "
 Route::get('/get-neighborhoods/{neighborhood}', [CountyController::class, "getNeighborhoods"])->name("getNeighborhoods");
 Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
 // Route::get('/get-tax-office/{taxOffice}', [TaxOfficeController::class, "getTaxOffice"])->name("getTaxOffice");
-Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
+Route::get('/proje/{projectSlug}/ilan/{projectID}/{housingOrder}/detay/{active?}', [ClientProjectController::class, "projectHousingDetail"])->name('project.housings.detail');
 Route::get('/proje_konut_detayi_ajax/{slug}/{id}', [ClientProjectController::class, "projectHousingDetailAjax"])->name('project.housings.detail.ajax');
 Route::get('/konutlar', [ClientHousingController::class, "list"])->name('housing.list');
 Route::get('/al-sat-acil', [ClientHousingController::class, "alert"])->name('housing.alert');
@@ -267,6 +267,7 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
 
     Route::get('/real_estates', [AdminRealEstateController::class, "index"])->name('real.estates');
     Route::get('/real_estate/{id}', [AdminRealEstateController::class, "detail"])->name('real.estate.detail');
+    Route::get('sat/kirala/yetki/ver/{id}',[AdminRealEstateController::class,"satKiralaYetkiVer"])->name('sat.kirala.yetki.ver');
     Route::put('/users/{user}/block', [UserController::class, 'blockUser'])->name('users.block');
     Route::get('/messages', [UserController::class, 'messages'])->name('messages');
     Route::post('/messages/store', [SupportChatController::class, 'adminStore'])->name('messages.store');
@@ -401,6 +402,8 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
         Route::get('/housings/{housing}/detail', [HousingController::class, 'detail'])->name('housings.detail');
         Route::get('/housings/{housing}/is-share/detail', [HousingController::class, 'isShareDetail'])->name('is_share_housings.detail');
         Route::get('/housings/{housingId}/logs', [HousingController::class, 'logs'])->name('housing.logs');
+        Route::post('/housing/{id}/update-rates', [HousingController::class, 'updateRates'])->name('housing.update-rates');
+
     });
 
     Route::middleware(['checkPermission:UpdateHousing'])->group(function () {
@@ -614,6 +617,9 @@ Route::group(['prefix' => 'qR9zLp2xS6y/secured', "as" => "admin.", 'middleware' 
     Route::post('/marketing/project/setmarketed', [MarketingController::class, 'market'])->name('marketing.projects.setmarketed');
     Route::get('/marketing/project/get', [MarketingController::class, 'getMarketing'])->name('marketing.projects.get');
     Route::post('/marketing/project/store', [MarketingController::class, 'storeMarketing'])->name('marketing.projects.store');
+
+    Route::get('sold/invoice_detail/{id}', [ProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
+    Route::get('sold/order_detail/{id}', [ProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
 
     Route::middleware(['checkPermission:DeleteFooterLink'])->group(function () {
         Route::delete('/footer_links/{footer_link}', [FooterLinkController::class, 'destroy'])->name('footer_links.destroy');
@@ -974,6 +980,8 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
     Route::post('/housings/active/{id}', [InstitutionalProjectController::class, 'housingActive'])->name('housings.active');
     Route::post('/housings/passive/{id}', [InstitutionalProjectController::class, 'housingPassive'])->name('housings.passive');
     Route::delete('/housings/{id}', [InstitutionalProjectController::class, 'housingDestroy'])->name('housings.destroy');
+    Route::post('/housings/deed/{id}', [InstitutionalProjectController::class, 'housingDeed'])->name('housings.deed');//tapu yetki belgesi
+
 
     Route::post('/end_extend_time', [PaymentTempController::class, "createPaymentTemp"])->name('create.payment.end.temp');
     Route::post('/end_project_temp_order', [InstitutionalProjectController::class, "createProjectEnd"])->name('project.end.temp.order');
@@ -1063,6 +1071,10 @@ Route::group(['prefix' => 'institutional', "as" => "institutional.", 'middleware
         Route::post('/refund', [ClientPanelProfileController::class, 'refund'])->name('order.refund');
     });
 });
+
+Route::get('sold/invoice_detail/{id}', [InstitutionalProjectController::class, 'soldInvoiceDetail'])->name('sold.invoice.detail');
+Route::get('sold/order_detail/{id}', [InstitutionalProjectController::class, 'soldOrderDetail'])->name('sold.order.detail');
+
 
 Route::post('/check_coupon', [CartController::class, 'checkCoupon'])->name('check.coupon');
 Route::post('/pay/cart', [CartController::class, 'payCart'])->name('pay.cart');

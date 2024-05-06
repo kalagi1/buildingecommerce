@@ -142,7 +142,11 @@ class HomeController extends Controller {
         $fatura->save();
 
         if ( $cart->type == 'housing' ) {
-            $estate = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+            $estate  = Housing::where( 'id', $cart->item->id )->with( 'user' )->first();
+            $is_sold = Housing::where( 'id', $cart->item->id )->first();
+            $is_sold->update( [
+                'is_sold' => 1] );
+                
         } else {
             $estate = Project::where( 'id', $cart->item->id )->with( 'user' )->first();
             $isNeighbor = NeighborView::where( 'owner_id', $cartOrder->is_reference )
@@ -416,7 +420,7 @@ class HomeController extends Controller {
 
         // SMS gönderme işlemi
         $smsService = new SmsService();
-        $source_addr = 'MaliyetinEv';
+        $source_addr = 'Emlkspette';
 
         $smsService->sendSms( $source_addr, $message, $userPhoneNumber );
     }

@@ -920,6 +920,8 @@ class HomeController extends Controller
             $housingTypeData = json_decode($item->housing_type_data, true);
             $offSale = isset($housingTypeData['off_sale1']);
             $share = isset($housingTypeData['share-open1']);
+            $open_share1 = isset($housingTypeData['open_sharing1']);
+
 
             return [
                 'image' => asset('housing_images/' . getImage($item, 'image')),
@@ -950,7 +952,9 @@ class HomeController extends Controller
                 "column3" => json_decode($item->housing_type_data)->{$item->column3_name}[0] ?? null,
                 'housing_type' =>
                 [
+                    "housingTypeData" => $housingTypeData,
                     'has_discount' => $discount_amount > 0,
+                    'open_share1' => $open_share1 ? true : false,
                     // 'room_count' => getData($item, 'room_count') ? getData($item, 'room_count') : null,
                     'daily_rent' => ($item->step2_slug == "gunluk-kiralik" && getData($item, 'daily_rent')) ? getData($item, 'daily_rent') : null,
                     // 'squaremeters' => getData($item, 'squaremeters') ? getData($item, 'squaremeters') : null,
@@ -1120,7 +1124,8 @@ class HomeController extends Controller
 
         } elseif ($title === 'project') {
             // Project sorgusu
-            $results['projects'] = Project::where('status', 1)
+            $results['projects'] = Project::with("user")
+            ->where('status', 1)
             ->where(function ($query) use ($term) {
                 $query->where('project_title', 'LIKE', "%{$term}%")
                     ->orWhere('step1_slug', 'LIKE', "%{$term}%")
@@ -1141,6 +1146,10 @@ class HomeController extends Controller
                     'photo' => $item->image,
                     'name' => $item->project_title,
                     'slug' => $item->slug,
+                    'city' => $item->city->title,
+                    'county' => $item->county->ilce_title,
+                    "profile_image" => $item->user->profile_image
+
                 ];
             });
         } elseif ($title === 'merchant') {

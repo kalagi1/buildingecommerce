@@ -16,7 +16,11 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Koleksiyon Adı</th>
+                                <th> @if (Auth::user()->corporate_type == 'Emlak Ofisi')
+                                    Portföy Adı:
+                                @else
+                                    Koleksiyon Adı:
+                                @endif</th>
                                 <th>Görüntüleyen User ID</th>
                                 <th>Görüntüleyen IP</th>
                                 <th>Görüntülenme Tarihi</th>

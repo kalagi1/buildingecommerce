@@ -20,7 +20,8 @@
                     <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="plan text-center">
                             <span class="plan-name">Emlak</span>
-                            <p class="plan-price"><small>{{ $housingTotalCount }} İlan bulundu</small><sub></sub></p>
+                            <p class="plan-price"><strong>{{ $housingTotalCount }}</strong><sub>Sonuç Bulundu</sub></p>
+                            {{-- <p class="plan-price"><small>{{ $housingTotalCount }} İlan bulundu</small><sub></sub></p> --}}
                             <ul class="list-unstyled" id="housingList">
                                 @php $count = 0 @endphp
                                 @foreach ($housings as $step1_slug => $step1_data)
@@ -45,12 +46,12 @@
                     </div>
 
 
-
                     <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="plan text-center">
                             <span class="plan-name">Proje</span>
-                            <p class="plan-price"><sup class="currency"></sup><small>{{ $projectTotalCount }} proje
-                                    bulundu</small><sub></sub></p>
+
+                            <p class="plan-price"><strong>{{ $projectTotalCount }}</strong><sub>Sonuç Bulundu</sub></p>
+
                             <ul class="list-unstyled" id="projectList">
                                 @php $count = 0 @endphp
                                 @foreach ($projects as $project)
@@ -72,16 +73,11 @@
                     </div>
 
 
-
-
-
-
                     <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="plan text-center">
                             <span class="plan-name">Mağaza</span>
-                            <p class="plan-price">
-                                <sup class="currency"></sup><small>{{ $merchant_count }} Mağaza bulundu</small><sub></sub>
-                            </p>
+                            <p class="plan-price"><strong>{{ $merchant_count }}</strong><sub>Sonuç Bulundu</sub></p>
+
                             <ul class="list-unstyled" id="merchantList">
                                 @php $visibleCount = 0 @endphp
                                 @foreach ($merchants as $merchant)
@@ -102,9 +98,6 @@
                             <a class="btn btn-primary d-none" href="#" id="hideAllMerchants">Tümünü Kapat</a>
                         </div>
                     </div>
-
-
-
 
 
 
