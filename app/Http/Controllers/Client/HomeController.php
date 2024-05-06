@@ -1058,6 +1058,7 @@ class HomeController extends Controller
 
         $term = $request->input('searchTerm');
         $results = [];
+       
         // "title" parametresine göre sorguyu belirle
         $title = $request->input('type');
         if ($title === 'housing') {
@@ -1113,6 +1114,10 @@ class HomeController extends Controller
             })
             ->orderByDesc('housings.created_at')
             ->paginate(12);
+
+            
+           
+
         } elseif ($title === 'project') {
             // Project sorgusu
             $results['projects'] = Project::where('status', 1)

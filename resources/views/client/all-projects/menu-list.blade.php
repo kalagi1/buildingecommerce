@@ -1155,8 +1155,10 @@
                             $(".countArray").html(count);
                             $("#termResultCount").removeClass("d-none").addClass("d-block");
 
-                            var searchResultsText = term + " " + "toplam " + count + " sonuç bulundu.";
+                            var searchResultsText = '"' + term + '"' + " araması için " + "<span syle: text-weight:bold !important>toplam " + count + " sonuç bulundu.</span>";
+                              
                             $("#searchResultsText").html(searchResultsText);
+
                         }
 
                         var assetPath = "{{ asset('images/sc.png') }}";

@@ -1622,7 +1622,7 @@
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
-                            <a href="${searchUrl}" class="text-muted mt-2">${remainingResults} sonuç daha bulunmaktadır.</a>
+                            <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
                         `);
                         }
                     }
@@ -1665,7 +1665,7 @@
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
-                                <a href="${searchUrl}" class="text-muted mt-2">${remainingResults} sonuç daha bulunmaktadır.</a>
+                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
                             `);
                         }
                     }
@@ -1699,7 +1699,7 @@
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
-                                <a href="${searchUrl}" class="text-muted mt-2">${remainingResults} sonuç daha bulunmaktadır.</a>
+                                <a href="${searchUrl}" class="text-muted m-3">${remainingResults} sonuç daha bulunmaktadır.</a>
                             `);
                         }
                     }
