@@ -9,7 +9,7 @@
                     <div class="col-lg-3 col-md-6 col-xs-12">
                         <div class="plan text-center">
                             <span class="plan-name">Emlak</span>
-                            <p class="plan-price"><sup class="currency">$</sup><strong>99</strong><sub>.99</sub></p>
+                            <p class="plan-price"><sup class="currency"><i class="fa fa-search"></i></sup><strong>{{ $housingTotalCount }}</strong><sub>Sonuç Bulundu</sub></p>
                             {{-- <p class="plan-price"><small>{{ $housingTotalCount }} İlan bulundu</small><sub></sub></p> --}}
                             <ul class="list-unstyled" id="housingList">
                                 @php $count = 0 @endphp
