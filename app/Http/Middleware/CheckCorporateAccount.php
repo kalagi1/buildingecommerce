@@ -30,6 +30,11 @@ class CheckCorporateAccount
         'institutional.edit.phone',
     ];
 
+    private $allowedRoutes = [
+        'institutional.corporate-account-verification',
+        'institutional.phone.verification'
+    ];
+
     /**
      * Handle an incoming request.
      *
@@ -55,7 +60,7 @@ class CheckCorporateAccount
             return redirect()->route('institutional.corporate-account-waiting');
         } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 && auth()->user()->is_show_files == 1  &&  auth()->user()->phone_verification_status == 1 && auth()->user()->type == 2  && !in_array(request()->route()->getName(), $this->whitelist)) {
             return redirect()->route('institutional.corporate-account-verification');
-        } elseif (auth()->user()->corporate_account_status == 1 && auth()->user()->phone_verification_status == 1  && request()->route()->getName() == 'institutional.corporate-account-verification' && request()->route()->getName() == 'institutional.phone.verification') {
+        } elseif (auth()->user()->corporate_account_status == 1 && auth()->user()->phone_verification_status == 1  &&  in_array(request()->route()->getName(), $this->allowedRoutes)) {
 
             return redirect()->route('institutional.index');
         }

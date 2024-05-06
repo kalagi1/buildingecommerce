@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Services\SmsService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
 
 class AuthController extends Controller
@@ -128,6 +131,9 @@ class AuthController extends Controller
                         'success' => true,
                         'id' => $user->id,
                         'name' => $user->name,
+                        'profile_image' => $user->profile_image,
+                        'banner_hex_code' => $user->banner_hex_code,
+                        "phone_verification_status" => $user->phone_verification_status,
                         'role' => $user->role->name,
                         'slug' => $user->role->slug,
                         "buyerStatus" => $user->status,
@@ -341,15 +347,7 @@ class AuthController extends Controller
             $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
             $user->save();// Kullanıcıyı kaydediyoruz
             if($user->phone_verification_code) {
-                $smsSent = $this->sendSMS($user);
-                if (!$smsSent) {
-                    // SMS gönderimi başarısız olduysa
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'SMS gönderimi başarısız oldu'
-                    ]);
-                }
-                
+               $this->sendSMS($user);
             }
            
             return response()->json([
@@ -375,6 +373,8 @@ class AuthController extends Controller
         $source_addr = 'Emlkspette';
 
         $smsService->sendSms($source_addr, $message, $userPhoneNumber);
+
+
     }
 
     public function verifyPhoneNumber(Request $request)
@@ -382,7 +382,8 @@ class AuthController extends Controller
         $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
 
         if ($user) {
-            $verificationCode = implode('', $request->input('code')); // Kodları birleştir
+            $verificationCode = $request->input('code');
+             // Kodları birleştir
 
             if ($verificationCode == $user->phone_verification_code) {
                 $user->phone_verification_status = 1; // Doğrulama durumunu 1 olarak ayarlıyoruz
@@ -390,10 +391,90 @@ class AuthController extends Controller
                 return response()->json([
                     'success' => true
                 ]);
-            } else {
-                return response()->json()->withErrors(['error' => 'Doğrulama Kodu Eşleşmedi']);
-            }
+            } 
 
         }
+
+        return response()->json(['error' => 'Doğrulama Kodu Eşleşmedi'], 422);
     }   
+
+    public function sendResetLinkEmail( Request $request ) {
+        $this->validateEmail( $request );
+        $response = $this->broker()->sendResetLink(
+            $this->credentials($request)
+        );
+
+
+        return $response == Password::RESET_LINK_SENT
+                    ? $this->sendResetLinkResponse($request, $response)
+                    : $this->sendResetLinkFailedResponse($request, $response);
+    }
+
+    /**
+     * Validate the email for the given request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+    }
+
+    /**
+     * Get the needed authentication credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return $request->only('email');
+    }
+
+    /**
+     * Get the response for a successful password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        return $request->wantsJson()
+                    ? new JsonResponse(['message' => trans($response)], 200)
+                    : back()->with('status', trans($response));
+    }
+
+    /**
+     * Get the response for a failed password reset link.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        if ($request->wantsJson()) {
+            throw ValidationException::withMessages([
+                'email' => [trans($response)],
+            ]);
+        }
+
+        return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => trans( $response ) ] );
+    }
+
+    /**
+    * Get the broker to be used during password reset.
+    *
+    * @return \Illuminate\Contracts\Auth\PasswordBroker
+    */
+
+    public function broker() {
+        return Password::broker();
+    }
 }

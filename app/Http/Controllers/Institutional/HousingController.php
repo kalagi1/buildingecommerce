@@ -277,9 +277,10 @@ class HousingController extends Controller {
 
     public function index() {
         $userId = auth()->user()->parent_id ? auth()->user()->parent_id : auth()->user()->id;
+        $user = User::where("id", auth()->user()->id)->first();
     
         // Define a common base query for reuse
-        $baseQuery = Housing::with('city', 'county', 'neighborhood')
+        $baseQuery = Housing::with('city', 'county', 'neighborhood',"owner","user")
             ->leftJoin('housing_types', 'housing_types.id', '=', 'housings.housing_type_id')
             ->select(
                 'housings.id',
@@ -294,7 +295,8 @@ class HousingController extends Controller {
                 'housings.neighborhood_id',
                 'housing_types.form_json',
                 'housings.is_share',
-                'housings.owner_id'
+                'housings.owner_id',
+                'housings.user_id'
             )
             ->where(function ($query) use ($userId) {
                 $query->where('housings.user_id', $userId)
@@ -328,7 +330,7 @@ class HousingController extends Controller {
             ->where('is_sold', 1)
             ->get();
     
-        return view('institutional.housings.index', compact('activeHousingTypes', 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes'));
+        return view('institutional.housings.index', compact('activeHousingTypes',"user", 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes'));
     }
     
 

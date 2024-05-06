@@ -1,11 +1,17 @@
 @extends('client.layouts.master')
 
 @php
+    // Retrieve the most recent record where JSON_EXTRACT(cart, "$.item.id") matches $housing->id
     $sold = DB::select(
-        'SELECT * FROM cart_orders WHERE JSON_EXTRACT(cart, "$.type") = "housing"  AND JSON_EXTRACT(cart, "$.item.id") = ? LIMIT 1',
-        [$housing->id],
+        'SELECT * FROM cart_orders 
+        WHERE JSON_EXTRACT(cart, "$.type") = "housing" 
+        AND JSON_EXTRACT(cart, "$.item.id") = ?
+        ORDER BY created_at DESC
+        LIMIT 1',
+        [$housing->id]
     );
 @endphp
+
 @php
     function convertMonthToTurkishCharacter($date)
     {

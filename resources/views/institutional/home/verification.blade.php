@@ -41,14 +41,13 @@
 
                         @if (!is_null(auth()->user()->record_document))
                             <div class="ml-2 mr-2">
-                                <a target="_blank" href="{{ url("record_documents/". auth()->user()->record_document)  }}" download><i
-                                        class="fa fa-download"></i></a>
+                                <a target="_blank" href="{{ url('record_documents/' . auth()->user()->record_document) }}"
+                                    download><i class="fa fa-download"></i></a>
                             </div>
                         @endif
 
                         @if (auth()->user()->record_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                           
                         @endif
                     </label>
                     <input type="file" name="sicil_belgesi" id="sicil_belgesi"
@@ -60,14 +59,13 @@
 
                         @if (!is_null(auth()->user()->tax_document))
                             <div class="ml-2 mr-2">
-                                <a target="_blank" href="{{ url("tax_documents/". auth()->user()->tax_document)  }}" download><i
-                                        class="fa fa-download"></i></a>
+                                <a target="_blank" href="{{ url('tax_documents/' . auth()->user()->tax_document) }}"
+                                    download><i class="fa fa-download"></i></a>
                             </div>
                         @endif
 
                         @if (auth()->user()->tax_document_approve)
                             <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                           
                         @endif
                     </label>
                     <input type="file" name="vergi_levhasi" id="vergi_levhasi"
@@ -82,14 +80,15 @@
 
                             @if (!is_null(auth()->user()->identity_document))
                                 <div class="ml-2 mr-2">
-                                    <a target="_blank" href="{{ url("identity_documents/". auth()->user()->identity_document)  }}" download><i
-                                            class="fa fa-download"></i></a>
+                                    <a target="_blank"
+                                        href="{{ url('identity_documents/' . auth()->user()->identity_document) }}"
+                                        download><i class="fa fa-download"></i></a>
                                 </div>
                             @endif
 
                             @if (auth()->user()->identity_document_approve)
                                 <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                                @endif
+                            @endif
                         </label>
                         <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
                             class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : '' }}"
@@ -103,13 +102,14 @@
 
                             @if (!is_null(auth()->user()->identity_document))
                                 <div class="ml-2 mr-2">
-                                    <a target="_blank" href="{{ url("identity_documents/". auth()->user()->identity_document)  }}"
+                                    <a target="_blank"
+                                        href="{{ url('identity_documents/' . auth()->user()->identity_document) }}"
                                         download><i class="fa fa-download"></i></a>
                                 </div>
                             @endif
                             @if (auth()->user()->identity_document_approve)
                                 <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
-                                @endif
+                            @endif
                         </label>
                         <input type="file" name="kimlik_belgesi" id="kimlik_belgesi"
                             class="form-control {{ auth()->user()->identity_document_approve ? ' green-border' : '' }}"
@@ -123,7 +123,8 @@
 
                             @if (!is_null(auth()->user()->company_document))
                                 <div class="ml-2 mr-2">
-                                    <a target="_blank" href="{{ url("company_documents/". auth()->user()->company_document)  }}"
+                                    <a target="_blank"
+                                        href="{{ url('company_documents/' . auth()->user()->company_document) }}"
                                         class=" mb-2"><i class="fa fa-download"></i></a>
                                 </div>
                             @endif
@@ -138,7 +139,24 @@
                             accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->company_document_approve == 0 ? ' ' : null }} />
                     </div>
                 @endif
+                <div class="form-group">
+                    <label for="approve_website" class="mb-2 d-flex align-items-center">İmzalı Onay Belgesi Yükleyiniz
 
+                        @if (!is_null(auth()->user()->approve_website))
+                            <div class="ml-2 mr-2">
+                                <a target="_blank" href="{{ url('approve_websites/' . auth()->user()->approve_website) }}"
+                                    download><i class="fa fa-download"></i></a>
+                            </div>
+                        @endif
+
+                        @if (auth()->user()->approve_website_approve)
+                            <span class="checkmark"></span> <span style="color:green">Onaylandı</span>
+                        @endif
+                    </label>
+                    <input type="file" name="approve_website" id="approve_website"
+                        class="form-control {{ auth()->user()->approve_website_approve ? ' green-border' : '' }}"
+                        accept=".png,.jpeg,.jpg,.pdf"{{ auth()->user()->approve_website_approve == 0 ? ' ' : null }} />
+                </div>
 
                 <div class="form-group">
                     @if (

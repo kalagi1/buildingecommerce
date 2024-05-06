@@ -720,6 +720,29 @@
             ]
         });
     </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Corporation",
+          "name": "Emlak Sepette",
+          "alternateName": "Emlaksepette",
+          "url": "https://emlaksepette.com/",
+          "logo": "https://emlaksepette.com/images/emlaksepettelogo.png",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "444 3 284",
+            "contactType": "customer service",
+            "contactOption": ["HearingImpairedSupported","TollFree"],
+            "areaServed": "TR",
+            "availableLanguage": "Turkish"
+          },
+          "sameAs": [
+            "https://www.instagram.com/emlaksepette/",
+            "https://www.facebook.com/emlaksepette"
+          ]
+        }
+        </script>
+        
 @endsection
 
 @section('styles')
