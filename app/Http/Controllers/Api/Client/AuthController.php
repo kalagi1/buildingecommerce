@@ -399,6 +399,7 @@ class AuthController extends Controller
     }   
 
     public function sendResetLinkEmail( Request $request ) {
+        return $request->email;
         $this->validateEmail( $request );
         $response = $this->broker()->sendResetLink(
             $this->credentials($request)
