@@ -479,10 +479,10 @@ class AuthController extends Controller
     }
 
     public function clientProfileUpdate(Request $request){
+        return response()->json($request->all());
 
         $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
         $user = User::where("id", auth()->user()->id)->first();
-        return response()->json($request->all());
         $user->update($request->all());
 
         return response()->json([
