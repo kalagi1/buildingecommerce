@@ -420,7 +420,7 @@ class AuthController extends Controller
      */
     protected function validateEmail(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        // $request->validate(['email' => 'required|email']);
     }
 
     /**
