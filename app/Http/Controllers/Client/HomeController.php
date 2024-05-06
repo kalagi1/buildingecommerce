@@ -180,7 +180,6 @@ class HomeController extends Controller
 
     public function getRenderedProjects(Request $request)
     {
-
         $parameters = ["slug", "type", "optional", "title"];
         $secondhandHousings = [];
         $projects = [];
@@ -243,6 +242,10 @@ class HomeController extends Controller
         if ($request->input('county')) {
             $query->where('county_id', $request->input('county'));
         }
+
+
+    
+
 
         if ($request->input('filterDate')) {
             $filterDate = $request->input('filterDate');
@@ -418,6 +421,25 @@ class HomeController extends Controller
             }
         }
 
+        if ($request->input('term')) {
+            $term = $request->input('term');
+            
+            $query->where(function ($queryf) use ($term) {
+                $queryf->where('project_title', 'LIKE', "%{$term}%")
+                ->orWhere('step1_slug', 'LIKE', "%{$term}%")
+                ->orWhere('step2_slug', 'LIKE', "%{$term}%")
+                ->orWhere('description', 'LIKE', "%{$term}%")
+                ->orWhere('id', '=', (int)$term - 1000000);
+        })
+        ->where("status",1)
+        ->orWhereHas('city', function ($queryf) use ($term) {
+            $queryf->where('title', 'LIKE', "%{$term}%");
+        })
+        ->orWhereHas('county', function ($queryf) use ($term) {
+            $queryf->where('ilce_title', 'LIKE', "%{$term}%");
+        });
+        }
+
         $itemPerPage = 12;
         $projects = $query->paginate($itemPerPage);
 
@@ -436,12 +458,16 @@ class HomeController extends Controller
             ];
         });
 
-        return response()->json($renderedProjects);
+      
+                return response()->json([
+                    'data' => $renderedProjects,
+                    'totalCount' => $projects->total(),
+                    'term' => $term, // Toplam öğe sayısını JSON yanıta ekle
+                ]);
     }
 
     public function getRenderedSecondhandHousings(Request $request)
     {
-       
         function convertMonthToTurkishCharacter($date)
         {
             $aylar = [
@@ -500,8 +526,7 @@ class HomeController extends Controller
 
 
 
-       $term =   $request->input('term');
-
+        $term = $request->input('term');
      
         $parameters = ["slug", "type", "optional", "title", "checkTitle"];
         $secondhandHousings = [];
@@ -715,6 +740,25 @@ class HomeController extends Controller
         //             }
         //         }
         // }
+
+          if ($request->input('term')) {
+            $term = $request->input('term');
+            
+            $obj = $obj->where(function ($query) use ($term) {
+                $query->where('housings.title', 'LIKE', "%{$term}%")
+                      ->orWhere('housings.description', 'LIKE', "%{$term}%")
+                      ->orWhereRaw('JSON_EXTRACT(housings.housing_type_data, "$.room_count[0]") = ?', $term)
+                      ->orWhereHas('city', function ($cityQuery) use ($term) {
+                          $cityQuery->where('title', 'LIKE', "%{$term}%");
+                      })
+                      ->orWhereHas('county', function ($countyQuery) use ($term) {
+                          $countyQuery->where('title', 'LIKE', "%{$term}%");
+                      })
+                      ->orWhere('housings.id', '=', (int)$term - 2000000);
+            });
+            
+        }
+
         if (empty($housingType) && !empty($housingTypeParentSlug) ) {
 
             $connections = HousingTypeParent::where("slug", $housingTypeParentSlug)->with("parents.connections.housingType")->first();
@@ -857,11 +901,11 @@ class HomeController extends Controller
         }
 
         $itemPerPage = 15;
-        $obj = $obj->paginate($itemPerPage);
+
+        $objPaginated = $obj->paginate($itemPerPage);
 
 
-        return response()->json($obj->through(function ($item) use ($request) {
-
+        $transformedData = $objPaginated->through(function ($item) use ($request) {
             $discount_amount = Offer::where('type', 'housing')->where('housing_id', $item->id)->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d Hi:i:s'))->first()->discount_amount ?? 0;
             $isFavorite = 0;
             if (Auth::check()) {
@@ -916,7 +960,17 @@ class HomeController extends Controller
                 ]
 
             ];
-        }));
+        });
+
+        $result = [
+            'totalCount' => $objPaginated->total(), // Toplam öğe sayısını alın
+            'data' => $transformedData,  
+            'term' => $term
+        ];
+        
+        
+        // JSON yanıtını döndürün
+        return response()->json($result);
     }
 
     public function getSearchList(Request $request)
@@ -1004,7 +1058,6 @@ class HomeController extends Controller
 
         $term = $request->input('searchTerm');
         $results = [];
-
         // "title" parametresine göre sorguyu belirle
         $title = $request->input('type');
         if ($title === 'housing') {
@@ -1206,6 +1259,7 @@ class HomeController extends Controller
                 'searchTerm' => 'required|string',
             ]
         );
+     
 
         $term = $request->input('searchTerm');
 
@@ -1235,11 +1289,14 @@ class HomeController extends Controller
         $housings = Housing::select(
             'housings.step1_slug',
             'housings.step2_slug',
-            \DB::raw('COUNT(DISTINCT housings.title) as total_count'),
+            'housing_type_parents.title',
+            \DB::raw('COUNT(DISTINCT housings.id) as total_count'),
             \DB::raw('COUNT(*) as count')
         )
-        
-        ->with(['city', 'county'])
+        ->leftJoin('housing_type_parent_connections', 'housings.housing_type_id', '=', 'housing_type_parent_connections.housing_type_id')
+        ->leftJoin('housing_type_parents', 'housing_type_parents.id', '=', 'housing_type_parent_connections.parent_id')
+        ->leftJoin('cities', 'housings.city_id', '=', 'cities.id')
+        ->leftJoin('counties', 'housings.county_id', '=', 'counties.id')
         ->where('housings.status', 1)
         ->where(function ($query) use ($term) {
             $query->where('housings.title', 'LIKE', "%{$term}%")
@@ -1256,9 +1313,10 @@ class HomeController extends Controller
         ->orderByDesc('housings.created_at')
         ->groupBy('housings.step1_slug', 'housings.step2_slug')
         ->get();
+
         
         // Tüm sayıların toplamını hesapla
-        $housingTotalCount = $housings->sum('total_count');
+        $housingTotalCount = $housings->sum('count');
         
         $housings = $housings->groupBy('step1_slug')->map(function ($group) {
             return $group->mapToGroups(function ($item) {
@@ -1271,6 +1329,8 @@ class HomeController extends Controller
             });
         });
 
+
+       
 
      
     // projects'i status ve step1_slug'a göre gruplayalım
@@ -1289,10 +1349,9 @@ class HomeController extends Controller
         ->orWhereHas('county', function ($query) use ($term) {
             $query->where('ilce_title', 'LIKE', "%{$term}%");
         });
-
-        // Toplam proje sayısını al
-        $projectTotalCount = $projectsQuery->count();
-
+            // Toplam proje sayısını al
+            $projectTotalCount = $projectsQuery->count();
+      
         // Projeleri grupla ve işle
         $projects = $projectsQuery->get()->groupBy(function ($item) {
             $statusID = $item->housingStatus->where('housing_type_id', '<>', 1)->first()->housing_type_id ?? 1;
@@ -1308,6 +1367,7 @@ class HomeController extends Controller
                 'status_slug' => $slug,
             ];
         });
+
  
         $merchants = User::where('type', '2')
             ->where("corporate_account_status", "1")

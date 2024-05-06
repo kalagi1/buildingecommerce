@@ -428,7 +428,6 @@ class ProjectController extends Controller
     public function allMenuProjects(Request $request ,$slug = null, $type = null, $optional = null, $title = null, $check = null)
     {
         $term = $request->input('term');
-     
         $deneme = null;
         if ($slug == "al-sat-acil") {
             $deneme = "al-sat-acil";
@@ -613,6 +612,7 @@ class ProjectController extends Controller
             if ($housingTypeParentSlug) {
                 $query->where("step1_slug", $housingTypeParentSlug);
             }
+            
 
             if ($housingType) {
                 $query->where('housing_type_id', $newHousingType);
