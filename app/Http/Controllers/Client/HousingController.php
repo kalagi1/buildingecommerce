@@ -13,6 +13,7 @@ use App\Models\Menu;
 use App\Models\ProjectHouseSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class HousingController extends Controller {
@@ -147,6 +148,8 @@ class HousingController extends Controller {
                 'meta_description' => 'Emlak Kulüpte ' . $housing->title . ' ile hayallerinizdeki konutu bulabilirsiniz. Geniş seçenekler, uygun fiyatlar ve konforlu yaşam sizi bekliyor!
                     Şimdi alım yapın.Geleceğe yatırım yapın.',
                 'meta_author' => 'Emlak Sepette',
+                "meta_image" => URL::to('/') . 'housing_images/' .  json_decode($housing->housing_type_data)->image,
+
             ];
 
             $pageInfo = json_encode( $pageInfo );
