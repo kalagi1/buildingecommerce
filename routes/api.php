@@ -104,6 +104,7 @@ Route::get('sayfa/{slug}', [ClientPageController::class, 'index'])->name('page.s
 Route::get('sozlesmeler', [ClientPageController::class, "contracts_show"])->name('contracts.show');
 Route::get('/get-content/{target}', [ClientPageController::class, "getContent"])->name('get-content');
 
+Route::post('password/email', [AuthController::class, "sendResetLinkEmail"])->name('password.email');
 
 
 
