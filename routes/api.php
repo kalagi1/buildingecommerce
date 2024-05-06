@@ -148,4 +148,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::post('/client/password/update', [AuthController::class, "clientPasswordUpdate"])->name('client.password.update');
 
+        Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
+
+
 });

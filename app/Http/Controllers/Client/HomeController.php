@@ -442,6 +442,7 @@ class HomeController extends Controller
 
         $itemPerPage = 12;
         $projects = $query->paginate($itemPerPage);
+        $term = $request->input('term') ?? null;
 
         $renderedProjects = $projects->through(function ($item) {
 
@@ -1062,6 +1063,7 @@ class HomeController extends Controller
 
         $term = $request->input('searchTerm');
         $results = [];
+       
         // "title" parametresine göre sorguyu belirle
         $title = $request->input('type');
         if ($title === 'housing') {
@@ -1117,6 +1119,10 @@ class HomeController extends Controller
             })
             ->orderByDesc('housings.created_at')
             ->paginate(12);
+
+            
+           
+
         } elseif ($title === 'project') {
             // Project sorgusu
             $results['projects'] = Project::with("user")

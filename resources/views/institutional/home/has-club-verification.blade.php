@@ -11,10 +11,18 @@
                     <div class="card-header p-4 border-bottom ">
                         <strong class="me-auto">Emlak Sepette | Emlak Kulüp Başvurusu</strong>
                     </div>
-                    <div class="toast-body"> Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
+                    <div class="toast-body">
+                        @if (session()->has('error'))
+                        <div class="alert alert-danger text-white mb-3">
+                            {{ session()->get('error') }}
+                        </div>
+                    @endif
+                     Emlak Kulüp ayrıcalıklarından faydalanmak için lütfen aşağıdaki bilgileri
                         eksiksiz doldurun ve
                         üyelik
                         sözleşmesini onaylayın.
+                      
+
                         <form action="{{ route('institutional.club.update') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
