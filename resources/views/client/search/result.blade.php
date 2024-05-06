@@ -622,10 +622,12 @@
                                     <div class="listing-item compact" style="height:100%">
                                         <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id'] +1000000]) }}"
                                             class="listing-img-container">
-                                            <div class="listing-img-content"
-                                                style="padding-left:10px;text-transform:uppercase;">
-                                                <span class="badge badge-phoenix text-left">{{ $result['name'] }}</span>
-
+                                            <span class="project_brand_profile_image">
+                                                <img loading="lazy" src="{{ URL::to('/') . '/storage/profile_images/' . $result['profile_image'] }}" alt="">
+                                                <span class="country">{{ $result["city"] }}/{{ $result["county"] }}</span>
+                                            </span>
+                                            <div class="listing-img-content" style="padding-left:10px;text-transform:uppercase;background-color: rgba({{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, {{ mt_rand(0, 255) }}, 0.8);">
+                                                <span class="badge badge-phoenix text-left">{{  $result['name'] }}</span>
                                             </div>
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $result['photo']) }}"
                                                 alt="" style="height:100%;object-fit:contain">

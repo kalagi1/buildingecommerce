@@ -21,7 +21,7 @@ use App\Services\SmsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
-
+use PhpParser\JsonDecoder;
 
 class AuthController extends Controller
 {
@@ -34,7 +34,8 @@ class AuthController extends Controller
     }
 
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|max:255',
             'password' => 'required|string',
@@ -44,86 +45,85 @@ class AuthController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $credentials = $request->only( 'email', 'password' );
-        $user = User::where( 'email', $request->email )->first();
-        if ( $user ) {
+        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
 
-            if ( $user->status == 0 ) {
-                $this->sendVerificationEmail( $user );
+            if ($user->status == 0) {
+                $this->sendVerificationEmail($user);
                 return json_encode([
                     "status" => false,
                     "message" => 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.'
                 ]);
-            } elseif ( $user->status == 5 ) {
+            } elseif ($user->status == 5) {
                 return json_encode([
                     "status" => false,
                     "message" => 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.'
                 ]);
-            }elseif ($user->is_blocked == 1) {
+            } elseif ($user->is_blocked == 1) {
                 return json_encode([
                     "status" => false,
                     "message" => 'Bu kullanıcının hesabı geçici olarak askıya alınmıştır. Hesabınızın yeniden etkinleştirilmesi için lütfen yöneticinizle iletişime geçin.'
                 ]);
-            } elseif ( $user->status == 1 ) {
-                if ( Auth::attempt( $credentials , $request->filled('remember')) ) {
+            } elseif ($user->status == 1) {
+                if (Auth::attempt($credentials, $request->filled('remember'))) {
                     $user = Auth::user();
-                    $updateUser = User::where( 'id', Auth::user()->id )->first();
-                    
-                    if ( $user->type == 1 && !$user->last_login ) {
+                    $updateUser = User::where('id', Auth::user()->id)->first();
+
+                    if ($user->type == 1 && !$user->last_login) {
                         // Bireysel kullanıcı için ilk giriş hoş geldiniz mesajı
-                        DocumentNotification::create( [
+                        DocumentNotification::create([
                             'user_id' => $user->id,
                             'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! İhtiyaçlarınıza uygun emlakları keşfetmek veya güvenli bir şekilde tatil rezervasyonu yapmak için sitemizi kullanabilirsiniz. İyi günler dileriz.',
                             'item_id' => $user->id,
-                            'link' => route( 'index' ),
+                            'link' => route('index'),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ] );
+                        ]);
 
                         // last_login alanını güncelle
-                        $updateUser->update( [ 'last_login' => now() ] );
-                    } elseif ( $user->type == 2 && !$user->last_login ) {
+                        $updateUser->update(['last_login' => now()]);
+                    } elseif ($user->type == 2 && !$user->last_login) {
                         // Kurumsal kullanıcı için ilk giriş hoş geldiniz mesajı
-                        DocumentNotification::create( [
+                        DocumentNotification::create([
                             'user_id' => $user->id,
                             'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! Kurumsal hesabınızla projeler veya emlaklarınızı satışa sunabilirsiniz. İhtiyaçlarınıza uygun işlemleri gerçekleştirmek için sitemizi kullanabilirsiniz. İyi çalışmalar dileriz.',
                             'item_id' => $user->id,
-                            'link' => route( 'index' ),
+                            'link' => route('index'),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ] );
+                        ]);
 
                         // last_login alanını güncelle
-                        $updateUser->update( [ 'last_login' => now() ] );
-                    } elseif ( $user->type != 3 && $user->type != 1 && $user->type != 2 &&  $user->type != 21 && !$user->last_login ) {
+                        $updateUser->update(['last_login' => now()]);
+                    } elseif ($user->type != 3 && $user->type != 1 && $user->type != 2 &&  $user->type != 21 && !$user->last_login) {
                         // Kurumsal alt kullanıcı için hoş geldiniz mesajı
-                        DocumentNotification::create( [
+                        DocumentNotification::create([
                             'user_id' => $user->id,
                             'text' => 'Sayın ' . $user->name . ', Emlak Sepette ailesine hoş geldiniz! Kurumsal hesabınızın verdiği yetkilere göre işlemleri gerçekleştirebilirsiniz. İhtiyaçlarınıza uygun işlemleri gerçekleştirmek için sitemizi kullanabilirsiniz. İyi çalışmalar dileriz.',
                             'item_id' => $user->id,
-                            'link' => route( 'index' ),
+                            'link' => route('index'),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ] );
+                        ]);
 
                         // last_login alanını güncelle
-                        $updateUser->update( [ 'last_login' => now() ] );
-                    } elseif ( $user->type == 21 && !$user->last_login && $user->type != 1 && $user->type != 2 ) {
-                        DocumentNotification::create( [
+                        $updateUser->update(['last_login' => now()]);
+                    } elseif ($user->type == 21 && !$user->last_login && $user->type != 1 && $user->type != 2) {
+                        DocumentNotification::create([
                             'user_id' => $user->id,
                             'text' => 'Merhaba ' . $user->name . '! Emlak Kulüp ailesine hoş geldiniz! Emlak Sepette projeleri ve konutları koleksiyonunuza ekleyip paylaşarak kazanç elde edebilirsiniz. Sadece sizinle paylaşılan linkler üzerinden yapılan alışverişlerden komisyon alacaksınız. İyi kazançlar dileriz!',
                             'item_id' => $user->id,
-                            'link' => route( 'index' ),
+                            'link' => route('index'),
                             'owner_id' => $user->id,
                             'is_visible' => true,
-                        ] );
+                        ]);
+                    }
+                    $cart = session('cart', []);
+                    if (count($cart) != 0) {
+                        session(['cart' => $cart]);
+                    }
 
-                    }
-                    $cart = session( 'cart', [] );
-                    if ( count( $cart ) != 0 ) {
-                        session( [ 'cart' => $cart ] );
-                    }
-                    
                     $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
                     return response()->json([
@@ -145,24 +145,23 @@ class AuthController extends Controller
                         "works" => $user->works,
                         'token_type' => 'Bearer'
                     ]);
-                }else{
+                } else {
                     return json_encode([
                         "status" => false,
                         "message" => "Kullanıcı bilgileri hatalı"
                     ]);
                 }
-
             }
         } else {
             return json_encode([
                 "status" => false,
                 "message" => 'Giriş Başarısız. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.'
             ]);
-
         }
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $rules = [
             'name1' => [
                 function ($attribute, $value, $fail) use ($request) {
@@ -235,7 +234,7 @@ class AuthController extends Controller
             $accountType = "Limited veya Anonim Şirketi";
         }
 
-        $validator = Validator::make($request->all(),$rules,$msgs);
+        $validator = Validator::make($request->all(), $rules, $msgs);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
@@ -317,14 +316,12 @@ class AuthController extends Controller
         ]);
 
 
-        try
-        {
+        try {
             Mail::to($request->input("email"))->send(new CustomMail($emailTemplate->subject, $content));
             return json_encode([
                 "status" => true,
                 "message" => 'Hesabınız oluşturuldu. Hesabınızı etkinleştirmek için lütfen e-posta adresinize gönderilen doğrulama bağlantısını tıklayarak e-postanızı onaylayın.'
             ]);
-
         } catch (\Exception $e) {
             return json_encode([
                 "status" => false,
@@ -337,25 +334,26 @@ class AuthController extends Controller
         ]);
     }
 
-    public function generateVerificationCode(){
-        
-        $verificationCode = mt_rand(100000, 999999);// Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
-        
+    public function generateVerificationCode()
+    {
+
+        $verificationCode = mt_rand(100000, 999999); // Rastgele 6 haneli bir doğrulama kodu oluşturuluyor
+
         $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
         if ($user) {
             $user->phone_verification_code = $verificationCode; // Kullanıcıya doğrulama kodunu atıyoruz
             $user->phone_verification_status = 0; // Doğrulama durumunu 0 olarak ayarlıyoruz
-            $user->save();// Kullanıcıyı kaydediyoruz
-            if($user->phone_verification_code) {
-               $this->sendSMS($user);
+            $user->save(); // Kullanıcıyı kaydediyoruz
+            if ($user->phone_verification_code) {
+                $this->sendSMS($user);
             }
-           
+
             return response()->json([
                 'success' => true,
-                'code'   =>$verificationCode
+                'code'   => $verificationCode
             ]);
-        } 
-    }//End
+        }
+    } //End
 
     private function sendSMS($user)
     {
@@ -367,14 +365,12 @@ class AuthController extends Controller
 
         // SMS metni oluştur
         $message = "$user->phone_verification_code nolu onay kodu ile hesabınızı güvenli bir şekilde doğrulayabilirsiniz.";
-      
+
         // SMS gönderme işlemi
         $smsService = new SmsService();
         $source_addr = 'Emlkspette';
 
         $smsService->sendSms($source_addr, $message, $userPhoneNumber);
-
-
     }
 
     public function verifyPhoneNumber(Request $request)
@@ -383,7 +379,7 @@ class AuthController extends Controller
 
         if ($user) {
             $verificationCode = $request->input('code');
-             // Kodları birleştir
+            // Kodları birleştir
 
             if ($verificationCode == $user->phone_verification_code) {
                 $user->phone_verification_status = 1; // Doğrulama durumunu 1 olarak ayarlıyoruz
@@ -391,23 +387,26 @@ class AuthController extends Controller
                 return response()->json([
                     'success' => true
                 ]);
-            } 
-
+            }
         }
 
         return response()->json(['error' => 'Doğrulama Kodu Eşleşmedi'], 422);
-    }   
+    }
 
-    public function sendResetLinkEmail( Request $request ) {
-        $this->validateEmail( $request );
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validateEmail($request);
         $response = $this->broker()->sendResetLink(
             $this->credentials($request)
         );
 
+        $response == Password::RESET_LINK_SENT
+            ? $this->sendResetLinkResponse($request, $response)
+            : $this->sendResetLinkFailedResponse($request, $response);
 
-        return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($request, $response)
-                    : $this->sendResetLinkFailedResponse($request, $response);
+            return response()->json([
+                'success' => true
+            ]);
     }
 
     /**
@@ -442,8 +441,8 @@ class AuthController extends Controller
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return $request->wantsJson()
-                    ? new JsonResponse(['message' => trans($response)], 200)
-                    : back()->with('status', trans($response));
+            ? new JsonResponse(['message' => trans($response)], 200)
+            : back()->with('status', trans($response));
     }
 
     /**
@@ -464,17 +463,18 @@ class AuthController extends Controller
         }
 
         return back()
-                ->withInput($request->only('email'))
-                ->withErrors(['email' => trans( $response ) ] );
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => trans($response)]);
     }
 
     /**
-    * Get the broker to be used during password reset.
-    *
-    * @return \Illuminate\Contracts\Auth\PasswordBroker
-    */
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
 
-    public function broker() {
+    public function broker()
+    {
         return Password::broker();
     }
 
