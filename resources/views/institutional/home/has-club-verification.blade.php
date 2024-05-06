@@ -16,7 +16,7 @@
                         üyelik
                         sözleşmesini onaylayın.
                         @if (session()->has('error'))
-                        <div class="alert alert-danger text-white">
+                        <div class="alert alert-danger text-white mt-3">
                             {{ session()->get('error') }}
                         </div>
                     @endif
