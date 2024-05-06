@@ -1155,7 +1155,7 @@
                             $(".countArray").html(count);
                             $("#termResultCount").removeClass("d-none").addClass("d-block");
 
-                            var searchResultsText = term + " " + "toplam " + count + " sonuç bulundu.";
+                            var searchResultsText = term + " aramanız için " + "toplam " + count + " sonuç bulundu.";
                             $("#searchResultsText").html(searchResultsText);
                         }
 
