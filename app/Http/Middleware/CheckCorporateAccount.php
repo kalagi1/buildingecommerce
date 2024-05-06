@@ -46,6 +46,8 @@ class CheckCorporateAccount
             die('Bağlı olduğunuz ana kurum hesabı onaylanmamış.');
         } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 && auth()->user()->is_show_files == 0 &&  auth()->user()->phone_verification_status == 0 && !in_array(request()->route()->getName(), $this->whitelist)) {
             return redirect()->route('institutional.phone.verification');
+        } elseif (auth()->user()->parent_id == NULL &&  auth()->user()->type == 1 && auth()->user()->phone_verification_status == 0 && !in_array(request()->route()->getName(), $this->whitelist)) {
+            return redirect()->route('institutional.phone.verification');
         } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 &&  auth()->user()->phone_verification_status == 1 &&  auth()->user()->is_show_files == 1 && request()->route()->getName() == 'institutional.corporate-account-waiting') {
             return redirect()->route('institutional.corporate-account-verification');
         } elseif (auth()->user()->parent_id == NULL && auth()->user()->corporate_account_status == 0 &&  auth()->user()->phone_verification_status == 1 &&  auth()->user()->is_show_files == 1 && request()->route()->getName() == 'institutional.phone.verification') {
