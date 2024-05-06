@@ -401,15 +401,15 @@ class AuthController extends Controller
     }   
 
     public function sendResetLinkEmail( Request $request ) {
-        $this->validateEmail( $request->email );
+        $this->validateEmail( $request );
         $response = $this->broker()->sendResetLink(
-            $this->credentials($request->email)
+            $this->credentials($request)
         );
 
 
         return $response == Password::RESET_LINK_SENT
-                    ? $this->sendResetLinkResponse($request->email, $response)
-                    : $this->sendResetLinkFailedResponse($request->email, $response);
+                    ? $this->sendResetLinkResponse($request, $response)
+                    : $this->sendResetLinkFailedResponse($request, $response);
     }
 
     /**
@@ -420,7 +420,7 @@ class AuthController extends Controller
      */
     protected function validateEmail(Request $request)
     {
-        // $request->validate(['email' => 'required|email']);
+        $request->validate(['email' => 'required|email']);
     }
 
     /**
