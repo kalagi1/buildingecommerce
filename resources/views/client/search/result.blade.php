@@ -615,24 +615,7 @@
                         ({{ count($results['projects']) }})</div>
                     <div class="row mt-2">
                         @foreach ($results['projects'] as $result)
-                            <div class="col-sm-12 col-md-4 col-lg-4 col-12 projectMobileMargin" data-aos="zoom-in"
-                                data-aos-delay="150" style="height:200px">
-                                <div class="project-single no-mb aos-init aos-animate" style="height:100%"
-                                    data-aos="zoom-in" data-aos-delay="150">
-                                    <div class="listing-item compact" style="height:100%">
-                                        <a href="{{ route('project.detail', ['slug' => $result['slug'], 'id' => $result['id'] +1000000]) }}"
-                                            class="listing-img-container">
-                                            <div class="listing-img-content"
-                                                style="padding-left:10px;text-transform:uppercase;">
-                                                <span class="badge badge-phoenix text-left">{{ $result['name'] }}</span>
-
-                                            </div>
-                                            <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $result['photo']) }}"
-                                                alt="" style="height:100%;object-fit:contain">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                        <x-project-card :project="$result" />
                         @endforeach
                     </div>
                 @endif
