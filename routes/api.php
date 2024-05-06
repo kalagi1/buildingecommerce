@@ -145,4 +145,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::post('/phone-verification/verify', [AuthController::class, 'verifyPhoneNumber'])
         ->name('phone.verifyPhoneNumber');
+
+        Route::post('/client/password/update', [AuthController::class, "clientPasswordUpdate"])->name('client.password.update');
+
 });
