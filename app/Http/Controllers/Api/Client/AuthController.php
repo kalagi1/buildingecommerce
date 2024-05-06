@@ -479,14 +479,63 @@ class AuthController extends Controller
     }
 
     public function clientProfileUpdate(Request $request){
-        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
-        $user = User::where("id", auth()->user()->id)->first();
-        return response()->json($request->all());
-        $user->update($request->all());
+        $request->validate([
+            "name" => "required",
+            "iban" => function ($attribute, $value, $fail) use ($request) {
+                if (auth()->user()->has_club == 1 && empty($value)) {
+                    $fail('Iban alanı zorunludur');
+                }
+            },
+            "banner_hex_code" => "required",
+        ], [
+            "name.required" => "İsim alanı zorunludur",
+            "iban.required" => "Iban alanı zorunludur",
+            "banner_hex_code.required" => "Mağaza arka plan rengi alanı zorunludur",
+        ]);
+
+        $user = User::where("id", Auth::user()->id)->first();
+
+        // Vergi Dairesi İli'nin şehir kimliğini alın
+        $city = City::where("title", $request->input("taxOfficeCity"))->first();
+        $taxOfficeCityId = $city ? $city->id : null;
+        $year = $request->input("year");
+        $bank_name = $request->input("bank_name");
+        // $phone = $request->input("phone");
+        $longitude = $request->input("longitude");
+        $latitude = $request->input("latitude");
+        $website = $request->input("website");
+
+
+        $data = $request->except('area_code');
+
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageFileName = 'profile_image_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('profile_images', $imageFileName, 'public');
+            $data['profile_image'] = $imageFileName; // Vergi Dairesi İli güncellendi
+        }
+
+        if ($request->input("account_type") == "1") {
+            $accountType = "Şahıs Şirketi";
+        } else {
+            $accountType = "Limited veya Anonim Şirketi";
+        }
+
+        $data['taxOfficeCity'] = $taxOfficeCityId; // Vergi Dairesi İli güncellendi
+        $data['account_type'] = $accountType; // Vergi Dairesi İli güncellendi
+        $data['year'] = $year; // Vergi Dairesi İli güncellendi
+        $data['bank_name'] = $bank_name; // Vergi Dairesi İli güncellendi
+        // $data['phone'] = $phone;
+        $data['longitude'] = $longitude;
+        $data['latitude'] = $latitude;
+        $data['website'] = $website;
+
+        
+        $user->update($data);
 
         return response()->json([
             'success' => true,
-            'data'    => $user
+            'data'    => $data
         ]);
         
     }//End
