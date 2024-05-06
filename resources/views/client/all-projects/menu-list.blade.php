@@ -794,11 +794,11 @@
                 <div class="col-lg-9 col-md-12 blog-pots order-1">
                     <section class="headings-2 pt-0 d-md-flex" style="display: grid;">
                         <div class="brand-head py-2" style="padding-top: 0">
+
                                 <span class="d-none" id="termResultCount">
                                     <span id="searchResultsText"> </span>
                                 </span><br>
                             
-                           
                             <div class="brands-square" style="position: relative; top: 0; left: 0">
                                 
                                 @if ($slugName)
