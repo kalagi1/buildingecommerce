@@ -1005,7 +1005,6 @@
 
                 // Her üç basamakta bir nokta ekleyin
                 inputValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                console.log(inputValue);
                 $(this).val(inputValue)
                 $(this).closest('.form-group').find('.error-text').remove();
             }
@@ -1125,7 +1124,6 @@
                         <a class="btn btn-primary prev-page">Önceki</a>
                     `);
 
-                    console.log(response);
                     for (var i = 1; i <= response.data.last_page; ++i) {
                         $('#pages').append(`
                             <a class="btn btn-outline-primary filter-page" data-page="${i}" ${response.data.current_page == i ? 'style="color: white;background:#007bff"' : 'style="background: transparent;"'}>${i}</a>
@@ -1299,7 +1297,6 @@
                                                     <div class="homes-content px-3 py-3" style="${res.sold ? 'background: #EEE !important;' : ''}">
                                                         <!-- homes address -->
                                                         <a href="${res.housing_url}">
-                                                            ${isAvailable}
                                                             <h4>${kisaltilmisBaslik}</h4>
                                                         </a>
                                                         <p class="homes-address mb-3">
