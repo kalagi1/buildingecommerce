@@ -1289,14 +1289,11 @@ class HomeController extends Controller
         $housings = Housing::select(
             'housings.step1_slug',
             'housings.step2_slug',
-            'housing_type_parents.title',
             \DB::raw('COUNT(DISTINCT housings.id) as total_count'),
             \DB::raw('COUNT(*) as count')
         )
-        ->leftJoin('housing_type_parent_connections', 'housings.housing_type_id', '=', 'housing_type_parent_connections.housing_type_id')
-        ->leftJoin('housing_type_parents', 'housing_type_parents.id', '=', 'housing_type_parent_connections.parent_id')
-        ->leftJoin('cities', 'housings.city_id', '=', 'cities.id')
-        ->leftJoin('counties', 'housings.county_id', '=', 'counties.id')
+        
+        ->with(['city', 'county'])
         ->where('housings.status', 1)
         ->where(function ($query) use ($term) {
             $query->where('housings.title', 'LIKE', "%{$term}%")
@@ -1313,7 +1310,6 @@ class HomeController extends Controller
         ->orderByDesc('housings.created_at')
         ->groupBy('housings.step1_slug', 'housings.step2_slug')
         ->get();
-
         
         // Tüm sayıların toplamını hesapla
         $housingTotalCount = $housings->sum('count');
