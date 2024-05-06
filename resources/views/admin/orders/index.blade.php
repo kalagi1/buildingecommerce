@@ -1,18 +1,6 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    @php
-
-        function getHouse($project, $key, $roomOrder)
-        {
-            foreach ($project->roomInfo as $room) {
-                if ($room->room_order == $roomOrder && $room->name == $key) {
-                    return $room;
-                }
-            }
-        }
-
-    @endphp
     <div class="content">
         <div class="mb-9">
             <div class="row g-3 mb-4">
@@ -119,12 +107,14 @@
                                                 class="order_date align-middle white-space-nowrap text-body-tertiary fs-9 ps-4   text-wrap">
                                                 {{ $order->created_at }}</td>
 
-
+                                            @if(!isset($orderCart['item']['slug']))
+                                            {{dd($orderCart['item']['id'],optional(App\Models\Project::find($orderCart['item']['id'])))}}
+                                            @endif
                                             <td class="ad_no align-middle  fw-semibold text-body-highlight">
                                                 <a target="_blank"
                                                     href="{{ $orderCart['type'] == 'housing'
                                                         ? route('housing.show', [
-                                                            'housingSlug' => $orderCart['item']['slug'],
+                                                            'housingSlug' => isset($orderCart['item']['slug']) && $orderCart['item']['slug'] ? $orderCart['item']['slug'] : null,
                                                             'housingID' => $orderCart['item']['id'] + 2000000,
                                                         ])
                                                         : route('project.housings.detail', [

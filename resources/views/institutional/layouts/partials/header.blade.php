@@ -33,10 +33,7 @@
         content="{{ URL::to('/') }}/favicon.png">
     <meta name="theme-color" content="#ffffff">
     <script src="{{ URL::to('/') }}/adminassets/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="{{ URL::to('/') }}/adminassets/vendors/simplebar/simplebar.min.js"></script>
     <script src="{{ URL::to('/') }}/adminassets/assets/js/config.js"></script>
-    <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-4bf947f7.css">
-    <link rel="stylesheet" href="{{ URL::to('/') }}/build/assets/app-041e359a.css">
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->

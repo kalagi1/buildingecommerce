@@ -307,14 +307,22 @@
                                                             style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
                                                     </td>
                                                 </tr>
+                                                @if($shareSaleCheck)
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <strong class="autoWidthTr">
+                                                                <span>Toplam
+                                                                    Hisse Sayısı:
+                                                                </span>
+                                                            </strong>
+                                                            <span class="det" style="color: black;">{{ $project->numberOfSharesCount }}</span>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                                 <tr>
                                                     <td colspan="2">
                                                         <strong class="autoWidthTr"><span>Toplam
-                                                                @if (isset($projectHousingsList[1]['share_sale[]']) && $projectHousingsList[1]['share_sale[]'] != '[]')
-                                                                    Hisse
-                                                                @else
-                                                                    {{ ucfirst($project->step1_slug) }}
-                                                                @endif
+                                                                {{ ucfirst($project->step1_slug) }}
                                                                 Sayısı:
                                                             </span></strong>
                                                         <span class="det"
