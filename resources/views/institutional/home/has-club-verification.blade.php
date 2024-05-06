@@ -15,6 +15,12 @@
                         eksiksiz doldurun ve
                         üyelik
                         sözleşmesini onaylayın.
+                        @if (session()->has('error'))
+                        <div class="alert alert-danger text-white">
+                            {{ session()->get('error') }}
+                        </div>
+                    @endif
+
                         <form action="{{ route('institutional.club.update') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
