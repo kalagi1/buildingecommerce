@@ -479,8 +479,7 @@ class AuthController extends Controller
     }
 
     public function clientProfileUpdate(Request $request){
-
-        $user = auth()->user(); // Mevcut kullanıcıyı alıyoruz
+        $user = auth()->user(); 
         $user = User::where("id", auth()->user()->id)->first();
         $user->update($request->all());
 
