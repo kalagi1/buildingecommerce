@@ -52,8 +52,8 @@
     @endphp
       <!-- Hesaplamalar -->
       @php
-      $urun_fiyati = number_format(json_decode($order->cart)->item->price, 0, ',', '.');
-      $kapora_tutari = number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.');
+      $urun_fiyati = (int) number_format(json_decode($order->cart)->item->price, 0, ',', '.');
+      $kapora_tutari = (int) number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.');
       $kapora_orani = (int) $discount_percent;
 
       // Tam fiyat hesaplama
