@@ -105,7 +105,12 @@ class AppServiceProvider extends ServiceProvider
                     $menuData = json_decode($menuJson, true);
 
                     foreach ($menuData as &$menuItem) {
-                        $this->setMenuVisibility($menuItem, $permissions);
+                        if ($user->account_type == 'Emlak Ofisi' && isset($menuItem['key']) && $menuItem['key'] == 'projects') {
+                            $menuItem['visible'] = false;
+                        } else {
+                            $this->setMenuVisibility($menuItem, $permissions);
+                        }
+    
 
                         if (isset($menuItem['subMenu'])) {
                             foreach ($menuItem['subMenu'] as &$subMenuItem) {
