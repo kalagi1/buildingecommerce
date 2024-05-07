@@ -38,6 +38,9 @@
 
         $tam_tutar_formatli = number_format($tam_tutar, 0, ',', '.') . '₺';
         $urun_fiyati_formatli = number_format($urun_fiyati, 0, ',', '.') . '₺';
+        $indirim_miktari = $tam_tutar - $urun_fiyati;
+        $indirim_yuzdesi = ($indirim_miktari / $tam_tutar) * 100;
+        $indirim_yuzdesi_formatli = number_format($indirim_yuzdesi, 2, ',', '.') . '%';
     @endphp
 
     <div class="content">
@@ -333,7 +336,7 @@
                                             @endif
                                         </p>
                                     </div>
-                    
+
                                     <!-- İlan Fiyatı -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">İlan Fiyatı:</p>
@@ -341,48 +344,45 @@
                                             {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
-                    
+
                                     <!-- Adet -->
                                     @if (isset(json_decode($order->cart)->item->qt))
                                         <div class="d-flex justify-content-between">
                                             <p class="text-body fw-semibold">Adet:</p>
-                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}</p>
+                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                            </p>
                                         </div>
                                     @endif
-                    
+
                                     <!-- Kapora Oranı -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
                                         <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
-                    
+
                                     <!-- Kapora Tutarı -->
-                                    <div class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
+                                    <div
+                                        class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
                                         <h4 class="mb-0">Kapora Tutarı:</h4>
                                         <h4 class="mb-0">
                                             {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
                                         </h4>
                                     </div>
-                    
+
                                     <!-- Tam Tutar -->
-                                    <div class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
+                                    <div
+                                        class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
                                         <h4 class="mb-0">Tam Tutar:</h4>
                                         <h4 class="mb-0">{{ $tam_tutar_formatli }}</h4>
                                     </div>
-                    
+
                                     <!-- İndirim varsa -->
                                     @if ($tam_tutar != $urun_fiyati)
-                                        @php
-                                            $indirim_miktari = $tam_tutar - $urun_fiyati;
-                                            $indirim_yuzdesi = ($indirim_miktari / $tam_tutar) * 100;
-                                            $indirim_yuzdesi_formatli = number_format($indirim_yuzdesi, 2, ',', '.') . '%';
-                                        @endphp
-                    
                                         <div class="d-flex justify-content-between">
                                             <h4 class="text-danger fw-semibold">İndirimli Fiyat:</h4>
                                             <h4 class="text-danger fw-semibold">{{ $urun_fiyati_formatli }}</h4>
                                         </div>
-                    
+
                                         <!-- İndirim Yüzdesi -->
                                         <div class="d-flex justify-content-between">
                                             <p class="text-body fw-semibold">İndirim Oranı:</p>
@@ -393,7 +393,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <div class="col-12 mb-3">
                         <div class="card">
@@ -409,15 +409,15 @@
                                             '0' =>
                                                 '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
                                             '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                                                                                                </svg>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </svg>',
                                             '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                                                                                                            class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                         ][$order->status] !!}
                                     </span>
 
@@ -838,7 +838,6 @@
 
             </div>
         </div>
-    </div>
     </div>
 
 @endsection
