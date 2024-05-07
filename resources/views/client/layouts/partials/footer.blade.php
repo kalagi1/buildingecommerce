@@ -321,7 +321,7 @@
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
-            var slideNumber = $(this).index();
+            var slideNumber = $(this).find('a').attr('data-slide-to') + 1;
             console.log(slideNumber);
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
@@ -340,8 +340,8 @@
     });
 
     $(document).ready(function() {
-        $('.listingDetailsSliderNav .item ').on('click', function() {
-            var slideNumber = $(this).index();
+        $('.listingDetailsSliderNav .item a').on('click', function() {
+            var slideNumber = $(this).attr('data-slide-to');
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
             $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
                 .addClass('active');
