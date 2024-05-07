@@ -1042,25 +1042,7 @@
                                                 </td>
                                             </tr>
 
-                                            @if ($project->step1_slug)
-                                                <tr>
-                                                    <td>
-                                                        Proje Tipi :
-                                                        <span class="det">
-                                                            @if ($project->step2_slug)
-                                                                @if ($project->step2_slug == 'kiralik')
-                                                                    Kiralık
-                                                                @elseif ($project->step2_slug == 'satilik')
-                                                                    Satılık
-                                                                @else
-                                                                    Günlük Kiralık
-                                                                @endif
-                                                            @endif
-                                                            {{ $project->housingtype->title }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
+                                         
                                             <tr>
                                                 <td>
                                                     <span class="autoWidthTr">Ada:</span>
