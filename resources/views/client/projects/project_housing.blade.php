@@ -1679,6 +1679,7 @@
         // Slayt geçiş işlemi tamamlandığında
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
             updateIndex(); // Index değerini güncelle
+            console.log("asas");
         });
 
         // Index değerini güncelleyen fonksiyon
