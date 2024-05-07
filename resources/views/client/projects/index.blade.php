@@ -103,7 +103,7 @@
                         <div id="listingDetailsSlider" class="carousel listing-details-sliders slide mb-30">
                             <div class="carousel-inner">
                                 {{-- Kapak Görseli --}}
-                                <div class="item carousel-item active" data-slide-number="0" style="position: absolute">
+                                <div class="item carousel-item active" data-slide-number="1" style="position: absolute">
                                     <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                         data-lightbox="project-images">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
@@ -112,7 +112,7 @@
                                 </div>
 
                                 @foreach ($project->images as $key => $housingImage)
-                                    <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
+                                    <div class="item carousel-item" data-slide-number="{{ $key + 2 }}">
                                         <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                             data-lightbox="project-images">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -125,14 +125,14 @@
                             {{-- Küçük Resim Navigasyonu --}}
                             <div class="listingDetailsSliderNav mt-3">
                                 <div class="item active" style="margin: 10px; cursor: pointer">
-                                    <a id="carousel-selector-0" data-slide-to="0" data-target="#listingDetailsSlider">
+                                    <a id="carousel-selector-1" data-slide-to="1" data-target="#listingDetailsSlider">
                                         <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $project->image) }}"
                                             class="img-fluid carousel-indicator-image" alt="listing-small">
                                     </a>
                                 </div>
                                 @foreach ($project->images as $key => $housingImage)
                                     <div class="item" style="margin: 10px; cursor: pointer">
-                                        <a id="carousel-selector-{{ $key + 1 }}" data-slide-to="{{ $key + 1 }}"
+                                        <a id="carousel-selector-{{ $key + 2 }}" data-slide-to="{{ $key + 2 }}"
                                             data-target="#listingDetailsSlider">
                                             <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 class="img-fluid carousel-indicator-image" alt="listing-small">
