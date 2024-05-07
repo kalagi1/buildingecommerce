@@ -150,7 +150,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::put('/client/profile/update', [AuthController::class, "clientProfileUpdate"])->name('client.profile.update');
 
-        Route::put('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
+        Route::get('/client/collections', [ClientPageController::class, "clientCollections"])->name('client.collections');
 
 
 });
