@@ -652,6 +652,31 @@
                                                                             </div>
                                                                         </div>
 
+                                                                        @if ($order->payment_result && $order->payment_result !== '')
+                                                                        @else
+                                                                            <div class="mb-2"><label class="form-label"
+                                                                                for="bootstrap-wizard-validation-wizard-phone">İade Yapılacak Banka</label><input
+                                                                                class="form-control" type="email"
+                                                                                name="return_bank" placeholder="Banka"
+                                                                                id="bootstrap-wizard-validation-wizard-phone"
+                                                                                required="required">
+                                                                                <div class="invalid-feedback">Alan Zorunludur.
+                                                                            </div>
+                                                                            </div>
+
+                                                                            <div class="mb-2"><label class="form-label"
+                                                                                for="bootstrap-wizard-validation-wizard-phone">İade Yapılacak IBAN</label><input
+                                                                                class="form-control" type="email"
+                                                                                name="return_iban" placeholder="IBAN"
+                                                                                id="bootstrap-wizard-validation-wizard-phone"
+                                                                                required="required">
+                                                                            <div class="invalid-feedback">Alan Zorunludur.
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+
+                                                                       
+
                                                                     </form>
                                                                 </div>
                                                                 {{-- kullanıcı bitişi --}}
@@ -819,12 +844,14 @@
             var form3 = $("#wizardValidationForm3");
 
             var formData = {
-                "_token": csrfToken,
-                "terms": form1.find("input[name='terms']").prop("checked") ? 1 : 0,
-                "name": form2.find("input[name='name']").val(),
-                "phone": form2.find("input[name='phone']").val(),
-                "email": form2.find("input[name='email']").val(),
-                "content": form3.find("textarea[name='content']").val(),
+                "_token"       : csrfToken,
+                "terms"        : form1.find("input[name='terms']").prop("checked") ? 1 : 0,
+                "name"         : form2.find("input[name='name']").val(),
+                "phone"        : form2.find("input[name='phone']").val(),
+                "email"        : form2.find("input[name='email']").val(),
+                "return_bank"  : form2.find("input[name='return_bank']").val(),
+                "return_iban"  : form2.find("input[name='return_iban']").val(),
+                "content"      : form3.find("textarea[name='content']").val(),
                 "cart_order_id": "{{ $order->id }}"
             };
 
