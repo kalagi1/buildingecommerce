@@ -323,9 +323,10 @@
                 .length; // Toplam slayt sayısını al
             // 'this' bağlamında jQuery öğesi olduğunu varsayarak
             var dataSlideTo = $(this).find('a').attr('data-slide-to');
-
+console.log(dataSlideTo);
             // dataSlideTo değerini integer'a dönüştür ve 1 ekle
             var slideNumber = parseInt(dataSlideTo, 10);
+            console.log(slideNumber);
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
