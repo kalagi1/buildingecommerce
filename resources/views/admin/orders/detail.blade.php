@@ -423,6 +423,27 @@
                                                                         <p>{{ $order->refund->phone }}</p>
                                                                     </div>
                                                                 </div>
+                                                                @if ($order->payment_result && $order->payment_result !== '')
+                                                                @else
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <h5 class="card-title">İade Yapılacak Banka:</h5>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <p>{{ $order->refund->return_bank }}</p>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <h5 class="card-title">İade Yapılacak IBAN:</h5>
+                                                                    </div>
+                                                                    <div class="col-md-9">
+                                                                        <p>{{ $order->refund->return_iban }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                               
                                                                 <div class="row">
                                                                     <div class="col-md-3">
                                                                         <h5 class="card-title">Açıklama:</h5>
