@@ -256,7 +256,7 @@
                             </div>
                         @endforeach
                     @else
-                        <div class="row justify-content-center align-items-center g-5">
+                        <div class="row justify-content-center align-items-center">
                             <div class="col-12 col-lg-6 text-center order-lg-1"><img
                                     class="img-fluid w-lg-100 d-dark-none"
                                     src="{{ asset('images/emlak-kulup-banner.png') }}" alt=""
@@ -264,7 +264,7 @@
                                     src="{{ asset('images/emlak-kulup-banner.png') }}" alt=""
                                     width="540"></div>
                             <div class="col-12 col-lg-6 text-center text-lg-start">
-                                <h2 class="text-body-secondary fw-bolder mb-3">Takipçilerine ilham ver! Doğru evi bulmalarına aracı ol!</h2>
+                                <h2 class="text-body-secondary fw-bolder mb-3 text-black">Takipçilerine ilham ver! Doğru evi bulmalarına aracı ol!</h2>
                                 <p class="text-body mb-5">Sosyal medya hesaplarının ne kadar popüler olduğu fark
                                     etmeksizin paylaşımlarında hepsini değerlendir, satış nereden gelir bilinmez! </p><a
                                     class="btn btn-lg btn-primary" href="{{url('/')}}">Paylaş Kazan</a>
