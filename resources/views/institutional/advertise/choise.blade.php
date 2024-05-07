@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="content">
-        <div class="row justify-content-center">
+        <div class="row">
             @if (in_array('CreateProject', $userPermissions))
 
             <div class="col-lg-6 col-md-12 col-12">
