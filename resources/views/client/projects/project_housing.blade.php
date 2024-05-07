@@ -144,7 +144,7 @@
                                     </h3>
                                 </div>
 
-                                
+
                             </div>
 
                         </div>
@@ -247,7 +247,6 @@
 
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
-                                
                                         <div class="item carousel-item" data-slide-number="{{ $key + 1 }}">
                                             <a href="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
                                                 data-lightbox="project-images">
@@ -272,7 +271,7 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item" style="margin: 10px; cursor: pointer">
-                                         
+
                                             <a id="carousel-selector-{{ $key + 1 }}"
                                                 data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -300,10 +299,10 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                               
-                                @if ($sold && $sold->status == "2" || !$sold)
-                                <div class="col-md-5 col-5 mobile-action-move p-0">
-                                    {{-- <div class="buttons">
+
+                                @if (($sold && $sold->status == '2') || !$sold)
+                                    <div class="col-md-5 col-5 mobile-action-move p-0">
+                                        {{-- <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -355,63 +354,62 @@
 
 
 
-                                    <div class="listing-title-bar text-start w-100">
+                                        <div class="listing-title-bar text-start w-100">
 
 
-                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                            <span class="text-center w-100">
-                                                1 Hisse Fiyatı
-                                            </span>
-                                        @endif
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                <span class="text-center w-100">
+                                                    1 Hisse Fiyatı
+                                                </span>
+                                            @endif
 
-                                        @if ($off_sale_check && $projectDiscountAmount)
-                                            <h4>
-                                                <div style="text-align: center">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
-                                                        stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
-                                                        stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
+                                            @if ($off_sale_check && $projectDiscountAmount)
+                                                <h4>
+                                                    <div style="text-align: center">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
 
-                                                    <del
-                                                        style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                        ₺
-                                                    </del> <br>
+                                                        <del
+                                                            style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                            ₺
+                                                        </del> <br>
+                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                            {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                            ₺
+                                                        @else
+                                                            {{ number_format($discounted_price, 0, ',', '.') }}
+                                                            ₺
+                                                        @endif
+
+
+                                                    </div>
+                                                </h4>
+                                            @elseif ($off_sale_check)
+                                                <h4
+                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                         ₺
                                                     @else
-                                                        {{ number_format($discounted_price, 0, ',', '.') }}
+                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
                                                         ₺
                                                     @endif
+                                                </h4>
+                                            @endif
+                                        </div>
 
-
-                                                </div>
-                                            </h4>
-                                        @elseif ($off_sale_check)
-                                            <h4
-                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                    ₺
-                                                @else
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                    ₺
-                                                @endif
-                                            </h4>
-                                        @endif
                                     </div>
-
-                                </div>
                                 @endif
-                             
-                                <div class="  @if ($sold && $sold->status == "2" || !$sold)
-                                    col-md-7 col-7
+
+                                <div class="  @if (($sold && $sold->status == '2') || !$sold) col-md-7 col-7
                                     @else
-                                    col-md-12 col-12
-                                @endif "
+                                    col-md-12 col-12 @endif "
                                     style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
@@ -1100,7 +1098,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -1673,8 +1671,8 @@
             }]
         });
 
-          // Sayfa yüklendiğinde
-          $(document).ready(function() {
+        // Sayfa yüklendiğinde
+        $(document).ready(function() {
             updateIndex(); // Index değerini güncelle
         });
 
@@ -1686,8 +1684,8 @@
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
             var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number') ; // Aktif slaydın indeksini al
-            $('.pagination .page-item-middle .page-link').text((index == 0 ? 1 : index + 2 ) + '/' +
+            var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
+            $('.pagination .page-item-middle .page-link').text((index == 0 ? 1 : index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
@@ -1703,7 +1701,8 @@
             console.log(remainingItems)
             if (remainingItems >= 5) {
                 currentSlideIndex++;
-                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
+                5); // Bir sonraki beşli kümeye git
             } else {
                 console.log('yunus')
                 $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
