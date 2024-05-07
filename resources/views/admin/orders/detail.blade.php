@@ -318,26 +318,12 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Özet</h3>
-                    
-                                <!-- PHP Hesaplama -->
+
                                 @php
-                                dd("assd");
-                                    $urun_fiyati = str_replace('.', '', json_decode($order->cart)->item->price);
-                                    $kapora_tutari = (int) str_replace('.', '', $order->amount) / 100;
-                                    $kapora_orani = (int) $discount_percent;
-                    
-                                    // Tam fiyat hesaplama
-                                    $tam_fiyat = $kapora_tutari / ($kapora_orani / 100);
-                    
-                                    // İndirim tutarı hesaplama
-                                    $indirim_tutari = $tam_fiyat - (int)$urun_fiyati;
-                    
-                                    // İndirimli fiyat
-                                    $indirimli_fiyat = $tam_fiyat - $indirim_tutari;
-                    
-                                    // İndirim oranı yüzdesi
-                                    $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
+                                    $totalPrice = 0;
+                                    dd($totalPrice);
                                 @endphp
+                    
                     
                     
                             </div>
