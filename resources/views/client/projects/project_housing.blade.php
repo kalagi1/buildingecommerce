@@ -1685,7 +1685,7 @@
         function updateIndex() {
             var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
             var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
-            $('.pagination .page-item-middle .page-link').text((index == 0 ? 1 : index + 1) + '/' +
+            $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
 
