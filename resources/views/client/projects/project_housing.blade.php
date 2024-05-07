@@ -1690,17 +1690,31 @@
         }
 
 
-        // Sol ok tuşuna tıklandığında
-        $('.pagination .page-item-left').on('click', function(event) {
-            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
-
-        });
+        var currentSlideIndex = 0;
 
         // Sağ ok tuşuna tıklandığında
         $('.pagination .page-item-right').on('click', function(event) {
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+            var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
+            var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
+            console.log(totalItems)
+            console.log(remainingItems)
+            if (remainingItems >= 5) {
+                currentSlideIndex++;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
+            } else {
+                console.log('yunus')
+                $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
+            }
+        });
+
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }
         });
 
 
@@ -2283,6 +2297,38 @@
         var currentBlock = 0;
         var currentPage = 0;
         var maxPages = null;
+
+        $(document).ready(function() {
+            // Önceki slayta geçme
+            $('.carousel-control-prev').click(function() {
+                $('#listingDetailsSlider').carousel('prev');
+            });
+
+            // Sonraki slayta geçme
+            $('.carousel-control-next').click(function() {
+                $('#listingDetailsSlider').carousel('next');
+            });
+
+            // Mobil cihazlarda kaydırma işlevselliği
+            $('#listingDetailsSlider').on('touchstart', function(event) {
+                var xClick = event.originalEvent.touches[0].pageX;
+                $(this).one('touchmove', function(event) {
+                    var xMove = event.originalEvent.touches[0].pageX;
+                    var sensitivityInPx = 5;
+
+                    if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                        $(this).carousel('next');
+                    } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                        $(this).carousel('prev');
+                    }
+                });
+            });
+
+            // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+            $('#listingDetailsSlider').on('touchend', function() {
+                $(this).off('touchmove');
+            });
+        });
         $(document).ready(function() {
 
             @if ($project->have_blocks)
