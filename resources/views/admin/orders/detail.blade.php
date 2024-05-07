@@ -318,6 +318,25 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Özet</h3>
+                                
+                                @php
+                                    $urun_fiyati = (int) str_replace('.', '', json_decode($order->cart)->item->price);
+                                    $kapora_tutari = (int) str_replace('.', '', $order->amount) / 100;
+                                    $kapora_orani = (int) $discount_percent;
+                    
+                                    // Tam fiyat hesaplama
+                                    $tam_fiyat = $kapora_tutari / ($kapora_orani / 100);
+                    
+                                    // İndirim tutarı hesaplama
+                                    $indirim_tutari = $tam_fiyat - $urun_fiyati;
+                    
+                                    // İndirimli fiyat
+                                    $indirimli_fiyat = $tam_fiyat - $indirim_tutari;
+                                    dd($indirimli_fiyat);
+                    
+                                    // İndirim oranı yüzdesi
+                                    $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
+                                @endphp
                                 <div>
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
@@ -350,24 +369,6 @@
                                     </div>
                                 </div>
                     
-                                @php
-                                    $urun_fiyati = (int) str_replace('.', '', json_decode($order->cart)->item->price);
-                                    $kapora_tutari = (int) str_replace('.', '', $order->amount) / 100;
-                                    $kapora_orani = (int) $discount_percent;
-                    
-                                    // Tam fiyat hesaplama
-                                    $tam_fiyat = $kapora_tutari / ($kapora_orani / 100);
-                    
-                                    // İndirim tutarı hesaplama
-                                    $indirim_tutari = $tam_fiyat - $urun_fiyati;
-                    
-                                    // İndirimli fiyat
-                                    $indirimli_fiyat = $tam_fiyat - $indirim_tutari;
-                                    dd($indirimli_fiyat);
-                    
-                                    // İndirim oranı yüzdesi
-                                    $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
-                                @endphp
                     
                                 {{-- <div class="d-flex justify-content-between">
                                     <p class="text-body fw-semibold">İndirimli Fiyat:</p>
