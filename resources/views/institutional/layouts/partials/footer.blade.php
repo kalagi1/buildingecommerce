@@ -89,6 +89,7 @@
 </script>
 
 <script src="{{ URL::to('/') }}/adminassets/assets//js/ecommerce-dashboard.js"></script>
+<script src="{{URL::to('/')}}/build/assets/app-5bdb4125.js"></script> 
 
 <!--FormBuilder-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
