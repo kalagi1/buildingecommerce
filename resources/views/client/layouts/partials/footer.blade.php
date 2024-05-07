@@ -341,7 +341,7 @@
 
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item a').on('click', function() {
-            var slideNumber = $(this).attr('data-slide-to');
+            var slideNumber = $(this).index();
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
             $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
                 .addClass('active');
