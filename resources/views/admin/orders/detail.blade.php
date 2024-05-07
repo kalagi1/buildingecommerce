@@ -16,8 +16,6 @@
             'Kasım',
             'Aralık',
         ];
-    @endphp
-    @php
         $orderCart = json_decode($order->cart, true);
 
         $deposit_rate = 0.04;
@@ -33,8 +31,6 @@
             $deposit_rate = $project->deposit_rate / 100;
             $discount_percent = $project->deposit_rate;
         }
-    @endphp
-    @php
         // İade talebinin oluşturulma tarihini al
         $refundCreatedAt = $order->created_at;
 
@@ -49,6 +45,22 @@
 
         // İade talebi 14 günü geçmişse
         $isExpired = $now->greaterThan($expirationDate);
+
+        $urun_fiyati = str_replace('.', '', json_decode($order->cart)->item->price);
+                $kapora_tutari = (int) str_replace('.', '', $order->amount) / 100;
+                $kapora_orani = (int) $discount_percent;
+
+                // Tam fiyat hesaplama
+                $tam_fiyat = $kapora_tutari / ($kapora_orani / 100);
+
+                // İndirim tutarı hesaplama
+                $indirim_tutari = $tam_fiyat - (int)$urun_fiyati;
+
+                // İndirimli fiyat
+                $indirimli_fiyat = $tam_fiyat - $indirim_tutari;
+
+                // İndirim oranı yüzdesi
+                $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
     @endphp
     <div class="content">
         <div class="breadcrumb">
@@ -318,18 +330,65 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Özet</h3>
-
-                                @php
-                                    $totalPrice = 0;
-                                    dd($totalPrice);
-                                @endphp
                     
                     
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
+                                        <p class="text-body-emphasis fw-semibold">
+                                            @if ($order->payment_result && $order->payment_result !== '')
+                                                Kredi Kartı
+                                            @else
+                                                EFT/Havale
+                                            @endif
+                                        </p>
+                                    </div>
                     
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Ürün Fiyatı:</p>
+                                        <p class="text-body-emphasis fw-semibold">
+                                            {{ number_format((int)$urun_fiyati, 0, ',', '.') }}₺
+                                        </p>
+                                    </div>
+                    
+                                    @if (isset(json_decode($order->cart)->item->qt))
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-body fw-semibold">Adet:</p>
+                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}</p>
+                                        </div>
+                                    @endif
+                    
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Kapora Oranı:</p>
+                                        <p class="text-body-emphasis fw-semibold">%{{ $kapora_orani }}</p>
+                                    </div>
+                    
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">İndirimli Fiyat:</p>
+                                        <p class="text-body-emphasis fw-semibold">
+                                            {{ number_format((int)$indirimli_fiyat, 0, ',', '.') }}₺
+                                        </p>
+                                    </div>
+                    
+                                    <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">İndirim Oranı:</p>
+                                        <p class="text-danger fw-semibold">
+                                            %{{ number_format($indirim_orani, 2) }}
+                                        </p>
+                                    </div>
+                                </div>
+                    
+                                <div class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
+                                    <h4 class="mb-0">Kapora Tutarı:</h4>
+                                    <h4 class="mb-0">
+                                        {{ number_format((int)$kapora_tutari, 0, ',', '.') }}₺
+                                    </h4>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
+
 
                     @if ($order->refund != null)
                         <div class="col-12 mb-3">
