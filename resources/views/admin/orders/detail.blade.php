@@ -350,7 +350,6 @@
                                     </div>
                                 </div>
                     
-                                <!-- Hesaplamalar -->
                                 @php
                                     $urun_fiyati = (int) str_replace('.', '', json_decode($order->cart)->item->price);
                                     $kapora_tutari = (int) str_replace('.', '', $order->amount) / 100;
@@ -370,12 +369,12 @@
                                     $indirim_orani = ($indirim_tutari / $tam_fiyat) * 100;
                                 @endphp
                     
-                                <div class="d-flex justify-content-between">
+                                {{-- <div class="d-flex justify-content-between">
                                     <p class="text-body fw-semibold">İndirimli Fiyat:</p>
                                     <p class="text-body-emphasis fw-semibold">
                                         {{ $indirimli_fiyat }}₺
                                     </p>
-                                </div>
+                                </div> --}}
                     
                                 <div class="d-flex justify-content-between">
                                     <p class="text-body fw-semibold">İndirim Oranı:</p>
