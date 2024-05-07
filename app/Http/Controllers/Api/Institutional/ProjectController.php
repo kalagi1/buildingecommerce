@@ -891,6 +891,11 @@ class ProjectController extends Controller
         $postData['image'] = $fileNameCoverImage;
         $postData['images'] = $galleryImages;
         $ownerId = auth()->user()->type == 1 ? auth()->user()->id : null;
+
+        if ($ownerId != null) {
+            $postData['open_sharing1'] = "Evet";
+        }
+
         $isShare = auth()->user()->type == 1 ? true : false;
 
         $project = Housing::create(

@@ -243,16 +243,42 @@ class HousingController extends Controller
 
     public function detail($housingId)
     {
+
+
         $defaultMessages = DefaultMessage::get();
-        $housing = Housing::where('id', $housingId)->first();
+        $housing = Housing::where('id', $housingId)
+            ->with('owner', 'user', "rates")
+            ->first();
+
         $housingData = json_decode($housing->housing_type_data);
         $housingTypeData = HousingType::where('id', $housing->housing_type_id)->first();
         $housingTypeData = json_decode($housingTypeData->form_json);
         $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
-        $institutions = Institution::all(); // Tüm kurumları al
-        $rates = Rate::where('housing_id', $housingId)->get(); // Konut için oranları al
+        $housingCityId = (int) $housing->city_id;
 
-        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData'));
+        // $ownerCityId = (int) $housing->owner->id;
+        $nearestUsers = User::with('city')
+            ->select('id', 'name', 'city_id', DB::raw('ABS(CAST(city_id AS SIGNED) - ' . $housingCityId . ') as distance'))
+            ->where('type', '=', 2) // type 2 olanları al
+            ->where('corporate_type', '=', 'Emlak Ofisi')
+            ->whereNotNull('city_id') // city_id değeri null olmayanları al
+            ->whereNull('parent_id') // parent_id değeri null olanları al
+            ->orderBy('distance') // distance'a göre sıralama yap (en yakından en uzağa)
+            ->get();
+        $institutions = Institution::all(); // Tüm kurumları al
+        $rates = Rate::where('housing_id', $housingId)->get();
+
+
+        // $defaultMessages = DefaultMessage::get();
+        // $housing = Housing::where('id', $housingId)->first();
+        // $housingData = json_decode($housing->housing_type_data);
+        // $housingTypeData = HousingType::where('id', $housing->housing_type_id)->first();
+        // $housingTypeData = json_decode($housingTypeData->form_json);
+        // $parent = HousingTypeParent::where('slug', $housing->step1_slug)->first();
+        // $institutions = Institution::all(); // Tüm kurumları al
+        // $rates = Rate::where('housing_id', $housingId)->get(); // Konut için oranları al
+
+        return vieW('admin.housings.detail', compact('housing', "rates", "institutions", 'parent', 'defaultMessages', 'housingData', 'housingTypeData','nearestUsers'));
     }
 
     public function setStatus($housingId, Request $request)
