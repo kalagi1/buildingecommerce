@@ -259,7 +259,7 @@
                         <div class="text-center"><a class="d-flex flex-center text-decoration-none mb-4"
                                 href="{{ '/' }}">
                                 <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block"><img
-                                        src="https://test.emlaksepette.com/favicon.png" alt="phoenix" width="58">
+                                        src="{{ asset('images/emlak-kulup-banner.png') }}" alt="phoenix" width="58">
                                 </div>
                             </a>
                             <h4 class="text-body-highlight">Takipçilerine ilham ver! Doğru evi bulmalarına aracı oll</h4>
