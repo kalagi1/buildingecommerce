@@ -16,8 +16,6 @@
             'Kasım',
             'Aralık',
         ];
-    @endphp
-    @php
         $orderCart = json_decode($order->cart, true);
 
         $deposit_rate = 0.04;
@@ -33,10 +31,6 @@
             $deposit_rate = $project->deposit_rate / 100;
             $discount_percent = $project->deposit_rate;
         }
-    @endphp
-
-    <!-- Tam Tutar Hesaplama -->
-    @php
         $kapora_tutari = str_replace(',', '', str_replace('.', '', $order->amount)) / 100;
         $kapora_orani = $discount_percent / 100;
         $tam_tutar = $kapora_tutari / $kapora_orani;
