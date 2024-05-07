@@ -359,7 +359,7 @@
                                     // Tam fiyat hesaplama
                                     $tam_fiyat = $kapora_tutari / ($kapora_orani / 100);
                     
-                                    // İndirimli tutar hesaplama
+                                    // İndirim tutarı hesaplama
                                     $indirim_tutari = $tam_fiyat - $urun_fiyati;
                     
                                     // İndirimli fiyat
@@ -392,6 +392,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     
                     @if ($order->refund != null)
                         <div class="col-12 mb-3">
