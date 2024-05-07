@@ -3,7 +3,9 @@
         <tr>
             <th>ID</th>
             <th>Başlık</th>
-            @if (Auth::user()->type == 1)
+            @if (Auth::user()->type != 1)
+                <th>Paylaşımlı İlan Sahibi</th>
+            @else
                 <th>Atanan Emlak Ofisi</th>
             @endif
             <th>Emlak Tipi</th>

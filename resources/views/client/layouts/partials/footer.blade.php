@@ -258,9 +258,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
-
-
-<!-- ARCHIVES JS -->
 <script src="{{ URL::to('/') }}/js/rangeSlider.js"></script>
 <script src="{{ URL::to('/') }}/js/tether.min.js"></script>
 <script src="{{ URL::to('/') }}/js/moment.js"></script>
@@ -288,6 +285,7 @@
 <script src="{{ URL::to('/') }}/js/forms-2.js"></script>
 <script src="{{ URL::to('/') }}/js/range.js"></script>
 <script src="{{ URL::to('/') }}/js/color-switcher.js"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
@@ -323,12 +321,17 @@
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
-            var slideNumber = $(this).find('a').attr('data-slide-to');
+            // 'this' bağlamında jQuery öğesi olduğunu varsayarak
+            var dataSlideTo = $(this).find('a').attr('data-slide-to');
+            // dataSlideTo değerini integer'a dönüştür ve 1 ekle
+            var slideNumber = parseInt(dataSlideTo, 10) + 1;
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
                 .addClass('active');
+            $('.listingDetailsSliderNav .item').removeClass('active');
+            $(this).closest('.item').addClass('active');
             $(this).css('border', '1px solid #EA2B2E'); // Border rengini kırmızı yap
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
@@ -342,9 +345,11 @@
 
     $(document).ready(function() {
         $('.listingDetailsSliderNav .item a').on('click', function() {
-            var slideNumber = $(this).attr('data-slide-to');
+            var dataSlideTo = $(this).attr('data-slide-to');
+            console.log(dataSlideTo);
+            var slideNumber = parseInt(dataSlideTo, 10);
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + dataSlideTo + '"]')
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
@@ -481,11 +486,11 @@
                                         if (response.failed) {
                                             toastr.warning(
                                                 "Ürün bu koleksiyonda zaten mevcut."
-                                                );
+                                            );
                                         } else {
                                             toastr.success(
                                                 "Ürün Koleksiyonunuza Eklendi"
-                                                );
+                                            );
                                         }
                                     },
                                     error: function(error) {
@@ -1641,7 +1646,8 @@
                         if (data.housings.length > maxResultsToShow) {
                             const remainingResults = data.housings.length - maxResultsToShow;
                             // Arama terimi "housing" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=housing";
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=housing";
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
@@ -1655,7 +1661,7 @@
                     if (data.projects.length > 0) {
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const projectsToShow = data.projects.slice(0,
-                        maxResultsToShow); // İlk 4 sonucu al
+                            maxResultsToShow); // İlk 4 sonucu al
 
                         hasResults = true;
                         $('.header-search-box').append(`
@@ -1684,7 +1690,8 @@
                         if (data.projects.length > maxResultsToShow) {
                             const remainingResults = data.projects.length - maxResultsToShow;
                             // Arama terimi "project" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=project";
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=project";
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`
@@ -1700,11 +1707,11 @@
                         `);
                         const maxResultsToShow = 4; // Gösterilecek maksimum sonuç sayısı
                         const merchantsToShow = data.merchants.slice(0,
-                        maxResultsToShow); // İlk 4 sonucu al
+                            maxResultsToShow); // İlk 4 sonucu al
 
                         merchantsToShow.forEach((e) => {
                             const imageUrl =
-                            `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
+                                `${appUrl}storage/profile_images/${e.photo}`; // Resim URL'sini uygulama URL'si ile birleştirin
                             const formattedName = e.name.charAt(0).toUpperCase() + e.name
                                 .slice(1);
 
@@ -1718,7 +1725,8 @@
                         if (data.merchants.length > maxResultsToShow) {
                             const remainingResults = data.merchants.length - maxResultsToShow;
                             // Arama terimi "merchant" olarak belirleniyor
-                            const searchUrl = "{{ route('search.results') }}?searchTerm=" + searchTerm + "&type=merchant";
+                            const searchUrl = "{{ route('search.results') }}?searchTerm=" +
+                                searchTerm + "&type=merchant";
 
                             // Laravel route'u kullanarak URL oluşturma
                             $('.header-search-box').append(`

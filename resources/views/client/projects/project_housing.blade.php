@@ -144,7 +144,7 @@
                                     </h3>
                                 </div>
 
-                                
+
                             </div>
 
                         </div>
@@ -271,6 +271,7 @@
                                     {{-- Diğer Görseller --}}
                                     @foreach ($project->images as $key => $housingImage)
                                         <div class="item" style="margin: 10px; cursor: pointer">
+
                                             <a id="carousel-selector-{{ $key + 1 }}"
                                                 data-slide-to="{{ $key + 1 }}" data-target="#listingDetailsSlider">
                                                 <img src="{{ URL::to('/') . '/' . str_replace('public/', 'storage/', $housingImage->image) }}"
@@ -298,10 +299,10 @@
                     <div class="single widget buyBtn">
                         <div class="schedule widget-boxed mt-33 mt-0 widgetBuyButton">
                             <div class="row buttonDetail" style="align-items:center;width:100%;margin:0 auto">
-                               
-                                @if ($sold && $sold->status == "2" || !$sold)
-                                <div class="col-md-5 col-5 mobile-action-move p-0">
-                                    {{-- <div class="buttons">
+
+                                @if (($sold && $sold->status == '2') || !$sold)
+                                    <div class="col-md-5 col-5 mobile-action-move p-0">
+                                        {{-- <div class="buttons">
                                         <button class="main-button">
                                             <svg width="20" height="30" fill="currentColor" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -353,63 +354,62 @@
 
 
 
-                                    <div class="listing-title-bar text-start w-100">
+                                        <div class="listing-title-bar text-start w-100">
 
 
-                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                            <span class="text-center w-100">
-                                                1 Hisse Fiyatı
-                                            </span>
-                                        @endif
+                                            @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                <span class="text-center w-100">
+                                                    1 Hisse Fiyatı
+                                                </span>
+                                            @endif
 
-                                        @if ($off_sale_check && $projectDiscountAmount)
-                                            <h4>
-                                                <div style="text-align: center">
-                                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="#EA2B2E"
-                                                        stroke-width="2" fill="#EA2B2E" stroke-linecap="round"
-                                                        stroke-linejoin="round" class="css-i6dzq1">
-                                                        <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                                                        <polyline points="17 18 23 18 23 12"></polyline>
-                                                    </svg>
+                                            @if ($off_sale_check && $projectDiscountAmount)
+                                                <h4>
+                                                    <div style="text-align: center">
+                                                        <svg viewBox="0 0 24 24" width="18" height="18"
+                                                            stroke="#EA2B2E" stroke-width="2" fill="#EA2B2E"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="css-i6dzq1">
+                                                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                                                            <polyline points="17 18 23 18 23 12"></polyline>
+                                                        </svg>
 
-                                                    <del
-                                                        style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
-                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                        ₺
-                                                    </del> <br>
+                                                        <del
+                                                            style="color: #e54242 !important;font-weight: 700;font-size: 11px;">
+                                                            {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
+                                                            ₺
+                                                        </del> <br>
+                                                        @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
+                                                            {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                            ₺
+                                                        @else
+                                                            {{ number_format($discounted_price, 0, ',', '.') }}
+                                                            ₺
+                                                        @endif
+
+
+                                                    </div>
+                                                </h4>
+                                            @elseif ($off_sale_check)
+                                                <h4
+                                                    style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
                                                     @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                        {{ number_format($discounted_price / $number_of_share, 0, ',', '.') }}
+                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
                                                         ₺
                                                     @else
-                                                        {{ number_format($discounted_price, 0, ',', '.') }}
+                                                        {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
                                                         ₺
                                                     @endif
+                                                </h4>
+                                            @endif
+                                        </div>
 
-
-                                                </div>
-                                            </h4>
-                                        @elseif ($off_sale_check)
-                                            <h4
-                                                style="color: #274abb !important; position: relative; top: 4px; font-weight: 700;font-size:20px">
-                                                @if (isset($share_sale) && $share_sale != '[]' && $number_of_share != 0)
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'] / $number_of_share, 0, ',', '.') }}
-                                                    ₺
-                                                @else
-                                                    {{ number_format($projectHousingsList[$housingOrder]['price[]'], 0, ',', '.') }}
-                                                    ₺
-                                                @endif
-                                            </h4>
-                                        @endif
                                     </div>
-
-                                </div>
                                 @endif
-                             
-                                <div class="  @if ($sold && $sold->status == "2" || !$sold)
-                                    col-md-7 col-7
+
+                                <div class="  @if (($sold && $sold->status == '2') || !$sold) col-md-7 col-7
                                     @else
-                                    col-md-12 col-12
-                                @endif "
+                                    col-md-12 col-12 @endif "
                                     style="display: flex;justify-content:space-between;align-items:center;padding: 0 !important">
                                     @if ($projectHousingsList[$housingOrder]['off_sale[]'] != '[]' && !$sold)
                                         <button class="btn second-btn"
@@ -1042,26 +1042,45 @@
                                                 </td>
                                             </tr>
 
-                                            @if ($project->step1_slug)
-                                                <tr>
-                                                    <td>
-                                                        Proje Tipi :
-                                                        <span class="det">
-                                                            @if ($project->step2_slug)
-                                                                @if ($project->step2_slug == 'kiralik')
-                                                                    Kiralık
-                                                                @elseif ($project->step2_slug == 'satilik')
-                                                                    Satılık
-                                                                @else
-                                                                    Günlük Kiralık
-                                                                @endif
-                                                            @endif
-                                                            {{ $project->housingtype->title }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            @endif
-
+                                         
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Ada:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->island ? $project->island : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Parsel:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->parcel ? $project->parcel : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Başlangıç Tarihi:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $project->start_date ? \Carbon\Carbon::parse($project->start_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Bitiş Tarihi:</span>
+                                                    <span class="det" style="color: black;">
+                                                        {{ $project->project_end_date ? \Carbon\Carbon::parse($project->project_end_date)->format('d.m.Y') : 'Belirtilmedi' }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <span class="autoWidthTr">Toplam Proje Alanı m<sup>2</sup>:</span>
+                                                    <span class="det"
+                                                        style="color: black;">{{ $project->total_project_area ? $project->total_project_area : 'Belirtilmedi' }}</span>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </div>
                                 </div>
@@ -1098,7 +1117,7 @@
                             <button class="nav-link payment-plan-tab" id="payment-tab" data-bs-toggle="tab"
                                 data-bs-target="#payment" type="button" role="tab" aria-controls="payment"
                                 project-id="{{ $project->id }}" order="{{ $housingOrder }}"
-                                            data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') ? 1 : 0 }}"
+                                data-sold="{{ ($sold && $sold->status != 2 && $share_sale_empty) || (!$share_sale_empty && isset($sumCartOrderQt[$housingOrder]) && $sumCartOrderQt[$housingOrder]['qt_total'] == $number_of_share) || (!$sold && isset($projectHousingsList[$housingOrder]['off_sale']) && $projectHousingsList[$housingOrder]['off_sale'] != '[]') ? 1 : 0 }}"
                                 aria-selected="false">Ödeme Planı</button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -1678,7 +1697,7 @@
 
         // Slayt geçiş işlemi tamamlandığında
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            updateIndex(); // Index değerini güncelle
+            updateIndex(); 
         });
 
         // Index değerini güncelleyen fonksiyon
@@ -1690,17 +1709,35 @@
         }
 
 
-        // Sol ok tuşuna tıklandığında
-        $('.pagination .page-item-left').on('click', function(event) {
-            event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('prev'); // Önceki slayta geç
-
-        });
+        var currentSlideIndex = 0;
 
         // Sağ ok tuşuna tıklandığında
         $('.pagination .page-item-right').on('click', function(event) {
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
-            $('#listingDetailsSlider').carousel('next'); // Sonraki slayta geç
+            var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
+            var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
+            console.log(totalItems)
+            console.log(remainingItems)
+            if (remainingItems >= 5) {
+                currentSlideIndex++;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex *
+                5); // Bir sonraki beşli kümeye git
+            } else {
+                console.log('yunus')
+                $('.listingDetailsSliderNav').slick('slickNext'); // Son beşli kümeye git
+            }
+        });
+
+        // Sol ok tuşuna tıklandığında
+        $('.pagination .page-item-left').on('click', function(event) {
+            event.preventDefault();
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }else{
+                $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
+
+            }
         });
 
 
@@ -1730,15 +1767,15 @@
             $(this).off('touchmove');
         });
         // Büyük görsel kaydığında küçük görselleri de eşleştirme
-        $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
-            // $('.pagination .page-item-middle .page-link').text(index);
-            $('.listingDetailsSliderNav').slick('slickGoTo', index);
-            var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
+        // $('#listingDetailsSlider').on('slid.bs.carousel', function() {
+        //     var index = $('#listingDetailsSlider .carousel-item.active').attr('data-slide-number');
+        //     // $('.pagination .page-item-middle .page-link').text(index);
+        //     $('.listingDetailsSliderNav').slick('slickGoTo', index);
+        //     var smallIndex = $('#listingDetailsSlider .active').data('slide-number');
 
-            console.log("Büyük Görsel Data Slide Number: ", index);
-            console.log("Küçük Görsel Index: ", smallIndex);
-        });
+        //     console.log("Büyük Görsel Data Slide Number: ", index);
+        //     console.log("Küçük Görsel Index: ", smallIndex);
+        // });
 
         $(document).ready(function() {
             // Sayfa yüklendiğinde, öncelikle $active değişkenini kontrol ediyoruz
@@ -2283,6 +2320,38 @@
         var currentBlock = 0;
         var currentPage = 0;
         var maxPages = null;
+
+        $(document).ready(function() {
+            // Önceki slayta geçme
+            $('.carousel-control-prev').click(function() {
+                $('#listingDetailsSlider').carousel('prev');
+            });
+
+            // Sonraki slayta geçme
+            $('.carousel-control-next').click(function() {
+                $('#listingDetailsSlider').carousel('next');
+            });
+
+            // Mobil cihazlarda kaydırma işlevselliği
+            $('#listingDetailsSlider').on('touchstart', function(event) {
+                var xClick = event.originalEvent.touches[0].pageX;
+                $(this).one('touchmove', function(event) {
+                    var xMove = event.originalEvent.touches[0].pageX;
+                    var sensitivityInPx = 5;
+
+                    if (Math.floor(xClick - xMove) > sensitivityInPx) {
+                        $(this).carousel('next');
+                    } else if (Math.floor(xClick - xMove) < -sensitivityInPx) {
+                        $(this).carousel('prev');
+                    }
+                });
+            });
+
+            // Mobil cihazlarda dokunmatik olayları devre dışı bırakma
+            $('#listingDetailsSlider').on('touchend', function() {
+                $(this).off('touchmove');
+            });
+        });
         $(document).ready(function() {
 
             @if ($project->have_blocks)

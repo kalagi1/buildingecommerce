@@ -296,7 +296,9 @@ class HousingController extends Controller {
                 'housing_types.form_json',
                 'housings.is_share',
                 'housings.owner_id',
-                'housings.user_id'
+                'housings.user_id',
+                'housings.deleted_at',
+                'housings.is_sold',
             )
             ->where(function ($query) use ($userId) {
                 $query->where('housings.user_id', $userId)
@@ -307,30 +309,43 @@ class HousingController extends Controller {
         // Active housings
         $activeHousingTypes = (clone $baseQuery)
             ->where('status', 1)
+            ->whereNull('deleted_at')
             ->whereNull('is_sold')
             ->get();
     
         // Inactive housings
         $inactiveHousingTypes = (clone $baseQuery)
             ->where('status', 0)
+            ->whereNull('deleted_at')
             ->get();
     
         // Disabled housings
         $disabledHousingTypes = (clone $baseQuery)
             ->where('status', 3)
+            ->whereNull('deleted_at')
             ->get();
     
         // Pending housings
         $pendingHousingTypes = (clone $baseQuery)
             ->where('status', 2)
+            ->whereNull('deleted_at')
             ->get();
     
         // Sold housings
         $soldHousingTypes = (clone $baseQuery)
             ->where('is_sold', 1)
+            ->whereNull('deleted_at')
             ->get();
-    
-        return view('institutional.housings.index', compact('activeHousingTypes',"user", 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes'));
+
+        $isShareTypes = (clone $baseQuery)
+            ->whereNotNull('owner_id') // owner_id olanları sınırlayalım
+            ->whereNull('deleted_at') // silinmiş olanları filtreleyelim
+            ->orWhereRaw('owner_id <> user_id') // owner_id ve user_id eşit olmayanları da ekleyelim
+            ->get();
+
+       
+
+        return view('institutional.housings.index', compact('activeHousingTypes',"user", 'disabledHousingTypes', 'pendingHousingTypes', 'inactiveHousingTypes', 'soldHousingTypes','isShareTypes'));
     }
     
 

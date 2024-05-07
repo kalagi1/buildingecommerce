@@ -16,27 +16,33 @@
             'Kasım',
             'Aralık',
         ];
-    @endphp
-        @php
-                                            $orderCart = json_decode($order->cart, true);
+        $orderCart = json_decode($order->cart, true);
 
         $deposit_rate = 0.04;
         $discount_percent = 4;
-            if ($orderCart['type'] == 'housing') {
-                $housing = \App\Models\Housing::where('id', $orderCart['item']['id'])->first();
-                $saleType = $housing->step2_slug;
-                $deposit_rate = 0.04;
-                $discount_percent = 4;
-    
-            } else {
-                $project = \App\Models\Project::where('id', $orderCart['item']['id'])->first();
-                $saleType = $project->step2_slug;
-                $deposit_rate = $project->deposit_rate / 100;
-                $discount_percent =  $project->deposit_rate;
-    
-            }
+        if ($orderCart['type'] == 'housing') {
+            $housing = \App\Models\Housing::where('id', $orderCart['item']['id'])->first();
+            $saleType = $housing->step2_slug;
+            $deposit_rate = 0.04;
+            $discount_percent = 4;
+        } else {
+            $project = \App\Models\Project::where('id', $orderCart['item']['id'])->first();
+            $saleType = $project->step2_slug;
+            $deposit_rate = $project->deposit_rate / 100;
+            $discount_percent = $project->deposit_rate;
+        }
+        $kapora_tutari = str_replace(',', '', str_replace('.', '', $order->amount)) / 100;
+        $kapora_orani = $discount_percent / 100;
+        $tam_tutar = $kapora_tutari / $kapora_orani;
+        $urun_fiyati = json_decode($order->cart)->item->price;
+
+        $tam_tutar_formatli = number_format($tam_tutar, 0, ',', '.') . '₺';
+        $urun_fiyati_formatli = number_format($urun_fiyati, 0, ',', '.') . '₺';
+        $indirim_miktari = $tam_tutar - $urun_fiyati;
+        $indirim_yuzdesi = ($indirim_miktari / $tam_tutar) * 100;
+        $indirim_yuzdesi_formatli = number_format($indirim_yuzdesi, 2, ',', '.') . '%';
     @endphp
-    
+
     <div class="content">
 
 
@@ -60,10 +66,9 @@
                     <div class="order-detail-content mt-3">
                         <h5>#{{ $order->id }} Nolu Sipariş Detayı</h5>
 
-                        @if($order->refund != null)
-
+                        @if ($order->refund != null)
                             <div class="order-status-container mt-3"
-                            style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)   @elseif($order->refund->status == 0) background-color :red;  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
+                                style="@if ($order->refund->status == 2) background-color : #f24734; @elseif($order->refund->status == 1)   @elseif($order->refund->status == 0) background-color :red;  @elseif($order->refund->status == 3) @else background-color : #a3a327 @endif">
                                 <div class="left">
                                     <i class="fa fa-check"></i>
                                     <span>
@@ -79,8 +84,7 @@
                                     </span>
                                 </div>
                             </div>
-
-                        @else 
+                        @else
                             <div class="order-status-container mt-3"
                                 style="@if ($order->status == 2) background-color : #f24734; @elseif($order->status == 1) @else background-color : #a3a327 @endif">
                                 <div class="left">
@@ -96,40 +100,34 @@
                                     </span>
                                 </div>
                             </div>
-
-
                         @endif
-                        
-                        
-                        @if($order->reference)
-                            @if($order->store_id == Auth::user()->id)
-                                <div class="order-status-container mt-3"
-                                style="background-color : #1581f5 ">
-                                <div class="left">
-                                    <i class="fa fa-check"></i>
-                                    <span>
-                                        Bu satış <strong>{{$order->reference->name}}</strong> isimli çalışanızın referansı ile gerçekleşmiştir.
-                                    </span>
-                                </div>
+
+
+                        @if ($order->reference)
+                            @if ($order->store_id == Auth::user()->id)
+                                <div class="order-status-container mt-3" style="background-color : #1581f5 ">
+                                    <div class="left">
+                                        <i class="fa fa-check"></i>
+                                        <span>
+                                            Bu satış <strong>{{ $order->reference->name }}</strong> isimli çalışanızın
+                                            referansı ile gerçekleşmiştir.
+                                        </span>
+                                    </div>
 
                                 </div>
                             @elseif($order->user_id == Auth::user()->id)
-                            
-                                <div class="order-status-container mt-3"
-                                style="background-color : #1581f5 ">
-                                <div class="left">
-                                    <i class="fa fa-check"></i>
-                                    <span>
-                                        Satış danışmanınız: <strong>{{$order->reference->name}}</strong> 
-                                        
-                                    </span>
-                                </div>
+                                <div class="order-status-container mt-3" style="background-color : #1581f5 ">
+                                    <div class="left">
+                                        <i class="fa fa-check"></i>
+                                        <span>
+                                            Satış danışmanınız: <strong>{{ $order->reference->name }}</strong>
+
+                                        </span>
+                                    </div>
 
                                 </div>
-                            
-                           @endif
-                    
-                         @endif
+                            @endif
+                        @endif
 
                         <div class="order-detail-inner mt-3 px-3 py-3">
                             <div class="row">
@@ -275,15 +273,17 @@
                                         <div class="product-info flex-1">
                                             <div class="product-info-img">
                                                 @php
-                                                $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
-                                                $itemImage = isset($orderCartData['item']['image']) ? $orderCartData['item']['image'] : null; // item özelliğine eriş
-                                            @endphp
+                                                    $orderCartData = json_decode($order->cart, true); // JSON verisini diziye dönüştür
+                                                    $itemImage = isset($orderCartData['item']['image'])
+                                                        ? $orderCartData['item']['image']
+                                                        : null; // item özelliğine eriş
+                                                @endphp
                                                 @php($o = json_decode($order->cart))
                                                 @if ($o->type == 'housing')
                                                     <img src="{{ asset('housing_images/' . json_decode(App\Models\Housing::find(json_decode($order->cart)->item->id ?? 0)->housing_type_data ?? '[]')->image ?? null) }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="">
                                                 @else
-                                                    <img src="{{  $itemImage}}"
+                                                    <img src="{{ $itemImage }}"
                                                         style="object-fit: cover;width:100px;height:75px" alt="Görsel">
                                                 @endif
 
@@ -325,6 +325,7 @@
                             <div class="card-body">
                                 <h3 class="card-title mb-4">Özet</h3>
                                 <div>
+                                    <!-- Ödeme Yöntemi -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Ödeme Yöntemi:</p>
                                         <p class="text-body-emphasis fw-semibold">
@@ -335,41 +336,54 @@
                                             @endif
                                         </p>
                                     </div>
+
+                                    <!-- İlan Fiyatı -->
                                     <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Ürün Fiyatı:</p>
+                                        <p class="text-body fw-semibold">İlan Fiyatı:</p>
                                         <p class="text-body-emphasis fw-semibold">
-                                            {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺</p>
-                                    </div>
-                                    @if (isset(json_decode($order->cart)->item->qt))
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Adet:</p>
-                                        <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                            {{ number_format(json_decode($order->cart)->item->price, 0, ',', '.') }}₺
                                         </p>
                                     </div>
-                                @endif
+                                    @if ($tam_tutar != $urun_fiyati)
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-body fw-semibold">İndirimli Fiyatı:</p>
+                                            <p class="text-body-emphasis fw-semibold">
+                                                {{ $tam_tutar_formatli }}
+                                            </p>
+                                        </div>
+                                    @endif
+
+                                    <!-- Adet -->
+                                    @if (isset(json_decode($order->cart)->item->qt))
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-body fw-semibold">Adet:</p>
+                                            <p class="text-danger fw-semibold">{{ json_decode($order->cart)->item->qt }}
+                                            </p>
+                                        </div>
+                                    @endif
+
+                                    <!-- Kapora Oranı -->
                                     <div class="d-flex justify-content-between">
                                         <p class="text-body fw-semibold">Kapora Oranı:</p>
-                                        <p class="text-body-emphasis fw-semibold">%{{$discount_percent}}</p>
+                                        <p class="text-body-emphasis fw-semibold">%{{ $discount_percent }}</p>
                                     </div>
-                                    {{-- <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Subtotal :</p>
-                                        <p class="text-body-emphasis fw-semibold">$665</p>
+
+
+                                      <!-- Kapora Tutarı -->
+                                      <div class="d-flex justify-content-between">
+                                        <p class="text-body fw-semibold">Kapora Tutarı:</p>
+                                        <p class="text-body-emphasis fw-semibold">                                            {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
+                                        </p>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <p class="text-body fw-semibold">Shipping Cost :</p>
-                                        <p class="text-body-emphasis fw-semibold">$30</p>
-                                    </div> --}}
-                                </div>
-                                <div
-                                    class="d-flex justify-content-between border-top border-translucent border-dashed pt-4">
-                                    <h4 class="mb-0">Kapora Tutarı:</h4>
-                                    <h4 class="mb-0">
-                                        {{ number_format(str_replace(',', '', str_replace('.', '', $order->amount)) / 100, 0, ',', '.') }}₺
-                                    </h4>
+
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
                     <div class="col-12 mb-3">
                         <div class="card">
                             <div class="card-body">
@@ -384,15 +398,15 @@
                                             '0' =>
                                                 '<span class="badge badge-phoenix fs-10 badge-phoenix-warning"><span class="badge-label">Onay Bekleniyor</span><span class="ms-1" data-feather="alert-octagon" style="height:12.8px;width:12.8px;"></span></span>',
                                             '1' => '<span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
-                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Onaylandı</span><svg
-                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
-                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                                                                                                                                                                                                                                                                                                                </svg>',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="badge-label">Ödeme Onaylandı</span><svg
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    class="feather feather-check ms-1" style="height:12.8px;width:12.8px;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </svg>',
                                             '2' => '<span class="badge badge-phoenix fs-10 badge-phoenix-danger"><span
-                                                                                                                            class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
+                                                                                                                                                                                                                                                                                                                                                                            class="badge-label">Ödeme Reddedildi</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>',
                                         ][$order->status] !!}
                                     </span>
 
@@ -446,14 +460,14 @@
                                 <div class="card-body">
                                     <h3 class="card-title mb-4">İade Talebi</h3>
                                     <h6 class="mb-2"></h6>
-                                    @if(!$order->refund)
+                                    @if (!$order->refund)
                                         <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">İade Talebinde Bulun</button>
                                     @else
-                                            <p>İade Başvurunuz İnceleniyor</p>
-                                            <br>
-                                            <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
-                                   @endif 
+                                        <p>İade Başvurunuz İnceleniyor</p>
+                                        <br>
+                                        <p>Destek Ekibi: <strong>destek@emlaksepette.com</strong></p>
+                                    @endif
 
                                     <div class="modal fade modal-xl" id="exampleModal" tabindex="-1"
                                         aria-hidden="true">
@@ -517,7 +531,8 @@
                                                                                             d="M224 256c70.7 0 128-57.31 128-128s-57.3-128-128-128C153.3 0 96 57.31 96 128S153.3 256 224 256zM274.7 304H173.3C77.61 304 0 381.6 0 477.3c0 19.14 15.52 34.67 34.66 34.67h378.7C432.5 512 448 496.5 448 477.3C448 381.6 370.4 304 274.7 304z">
                                                                                         </path>
                                                                                     </svg><!-- <span class="fas fa-user"></span> Font Awesome fontawesome.com --></span></span><span
-                                                                                class="d-none d-md-block mt-1 fs-9">Alıcı Bilgileri</span>
+                                                                                class="d-none d-md-block mt-1 fs-9">Alıcı
+                                                                                Bilgileri</span>
                                                                         </div>
                                                                     </a></li>
                                                                 <li class="nav-item" role="presentation"><a
@@ -632,12 +647,14 @@
 
                                                                         <div class="mb-2"><label class="form-label"
                                                                                 for="bootstrap-wizard-validation-wizard-phone">Telefon
-                                                                                Numarası</label><input class="form-control phoneControl"
+                                                                                Numarası</label><input
+                                                                                class="form-control phoneControl"
                                                                                 type="text" name="phone"
                                                                                 placeholder="Telefon Numarası"
                                                                                 id="bootstrap-wizard-validation-wizard-phone"
                                                                                 required="required" maxlength="10">
-                                                                                <span id="error_message" class="error-message"></span>
+                                                                            <span id="error_message"
+                                                                                class="error-message"></span>
                                                                             <div class="invalid-feedback">Alan Zorunludur.
                                                                             </div>
                                                                         </div>
@@ -651,6 +668,35 @@
                                                                             <div class="invalid-feedback">Alan Zorunludur.
                                                                             </div>
                                                                         </div>
+
+                                                                        @if ($order->payment_result && $order->payment_result !== '')
+                                                                        @else
+                                                                            <div class="mb-2"><label class="form-label"
+                                                                                    for="bootstrap-wizard-validation-wizard-phone">İade
+                                                                                    Yapılacak Banka</label><input
+                                                                                    class="form-control" type="email"
+                                                                                    name="return_bank" placeholder="Banka"
+                                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                                    required="required">
+                                                                                <div class="invalid-feedback">Alan
+                                                                                    Zorunludur.
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="mb-2"><label class="form-label"
+                                                                                    for="bootstrap-wizard-validation-wizard-phone">İade
+                                                                                    Yapılacak IBAN</label><input
+                                                                                    class="form-control" type="email"
+                                                                                    name="return_iban" placeholder="IBAN"
+                                                                                    id="bootstrap-wizard-validation-wizard-phone"
+                                                                                    required="required">
+                                                                                <div class="invalid-feedback">Alan
+                                                                                    Zorunludur.
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+
+
 
                                                                     </form>
                                                                 </div>
@@ -667,7 +713,8 @@
                                                                                     for="bootstrap-wizard-validation-card-number">
                                                                                     Sipariş İptal Sebebiniz
                                                                                 </label>
-                                                                                <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz" style="height: 300px; width: 100%; resize: vertical;" required></textarea>
+                                                                                <textarea id="editor" class="form-control" name="content" placeholder="Sipariş İptal Sebebiniz"
+                                                                                    style="height: 300px; width: 100%; resize: vertical;" required></textarea>
 
 
                                                                                 <div class="invalid-feedback">Alan
@@ -698,9 +745,12 @@
                                                                             <p class="text-body-emphasis fs-9">Talep Sonucu
                                                                                 Kısa Süre İçerisinde Tarafınıza
                                                                                 İletilecektir</p>
-                                                                                
-                                                                                    <a href="{{ route('institutional.order.detail', ['order_id' => $order->id]) }}" class="btn btn-primary px-6" onclick="submitForms()">İade Talebi Oluştur</a>
-     
+
+                                                                            <a href="{{ route('institutional.order.detail', ['order_id' => $order->id]) }}"
+                                                                                class="btn btn-primary px-6"
+                                                                                onclick="submitForms()">İade Talebi
+                                                                                Oluştur</a>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -778,35 +828,34 @@
             </div>
         </div>
     </div>
-    </div>
 
 @endsection
 
 @section('scripts')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $(".phoneControl").on("input blur", function(){
-        var phoneNumber = $(this).val();
-        var pattern = /^5[0-9]\d{8}$/;
-    
-        if (!pattern.test(phoneNumber)) {
-          $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
-        } else {
-          $("#error_message").text("");
-        }
-             // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
-             $('.phoneControl').on('keypress', function (e) {
-                        var max_length = 10;
-                        // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
-                        if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
-                            // Olayın işlenmesini durdur
-                            e.preventDefault();
-                        }
-                    });
-      });
-    });
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".phoneControl").on("input blur", function() {
+                var phoneNumber = $(this).val();
+                var pattern = /^5[0-9]\d{8}$/;
+
+                if (!pattern.test(phoneNumber)) {
+                    $("#error_message").text("Lütfen geçerli bir telefon numarası giriniz.");
+                } else {
+                    $("#error_message").text("");
+                }
+                // Kullanıcı 10 haneden fazla veri girdiğinde bu kontrol edilir
+                $('.phoneControl').on('keypress', function(e) {
+                    var max_length = 10;
+                    // Eğer giriş karakter sayısı 10'a ulaştıysa ve yeni karakter ekleme işlemi değilse
+                    if ($(this).val().length >= max_length && e.which != 8 && e.which != 0) {
+                        // Olayın işlenmesini durdur
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
     </script>
     <script>
         // CSRF tokenını al
@@ -824,6 +873,8 @@
                 "name": form2.find("input[name='name']").val(),
                 "phone": form2.find("input[name='phone']").val(),
                 "email": form2.find("input[name='email']").val(),
+                "return_bank": form2.find("input[name='return_bank']").val(),
+                "return_iban": form2.find("input[name='return_iban']").val(),
                 "content": form3.find("textarea[name='content']").val(),
                 "cart_order_id": "{{ $order->id }}"
             };
@@ -850,10 +901,11 @@
 
 @section('css')
     <style>
-                .error-message {
+        .error-message {
             color: #e54242;
             font-size: 11px;
         }
+
         .order_status span {
             font-weight: 800
         }

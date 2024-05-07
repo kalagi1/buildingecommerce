@@ -47,9 +47,9 @@ class AppServiceProvider extends ServiceProvider
     private function composeClientView()
     {
         $cacheKey = 'client_view_data';
-    
+
         $cachedData = Cache::get($cacheKey);
-    
+
         if (!$cachedData) {
             $cachedData = [
                 'fl' => FooterLink::all(),
@@ -59,19 +59,20 @@ class AppServiceProvider extends ServiceProvider
                 'footerLinks' => FooterLink::all(),
                 'adBanners' => AdBanner::where("is_visible", "1")->get(),
             ];
-    
+
             Cache::put($cacheKey, $cachedData, now()->addHours(1));
         }
-    
-        View::composer(["client.layouts.partials.header","client.layouts.partials.footer", 
-          "client.layouts.partials.cart_icon"  ,"client.client-panel*"], function ($view) use ($cachedData) {
+
+        View::composer([
+            "client.layouts.partials.header", "client.layouts.partials.footer",
+            "client.layouts.partials.cart_icon", "client.client-panel*"
+        ], function ($view) use ($cachedData) {
             if (Auth::check()) {
-                $sharerLinks = ShareLink::where("user_id",Auth::user()->id)->get();
+                $sharerLinks = ShareLink::where("user_id", Auth::user()->id)->get();
                 $view->with("sharerLinks", $sharerLinks);
                 // $cartItemCount = request()->session()->get('cart');
-                $cartItemCount = CartItem::where('user_id',Auth::user()->id)->first();
+                $cartItemCount = CartItem::where('user_id', Auth::user()->id)->first();
                 $view->with("cartItemCount", $cartItemCount);
-
             }
             $menu = Menu::getMenuItems();
             $view->with("menu", $menu);
@@ -79,7 +80,7 @@ class AppServiceProvider extends ServiceProvider
             $this->composeView($view, 'client_menu.json');
         });
     }
-    
+
 
     private function composeInstitutionalView()
     {
@@ -97,6 +98,11 @@ class AppServiceProvider extends ServiceProvider
                 $permissions = $user->role->rolePermissions->flatMap(function ($rolePermission) {
                     return $rolePermission->permissions->pluck('key');
                 })->unique()->toArray();
+
+                if ($user->corporate_type == 'Emlak Ofisi') {
+                    $permissions = array_diff($permissions, ['Projects', "CreateProject", "GetProjects", "DeleteProject", "UpdateProject"]);
+                }
+
 
                 $jsonFilePath = base_path($jsonFileName);
 
