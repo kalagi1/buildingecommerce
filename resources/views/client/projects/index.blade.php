@@ -1411,8 +1411,6 @@
             event.preventDefault(); // Sayfanın yukarı gitmesini engelle
             var totalItems = $('#listingDetailsSlider .carousel-item').length + 1; // Toplam slayt sayısını al
             var remainingItems = totalItems - (currentSlideIndex + 1) * 5; // Kalan slayt sayısını hesapla
-            console.log(totalItems)
-            console.log(remainingItems)
             if (remainingItems >= 5) {
                 currentSlideIndex++;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Bir sonraki beşli kümeye git
@@ -1427,6 +1425,9 @@
             if (currentSlideIndex > 0) {
                 currentSlideIndex--;
                 $('.listingDetailsSliderNav').slick('slickGoTo', currentSlideIndex * 5); // Önceki beşli kümeye git
+            }else{
+                $('.listingDetailsSliderNav').slick('slickPrev'); // Son beşli kümeye git
+
             }
         });
 
