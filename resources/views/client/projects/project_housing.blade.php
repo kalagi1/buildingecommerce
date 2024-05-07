@@ -1678,15 +1678,13 @@
 
         // Slayt geçiş işlemi tamamlandığında
         $('#listingDetailsSlider').on('slid.bs.carousel', function() {
-            updateIndex(); // Index değerini güncelle
-            console.log("asas");
+            updateIndex(); 
         });
 
         // Index değerini güncelleyen fonksiyon
         function updateIndex() {
             var totalSlides = $('#listingDetailsSlider .carousel-item').length; // Toplam slayt sayısını al
             var index = $('#listingDetailsSlider .carousel-item.active').index(); // Aktif slaydın indeksini al
-            console.log(index);
             $('.pagination .page-item-middle .page-link').text((index + 1) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
         }
@@ -1723,7 +1721,7 @@
 
 
         $('.listingDetailsSliderNav').on('click', 'a', function() {
-            var index2 = $(this).attr('data-slide-to');
+            var index2 = $(this).index();
             $('#listingDetailsSlider').carousel(parseInt(index2));
         });
 
