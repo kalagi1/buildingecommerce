@@ -378,13 +378,14 @@
 
                 } else {
 
-                  
+
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
                     if (user.type == 1) {
-                        
                         if (housingType.owner && housingType.user.id != housingType.owner.id) {
-                            var ownerInfo = document.createElement("span");
+                            var ownerInfo = document.createElement("a");
+                            ownerInfo.setAttribute("href", "{{ url('/magaza/') }}" + "/" + housingType.user.name.toLowerCase()
+                                    .replace(/ /g, '-') + "/" + housingType.user.id);
                             ownerInfo.textContent = housingType.user.name;
                             housingOwner.appendChild(ownerInfo);
 
@@ -405,6 +406,9 @@
                                 phoneInfo.textContent = "İş: " + housingType.user.phone;
                                 housingOwner.appendChild(phoneInfo);
                             }
+
+                            
+
 
                         } else {
                             var ownerInfo = document.createElement("span");
