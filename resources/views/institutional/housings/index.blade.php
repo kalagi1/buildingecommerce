@@ -24,14 +24,16 @@
                     <a class="nav-link" id="soldHousingTypes-tab" data-bs-toggle="tab" href="#soldHousingTypes">Satılan
                         İlanlar</a>
                 </li>
+                @if ($user && $user->type != 1)
+                    <li class="nav-item">
+                        <a class="nav-link" id="isShareTypes-tab" data-bs-toggle="tab" href="#isShareTypes">Bana Atanan
+                            İlanlar</a>
+                    </li>
+                @endif
 
-                <li class="nav-item">
-                    <a class="nav-link" id="isShareTypes-tab" data-bs-toggle="tab" href="#isShareTypes">Bana Atanan
-                        İlanlar</a>
-                </li>
 
             </ul>
-            
+
             <div class="tab-content px-4 pb-4">
                 <div class="tab-pane fade show active" id="active">
                     <div class="table-responsive">
@@ -79,8 +81,6 @@
                         @include('institutional.housings.housing_isShare_table', [
                             'tableId' => 'bulk-select-body-isShareTypes',
                             'housingTypes' => $isShareTypes,
-
-                          
                         ])
                     </div>
                 </div>
@@ -103,14 +103,14 @@
         var user = @json($user);
 
         function createTable(tbody, housingTypes) {
-           
+
             housingTypes.forEach(function(housingType) {
                 var row = document.createElement("tr");
 
                 var idCell = document.createElement("td");
                 idCell.className = "align-middle id";
                 idCell.textContent = housingType.id + 2000000;
-                
+
 
                 var housingTitleCell = document.createElement("td");
                 housingTitleCell.className = "align-middle housing_title";
@@ -155,10 +155,10 @@
                 viewLink.textContent = "Loglar";
                 viewLinkCell.appendChild(viewLink);
 
-                
-                if (tbody.id === 'bulk-select-body-isShareTypes'){
 
-                    if (housingType.owner && user.id == housingType.owner.id) {
+                if (tbody.id === 'bulk-select-body-isShareTypes' && user.type != 1) {
+
+                    if (housingType.owner && housingType.user.id == housingType.owner.id) {
                         var ownerInfo = document.createElement("span");
                         ownerInfo.textContent = "Emlak Ofisi: " + housingType.user.name;
                         housingOwner.appendChild(ownerInfo);
@@ -179,11 +179,11 @@
                             var phoneInfo = document.createElement("span");
                             phoneInfo.textContent = "İş: " + housingType.user.phone;
                             housingOwner.appendChild(phoneInfo);
-                        }                       
+                        }
 
                     } else {
                         var ownerInfo = document.createElement("span");
-                        ownerInfo.textContent = "İlan Sahibi: " + housingType.owner.name;
+                        ownerInfo.textContent = housingType.owner.name;
                         housingOwner.appendChild(ownerInfo);
 
                         var br = document.createElement("br");
@@ -193,11 +193,11 @@
                         phoneInfo.textContent = "Telefon: " + housingType.owner.mobile_phone;
                         housingOwner.appendChild(phoneInfo);
 
-                        
+
                     }
 
 
-                    }
+                }
 
 
                 if (tbody.id == 'bulk-select-body-soldHousingTypes') {
@@ -271,7 +271,7 @@
                             var csrfToken = "{{ csrf_token() }}";
                             // Laravel route ismi
                             var routeName =
-                            "{{ route('institutional.housings.passive', ['id' => ':id']) }}";
+                                "{{ route('institutional.housings.passive', ['id' => ':id']) }}";
                             // API Endpoint'i oluştur
                             var apiUrl = routeName.replace(':id', housingType.id);
 
@@ -362,8 +362,7 @@
                     row.appendChild(statusCell);
                     row.appendChild(invoiceLinkCell).appendChild(orderDetailCell);
 
-               }
-               else if (tbody.id === 'bulk-select-body-isShareTypes'){
+                } else if (tbody.id === 'bulk-select-body-isShareTypes') {
 
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
@@ -377,12 +376,52 @@
                     row.appendChild(actionsCell);
                     row.appendChild(deleteCell);
 
-               }
-               
-               else {
+                } else {
+
 
                     row.appendChild(idCell);
                     row.appendChild(housingTitleCell);
+                    if (user.type == 1) {
+                        if (housingType.owner && housingType.user.id != housingType.owner.id) {
+                            var ownerInfo = document.createElement("a");
+                            ownerInfo.setAttribute("href", "{{ url('/magaza/') }}" + "/" + housingType.user.name.toLowerCase()
+                                    .replace(/ /g, '-') + "/" + housingType.user.id);
+                            ownerInfo.textContent = housingType.user.name;
+                            housingOwner.appendChild(ownerInfo);
+
+                            var br = document.createElement("br");
+                            housingOwner.appendChild(br);
+
+                            if (housingType.user.mobile_phone != null) {
+                                var mobilephoneInfo = document.createElement("span");
+                                mobilephoneInfo.textContent = "Cep: " + housingType.user.mobile_phone;
+                                housingOwner.appendChild(mobilephoneInfo);
+                            }
+
+                            var br = document.createElement("br");
+                            housingOwner.appendChild(br);
+
+                            if (housingType.user.phone != null) {
+                                var phoneInfo = document.createElement("span");
+                                phoneInfo.textContent = "İş: " + housingType.user.phone;
+                                housingOwner.appendChild(phoneInfo);
+                            }
+
+                            
+
+
+                        } else {
+                            var ownerInfo = document.createElement("span");
+                            ownerInfo.textContent = "Henüz Atanmadı";
+                            housingOwner.appendChild(ownerInfo);
+
+
+                        }
+
+                        row.appendChild(housingOwner);
+
+                    }
+
                     row.appendChild(housingTypeCell);
                     row.appendChild(statusCell);
                     row.appendChild(createdAtCell);
@@ -391,7 +430,11 @@
                     row.appendChild(imageLinksCell);
                     row.appendChild(actionsCell);
                     row.appendChild(deleteCell);
+
                 }
+
+
+
 
 
 
