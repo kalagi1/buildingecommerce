@@ -63,5 +63,27 @@ class PageController extends Controller
             'collections' => $collections
         ]);
     }//End
+
+    public function editCollection($id, Request $request){
+        $collection = Collection::findOrFail($id);
+        $collection->update([
+            "name" => $request->input("collectionName")
+        ]);
+
+        return response()->json([
+            'success'    => "Koleksiyon başarıyla güncellendi.",
+            'collection' => $collection
+        ]);
+
+    }//End
+
+    public function deleteCollection($id){
+        $collection = Collection::findOrFail($id);
+        $collection->delete();
+
+        return response()->json([
+            'success' => "Koleksiyon başarıyla silindi."
+        ]);
+    }//End
     
 }
