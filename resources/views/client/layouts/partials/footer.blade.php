@@ -346,7 +346,7 @@
         $('.listingDetailsSliderNav .item a').on('click', function() {
             var slideNumber = $(this).attr('data-slide-to');
             $('#listingDetailsSlider .carousel-inner .item').removeClass('active');
-            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + '"]')
+            $('#listingDetailsSlider .carousel-inner .item[data-slide-number="' + slideNumber + 1 + '"]')
                 .addClass('active');
             $('.listingDetailsSliderNav .item').removeClass('active');
             $(this).closest('.item').addClass('active');
