@@ -348,7 +348,7 @@
                                         <div class="d-flex justify-content-between">
                                             <p class="text-body fw-semibold">İndirimli Fiyatı:</p>
                                             <p class="text-body-emphasis fw-semibold">
-                                                {{ $tam_tutar_formatli }}₺
+                                                {{ $tam_tutar_formatli }}
                                             </p>
                                         </div>
                                     @endif
