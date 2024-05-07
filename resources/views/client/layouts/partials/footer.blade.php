@@ -321,7 +321,7 @@
         $('.listingDetailsSliderNav .item').on('mouseenter', function() {
             var totalSlides = $('#listingDetailsSlider .carousel-item')
                 .length; // Toplam slayt sayısını al
-            var slideNumber = $(this).find('a').attr('data-slide-to');
+            var slideNumber = $(this).find('a').index();
             console.log(slideNumber);
             $('.pagination .page-item-middle .page-link').text((slideNumber) + '/' +
                 totalSlides); // Ortadaki li etiketinin metnini güncelle
